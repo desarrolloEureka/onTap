@@ -5,6 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -18,10 +19,23 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/components/*": ["./*"]
+      "@/components/*": ["app/[lang]/components/*"],
+      "@/views/*": ["app/[lang]/views/*"],
+      "@/firebase/*": ["app/[lang]/firebase/*"],
+      "@/reactQuery/*": ["app/[lang]/reactQuery/*"],
+      "@/interfaces/*": ["app/[lang]/interfaces/*"],
+      "@/types/*": ["app/[lang]/types/*"],
+      "@/globals/*": ["app/[lang]/globals/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/[lang]/types/getDictionary.tsx"
+  ],
   "exclude": ["node_modules"]
 }
