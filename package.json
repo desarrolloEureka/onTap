@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.2",
+    "@tanstack/react-query": "^5.8.4",
+    "@tanstack/react-query-devtools": "^5.8.4",
     "@types/negotiator": "^0.6.3",
+    "firebase": "^10.7.0",
     "i18n": "^0.15.1",
     "i18next": "^23.7.6",
     "negotiator": "^0.6.3",
@@ -20,6 +23,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.8.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
