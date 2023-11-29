@@ -27,7 +27,10 @@
       "@/reactQuery/*": ["app/[lang]/reactQuery/*"],
       "@/interfaces/*": ["app/[lang]/interfaces/*"],
       "@/types/*": ["app/[lang]/types/*"],
-      "@/globals/*": ["app/[lang]/globals/*"]
+      "@/globals/*": ["app/[lang]/globals/*"],
+      "@/theme/*": ["app/[lang]/theme/*"],
+      "@/hooks/*": ["app/[lang]/hooks/*"],
+      "@/provider/*": ["app/[lang]/provider/*"]
     }
   },
   "include": [

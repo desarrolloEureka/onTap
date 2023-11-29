@@ -3,6 +3,9 @@
 import React, { ReactNode, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ThemeProvider, createTheme } from '@mui/material';
+import { lime, purple } from '@mui/material/colors';
+import { theme } from '@/theme/customTheme';
 
 const ReactQueryDevtoolsProduction = React.lazy(() =>
   import('@tanstack/react-query-devtools/production').then((d) => ({
@@ -22,7 +25,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={true} />
-      {children}
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
       {showDevtools && (
         <React.Suspense fallback={null}>
           <ReactQueryDevtoolsProduction />
