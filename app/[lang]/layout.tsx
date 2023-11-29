@@ -1,9 +1,7 @@
+import Provider from '@/provider/Provider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { ThemeProvider, createTheme } from '@mui/material';
-import { lime, purple } from '@mui/material/colors';
-import Provider from '@/provider/Provider';
 
 const inter = Inter({ subsets: ['latin'] });
 

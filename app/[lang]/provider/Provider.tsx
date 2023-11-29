@@ -1,11 +1,10 @@
 'use client';
 
-import React, { ReactNode, useState } from 'react';
+import { theme } from '@/theme/customTheme';
+import { ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ThemeProvider, createTheme } from '@mui/material';
-import { lime, purple } from '@mui/material/colors';
-import { theme } from '@/theme/customTheme';
+import React, { ReactNode, useState } from 'react';
 
 const ReactQueryDevtoolsProduction = React.lazy(() =>
   import('@tanstack/react-query-devtools/production').then((d) => ({
