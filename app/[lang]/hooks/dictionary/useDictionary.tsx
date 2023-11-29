@@ -1,5 +1,5 @@
 import { GetAllUserQuery } from '@/reactQuery/users';
-import { Dictionary } from '@/types/Dictionary';
+import { Dictionary } from '@/types/dictionary';
 import { getDictionary } from '@/types/getDictionary';
 import { Locale } from 'i18n-config';
 import { useCallback, useEffect, useState } from 'react';
