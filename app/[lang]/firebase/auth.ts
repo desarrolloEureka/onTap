@@ -19,8 +19,6 @@ const allUserRef = collection(dataBase, 'users');
 const countriesRef = doc(dataBase, 'countries', 'sSbpwcKROo5wEi8Naxqj');
 
 export const userExist = async (user: string) => {
-  console.log('user', user);
-
   let userFound = null;
   const querySnapshot = await getDocs(userRefByUser(user));
   if (querySnapshot.empty) return false;

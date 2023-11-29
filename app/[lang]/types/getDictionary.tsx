@@ -4,6 +4,6 @@ import { Locale } from 'i18n-config';
 // We also get the defalt import for cleaner types
 const dictionaries = {
   es: () => import('../../../dic/es.json').then((module) => module.default),
-  en: () => import('../../../dic/en.json').then((module) => module.default),
+  // en: () => import('../../../dic/en.json').then((module) => module.default),
 };
 export const getDictionary = async (locale: Locale) => dictionaries[locale]();
