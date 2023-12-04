@@ -1,15 +1,15 @@
 import { GetAllUserQuery } from '@/reactQuery/users';
-import { Users } from '@/types/user';
+import { User } from '@/types/user';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 const useHomeHook = () => {
-  const [users, setUsers] = useState<Users[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const { isLoading, data, error } = GetAllUserQuery();
 
   const handleUsers = (data: QuerySnapshot<DocumentData, DocumentData>) => {
     data.forEach((doc) => {
-      const data = doc.data() as Users;
+      const data = doc.data() as User;
       setUsers((prev: any) => [...prev, data]);
     });
   };

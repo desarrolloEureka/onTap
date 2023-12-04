@@ -1,4 +1,8 @@
 {
   "homeTitle": "Hola titulo español",
-  "rememberPasswordTitle": "Recuperar contraseña"
+  "rememberPasswordTitle": "Recuperar contraseña123",
+  "rememberPassweordDescription": "Descripcion de constraseña",
+  "mainMenu":"Menu principal",
+  "mainTab": {"tab1":"Social", "tab2":"Profesional", "tab3":"Corporativo"},
+  "loginView": {"username":"Usuario", "password":"Contraseña", "login":"Ingresar"}
 }
