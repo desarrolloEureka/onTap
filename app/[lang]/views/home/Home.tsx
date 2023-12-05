@@ -3,7 +3,7 @@ import { HomeProps } from '@/types/home';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, Grid, Modal, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -278,7 +278,7 @@ const Home = ({ dictionary }: HomeProps) => {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box className='tw-w-[80%] tw-rounded-2xl tw-bg-primary tw-relative'>
+        <Box className='tw-flex tw-flex-col tw-justify-evenly tw-w-[80%] tw-rounded-2xl tw-bg-primary tw-relative'>
           <div className='tw-absolute tw-right-1 tw-top-2'>
             <Button
               color='secondary'
@@ -296,26 +296,23 @@ const Home = ({ dictionary }: HomeProps) => {
             />
           </div>
           <div className='tw-px-16 tw-pt-10'>
-            <div className='tw-ml-9'>
+            <div className='tw-ml-9 tw-mb-4'>
               <Typography>Seleccionar</Typography>
             </div>
-            <div className='tw-h-[70vh] tw-items-center tw-justify-center tw-grid tw-grid-cols-2 md:tw-grid-cols-3 tw-mt-3'>
+            <Grid container spacing={2}>
               {dataListTemplates[0].images.map((item, index) => (
-                <div
-                  key={index}
-                  className={`tw-h-[30vh] tw-flex tw-items-center tw-justify-center`}
-                >
-                  <div className='tw-rounded-md  tw-flex tw-items-center tw-justify-center tw-bg-white'>
+                <Grid item xs={4} key={index}>
+                  <div className='tw-flex tw-items-center tw-justify-center'>
                     <Image
                       src={`/images/${item}`}
                       alt={`Image ${item}`}
                       width={200}
-                      height={300}
+                      height={250}
                     />
                   </div>
-                </div>
+                </Grid>
               ))}
-            </div>
+            </Grid>
           </div>
           <div className='tw-flex tw-justify-start tw-mt-3 tw-pl-20 tw-pt-1 tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
             <Button
