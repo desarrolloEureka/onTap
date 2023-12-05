@@ -1,8 +1,17 @@
 {
   "homeTitle": "Hola titulo español",
   "rememberPasswordTitle": "Recuperar contraseña123",
-  "rememberPassweordDescription": "Descripcion de constraseña",
-  "mainMenu":"Menu principal",
-  "mainTab": {"tab1":"Social", "tab2":"Profesional", "tab3":"Corporativo"},
-  "loginView": {"username":"Usuario", "password":"Contraseña", "login":"Ingresar"}
+  "rememberPasswordDescription": "Descripcion de constraseña",
+  "mainMenu": "Menu principal",
+  "mainTab": {
+    "tab1": "Home",
+    "tab2": "Social",
+    "tab3": "Profesional",
+    "tab4": "Corporativo"
+  },
+  "loginView": {
+    "username": "Usuario",
+    "password": "Contraseña",
+    "login": "Ingresar"
+  }
 }
