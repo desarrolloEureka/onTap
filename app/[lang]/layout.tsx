@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='es' suppressHydrationWarning={true}>
-      <body className={inter.className}>
+      <body className={inter.className} style={{ margin: 0 }}>
         <Provider>{children}</Provider>
       </body>
     </html>
