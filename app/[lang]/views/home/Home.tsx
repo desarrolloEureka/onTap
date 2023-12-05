@@ -10,11 +10,11 @@ import Menu from '@/components/menu/Menu';
 const Home = ({ lang }: { lang: Locale }) => {
   const { dictionary } = useDictionary({ lang });
   const { isLoading, users, error } = useHomeHook();
-  const { data } = SetLangQuery(lang);
+  SetLangQuery(lang);
 
   return (
     <div>
-      {dictionary && <Menu dictionary={dictionary} /> }
+      {dictionary && <Menu dictionary={dictionary} />}
       {dictionary && <Login dictionary={dictionary} />}
       <div>Home</div>
       <Button className='tw-bg-red-500' variant='contained'>
@@ -22,11 +22,8 @@ const Home = ({ lang }: { lang: Locale }) => {
       </Button>
       <div>{dictionary?.homeTitle}</div>
       <div>{dictionary?.rememberPassweordDescription}</div>
-      
-      
+
       <div>{JSON.stringify(users)}</div>
-      
-      
     </div>
   );
 };
