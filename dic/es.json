@@ -13,5 +13,9 @@
     "username": "Usuario",
     "password": "Contraseña",
     "login": "Ingresar"
+  },
+  "homeView": {
+    "views": "Visualizaciones del perfil",
+    "title": "Plantillas"
   }
 }
