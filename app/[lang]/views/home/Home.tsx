@@ -278,7 +278,7 @@ const Home = ({ dictionary }: HomeProps) => {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box className='tw-w-[796px] tw-rounded-2xl tw-bg-primary tw-relative'>
+        <Box className='tw-w-[80%] tw-rounded-2xl tw-bg-primary tw-relative'>
           <div className='tw-absolute tw-right-1 tw-top-2'>
             <Button
               color='secondary'
@@ -299,18 +299,18 @@ const Home = ({ dictionary }: HomeProps) => {
             <div className='tw-ml-9'>
               <Typography>Seleccionar</Typography>
             </div>
-            <div className='tw-items-center tw-justify-center tw-grid tw-grid-cols-2 sm:tw-grid-cols-3 tw-mt-3'>
+            <div className='tw-h-[70vh] tw-items-center tw-justify-center tw-grid tw-grid-cols-2 md:tw-grid-cols-3 tw-mt-3'>
               {dataListTemplates[0].images.map((item, index) => (
                 <div
                   key={index}
-                  className={`tw-h-[175px] tw-flex tw-items-center tw-justify-center`}
+                  className={`tw-h-[30vh] tw-flex tw-items-center tw-justify-center`}
                 >
                   <div className='tw-rounded-md  tw-flex tw-items-center tw-justify-center tw-bg-white'>
                     <Image
                       src={`/images/${item}`}
                       alt={`Image ${item}`}
-                      width={120}
-                      height={150}
+                      width={200}
+                      height={300}
                     />
                   </div>
                 </div>
