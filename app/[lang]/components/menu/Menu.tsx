@@ -36,7 +36,7 @@ const Menu = ({ dictionary }: MenuProps) => {
 
         <MenuItem className="tw-flex tw-w-[200px] tw-flex-col tw-items-center ">
           <IconButton className="tw-text-[24px] ">
-            <Home />
+            <People />
           </IconButton>
           <ListItemText className=" tw-text-[14px] tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap tw-text-white ">
             {dictionary.mainTab.tab2}
@@ -45,7 +45,7 @@ const Menu = ({ dictionary }: MenuProps) => {
 
         <MenuItem className="tw-flex tw-w-[200px] tw-flex-col tw-items-center ">
           <IconButton className="tw-text-[24px] ">
-            <Home />
+            <Work />
           </IconButton>
           <ListItemText className=" tw-text-[14px] tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap tw-text-white ">
             {dictionary.mainTab.tab3}
@@ -54,7 +54,7 @@ const Menu = ({ dictionary }: MenuProps) => {
 
         <MenuItem className="tw-flex tw-w-[200px] tw-flex-col tw-items-center ">
           <IconButton className="tw-text-[24px] ">
-            <Home />
+            <Business />
           </IconButton>
           <ListItemText className=" tw-text-[14px] tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap tw-text-white ">
             {dictionary.mainTab.tab4}

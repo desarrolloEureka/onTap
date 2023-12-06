@@ -22,14 +22,16 @@
   "recoverPassword":{
     "recoverpassword": "Recuperar Contraseña",
     "mail":"Correo",
-    "next":"Siguiente"
+    "next":"Siguiente",
+    "back": "Regresar"
   },
   "recoveryCode":{
     "recoverycode":"Codigo de Recuperacion",
     "enter_the_recovery_code_that_we_have_sent_to_your_email":"Ingresa el código de recuperación que hemos enviado a tu correo electrónico",
     "code":"Codigo",
     "nextCode":"Siguiente",
-    "resendcode":"Reenviar codigo"
+    "resendcode":"Reenviar codigo",
+    "backCode": "Regresar"
 
   },
   "newPassword":{
