@@ -1,12 +1,14 @@
 'use client';
-import useDictionary from '@/hooks/dictionary/useDictionary';
+import { useState } from 'react';
+import { Box, Button, Grid, Modal, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Box, Button, Grid, Modal, Typography } from '@mui/material';
-import { Locale } from 'i18n-config';
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
+import { Locale } from 'i18n-config';
+import CustomSwitch from '@/components/customSwitch/CustomSwitch';
+import useDictionary from '@/hooks/dictionary/useDictionary';
 
 const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -37,10 +39,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
       ],
     },
   ];
-  /*   const dataListTemplates = [
-      { images: ['plantilla2.png', 'plantilla2.png', 'plantilla2.png','plantilla2.png', 'plantilla2.png', 'plantilla2.png'] }
-    ];
-   */
+
   const [dataOptions, setDataOptions] = useState(dataList);
   const [optionSelected, setOptionSelected] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,9 +56,10 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
     <div>
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
         <div className='tw-bg-[#62ae9b] tw-h-[80px] tw-flex'></div>
+
         <div className='tw-h-[70px] tw-flex'>
           <div className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col'>
-            <div className='tw-bg-white tw-shadow-md tw-rounded-md tw-h-[50%] tw-w-[90px]  tw-flex'>
+            <div className='tw-bg-white tw-shadow-inner tw-rounded-md tw-h-[50%] tw-w-[90px]  tw-flex'>
               <Button
                 disabled
                 color='secondary'
@@ -87,8 +87,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
             </div>
             <div className=' tw-h-[20%] tw-w-[45%] tw-flex tw-items-center tw-justify-center'>
               <div className='tw-text-[#396593]' style={{ fontSize: '0.7rem' }}>
-                Titulo
-                {dictionary?.homeTitle}
+                {dictionary?.homeView.views}
               </div>
               {/* <div className="tw-text-[#396593]" style={{ fontSize: '0.7rem' }}>Visualizaciones del perfil</div> */}
             </div>
@@ -99,41 +98,17 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
           </div>
 
           <div className='tw-w-1/3 tw-h-full  tw-flex tw-items-center tw-justify-center'>
-            <div className='tw-w-1/2 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col'>
-              <div className=' tw-rounded-full tw-h-[55%] tw-w-[90px] tw-bg-[#62ae9b] tw-flex tw-items-center tw-justify-center'>
-                <div className=' tw-rounded-full tw-h-[90%] tw-w-[40%] tw-bg-white tw-flex tw-items-center tw-justify-center'>
-                  <div className='tw-text-black' style={{ fontSize: '0.6rem' }}>
-                    Social
-                  </div>
-                </div>
-                <div className=' tw-h-[90%] tw-w-[45%] tw-flex tw-items-center tw-justify-center'>
-                  <div className='tw-text-xs'>PRO</div>
-                </div>
-              </div>
 
-              <div className='tw-h-[30%] tw-w-[50%] ] tw-flex tw-items-center tw-justify-center'>
-                <div className='tw-text-black' style={{ fontSize: '0.7rem' }}>
-                  Perfil a mostrar
-                </div>
+            <div className='tw-w-1/2 tw-h-full tw-flex tw-items-center tw-justify-start tw-flex-col tw-mt-2'>
+              <CustomSwitch />
+              <div className=' tw-h-[90%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
+                <div className='tw-text-xs tw-text-black'>{dictionary?.homeView.profileSwitchLabel}</div>
               </div>
             </div>
-
-            <div className='tw-w-1/2 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col'>
-              <div className=' tw-rounded-full tw-h-[55%] tw-w-[90px] tw-bg-[#62ae9b] tw-flex tw-items-center tw-justify-center'>
-                <div className=' tw-rounded-full tw-h-[90%] tw-w-[40%] tw-bg-white tw-flex tw-items-center tw-justify-center'>
-                  <div className='tw-text-black' style={{ fontSize: '0.6rem' }}>
-                    On
-                  </div>
-                </div>
-                <div className=' tw-h-[90%] tw-w-[45%] tw-flex tw-items-center tw-justify-center'>
-                  <div className='tw-text-xs'>Off</div>
-                </div>
-              </div>
-
-              <div className='tw-h-[30%] tw-w-[50%] ] tw-flex tw-items-center tw-justify-center'>
-                <div className='tw-text-black' style={{ fontSize: '0.7rem' }}>
-                  Activar tarjeta
-                </div>
+            <div className='tw-w-1/2 tw-h-full tw-flex tw-items-center tw-justify-start tw-flex-col tw-mt-2'>
+              <CustomSwitch />
+              <div className=' tw-h-[90%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
+                <div className='tw-text-xs tw-text-black'>{dictionary?.homeView.cardSwitchLabel}</div>
               </div>
             </div>
           </div>
@@ -151,13 +126,12 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
             onClick={() => handleChangeOption(1)}
           >
             <div
-              className={`${
-                optionSelected === 1
-                  ? 'tw-text-[#396593] tw-font-bold'
-                  : 'tw-text-[#838383] '
-              }`}
+              className={`${optionSelected === 1
+                ? 'tw-text-[#396593] tw-font-bold'
+                : 'tw-text-[#838383] '
+                }`}
             >
-              Social
+              {dictionary?.homeView.social}
             </div>
           </div>
           <div
@@ -168,13 +142,12 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
             onClick={() => handleChangeOption(2)}
           >
             <div
-              className={`${
-                optionSelected === 2
-                  ? 'tw-text-[#396593]  tw-font-bold'
-                  : 'tw-text-[#838383] '
-              }`}
+              className={`${optionSelected === 2
+                ? 'tw-text-[#396593]  tw-font-bold'
+                : 'tw-text-[#838383] '
+                }`}
             >
-              Profesional
+              {dictionary?.homeView.professional}
             </div>
           </div>
           <div
@@ -184,14 +157,15 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
             className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center'
             onClick={() => handleChangeOption(3)}
           >
+            <Link href="/views/profile">profile</Link>
+
             <div
-              className={`${
-                optionSelected === 3
-                  ? 'tw-text-[#396593]  tw-font-bold'
-                  : 'tw-text-[#838383] '
-              }`}
+              className={`${optionSelected === 3
+                ? 'tw-text-[#396593]  tw-font-bold'
+                : 'tw-text-[#838383] '
+                }`}
             >
-              Corporativo
+              {dictionary?.homeView.corporate}
             </div>
           </div>
         </div>
@@ -200,23 +174,23 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <div className='tw-grid tw-grid-cols-3  lg:tw-w-[1300px] xl:tw-w-[1250px]'>
             {optionSelected === 1
               ? dataList[0].images.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
-                    onClick={() => handleModal()}
-                  >
-                    <div className='tw-rounded-md tw-h-[80%] tw-w-[100px] tw-flex tw-items-center tw-justify-center tw-bg-[#62ae9b] '>
-                      <Image
-                        src={`/images/${item}`}
-                        alt={`Image ${item}`}
-                        width={377}
-                        height={484}
-                      />
-                    </div>
+                <div
+                  key={index}
+                  className={`tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
+                  onClick={() => handleModal()}
+                >
+                  <div className='tw-rounded-md tw-h-[80%] tw-w-[100px] tw-flex tw-items-center tw-justify-center tw-bg-[#62ae9b] '>
+                    <Image
+                      src={`/images/${item}`}
+                      alt={`Image ${item}`}
+                      width={377}
+                      height={484}
+                    />
                   </div>
-                ))
+                </div>
+              ))
               : optionSelected === 2
-              ? dataList[1].images.map((item, index) => (
+                ? dataList[1].images.map((item, index) => (
                   <div
                     key={index}
                     className={`tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
@@ -232,7 +206,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     </div>
                   </div>
                 ))
-              : dataList[2].images.map((item, index) => (
+                : dataList[2].images.map((item, index) => (
                   <div
                     key={index}
                     className={`tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
@@ -292,7 +266,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
           </div>
           <div className='tw-px-16 tw-pt-10'>
             <div className='tw-ml-9 tw-mb-4'>
-              <Typography>Seleccionar</Typography>
+              <Typography>{dictionary?.homeView.selectModalTitle}</Typography>
             </div>
             <Grid container spacing={2}>
               {dataListTemplates[0].images.map((item, index) => (
@@ -325,7 +299,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
               }
             >
               <span style={{ color: '#000000 ', fontSize: '1rem' }}>
-                Guardar
+                {dictionary?.homeView.saveButtonLabel}
               </span>
             </Button>
           </div>

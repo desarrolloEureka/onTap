@@ -16,6 +16,13 @@
   },
   "homeView": {
     "views": "Visualizaciones del perfil",
-    "title": "Plantillas"
+    "title": "Plantillas",
+    "profileSwitchLabel": "Perfil a mostrar",
+    "cardSwitchLabel": "Activar tarjeta",
+    "social": "Social",
+    "professional": "Profesional",
+    "corporate": "Corporativo",
+    "selectModalTitle": "Seleccionar",
+    "saveButtonLabel": "Guardar"
   }
 }

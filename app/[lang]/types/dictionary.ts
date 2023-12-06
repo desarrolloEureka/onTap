@@ -5,5 +5,5 @@ export interface Dictionary {
   mainMenu: string;
   mainTab: { tab1: string; tab2: string; tab3: string; tab4: string };
   loginView: { username: string; password: string; login: string };
-  homeView: { views: string; title: string; };
+  homeView: { views: string; title: string; profileSwitchLabel: string; cardSwitchLabel: string; social: string; professional: string; corporate: string; selectModalTitle: string; saveButtonLabel: string; };
 }
