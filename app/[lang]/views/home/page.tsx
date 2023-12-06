@@ -1,13 +1,15 @@
 'use client';
-import { HomeProps } from '@/types/home';
+import useDictionary from '@/hooks/dictionary/useDictionary';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Box, Button, Grid, Modal, Typography } from '@mui/material';
+import { Locale } from 'i18n-config';
 import Image from 'next/image';
 import { useState } from 'react';
 
-const Home = ({ dictionary }: HomeProps) => {
+const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
+  const { dictionary } = useDictionary({ lang });
   const dataList = [
     {
       name: 'Social',

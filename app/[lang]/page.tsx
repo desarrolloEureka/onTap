@@ -1,15 +1,18 @@
 'use client';
-import Home from '@/views/home/Home';
+import { CircularProgress } from '@mui/material';
 import { Locale } from 'i18n-config';
-import useDictionary from './hooks/dictionary/useDictionary';
-import { SetLangQuery } from './reactQuery/lang';
-import useHomeHook from './views/home/hook/homeHook';
+import NavigatorHook from './hooks/navigator/NavigatorHook';
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
-  const { dictionary } = useDictionary({ lang });
-  const { isLoading, users, error } = useHomeHook();
-  SetLangQuery(lang);
-  return dictionary && <Home lang={lang} dictionary={dictionary} />;
+  const { isLoading, error } = NavigatorHook(lang);
+  // dictionary && <Home lang={lang} dictionary={dictionary} />
+
+  // setTimeout(() => {
+  //   <Link href='/views/main'>Main</Link>
+  //     <Link href='/views/login'>Login</Link>
+  // }, 2000);
+
+  return isLoading ? <CircularProgress /> : error ? <>Error 500</> : <></>;
 };
 
 export default Page;
