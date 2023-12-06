@@ -10,7 +10,7 @@ const Login = ({ dictionary }: LoginProps) => {
 
   return (
     <div className='flex tw-flex-col tw-justify-items-center tw-h-max tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      {dictionary && <Menu dictionary={dictionary} />}
+      <Menu dictionary={dictionary} />
       <Container className='tw-bg-primary tw-shadow-md tw-rounded-2xl tw-h-[618px] tw-w-[794px] flex tw-justify-center  tw-justify-items-center tw-text-center '>
         <Box className='tw-w-full tw-flex tw-justify-center tw-justify-items-center '>
           <Image
@@ -25,7 +25,7 @@ const Login = ({ dictionary }: LoginProps) => {
           className='tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm  '
           required
           id='outlined-required'
-          label={dictionary?.loginView.username}
+          label={dictionary.loginView.username}
           defaultValue=''
           variant='outlined'
           InputProps={{ className: 'tw-rounded-3xl' }}
@@ -35,13 +35,13 @@ const Login = ({ dictionary }: LoginProps) => {
           variant='body2'
           color='textSecondary'
         >
-          {dictionary?.loginView.username}
+          {dictionary.loginView.username}
         </Typography>
         <TextField
           className='tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm  '
           required
           id='outlined-password'
-          label={dictionary?.loginView.password}
+          label={dictionary.loginView.password}
           type='password'
           defaultValue=''
           variant='outlined'
@@ -52,11 +52,9 @@ const Login = ({ dictionary }: LoginProps) => {
           variant='body2'
           color='textSecondary'
         >
-          {dictionary?.loginView.password}
+          {dictionary.loginView.password}
         </Typography>
-        <Button className='tw-text-white '>
-          {dictionary?.loginView.login}
-        </Button>
+        <Button className='tw-text-white '>{dictionary.loginView.login}</Button>
       </Container>
     </div>
   );

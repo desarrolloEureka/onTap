@@ -56,13 +56,6 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   return (
     <div>
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
-        {/*  <div>
-        {dictionary && <Login dictionary={dictionary} />}
-       <Button className='tw-bg-red-500' variant='contained'>
-        Contained
-      </Button>
-      </div>
-       */}
         <div className='tw-bg-[#62ae9b] tw-h-[80px] tw-flex'></div>
         <div className='tw-h-[70px] tw-flex'>
           <div className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col'>

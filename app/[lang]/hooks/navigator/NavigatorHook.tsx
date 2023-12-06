@@ -10,8 +10,7 @@ const NavigatorHook = (lang: Locale) => {
   SetLangQuery(lang);
 
   useEffect(() => {
-    router.push('/views/login');
-    // router && users ? router.push('/views/home') : router.push('/views/login');
+    router && users ? router.push('/views/home') : router.push('/views/login');
   }, [router, users]);
 
   return { isLoading, error };
