@@ -12,7 +12,8 @@
   "loginView": {
     "username": "Usuario",
     "password": "Contraseña",
-    "login": "Ingresar"
+    "login": "Ingresar",
+    "recoverPassLogin": "Recuperar Contraseña"
   },
   "homeView": {
     "views": "Visualizaciones del perfil",
