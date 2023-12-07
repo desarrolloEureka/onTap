@@ -181,6 +181,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
                 >
                   <div className='tw-rounded-md tw-h-[80%] tw-w-[100px] tw-flex tw-items-center tw-justify-center tw-bg-[#62ae9b] '>
                     <Image
+                      priority={false}
                       src={`/images/${item}`}
                       alt={`Image ${item}`}
                       width={377}
