@@ -12,10 +12,34 @@
   "loginView": {
     "username": "Usuario",
     "password": "Contraseña",
-    "login": "Ingresar"
+    "login": "Ingresar",
+    "recoverPassLogin": "Recuperar Contraseña"
   },
   "homeView": {
     "views": "Visualizaciones del perfil",
     "title": "Plantillas"
-  }
+  },
+
+  "recoverPassword":{
+    "recoverpassword": "Recuperar Contraseña",
+    "mail":"Correo",
+    "next":"Siguiente",
+    "back": "Regresar"
+  },
+  "recoveryCode":{
+    "recoverycode":"Codigo de Recuperacion",
+    "enter_the_recovery_code_that_we_have_sent_to_your_email":"Ingresa el código de recuperación que hemos enviado a tu correo electrónico",
+    "code":"Codigo",
+    "nextCode":"Siguiente",
+    "resendcode":"Reenviar codigo",
+    "backCode": "Regresar"
+
+  },
+  "newPassword":{
+    "createnewpassword":"Crear Nueva Contraseña",
+    "newpassword":"Nueva contraseña",
+    "repeatpassword":"Repetir contraseña",
+    "nextnewpassword":"Siguiente"
+  },
+  "passwordChangedSuccessfully":"Contraseña modificada con exito"
 }
