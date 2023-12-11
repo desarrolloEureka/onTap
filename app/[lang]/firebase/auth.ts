@@ -1,22 +1,16 @@
-import firebase from 'firebase/app';
-import {
-  doc,
-  updateDoc,
-  getDoc,
-  setDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-} from 'firebase/firestore';
+import { LoginFirebaseProps } from '@/types/login';
 import { dataBase, app } from 'app/[lang]/firebase/firebaseConfig';
-
-const userRef = (ref: any) => doc(dataBase, 'users', ref.document);
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+const auth = getAuth();
 
 const userRefByUser = (ref: any) =>
   query(collection(dataBase, 'users'), where('user_name', '==', ref.user));
-const allUserRef = collection(dataBase, 'users');
-const countriesRef = doc(dataBase, 'countries', 'sSbpwcKROo5wEi8Naxqj');
 
 export const userExist = async (user: string) => {
   let userFound = null;
@@ -30,4 +24,11 @@ export const userExist = async (user: string) => {
   return userFound;
 };
 
-export const getAllUsers = async () => await getDocs(allUserRef);
+export const loginFirebase = async ({ user, password }: LoginFirebaseProps) => {
+  const loginF = signInWithEmailAndPassword(auth, user, password);
+  return loginF;
+};
+
+export const registerFirebase = async (user: string, password: string) => {
+  const registerF = createUserWithEmailAndPassword(auth, user, password);
+};

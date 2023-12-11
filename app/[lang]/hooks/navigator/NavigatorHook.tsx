@@ -6,12 +6,12 @@ import useHomeHook from '@/views/home/hook/homeHook';
 
 const NavigatorHook = (lang: Locale) => {
   const router = useRouter();
-  const { isLoading, users, error } = useHomeHook();
+  const { isLoading, user, error } = useHomeHook();
   SetLangQuery(lang);
 
   useEffect(() => {
-    router && users ? router.push('/views/home') : router.push('/views/login');
-  }, [router, users]);
+    router && user ? router.push('/views/home') : router.push('/views/login');
+  }, [router, user]);
 
   return { isLoading, error };
 };

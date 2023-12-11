@@ -1,24 +1,16 @@
-import { GetAllUserQuery } from '@/reactQuery/users';
+import { GetUser } from '@/reactQuery/users';
 import { User } from '@/types/user';
-import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 const useHomeHook = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const { isLoading, data, error } = GetAllUserQuery();
-
-  const handleUsers = (data: QuerySnapshot<DocumentData, DocumentData>) => {
-    data.forEach((doc) => {
-      const data = doc.data() as User;
-      setUsers((prev: any) => [...prev, data]);
-    });
-  };
+  const [user, setUser] = useState<User[]>([]);
+  const { isLoading, data, error } = GetUser();
 
   useEffect(() => {
-    data && users.length == 0 && handleUsers(data);
-  }, [data, users]);
+    data && user.length == 0 && setUser((prev: any) => [...prev, data]);
+  }, [data, user]);
 
-  return { isLoading, error, users };
+  return { isLoading, error, user };
 };
 
 export default useHomeHook;
