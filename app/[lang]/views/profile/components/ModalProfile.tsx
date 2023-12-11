@@ -3,35 +3,35 @@ import React, { useState } from 'react';
 import {
     Avatar,
     Button,
-    Container,
     FormControl,
     FormHelperText,
     Input,
-    Stack,
-    IconButton,
     Box,
-    Grid,
     Modal,
-    Typography
 } from '@mui/material';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import FilePresentOutlinedIcon from '@mui/icons-material/FilePresentOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
-import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
-import CustomSwitch from '@/components/customSwitch/CustomSwitch';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
+import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
+import SendIcon from '@mui/icons-material/Send';
+import { Dictionary } from '@/types/dictionary';
+import IconTikTok from './IconTikTok';
 
-const ModalProfile = ({ isModalOpen, handleModal }: { isModalOpen: boolean, handleModal: () => void }) => {
+const ModalProfile = ({ isModalOpen, handleModal, dictionary }: { isModalOpen: boolean, handleModal: () => void, dictionary: Dictionary }) => {
+    const [showUrls, setShowUrls] = useState(false);
+
+    const handleOpenUrl = () => {
+        setShowUrls(!showUrls);
+    };
+
     return (
         <Modal
-            className='tw-flex tw-justify-center tw-justify-items-center tw-pt-36 tw-pb-32'
+            className='tw-flex tw-justify-center tw-justify-items-center tw-pt-44 tw-pb-44'
             open={isModalOpen}
             onClose={handleModal}
             aria-labelledby='modal-modal-title'
@@ -57,7 +57,7 @@ const ModalProfile = ({ isModalOpen, handleModal }: { isModalOpen: boolean, hand
 
                 <div className='tw-w-[100%] tw-h-[15%]  tw-flex tw-justify-center tw-justify-items-center'>
                     <div className='tw-w-[85%] tw-h-[75%]'>
-                        <h4>Dato Nuevo</h4>
+                        <h4>{dictionary?.perfilView.titleNewData}</h4>
                     </div>
                 </div>
 
@@ -73,7 +73,7 @@ const ModalProfile = ({ isModalOpen, handleModal }: { isModalOpen: boolean, hand
                                         'aria-label': 'weight',
                                     }}
                                 />
-                                <FormHelperText id="standard-weight-helper-text">Nombre dato</FormHelperText>
+                                <FormHelperText id="standard-weight-helper-text">{dictionary?.perfilView.labelDataName}</FormHelperText>
                             </FormControl>
                         </div>
                         <div className='tw-h-1/3 tw-w-[100%] tw-flex'>
@@ -85,20 +85,78 @@ const ModalProfile = ({ isModalOpen, handleModal }: { isModalOpen: boolean, hand
                                         'aria-label': 'weight',
                                     }}
                                 />
-                                <FormHelperText id="standard-weight-helper-text">Url opcional</FormHelperText>
+                                <FormHelperText id="standard-weight-helper-text">{dictionary?.perfilView.labelOptionalUrl}</FormHelperText>
                             </FormControl>
                         </div>
-                        <div className='tw-h-1/3 tw-w-[100%] tw-flex'>
-                            <div className='tw-h-[90%] tw-w-[10%] tw-flex tw-bg-red-200 tw-justify-center tw-items-center'>
-                                <Avatar
-                                    sx={{
-                                        backgroundColor: '#ffffff', // Fondo circular blanco
-                                        width: 45,
-                                        height: 45,
-                                    }}
+                        <div className='tw-h-1/3 tw-w-[100%] tw-flex '>
+                            <div className='tw-h-[100%] tw-w-[70px] tw-flex  tw-justify-center tw-items-center'>
+                                <Button
+                                    onClick={handleOpenUrl}
                                 >
-                                    <LocalGroceryStoreOutlinedIcon sx={{ color: '#396593' }} />
-                                </Avatar>
+                                    <Avatar
+                                        sx={{
+                                            backgroundColor: '#ffffff', // Fondo circular blanco
+                                            width: 45,
+                                            height: 45,
+                                        }}
+                                    >
+                                        <LocalGroceryStoreOutlinedIcon sx={{ color: '#396593' }} />
+                                    </Avatar>
+                                </Button>
+                            </div>
+                            <div className='tw-h-[100%] tw-w-[630px] tw-flex tw-justify-start tw-items-center'>
+                                {showUrls ?
+                                    <div className='tw-h-[40%] tw-w-[70%] tw-flex tw-bg-white tw-justify-center tw-items-center tw-rounded-2xl tw-ml-5'>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <FacebookOutlinedIcon sx={{ color: '#62ad9b' }} />
+                                            </Button>
+                                        </div>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <TwitterIcon sx={{ color: '#62ad9b' }} />
+                                            </Button>
+                                        </div>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <FacebookOutlinedIcon sx={{ color: '#62ad9b' }} />
+                                            </Button>
+                                        </div>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <InstagramIcon sx={{ color: '#62ad9b' }} />
+                                            </Button>
+                                        </div>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <LinkedInIcon sx={{ color: '#62ad9b' }} />
+                                            </Button>
+                                        </div>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <IconTikTok/>
+                                            </Button>
+                                        </div>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <MailOutlinedIcon sx={{ color: '#62ad9b' }} />
+                                            </Button>
+                                        </div>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <LanguageOutlinedIcon sx={{ color: '#62ad9b' }} />
+                                            </Button>
+                                        </div>
+                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                            <Button>
+                                                <SendIcon sx={{ color: '#62ad9b' }} />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    :
+                                    null
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -120,7 +178,7 @@ const ModalProfile = ({ isModalOpen, handleModal }: { isModalOpen: boolean, hand
                             }
                         >
                             <span style={{ color: '#000000 ', fontSize: '1rem' }}>
-                                Agregar dato
+                                {dictionary?.perfilView.buttonAddData}
                             </span>
                         </Button>
                     </div>

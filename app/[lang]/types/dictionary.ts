@@ -18,4 +18,5 @@ export interface Dictionary {
     userNotFound: string;
   };
   passwordChangedSuccessfully: string;
+  perfilView: { labelHello: string; labelFirstName: string; labelLastName: string; labelProfession: string; labelOccupation: string; labelAddress: string; labelPhone: string; labelEmail: string; buttonSeeMore: string; addAnotherPhone: string; addAnotherEmail: string; buttonAddData: string; titleNewData: string; labelDataName: string; labelOptionalUrl: string; }
 }
