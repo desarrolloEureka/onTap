@@ -20,9 +20,15 @@
   },
   "homeView": {
     "views": "Visualizaciones del perfil",
-    "title": "Plantillas"
+    "title": "Plantillas",
+    "profileSwitchLabel": "Perfil a mostrar",
+    "cardSwitchLabel": "Activar tarjeta",
+    "social": "Social",
+    "professional": "Profesional",
+    "corporate": "Corporativo",
+    "selectModalTitle": "Seleccionar",
+    "saveButtonLabel": "Guardar"
   },
-
   "recoverPassword": {
     "recoverpassword": "Recuperar Contraseña",
     "mail": "Correo",
@@ -43,5 +49,23 @@
     "repeatpassword": "Repetir contraseña",
     "nextnewpassword": "Siguiente"
   },
-  "passwordChangedSuccessfully": "Contraseña modificada con exito"
+  "passwordChangedSuccessfully": "Contraseña modificada con exito",
+  "perfilView": {
+    "labelHello": "Hola",
+    "labelFirstName": "Nombres",
+    "labelLastName": "Apellidos",
+    "labelProfession": "Profesión",
+    "labelOccupation": "Ocupación",
+    "labelAddress": "Dirección",
+    "labelPhone": "Teléfono",
+    "labelEmail": "Correo",
+    "buttonSeeMore": "Ver más",
+    "addAnotherPhone": "Agregar otro teléfono",
+    "addAnotherEmail": "Agregar otro correo",
+    "buttonAddData": "Agregar dato",
+    
+    "titleNewData": "Nuevo Dato",
+    "labelDataName": "Nombre del dato",
+    "labelOptionalUrl": "URL opcional"
+  }
 }
