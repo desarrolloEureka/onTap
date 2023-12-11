@@ -6,7 +6,7 @@ import {
   LoginRefProps,
   RefPropsFirebase,
 } from '@/types/userFirebase';
-import { User } from 'firebase/auth';
+import { UserData } from '@/types/user';
 
 const ref = ({ ref, collection }: RefPropsFirebase) =>
   doc(dataBase, collection, ref.document);
@@ -33,7 +33,7 @@ export const getUserByLogin = async ({
   let userData: any = null;
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {
-      const dataResult = doc.data() as User;
+      const dataResult = doc.data() as UserData;
       userData = dataResult;
     });
     localStorage.setItem('@user', JSON.stringify(userData));

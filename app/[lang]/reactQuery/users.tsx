@@ -1,3 +1,4 @@
+import { loginFirebase } from '@/firebase/auth';
 import { getAllUsers, getUserByLogin } from '@/firebase/user';
 import { GetLoginQueryProps } from '@/types/userQuery';
 import { useQuery } from '@tanstack/react-query';
@@ -11,10 +12,30 @@ const GetAllUserQuery = () => {
   return query;
 };
 
-const GetLoginQuery = ({ user, password }: GetLoginQueryProps) => {
+const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
   const query = useQuery({
     queryKey: ['user'],
-    queryFn: async () => await getUserByLogin({ user, password }),
+    queryFn: async () => {
+      const resultUser = await loginFirebase({
+        user: user!,
+        password: password!,
+      });
+      if (resultUser && resultUser.user) {
+        const getUser = {
+          uid: resultUser.user.uid,
+          email: resultUser.user.email!,
+          emailVerified: resultUser.user.emailVerified,
+          displayName: resultUser.user.displayName!,
+        };
+        localStorage.setItem('@user', JSON.stringify(getUser));
+        return getUser;
+      } else {
+        //create account if user not exist and exist in woocommerce
+        return null;
+      }
+    },
+    retry: false,
+    enabled: sendLogin,
   });
   return query;
 };

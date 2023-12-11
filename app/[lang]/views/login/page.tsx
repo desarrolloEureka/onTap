@@ -1,12 +1,19 @@
 'use client';
+import CustomCircularProgress from '@/components/customCircularProgress/CustomCircularProgress';
 import Login from '@/components/login/Login';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import { Locale } from 'i18n-config';
-import React from 'react';
+import LoginHookMain from './hooks/LoginHookMain';
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
-  return dictionary && <Login dictionary={dictionary} />;
+  const { isLoading, user } = LoginHookMain();
+
+  return !user && !isLoading ? (
+    dictionary && <Login dictionary={dictionary} />
+  ) : (
+    <CustomCircularProgress isOpen />
+  );
 };
 
 export default Page;
