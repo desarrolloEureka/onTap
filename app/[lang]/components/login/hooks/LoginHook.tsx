@@ -1,40 +1,70 @@
-import { loginFirebase } from '@/firebase/auth';
+import ValidatorSession from '@/hooks/validatorSession/ValidatorSession';
+import { GetLoginQuery } from '@/reactQuery/users';
+import { Dictionary } from '@/types/dictionary';
 import { LoginError } from '@/types/login';
-import { User } from '@/types/user';
-import { UserCredential } from 'firebase/auth';
-import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
-const LoginHook = () => {
-  const [user, setUser] = useState<User | null>(null);
+const LoginHook = (dictionary: Dictionary) => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [errorForm, setErrorForm] = useState<LoginError | null>(null);
+  const [sendLogin, setSendLogin] = useState(false);
+  const { data, isLoading, isRefetching } = GetLoginQuery({
+    user: email,
+    password,
+    sendLogin,
+  });
 
   const loginHandle = async () => {
     if (email && password) {
-      //   const getLogin = await loginFirebase({ user: email, password });
-      //   console.log(getLogin.user);
-      //   if (getLogin.user) {
-      //     // setUser(getLogin.user)
-      //   } else {
-      //     setUser(null);
-      //   }
+      setErrorForm(null);
+      setSendLogin(true);
     } else {
+      setSendLogin(false);
       !email
         ? setErrorForm({
             errorType: 1,
-            errorMessage: 'el correo es obligatorio',
+            errorMessage: dictionary.loginView.mailMandatory,
           })
         : null;
       !password
         ? setErrorForm({
             errorType: 2,
-            errorMessage: 'el password es obligatorio',
+            errorMessage: dictionary.loginView.passwordMandatory,
           })
         : null;
     }
   };
-  return { loginHandle, setEmail, setPassword, errorForm };
+
+  const userIsLogged = useCallback(() => {
+    data
+      ? router.push('/views/home')
+      : sendLogin &&
+        (setSendLogin(false),
+        setErrorForm({
+          errorType: 3,
+          errorMessage: dictionary.loginView.userNotFound,
+        }));
+  }, [data, dictionary.loginView.userNotFound, router, sendLogin]);
+
+  useEffect(() => {
+    userIsLogged();
+  }, [userIsLogged]);
+
+  useEffect(() => {}, []);
+
+  return {
+    loginHandle,
+    setEmail,
+    setPassword,
+    errorForm,
+    isLoading,
+    isRefetching,
+    email,
+    password,
+  };
 };
 
 export default LoginHook;

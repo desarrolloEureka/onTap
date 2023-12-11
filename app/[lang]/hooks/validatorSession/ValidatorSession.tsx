@@ -1,13 +1,10 @@
-import { SetLangQuery } from '@/reactQuery/lang';
-import { Locale } from 'i18n-config';
+import useHomeHook from '@/hooks/home/homeHook';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import useHomeHook from '@/views/home/hook/homeHook';
 
-const NavigatorHook = (lang: Locale) => {
+const ValidatorSession = () => {
   const router = useRouter();
   const { isLoading, user, error } = useHomeHook();
-  SetLangQuery(lang);
 
   useEffect(() => {
     router && user ? router.push('/views/home') : router.push('/views/login');
@@ -16,4 +13,4 @@ const NavigatorHook = (lang: Locale) => {
   return { isLoading, error };
 };
 
-export default NavigatorHook;
+export default ValidatorSession;

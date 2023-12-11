@@ -1,1 +1,5 @@
-export type GetLoginQueryProps = { user: string; password: string };
+export type GetLoginQueryProps = {
+  user: string | undefined;
+  password: string | undefined;
+  sendLogin: boolean;
+};

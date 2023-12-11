@@ -13,7 +13,10 @@
     "username": "Usuario",
     "password": "Contraseña",
     "login": "Ingresar",
-    "recoverPassLogin": "Recuperar Contraseña"
+    "recoverPassLogin": "Recuperar Contraseña",
+    "mailMandatory": "El correo es obligatorio",
+    "passwordMandatory": "La contraseña es obligatoria",
+    "userNotFound": "Usuario no encontrado"
   },
   "homeView": {
     "views": "Visualizaciones del perfil",

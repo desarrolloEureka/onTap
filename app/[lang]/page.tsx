@@ -1,11 +1,19 @@
 'use client';
-import { CircularProgress } from '@mui/material';
+import ValidatorSession from '@/hooks/validatorSession/ValidatorSession';
 import { Locale } from 'i18n-config';
-import NavigatorHook from './hooks/navigator/NavigatorHook';
+import CustomCircularProgress from './components/customCircularProgress/CustomCircularProgress';
+import { SetLangQuery } from './reactQuery/lang';
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
-  const { isLoading, error } = NavigatorHook(lang);
-  return isLoading ? <CircularProgress /> : error ? <>Error 500</> : <></>;
+  SetLangQuery(lang);
+  const { isLoading, error } = ValidatorSession();
+  return isLoading ? (
+    <CustomCircularProgress isOpen />
+  ) : error ? (
+    <>Error 500</>
+  ) : (
+    <></>
+  );
 };
 
 export default Page;
