@@ -18,5 +18,35 @@ export interface Dictionary {
     userNotFound: string;
   };
   passwordChangedSuccessfully: string;
-  perfilView: { labelHello: string; labelFirstName: string; labelLastName: string; labelProfession: string; labelOccupation: string; labelAddress: string; labelPhone: string; labelEmail: string; buttonSeeMore: string; addAnotherPhone: string; addAnotherEmail: string; buttonAddData: string; titleNewData: string; labelDataName: string; labelOptionalUrl: string; }
+  perfilView: {
+    labelHello: string;
+    labelFirstName: string;
+    labelLastName: string;
+    labelProfession: string;
+    labelOccupation: string;
+    labelAddress: string;
+    labelPhone: string;
+    labelEmail: string;
+    buttonSeeMore: string;
+    addAnotherPhone: string;
+    addAnotherEmail: string;
+    buttonAddData: string;
+    titleNewData: string;
+    labelDataName: string;
+    labelOptionalUrl: string;
+    labelCompany: string;
+    labelPosition: string;
+    labelProfessionalProfile: string;
+    labelOtherCompetencies: string;
+    labelSkills: string;
+    labelLanguages: string;
+    labelRecognitions: string;
+    labelEducation: string;
+    labelTitle: string;
+    labelInstitute: string;
+    labelYear: string;
+    labelStartDate: string;
+    labelEndDate: string;
+    labelCareerPath: string;
+  }
 }
