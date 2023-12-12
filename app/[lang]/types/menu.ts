@@ -1,3 +1,8 @@
-import { Dictionary } from "./dictionary";
+import { Dictionary } from './dictionary';
 
-export type MenuProps={dictionary:Dictionary}
+export type MenuProps = {
+  dictionary: Dictionary;
+  handleChange: any;
+  value: number;
+  children?: React.ReactNode;
+};

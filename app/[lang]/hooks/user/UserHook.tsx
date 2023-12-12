@@ -2,7 +2,7 @@ import { GetUser } from '@/reactQuery/users';
 import { UserData } from '@/types/user';
 import { useEffect, useState } from 'react';
 
-const useHomeHook = () => {
+const UserHook = () => {
   const [user, setUser] = useState<UserData>();
   const [isLoadingData, setIsLoadingData] = useState(true);
   const { data, error } = GetUser();
@@ -22,4 +22,4 @@ const useHomeHook = () => {
   return { isLoading: isLoadingData, error, user };
 };
 
-export default useHomeHook;
+export default UserHook;

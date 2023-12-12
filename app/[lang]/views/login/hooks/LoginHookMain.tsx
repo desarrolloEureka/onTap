@@ -1,10 +1,10 @@
-import useHomeHook from '@/hooks/home/homeHook';
+import UserHook from '@/hooks/user/UserHook';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const LoginHookMain = () => {
   const router = useRouter();
-  const { isLoading, user, error } = useHomeHook();
+  const { isLoading, user, error } = UserHook();
 
   useEffect(() => {
     user && router.push('/views/home');

@@ -135,7 +135,6 @@ const RecoverPassword = ({
       )}
       {step === 3 && (
         <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-          {/* {dictionary && <Menu dictionary={dictionary} />} */}
           <Container className='tw-bg-primary tw-shadow-md tw-pt-16 tw-rounded-2xl tw-h-[513px] tw-w-[794px] flex tw-justify-center  tw-justify-items-center tw-text-center '>
             <div>
               <h1 className='tw-mt-[10px] tw-text-white tw-text-3xl'>
@@ -186,7 +185,6 @@ const RecoverPassword = ({
       )}
       {step === 4 && (
         <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-          {/* {dictionary && <Menu dictionary={dictionary} />} */}
           <Container className='tw-relative tw-bg-primary tw-pt-16 tw-shadow-md tw-rounded-2xl tw-h-[618px] tw-w-[794px] flex tw-justify-center  tw-justify-items-center tw-text-center '>
             <div>
               <h1 className='tw-mt-[10px] tw-text-white tw-text-3xl'>
