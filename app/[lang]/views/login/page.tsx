@@ -15,5 +15,4 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     <CustomCircularProgress isOpen />
   );
 };
-
 export default Page;

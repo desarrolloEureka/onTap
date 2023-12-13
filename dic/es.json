@@ -16,7 +16,8 @@
     "recoverPassLogin": "Recuperar Contraseña",
     "mailMandatory": "El correo es obligatorio",
     "passwordMandatory": "La contraseña es obligatoria",
-    "userNotFound": "Usuario no encontrado"
+    "userNotFound": "Usuario no encontrado",
+    "recoverPass": "Recuperar Contraseña"
   },
   "homeView": {
     "views": "Visualizaciones del perfil",
@@ -36,21 +37,21 @@
     "back": "Regresar"
   },
   "recoveryCode": {
-    "recoverycode": "Codigo de Recuperacion",
-    "enter_the_recovery_code_that_we_have_sent_to_your_email": "Ingresa el código de recuperación que hemos enviado a tu correo electrónico",
+    "titleCode": "Codigo de Recuperacion",
+    "descriptionCode": "Ingresa el código de recuperación que hemos enviado a tu correo electrónico",
     "code": "Codigo",
     "nextCode": "Siguiente",
-    "resendcode": "Reenviar codigo",
+    "resendCode": "Reenviar codigo",
     "backCode": "Regresar"
   },
   "newPassword": {
-    "createnewpassword": "Crear Nueva Contraseña",
-    "newpassword": "Nueva contraseña",
-    "repeatpassword": "Repetir contraseña",
-    "nextnewpassword": "Siguiente"
+    "createNewPass": "Crear Nueva Contraseña",
+    "nPassword": "Nueva contraseña",
+    "repeatPassword": "Repetir contraseña",
+    "nextNewPassword": "Siguiente"
   },
   "passwordChangedSuccessfully": "Contraseña modificada con exito",
-  "perfilView": {
+  "profileView": {
     "labelHello": "Hola",
     "labelFirstName": "Nombres",
     "labelLastName": "Apellidos",
