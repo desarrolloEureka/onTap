@@ -15,6 +15,7 @@ const Login = ({ dictionary }: LoginProps) => {
   // const { data } = GetLangQuery();
   // const lang = (data ? data.toString() : "es") as Locale;
   // const { dictionary } = useDictionary({ lang });
+
   const {
     loginHandle,
     setPassword,
