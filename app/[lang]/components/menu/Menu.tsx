@@ -114,6 +114,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
                 />
               }
               {...a11yProps(3)}
+              disabled
             />
           </Tabs>
         </Box>
