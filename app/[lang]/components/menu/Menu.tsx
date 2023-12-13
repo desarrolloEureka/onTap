@@ -29,8 +29,6 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
     value: number;
     index: number;
   }) => {
-    console.log('value', value);
-
     return (
       <Box>
         <IconButton

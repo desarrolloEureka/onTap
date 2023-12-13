@@ -37,8 +37,6 @@ const HomeHook = () => {
     }
   };
 
-  console.log('navTab', value);
-
   return { HandleNavTab, handleChange, value };
 };
 

@@ -15,6 +15,7 @@ const Login = ({ dictionary }: LoginProps) => {
   // const { data } = GetLangQuery();
   // const lang = (data ? data.toString() : "es") as Locale;
   // const { dictionary } = useDictionary({ lang });
+
   const {
     loginHandle,
     setPassword,
@@ -87,16 +88,25 @@ const Login = ({ dictionary }: LoginProps) => {
               >
                 {dictionary.loginView.password}{' '}
                 {errorForm?.errorType === 2 && (
-                  <span className='tw-text-red-500'>
-                    {errorForm.errorMessage} *
+                  <span className='tw-text-red-500 tw-underline'>
+                    {errorForm.errorMessage}
                   </span>
                 )}
               </Typography>
-              {errorForm?.errorType && (
-                <Typography className='tw-text-red-500'>
-                  {errorForm.errorMessage}
-                </Typography>
-              )}
+
+              <Typography
+                className='tw-text-white tw-mt-3 tw-mr-72 tw-w-full'
+                variant='body2'
+                color='textSecondary'
+                display={'flow'}
+              >
+                {errorForm?.errorType === 3 && (
+                  <span className='tw-text-red-500 tw-underline'>
+                    {errorForm.errorMessage}
+                  </span>
+                )}
+              </Typography>
+
               <Button className='tw-text-white' onClick={loginHandle}>
                 {dictionary.loginView.login}
               </Button>

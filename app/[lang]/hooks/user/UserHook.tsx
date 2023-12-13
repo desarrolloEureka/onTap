@@ -16,7 +16,7 @@ const UserHook = () => {
   };
 
   useEffect(() => {
-    data && !user && userHandle(data);
+    data ? !user && userHandle(data) : setIsLoadingData(false);
   }, [data, user]);
 
   return { isLoading: isLoadingData, error, user };

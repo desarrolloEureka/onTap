@@ -4,10 +4,23 @@ export interface Dictionary {
   rememberPasswordDescription: string;
   mainMenu: string;
   mainTab: { tab1: string; tab2: string; tab3: string; tab4: string };
-  homeView: { views: string; title: string; profileSwitchLabel: string; cardSwitchLabel: string; social: string; professional: string; corporate: string; selectModalTitle: string; saveButtonLabel: string; };
-  recoverPassword: { recoverpassword: string; mail: string; next: string; back: string; };
-  recoveryCode: { nextCode: string; backCode: string; resendcode: string; code: string; enter_the_recovery_code_that_we_have_sent_to_your_email: string; recoverycode: string; }
-  newPassword: { createnewpassword: string; newpassword: string; repeatpassword: string; nextnewpassword: string }
+  homeView: {
+    views: string;
+    title: string;
+    profileSwitchLabel: string;
+    cardSwitchLabel: string;
+    social: string;
+    professional: string;
+    corporate: string;
+    selectModalTitle: string;
+    saveButtonLabel: string;
+  };
+  recoverPassword: {
+    recoverPassword: string;
+    mail: string;
+    next: string;
+    back: string;
+  };
   loginView: {
     username: string;
     password: string;
@@ -17,8 +30,7 @@ export interface Dictionary {
     passwordMandatory: string;
     userNotFound: string;
   };
-  passwordChangedSuccessfully: string;
-  perfilView: {
+  profileView: {
     labelHello: string;
     labelFirstName: string;
     labelLastName: string;
@@ -48,5 +60,20 @@ export interface Dictionary {
     labelStartDate: string;
     labelEndDate: string;
     labelCareerPath: string;
-  }
+  };
+  recoveryCode: {
+    nextCode: string;
+    backCode: string;
+    resendCode: string;
+    code: string;
+    descriptionCode: string;
+    titleCode: string;
+  };
+  newPassword: {
+    createNewPass: string;
+    nPassword: string;
+    repeatPassword: string;
+    nextNewPassword: string;
+  };
+  passwordChangedSuccessfully: string;
 }

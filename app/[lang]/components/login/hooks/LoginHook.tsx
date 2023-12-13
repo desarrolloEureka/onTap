@@ -53,8 +53,6 @@ const LoginHook = (dictionary: Dictionary) => {
     userIsLogged();
   }, [userIsLogged]);
 
-  useEffect(() => {}, []);
-
   return {
     loginHandle,
     setEmail,
