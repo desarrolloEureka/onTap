@@ -1,18 +1,12 @@
-"use client";
-import useDictionary from "@/hooks/dictionary/useDictionary";
-import { Locale } from "i18n-config";
-import { useState } from "react";
-import RecoveryPassword from "./components/RecoveryPassword";
-import RecoveryCode from "./components/RecoveryCode";
-import CreateNewPassword from "./components/CreateNewPassword";
-import PasswordModifiedSuccessfully from "./components/PasswordModifiedSuccessfully";
-import Container from "@mui/material/Container";
-import { Button } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import Image from "next/image";
-import Link from "next/link";
+'use client';
+import useDictionary from '@/hooks/dictionary/useDictionary';
+import CreateNewPassword from '@/views/recoverPassword/components/CreateNewPassword';
+import PasswordModifiedSuccessfully from '@/views/recoverPassword/components/PasswordModifiedSuccessfully';
+import RecoveryCode from '@/views/recoverPassword/components/RecoveryCode';
+import RecoveryPassword from '@/views/recoverPassword/components/RecoveryPassword';
+import { Locale } from 'i18n-config';
+import Link from 'next/link';
+import { useState } from 'react';
 
 const RecoverPassword = ({
   params: { lang },
@@ -34,7 +28,7 @@ const RecoverPassword = ({
     <div>
       {step === 1 && (
         <RecoveryPassword
-          params={{ lang: "es" }}
+          params={{ lang: 'es' }}
           handleBack={handleBack}
           handleNext={handleNext}
         />
@@ -42,14 +36,14 @@ const RecoverPassword = ({
 
       {step === 2 && (
         <RecoveryCode
-          params={{ lang: "es" }}
+          params={{ lang: 'es' }}
           handleBack={handleBack}
           handleNext={handleNext}
         />
       )}
       {step === 3 && (
         <CreateNewPassword
-          params={{ lang: "es" }}
+          params={{ lang: 'es' }}
           handleBack={handleBack}
           handleNext={handleNext}
         />
@@ -57,15 +51,15 @@ const RecoverPassword = ({
       {step === 4 && (
         <>
           <PasswordModifiedSuccessfully
-            params={{ lang: "es" }}
+            params={{ lang: 'es' }}
             handleBack={handleBack}
             handleNext={handleNext}
           />
           <div>
-            <Link href="/views/homeThree">Home 3</Link>
+            <Link href='/views/homeThree'>Home 3</Link>
           </div>
           <div>
-            <Link href="/views/crudN">CRUD</Link>
+            <Link href='/views/crudN'>CRUD</Link>
           </div>
         </>
       )}
