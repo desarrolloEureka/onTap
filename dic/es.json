@@ -77,9 +77,10 @@
     "buttonSeeMore": "Ver más",
     "addAnotherPhone": "Agregar otro teléfono",
     "addAnotherEmail": "Agregar otro correo",
-    "buttonAddData": "Agregar dato",
-    "titleNewData": "Nuevo Dato",
+    "buttonAddData": "Agregar Url",
+    "titleNewData": "Url nuevo",
     "labelDataName": "Nombre del dato",
-    "labelOptionalUrl": "URL opcional"
+    "labelOptionalUrl": "URL opcional",
+    "labelSwitchMain": "Switch Madre"
   }
 }
