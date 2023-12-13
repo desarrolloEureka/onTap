@@ -41,7 +41,7 @@ const ModalProfile = ({
 
   return (
     <Modal
-      className='tw-flex tw-justify-center tw-justify-items-center tw-pt-44 tw-pb-44'
+      className='tw-flex tw-justify-center tw-justify-items-center tw-pt-40 tw-pb-40'
       open={isModalOpen}
       onClose={handleModal}
       aria-labelledby='modal-modal-title'
@@ -191,7 +191,7 @@ const ModalProfile = ({
                 />
               }
             >
-              <span style={{ color: '#000000 ', fontSize: '1rem' }}>
+              <span style={{ color: '#000000 ', fontSize: '1rem', textTransform: 'none' }}>
                 {dictionary?.profileView.buttonAddData}
               </span>
             </Button>
