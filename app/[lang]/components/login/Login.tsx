@@ -75,7 +75,7 @@ const Login = ({ dictionary }: LoginProps) => {
                 id='outlined-password'
                 label={dictionary.loginView.password}
                 type='password'
-                defaultValue=''
+                defaultValue={password}
                 variant='outlined'
                 InputProps={{ className: 'tw-rounded-3xl' }}
                 onChange={(e) => setPassword(e.target.value)}
@@ -88,6 +88,19 @@ const Login = ({ dictionary }: LoginProps) => {
               >
                 {dictionary.loginView.password}{' '}
                 {errorForm?.errorType === 2 && (
+                  <span className='tw-text-red-500 tw-underline'>
+                    {errorForm.errorMessage}
+                  </span>
+                )}
+              </Typography>
+
+              <Typography
+                className='tw-text-white tw-mt-3 tw-mr-72 tw-w-full'
+                variant='body2'
+                color='textSecondary'
+                display={'flow'}
+              >
+                {errorForm?.errorType === 3 && (
                   <span className='tw-text-red-500 tw-underline'>
                     {errorForm.errorMessage}
                   </span>
