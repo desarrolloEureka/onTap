@@ -49,33 +49,19 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     setItemDetail(numItem);
   };
 
-
   return (
-    <div>
-      <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
-        {dictionary && <Menu dictionary={dictionary} />}
-        {dictionary &&
-          <PhotoUser
-            dictionary={dictionary}
-          />
-        }
+    dictionary && (
+      <div>
+        <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
+          <PhotoUser dictionary={dictionary} />
+          <div
+            className={`tw-flex tw-items-center tw-justify-center ${
+              isProUser ? 'tw-h-[1500px]' : 'tw-h-[550px]'
+            }`}
+          >
+            <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] tw-flex tw-items-start tw-justify-center'>
+              <FormDataUser dictionary={dictionary} isProUser={isProUser} />
 
-        {isProUser ?
-          null
-          :
-          null
-        }
-
-        <div className={`tw-flex tw-items-center tw-justify-center ${isProUser ? 'tw-h-[1500px]' : 'tw-h-[550px]'}`}>
-          <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] tw-flex tw-items-start tw-justify-center'>
-            {dictionary &&
-              <FormDataUser
-                dictionary={dictionary}
-                isProUser={isProUser}
-              />
-            }
-
-            {dictionary &&
               <FormAddDataUser
                 isDetailOpen={isDetailOpen}
                 itemDetail={itemDetail}
@@ -83,27 +69,20 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                 dictionary={dictionary}
                 isProUser={isProUser}
               />
-            }
-          </Container>
+            </Container>
+          </div>
+
+          <FooterProfile handleModal={handleModal} dictionary={dictionary} />
         </div>
 
-        {dictionary &&
-          <FooterProfile
-            handleModal={handleModal}
-            dictionary={dictionary}
-          />
-        }
-      </div >
-
-      {dictionary &&
         <ModalProfile
           isModalOpen={isModalOpen}
           handleModal={handleModal}
           dictionary={dictionary}
         />
-      }
-    </div >
+      </div>
+    )
   );
-}
+};
 
-export default Page
+export default Page;
