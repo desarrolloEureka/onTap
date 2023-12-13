@@ -45,54 +45,58 @@ const Login = ({ dictionary }: LoginProps) => {
               />
             </Box>
             <Box className='tw-w-[386px]'>
-              <TextField
-                className='tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm  '
-                required
-                id='outlined-required'
-                label={dictionary.loginView.username}
-                defaultValue={email}
-                variant='outlined'
-                InputProps={{ className: 'tw-rounded-3xl' }}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Typography
-                className='tw-text-white tw-mt-3 tw-mr-80 tw-w-full'
+            <Typography
+                className='tw-text-white  tw-mt-10 tw-w-full'
                 variant='body2'
                 color='textSecondary'
                 display={'flow'}
               >
                 {dictionary.loginView.username}{' '}
-                {errorForm?.errorType === 1 && (
+              </Typography>
+              <TextField
+                className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
+                required
+                id='outlined-required'
+               // label={dictionary.loginView.username}
+                defaultValue={email}
+                variant='outlined'
+                InputProps={{ className: 'tw-rounded-3xl' }}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {errorForm?.errorType === 1 && (
                   <span className='tw-text-red-500'>
                     {errorForm.errorMessage} *
                   </span>
                 )}
+               <Typography
+                className='tw-text-white tw-mt-3  tw-w-full'
+                variant='body2'
+                color='textSecondary'
+                display={'flow'}
+              >
+                {dictionary.loginView.password}{' '}
               </Typography>
-
               <TextField
-                className='tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm  '
+                className='tw-h-[52px] tw-w-[386px] tw-mt-1 tw-text-sm  '
                 required
                 id='outlined-password'
-                label={dictionary.loginView.password}
+                // label={dictionary.loginView.password}
                 type='password'
                 defaultValue={password}
                 variant='outlined'
                 InputProps={{ className: 'tw-rounded-3xl' }}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Typography
-                className='tw-text-white tw-mt-3 tw-mr-72 tw-w-full'
-                variant='body2'
-                color='textSecondary'
-                display={'flow'}
-              >
-                {dictionary.loginView.password}{' '}
-                {errorForm?.errorType === 2 && (
+                <Button className='tw-text-white tw-ml-[180px]'>
+                <Link href='/views/recoverPassword'>
+                  {dictionary.loginView.recoverPassLogin}
+                </Link>
+              </Button>
+             {errorForm?.errorType === 2 && (
                   <span className='tw-text-red-500 tw-underline'>
                     {errorForm.errorMessage}
                   </span>
                 )}
-              </Typography>
 
               <Typography
                 className='tw-text-white tw-mt-3 tw-mr-72 tw-w-full'
@@ -106,15 +110,11 @@ const Login = ({ dictionary }: LoginProps) => {
                   </span>
                 )}
               </Typography>
-
-              <Button className='tw-text-white' onClick={loginHandle}>
+              
+              <Button className='tw-text-white tw-ml-36' onClick={loginHandle}>
                 {dictionary.loginView.login}
               </Button>
-              <Button className='tw-text-white'>
-                <Link href='/views/recoverPassword'>
-                  {dictionary.loginView.recoverPassLogin}
-                </Link>
-              </Button>
+            
             </Box>
           </>
         )}
