@@ -78,7 +78,7 @@ const Login = ({ dictionary }: LoginProps) => {
           </Button>
           <Button className='tw-text-white'>
             <Link href='/views/recoverPassword'>
-              {dictionary.loginView.recoverPassLogin}
+              {dictionary.loginView.recoverPass}
             </Link>
           </Button>
         </Box>
