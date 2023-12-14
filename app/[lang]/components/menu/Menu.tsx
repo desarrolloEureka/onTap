@@ -44,7 +44,6 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
       </Box>
     );
   };
-
   return (
     <Box sx={{ width: '100%' }}>
       <Box

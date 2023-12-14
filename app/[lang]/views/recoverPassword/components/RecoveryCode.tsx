@@ -80,13 +80,13 @@ const RecoveryCode = ({
         </div>
         <div>
         <Button
-          className="tw-w-[184px] tw-h-[45px] tw-mt-1 tw-rounded-3xl tw-bg-white  tw-items-center tw-mx-2"
+          className="tw-w-[184px] tw-h-[45px] tw-mt-1 tw-rounded-3xl tw-bg-white  tw-items-center tw-mx-12"
           onClick={handleNext}
         >
           {dictionary?.recoveryCode.nextCode}
         </Button>
         <Button
-          className="tw-w-[184px] tw-h-[45px] tw-mt-1 tw-rounded-3xl tw-bg-white  tw-items-center tw-mx-2 "
+          className="tw-w-[184px] tw-h-[45px] tw-mt-1 tw-rounded-3xl tw-bg-white  tw-items-center tw-mx-10 "
           onClick={handleBack}
         >
           {dictionary?.recoveryCode.backCode}

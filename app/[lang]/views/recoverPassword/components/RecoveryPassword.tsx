@@ -42,13 +42,13 @@ const RecoveryPassword = ({
         </Typography>
         <div className='tw-flex tw-flex-row tw-justify-center tw-items-center'>
           <Button
-            className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-2'
+            className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-10'
             onClick={handleNext}
           >
             {dictionary?.recoverPassword.next}
           </Button>
           <Button
-            className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-2'
+            className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-12'
             onClick={handleNext}
           >
             <Link href='/views/login'>{dictionary?.recoverPassword.back}</Link>
