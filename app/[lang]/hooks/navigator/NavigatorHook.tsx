@@ -2,7 +2,7 @@ import { SetLangQuery } from '@/reactQuery/lang';
 import { Locale } from 'i18n-config';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import useHomeHook from '@/views/home/hook/homeHook';
+import useHomeHook from '@/hooks/home/homeHook';
 
 const NavigatorHook = (lang: Locale) => {
   const router = useRouter();

@@ -1,43 +1,39 @@
-import { useState } from 'react';
+import { TabPanelProps } from '@/types/home';
+import { Box, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 0, height: '100vh' }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
 const HomeHook = () => {
   const [value, setValue] = useState(0);
+  const [isProUser, setIsProUser] = useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const Tab1 = () => {
-    return <div>Tab1</div>;
-  };
-  const Tab2 = () => {
-    return <div>Tab2</div>;
-  };
-  const Tab3 = () => {
-    return <div>Tab3</div>;
-  };
-  const Tab4 = () => {
-    return <div>Tab4</div>;
-  };
+  useEffect(() => {
+    value === 1 ? setIsProUser(false) : setIsProUser(true);
+  }, [value]);
 
-  const HandleNavTab = () => {
-    switch (value) {
-      case 1:
-        return <Tab2 />;
-        break;
-      case 2:
-        return <Tab3 />;
-        break;
-      case 3:
-        return <Tab4 />;
-        break;
-      default:
-        return <Tab1 />;
-        break;
-    }
-  };
-
-  return { HandleNavTab, handleChange, value };
+  return { handleChange, value, setIsProUser, isProUser, CustomTabPanel };
 };
 
 export default HomeHook;
