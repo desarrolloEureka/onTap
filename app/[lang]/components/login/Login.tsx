@@ -45,7 +45,7 @@ const Login = ({ dictionary }: LoginProps) => {
               />
             </Box>
             <Box className='tw-w-[386px]'>
-            <Typography
+              <Typography
                 className='tw-text-white  tw-mt-10 tw-w-full'
                 variant='body2'
                 color='textSecondary'
@@ -57,18 +57,18 @@ const Login = ({ dictionary }: LoginProps) => {
                 className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
                 required
                 id='outlined-required'
-               // label={dictionary.loginView.username}
+                // label={dictionary.loginView.username}
                 defaultValue={email}
                 variant='outlined'
                 InputProps={{ className: 'tw-rounded-3xl' }}
                 onChange={(e) => setEmail(e.target.value)}
               />
               {errorForm?.errorType === 1 && (
-                  <span className='tw-text-red-500'>
-                    {errorForm.errorMessage} *
-                  </span>
-                )}
-               <Typography
+                <span className='tw-text-red-500'>
+                  {errorForm.errorMessage} *
+                </span>
+              )}
+              <Typography
                 className='tw-text-white tw-mt-3  tw-w-full'
                 variant='body2'
                 color='textSecondary'
@@ -87,16 +87,16 @@ const Login = ({ dictionary }: LoginProps) => {
                 InputProps={{ className: 'tw-rounded-3xl' }}
                 onChange={(e) => setPassword(e.target.value)}
               />
-                <Button className='tw-text-white tw-ml-[180px]'>
+              <Button className='tw-text-white tw-ml-[180px]'>
                 <Link href='/views/recoverPassword'>
                   {dictionary.loginView.recoverPassLogin}
                 </Link>
               </Button>
-             {errorForm?.errorType === 2 && (
-                  <span className='tw-text-red-500 tw-underline'>
-                    {errorForm.errorMessage}
-                  </span>
-                )}
+              {errorForm?.errorType === 2 && (
+                <span className='tw-text-red-500 tw-underline'>
+                  {errorForm.errorMessage}
+                </span>
+              )}
 
               <Typography
                 className='tw-text-white tw-mt-3 tw-mr-72 tw-w-full'
@@ -110,11 +110,10 @@ const Login = ({ dictionary }: LoginProps) => {
                   </span>
                 )}
               </Typography>
-              
+
               <Button className='tw-text-white tw-ml-36' onClick={loginHandle}>
-                {dictionary.loginView.login}
+                {dictionary.loginView.login} oooo
               </Button>
-            
             </Box>
           </>
         )}

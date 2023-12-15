@@ -1,8 +1,8 @@
-"use client";
-import { useState } from "react";
-import Head from "next/head";
-import ItemForm from "./components/ItemForm";
-import ItemList from "./components/ItemList";
+'use client';
+import { useState } from 'react';
+import Head from 'next/head';
+import ItemForm from './components/ItemForm';
+import ItemList from './components/ItemList';
 type Item = {
   id: number;
   name: string;
@@ -17,13 +17,13 @@ export default function Home() {
   };
 
   return (
-    <div className="tw-container tw-mx-auto tw-p-4">
+    <div className='tw-container tw-mx-auto tw-p-4'>
       <Head>
         <title> CRUD </title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <h1 className="tw-text-4xl tw-font-bold tw-mb-8"> CRUD </h1>
+      <h1 className='tw-text-4xl tw-font-bold tw-mb-8'> CRUD </h1>
 
       <ItemForm onAddItem={handleAddItem} />
       <ItemList items={items} />

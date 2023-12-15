@@ -82,5 +82,6 @@
     "labelDataName": "Nombre del dato",
     "labelOptionalUrl": "URL opcional",
     "labelSwitchMain": "Switch Madre"
-  }
+  },
+  "logOut": "Salir"
 }

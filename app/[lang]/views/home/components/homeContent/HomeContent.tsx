@@ -9,6 +9,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Image from 'next/image';
+import LogOut from '@/hooks/logOut/LogOut';
 
 const dataList = [
   {
@@ -42,6 +43,7 @@ const HomeContent = ({ dictionary }: { dictionary: Dictionary }) => {
   const [optionSelected, setOptionSelected] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataOptions, setDataOptions] = useState(dataList);
+  const { logOut } = LogOut();
 
   const handleChangeOption = (optionNumber: number) => {
     setOptionSelected(optionNumber);
@@ -288,6 +290,7 @@ const HomeContent = ({ dictionary }: { dictionary: Dictionary }) => {
           </div>
         </div>
 
+        <Button onClick={logOut}>{dictionary?.logOut}</Button>
         {isModalOpen ? (
           <div
             className='tw-flex tw-justify-center tw-items-center '

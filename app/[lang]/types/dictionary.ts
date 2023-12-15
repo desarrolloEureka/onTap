@@ -19,7 +19,6 @@ export interface Dictionary {
     recoverPassword: string;
     mail: string;
     next: string;
-    back: string;
   };
   loginView: {
     username: string;
@@ -77,4 +76,5 @@ export interface Dictionary {
     nextNewPassword: string;
   };
   passwordChangedSuccessfully: string;
+  logOut: string;
 }

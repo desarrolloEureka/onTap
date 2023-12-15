@@ -1,4 +1,11 @@
-import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import { dataBase } from 'app/[lang]/firebase/firebaseConfig';
 import {
   AllRefPropsFirebase,
@@ -20,8 +27,10 @@ const loginRef = ({ user, password }: LoginRefProps) =>
     where('password', '==', password)
   );
 
-export const getUserById = (user: string) =>
-  ref({ ref: user, collection: 'users' });
+export const getUserById = async (user: string) =>
+  await getDoc(doc(dataBase, 'users', user));
+
+// ref({ ref: user, collection: 'users' });
 
 export const getAllUsers = async () => await getDocs(allRef({ ref: 'users' }));
 

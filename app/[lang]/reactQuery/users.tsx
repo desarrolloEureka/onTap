@@ -1,5 +1,5 @@
 import { loginFirebase } from '@/firebase/auth';
-import { getAllUsers, getUserByLogin } from '@/firebase/user';
+import { getAllUsers, getUserById, getUserByLogin } from '@/firebase/user';
 import { GetLoginQueryProps } from '@/types/userQuery';
 import { useQuery } from '@tanstack/react-query';
 
@@ -20,15 +20,27 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
         user: user!,
         password: password!,
       });
+      console.log('result', resultUser);
+
       if (resultUser && resultUser.user) {
-        const getUser = {
-          uid: resultUser.user.uid,
-          email: resultUser.user.email!,
-          emailVerified: resultUser.user.emailVerified,
-          displayName: resultUser.user.displayName!,
-        };
-        localStorage.setItem('@user', JSON.stringify(getUser));
-        return getUser;
+        console.log('uid', resultUser.user.uid);
+
+        const docSnap = await getUserById(resultUser.user.uid);
+        if (docSnap.exists()) {
+          const user = docSnap.data();
+
+          const getUser = {
+            uid: resultUser.user.uid,
+            email: resultUser.user.email!,
+            emailVerified: resultUser.user.emailVerified,
+            displayName: user.name,
+            isAdmin: user.is_admin,
+          };
+          localStorage.setItem('@user', JSON.stringify(getUser));
+          return getUser;
+        } else {
+          return null;
+        }
       } else {
         //create account if user not exist and exist in woocommerce
         return null;

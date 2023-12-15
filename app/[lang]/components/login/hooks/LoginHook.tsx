@@ -39,14 +39,16 @@ const LoginHook = (dictionary: Dictionary) => {
   };
 
   const userIsLogged = useCallback(() => {
+    setSendLogin(false);
     data
-      ? router.push('/views/home')
+      ? data.isAdmin
+        ? router.push('/views/backOffice')
+        : router.push('/views/home')
       : sendLogin &&
-        (setSendLogin(false),
         setErrorForm({
           errorType: 3,
           errorMessage: dictionary.loginView.userNotFound,
-        }));
+        });
   }, [data, dictionary.loginView.userNotFound, router, sendLogin]);
 
   useEffect(() => {
