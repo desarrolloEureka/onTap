@@ -3,7 +3,7 @@ import Business from '@mui/icons-material/Business';
 import Home from '@mui/icons-material/Home';
 import People from '@mui/icons-material/People';
 import Work from '@mui/icons-material/Work';
-import { Box, IconButton, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tab, Tabs, Typography } from '@mui/material';
 import Image from 'next/image';
 
 function a11yProps(index: number) {
@@ -15,7 +15,13 @@ function a11yProps(index: number) {
 
 const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
   const Logo = () => (
-    <Image src='/images/capa_1.png' alt='Logo One Tap' width='81' height='77' />
+    <Image
+      src='/images/capa_1.png'
+      alt='Logo One Tap'
+      width='81'
+      height='77'
+      priority
+    />
   );
 
   const Label = ({
@@ -31,19 +37,14 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
   }) => {
     return (
       <Box>
-        <IconButton
-          className={`tw-text-[24px]  ${
-            index === value ? 'tw-text-black' : 'tw-text-white'
-          }`}
-        >
-          {icon}
-        </IconButton>
+        {icon}
         <Typography color={`${index === value ? 'black' : 'white'}`}>
           {label}
         </Typography>
       </Box>
     );
   };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box
@@ -71,7 +72,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
             <Tab
               label={
                 <Label
-                  icon={<Home />}
+                  icon={<Home sx={{ color: value == 0 ? 'black' : 'white' }} />}
                   label={dictionary.mainTab.tab1}
                   value={value}
                   index={0}
@@ -82,7 +83,9 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
             <Tab
               label={
                 <Label
-                  icon={<People />}
+                  icon={
+                    <People sx={{ color: value == 1 ? 'black' : 'white' }} />
+                  }
                   label={dictionary.mainTab.tab2}
                   value={value}
                   index={1}
@@ -93,7 +96,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
             <Tab
               label={
                 <Label
-                  icon={<Work />}
+                  icon={<Work sx={{ color: value == 2 ? 'black' : 'white' }} />}
                   label={dictionary.mainTab.tab3}
                   value={value}
                   index={2}
@@ -104,7 +107,9 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
             <Tab
               label={
                 <Label
-                  icon={<Business />}
+                  icon={
+                    <Business sx={{ color: value == 3 ? 'black' : 'white' }} />
+                  }
                   label={dictionary.mainTab.tab4}
                   value={value}
                   index={3}

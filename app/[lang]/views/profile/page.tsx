@@ -1,8 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import {
-  Container,
-} from '@mui/material';
+import { Container } from '@mui/material';
 import ModalProfile from './components/ModalProfile';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import { Locale } from 'i18n-config';
@@ -31,13 +29,16 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     setItemDetail(numItem);
   };
 
+  console.log('isProUser', isProUser);
+
   return (
     dictionary && (
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center tw-h-screen">
         <PhotoUser dictionary={dictionary} />
         <div
-          className={`tw-flex tw-items-center tw-justify-center ${isProUser ? 'tw-h-[1500px]' : 'tw-h-[550px]'
-            }`}
+          className={`tw-flex tw-items-center tw-justify-center ${
+            isProUser ? 'tw-h-[1500px]' : 'tw-h-[550px]'
+          }`}
         >
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] tw-flex tw-items-start tw-justify-center'>
             <FormDataUser dictionary={dictionary} isProUser={isProUser} />

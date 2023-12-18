@@ -42,13 +42,13 @@ const Profile = ({
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] tw-flex tw-items-start tw-justify-center'>
             <FormDataUser dictionary={dictionary} isProUser={isProUser} />
 
-            <FormAddDataUser
+            {/*<FormAddDataUser
               isDetailOpen={isDetailOpen}
               itemDetail={itemDetail}
               handleSeeMore={handleSeeMore}
               dictionary={dictionary}
               isProUser={isProUser}
-            />
+            /> */}
           </Container>
         </div>
 

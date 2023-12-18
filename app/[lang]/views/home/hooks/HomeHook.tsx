@@ -1,5 +1,5 @@
 import { TabPanelProps } from '@/types/home';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 function CustomTabPanel(props: TabPanelProps) {
@@ -12,11 +12,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 0, height: '100vh' }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 0, height: '100vh' }}>{children}</Box>}
     </div>
   );
 }
