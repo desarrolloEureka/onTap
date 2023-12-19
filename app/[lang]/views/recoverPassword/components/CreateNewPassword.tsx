@@ -5,7 +5,6 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Locale } from 'i18n-config';
-import React, { useState } from 'react';
 
 const CreateNewPassword = ({
   params: { lang },
@@ -17,8 +16,6 @@ const CreateNewPassword = ({
   handleBack: () => void;
 }) => {
   const { dictionary } = useDictionary({ lang });
-
-  console.log('');
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>

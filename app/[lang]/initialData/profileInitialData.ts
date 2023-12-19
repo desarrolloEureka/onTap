@@ -1,11 +1,43 @@
+const dataPrincipalProfileEmail = {
+  label: '',
+  text: '',
+  checked: false,
+  principal: true,
+};
+const dataPrincipalProfilePhone = {
+  label: '',
+  text: '',
+  checked: false,
+  principal: true,
+};
+const dataPrincipalEducations = {
+  label: '',
+  title: '',
+  institution: '',
+  year: '',
+  checked: false,
+  principal: true,
+};
+const dataPrincipalCareer = {
+  label: '',
+  company: '',
+  position: '',
+  data_init: '',
+  data_end: '',
+  checked: false,
+  principal: true,
+};
 export const profile = {
-  name: { text: '', checked: false },
-  last_name: { text: '', checked: false },
-  profession: { text: '', checked: false },
-  occupation: { text: '', checked: false },
-  address: { text: '', checked: false },
-  company: { text: '', checked: false },
-  position: { text: '', checked: false },
-  professional_profile: { text: '', checked: false },
-  phones: [],
+  name: { label: '', text: '', checked: false },
+  last_name: { label: '', text: '', checked: false },
+  profession: { label: '', text: '', checked: false },
+  occupation: { label: '', text: '', checked: false },
+  address: { label: '', text: '', checked: false },
+  company: { label: '', text: '', checked: false },
+  position: { label: '', text: '', checked: false },
+  professional_profile: { label: '', text: '', checked: false },
+  phones: [dataPrincipalProfilePhone],
+  emails: [dataPrincipalProfileEmail],
+  education: [dataPrincipalEducations],
+  professional_career: [dataPrincipalCareer],
 };

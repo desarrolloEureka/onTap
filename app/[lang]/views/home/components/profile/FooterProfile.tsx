@@ -4,18 +4,46 @@ import { Button, Container } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
 import { Dictionary } from '@/types/dictionary';
+import ProfileHook from './hooks/ProfileHook';
 
-const FooterProfile = ({ handleModal, dictionary }: { handleModal: () => void, dictionary: Dictionary }) => {
+const FooterProfile = ({
+  handleModal,
+  dictionary,
+  dataForm,
+  setDataForm,
+}: {
+  handleModal: () => void;
+  dictionary: Dictionary;
+  setDataForm: (e: any) => void;
+  dataForm: any;
+}) => {
+  const { handleSwitchAll } = ProfileHook({
+    dictionary,
+    setDataForm,
+    dataForm,
+  });
   return (
     <div className='tw-h-[110px] tw-flex tw-items-center tw-justify-center '>
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
         <div className=' tw-h-[80%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
           <div className=' tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
             <div className=' tw-h-[30%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
-              <span style={{ color: '#000000', fontSize: '0.8rem', textTransform: 'none', fontWeight: 'bold' }}>{dictionary?.profileView.labelSwitchMain}</span>
+              <span
+                style={{
+                  color: '#000000',
+                  fontSize: '0.8rem',
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                }}
+              >
+                {dictionary?.profileView.labelSwitchMain}
+              </span>
             </div>
             <div className=' tw-h-[70%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
-              <CustomSwitchGeneral />
+              <CustomSwitchGeneral
+                name='all_true'
+                handleSwitch={(e: any) => handleSwitchAll(e)}
+              />
             </div>
           </div>
         </div>
@@ -35,7 +63,15 @@ const FooterProfile = ({ handleModal, dictionary }: { handleModal: () => void, d
                 />
               }
             >
-              <span style={{ color: '#030124 ', fontSize: '0.8rem', textTransform: 'none' }}>{dictionary?.profileView.buttonAddData}</span>
+              <span
+                style={{
+                  color: '#030124 ',
+                  fontSize: '0.8rem',
+                  textTransform: 'none',
+                }}
+              >
+                {dictionary?.profileView.buttonAddData}
+              </span>
             </Button>
           </div>
         </div>

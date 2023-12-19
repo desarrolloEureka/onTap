@@ -37,8 +37,6 @@ const ModalProfile = ({
     setShowUrls(!showUrls);
   };
 
-  console.log('');
-
   return (
     <Modal
       className='tw-flex tw-justify-center tw-justify-items-center tw-pt-40 tw-pb-40'
@@ -191,7 +189,13 @@ const ModalProfile = ({
                 />
               }
             >
-              <span style={{ color: '#000000 ', fontSize: '1rem', textTransform: 'none' }}>
+              <span
+                style={{
+                  color: '#000000 ',
+                  fontSize: '1rem',
+                  textTransform: 'none',
+                }}
+              >
                 {dictionary?.profileView.buttonAddData}
               </span>
             </Button>
