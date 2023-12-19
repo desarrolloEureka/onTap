@@ -35,9 +35,9 @@ const Profile = ({
   };
 
   const handleDataSet = (data: DataForm) => {
-    console.log('handleDataSet', data);
     setDataForm(data);
   };
+
   return (
     <div>
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
@@ -69,7 +69,7 @@ const Profile = ({
           handleModal={handleModal}
           dictionary={dictionary}
           dataForm={dataForm}
-          setDataForm={setDataForm}
+          handleDataSet={(e) => handleDataSet(e)}
         />
       </div>
 

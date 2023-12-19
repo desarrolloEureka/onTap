@@ -5,21 +5,22 @@ import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
 import { Dictionary } from '@/types/dictionary';
 import ProfileHook from './hooks/ProfileHook';
+import { DataForm } from '@/types/profile';
 
 const FooterProfile = ({
   handleModal,
   dictionary,
   dataForm,
-  setDataForm,
+  handleDataSet,
 }: {
   handleModal: () => void;
   dictionary: Dictionary;
-  setDataForm: (e: any) => void;
+  handleDataSet: (e: DataForm) => void;
   dataForm: any;
 }) => {
   const { handleSwitchAll } = ProfileHook({
     dictionary,
-    setDataForm,
+    handleDataSet,
     dataForm,
   });
   return (
