@@ -8,3 +8,18 @@ export interface TabPanelProps {
   index: number;
   value: number;
 }
+
+export interface Templates {
+  id: string;
+  name: string;
+  type: TemplateTypes;
+  image: string;
+}
+
+export interface BackgroundImages {
+  id: string;
+  name: string;
+  image: string;
+}
+
+export type TemplateTypes = 'social' | 'professional' | 'corporate';
