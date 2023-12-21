@@ -51,7 +51,7 @@ const RecoveryPassword = ({
             className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-12'
             onClick={handleNext}
           >
-            <Link href='/views/login'>{dictionary?.recoverPassword.back}</Link>
+            <Link href='/views/login'>{dictionary?.recoverPassword?.back}</Link>
           </Button>
         </div>
       </Container>
