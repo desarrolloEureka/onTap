@@ -24,6 +24,7 @@ const FormAddDataUser = ({
   isProUser: boolean;
   dictionary: Dictionary;
 }) => {
+  return <></>;
   return (
     <div className='tw-h-[95%] tw-w-[50%] tw-flex tw-flex-col tw-items-center tw-justify-start tw-mt-4 '>
       {isProUser ? (
@@ -46,7 +47,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherPhone}{' '}
                       </span>
                     </Button>
@@ -162,7 +169,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -187,7 +200,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherPhone}{' '}
                       </span>
                     </Button>
@@ -239,7 +258,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -266,7 +291,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherEmail}{' '}
                       </span>
                     </Button>
@@ -384,7 +415,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -409,7 +446,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherEmail}
                       </span>
                     </Button>
@@ -461,7 +504,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -488,7 +537,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherEmail}
                       </span>
                     </Button>
@@ -712,7 +767,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -737,7 +798,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherEmail}
                       </span>
                     </Button>
@@ -858,7 +925,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -885,7 +958,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherEmail}
                       </span>
                     </Button>
@@ -1161,7 +1240,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -1186,7 +1271,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherEmail}
                       </span>
                     </Button>
@@ -1333,7 +1424,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -1362,7 +1459,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherPhone}{' '}
                       </span>
                     </Button>
@@ -1478,7 +1581,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -1503,7 +1612,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherPhone}{' '}
                       </span>
                     </Button>
@@ -1555,7 +1670,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -1582,7 +1703,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherEmail}{' '}
                       </span>
                     </Button>
@@ -1702,7 +1829,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>
@@ -1727,7 +1860,13 @@ const FormAddDataUser = ({
                         />
                       }
                     >
-                      <span style={{ color: '#030124 ', fontSize: '0.6rem', textTransform: 'none' }}>
+                      <span
+                        style={{
+                          color: '#030124 ',
+                          fontSize: '0.6rem',
+                          textTransform: 'none',
+                        }}
+                      >
                         {dictionary?.profileView.addAnotherEmail}
                       </span>
                     </Button>
@@ -1779,7 +1918,13 @@ const FormAddDataUser = ({
                       />
                     }
                   >
-                    <span style={{ color: '#396593 ', fontSize: '0.8rem', textTransform: 'none' }}>
+                    <span
+                      style={{
+                        color: '#396593 ',
+                        fontSize: '0.8rem',
+                        textTransform: 'none',
+                      }}
+                    >
                       {dictionary?.profileView.buttonSeeMore} (2)
                     </span>
                   </Button>

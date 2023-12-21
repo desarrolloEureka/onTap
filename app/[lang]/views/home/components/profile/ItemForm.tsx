@@ -8,6 +8,7 @@ const ItemForm = ({
   name,
   handleSwitch,
   handleData,
+  checked,
 }: ItemFormParams) => {
   return (
     <Box className='tw-flex tw-flex-row'>
@@ -38,6 +39,7 @@ const ItemForm = ({
         <CustomSwitchGeneral
           name={name}
           handleSwitch={(e: any) => handleSwitch(e)}
+          checked={checked}
         />
       </Box>
     </Box>

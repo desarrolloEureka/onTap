@@ -8,6 +8,7 @@ const TextAreaForm = ({
   name,
   handleSwitch,
   handleData,
+  checked,
 }: ItemFormParams) => {
   return (
     <Box className='tw-flex tw-flex-row'>
@@ -40,6 +41,7 @@ const TextAreaForm = ({
         <CustomSwitchGeneral
           name={name}
           handleSwitch={(e: any) => handleSwitch(e)}
+          checked={checked}
         />
       </Box>
     </Box>
