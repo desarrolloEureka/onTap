@@ -74,7 +74,6 @@ const FormAddDataUser = ({
                 )
                   : (
                     value[0] == 'education' ? (
-                      <>
                         <ItemFormEducation
                           key={key}
                           dictionary={dictionary}
@@ -86,7 +85,7 @@ const FormAddDataUser = ({
                           value={value}
                           itemDetail={itemDetail}
                         />
-                      </>
+
                     ) :
                       (
                         <ItemFormProfessional
@@ -105,7 +104,6 @@ const FormAddDataUser = ({
 
               } else {
                 return value[0] == 'phones' || value[0] == 'emails' ? (
-                  <>
                     <ItemFormBasicInfo
                       key={key}
                       dictionary={dictionary}
@@ -118,7 +116,6 @@ const FormAddDataUser = ({
                       itemDetail={itemDetail}
                       isDetailOpen={isDetailOpen}
                     />
-                  </>
                 )
                   :
                   (null)

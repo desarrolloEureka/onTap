@@ -18,7 +18,6 @@ import {
 
 
 const ItemFormEducation = ({
-    key,
     dictionary,
     dataForm,
     handleDataSet,
@@ -30,7 +29,6 @@ const ItemFormEducation = ({
     value,
     itemDetail,
 }: {
-    key: number;
     dictionary: Dictionary;
     dataForm: DataForm;
     handleDataSet: (e: DataForm) => void;
@@ -48,9 +46,10 @@ const ItemFormEducation = ({
         handleDataSet,
     });
 
+    console.log("labelArray ", labelArray)
     return (
 
-        <div className={`${value[0] === 'education' && itemDetail === 3 && labelArray.length > 1  ? 'tw-h-[300px]' : 'tw-h-[200px]'} tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}>
+        <div className={`${value[0] === 'education' && itemDetail === 3 && labelArray.length > 1 ? 'tw-h-[300px]' : 'tw-h-[200px]'} tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}>
             <div className={`tw-h-[${labelArray.length * 20}px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}>
                 <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
                     <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
@@ -83,9 +82,9 @@ const ItemFormEducation = ({
 
                 <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
                     <div className='tw-w-[90%] tw-flex tw-flex-col '>
-                        {labelArray.map((val) => {
+                        {labelArray.map((val, key) => {
                             return (
-                                <>
+                                <div key={key}>
                                     <div className='tw-h-[100%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
                                         <div className='tw-h-[100%] tw-w-[70%] tw-flex tw-flex-col'>
                                             <TextField
@@ -119,9 +118,9 @@ const ItemFormEducation = ({
                                                         </>
                                                     ),
                                                 }}
-                                            /* onChange={(text: any) =>
-                                                handleData({ name: name, text: text.target.value })
-                                            } */
+                                                onChange={(text: any) =>
+                                                    handleData({ name: value[0], text: text.target.value, subindex: "title" })
+                                                }
                                             />
                                             <TextField
                                                 //id={`${name}-input`}
@@ -147,9 +146,9 @@ const ItemFormEducation = ({
                                                         </>
                                                     ),
                                                 }}
-                                            /*  onChange={(text: any) =>
-                                                 handleData({ name: name, text: text.target.value })
-                                             } */
+                                                onChange={(text: any) =>
+                                                    handleData({ name: value[0], text: text.target.value, subindex: "institution" })
+                                                }
                                             />
                                             <TextField
                                                 //id={`${name}-input`}
@@ -175,9 +174,9 @@ const ItemFormEducation = ({
                                                         </>
                                                     ),
                                                 }}
-                                            /* onChange={(text: any) =>
-                                                handleData({ name: name, text: text.target.value })
-                                            } */
+                                                onChange={(text: any) =>
+                                                    handleData({ name: value[0], text: text.target.value, subindex: "year" })
+                                                }
                                             />
                                             <FormHelperText id='standard-weight-helper-text'>
                                                 {dictionary?.profileView.labelEducation}
@@ -191,7 +190,7 @@ const ItemFormEducation = ({
                                             />
                                         </div>
                                     </div>
-                                </>
+                                </div>
                             );
                         })}
                     </div >

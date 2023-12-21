@@ -16,7 +16,6 @@ import {
 } from '@/types/profile';
 
 const ItemFormBasicInfo = ({
-    key,
     dictionary,
     dataForm,
     handleDataSet,
@@ -29,7 +28,6 @@ const ItemFormBasicInfo = ({
     itemDetail,
     isDetailOpen,
 }: {
-    key: number;
     dictionary: Dictionary;
     dataForm: DataForm;
     handleDataSet: (e: DataForm) => void;
@@ -49,7 +47,7 @@ const ItemFormBasicInfo = ({
     });
 
     return (
-        <div className={`${value[0] === 'phones' && itemDetail === 1 && labelArray.length > 1 ? 'tw-h-[300px]' : value[0] === 'emails' && itemDetail === 2 && labelArray.length > 1  ? 'tw-h-[300px]' : 'tw-h-[200px]'} tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}>
+        <div className={`${value[0] === 'phones' && itemDetail === 1 && labelArray.length > 1 ? 'tw-h-[300px]' : value[0] === 'emails' && itemDetail === 2 && labelArray.length > 1 ? 'tw-h-[300px]' : 'tw-h-[200px]'} tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}>
             <div className={`tw-h-[${labelArray.length * 20}px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}>
                 <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
                     <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
@@ -87,9 +85,9 @@ const ItemFormBasicInfo = ({
                 </div>
 
                 <div className='tw-min-h-[125px] tw-pb-3'>
-                    {labelArray.map((val) => {
+                    {labelArray.map((val, key) => {
                         return (
-                            <>
+                            <div key={key}>
                                 <ItemForm
                                     label={label!}
                                     handleSwitch={(e: any) => handleSwitch(e)}
@@ -98,8 +96,7 @@ const ItemFormBasicInfo = ({
                                     checked={val.checked}
                                     key={key}
                                 />
-
-                            </>
+                            </div>
                         );
                     })}
                 </div>
