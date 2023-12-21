@@ -25,13 +25,21 @@ const Profile = ({
     setIsModalOpen(!isModalOpen);
   };
 
+  /*   const handleSeeMore = (numItem: number) => {
+      if (isDetailOpen === true) {
+        setIsDetailOpen(false);
+        setItemDetail(0);
+      }
+      setIsDetailOpen(true);
+      setItemDetail(numItem);
+    }; */
+
   const handleSeeMore = (numItem: number) => {
-    if (isDetailOpen === true) {
-      setIsDetailOpen(false);
+    if (itemDetail != 0) {
       setItemDetail(0);
+    } else {
+      setItemDetail(numItem);
     }
-    setIsDetailOpen(true);
-    setItemDetail(numItem);
   };
 
   const handleDataSet = (data: DataForm) => {
@@ -43,9 +51,8 @@ const Profile = ({
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
         <PhotoUser dictionary={dictionary} />
         <div
-          className={`tw-flex tw-items-center tw-justify-center ${
-            isProUser ? 'tw-h-[1500px]' : 'tw-h-[550px]'
-          }`}
+          className={`tw-flex tw-items-center tw-justify-center ${isProUser ? 'tw-h-[1500px]' : 'tw-h-[750px]'
+            }`}
         >
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] tw-flex tw-items-start tw-justify-center'>
             <FormDataUser
@@ -54,13 +61,14 @@ const Profile = ({
               dataForm={dataForm}
               handleDataSet={(e) => handleDataSet(e)}
             />
-
             <FormAddDataUser
+              dictionary={dictionary}
+              isProUser={isProUser}
+              dataForm={dataForm}
+              handleDataSet={(e) => handleDataSet(e)}
               isDetailOpen={isDetailOpen}
               itemDetail={itemDetail}
               handleSeeMore={handleSeeMore}
-              dictionary={dictionary}
-              isProUser={isProUser}
             />
           </Container>
         </div>

@@ -31,6 +31,12 @@ const ProfileHook = ({
     ) {
       dataFormClone[index]!.checked = isChecked;
       handleDataSet(dataFormClone);
+    } else {
+      let dataAux = dataFormClone[index];
+      dataAux?.map((val) => {
+        val.checked = !val.checked;
+        handleDataSet(dataFormClone);
+      });
     }
   };
 
@@ -45,6 +51,12 @@ const ProfileHook = ({
     ) {
       dataFormClone[index]!.text = text;
       handleDataSet(dataFormClone);
+    } else {
+      let dataAux = dataFormClone[index];
+      dataAux?.map((val) => {
+        val.text = text;
+        handleDataSet(dataFormClone);
+      });
     }
   };
 
@@ -52,12 +64,14 @@ const ProfileHook = ({
     const dataFormClone = { ...dataForm };
     (index == 'phones' || index === 'emails') &&
       dataFormClone[index]?.push({
+        label: 'Teléfono',
         text: '',
         checked: false,
         principal: false,
       });
     index == 'education' &&
       dataFormClone[index]?.push({
+        label: 'Correo',
         title: '',
         institution: '',
         year: '',
@@ -127,6 +141,18 @@ const ProfileHook = ({
           break;
         case 'professional_profile':
           label = dictionary.profileView.labelProfessionalProfile;
+          break;
+        case 'other_competencies':
+          label = dictionary.profileView.labelOtherCompetencies;
+          break;
+        case 'skills':
+          label = dictionary.profileView.labelSkills;
+          break;
+        case 'languages':
+          label = dictionary.profileView.labelLanguages;
+          break;
+        case 'achievements_recognitions':
+          label = dictionary.profileView.labelRecognitions;
           break;
       }
       return label;
