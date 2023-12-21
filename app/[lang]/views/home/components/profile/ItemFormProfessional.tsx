@@ -19,7 +19,6 @@ import {
 
 
 const ItemFormProfessional = ({
-    key,
     dictionary,
     dataForm,
     handleDataSet,
@@ -31,7 +30,6 @@ const ItemFormProfessional = ({
     value,
     itemDetail,
 }: {
-    key: number;
     dictionary: Dictionary;
     dataForm: DataForm;
     handleDataSet: (e: DataForm) => void;
@@ -85,9 +83,9 @@ const ItemFormProfessional = ({
 
                 <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
                     <div className='tw-w-[90%] tw-flex tw-flex-col '>
-                        {labelArray.map((val) => {
+                        {labelArray.map((val, key) => {
                             return (
-                                <>
+                                <div key={key}>
                                     <div className='tw-h-[100%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
                                         <div className='tw-h-[100%] tw-w-[70%] tw-flex tw-flex-col'>
                                             <TextField
@@ -121,6 +119,9 @@ const ItemFormProfessional = ({
                                                         </>
                                                     ),
                                                 }}
+                                                onChange={(text: any) =>
+                                                    handleData({ name: value[0], text: text.target.value })
+                                                }
 
                                             />
                                             <TextField
@@ -213,7 +214,7 @@ const ItemFormProfessional = ({
                                             />
                                         </div>
                                     </div>
-                                </>
+                                </div>
                             );
                         })}
                     </div >

@@ -40,7 +40,7 @@ const ProfileHook = ({
     }
   };
 
-  const handleData = ({ name, text }: { name: string; text: string }) => {
+  const handleData = ({ name, text, subindex }: { name: string; text: string; subindex?: string; }) => {
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
     if (
@@ -52,11 +52,28 @@ const ProfileHook = ({
       dataFormClone[index]!.text = text;
       handleDataSet(dataFormClone);
     } else {
-      let dataAux = dataFormClone[index];
-      dataAux?.map((val) => {
-        val.text = text;
-        handleDataSet(dataFormClone);
-      });
+      if (index == 'phones' || index == 'emails') {
+        const dataAux = dataFormClone[index];
+        dataAux?.map((val) => {
+          val.text = text;
+          handleDataSet(dataFormClone);
+        });
+      } else if (index == 'education') {
+        /* const dataAux = dataFormClone[index];
+        //const EducationDataFormValuesClone = { ...EducationDataFormValues };
+        const key = subindex as keyof typeof EducationDataFormValues
+        if (subindex) {
+
+          console.log("subindex ", subindex);
+          console.log("dataAux ", dataAux);
+          dataAux?.map((val) => {
+            val[key] = text;
+            handleDataSet(dataFormClone);
+          });
+        } */
+      } else {
+        console.log("professional_career");
+      }
     }
   };
 
