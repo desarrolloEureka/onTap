@@ -3,12 +3,14 @@ const dataPrincipalProfileEmail = {
   text: '',
   checked: false,
   principal: true,
+  social: true
 };
 const dataPrincipalProfilePhone = {
   label: '',
   text: '',
   checked: false,
   principal: true,
+  social: true
 };
 const dataPrincipalEducations = {
   label: '',
@@ -17,6 +19,7 @@ const dataPrincipalEducations = {
   year: '',
   checked: false,
   principal: true,
+  social: false
 };
 const dataPrincipalCareer = {
   label: '',
@@ -26,18 +29,23 @@ const dataPrincipalCareer = {
   data_end: '',
   checked: false,
   principal: true,
+  social: false,
 };
 export const profile = {
-  name: { label: '', text: '', checked: false },
-  last_name: { label: '', text: '', checked: false },
-  profession: { label: '', text: '', checked: false },
-  occupation: { label: '', text: '', checked: false },
-  address: { label: '', text: '', checked: false },
-  company: { label: '', text: '', checked: false },
-  position: { label: '', text: '', checked: false },
-  professional_profile: { label: '', text: '', checked: false },
+  name: { label: '', text: '', checked: false, social: true },
+  last_name: { label: '', text: '', checked: false, social: true },
+  profession: { label: '', text: '', checked: false, social: true },
+  occupation: { label: '', text: '', checked: false, social: true },
+  address: { label: '', text: '', checked: false, social: true },
+  company: { label: '', text: '', checked: false, social: false },
+  position: { label: '', text: '', checked: false, social: false },
+  professional_profile: { label: '', text: '', checked: false, social: false },
   phones: [dataPrincipalProfilePhone],
   emails: [dataPrincipalProfileEmail],
   education: [dataPrincipalEducations],
   professional_career: [dataPrincipalCareer],
+  other_competencies: { label: '', text: '', checked: false, social: false },
+  skills: { label: '', text: '', checked: false, social: false },
+  languages: { label: '', text: '', checked: false, social: false },
+  achievements_recognitions: { label: '', text: '', checked: false, social: false },
 };

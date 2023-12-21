@@ -11,6 +11,10 @@ export interface DataForm {
   emails?: DataFormValues[];
   education?: EducationDataFormValues[];
   professional_career?: CareerDataFormValues[];
+  other_competencies?: DataFormValues;
+  skills?: DataFormValues;
+  languages?: DataFormValues;
+  achievements_recognitions?: DataFormValues;
 }
 
 export type DataFormValues = {
@@ -18,6 +22,7 @@ export type DataFormValues = {
   text?: string;
   checked?: boolean;
   principal?: boolean;
+  social?: boolean;
 };
 
 export type EducationDataFormValues = {
@@ -27,6 +32,7 @@ export type EducationDataFormValues = {
   year: string;
   checked?: boolean;
   principal?: boolean;
+  social?: boolean;
 };
 
 export type CareerDataFormValues = {
@@ -37,6 +43,7 @@ export type CareerDataFormValues = {
   data_end: string;
   checked?: boolean;
   principal?: boolean;
+  social?: boolean;
 };
 
 export type IndexDataForm =
@@ -48,6 +55,10 @@ export type IndexDataForm =
   | 'company'
   | 'position'
   | 'professional_profile'
+  | 'other_competencies'
+  | 'skills'
+  | 'languages'
+  | 'achievements_recognitions'
   | 'phones'
   | 'emails'
   | 'education'
