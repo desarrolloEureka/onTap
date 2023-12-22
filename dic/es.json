@@ -28,7 +28,12 @@
     "professional": "Profesional",
     "corporate": "Corporativo",
     "selectModalTitle": "Seleccionar",
-    "saveButtonLabel": "Guardar"
+    "saveButtonLabel": "Guardar",
+    "labelBackground": "Fondo",
+    "buttonChangeBackground": "Cambiar fondo",
+    "labelTemplate": "Plantilla",
+    "labelView": "vista",
+    "labelPrevious": "previa"
   },
   "recoverPassword": {
     "recoverPassword": "Recuperar Contraseña",

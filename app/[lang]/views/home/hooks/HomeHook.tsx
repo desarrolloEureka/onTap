@@ -1,3 +1,4 @@
+import { GetAllBackgroundImages, GetAllTemplates } from '@/reactQuery/home';
 import { TabPanelProps } from '@/types/home';
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -20,6 +21,8 @@ function CustomTabPanel(props: TabPanelProps) {
 const HomeHook = () => {
   const [value, setValue] = useState(0);
   const [isProUser, setIsProUser] = useState(true);
+  const { data, isLoading, error } = GetAllTemplates();
+  const backgroundImages = GetAllBackgroundImages();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -29,7 +32,16 @@ const HomeHook = () => {
     value === 1 ? setIsProUser(false) : setIsProUser(true);
   }, [value]);
 
-  return { handleChange, value, setIsProUser, isProUser, CustomTabPanel };
+  return {
+    handleChange,
+    value,
+    setIsProUser,
+    isProUser,
+    CustomTabPanel,
+    templates: data,
+    isLoadingTemplates: isLoading,
+    backgroundImages,
+  };
 };
 
 export default HomeHook;

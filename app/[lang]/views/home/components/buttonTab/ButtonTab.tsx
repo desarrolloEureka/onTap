@@ -1,4 +1,5 @@
 import { Dictionary } from '@/types/dictionary';
+import { TemplateTypes } from '@/types/home';
 import Button from '@mui/material/Button';
 import React from 'react';
 
@@ -10,11 +11,11 @@ const ButtonTab = ({
   handleChangeOption,
   disabled = false,
 }: {
-  index: number;
+  index: TemplateTypes;
   dictionary: Dictionary;
-  optionSelected: number;
+  optionSelected: TemplateTypes;
   title: string;
-  handleChangeOption: (e: number) => void;
+  handleChangeOption: (e: TemplateTypes) => void;
   disabled?: boolean;
 }) => {
   return (

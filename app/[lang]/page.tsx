@@ -5,8 +5,7 @@ import CustomCircularProgress from './components/customCircularProgress/CustomCi
 import { SetLangQuery } from './reactQuery/lang';
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
-  SetLangQuery(lang);
-  const { isLoading, error } = ValidatorSession();
+  const { isLoading, error } = ValidatorSession({ lang });
   return isLoading ? (
     <CustomCircularProgress isOpen />
   ) : error ? (
