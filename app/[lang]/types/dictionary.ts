@@ -14,6 +14,11 @@ export interface Dictionary {
     corporate: string;
     selectModalTitle: string;
     saveButtonLabel: string;
+    labelBackground: string;
+    buttonChangeBackground: string;
+    labelTemplate: string;
+    labelView: string;
+    labelPrevious: string;
   };
   recoverPassword: {
     recoverPassword: string;
