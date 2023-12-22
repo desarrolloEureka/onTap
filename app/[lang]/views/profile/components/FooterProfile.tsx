@@ -15,7 +15,7 @@ const FooterProfile = ({ handleModal, dictionary }: { handleModal: () => void, d
               <span style={{ color: '#000000', fontSize: '0.8rem', textTransform: 'none', fontWeight: 'bold' }}>{dictionary?.profileView.labelSwitchMain}</span>
             </div>
             <div className=' tw-h-[70%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
-              <CustomSwitchGeneral />
+              {/* <CustomSwitchGeneral /> */}
             </div>
           </div>
         </div>
