@@ -40,7 +40,7 @@ const FormDataUser = ({
   //       </Button>
   dataForm && console.log('dataForm', dataForm);
   return (
-    <div className='tw-h-auto tw-w-[50%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
+    <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
       <div className='tw-h-[100%] tw-w-full tw-flex tw-flex-col'>
         <FormGroup sx={{ m: 1, mt: 1 }}>
           {data.map((value, key) => {

@@ -48,7 +48,7 @@ const HomeContent = ({
 
   return (
     dictionary && (
-      <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center tw-h-screen">
+      <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center md:tw-h-screen">
         <Header dictionary={dictionary} />
         <div
           className='tw-h-[60px] tw-flex'
@@ -85,7 +85,7 @@ const HomeContent = ({
                 value.type == optionSelected && (
                   <div
                     key={index}
-                    className={`tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
+                    className={`max-sm:tw-h-[520px] tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
                   >
                     <div className='tw-relative tw-rounded-md tw-h-[80%] tw-w-[95%] tw-flex tw-items-center tw-justify-center'>
                       <Image
@@ -188,7 +188,7 @@ const HomeContent = ({
         <Button onClick={logOut}>{dictionary?.logOut}</Button>
         {isModalOpen ? (
           <div
-            className='tw-flex tw-justify-center tw-items-center '
+            className='tw-flex tw-justify-center tw-items-center'
             style={{
               zIndex: 1,
               position: 'fixed',
@@ -207,7 +207,7 @@ const HomeContent = ({
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
         >
-          <Box className='tw-flex tw-flex-col tw-justify-evenly lg:tw-w-[80%] 2xl:tw-w-[40%] tw-rounded-2xl tw-bg-primary tw-relative'>
+          <Box className='tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%]  sm:tw-w-[90%]  md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[40%] tw-rounded-2xl tw-bg-primary tw-relative'>
             <div className='tw-absolute tw-right-1 tw-top-2'>
               <Button
                 color='secondary'

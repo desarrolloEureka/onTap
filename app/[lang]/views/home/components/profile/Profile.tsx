@@ -51,10 +51,10 @@ const Profile = ({
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
         <PhotoUser dictionary={dictionary} />
         <div
-          className={`tw-flex tw-items-center tw-justify-center ${isProUser ? 'tw-h-[1500px]' : 'tw-h-[750px]'
+          className={`tw-flex tw-items-center tw-justify-center ${isProUser ? 'lg:tw-h-[1500px] md:tw-w-[100%]' : 'lg:tw-h-[750px] md:tw-w-[100%]'
             }`}
         >
-          <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] tw-flex tw-items-start tw-justify-center'>
+          <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
             <FormDataUser
               dictionary={dictionary}
               isProUser={isProUser}
