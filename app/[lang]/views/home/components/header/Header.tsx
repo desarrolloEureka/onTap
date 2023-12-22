@@ -6,7 +6,7 @@ import CustomSwitch from '@/components/customSwitch/CustomSwitch';
 
 const Header = ({ dictionary }: { dictionary: Dictionary }) => {
   return (
-    <div className='tw-h-[70px] tw-flex'>
+    <div className='sm:tw-h-[80px] tw-flex'>
       <div className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col'>
         <div className='tw-bg-white tw-shadow-inner tw-rounded-md tw-h-[50%] tw-w-[90px]  tw-flex'>
           <Button
