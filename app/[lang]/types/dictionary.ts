@@ -24,6 +24,7 @@ export interface Dictionary {
     recoverPassword: string;
     mail: string;
     next: string;
+    back: string;
   };
   loginView: {
     username: string;

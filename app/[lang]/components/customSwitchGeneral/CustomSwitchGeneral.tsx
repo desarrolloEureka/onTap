@@ -2,6 +2,7 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { DataForm } from '@/types/profile';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 60,
@@ -72,15 +73,22 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 const CustomSwitch = ({
   handleSwitch,
   name,
+  checked,
 }: {
   handleSwitch: (e: any) => void;
   name: string;
+  checked?: boolean;
 }) => {
   return (
     <FormControlLabel
       value='bottom'
       control={
-        <MaterialUISwitch color='primary' name={name} onChange={handleSwitch} />
+        <MaterialUISwitch
+          color='primary'
+          name={name}
+          onChange={handleSwitch}
+          checked={checked}
+        />
       }
       label='off/on'
       labelPlacement='bottom'

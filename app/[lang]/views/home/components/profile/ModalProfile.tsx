@@ -37,8 +37,6 @@ const ModalProfile = ({
     setShowUrls(!showUrls);
   };
 
-  console.log('');
-
   return (
     <Modal
       className='tw-flex tw-justify-center tw-justify-items-center tw-pt-40 tw-pb-40'
@@ -47,7 +45,7 @@ const ModalProfile = ({
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <Box className='tw-flex tw-flex-col tw-justify-evenly tw-w-[80%] tw-rounded-2xl tw-bg-primary tw-relative'>
+      <Box className='tw-flex tw-flex-col tw-justify-evenly lg:tw-w-[80%] 2xl:tw-w-[40%] tw-rounded-2xl tw-bg-primary tw-relative'>
         <div className='tw-absolute tw-right-1 tw-top-2'>
           <Button
             color='secondary'
@@ -191,7 +189,13 @@ const ModalProfile = ({
                 />
               }
             >
-              <span style={{ color: '#000000 ', fontSize: '1rem', textTransform: 'none' }}>
+              <span
+                style={{
+                  color: '#000000 ',
+                  fontSize: '1rem',
+                  textTransform: 'none',
+                }}
+              >
                 {dictionary?.profileView.buttonAddData}
               </span>
             </Button>

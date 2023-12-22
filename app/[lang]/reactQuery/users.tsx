@@ -20,11 +20,8 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
         user: user!,
         password: password!,
       });
-      console.log('result', resultUser);
 
       if (resultUser && resultUser.user) {
-        console.log('uid', resultUser.user.uid);
-
         const docSnap = await getUserById(resultUser.user.uid);
         if (docSnap.exists()) {
           const user = docSnap.data();
