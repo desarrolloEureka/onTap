@@ -11,6 +11,8 @@ const ValidatorSession = ({ lang }: { lang: Locale }) => {
   SetLangQuery(lang);
 
   useEffect(() => {
+    console.log('pathname', pathname);
+
     const path = pathname.split('es')[1];
     console.log('path', path);
 
