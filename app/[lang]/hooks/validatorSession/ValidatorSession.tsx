@@ -12,6 +12,8 @@ const ValidatorSession = ({ lang }: { lang: Locale }) => {
 
   useEffect(() => {
     const path = pathname.split('es')[1];
+    console.log('path', path);
+
     if (user) {
       if (path !== '/views/home') {
         router.push('/views/home');
