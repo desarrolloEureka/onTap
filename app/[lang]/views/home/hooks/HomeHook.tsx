@@ -32,6 +32,8 @@ const HomeHook = () => {
     value === 1 ? setIsProUser(false) : setIsProUser(true);
   }, [value]);
 
+  console.log('data', data);
+
   return {
     handleChange,
     value,

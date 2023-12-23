@@ -8,11 +8,12 @@ const GetAllTemplates = () =>
     refetchOnWindowFocus: false,
   });
 
-const GetAllBackgroundImages = () =>
-  useQuery({
+const GetAllBackgroundImages = () => {
+  return useQuery({
     queryKey: ['background_images'],
     queryFn: async () => await getAllBackgroundImages(),
     refetchOnWindowFocus: false,
   });
+};
 
 export { GetAllTemplates, GetAllBackgroundImages };

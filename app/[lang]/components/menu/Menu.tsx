@@ -16,7 +16,7 @@ function a11yProps(index: number) {
 const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
   const Logo = () => (
     <Image
-      src='/images/capa_1.png'
+      src='/images/simple_logo.png'
       alt='Logo One Tap'
       width='81'
       height='77'
