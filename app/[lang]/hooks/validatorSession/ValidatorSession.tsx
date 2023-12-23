@@ -16,7 +16,7 @@ const ValidatorSession = ({ lang }: { lang: Locale }) => {
       if (path !== '/views/home') {
         router.push('/views/home');
       } else {
-        console.log('oooooo');
+        console.log('nothing');
       }
     } else {
       error && router.push('/views/login');

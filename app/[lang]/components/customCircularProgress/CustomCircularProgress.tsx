@@ -1,5 +1,6 @@
-import { CircularProgress, Modal } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect, useState } from 'react';
 
 const CustomCircularProgress = ({ isOpen }: { isOpen: boolean }) => {
   const [open, setOpen] = useState(true);
@@ -9,9 +10,9 @@ const CustomCircularProgress = ({ isOpen }: { isOpen: boolean }) => {
   }, [isOpen]);
 
   return (
-    <Modal className='tw-flex tw-justify-center tw-items-center' open={open}>
+    <Box className='tw-flex tw-justify-center tw-items-center tw-h-screen'>
       <CircularProgress />
-    </Modal>
+    </Box>
   );
 };
 
