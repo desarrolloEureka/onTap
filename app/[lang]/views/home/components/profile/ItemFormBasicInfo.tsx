@@ -21,7 +21,6 @@ const ItemFormBasicInfo = ({
     handleDataSet,
     handleSeeMore,
     index,
-    checked,
     label,
     labelArray,
     value,
@@ -33,7 +32,7 @@ const ItemFormBasicInfo = ({
     handleDataSet: (e: DataForm) => void;
     handleSeeMore: (e: number) => void;
     index: IndexDataForm;
-    checked?: boolean;
+
     label?: string;
     labelArray: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[];
     value: any
@@ -78,7 +77,7 @@ const ItemFormBasicInfo = ({
                                     textTransform: 'none',
                                 }}
                             >
-                                {dictionary?.profileView.addAnotherPhone}{' '}
+                                {value[0] === 'phones' ? dictionary?.profileView.addAnotherPhone : dictionary?.profileView.addAnotherEmail}{' '}
                             </span>
                         </Button>
                     </div>
@@ -89,7 +88,7 @@ const ItemFormBasicInfo = ({
                         return (
                             <div key={key}>
                                 <ItemForm
-                                    label={label!}
+                                    label={val.label!}
                                     handleSwitch={(e: any) => handleSwitch(e)}
                                     handleData={handleData}
                                     name={index}

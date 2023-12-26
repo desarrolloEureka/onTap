@@ -5,6 +5,7 @@ import People from '@mui/icons-material/People';
 import Work from '@mui/icons-material/Work';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import Image from 'next/image';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 function a11yProps(index: number) {
   return {
@@ -14,12 +15,14 @@ function a11yProps(index: number) {
 }
 
 const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+
   const Logo = () => (
     <Image
       src='/images/capa_1.png'
       alt='Logo One Tap'
-      width='81'
-      height='77'
+      width={isSmallScreen ? 31 : 81}
+      height={isSmallScreen ? 27 : 77}
       priority
     />
   );
@@ -35,10 +38,19 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
     value: number;
     index: number;
   }) => {
+
     return (
       <Box>
         {icon}
-        <Typography color={`${index === value ? 'black' : 'white'}`}>
+        <Typography
+          color={`${index === value ? 'black' : 'white'}`}
+          sx={{
+            fontSize: '16px',
+            '@media screen and (max-width: 600px)': {
+              fontSize: '13px',
+            },
+          }}
+        >
           {label}
         </Typography>
       </Box>
@@ -55,7 +67,13 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
           backgroundColor: '#62AD9B',
         }}
       >
-        <Box sx={{ ml: 3, mt: 0.7 }}>
+        <Box sx={{
+          ml: 3,
+          '@media screen and (max-width: 600px)': {
+            mt: 2
+          },
+
+        }}>
           <Logo />
         </Box>
         <Box
@@ -72,7 +90,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
             <Tab
               label={
                 <Label
-                  icon={<Home sx={{ color: value == 0 ? 'black' : 'white' }} />}
+                  icon={<Home sx={{ color: value === 0 ? 'black' : 'white' }} />}
                   label={dictionary.mainTab.tab1}
                   value={value}
                   index={0}
@@ -104,7 +122,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
               }
               {...a11yProps(2)}
             />
-            <Tab
+            {/*  <Tab
               label={
                 <Label
                   icon={
@@ -117,7 +135,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
               }
               {...a11yProps(3)}
               disabled
-            />
+            /> */}
           </Tabs>
         </Box>
       </Box>

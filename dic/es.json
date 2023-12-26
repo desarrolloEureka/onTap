@@ -86,7 +86,9 @@
     "titleNewData": "Url nuevo",
     "labelDataName": "Nombre del dato",
     "labelOptionalUrl": "URL opcional",
-    "labelSwitchMain": "Switch Madre"
+    "labelSwitchMain": "Switch Padre",
+    "addAnotherTrajectory": "Agregar otra trayectoria",
+    "addAnotherEducation": "Agregar otra educacion"
   },
   "logOut": "Salir"
 }

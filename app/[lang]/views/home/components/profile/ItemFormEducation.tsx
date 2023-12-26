@@ -45,10 +45,7 @@ const ItemFormEducation = ({
         dataForm,
         handleDataSet,
     });
-
-    console.log("labelArray ", labelArray)
     return (
-
         <div className={`${value[0] === 'education' && itemDetail === 3 && labelArray.length > 1 ? 'tw-h-[300px]' : 'tw-h-[200px]'} tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}>
             <div className={`tw-h-[${labelArray.length * 20}px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}>
                 <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
@@ -74,7 +71,7 @@ const ItemFormEducation = ({
                                     textTransform: 'none',
                                 }}
                             >
-                                {dictionary?.profileView.addAnotherPhone}{' '}
+                                {dictionary?.profileView.addAnotherEducation}{' '}
                             </span>
                         </Button>
                     </div>

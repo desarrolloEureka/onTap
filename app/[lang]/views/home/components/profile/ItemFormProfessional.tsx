@@ -75,7 +75,7 @@ const ItemFormProfessional = ({
                                     textTransform: 'none',
                                 }}
                             >
-                                {dictionary?.profileView.addAnotherPhone}{' '}
+                                {dictionary?.profileView.addAnotherTrajectory}{' '}
                             </span>
                         </Button>
                     </div>
