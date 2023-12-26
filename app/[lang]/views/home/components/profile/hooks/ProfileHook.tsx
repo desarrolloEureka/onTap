@@ -72,7 +72,7 @@ const ProfileHook = ({
           });
         } */
       } else {
-        console.log("professional_career");
+        //console.log("professional_career");
       }
     }
   };

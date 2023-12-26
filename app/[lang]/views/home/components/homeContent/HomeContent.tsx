@@ -12,6 +12,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Image from 'next/image';
 import LogOut from '@/hooks/logOut/LogOut';
 import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface BackgroundType {
   id: string;
@@ -42,9 +43,10 @@ const HomeContent = ({
   };
 
   const handleSelectBackground = (item: BackgroundType) => {
-    console.log("item ----> ", item);
     setBackgroundSelect(item);
   };
+
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
 
   return (
     dictionary && (
@@ -235,10 +237,12 @@ const HomeContent = ({
                       <Image
                         src={item.image}
                         alt={`Image ${item.id}`}
-                        width={135}
-                        height={280}
+                        /*   width={135}
+                          height={280} */
+                        width={isSmallScreen ? 97 : 135}
+                        height={isSmallScreen ? 180 : 280}
                       />
-                      <div className='tw-absolute tw-w-[130px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+                      <div className='tw-absolute max-sm:tw-w-[92px] tw-w-[130px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                         <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
                           <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-end'>
                             <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>

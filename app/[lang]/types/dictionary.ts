@@ -66,6 +66,8 @@ export interface Dictionary {
     labelEndDate: string;
     labelCareerPath: string;
     labelSwitchMain: string;
+    addAnotherTrajectory: string;
+    addAnotherEducation: string;
   };
   recoveryCode: {
     nextCode: string;
