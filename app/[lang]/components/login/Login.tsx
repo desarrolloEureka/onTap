@@ -112,7 +112,7 @@ const Login = ({ dictionary }: LoginProps) => {
               </Typography>
 
               <Button className='tw-text-white tw-ml-36' onClick={loginHandle}>
-                {dictionary.loginView.login} oooo
+                {dictionary.loginView.login}
               </Button>
             </Box>
           </>

@@ -39,7 +39,10 @@
     "recoverPassword": "Recuperar Contraseña",
     "mail": "Correo",
     "next": "Siguiente",
-    "back": "Regresar"
+    "back": "Regresar",
+    "alertEmailSend": "Si el correo existe en nuestra base de datos, un email será entregado para reestablecer tu contraseña",
+    "alertErrorPassword": "Las contraseñas no coinciden, por favor intenta de nuevo",
+    "expiredRecover": "La url ya no es valida, por favor intentalo de nuevo"
   },
   "recoveryCode": {
     "titleCode": "Codigo de Recuperacion",

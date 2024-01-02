@@ -7,51 +7,33 @@ import RecoveryPassword from '@/views/recoverPassword/components/RecoveryPasswor
 import { Locale } from 'i18n-config';
 import Link from 'next/link';
 import { useState } from 'react';
+import RecoverPasswordHook from './hooks/RecoverPasswordHook';
 
 const RecoverPassword = ({
   params: { lang },
 }: {
   params: { lang: Locale };
 }) => {
-  const { dictionary } = useDictionary({ lang });
-  const [step, setStep] = useState(1);
-
-  const handleNext = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
-
-  const handleBack = () => {
-    setStep((prevStep) => Math.max(prevStep - 1, 1));
-  };
+  const { step, handleBack, handleNext, finishReset } = RecoverPasswordHook();
 
   return (
     <div>
-      {step === 1 && (
-        <RecoveryPassword
-          params={{ lang: 'es' }}
-          handleBack={handleBack}
-          handleNext={handleNext}
-        />
-      )}
+      {step === 1 && <RecoveryPassword params={{ lang }} />}
 
       {step === 2 && (
         <RecoveryCode
-          params={{ lang: 'es' }}
+          params={{ lang }}
           handleBack={handleBack}
           handleNext={handleNext}
         />
       )}
       {step === 3 && (
-        <CreateNewPassword
-          params={{ lang: 'es' }}
-          handleBack={handleBack}
-          handleNext={handleNext}
-        />
+        <CreateNewPassword params={{ lang }} handleNext={handleNext} />
       )}
       {step === 4 && (
         <>
           <PasswordModifiedSuccessfully
-            params={{ lang: 'es' }}
+            params={{ lang }}
             handleBack={handleBack}
             handleNext={handleNext}
           />

@@ -25,6 +25,9 @@ export interface Dictionary {
     mail: string;
     next: string;
     back: string;
+    alertEmailSend: string;
+    alertErrorPassword: string;
+    expiredRecover: string;
   };
   loginView: {
     username: string;

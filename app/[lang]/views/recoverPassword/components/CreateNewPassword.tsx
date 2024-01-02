@@ -5,22 +5,44 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Locale } from 'i18n-config';
+import RecoverPasswordHook from '../hooks/RecoverPasswordHook';
+import { Alert } from '@mui/material';
 
 const CreateNewPassword = ({
   params: { lang },
   handleNext,
-  handleBack,
 }: {
   params: { lang: Locale };
-  handleNext: () => void;
-  handleBack: () => void;
+  handleNext: (e: number) => void;
 }) => {
   const { dictionary } = useDictionary({ lang });
+  const {
+    handleSetNewPassword,
+    handleSetConfirmNewPassword,
+    alertErrorPassword,
+    validatingPassword,
+    finishReset,
+    expired,
+  } = RecoverPasswordHook();
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
       {/* {dictionary && <Menu dictionary={dictionary} />} */}
       <Container className='tw-bg-primary tw-shadow-md tw-pt-16 tw-rounded-2xl tw-h-[513px] tw-w-[794px] flex tw-justify-center  tw-justify-items-center tw-text-center tw-mt-[50px]'>
+        {alertErrorPassword && (
+          <div>
+            <Alert severity='info'>
+              {dictionary?.recoverPassword.alertErrorPassword}
+            </Alert>
+          </div>
+        )}
+        {expired && (
+          <div>
+            <Alert severity='error'>
+              {dictionary?.recoverPassword.expiredRecover}
+            </Alert>
+          </div>
+        )}
         <div>
           <h1 className='tw-mt-[10px] tw-text-white tw-text-3xl'>
             {dictionary?.newPassword.createNewPass}
@@ -34,6 +56,7 @@ const CreateNewPassword = ({
           defaultValue=''
           variant='outlined'
           InputProps={{ className: 'tw-rounded-3xl' }}
+          onChange={handleSetNewPassword}
         />
         <Typography
           className='tw-text-white tw-mt-3 tw-mr-60'
@@ -51,6 +74,7 @@ const CreateNewPassword = ({
           defaultValue=''
           variant='outlined'
           InputProps={{ className: 'tw-rounded-3xl' }}
+          onChange={handleSetConfirmNewPassword}
         />
         <Typography
           className='tw-text-white tw-mt-3 tw-mr-60'
@@ -61,7 +85,8 @@ const CreateNewPassword = ({
         </Typography>
         <Button
           className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-white tw-mt-[30px] tw-items-center '
-          onClick={handleNext}
+          onClick={() => finishReset((e) => handleNext(e))}
+          disabled={!validatingPassword ?? false}
         >
           {dictionary?.newPassword.nextNewPassword}
         </Button>
