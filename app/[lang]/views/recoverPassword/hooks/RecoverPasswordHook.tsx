@@ -30,12 +30,8 @@ const RecoverPasswordHook = () => {
 
   const finishReset = async (handle: (e: number) => void) => {
     if (validatingPassword && step == 3 && oobCode && confirmNewPassword) {
-      console.log('confirmNewPassword', confirmNewPassword);
-      console.log('ok oobCode', oobCode);
       const change = await changePasswordFirebase(oobCode, confirmNewPassword);
-      console.log('change', change);
       if (change != null) {
-        console.log('changed');
         setExpired(false);
         handle(4);
       } else {
@@ -44,8 +40,6 @@ const RecoverPasswordHook = () => {
       setTimeout(() => {
         setExpired(false);
       }, 3000);
-    } else {
-      console.log('step is not correctly>>', confirmNewPassword);
     }
   };
 
