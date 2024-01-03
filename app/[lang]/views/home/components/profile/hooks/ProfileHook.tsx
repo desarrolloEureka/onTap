@@ -29,6 +29,7 @@ const ProfileHook = ({
   const handleDataSet = useCallback((data: DataForm) => {
     if (setDataForm)
       setDataForm(data);
+    
   }, [setDataForm]);
 
   const handleModalAlertLimit = (isOpen: boolean) => {
