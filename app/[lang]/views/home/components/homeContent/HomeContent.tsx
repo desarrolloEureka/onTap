@@ -1,18 +1,18 @@
-import { Dictionary } from '@/types/dictionary';
-import { Box, Button, Checkbox, Grid, Modal, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import ButtonTab from '../buttonTab/ButtonTab';
-import Header from '../header/Header';
-import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
-import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import DynamicFeedOutlinedIcon from '@mui/icons-material/DynamicFeedOutlined';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import CloseIcon from '@mui/icons-material/Close';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Image from 'next/image';
 import LogOut from '@/hooks/logOut/LogOut';
+import { Dictionary } from '@/types/dictionary';
 import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CloseIcon from '@mui/icons-material/Close';
+import DynamicFeedOutlinedIcon from '@mui/icons-material/DynamicFeedOutlined';
+import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
+import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, Button, Checkbox, Grid, Modal, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from 'next/image';
+import { useState } from 'react';
+import Header from '../header/Header';
+import Hero from '../hero/Hero';
 
 interface BackgroundType {
   id: string;
@@ -25,6 +25,17 @@ interface TemplateType {
   image: string;
 }
 
+const backgroundSelectDataInit = {
+  id: '',
+  name: '',
+  image: '',
+};
+const templateSelectDataInit = {
+  id: '',
+  name: '',
+  image: '',
+};
+
 const HomeContent = ({
   dictionary,
   templates,
@@ -36,13 +47,13 @@ const HomeContent = ({
 }) => {
   const [optionSelected, setOptionSelected] = useState<TemplateTypes>('social');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [backgroundSelect, setBackgroundSelect] = useState<BackgroundType>({ id: '', name: '', image: '' });
-  const [templateSelect, setTemplateSelect] = useState<TemplateType>({ id: '', name: '', image: '' });
+  const [backgroundSelect, setBackgroundSelect] = useState<BackgroundType>(
+    backgroundSelectDataInit
+  );
+  const [templateSelect, setTemplateSelect] = useState<TemplateType>(
+    templateSelectDataInit
+  );
   const { logOut } = LogOut();
-
-  const handleChangeOption = (option: TemplateTypes) => {
-    setOptionSelected(option);
-  };
 
   const handleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -62,33 +73,11 @@ const HomeContent = ({
     dictionary && (
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center md:tw-h-screen">
         <Header dictionary={dictionary} />
-        <div
-          className='tw-h-[60px] tw-flex'
-          style={{ borderBottom: '1px solid #C2C2C2' }}
-        >
-          <ButtonTab
-            dictionary={dictionary}
-            index={'social'}
-            optionSelected={optionSelected}
-            title={dictionary?.homeView.social}
-            handleChangeOption={handleChangeOption}
-          />
-          <ButtonTab
-            dictionary={dictionary}
-            index={'professional'}
-            optionSelected={optionSelected}
-            title={dictionary?.homeView.professional}
-            handleChangeOption={handleChangeOption}
-          />
-          <ButtonTab
-            dictionary={dictionary}
-            index={'corporate'}
-            optionSelected={optionSelected}
-            title={dictionary?.homeView.corporate}
-            handleChangeOption={handleChangeOption}
-            disabled
-          />
-        </div>
+        <Hero
+          dictionary={dictionary}
+          setOptionSelected={setOptionSelected}
+          optionSelected={optionSelected}
+        />
 
         <div className='tw-flex tw-items-center tw-justify-center'>
           <div className='tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-3 lg:tw-w-[1300px] xl:tw-w-[1250px]'>
@@ -105,8 +94,8 @@ const HomeContent = ({
                           priority
                           src={value.image}
                           alt={`Image ${value.image}`}
-                          width={197}//247
-                          height={425}//475
+                          width={197} //247
+                          height={425} //475
                         />
 
                         <div className='tw-absolute tw-w-[350px] tw-h-[460px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
@@ -124,7 +113,8 @@ const HomeContent = ({
                                       style={{ fontSize: '9px' }}
                                       className='tw-text-white'
                                     >
-                                      {dictionary?.homeView.labelView} <br /> {dictionary?.homeView.labelPrevious}
+                                      {dictionary?.homeView.labelView} <br />{' '}
+                                      {dictionary?.homeView.labelPrevious}
                                     </span>
                                   </div>
                                 </div>
@@ -134,12 +124,22 @@ const HomeContent = ({
                                   <Checkbox
                                     onChange={() => handleSelectTemplate(value)}
                                     checked={templateSelect.id == value.id}
-                                    icon={<RadioButtonUncheckedOutlinedIcon
-                                      style={{ fontSize: '1rem', color: "#396593" }}
-                                    />}
-                                    checkedIcon={<RadioButtonCheckedOutlinedIcon
-                                      style={{ fontSize: '1rem', color: "#396593" }}
-                                    />}
+                                    icon={
+                                      <RadioButtonUncheckedOutlinedIcon
+                                        style={{
+                                          fontSize: '1rem',
+                                          color: '#396593',
+                                        }}
+                                      />
+                                    }
+                                    checkedIcon={
+                                      <RadioButtonCheckedOutlinedIcon
+                                        style={{
+                                          fontSize: '1rem',
+                                          color: '#396593',
+                                        }}
+                                      />
+                                    }
                                   />
                                 </div>
                               </div>
@@ -148,14 +148,14 @@ const HomeContent = ({
 
                           <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center'>
                             <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-center '>
-
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
                                 <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
                                   <span
                                     style={{ fontSize: '13px' }}
                                     className='tw-text-white'
                                   >
-                                    {dictionary?.homeView.labelTemplate} {index + 1}
+                                    {dictionary?.homeView.labelTemplate}{' '}
+                                    {index + 1}
                                   </span>
                                 </div>
                               </div>
@@ -184,7 +184,12 @@ const HomeContent = ({
                                       style={{ fontSize: '9px' }}
                                       className='tw-text-white'
                                     >
-                                      {dictionary?.homeView.buttonChangeBackground} <br /> {dictionary?.homeView.labelTemplate}
+                                      {
+                                        dictionary?.homeView
+                                          .buttonChangeBackground
+                                      }{' '}
+                                      <br />{' '}
+                                      {dictionary?.homeView.labelTemplate}
                                     </span>
                                   </div>
                                 </Button>
@@ -242,7 +247,9 @@ const HomeContent = ({
             </div>
             <div className='tw-px-10 tw-pt-10 tw-h-[80%]'>
               <div className='tw-ml-1 tw-mb-8'>
-                <Typography style={{ color: 'black' }}>{dictionary?.homeView.selectModalTitle}</Typography>
+                <Typography style={{ color: 'black' }}>
+                  {dictionary?.homeView.selectModalTitle}
+                </Typography>
               </div>
               <Grid container spacing={2}>
                 {backgroundImages.map((item, index) => (
@@ -252,7 +259,7 @@ const HomeContent = ({
                         src={item.image}
                         alt={`Image ${item.id}`}
                         width={isSmallScreen ? 60 : 115}
-                        height={isSmallScreen ? 143 : 260}//280
+                        height={isSmallScreen ? 143 : 260} //280
                       />
                       <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
                         <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
@@ -262,12 +269,22 @@ const HomeContent = ({
                                 <Checkbox
                                   onChange={() => handleSelectBackground(item)}
                                   checked={backgroundSelect.id == item.id}
-                                  icon={<RadioButtonUncheckedOutlinedIcon
-                                    style={{ fontSize: '1rem', color: "#5278a0" }}
-                                  />}
-                                  checkedIcon={<RadioButtonCheckedOutlinedIcon
-                                    style={{ fontSize: '1rem', color: "#5278a0" }}
-                                  />}
+                                  icon={
+                                    <RadioButtonUncheckedOutlinedIcon
+                                      style={{
+                                        fontSize: '1rem',
+                                        color: '#5278a0',
+                                      }}
+                                    />
+                                  }
+                                  checkedIcon={
+                                    <RadioButtonCheckedOutlinedIcon
+                                      style={{
+                                        fontSize: '1rem',
+                                        color: '#5278a0',
+                                      }}
+                                    />
+                                  }
                                 />
                               </div>
                             </div>
@@ -281,12 +298,12 @@ const HomeContent = ({
                                 style={{ fontSize: '13px' }}
                                 className='tw-text-[#5278a0]'
                               >
-                                {dictionary?.homeView.labelBackground} {index + 1}
+                                {dictionary?.homeView.labelBackground}{' '}
+                                {index + 1}
                               </span>
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </Grid>
@@ -307,7 +324,13 @@ const HomeContent = ({
                   />
                 }
               >
-                <span style={{ color: '#000000 ', fontSize: '1rem', textTransform: 'none' }}>
+                <span
+                  style={{
+                    color: '#000000 ',
+                    fontSize: '1rem',
+                    textTransform: 'none',
+                  }}
+                >
                   {dictionary?.homeView.saveButtonLabel}
                 </span>
               </Button>

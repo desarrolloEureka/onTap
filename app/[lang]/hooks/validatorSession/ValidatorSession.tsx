@@ -11,21 +11,21 @@ const ValidatorSession = ({ lang }: { lang: Locale }) => {
   SetLangQuery(lang);
 
   useEffect(() => {
-    //console.log('pathname', pathname);
+    // console.log('pathname', pathname);
 
-    const path = pathname.split('es')[1];
-    //console.log('path', path);
+    const path = pathname.split(lang)[1];
+    // console.log('path', path);
+    // console.log('user', user);
 
     if (user) {
       if (path !== '/views/home') {
         router.push('/views/home');
-      } else {
-        //console.log('nothing');
       }
     } else {
-      error && router.push('/views/login');
+      // console.log('isLoading', isLoading);
+      !isLoading && router.push('/views/login');
     }
-  }, [error, pathname, router, user]);
+  }, [isLoading, lang, pathname, router, user]);
 
   return { isLoading, error };
 };
