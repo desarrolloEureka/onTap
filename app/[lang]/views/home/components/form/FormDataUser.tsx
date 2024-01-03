@@ -27,17 +27,10 @@ const FormDataUser = ({
   dataForm: DataForm;
   handleDataSet: (e: DataForm) => void;
 }) => {
-  const { handleSwitch, handleData, handleAddData, data } = ProfileHook({
+  const { handleSwitch, handleData, data } = ProfileHook({
     dictionary,
     dataForm,
-    handleDataSet,
   });
-  // <Button onClick={() => handleAddData('phones')}>phone</Button>
-  //       <Button onClick={() => handleAddData('emails')}>email</Button>
-  //       <Button onClick={() => handleAddData('education')}>education</Button>
-  //       <Button onClick={() => handleAddData('professional_career')}>
-  //         career
-  //       </Button>
   //dataForm && console.log('dataForm', dataForm);
   return (
     <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
@@ -53,6 +46,7 @@ const FormDataUser = ({
               value[0] == 'phones' ||
                 value[0] == 'education' ||
                 value[0] == 'emails' ||
+                value[0] == 'urls' ||
                 value[0] == 'professional_career'
                 ? value[1]
                 : null;
@@ -67,6 +61,7 @@ const FormDataUser = ({
                     name={index}
                     checked={value[1].checked}
                     key={key}
+                    icon={value[1].icon}
                   />
                 ) : (
                   <ItemForm
@@ -76,6 +71,7 @@ const FormDataUser = ({
                     name={index}
                     checked={value[1].checked}
                     key={key}
+                    icon={value[1].icon}
                   />
                 );
               } else {
@@ -87,33 +83,12 @@ const FormDataUser = ({
                     name={index}
                     checked={value[1].checked}
                     key={key}
+                    icon={value[1].icon}
                   />
                 ) : (
                   null
                 );
               }
-            } else {
-              // return labelArray.map((val) => {
-              //   return value[0] == 'phones' || value[0] == 'emails' ? (
-              //     <ItemForm
-              //       label={val.label!}
-              //       handleSwitch={(e: any) => handleSwitch(e)}
-              //       handleData={handleData}
-              //       name={index}
-              //       checked={val.checked}
-              //       key={key}
-              //     />
-              //   ) : (
-              //     <TextAreaForm
-              //       label={val.label!}
-              //       handleSwitch={(e: any) => handleSwitch(e)}
-              //       handleData={handleData}
-              //       name={index}
-              //       checked={val.checked}
-              //       key={key}
-              //     />
-              //   );
-              // });
             }
           })}
         </FormGroup>

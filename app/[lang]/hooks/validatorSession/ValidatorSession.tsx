@@ -11,16 +11,16 @@ const ValidatorSession = ({ lang }: { lang: Locale }) => {
   SetLangQuery(lang);
 
   useEffect(() => {
-    console.log('pathname', pathname);
+    //console.log('pathname', pathname);
 
     const path = pathname.split('es')[1];
-    console.log('path', path);
+    //console.log('path', path);
 
     if (user) {
       if (path !== '/views/home') {
         router.push('/views/home');
       } else {
-        console.log('nothing');
+        //console.log('nothing');
       }
     } else {
       error && router.push('/views/login');

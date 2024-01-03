@@ -14,6 +14,7 @@ import {
     EducationDataFormValues,
     IndexDataForm,
 } from '@/types/profile';
+import ModalAlertLimit from './ModalAlertLimit';
 
 const ItemFormBasicInfo = ({
     dictionary,
@@ -26,23 +27,27 @@ const ItemFormBasicInfo = ({
     value,
     itemDetail,
     isDetailOpen,
+    icon,
+    social,
+    handleModalAlert
 }: {
     dictionary: Dictionary;
     dataForm: DataForm;
     handleDataSet: (e: DataForm) => void;
     handleSeeMore: (e: number) => void;
     index: IndexDataForm;
-
     label?: string;
     labelArray: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[];
     value: any
     itemDetail: number;
     isDetailOpen: boolean;
+    icon?: string;
+    social: boolean;
+    handleModalAlert: (name: string) => void;
 }) => {
-    const { handleSwitch, handleData, handleAddData, data } = ProfileHook({
+    const { handleSwitch, handleData, handleAddData, handleDeleteData, isModalAlertLimit, handleModalAlertLimit } = ProfileHook({
         dictionary,
         dataForm,
-        handleDataSet,
     });
 
     return (
@@ -53,9 +58,9 @@ const ItemFormBasicInfo = ({
                         <Button
                             onClick={() => {
                                 if (value[0] === 'phones') {
-                                    handleAddData('phones');
+                                    handleAddData('phones', social);
                                 } else if (value[0] === 'emails') {
-                                    handleAddData('emails');
+                                    handleAddData('emails', social);
                                 }
                             }}
                             color='secondary'
@@ -83,20 +88,48 @@ const ItemFormBasicInfo = ({
                     </div>
                 </div>
 
-                <div className='tw-min-h-[125px] tw-pb-3'>
+                <div className='tw-min-h-[125px] tw-pb-3 '>
                     {labelArray.map((val, key) => {
-                        return (
-                            <div key={key}>
-                                <ItemForm
-                                    label={val.label!}
-                                    handleSwitch={(e: any) => handleSwitch(e)}
-                                    handleData={handleData}
-                                    name={index}
-                                    checked={val.checked}
-                                    key={key}
-                                />
-                            </div>
-                        );
+                        if (social === true) {/* Social */
+                            if (val.principal === true || val.social === true) {
+                                return (
+                                    <div key={key}>
+                                        <ItemForm
+                                            label={val.label!}
+                                            handleSwitch={(e: any) => handleSwitch(e)}
+                                            handleData={handleData}
+                                            name={index}
+                                            checked={val.checked}
+                                            key={key}
+                                            icon={val.icon}
+                                            deleteAction={true}
+                                            handleDeleteData={handleDeleteData}
+                                            handleModalAlert={(e: any) => handleModalAlert(e)}
+                                        />
+                                    </div>
+                                );
+                            }
+                        } else {/* Pro */
+                            if (val.principal === true || val.social === false) {
+                                return (
+                                    <div key={key}>
+                                        <ItemForm
+                                            label={val.label!}
+                                            handleSwitch={(e: any) => handleSwitch(e)}
+                                            handleData={handleData}
+                                            name={index}
+                                            checked={val.checked}
+                                            key={key}
+                                            icon={val.icon}
+                                            deleteAction={true}
+                                            handleDeleteData={handleDeleteData}
+                                            handleModalAlert={(e: any) => handleModalAlert(e)}
+                                        />
+                                    </div>
+                                );
+                            }
+                        }
+
                     })}
                 </div>
 
@@ -135,6 +168,11 @@ const ItemFormBasicInfo = ({
                 </div>
 
             </div>
+            <ModalAlertLimit
+                isModalAlertLimit={isModalAlertLimit}
+                handleModalAlertLimit={handleModalAlertLimit}
+                dictionary={dictionary}
+            />
         </div>
     );
 };

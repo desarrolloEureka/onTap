@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Dictionary } from '@/types/dictionary';
-import { Button, FormGroup } from '@mui/material';
+import { FormGroup } from '@mui/material';
 import ProfileHook from '../profile/hooks/ProfileHook';
 import {
   CareerDataFormValues,
@@ -10,11 +10,9 @@ import {
   EducationDataFormValues,
 } from '@/types/profile';
 import ItemFormBasicInfo from './ItemFormBasicInfo';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-
 import ItemFormEducation from './ItemFormEducation';
 import ItemFormProfessional from './ItemFormProfessional';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import ItemFormUrl from './ItemFormUrl';
 
 const FormAddDataUser = ({
   isDetailOpen,
@@ -23,7 +21,8 @@ const FormAddDataUser = ({
   isProUser,
   dictionary,
   dataForm,
-  handleDataSet
+  handleDataSet,
+  handleModalAlert
 }: {
   isDetailOpen: boolean;
   itemDetail: number;
@@ -32,8 +31,9 @@ const FormAddDataUser = ({
   dictionary: Dictionary;
   dataForm: DataForm;
   handleDataSet: (e: DataForm) => void;
+  handleModalAlert: (name: string) => void;
 }) => {
-  const { data, handleAddData } = ProfileHook({
+  const { data } = ProfileHook({
     dictionary,
     dataForm,
     handleDataSet,
@@ -52,6 +52,7 @@ const FormAddDataUser = ({
               value[0] == 'phones' ||
                 value[0] == 'education' ||
                 value[0] == 'emails' ||
+                value[0] == 'urls' ||
                 value[0] == 'professional_career'
                 ? value[1]
                 : null;
@@ -70,6 +71,8 @@ const FormAddDataUser = ({
                     value={value}
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
+                    social={false}
+                    handleModalAlert={handleModalAlert}
                   />
                 )
                   : (
@@ -84,11 +87,27 @@ const FormAddDataUser = ({
                         labelArray={labelArray}
                         value={value}
                         itemDetail={itemDetail}
+                        handleModalAlert={handleModalAlert}
                       />
 
                     ) :
-                      (
-                        <ItemFormProfessional
+                      value[0] == 'professional_career' ?
+                        (
+                          <ItemFormProfessional
+                            key={key}
+                            dictionary={dictionary}
+                            dataForm={dataForm}
+                            handleDataSet={(e) => handleDataSet(e)}
+                            handleSeeMore={handleSeeMore}
+                            index={index}
+                            labelArray={labelArray}
+                            value={value}
+                            itemDetail={itemDetail}
+                            handleModalAlert={handleModalAlert}
+                          />
+                        )
+                        :
+                        <ItemFormUrl
                           key={key}
                           dictionary={dictionary}
                           dataForm={dataForm}
@@ -98,8 +117,8 @@ const FormAddDataUser = ({
                           labelArray={labelArray}
                           value={value}
                           itemDetail={itemDetail}
+                          handleModalAlert={handleModalAlert}
                         />
-                      )
                   );
 
               } else {
@@ -115,6 +134,8 @@ const FormAddDataUser = ({
                     value={value}
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
+                    social={true}
+                    handleModalAlert={handleModalAlert}
                   />
                 )
                   :

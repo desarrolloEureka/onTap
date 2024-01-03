@@ -1,10 +1,15 @@
 'use client';
+import { useState } from 'react';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Locale } from 'i18n-config';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const CreateNewPassword = ({
   params: { lang },
@@ -16,6 +21,8 @@ const CreateNewPassword = ({
   handleBack: () => void;
 }) => {
   const { dictionary } = useDictionary({ lang });
+  const [showPasswordOne, setShowPasswordOne] = useState(false);
+  const [showPasswordTwo, setShowPasswordTwo] = useState(false);
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
@@ -27,13 +34,26 @@ const CreateNewPassword = ({
           </h1>
         </div>
         <TextField
-          className='tw-h-[52px] tw-w-[386px] tw-mt-10 tw-text-sm  '
+          className='tw-h-[52px] tw-w-[386px] tw-mt-10 tw-text-sm'
           required
-          id='outlined-required'
+          id='outlined-password'
           label={dictionary?.newPassword.nPassword}
+          type={showPasswordOne ? 'text' : 'password'}
           defaultValue=''
           variant='outlined'
-          InputProps={{ className: 'tw-rounded-3xl' }}
+          InputProps={{
+            className: 'tw-rounded-3xl',
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton
+                  onClick={() => setShowPasswordOne(!showPasswordOne)}
+                  edge='end'
+                >
+                  {showPasswordOne ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <Typography
           className='tw-text-white tw-mt-3 tw-mr-60'
@@ -43,14 +63,26 @@ const CreateNewPassword = ({
           {dictionary?.newPassword.nPassword}
         </Typography>
         <TextField
-          className='tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm  '
+          className='tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm'
           required
           id='outlined-password'
           label={dictionary?.newPassword.repeatPassword}
-          type='password'
+          type={showPasswordTwo ? 'text' : 'password'}
           defaultValue=''
           variant='outlined'
-          InputProps={{ className: 'tw-rounded-3xl' }}
+          InputProps={{
+            className: 'tw-rounded-3xl',
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton
+                  onClick={() => setShowPasswordTwo(!showPasswordTwo)}
+                  edge='end'
+                >
+                  {showPasswordTwo ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <Typography
           className='tw-text-white tw-mt-3 tw-mr-60'

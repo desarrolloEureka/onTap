@@ -6,6 +6,7 @@ import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGe
 import { Dictionary } from '@/types/dictionary';
 import ProfileHook from './hooks/ProfileHook';
 import { DataForm } from '@/types/profile';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 
 const FooterProfile = ({
   handleModal,
@@ -48,8 +49,35 @@ const FooterProfile = ({
             </div>
           </div>
         </div>
-        <div className=' tw-h-[80%] tw-w-[50%] tw-flex tw-flex-col tw-items-end tw-justify-center'>
-          <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
+        <div className=' tw-h-[80%] tw-w-[50%] tw-flex  tw-items-end tw-justify-end '>
+          <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+            <Button
+              className='tw-w-[90%] tw-h-[45px]'
+              //onClick={handleModal}
+              color='secondary'
+              size='medium'
+              startIcon={
+                <SaveOutlinedIcon
+                  style={{
+                    color: '#62AD9B',
+                    fontSize: '1.6em',
+                    marginLeft: '0rem',
+                  }}
+                />
+              }
+            >
+              <span
+                style={{
+                  color: '#030124 ',
+                  fontSize: '0.9rem',
+                  textTransform: 'none',
+                }}
+              >
+                {dictionary?.homeView.saveButtonLabel}
+              </span>
+            </Button>
+          </div>
+         {/*  <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
             <Button
               onClick={handleModal}
               color='secondary'
@@ -74,7 +102,7 @@ const FooterProfile = ({
                 {dictionary?.profileView.buttonAddData}
               </span>
             </Button>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>

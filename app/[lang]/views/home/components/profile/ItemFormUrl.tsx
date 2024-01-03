@@ -1,16 +1,25 @@
 
 'use client';
-import React from 'react';
-import { Button, FormControl, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, TextField, Avatar } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
 import ProfileHook from '../profile/hooks/ProfileHook';
-import { FormHelperText, Input } from '@mui/material';
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import TimelineIcon from '@mui/icons-material/Timeline';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+
+
+import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
+import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
+import SendIcon from '@mui/icons-material/Send';
+import IconTikTok from './IconTikTok';
 
 import {
     CareerDataFormValues,
@@ -21,7 +30,7 @@ import {
 import ModalAlertLimit from './ModalAlertLimit';
 
 
-const ItemFormProfessional = ({
+const ItemFormUrl = ({
     dictionary,
     dataForm,
     handleDataSet,
@@ -51,15 +60,21 @@ const ItemFormProfessional = ({
         dataForm,
     });
 
+    const [showUrls, setShowUrls] = useState(false);
+
+    const handleOpenUrl = () => {
+        setShowUrls(!showUrls);
+    };
+
     return (
 
-        <div className={`${value[0] === 'professional_career' && itemDetail === 4 && labelArray.length > 1 ? 'tw-h-[350px]' : 'tw-h-[250px]'} tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}>
+        <div className={`${value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1 ? 'tw-h-[350px]' : 'tw-h-[250px]'} tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}>
             <div className={`tw-h-[${labelArray.length * 20}px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}>
 
                 <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
                     <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
                         <Button
-                            onClick={() => { handleAddData('professional_career', false); }}
+                            onClick={() => { handleAddData('urls', false); }}
                             color='secondary'
                             size='medium'
                             startIcon={
@@ -79,7 +94,7 @@ const ItemFormProfessional = ({
                                     textTransform: 'none',
                                 }}
                             >
-                                {dictionary?.profileView.addAnotherTrajectory}{' '}
+                                {dictionary?.profileView.addAnotherURL}{' '}
                             </span>
                         </Button>
                     </div>
@@ -90,46 +105,13 @@ const ItemFormProfessional = ({
                         {labelArray.map((val, key) => {
                             return (
                                 <div key={key}>
-                                    <div className='tw-h-[100%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
+
+
+                                    <div className='tw-h-[80%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
+
                                         <div className='tw-h-[100%] tw-w-[60%] tw-flex tw-flex-col'>
-                                            <TextField
-                                                //id={`${name}-input`}
-                                                variant='standard'
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <>
-                                                            <TimelineIcon
-                                                                style={{
-                                                                    color: '#62AD9B',
-                                                                    fontSize: '1.8rem',
-                                                                    marginRight: '0.5rem',
-                                                                }}
-                                                            />
-                                                            <CircleOutlinedIcon
-                                                                style={{
-                                                                    color: '#000000',
-                                                                    fontSize: '0.5rem',
-                                                                    marginRight: '0.3rem',
-                                                                }}
-                                                            />
-                                                            <span
-                                                                style={{
-                                                                    fontSize: '0.8rem',
-                                                                    marginRight: '0.5rem',
-                                                                }}
-                                                            >
-                                                                {dictionary?.profileView.labelCompany}:{' '}
-                                                            </span>
-                                                        </>
-                                                    ),
-                                                }}
-                                                onChange={(text: any) =>
-                                                    handleData({ name: value[0], text: text.target.value })
-                                                }
 
-                                            />
                                             <TextField
-                                                //id={`${name}-input`}
                                                 variant='standard'
                                                 InputProps={{
                                                     startAdornment: (
@@ -147,13 +129,17 @@ const ItemFormProfessional = ({
                                                                     marginRight: '0.5rem',
                                                                 }}
                                                             >
-                                                                {dictionary?.profileView.labelPosition}:{' '}
+                                                                {dictionary?.profileView.labelDataName}:{' '}
                                                             </span>
                                                         </>
                                                     ),
                                                 }}
+                                            /*  onChange={(text: any) =>
+                                                 handleData({ name: value[0], text: text.target.value })
+                                             } */
 
                                             />
+
                                             <TextField
                                                 //id={`${name}-input`}
                                                 variant='standard'
@@ -173,44 +159,17 @@ const ItemFormProfessional = ({
                                                                     marginRight: '0.5rem',
                                                                 }}
                                                             >
-                                                                {dictionary?.profileView.labelStartDate}:{' '}
+                                                                {dictionary?.profileView.labelOptionalUrl}:{' '}
                                                             </span>
                                                         </>
                                                     ),
                                                 }}
 
                                             />
-                                            <TextField
-                                                //id={`${name}-input`}
-                                                variant='standard'
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <>
-                                                            <CircleOutlinedIcon
-                                                                style={{
-                                                                    color: '#000000',
-                                                                    fontSize: '0.5rem',
-                                                                    marginRight: '0.3rem',
-                                                                }}
-                                                            />
-                                                            <span
-                                                                style={{
-                                                                    fontSize: '0.8rem',
-                                                                    marginRight: '0.5rem',
-                                                                }}
-                                                            >
-                                                                {dictionary?.profileView.labelEndDate}:{' '}
-                                                            </span>
-                                                        </>
-                                                    ),
-                                                }}
 
-                                            />
-                                            <FormHelperText id='standard-weight-helper-text'>
-                                                {dictionary?.profileView.labelCareerPath}
-                                            </FormHelperText>
                                         </div>
-                                        <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+
+                                        <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
                                             <Button
                                                 className='tw-w-[100%] tw-h-[100%]'
                                                 onClick={() => handleModalAlert(index)}
@@ -223,7 +182,8 @@ const ItemFormProfessional = ({
                                                 />
                                             </Button>
                                         </div>
-                                        <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+
+                                        <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center  '>
                                             <CustomSwitchGeneral
                                                 name={index}
                                                 handleSwitch={(e: any) => handleSwitch(e)}
@@ -231,11 +191,86 @@ const ItemFormProfessional = ({
                                             />
                                         </div>
                                     </div>
+
+                                    <div className='tw-h-[20%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center '>
+                                        <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
+                                            <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
+                                                <Button
+                                                    onClick={handleOpenUrl}
+                                                >
+                                                    <Avatar
+                                                        sx={{
+                                                            backgroundColor: '#ffffff',
+                                                            width: 38,
+                                                            height: 38,
+                                                        }}
+                                                    >
+                                                        <LocalGroceryStoreOutlinedIcon sx={{ color: '#396593' }} />
+                                                    </Avatar>
+                                                </Button>
+                                            </div>
+                                            <div className='tw-h-[100%] tw-w-[85%] tw-flex tw-justify-center tw-items-center'>
+                                                {showUrls ? (
+                                                    <div className='tw-h-[100%] tw-w-[90%] tw-flex tw-justify-center tw-items-center tw-rounded-2xl tw-bg-white tw-mt-2'>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <FacebookOutlinedIcon sx={{ color: '#62ad9b' }} />
+                                                            </Button>
+                                                        </div>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <TwitterIcon sx={{ color: '#62ad9b' }} />
+                                                            </Button>
+                                                        </div>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <FacebookOutlinedIcon sx={{ color: '#62ad9b' }} />
+                                                            </Button>
+                                                        </div>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <InstagramIcon sx={{ color: '#62ad9b' }} />
+                                                            </Button>
+                                                        </div>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <LinkedInIcon sx={{ color: '#62ad9b' }} />
+                                                            </Button>
+                                                        </div>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <IconTikTok />
+                                                            </Button>
+                                                        </div>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <MailOutlinedIcon sx={{ color: '#62ad9b' }} />
+                                                            </Button>
+                                                        </div>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <LanguageOutlinedIcon sx={{ color: '#62ad9b' }} />
+                                                            </Button>
+                                                        </div>
+                                                        <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                                                            <Button>
+                                                                <SendIcon sx={{ color: '#62ad9b' }} />
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                ) : null}
+                                            </div>
+
+                                        </div>
+                                    </div>
+
                                 </div>
                             );
                         })}
                     </div >
+
                 </div>
+
                 <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
                     <Button
                         onClick={() => handleSeeMore(4)}
@@ -262,7 +297,6 @@ const ItemFormProfessional = ({
                         </span>
                     </Button>
                 </div>
-
             </div>
             <ModalAlertLimit
                 isModalAlertLimit={isModalAlertLimit}
@@ -273,4 +307,4 @@ const ItemFormProfessional = ({
     );
 };
 
-export default ItemFormProfessional;
+export default ItemFormUrl;
