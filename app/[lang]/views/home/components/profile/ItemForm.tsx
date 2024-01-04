@@ -21,7 +21,7 @@ const ItemForm = ({
   deleteAction,
   icon,
   handleDeleteData,
-  handleModalAlert
+  handleModalAlert,
 }: ItemFormParams) => {
   return (
     <Box className='tw-flex tw-flex-row'>
@@ -33,7 +33,7 @@ const ItemForm = ({
           InputProps={{
             startAdornment: (
               <InputAdornment position='start'>
-                {icon === 'PersonOutlinedIcon' ?
+                {icon === 'PersonOutlinedIcon' ? (
                   <PersonOutlinedIcon
                     style={{
                       color: '#62AD9B',
@@ -41,81 +41,71 @@ const ItemForm = ({
                       marginRight: '1rem',
                     }}
                   />
-                  :
-                  icon === 'FilePresentOutlinedIcon' ?
-                    <FilePresentOutlinedIcon
-                      style={{
-                        color: '#62AD9B',
-                        fontSize: '1.8rem',
-                        marginRight: '1rem',
-                      }}
-                    />
-                    :
-                    icon === 'WorkOutlineOutlinedIcon' ?
-                      <WorkOutlineOutlinedIcon
-                        style={{
-                          color: '#62AD9B',
-                          fontSize: '1.8rem',
-                          marginRight: '1rem',
-                        }}
-                      />
-                      :
-                      icon === 'ExploreOutlinedIcon' ?
-                        <ExploreOutlinedIcon
-                          style={{
-                            color: '#62AD9B',
-                            fontSize: '1.8rem',
-                            marginRight: '1rem',
-                          }}
-                        />
-                        :
-                        icon === 'AttachFileOutlinedIcon' ?
-                          <AttachFileOutlinedIcon
-                            style={{
-                              color: '#62AD9B',
-                              fontSize: '1.8rem',
-                              marginRight: '1rem',
-                            }}
-                          />
-                          :
-                          icon === 'AccessibilityOutlinedIcon' ?
-                            <AccessibilityOutlinedIcon
-                              style={{
-                                color: '#62AD9B',
-                                fontSize: '1.8rem',
-                                marginRight: '1rem',
-                              }}
-                            />
-                            :
-                            icon === 'TranslateIcon' ?
-                              <TranslateIcon
-                                style={{
-                                  color: '#62AD9B',
-                                  fontSize: '1.8rem',
-                                  marginRight: '1rem',
-                                }}
-                              />
-                              :
-                              icon === 'LocalPhoneOutlinedIcon' ?
-                                <LocalPhoneOutlinedIcon
-                                  style={{
-                                    color: '#62AD9B',
-                                    fontSize: '1.8rem',
-                                    marginRight: '1rem',
-                                  }}
-                                />
-                                :
-                                icon === 'EmailOutlinedIcon' ?
-                                  <EmailOutlinedIcon
-                                    style={{
-                                      color: '#62AD9B',
-                                      fontSize: '1.8rem',
-                                      marginRight: '1rem',
-                                    }}
-                                  />
-                                  :
-                                  null
-                }
+                ) : icon === 'FilePresentOutlinedIcon' ? (
+                  <FilePresentOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'WorkOutlineOutlinedIcon' ? (
+                  <WorkOutlineOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'ExploreOutlinedIcon' ? (
+                  <ExploreOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'AttachFileOutlinedIcon' ? (
+                  <AttachFileOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'AccessibilityOutlinedIcon' ? (
+                  <AccessibilityOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'TranslateIcon' ? (
+                  <TranslateIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'LocalPhoneOutlinedIcon' ? (
+                  <LocalPhoneOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'EmailOutlinedIcon' ? (
+                  <EmailOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : null}
               </InputAdornment>
             ),
           }}
@@ -124,41 +114,39 @@ const ItemForm = ({
           }
         />
       </Box>
-      {deleteAction === true && handleModalAlert ?
+      {deleteAction === true && handleModalAlert ? (
         <>
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[10%] tw-mt-10'>
             <Button
               className='tw-w-[100%] tw-h-[100%]'
               onClick={() => handleModalAlert({ name: name })}
             >
-            <DeleteForeverOutlinedIcon
-              style={{
-                color: '#62AD9B',
-                fontSize: '1.7rem',
-              }}
+              <DeleteForeverOutlinedIcon
+                style={{
+                  color: '#62AD9B',
+                  fontSize: '1.7rem',
+                }}
+              />
+            </Button>
+          </Box>
+          <Box className='tw-flex tw-items-center tw-justify-center tw-w-[25%] tw-mt-10'>
+            <CustomSwitchGeneral
+              name={name}
+              handleSwitch={(e: any) => handleSwitch(e)}
+              checked={checked}
             />
-
-          </Button>
+          </Box>
+        </>
+      ) : (
+        <Box className='tw-flex tw-items-center tw-justify-center tw-w-[35%] tw-mt-10'>
+          <CustomSwitchGeneral
+            name={name}
+            handleSwitch={(e: any) => handleSwitch(e)}
+            checked={checked}
+          />
         </Box>
-      <Box className='tw-flex tw-items-center tw-justify-center tw-w-[25%] tw-mt-10'>
-        <CustomSwitchGeneral
-          name={name}
-          handleSwitch={(e: any) => handleSwitch(e)}
-          checked={checked}
-        />
-      </Box>
-    </>
-        :
-<Box className='tw-flex tw-items-center tw-justify-center tw-w-[35%] tw-mt-10'>
-  <CustomSwitchGeneral
-    name={name}
-    handleSwitch={(e: any) => handleSwitch(e)}
-    checked={checked}
-  />
-</Box>
-      }
-
-    </Box >
+      )}
+    </Box>
   );
 };
 

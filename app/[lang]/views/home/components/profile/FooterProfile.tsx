@@ -1,12 +1,10 @@
 'use client';
-import React from 'react';
-import { Button, Container } from '@mui/material';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
 import { Dictionary } from '@/types/dictionary';
-import ProfileHook from './hooks/ProfileHook';
 import { DataForm } from '@/types/profile';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import { Button, Container } from '@mui/material';
+import ProfileHook from './hooks/ProfileHook';
 
 const FooterProfile = ({
   handleModal,
@@ -21,8 +19,8 @@ const FooterProfile = ({
 }) => {
   const { handleSwitchAll } = ProfileHook({
     dictionary,
-    handleDataSet,
     dataForm,
+    handleDataSet,
   });
   return (
     <div className='tw-h-[110px] tw-flex tw-items-center tw-justify-center '>
@@ -77,7 +75,7 @@ const FooterProfile = ({
               </span>
             </Button>
           </div>
-         {/*  <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+          {/*  <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
             <Button
               onClick={handleModal}
               color='secondary'

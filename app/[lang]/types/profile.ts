@@ -83,7 +83,12 @@ export type IndexDataForm =
   | 'professional_career'
   | 'urls';
 
-export type handleDataProps = { name: string; text: string; subindex?: string; };
+export type SubIndexDataForm = 'title' | 'institution' | 'year';
+export type handleDataProps = {
+  name: string;
+  text: string;
+  subindex?: SubIndexDataForm;
+};
 
 export interface ItemFormParams {
   label: string;

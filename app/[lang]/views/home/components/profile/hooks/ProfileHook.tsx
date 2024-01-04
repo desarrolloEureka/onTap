@@ -4,7 +4,7 @@ import {
   DataFormValues,
   EducationDataFormValues,
   UrlDataFormValues,
-  handleDataProps
+  handleDataProps,
 } from '@/types/profile';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
@@ -12,11 +12,13 @@ import { Dictionary } from '../../../../../types/dictionary';
 const ProfileHook = ({
   dictionary,
   dataForm,
-  setDataForm
+  setDataForm,
+  handleDataSet,
 }: {
   dictionary: Dictionary;
   dataForm: DataForm;
   setDataForm?: (e: DataForm) => void;
+  handleDataSet?: (e: DataForm) => void;
 }) => {
   const [allChecked, setAllChecked] = useState(false);
   const [isModalAlertLimit, setIsModalAlertLimit] = useState(false);
@@ -26,11 +28,12 @@ const ProfileHook = ({
   const [itemDetail, setItemDetail] = useState(0);
   const [itemDelete, setItemDelete] = useState('');
 
-  const handleDataSet = useCallback((data: DataForm) => {
-    if (setDataForm)
-      setDataForm(data);
-    
-  }, [setDataForm]);
+  // const handleDataSet = useCallback(
+  //   (data: DataForm) => {
+  //     if (setDataForm) setDataForm(data);
+  //   },
+  //   [setDataForm]
+  // );
 
   const handleModalAlertLimit = (isOpen: boolean) => {
     setIsModalAlertLimit(isOpen);
@@ -73,15 +76,17 @@ const ProfileHook = ({
       index != 'professional_career' &&
       index != 'urls'
     ) {
-      console.log("If")
+      console.log('if');
+
       dataFormClone[index]!.checked = isChecked;
-      handleDataSet(dataFormClone);
+      handleDataSet && handleDataSet(dataFormClone);
     } else {
-      console.log("Else")
+      console.log('else');
+
       let dataAux = dataFormClone[index];
       dataAux?.map((val) => {
         val.checked = !val.checked;
-        handleDataSet(dataFormClone);
+        handleDataSet && handleDataSet(dataFormClone);
       });
     }
   };
@@ -89,6 +94,8 @@ const ProfileHook = ({
   const handleData = ({ name, text, subindex }: handleDataProps) => {
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
+    console.log('index', index);
+
     if (
       index != 'phones' &&
       index != 'education' &&
@@ -97,15 +104,18 @@ const ProfileHook = ({
       index != 'professional_career'
     ) {
       dataFormClone[index]!.text = text;
-      handleDataSet(dataFormClone);
+      handleDataSet && handleDataSet(dataFormClone);
     } else {
       if (index == 'phones' || index == 'emails') {
         const dataAux = dataFormClone[index];
         dataAux?.map((val) => {
           val.text = text;
-          handleDataSet(dataFormClone);
+          handleDataSet && handleDataSet(dataFormClone);
         });
       } else if (index == 'education') {
+        console.log('entro', index);
+        console.log('subindex', subindex);
+
         /* const dataAux = dataFormClone[index];
         //const EducationDataFormValuesClone = { ...EducationDataFormValues };
         const key = subindex as keyof typeof EducationDataFormValues
@@ -118,6 +128,8 @@ const ProfileHook = ({
             handleDataSet(dataFormClone);
           });
         } */
+      } else if (index == 'professional_career') {
+        console.log('subindex', subindex);
       } else {
         //console.log("professional_career");
       }
@@ -125,9 +137,7 @@ const ProfileHook = ({
   };
 
   const handleDeleteData = ({ name }: { name: string }) => {
-
-    console.log("handleDeleteData --->  ", name)
-
+    // console.log('handleDeleteData --->  ', name);
     /*    const dataFormClone = { ...dataForm };
        const index = name as keyof typeof dataFormClone;
    
@@ -136,7 +146,10 @@ const ProfileHook = ({
        } */
   };
 
-  const handleAddData = (index: keyof typeof dataFormClone, social: boolean) => {
+  const handleAddData = (
+    index: keyof typeof dataFormClone,
+    social: boolean
+  ) => {
     const dataFormClone = { ...dataForm };
 
     if (
@@ -146,8 +159,12 @@ const ProfileHook = ({
       index == 'urls' ||
       index == 'professional_career'
     ) {
-      const countProfessional = dataFormClone[index]?.filter((item: any) => item.professional).length;
-      const countSocial = dataFormClone[index]?.filter((item: any) => item.social).length;
+      const countProfessional = dataFormClone[index]?.filter(
+        (item: any) => item.professional
+      ).length;
+      const countSocial = dataFormClone[index]?.filter(
+        (item: any) => item.social
+      ).length;
       const count = social ? countSocial : countProfessional;
 
       if (index === 'phones') {
@@ -159,7 +176,7 @@ const ProfileHook = ({
             principal: false,
             social: social,
             professional: !social,
-            icon: 'LocalPhoneOutlinedIcon'
+            icon: 'LocalPhoneOutlinedIcon',
           });
         }
       }
@@ -172,7 +189,7 @@ const ProfileHook = ({
             principal: false,
             social: social,
             professional: !social,
-            icon: 'EmailOutlinedIcon'
+            icon: 'EmailOutlinedIcon',
           });
         }
       }
@@ -187,7 +204,7 @@ const ProfileHook = ({
             principal: false,
             social: social,
             professional: !social,
-            icon: ''
+            icon: '',
           });
         }
       }
@@ -203,7 +220,7 @@ const ProfileHook = ({
             principal: false,
             social: social,
             professional: !social,
-            icon: ''
+            icon: '',
           });
         }
       }
@@ -225,7 +242,7 @@ const ProfileHook = ({
         handleModalAlertLimit(true);
       }
 
-      handleDataSet(dataFormClone);
+      handleDataSet && handleDataSet(dataFormClone);
     }
   };
 
@@ -299,8 +316,8 @@ const ProfileHook = ({
     [dictionary]
   );
 
-  const handleSwitchAll = (value: ChangeEvent<HTMLInputElement>) => {
-    const isChecked = value.target.checked;
+  const handleSwitchAll = (val: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = val.target.checked;
     const dataFormClone = { ...dataForm };
     const items = Object.entries(dataFormClone);
 
@@ -324,7 +341,7 @@ const ProfileHook = ({
     });
 
     const dataFormChecked = Object.fromEntries(newData);
-    handleDataSet(dataFormChecked);
+    handleDataSet && handleDataSet(dataFormChecked);
     setAllChecked(true);
   };
 
@@ -380,14 +397,14 @@ const ProfileHook = ({
         }
       });
       const dataFormChecked = Object.fromEntries(newData);
-      handleDataSet(dataFormChecked);
+      handleDataSet && handleDataSet(dataFormChecked);
     }
   }, [dataForm, dictionary, handleDataSet, validLabel]);
 
   useEffect(() => {
     if (allChecked && dataForm) {
       const dataFormClone = { ...dataForm };
-      handleDataSet(dataFormClone);
+      handleDataSet && handleDataSet(dataFormClone);
       setAllChecked(false);
     }
   }, [allChecked, dataForm, handleDataSet]);
@@ -403,14 +420,13 @@ const ProfileHook = ({
     handleModal,
     handleModalAlert,
     handleSeeMore,
-    handleDataSet,
     isDetailOpen,
     itemDetail,
     isModalOpen,
     isModalAlert,
     itemDelete,
     isModalAlertLimit,
-    handleModalAlertLimit
+    handleModalAlertLimit,
   };
 };
 

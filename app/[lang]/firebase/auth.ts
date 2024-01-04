@@ -1,12 +1,11 @@
 import { LoginFirebaseProps } from '@/types/login';
-import { dataBase, app } from 'app/[lang]/firebase/firebaseConfig';
+import { dataBase } from 'app/[lang]/firebase/firebaseConfig';
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 const auth = getAuth();
 
 const userRefByUser = (ref: any) =>
