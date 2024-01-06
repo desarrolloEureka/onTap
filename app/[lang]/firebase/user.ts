@@ -5,6 +5,7 @@ import {
   getDocs,
   query,
   where,
+  updateDoc
 } from 'firebase/firestore';
 import { dataBase } from 'app/[lang]/firebase/firebaseConfig';
 import {
@@ -33,6 +34,19 @@ export const getUserById = async (user: string) =>
 // ref({ ref: user, collection: 'users' });
 
 export const getAllUsers = async () => await getDocs(allRef({ ref: 'users' }));
+
+/* guia firebase - update */
+/* Crear insertar dato  */
+
+/* addDoc ---> crea nuevos documentos(Usuarios) */
+
+/* Actualiza un documento:
+Para actualizar algunos campos de un documento sin reemplazarlo por completo, usa los métodos update() específicos para cada lenguaje: */
+
+export const updateUserData = async (userId: string, newData: any) => {
+  const userDocRef = doc(dataBase, 'users', userId);
+  await updateDoc(userDocRef, newData);
+};
 
 export const getUserByLogin = async ({
   user,

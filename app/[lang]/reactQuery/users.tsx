@@ -1,5 +1,5 @@
 import { loginFirebase } from '@/firebase/auth';
-import { getAllUsers, getUserById, getUserByLogin } from '@/firebase/user';
+import { getAllUsers, getUserById, getUserByLogin, updateUserData } from '@/firebase/user';
 import { GetLoginQueryProps } from '@/types/userQuery';
 import { useQuery } from '@tanstack/react-query';
 
@@ -49,6 +49,12 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
   return query;
 };
 
+/* Actualizar react query*/
+const SendDataImage = async (userId: string, base64String: string) => {
+  //localStorage.setItem('@userImage', base64String);
+  await updateUserData(userId, { image: base64String });
+};
+
 const GetUser = () =>
   useQuery({
     queryKey: ['user'],
@@ -58,4 +64,4 @@ const GetUser = () =>
     },
   });
 
-export { GetAllUserQuery, GetLoginQuery, GetUser };
+export { SendDataImage, GetAllUserQuery, GetLoginQuery, GetUser };

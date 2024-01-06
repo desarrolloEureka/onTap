@@ -20,7 +20,7 @@ const TextAreaForm = ({
 }: ItemFormParams) => {
   return (
     <Box className='tw-flex tw-flex-row'>
-      <Box className='tw-flex tw-items-center tw-justify-center tw-w-[70%]'>
+      <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>
         <TextField
           id={`${name}-input`}
           label={label}
@@ -104,7 +104,7 @@ const TextAreaForm = ({
           }
         />
       </Box>
-      <Box className='tw-flex tw-items-center tw-justify-center tw-w-[30%] tw-mt-10'>
+      <Box className='tw-flex tw-items-center tw-justify-center tw-w-[35%] tw-mt-10'>
         <CustomSwitchGeneral
           name={name}
           handleSwitch={(e: any) => handleSwitch(e)}
