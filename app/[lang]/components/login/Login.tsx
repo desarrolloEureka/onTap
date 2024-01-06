@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { LoginProps } from '@/types/login';
 import {
   Box,
@@ -10,6 +11,11 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import LoginHook from './hooks/LoginHook';
+
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Login = ({ dictionary }: LoginProps) => {
   // const { data } = GetLangQuery();
@@ -26,6 +32,8 @@ const Login = ({ dictionary }: LoginProps) => {
     email,
     password,
   } = LoginHook(dictionary);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
@@ -77,18 +85,29 @@ const Login = ({ dictionary }: LoginProps) => {
                 {dictionary.loginView.password}{' '}
               </Typography>
               <TextField
-                className='tw-h-[52px] tw-w-[386px] tw-mt-1 tw-text-sm  '
+                className='tw-h-[52px] tw-w-[386px] tw-mt-1 tw-text-sm'
                 required
                 id='outlined-password'
-                // label={dictionary.loginView.password}
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 defaultValue={password}
                 variant='outlined'
-                InputProps={{ className: 'tw-rounded-3xl' }}
+                InputProps={{
+                  className: 'tw-rounded-3xl',
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge='end'
+                      >
+                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button className='tw-text-white tw-ml-[180px]'>
-                <Link href='/views/recoverPassword'>
+              <Button className='tw-text-white tw-ml-[180px] '>
+                <Link href='/views/recoverPassword' className='tw-normal-case tw-no-underline tw-text-white tw-pl-10'>
                   {dictionary.loginView.recoverPassLogin}
                 </Link>
               </Button>
@@ -112,7 +131,7 @@ const Login = ({ dictionary }: LoginProps) => {
               </Typography>
 
               <Button className='tw-text-white tw-ml-36' onClick={loginHandle}>
-                {dictionary.loginView.login} oooo
+                {dictionary.loginView.login}
               </Button>
             </Box>
           </>

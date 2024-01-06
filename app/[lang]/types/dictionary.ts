@@ -68,6 +68,7 @@ export interface Dictionary {
     labelSwitchMain: string;
     addAnotherTrajectory: string;
     addAnotherEducation: string;
+    addAnotherURL: string;
   };
   recoveryCode: {
     nextCode: string;
@@ -82,6 +83,12 @@ export interface Dictionary {
     nPassword: string;
     repeatPassword: string;
     nextNewPassword: string;
+  };
+  modalDelete: {
+    labelAlert: string;
+    labelMessage: string;
+    buttonCancel: string;
+    buttonConfirm: string;
   };
   passwordChangedSuccessfully: string;
   logOut: string;
