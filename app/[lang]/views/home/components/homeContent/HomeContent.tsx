@@ -1,24 +1,40 @@
-import { Dictionary } from '@/types/dictionary';
-import { Box, Button, Checkbox, Grid, Modal, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import ButtonTab from '../buttonTab/ButtonTab';
-import Header from '../header/Header';
-import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
-import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import DynamicFeedOutlinedIcon from '@mui/icons-material/DynamicFeedOutlined';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import CloseIcon from '@mui/icons-material/Close';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Image from 'next/image';
 import LogOut from '@/hooks/logOut/LogOut';
+import { Dictionary } from '@/types/dictionary';
 import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CloseIcon from '@mui/icons-material/Close';
+import DynamicFeedOutlinedIcon from '@mui/icons-material/DynamicFeedOutlined';
+import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
+import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, Button, Checkbox, Grid, Modal, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from 'next/image';
+import { useState } from 'react';
+import Header from '../header/Header';
+import Hero from '../hero/Hero';
 
 interface BackgroundType {
   id: string;
   name: string;
   image: string;
 }
+interface TemplateType {
+  id: string;
+  name: string;
+  image: string;
+}
+
+const backgroundSelectDataInit = {
+  id: '',
+  name: '',
+  image: '',
+};
+const templateSelectDataInit = {
+  id: '',
+  name: '',
+  image: '',
+};
 
 const HomeContent = ({
   dictionary,
@@ -31,16 +47,13 @@ const HomeContent = ({
 }) => {
   const [optionSelected, setOptionSelected] = useState<TemplateTypes>('social');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [backgroundSelect, setBackgroundSelect] = useState<BackgroundType>({
-    id: '',
-    name: '',
-    image: '',
-  });
+  const [backgroundSelect, setBackgroundSelect] = useState<BackgroundType>(
+    backgroundSelectDataInit
+  );
+  const [templateSelect, setTemplateSelect] = useState<TemplateType>(
+    templateSelectDataInit
+  );
   const { logOut } = LogOut();
-
-  const handleChangeOption = (option: TemplateTypes) => {
-    setOptionSelected(option);
-  };
 
   const handleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -50,39 +63,21 @@ const HomeContent = ({
     setBackgroundSelect(item);
   };
 
+  const handleSelectTemplate = (item: TemplateType) => {
+    setTemplateSelect(item);
+  };
+
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
   return (
     dictionary && (
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center md:tw-h-screen">
         <Header dictionary={dictionary} />
-        <div
-          className='tw-h-[60px] tw-flex'
-          style={{ borderBottom: '1px solid #C2C2C2' }}
-        >
-          <ButtonTab
-            dictionary={dictionary}
-            index={'social'}
-            optionSelected={optionSelected}
-            title={dictionary?.homeView.social}
-            handleChangeOption={handleChangeOption}
-          />
-          <ButtonTab
-            dictionary={dictionary}
-            index={'professional'}
-            optionSelected={optionSelected}
-            title={dictionary?.homeView.professional}
-            handleChangeOption={handleChangeOption}
-          />
-          <ButtonTab
-            dictionary={dictionary}
-            index={'corporate'}
-            optionSelected={optionSelected}
-            title={dictionary?.homeView.corporate}
-            handleChangeOption={handleChangeOption}
-            disabled
-          />
-        </div>
+        <Hero
+          dictionary={dictionary}
+          setOptionSelected={setOptionSelected}
+          optionSelected={optionSelected}
+        />
 
         <div className='tw-flex tw-items-center tw-justify-center'>
           <div className='tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-3 lg:tw-w-[1300px] xl:tw-w-[1250px]'>
@@ -147,44 +142,13 @@ const HomeContent = ({
                               </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center'>
-                          <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-center '>
-                            <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
-                              <div className='tw-w-[55%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
-                                <span
-                                  style={{ fontSize: '14px' }}
-                                  className='tw-text-white'
-                                >
-                                  {dictionary?.homeView.labelTemplate}{' '}
-                                  {index + 1}
-                                </span>
-                              </div>
-                            </div>
-                            <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>
-                              <Button
-                                style={{ borderRadius: 0 }}
-                                onClick={() => handleModal()}
-                                className='tw-w-[60%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'
-                              >
-                                <div className='tw-w-[100%] tw-h-[60%] tw-flex tw-items-center tw-justify-center'>
-                                  <DynamicFeedOutlinedIcon
-                                    style={{
-                                      fontSize: '2rem',
-                                      color: 'white',
-                                    }}
-                                  />
-                                </div>
-                                <div
-                                  style={{
-                                    textTransform: 'none',
-                                    borderRadius: 0,
-                                  }}
-                                  className='tw-w-[100%] tw-h-[40%] tw-flex tw-items-center tw-justify-center'
-                                >
+                          <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center'>
+                            <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-center '>
+                              <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
+                                <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
                                   <span
-                                    style={{ fontSize: '9px' }}
+                                    style={{ fontSize: '13px' }}
                                     className='tw-text-white'
                                   >
                                     {
@@ -194,7 +158,42 @@ const HomeContent = ({
                                     <br /> {dictionary?.homeView.labelTemplate}
                                   </span>
                                 </div>
-                              </Button>
+                              </div>
+                              <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>
+                                <Button
+                                  style={{ borderRadius: 0 }}
+                                  onClick={() => handleModal()}
+                                  className='tw-w-[60%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'
+                                >
+                                  <div className='tw-w-[100%] tw-h-[60%] tw-flex tw-items-center tw-justify-center'>
+                                    <DynamicFeedOutlinedIcon
+                                      style={{
+                                        fontSize: '2rem',
+                                        color: 'white',
+                                      }}
+                                    />
+                                  </div>
+                                  <div
+                                    style={{
+                                      textTransform: 'none',
+                                      borderRadius: 0,
+                                    }}
+                                    className='tw-w-[100%] tw-h-[40%] tw-flex tw-items-center tw-justify-center'
+                                  >
+                                    <span
+                                      style={{ fontSize: '9px' }}
+                                      className='tw-text-white'
+                                    >
+                                      {
+                                        dictionary?.homeView
+                                          .buttonChangeBackground
+                                      }{' '}
+                                      <br />{' '}
+                                      {dictionary?.homeView.labelTemplate}
+                                    </span>
+                                  </div>
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -255,7 +254,7 @@ const HomeContent = ({
               <Grid container spacing={2}>
                 {backgroundImages.map((item, index) => (
                   <Grid item xs={6} sm={6} md={4} lg={4} key={index}>
-                    <div className=' tw-relative tw-flex tw-items-center tw-justify-center tw-bg-white'>
+                    <div className='max-sm:tw-h-[185Px] tw-h-[280px] max-sm:tw-w-[130px] tw-relative tw-rounded-md tw-flex tw-items-center tw-justify-center tw-bg-white'>
                       <Image
                         src={item.image}
                         alt={`Image ${item.id}`}
@@ -268,7 +267,7 @@ const HomeContent = ({
                             : 'tw-w-[135px] tw-h-[280px]'
                         }
                       />
-                      <div className='tw-absolute max-sm:tw-w-[92px] tw-w-[130px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+                      <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
                         <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
                           <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-end'>
                             <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>
@@ -298,12 +297,12 @@ const HomeContent = ({
                           </div>
                         </div>
 
-                        <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center'>
-                          <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start'>
-                            <div className='tw-w-[45%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
+                        <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center '>
+                          <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start '>
+                            <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center '>
                               <span
-                                style={{ fontSize: '14px' }}
-                                className='tw-text-white'
+                                style={{ fontSize: '13px' }}
+                                className='tw-text-[#5278a0]'
                               >
                                 {dictionary?.homeView.labelBackground}{' '}
                                 {index + 1}
@@ -317,7 +316,7 @@ const HomeContent = ({
                 ))}
               </Grid>
             </div>
-            <div className='tw-flex tw-justify-start tw-mt-3 tw-pl-20 tw-pt-1 tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
+            <div className='tw-flex tw-justify-start tw-mt-3 tw-pl-10 tw-pt-1 tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
               <Button
                 color='secondary'
                 size='medium'

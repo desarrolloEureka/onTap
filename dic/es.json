@@ -91,7 +91,14 @@
     "labelOptionalUrl": "URL opcional",
     "labelSwitchMain": "Switch Padre",
     "addAnotherTrajectory": "Agregar otra trayectoria",
-    "addAnotherEducation": "Agregar otra educacion"
+    "addAnotherEducation": "Agregar otra educacion",
+    "addAnotherURL": "Agregar otra URL"
+  },
+  "modalDelete": {
+    "labelAlert": "Alerta",
+    "labelMessage": "¿Está seguro de eliminar este dato?",
+    "buttonCancel": "Cancelar",
+    "buttonConfirm": "Confirmar"
   },
   "logOut": "Salir"
 }

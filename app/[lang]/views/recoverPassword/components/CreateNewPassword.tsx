@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -24,6 +25,8 @@ const CreateNewPassword = ({
     finishReset,
     expired,
   } = RecoverPasswordHook();
+  const [showPasswordOne, setShowPasswordOne] = useState(false);
+  const [showPasswordTwo, setShowPasswordTwo] = useState(false);
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
@@ -49,10 +52,11 @@ const CreateNewPassword = ({
           </h1>
         </div>
         <TextField
-          className='tw-h-[52px] tw-w-[386px] tw-mt-10 tw-text-sm  '
+          className='tw-h-[52px] tw-w-[386px] tw-mt-10 tw-text-sm'
           required
-          id='outlined-required'
+          id='outlined-password'
           label={dictionary?.newPassword.nPassword}
+          type={showPasswordOne ? 'text' : 'password'}
           defaultValue=''
           variant='outlined'
           InputProps={{ className: 'tw-rounded-3xl' }}
@@ -66,11 +70,11 @@ const CreateNewPassword = ({
           {dictionary?.newPassword.nPassword}
         </Typography>
         <TextField
-          className='tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm  '
+          className='tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm'
           required
           id='outlined-password'
           label={dictionary?.newPassword.repeatPassword}
-          type='password'
+          type={showPasswordTwo ? 'text' : 'password'}
           defaultValue=''
           variant='outlined'
           InputProps={{ className: 'tw-rounded-3xl' }}
@@ -86,7 +90,7 @@ const CreateNewPassword = ({
         <Button
           className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-white tw-mt-[30px] tw-items-center '
           onClick={() => finishReset((e) => handleNext(e))}
-          disabled={!validatingPassword ?? false}
+          disabled={validatingPassword ?? false}
         >
           {dictionary?.newPassword.nextNewPassword}
         </Button>

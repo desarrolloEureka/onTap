@@ -11,6 +11,7 @@ export interface DataForm {
   emails?: DataFormValues[];
   education?: EducationDataFormValues[];
   professional_career?: CareerDataFormValues[];
+  urls?: UrlDataFormValues[];
   other_competencies?: DataFormValues;
   skills?: DataFormValues;
   languages?: DataFormValues;
@@ -23,6 +24,8 @@ export type DataFormValues = {
   checked?: boolean;
   principal?: boolean;
   social?: boolean;
+  professional?: boolean;
+  icon?: string;
 };
 
 export type EducationDataFormValues = {
@@ -33,6 +36,8 @@ export type EducationDataFormValues = {
   checked?: boolean;
   principal?: boolean;
   social?: boolean;
+  professional?: boolean;
+  icon?: string;
 };
 
 export type CareerDataFormValues = {
@@ -44,6 +49,19 @@ export type CareerDataFormValues = {
   checked?: boolean;
   principal?: boolean;
   social?: boolean;
+  professional?: boolean;
+  icon?: string;
+};
+
+export type UrlDataFormValues = {
+  label?: string;
+  name: string;
+  url: string;
+  icon: string;
+  checked?: boolean;
+  principal?: boolean;
+  social?: boolean;
+  professional?: boolean;
 };
 
 export type IndexDataForm =
@@ -62,12 +80,24 @@ export type IndexDataForm =
   | 'phones'
   | 'emails'
   | 'education'
-  | 'professional_career';
+  | 'professional_career'
+  | 'urls';
+
+export type SubIndexDataForm = 'title' | 'institution' | 'year';
+export type handleDataProps = {
+  name: string;
+  text: string;
+  subindex?: SubIndexDataForm;
+};
 
 export interface ItemFormParams {
   label: string;
   name: IndexDataForm;
   handleSwitch: (e: any) => void;
-  handleData: ({ name, text }: { name: string; text: string }) => void;
+  handleData: ({ name, text, subindex }: handleDataProps) => void;
   checked?: boolean;
+  icon?: string;
+  deleteAction?: boolean;
+  handleDeleteData?: ({ name }: { name: string }) => void;
+  handleModalAlert?: ({ name }: { name: string }) => void;
 }

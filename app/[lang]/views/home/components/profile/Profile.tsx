@@ -1,13 +1,15 @@
 import { Dictionary } from '@/types/dictionary';
 import { DataForm } from '@/types/profile';
+import FormDataUser from '@/views/home/components/form/FormDataUser';
 import FooterProfile from '@/views/home/components/profile/FooterProfile';
 import FormAddDataUser from '@/views/home/components/profile/FormAddDataUser';
-import FormDataUser from '@/views/home/components/form/FormDataUser';
 import ModalProfile from '@/views/home/components/profile/ModalProfile';
 import PhotoUser from '@/views/home/components/profile/PhotoUser';
 import { Container } from '@mui/material';
 import { profile } from 'app/[lang]/initialData/profileInitialData';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import ModalAlert from './ModalAlert';
+import ProfileHook from './hooks/ProfileHook';
 
 const Profile = ({
   dictionary,
@@ -16,33 +18,27 @@ const Profile = ({
   dictionary: Dictionary;
   isProUser: boolean;
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [itemDetail, setItemDetail] = useState(0);
   const [dataForm, setDataForm] = useState<DataForm>(profile);
 
-  const handleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
-  /*   const handleSeeMore = (numItem: number) => {
-      if (isDetailOpen === true) {
-        setIsDetailOpen(false);
-        setItemDetail(0);
-      }
-      setIsDetailOpen(true);
-      setItemDetail(numItem);
-    }; */
-
-  const handleSeeMore = (numItem: number) => {
-    if (itemDetail != 0) {
-      setItemDetail(0);
-    } else {
-      setItemDetail(numItem);
-    }
-  };
+  const {
+    handleModal,
+    handleModalAlert,
+    handleSeeMore,
+    handleDeleteData,
+    isDetailOpen,
+    itemDetail,
+    isModalOpen,
+    isModalAlert,
+    handleModalAux,
+    itemDelete,
+  } = ProfileHook({
+    dictionary,
+    dataForm,
+    setDataForm,
+  });
 
   const handleDataSet = (data: DataForm) => {
+    console.log('data', data);
     setDataForm(data);
   };
 
@@ -51,8 +47,11 @@ const Profile = ({
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
         <PhotoUser dictionary={dictionary} />
         <div
-          className={`tw-flex tw-items-center tw-justify-center ${isProUser ? 'lg:tw-h-[1500px] md:tw-w-[100%]' : 'lg:tw-h-[750px] md:tw-w-[100%]'
-            }`}
+          className={`tw-flex tw-items-center tw-justify-center ${
+            isProUser
+              ? 'lg:tw-h-[1700px] md:tw-w-[100%]'
+              : 'lg:tw-h-[750px] md:tw-w-[100%]'
+          }`}
         >
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
             <FormDataUser
@@ -69,6 +68,7 @@ const Profile = ({
               isDetailOpen={isDetailOpen}
               itemDetail={itemDetail}
               handleSeeMore={handleSeeMore}
+              handleModalAlert={handleModalAlert}
             />
           </Container>
         </div>
@@ -85,6 +85,13 @@ const Profile = ({
         isModalOpen={isModalOpen}
         handleModal={handleModal}
         dictionary={dictionary}
+      />
+      <ModalAlert
+        isModalAlert={isModalAlert}
+        handleModalAlert={handleModalAux}
+        dictionary={dictionary}
+        handleDeleteData={(name) => handleDeleteData({ name })}
+        itemDelete={itemDelete}
       />
     </div>
   );

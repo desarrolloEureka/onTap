@@ -3,14 +3,18 @@ const dataPrincipalProfileEmail = {
   text: '',
   checked: false,
   principal: true,
-  social: true
+  social: true,
+  professional: true,
+  icon: 'EmailOutlinedIcon'
 };
 const dataPrincipalProfilePhone = {
   label: '',
   text: '',
   checked: false,
   principal: true,
-  social: true
+  social: true,
+  professional: true,
+  icon: 'LocalPhoneOutlinedIcon'
 };
 const dataPrincipalEducations = {
   label: '',
@@ -19,7 +23,9 @@ const dataPrincipalEducations = {
   year: '',
   checked: false,
   principal: true,
-  social: false
+  social: false,
+  professional: true,
+  icon: ''
 };
 const dataPrincipalCareer = {
   label: '',
@@ -30,22 +36,37 @@ const dataPrincipalCareer = {
   checked: false,
   principal: true,
   social: false,
+  professional: true,
+  icon: ''
+};
+const dataPrincipalUrl = {
+  label: '',
+  name: '',
+  url: '',
+  icon: '',
+  data_init: '',
+  data_end: '',
+  checked: false,
+  principal: true,
+  social: false,
+  professional: true,
 };
 export const profile = {
-  name: { label: '', text: '', checked: false, social: true },
-  last_name: { label: '', text: '', checked: false, social: true },
-  profession: { label: '', text: '', checked: false, social: true },
-  occupation: { label: '', text: '', checked: false, social: true },
-  address: { label: '', text: '', checked: false, social: true },
-  company: { label: '', text: '', checked: false, social: false },
-  position: { label: '', text: '', checked: false, social: false },
-  professional_profile: { label: '', text: '', checked: false, social: false },
+  name: { label: '', text: '', checked: false, social: true, professional: true, icon: "PersonOutlinedIcon" },
+  last_name: { label: '', text: '', checked: false, social: true, professional: true, icon: "PersonOutlinedIcon" },
+  profession: { label: '', text: '', checked: false, social: true, professional: true, icon: "FilePresentOutlinedIcon" },
+  occupation: { label: '', text: '', checked: false, social: true, professional: true, icon: "WorkOutlineOutlinedIcon" },
+  address: { label: '', text: '', checked: false, social: true, professional: true, icon: "ExploreOutlinedIcon" },
+  company: { label: '', text: '', checked: false, social: false, professional: true, icon: "WorkOutlineOutlinedIcon" },
+  position: { label: '', text: '', checked: false, social: false, professional: true, icon: "AttachFileOutlinedIcon" },
+  professional_profile: { label: '', text: '', checked: false, social: false, professional: true, icon: "PersonOutlinedIcon" },
   phones: [dataPrincipalProfilePhone],
   emails: [dataPrincipalProfileEmail],
   education: [dataPrincipalEducations],
   professional_career: [dataPrincipalCareer],
-  other_competencies: { label: '', text: '', checked: false, social: false },
-  skills: { label: '', text: '', checked: false, social: false },
-  languages: { label: '', text: '', checked: false, social: false },
-  achievements_recognitions: { label: '', text: '', checked: false, social: false },
+  urls: [dataPrincipalUrl],
+  other_competencies: { label: '', text: '', checked: false, social: false, professional: true, icon: "AccessibilityOutlinedIcon" },
+  skills: { label: '', text: '', checked: false, social: false, professional: true, icon: "PersonOutlinedIcon" },
+  languages: { label: '', text: '', checked: false, social: false, professional: true, icon: "TranslateIcon" },
+  achievements_recognitions: { label: '', text: '', checked: false, social: false, professional: true, icon: "AccessibilityOutlinedIcon" },
 };
