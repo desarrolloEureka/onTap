@@ -88,60 +88,57 @@ const HomeContent = ({
                     key={index}
                     className={`max-sm:tw-h-[520px] tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
                   >
-                    <div className='tw-relative tw-rounded-md max-sm:tw-h-[90%] tw-h-[80%] tw-w-[355px] tw-flex tw-items-center tw-justify-center'>
-                      <div className='tw-relative tw-rounded-md tw-h-[100%] tw-w-[95%] tw-flex tw-items-center tw-justify-center tw-bg-[#62ad9b]'>
-                        <Image
-                          priority
-                          src={value.image}
-                          alt={`Image ${value.image}`}
-                          width={197} //247
-                          height={425} //475
-                        />
+                    <div className='tw-relative tw-rounded-md tw-h-[80%] tw-w-[95%] tw-flex tw-items-center tw-justify-center'>
+                      <Image
+                        src={value.image}
+                        alt={`Image ${value.image}`}
+                        height={0}
+                        width={0}
+                        loading={'lazy'}
+                        className='tw-w-[247px] tw-h-[475px]'
+                      />
 
-                        <div className='tw-absolute tw-w-[350px] tw-h-[460px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-                          <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
-                            <div className='tw-w-[100%] tw-h-[25%] tw-flex tw-items-center tw-justify-center '>
-                              <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
-                                <div className='tw-w-[40%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-                                  <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-center tw-justify-center'>
-                                    <VisibilityIcon
-                                      style={{ fontSize: '1.8rem' }}
-                                    />
-                                  </div>
-                                  <div className='tw-w-[100%] tw-h-[40%] tw-flex tw-items-center tw-justify-center'>
-                                    <span
-                                      style={{ fontSize: '9px' }}
-                                      className='tw-text-white'
-                                    >
-                                      {dictionary?.homeView.labelView} <br />{' '}
-                                      {dictionary?.homeView.labelPrevious}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-start tw-justify-end '>
-                                <div className='tw-w-[35%] tw-h-[80%] tw-flex tw-items-center tw-justify-center'>
-                                  <Checkbox
-                                    onChange={() => handleSelectTemplate(value)}
-                                    checked={templateSelect.id == value.id}
-                                    icon={
-                                      <RadioButtonUncheckedOutlinedIcon
-                                        style={{
-                                          fontSize: '1rem',
-                                          color: '#396593',
-                                        }}
-                                      />
-                                    }
-                                    checkedIcon={
-                                      <RadioButtonCheckedOutlinedIcon
-                                        style={{
-                                          fontSize: '1rem',
-                                          color: '#396593',
-                                        }}
-                                      />
-                                    }
+                      <div className='tw-absolute tw-w-[235px] tw-h-[460px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+                        <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
+                          <div className='tw-w-[100%] tw-h-[25%] tw-flex tw-items-center tw-justify-center '>
+                            <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
+                              <div className='tw-w-[40%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+                                <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-center tw-justify-center'>
+                                  <VisibilityIcon
+                                    style={{ fontSize: '1.8rem' }}
                                   />
                                 </div>
+                                <div className='tw-w-[100%] tw-h-[40%] tw-flex tw-items-center tw-justify-center'>
+                                  <span
+                                    style={{ fontSize: '9px' }}
+                                    className='tw-text-white'
+                                  >
+                                    {dictionary?.homeView.labelView} <br />{' '}
+                                    {dictionary?.homeView.labelPrevious}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-start tw-justify-end '>
+                              <div className='tw-w-[35%] tw-h-[80%] tw-flex tw-items-center tw-justify-center'>
+                                <Checkbox
+                                  icon={
+                                    <RadioButtonUncheckedOutlinedIcon
+                                      style={{
+                                        fontSize: '1rem',
+                                        color: '#396593',
+                                      }}
+                                    />
+                                  }
+                                  checkedIcon={
+                                    <RadioButtonCheckedOutlinedIcon
+                                      style={{
+                                        fontSize: '1rem',
+                                        color: '#396593',
+                                      }}
+                                    />
+                                  }
+                                />
                               </div>
                             </div>
                           </div>
@@ -154,8 +151,11 @@ const HomeContent = ({
                                     style={{ fontSize: '13px' }}
                                     className='tw-text-white'
                                   >
-                                    {dictionary?.homeView.labelTemplate}{' '}
-                                    {index + 1}
+                                    {
+                                      dictionary?.homeView
+                                        .buttonChangeBackground
+                                    }{' '}
+                                    <br /> {dictionary?.homeView.labelTemplate}
                                   </span>
                                 </div>
                               </div>
@@ -245,8 +245,8 @@ const HomeContent = ({
                 onClick={handleModal}
               />
             </div>
-            <div className='tw-px-10 tw-pt-10 tw-h-[80%]'>
-              <div className='tw-ml-1 tw-mb-8'>
+            <div className='tw-px-16 tw-pt-10 tw-h-[80%]'>
+              <div className='tw-ml-9 tw-mb-8'>
                 <Typography style={{ color: 'black' }}>
                   {dictionary?.homeView.selectModalTitle}
                 </Typography>
@@ -258,8 +258,14 @@ const HomeContent = ({
                       <Image
                         src={item.image}
                         alt={`Image ${item.id}`}
-                        width={isSmallScreen ? 60 : 115}
-                        height={isSmallScreen ? 143 : 260} //280
+                        height={0}
+                        width={0}
+                        loading={'lazy'}
+                        className={
+                          isSmallScreen
+                            ? 'tw-w-[97px] tw-h-[180px]'
+                            : 'tw-w-[135px] tw-h-[280px]'
+                        }
                       />
                       <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
                         <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
@@ -273,7 +279,7 @@ const HomeContent = ({
                                     <RadioButtonUncheckedOutlinedIcon
                                       style={{
                                         fontSize: '1rem',
-                                        color: '#5278a0',
+                                        color: '#396593',
                                       }}
                                     />
                                   }
@@ -281,7 +287,7 @@ const HomeContent = ({
                                     <RadioButtonCheckedOutlinedIcon
                                       style={{
                                         fontSize: '1rem',
-                                        color: '#5278a0',
+                                        color: '#396593',
                                       }}
                                     />
                                   }

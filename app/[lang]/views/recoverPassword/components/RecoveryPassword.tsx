@@ -6,21 +6,28 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Locale } from 'i18n-config';
 import Link from 'next/link';
+import RecoverPasswordHook from '../hooks/RecoverPasswordHook';
+import { Alert } from '@mui/material';
 
 const RecoveryPassword = ({
   params: { lang },
-  handleNext,
-  handleBack,
 }: {
   params: { lang: Locale };
-  handleNext: () => void;
-  handleBack: () => void;
 }) => {
   const { dictionary } = useDictionary({ lang });
+  const { handleSetEmail, email, handleNext, handleBack, alertEmailSend } =
+    RecoverPasswordHook();
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
       <Container className='tw-bg-primary tw-shadow-md tw-pt-16 tw-rounded-2xl tw-h-[475px] tw-w-[794px] tw-flex tw-flex-col tw-items-center tw-justify-center   '>
+        {alertEmailSend && (
+          <div>
+            <Alert severity='info'>
+              {dictionary?.recoverPassword.alertEmailSend}
+            </Alert>
+          </div>
+        )}
         <h1 className=' tw-text-white tw-text-[26px]  '>
           {dictionary?.recoverPassword.recoverPassword}
         </h1>
@@ -32,6 +39,7 @@ const RecoveryPassword = ({
           defaultValue=''
           variant='outlined'
           InputProps={{ className: 'tw-rounded-3xl' }}
+          onChange={handleSetEmail}
         />
         <Typography
           className='tw-text-white tw-mt-3 tw-mr-80'
@@ -44,12 +52,13 @@ const RecoveryPassword = ({
           <Button
             className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-10'
             onClick={handleNext}
+            disabled={email == '' ? true : false}
           >
             {dictionary?.recoverPassword.next}
           </Button>
           <Button
             className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-12'
-            onClick={handleNext}
+            onClick={handleBack}
           >
             <Link href='/views/login' className=' tw-no-underline tw-text-black'>{dictionary?.recoverPassword?.back}</Link>
           </Button>

@@ -1,22 +1,28 @@
 import { GetUser } from '@/reactQuery/users';
-import { UserData } from '@/types/user';
+import { User, UserData } from '@/types/user';
 import { useEffect, useState } from 'react';
 
 const UserHook = () => {
-  const [user, setUser] = useState<UserData>();
+  const [user, setUser] = useState<User | undefined>();
   const [isLoadingData, setIsLoadingData] = useState(true);
   const { data, error } = GetUser();
 
   const userHandle = (data: any) => {
+    setUser(data);
     setTimeout(() => {
       // setUser((prev: any) => [...prev, data]);
-      setUser(data);
       setIsLoadingData(false);
-    }, 2000);
+    }, 1000);
   };
 
   useEffect(() => {
-    data ? !user && userHandle(data) : setIsLoadingData(false);
+    if (data && !user) {
+      userHandle(data);
+    } else {
+      setTimeout(() => {
+        setIsLoadingData(false);
+      }, 2000);
+    }
   }, [data, user]);
 
   return { isLoading: isLoadingData, error, user };

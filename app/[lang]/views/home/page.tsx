@@ -10,7 +10,7 @@ import ValidatorSession from '@/hooks/validatorSession/ValidatorSession';
 
 const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
-  ValidatorSession({ lang });
+  const { isLoading } = ValidatorSession({ lang });
   const {
     handleChange,
     value,
@@ -21,7 +21,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
     backgroundImages,
   } = HomeHook();
 
-  return isLoadingTemplates ? (
+  return isLoading || isLoadingTemplates ? (
     <CustomCircularProgress isOpen />
   ) : (
     dictionary && templates && backgroundImages.data && (

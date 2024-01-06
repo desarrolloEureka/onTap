@@ -9,4 +9,5 @@ export interface User {
   email: string;
   emailVerified: boolean;
   displayName: string;
+  isAdmin: boolean;
 }
