@@ -57,7 +57,7 @@ const ItemFormUrl = ({
 }) => {
   const {
     handleSwitch,
-    handleData,
+    handleDataNetworks,
     handleAddData,
     isModalAlertLimit,
     handleModalAlertLimit,
@@ -147,9 +147,14 @@ const ItemFormUrl = ({
                             </>
                           ),
                         }}
-                        /*  onChange={(text: any) =>
-                                                 handleData({ name: value[0], text: text.target.value })
-                                             } */
+                        onChange={(text: any) =>
+                          handleDataNetworks({
+                            name: value[0],
+                            text: text.target.value,
+                            subindex: 'name',
+                            key,
+                          })
+                        }
                       />
 
                       <TextField
@@ -176,6 +181,14 @@ const ItemFormUrl = ({
                             </>
                           ),
                         }}
+                        onChange={(text: any) =>
+                          handleDataNetworks({
+                            name: value[0],
+                            text: text.target.value,
+                            subindex: 'url',
+                            key,
+                          })
+                        }
                       />
                     </div>
 
@@ -223,40 +236,94 @@ const ItemFormUrl = ({
                         {showUrls ? (
                           <div className='tw-h-[100%] tw-w-[90%] tw-flex tw-justify-center tw-items-center tw-rounded-2xl tw-bg-white tw-mt-2'>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
-                              <Button>
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: 'facebook',
+                                    subindex: 'icon',
+                                    key,
+                                  })
+                                }
+                              >
                                 <FacebookOutlinedIcon
                                   sx={{ color: '#62ad9b' }}
                                 />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
-                              <Button>
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: 'twitter',
+                                    subindex: 'icon',
+                                    key,
+                                  })
+                                }
+                              >
                                 <TwitterIcon sx={{ color: '#62ad9b' }} />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
-                              <Button>
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: 'pending',
+                                    subindex: 'icon',
+                                    key,
+                                  })
+                                }
+                              >
                                 <FacebookOutlinedIcon
                                   sx={{ color: '#62ad9b' }}
                                 />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
-                              <Button>
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: 'instagram',
+                                    subindex: 'icon',
+                                    key,
+                                  })
+                                }
+                              >
                                 <InstagramIcon sx={{ color: '#62ad9b' }} />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
-                              <Button>
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: 'linkedin',
+                                    subindex: 'icon',
+                                    key,
+                                  })
+                                }
+                              >
                                 <LinkedInIcon sx={{ color: '#62ad9b' }} />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
-                              <Button>
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: 'tikTok',
+                                    subindex: 'icon',
+                                    key,
+                                  })
+                                }
+                              >
                                 <IconTikTok />
                               </Button>
                             </div>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                            {/* <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                               <Button>
                                 <MailOutlinedIcon sx={{ color: '#62ad9b' }} />
                               </Button>
@@ -272,7 +339,7 @@ const ItemFormUrl = ({
                               <Button>
                                 <SendIcon sx={{ color: '#62ad9b' }} />
                               </Button>
-                            </div>
+                            </div> */}
                           </div>
                         ) : null}
                       </div>

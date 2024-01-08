@@ -147,6 +147,8 @@ const ItemFormProfessional = ({
                           handleData({
                             name: value[0],
                             text: text.target.value,
+                            subindex: 'company',
+                            key,
                           })
                         }
                       />
@@ -174,6 +176,14 @@ const ItemFormProfessional = ({
                             </>
                           ),
                         }}
+                        onChange={(text: any) =>
+                          handleData({
+                            name: value[0],
+                            text: text.target.value,
+                            subindex: 'position',
+                            key,
+                          })
+                        }
                       />
                       <TextField
                         //id={`${name}-input`}
@@ -199,6 +209,14 @@ const ItemFormProfessional = ({
                             </>
                           ),
                         }}
+                        onChange={(text: any) =>
+                          handleData({
+                            name: value[0],
+                            text: text.target.value,
+                            subindex: 'data_init',
+                            key,
+                          })
+                        }
                       />
                       <TextField
                         //id={`${name}-input`}
@@ -224,6 +242,14 @@ const ItemFormProfessional = ({
                             </>
                           ),
                         }}
+                        onChange={(text: any) =>
+                          handleData({
+                            name: value[0],
+                            text: text.target.value,
+                            subindex: 'data_end',
+                            key,
+                          })
+                        }
                       />
                       <FormHelperText id='standard-weight-helper-text'>
                         {dictionary?.profileView.labelCareerPath}

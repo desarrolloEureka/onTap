@@ -146,6 +146,7 @@ const ItemFormEducation = ({
                             name: value[0],
                             text: text.target.value,
                             subindex: 'title',
+                            key,
                           })
                         }
                       />
@@ -178,6 +179,7 @@ const ItemFormEducation = ({
                             name: value[0],
                             text: text.target.value,
                             subindex: 'institution',
+                            key,
                           })
                         }
                       />
@@ -210,6 +212,7 @@ const ItemFormEducation = ({
                             name: value[0],
                             text: text.target.value,
                             subindex: 'year',
+                            key,
                           })
                         }
                       />
