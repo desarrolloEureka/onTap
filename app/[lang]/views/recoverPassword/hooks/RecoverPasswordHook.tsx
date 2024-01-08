@@ -29,7 +29,7 @@ const RecoverPasswordHook = () => {
   };
 
   const finishReset = async (handle: (e: number) => void) => {
-    if (validatingPassword && step == 3 && oobCode && confirmNewPassword) {
+    if (step == 3 && oobCode && confirmNewPassword) {
       const change = await changePasswordFirebase(oobCode, confirmNewPassword);
       if (change != null) {
         setExpired(false);
@@ -50,9 +50,8 @@ const RecoverPasswordHook = () => {
     text: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (newPassword == text.target.value) {
-      console.log('correctly', text.target.value);
       setConfirmNewPassword(text.target.value);
-      setValidatingPassword(true);
+      setValidatingPassword(false);
     } else if (newPassword.length === text.target.value.length) {
       setValidatingPassword(false);
       setAlertErrorPassword(true);
