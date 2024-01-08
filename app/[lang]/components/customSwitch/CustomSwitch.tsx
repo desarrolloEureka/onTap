@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { GetUser, SendSwitchProfile, SendSwitchActivateCard } from '@/reactQuery/users';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 92,
@@ -69,11 +70,44 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const CustomSwitch = () => {
+const CustomSwitch = ({ profile }: { profile: boolean }) => {
   const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const { data, error } = GetUser();
 
+  const [isUpdate, setIsUpdate] = useState(false);
+  const switchRef = useRef<any>(null);
+  //console.log("switchRef ", switchRef.current?.checked)
+
+  const handleSwitchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    const userId = data?.uid;
+
+    console.log("entreeee", checked);
+    switchRef.current.checked = checked
+
+    if (profile) {
+      await SendSwitchProfile(userId, checked);
+    } else {
+      await SendSwitchActivateCard(userId, checked);
+    }
+    //setIsUpdate(!isUpdate);
+  };
+
+  useEffect(() => {
+    //console.log("DATA --> ", data);
+    console.log("switchRef.current?.checked --> ", switchRef.current?.checked);
+    //console.log("profile --> ", profile);
+    console.log("data?.profile?.switch_profile --> ", data?.profile?.switch_profile);
+    console.log("data?.profile?.switch_activateCard --> ", data?.profile?.switch_activateCard);
+    //profile && switchRef.current?.checked  ? (switchRef.current.checked = data?.profile?.switch_profile) : (switchRef.current.checked! = data?.profile?.switch_activateCard)
+  }, [data, profile, switchRef])
+
+  console.log("switchRef.current.checked <> ", switchRef?.current?.checked);
   return (
     <MaterialUISwitch
+      //inputRef={switchRef}
+      //checked={switchRef.current.checked}
+      onChange={handleSwitchChange}
       sx={{
         width: isSmallScreen ? 60 : 92,
         height: isSmallScreen ? 30 : 37,

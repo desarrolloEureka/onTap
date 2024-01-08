@@ -8,6 +8,7 @@ import {
 } from '@/types/profile';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
+import { GetUser, SendSwitchAllForm } from '@/reactQuery/users';
 
 const ProfileHook = ({
   dictionary,
@@ -34,6 +35,28 @@ const ProfileHook = ({
   //   },
   //   [setDataForm]
   // );
+
+  const { data, error } = GetUser();
+
+  const handleSendSwitchAll = async () => {
+    const userId = data?.uid;
+    const resultArray: { [x: string]: { checked: any; }; }[] = [];
+
+    Object.entries(dataForm).forEach(([propiedad, valor]) => {
+      if (Array.isArray(valor)) {// Si es un array
+        const arrayData = [];
+        valor.forEach((elemento, index) => {
+          ///console.log(`${propiedad}[${index}]: ${elemento.checked}`);
+          resultArray.push({ [propiedad]: { checked: elemento.checked } });
+        });
+      } else if (typeof valor === 'object' && valor !== null && 'checked' in valor) {
+        resultArray.push({ [propiedad]: { checked: valor.checked } });
+      }
+    });
+    //console.log("resultArray ", resultArray);
+
+    await SendSwitchAllForm(userId, resultArray);
+  }
 
   const handleModalAlertLimit = (isOpen: boolean) => {
     setIsModalAlertLimit(isOpen);
@@ -427,6 +450,7 @@ const ProfileHook = ({
     itemDelete,
     isModalAlertLimit,
     handleModalAlertLimit,
+    handleSendSwitchAll
   };
 };
 

@@ -7,7 +7,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutIcon from '@mui/icons-material/Logout';
-import useLogOut from '@/hooks/logOut/LogOut';
+/* import useLogOut from '@/hooks/logOut/LogOut'; */
+import LogOut from '@/hooks/logOut/LogOut';
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -53,7 +54,7 @@ const StyledMenu = styled((props: MenuProps) => (
 const ItemMenu = ({ handleChangePassword }: { handleChangePassword: () => void; }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-    const LogOut = useLogOut();
+    const { logOut } = LogOut();
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -100,10 +101,10 @@ const ItemMenu = ({ handleChangePassword }: { handleChangePassword: () => void; 
             >
                 <MenuItem onClick={handleChangePassword} disableRipple>
                     <EditIcon />
-                    Editar Perfil
+                    Cambiar contraseña
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={() => LogOut.logOut()} disableRipple>
+                <MenuItem onClick={logOut} disableRipple>
                     <LogoutIcon />
                     Cerrar Sesión
                 </MenuItem>

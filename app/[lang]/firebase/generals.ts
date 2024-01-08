@@ -13,7 +13,8 @@ export const getAllTemplates = async () => {
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {
       const dataResult = doc.data() as Templates;
-      templatesData.push(dataResult);
+      //console.log("dataResult ", doc.id);
+      templatesData.push({ ...dataResult, id: doc.id });
     });
   }
   return templatesData;
@@ -25,7 +26,7 @@ export const getAllBackgroundImages = async () => {
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {
       const dataResult = doc.data() as BackgroundImages;
-      backgroundImages.push(dataResult);
+      backgroundImages.push({ ...dataResult, id: doc.id });
     });
   }
   return backgroundImages;
