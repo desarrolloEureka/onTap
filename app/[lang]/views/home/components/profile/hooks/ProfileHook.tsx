@@ -3,8 +3,13 @@ import {
   DataForm,
   DataFormValues,
   EducationDataFormValues,
+  IndexDataForm,
+  EducationSubIndexDataForm,
+  CareerSubIndexDataForm,
   UrlDataFormValues,
   handleDataProps,
+  handleDataNetworksProps,
+  NetworksSubIndexDataForm,
 } from '@/types/profile';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
@@ -114,11 +119,42 @@ const ProfileHook = ({
     }
   };
 
-  const handleData = ({ name, text, subindex }: handleDataProps) => {
+  const fillFields = (
+    index: IndexDataForm,
+    key: number,
+    text: string,
+    subindexEducation?: EducationSubIndexDataForm,
+    subindexCareer?: CareerSubIndexDataForm,
+    subindexUrl?: NetworksSubIndexDataForm
+  ) => {
+    const dataFormClone = { ...dataForm };
+    dataFormClone && index == 'education' && subindexEducation
+      ? (dataFormClone[index]![key][subindexEducation] = text)
+      : index == 'professional_career'
+      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+      : index == 'urls' &&
+        subindexUrl &&
+        (dataFormClone[index]![key][subindexUrl] = text);
+
+    handleDataSet && handleDataSet(dataFormClone);
+  };
+
+  const handleDataNetworks = ({
+    name,
+    text,
+    subindex,
+    key,
+  }: handleDataNetworksProps) => {
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
-    console.log('index', index);
+    key != undefined &&
+      subindex &&
+      fillFields(index, key, text, undefined, undefined, subindex);
+  };
 
+  const handleData = ({ name, text, subindex, key }: handleDataProps) => {
+    const dataFormClone = { ...dataForm };
+    const index = name as keyof typeof dataFormClone;
     if (
       index != 'phones' &&
       index != 'education' &&
@@ -135,26 +171,23 @@ const ProfileHook = ({
           val.text = text;
           handleDataSet && handleDataSet(dataFormClone);
         });
-      } else if (index == 'education') {
-        console.log('entro', index);
-        console.log('subindex', subindex);
-
-        /* const dataAux = dataFormClone[index];
-        //const EducationDataFormValuesClone = { ...EducationDataFormValues };
-        const key = subindex as keyof typeof EducationDataFormValues
-        if (subindex) {
-
-          console.log("subindex ", subindex);
-          console.log("dataAux ", dataAux);
-          dataAux?.map((val) => {
-            val[key] = text;
-            handleDataSet(dataFormClone);
-          });
-        } */
-      } else if (index == 'professional_career') {
-        console.log('subindex', subindex);
-      } else {
-        //console.log("professional_career");
+      } else if (
+        index == 'education' &&
+        (subindex == 'title' ||
+          subindex == 'year' ||
+          subindex == 'institution') &&
+        key != undefined
+      ) {
+        fillFields(index, key, text, subindex);
+      } else if (
+        index == 'professional_career' &&
+        (subindex == 'company' ||
+          subindex == 'data_end' ||
+          subindex == 'data_init' ||
+          subindex == 'position') &&
+        key != undefined
+      ) {
+        fillFields(index, key, text, undefined, subindex);
       }
     }
   };
@@ -169,10 +202,7 @@ const ProfileHook = ({
        } */
   };
 
-  const handleAddData = (
-    index: keyof typeof dataFormClone,
-    social: boolean
-  ) => {
+  const handleAddData = (index: keyof typeof dataForm, social: boolean) => {
     const dataFormClone = { ...dataForm };
 
     if (
@@ -193,7 +223,7 @@ const ProfileHook = ({
       if (index === 'phones') {
         if (count && count < 3) {
           dataFormClone[index]?.push({
-            label: 'Teléfono',
+            label: dataFormClone[index]![0].label,
             text: '',
             checked: false,
             principal: false,
@@ -206,7 +236,7 @@ const ProfileHook = ({
       if (index === 'emails') {
         if (count && count < 3) {
           dataFormClone[index]?.push({
-            label: 'Correo',
+            label: dataFormClone[index]![0].label,
             text: '',
             checked: false,
             principal: false,
@@ -219,7 +249,7 @@ const ProfileHook = ({
       if (index === 'education') {
         if (count && count < 3) {
           dataFormClone[index]?.push({
-            label: 'Educación y formación académica',
+            label: dataFormClone[index]![0].label,
             title: '',
             institution: '',
             year: '',
@@ -234,7 +264,7 @@ const ProfileHook = ({
       if (index === 'professional_career') {
         if (count && count < 3) {
           dataFormClone[index]?.push({
-            label: 'Profesión',
+            label: dataFormClone[index]![0].label,
             company: '',
             position: '',
             data_init: '',
@@ -250,7 +280,7 @@ const ProfileHook = ({
       if (index === 'urls') {
         if (count && count < 3) {
           dataFormClone[index]?.push({
-            label: 'URL',
+            label: dataFormClone[index]![0].label,
             name: '',
             url: '',
             icon: '',
@@ -407,12 +437,7 @@ const ProfileHook = ({
           );
         } else if (value[0] == 'urls') {
           const data = value[1] as UrlDataFormValues[];
-          return checkedItems(
-            data,
-            value[0],
-            false,
-            dictionary.profileView.labelProfession
-          );
+          return checkedItems(data, value[0], false, 'urls');
         } else {
           const data = value[1] as DataFormValues;
           const label = validLabel(value[0]);
@@ -435,6 +460,7 @@ const ProfileHook = ({
   return {
     handleSwitch,
     handleData,
+    handleDataNetworks,
     handleAddData,
     handleSwitchAll,
     data: dataForm && Object.entries(dataForm),

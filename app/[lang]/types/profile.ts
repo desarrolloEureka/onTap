@@ -83,11 +83,24 @@ export type IndexDataForm =
   | 'professional_career'
   | 'urls';
 
-export type SubIndexDataForm = 'title' | 'institution' | 'year';
+export type EducationSubIndexDataForm = 'title' | 'institution' | 'year';
+export type CareerSubIndexDataForm =
+  | 'company'
+  | 'position'
+  | 'data_init'
+  | 'data_end';
+export type NetworksSubIndexDataForm = 'name' | 'url' | 'icon';
 export type handleDataProps = {
   name: string;
   text: string;
-  subindex?: SubIndexDataForm;
+  subindex?: EducationSubIndexDataForm | CareerSubIndexDataForm;
+  key?: number;
+};
+export type handleDataNetworksProps = {
+  name: string;
+  text: string;
+  subindex?: NetworksSubIndexDataForm;
+  key?: number;
 };
 
 export interface ItemFormParams {

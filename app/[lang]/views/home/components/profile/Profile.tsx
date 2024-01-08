@@ -45,6 +45,7 @@ const Profile = ({
   };
 
   const handleDataSet = (data: DataForm) => {
+    // console.log('data', data);
     setDataForm(data);
   };
 
