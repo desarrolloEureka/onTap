@@ -53,7 +53,9 @@ const Header = ({ dictionary }: { dictionary: Dictionary }) => {
             </div>
           </div>
           <div className=' tw-h-[60%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <CustomSwitch />
+            <CustomSwitch
+              profile={true}
+            />
           </div>
 
           <div className=' tw-h-[20%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
@@ -68,7 +70,9 @@ const Header = ({ dictionary }: { dictionary: Dictionary }) => {
           </div>
 
           <div className=' tw-h-[60%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <CustomSwitch />
+            <CustomSwitch
+              profile={false}
+            />
           </div>
           <div className=' tw-h-[20%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
             <div className='tw-text-xs tw-text-black'>on/off</div>

@@ -1,5 +1,5 @@
 import { loginFirebase } from '@/firebase/auth';
-import { getAllUsers, getUserById, getUserByLogin } from '@/firebase/user';
+import { getAllUsers, getUserById, updateSwitchActivateCard, updateSwitchAllFirebase, updateUserData, updateSwitchProfileFirebase, updatePasswordFirebase, updateTemplateSelectedFirebase } from '@/firebase/user';
 import { GetLoginQueryProps } from '@/types/userQuery';
 import { useQuery } from '@tanstack/react-query';
 
@@ -11,6 +11,7 @@ const GetAllUserQuery = () => {
   });
   return query;
 };
+
 
 const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
   const query = useQuery({
@@ -26,13 +27,20 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
         if (docSnap.exists()) {
           const user = docSnap.data();
 
+          const profile = {
+            isAdmin: user.is_admin,
+            image: user.image,
+            ...user
+          }
+
           const getUser = {
             uid: resultUser.user.uid,
             email: resultUser.user.email!,
             emailVerified: resultUser.user.emailVerified,
             displayName: user.name,
-            isAdmin: user.is_admin,
+            profile
           };
+
           localStorage.setItem('@user', JSON.stringify(getUser));
           return getUser;
         } else {
@@ -49,6 +57,49 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
   return query;
 };
 
+/* Actualizar react query*/
+const SendDataImage = async (userId: string, base64String: string) => {
+  await updateUserData(userId, { image: base64String });
+
+  const updatedUser = await getUserById(userId);
+  if (updatedUser.exists()) {
+    const userData = updatedUser.data();
+    localStorage.setItem('@user', JSON.stringify(userData));
+  }
+};
+
+const SendSwitchProfile = async (userId: string, switchState: boolean) => {
+  await updateSwitchProfileFirebase(userId, { switch_profile: switchState });
+
+  const updatedUser = await getUserById(userId);
+  if (updatedUser.exists()) {
+    const userData = updatedUser.data();
+    localStorage.setItem('@user', JSON.stringify(userData));
+  }
+};
+
+const SendSwitchActivateCard = async (userId: string, switchState: boolean) => {
+  await updateSwitchActivateCard(userId, { switch_activateCard: switchState });
+};
+
+const UpdatePassword = async (password: string) => {
+  const res = await updatePasswordFirebase(password);
+  return res;
+};
+
+const SendTemplateSelected = async (userId: string, backgroundSelect: string, templateSelect: string) => {
+  const templateData = {
+    template_id: templateSelect,
+    background_id: backgroundSelect
+  };
+
+  await updateTemplateSelectedFirebase(userId, { templateData });
+};
+
+const SendSwitchAllForm = async (userId: string, dataForm: any) => {
+  await updateSwitchAllFirebase(userId, { switchAllForm: dataForm });
+};
+
 const GetUser = () =>
   useQuery({
     queryKey: ['user'],
@@ -58,4 +109,4 @@ const GetUser = () =>
     },
   });
 
-export { GetAllUserQuery, GetLoginQuery, GetUser };
+export { SendDataImage, GetAllUserQuery, GetLoginQuery, GetUser, SendSwitchProfile, SendSwitchActivateCard, UpdatePassword, SendTemplateSelected, SendSwitchAllForm };

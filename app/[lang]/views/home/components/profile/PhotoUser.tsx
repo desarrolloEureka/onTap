@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Stack, IconButton } from '@mui/material';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { Dictionary } from '@/types/dictionary';
+import { GetUser, SendDataImage } from '@/reactQuery/users';
+import ItemMenu from '@/components/menu/ItemMenu';
 
-const PhotoUser = ({ dictionary }: { dictionary: Dictionary }) => {
+const PhotoUser = ({ dictionary, handleChangePassword }: { dictionary: Dictionary; handleChangePassword: () => void; }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const { data, error } = GetUser();
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
 
     if (file) {
-      // Leer el archivo como una cadena base64
       const base64String = await convertFileToBase64(file);
-      console.log("base64 ", base64String)
       setSelectedImage(base64String);
+      const userId = data?.uid;
+      if (userId) {
+        await SendDataImage(userId, base64String);
+      }
     }
   };
 
@@ -38,13 +44,13 @@ const PhotoUser = ({ dictionary }: { dictionary: Dictionary }) => {
   };
 
   return (
-    <div className='tw-h-[210px] tw-flex tw-items-center tw-justify-center tw-flex-col'>
-      <div className='tw-flex tw-items-center tw-justify-center'>
+    <div className='tw-h-[280px] tw-flex tw-items-center tw-justify-center tw-flex-col tw-mb-[-20px]'>
+      <div className=' tw-h-[70%] tw-flex tw-items-center tw-justify-center'>
         <Stack direction='row' spacing={2} className='tw-relative'>
           <label htmlFor='photoInput'>
             <Avatar
               alt='Photo User'
-              src={selectedImage || '/images/profilePhoto.png'}
+              src={selectedImage != null ? selectedImage : data?.image || '/images/profilePhoto.png'}
               sx={{
                 width: 125,
                 height: 125,
@@ -75,12 +81,17 @@ const PhotoUser = ({ dictionary }: { dictionary: Dictionary }) => {
           </IconButton>
         </Stack>
       </div>
-      <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
+      <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
         <div className='tw-h-[70%] tw-w-[100px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#62ae9b] tw-rounded-tr-xl tw-rounded-bl-xl'>
           <h5 className='tw-text-white'>
-            {dictionary?.profileView.labelHello} David
+            {dictionary?.profileView.labelHello} {/* {data.user_name ? data.user_name : data?.displayName} */}
           </h5>
         </div>
+      </div>
+      <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+        <ItemMenu
+          handleChangePassword={handleChangePassword}
+        />
       </div>
     </div>
   );

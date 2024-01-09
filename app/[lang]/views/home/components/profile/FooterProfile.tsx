@@ -17,11 +17,12 @@ const FooterProfile = ({
   handleDataSet: (e: DataForm) => void;
   dataForm: any;
 }) => {
-  const { handleSwitchAll } = ProfileHook({
+  const { handleSwitchAll, handleSendSwitchAll } = ProfileHook({
     dictionary,
     dataForm,
     handleDataSet,
   });
+
   return (
     <div className='tw-h-[110px] tw-flex tw-items-center tw-justify-center '>
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
@@ -51,7 +52,7 @@ const FooterProfile = ({
           <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
             <Button
               className='tw-w-[90%] tw-h-[45px]'
-              //onClick={handleModal}
+              //onClick={handleSendSwitchAll}
               color='secondary'
               size='medium'
               startIcon={
