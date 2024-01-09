@@ -42,7 +42,7 @@ const LoginHook = (dictionary: Dictionary) => {
   const userIsLogged = useCallback(() => {
     setSendLogin(false);
     data
-      ? data.isAdmin
+      ? data.profile.isAdmin
         ? router.push('/views/backOffice')
         : router.push('/views/home')
       : sendLogin &&
