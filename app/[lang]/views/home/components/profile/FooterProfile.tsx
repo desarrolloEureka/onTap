@@ -1,4 +1,5 @@
 'use client';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
 import { Dictionary } from '@/types/dictionary';
 import { DataForm } from '@/types/profile';
@@ -17,7 +18,14 @@ const FooterProfile = ({
   handleDataSet: (e: DataForm) => void;
   dataForm: any;
 }) => {
-  const { handleSwitchAll, handleSendSwitchAll } = ProfileHook({
+  const {
+    handleSwitchAll,
+    handleSendProfile,
+    isDataSuccess,
+    setIsDataSuccess,
+    isDataError,
+    setIsDataError,
+  } = ProfileHook({
     dictionary,
     dataForm,
     handleDataSet,
@@ -25,6 +33,19 @@ const FooterProfile = ({
 
   return (
     <div className='tw-h-[110px] tw-flex tw-items-center tw-justify-center '>
+      <CustomModalAlert
+        isModalAlert={isDataError}
+        handleModalAlert={setIsDataError}
+        title={dictionary?.generalTitle}
+        description={dictionary?.profileView.errorDataSend}
+      />
+      <CustomModalAlert
+        isModalAlert={isDataSuccess}
+        handleModalAlert={setIsDataSuccess}
+        title={dictionary?.generalTitle}
+        description={dictionary?.profileView.successDataSend}
+      />
+
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
         <div className=' tw-h-[80%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
           <div className=' tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
@@ -52,7 +73,7 @@ const FooterProfile = ({
           <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
             <Button
               className='tw-w-[90%] tw-h-[45px]'
-              //onClick={handleSendSwitchAll}
+              onClick={handleSendProfile}
               color='secondary'
               size='medium'
               startIcon={

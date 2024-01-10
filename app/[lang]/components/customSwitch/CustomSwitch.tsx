@@ -100,8 +100,8 @@ const CustomSwitch = ({ profile }: { profile: boolean }) => {
   useEffect(() => {
     if (switchRef)
       switchRef.current.checked = profile
-        ? data?.profile.switch_profile
-        : data?.profile.switch_activateCard;
+        ? data?.switch_profile
+        : data?.switch_activateCard;
   }, [data, isUpdate, profile, switchRef]);
 
   return (

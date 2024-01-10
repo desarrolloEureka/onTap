@@ -8,7 +8,9 @@ import {
   updateSwitchProfileFirebase,
   updatePasswordFirebase,
   updateTemplateSelectedFirebase,
+  updateDataUserProfile,
 } from '@/firebase/user';
+import { DataForm } from '@/types/profile';
 import { UserData, UserDb } from '@/types/user';
 import { GetLoginQueryProps } from '@/types/userQuery';
 import { useQuery } from '@tanstack/react-query';
@@ -29,7 +31,7 @@ const userDataToSend = (user: UserDb, resultUser: any) => {
     emailVerified: resultUser.user.emailVerified,
     displayName: user.name,
     isAdmin: user.is_admin,
-    profile: { ...user },
+    ...user,
   };
   return getUser;
 };
@@ -129,6 +131,27 @@ const SendSwitchAllForm = async (userId: string, dataForm: any) => {
   await updateSwitchAllFirebase(userId, { switchAllForm: dataForm });
 };
 
+const SendDataUserProfile = async (userId: string, data: DataForm) => {
+  return updateDataUserProfile(userId, data)
+    .then(async (response) => {
+      const updatedUser = await getUserById(userId);
+      if (updatedUser.exists()) {
+        const userData = updatedUser.data() as UserDb;
+        console.log('userData', userData);
+
+        const getUser = reBuildUserData(userData);
+        console.log('getUser', getUser);
+
+        localStorage.setItem('@user', JSON.stringify(getUser));
+        return { success: true, error: false };
+      }
+    })
+    .catch((error) => {
+      console.error(error.message);
+      return { success: false, error: error.message };
+    });
+};
+
 const GetUser = () =>
   useQuery({
     queryKey: ['user'],
@@ -148,4 +171,5 @@ export {
   UpdatePassword,
   SendTemplateSelected,
   SendSwitchAllForm,
+  SendDataUserProfile,
 };

@@ -49,7 +49,7 @@ const Profile = ({
     setDataForm(data);
   };
 
-  console.log("dataForm ", dataForm);
+  // console.log("dataForm ", dataForm);
 
   return (
     <div>
@@ -58,9 +58,14 @@ const Profile = ({
           dictionary={dictionary}
           handleChangePassword={handleChangePassword}
         />
-
         :
-        <div className={`tw-flex tw-items-center tw-justify-center ${isProUser ? 'lg:tw-h-[1700px] md:tw-w-[100%]' : 'lg:tw-h-[750px] md:tw-w-[100%]'}`}>
+        <div
+          className={`tw-flex tw-items-center tw-justify-center ${
+            isProUser
+              ? 'lg:tw-h-[1700px] md:tw-w-[100%]'
+              : 'lg:tw-h-[750px] md:tw-w-[100%]'
+          }`}
+        >
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
             <FormDataUser
               dictionary={dictionary}
@@ -80,7 +85,6 @@ const Profile = ({
             />
           </Container>
         </div>
-
         <FooterProfile
           handleModal={handleModal}
           dictionary={dictionary}
