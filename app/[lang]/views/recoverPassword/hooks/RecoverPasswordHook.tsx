@@ -13,7 +13,7 @@ const RecoverPasswordHook = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
   const [alertEmailSend, setAlertEmailSend] = useState(false);
   const [alertErrorPassword, setAlertErrorPassword] = useState(false);
-  const [validatingPassword, setValidatingPassword] = useState(false);
+  const [validatingPassword, setValidatingPassword] = useState(true);
   const [expired, setExpired] = useState(false);
 
   const handleNext = () => {
@@ -59,7 +59,7 @@ const RecoverPasswordHook = () => {
         setAlertErrorPassword(false);
       }, 2000);
     } else {
-      setValidatingPassword(false);
+      setValidatingPassword(true);
     }
   };
 

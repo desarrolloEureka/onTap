@@ -1,5 +1,5 @@
 import { GetUser } from '@/reactQuery/users';
-import { User, UserData } from '@/types/user';
+import { User } from '@/types/user';
 import { useEffect, useState } from 'react';
 
 const UserHook = () => {

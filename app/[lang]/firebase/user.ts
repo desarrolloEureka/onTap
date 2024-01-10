@@ -7,9 +7,7 @@ import {
   where,
   updateDoc,
 } from 'firebase/firestore';
-import {
-  getAuth, updatePassword
-} from 'firebase/auth';
+import { getAuth, updatePassword } from 'firebase/auth';
 import { dataBase } from 'app/[lang]/firebase/firebaseConfig';
 import {
   AllRefPropsFirebase,
@@ -17,7 +15,6 @@ import {
   LoginRefProps,
   RefPropsFirebase,
 } from '@/types/userFirebase';
-import { UserData } from '@/types/user';
 
 const ref = ({ ref, collection }: RefPropsFirebase) =>
   doc(dataBase, collection, ref.document);
@@ -43,12 +40,18 @@ export const updateUserData = async (userId: string, newData: any) => {
   await updateDoc(userDocRef, newData);
 };
 
-export const updateSwitchProfileFirebase = async (userId: string, switchState: any) => {
+export const updateSwitchProfileFirebase = async (
+  userId: string,
+  switchState: any
+) => {
   const userDocRef = doc(dataBase, 'users', userId);
   await updateDoc(userDocRef, switchState);
 };
 
-export const updateTemplateSelectedFirebase = async (userId: string, newData: any) => {
+export const updateTemplateSelectedFirebase = async (
+  userId: string,
+  newData: any
+) => {
   const userDocRef = doc(dataBase, 'users', userId);
   await updateDoc(userDocRef, newData);
 };
@@ -58,11 +61,10 @@ export const updateSwitchAllFirebase = async (userId: string, newData: any) => {
   await updateDoc(userDocRef, newData);
 };
 
-
 export const updatePasswordFirebase = (newPassword: string) => {
   const auth = getAuth();
   const user = auth.currentUser;
-  console.log("newPassword ", newPassword);
+  console.log('newPassword ', newPassword);
 
   if (user) {
     return updatePassword(user, newPassword)
@@ -71,16 +73,19 @@ export const updatePasswordFirebase = (newPassword: string) => {
         return true;
       })
       .catch((error) => {
-        console.error("Error al actualizar la contraseña:", error.message);
+        console.error('Error al actualizar la contraseña:', error.message);
         return false;
       });
   } else {
-    console.error("No hay un usuario autenticado");
+    console.error('No hay un usuario autenticado');
     return false;
   }
 };
 
-export const updateSwitchActivateCard = async (userId: string, switchState: any) => {
+export const updateSwitchActivateCard = async (
+  userId: string,
+  switchState: any
+) => {
   try {
     const userDocRef = doc(dataBase, 'users', userId);
     const res = await updateDoc(userDocRef, switchState);
@@ -89,22 +94,4 @@ export const updateSwitchActivateCard = async (userId: string, switchState: any)
     console.debug('error message', error.message);
     return null;
   }
-};
-
-export const getUserByLogin = async ({
-  user,
-  password,
-}: GetUserByLoginProps) => {
-  const querySnapshot = await getDocs(loginRef({ user, password }));
-  let userData: any = null;
-  if (!querySnapshot.empty) {
-    querySnapshot.forEach((doc: any) => {
-      const dataResult = doc.data() as UserData;
-      userData = dataResult;
-    });
-    localStorage.setItem('@user', JSON.stringify(userData));
-  } else {
-    return null;
-  }
-  return userData;
 };
