@@ -1,4 +1,5 @@
 {
+  "generalTitle": "One Tap dice!",
   "homeTitle": "Hola titulo español",
   "rememberPasswordTitle": "Recuperar contraseña123",
   "rememberPasswordDescription": "Descripcion de constraseña",
@@ -92,7 +93,9 @@
     "labelSwitchMain": "Switch Padre",
     "addAnotherTrajectory": "Agregar otra trayectoria",
     "addAnotherEducation": "Agregar otra educacion",
-    "addAnotherURL": "Agregar otra URL"
+    "addAnotherURL": "Agregar otra URL",
+    "successDataSend": "La información del usuario ha sido registrada con éxito.",
+    "errorDataSend": "La información del usuario no pudo ser registrada, por favor intenta de nuevo."
   },
   "modalDelete": {
     "labelAlert": "Alerta",

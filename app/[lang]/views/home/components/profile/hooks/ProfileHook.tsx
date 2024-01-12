@@ -11,9 +11,13 @@ import {
   handleDataNetworksProps,
   NetworksSubIndexDataForm,
 } from '@/types/profile';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
-import { GetUser, SendSwitchAllForm } from '@/reactQuery/users';
+import {
+  GetUser,
+  SendDataUserProfile,
+  SendSwitchAllForm,
+} from '@/reactQuery/users';
 
 const ProfileHook = ({
   dictionary,
@@ -26,6 +30,7 @@ const ProfileHook = ({
   setDataForm?: (e: DataForm) => void;
   handleDataSet?: (e: DataForm) => void;
 }) => {
+  const { data, error } = GetUser();
   const [allChecked, setAllChecked] = useState(false);
   const [isModalAlertLimit, setIsModalAlertLimit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,6 +38,9 @@ const ProfileHook = ({
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
   const [itemDelete, setItemDelete] = useState('');
+  const [isDataSuccess, setIsDataSuccess] = useState(false);
+  const [isDataError, setIsDataError] = useState(false);
+  const [isDataLoad, setIsDataLoad] = useState(false);
 
   // const handleDataSet = useCallback(
   //   (data: DataForm) => {
@@ -41,27 +49,45 @@ const ProfileHook = ({
   //   [setDataForm]
   // );
 
-  const { data, error } = GetUser();
-
   const handleSendSwitchAll = async () => {
     const userId = data?.uid;
-    const resultArray: { [x: string]: { checked: any; }; }[] = [];
+    const resultArray: { [x: string]: { checked: any } }[] = [];
 
     Object.entries(dataForm).forEach(([propiedad, valor]) => {
-      if (Array.isArray(valor)) {// Si es un array
+      if (Array.isArray(valor)) {
+        // Si es un array
         const arrayData = [];
         valor.forEach((elemento, index) => {
           ///console.log(`${propiedad}[${index}]: ${elemento.checked}`);
           resultArray.push({ [propiedad]: { checked: elemento.checked } });
         });
-      } else if (typeof valor === 'object' && valor !== null && 'checked' in valor) {
+      } else if (
+        typeof valor === 'object' &&
+        valor !== null &&
+        'checked' in valor
+      ) {
         resultArray.push({ [propiedad]: { checked: valor.checked } });
       }
     });
     //console.log("resultArray ", resultArray);
 
-    await SendSwitchAllForm(userId, resultArray);
-  }
+    userId && (await SendSwitchAllForm(userId, resultArray));
+  };
+
+  const handleSendProfile = async () => {
+    const userId = data?.uid;
+    if (userId) {
+      const isSendDataProfile = await SendDataUserProfile(userId, dataForm);
+      console.log('isSendDataProfile', isSendDataProfile);
+      if (isSendDataProfile?.success) {
+        setIsDataError(false);
+        setIsDataSuccess(true);
+      } else {
+        setIsDataError(true);
+        setIsDataSuccess(false);
+      }
+    }
+  };
 
   const handleModalAlertLimit = (isOpen: boolean) => {
     setIsModalAlertLimit(isOpen);
@@ -137,6 +163,7 @@ const ProfileHook = ({
         (dataFormClone[index]![key][subindexUrl] = text);
 
     handleDataSet && handleDataSet(dataFormClone);
+    setIsDataLoad(true);
   };
 
   const handleDataNetworks = ({
@@ -152,7 +179,13 @@ const ProfileHook = ({
       fillFields(index, key, text, undefined, undefined, subindex);
   };
 
-  const handleData = ({ name, text, subindex, key }: handleDataProps) => {
+  const handleData = ({
+    name,
+    text,
+    subindex,
+    key,
+    currentDataRef,
+  }: handleDataProps) => {
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
     if (
@@ -162,8 +195,25 @@ const ProfileHook = ({
       index != 'urls' &&
       index != 'professional_career'
     ) {
+      console.log('index', index);
+
       dataFormClone[index]!.text = text;
+      console.log('currentDataRef>>>', currentDataRef.current);
+      currentDataRef.current.text = text;
+      // if (
+      //   index != 'professional_profile' &&
+      //   index != 'other_competencies' &&
+      //   index != 'skills' &&
+      //   index != 'languages' &&
+      //   index != 'achievements_recognitions' &&
+      //   dataRef.current
+      // ) {
+      //   console.log('uuuuuuuuu');
+
+      //   dataRef.current.text = text;
+      // }
       handleDataSet && handleDataSet(dataFormClone);
+      setIsDataLoad(true);
     } else {
       if (index == 'phones' || index == 'emails') {
         const dataAux = dataFormClone[index];
@@ -171,6 +221,7 @@ const ProfileHook = ({
           val.text = text;
           handleDataSet && handleDataSet(dataFormClone);
         });
+        setIsDataLoad(true);
       } else if (
         index == 'education' &&
         (subindex == 'title' ||
@@ -476,7 +527,14 @@ const ProfileHook = ({
     itemDelete,
     isModalAlertLimit,
     handleModalAlertLimit,
-    handleSendSwitchAll
+    handleSendSwitchAll,
+    handleSendProfile,
+    isDataSuccess,
+    setIsDataSuccess,
+    isDataError,
+    setIsDataError,
+    user: data,
+    isDataLoad,
   };
 };
 

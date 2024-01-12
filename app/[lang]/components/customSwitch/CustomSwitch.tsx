@@ -1,8 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { styled } from '@mui/material/styles';
+import {
+  GetUser,
+  SendSwitchActivateCard,
+  SendSwitchProfile,
+} from '@/reactQuery/users';
 import Switch from '@mui/material/Switch';
+import { styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { GetUser, SendSwitchProfile, SendSwitchActivateCard } from '@/reactQuery/users';
+import React, { useEffect, useRef, useState } from 'react';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 92,
@@ -76,37 +80,34 @@ const CustomSwitch = ({ profile }: { profile: boolean }) => {
 
   const [isUpdate, setIsUpdate] = useState(false);
   const switchRef = useRef<any>(null);
-  //console.log("switchRef ", switchRef.current?.checked)
 
-  const handleSwitchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSwitchChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { checked } = event.target;
     const userId = data?.uid;
-
-    console.log("entreeee", checked);
-    switchRef.current.checked = checked
-
-    if (profile) {
-      await SendSwitchProfile(userId, checked);
-    } else {
-      await SendSwitchActivateCard(userId, checked);
+    if (userId && switchRef) {
+      switchRef.current.checked = checked;
+      setIsUpdate(!isUpdate);
+      if (profile) {
+        await SendSwitchProfile(userId, checked);
+      } else {
+        await SendSwitchActivateCard(userId, checked);
+      }
     }
-    //setIsUpdate(!isUpdate);
   };
 
   useEffect(() => {
-    //console.log("DATA --> ", data);
-    console.log("switchRef.current?.checked --> ", switchRef.current?.checked);
-    //console.log("profile --> ", profile);
-    console.log("data?.profile?.switch_profile --> ", data?.profile?.switch_profile);
-    console.log("data?.profile?.switch_activateCard --> ", data?.profile?.switch_activateCard);
-    //profile && switchRef.current?.checked  ? (switchRef.current.checked = data?.profile?.switch_profile) : (switchRef.current.checked! = data?.profile?.switch_activateCard)
-  }, [data, profile, switchRef])
+    if (switchRef)
+      switchRef.current.checked = profile
+        ? data?.switch_profile
+        : data?.switch_activateCard;
+  }, [data, isUpdate, profile, switchRef]);
 
-  console.log("switchRef.current.checked <> ", switchRef?.current?.checked);
   return (
     <MaterialUISwitch
-      //inputRef={switchRef}
-      //checked={switchRef.current.checked}
+      inputRef={switchRef}
+      checked={switchRef?.current?.checked ? true : false}
       onChange={handleSwitchChange}
       sx={{
         width: isSmallScreen ? 60 : 92,

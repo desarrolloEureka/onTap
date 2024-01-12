@@ -95,6 +95,7 @@ export type handleDataProps = {
   text: string;
   subindex?: EducationSubIndexDataForm | CareerSubIndexDataForm;
   key?: number;
+  currentDataRef?: any;
 };
 export type handleDataNetworksProps = {
   name: string;
@@ -113,4 +114,6 @@ export interface ItemFormParams {
   deleteAction?: boolean;
   handleDeleteData?: ({ name }: { name: string }) => void;
   handleModalAlert?: ({ name }: { name: string }) => void;
+  value?: string | undefined;
+  myValue?: DataFormValues;
 }

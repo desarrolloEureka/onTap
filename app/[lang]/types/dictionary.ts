@@ -1,4 +1,5 @@
 export interface Dictionary {
+  generalTitle: string;
   homeTitle: string;
   rememberPasswordTitle: string;
   rememberPasswordDescription: string;
@@ -72,6 +73,8 @@ export interface Dictionary {
     addAnotherTrajectory: string;
     addAnotherEducation: string;
     addAnotherURL: string;
+    errorDataSend: string;
+    successDataSend: string;
   };
   recoveryCode: {
     nextCode: string;

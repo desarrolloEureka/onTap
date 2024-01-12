@@ -39,8 +39,16 @@ const HomeContent = ({
 }) => {
   const [optionSelected, setOptionSelected] = useState<TemplateTypes>('social');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [backgroundSelect, setBackgroundSelect] = useState<BackgroundType>({ id: '', name: '', image: '' });
-  const [templateSelect, setTemplateSelect] = useState<TemplateType>({ id: '', name: '', image: '' });
+  const [backgroundSelect, setBackgroundSelect] = useState<BackgroundType>({
+    id: '',
+    name: '',
+    image: '',
+  });
+  const [templateSelect, setTemplateSelect] = useState<TemplateType>({
+    id: '',
+    name: '',
+    image: '',
+  });
   const { logOut } = LogOut();
   const { data, error } = GetUser();
   const router = useRouter();
@@ -63,14 +71,19 @@ const HomeContent = ({
 
   const handleSaveTemplate = async () => {
     const userId = data?.uid;
-    console.log("userId ---> ", userId);
-    await SendTemplateSelected(userId, backgroundSelect.id, templateSelect.id);
+    console.log('userId ---> ', userId);
+    userId &&
+      (await SendTemplateSelected(
+        userId,
+        backgroundSelect.id,
+        templateSelect.id
+      ));
   };
 
   const handlePreview = async () => {
     //handleChange();
     router.replace('/views/cardView');
-  }
+  };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
@@ -121,22 +134,22 @@ const HomeContent = ({
                           priority
                           src={value.image}
                           alt={`Image ${value.image}`}
-                          width={197}//247
-                          height={425}//475
+                          width={197} //247
+                          height={425} //475
                         />
 
                         <div className='tw-absolute tw-w-[350px] tw-h-[460px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                           <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
                             <div className='tw-w-[100%] tw-h-[25%] tw-flex tw-items-center tw-justify-center '>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
-
-                                <Button
-                                  onClick={handlePreview}
-                                >
+                                <Button onClick={handlePreview}>
                                   <div className='tw-w-[40%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                                     <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-center tw-justify-center'>
                                       <VisibilityIcon
-                                        style={{ fontSize: '1.6rem', color: "white" }}
+                                        style={{
+                                          fontSize: '1.6rem',
+                                          color: 'white',
+                                        }}
                                       />
                                     </div>
                                     <div className='tw-w-[100%] tw-h-[40%] tw-flex tw-items-center tw-justify-center'>
@@ -144,24 +157,34 @@ const HomeContent = ({
                                         style={{ fontSize: '9px' }}
                                         className='tw-text-white'
                                       >
-                                        {dictionary?.homeView.labelView} <br /> {dictionary?.homeView.labelPrevious}
+                                        {dictionary?.homeView.labelView} <br />{' '}
+                                        {dictionary?.homeView.labelPrevious}
                                       </span>
                                     </div>
                                   </div>
                                 </Button>
-
                               </div>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-start tw-justify-end '>
                                 <div className='tw-w-[35%] tw-h-[80%] tw-flex tw-items-center tw-justify-center'>
                                   <Checkbox
                                     onChange={() => handleSelectTemplate(value)}
                                     checked={templateSelect.id == value.id}
-                                    icon={<RadioButtonUncheckedOutlinedIcon
-                                      style={{ fontSize: '1rem', color: "#396593" }}
-                                    />}
-                                    checkedIcon={<RadioButtonCheckedOutlinedIcon
-                                      style={{ fontSize: '1rem', color: "#396593" }}
-                                    />}
+                                    icon={
+                                      <RadioButtonUncheckedOutlinedIcon
+                                        style={{
+                                          fontSize: '1rem',
+                                          color: '#396593',
+                                        }}
+                                      />
+                                    }
+                                    checkedIcon={
+                                      <RadioButtonCheckedOutlinedIcon
+                                        style={{
+                                          fontSize: '1rem',
+                                          color: '#396593',
+                                        }}
+                                      />
+                                    }
                                   />
                                 </div>
                               </div>
@@ -170,14 +193,14 @@ const HomeContent = ({
 
                           <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center'>
                             <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-center '>
-
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
                                 <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
                                   <span
                                     style={{ fontSize: '13px' }}
                                     className='tw-text-white'
                                   >
-                                    {dictionary?.homeView.labelTemplate} {index + 1}
+                                    {dictionary?.homeView.labelTemplate}{' '}
+                                    {index + 1}
                                   </span>
                                 </div>
                               </div>
@@ -206,7 +229,12 @@ const HomeContent = ({
                                       style={{ fontSize: '9px' }}
                                       className='tw-text-white'
                                     >
-                                      {dictionary?.homeView.buttonChangeBackground} <br /> {dictionary?.homeView.labelTemplate}
+                                      {
+                                        dictionary?.homeView
+                                          .buttonChangeBackground
+                                      }{' '}
+                                      <br />{' '}
+                                      {dictionary?.homeView.labelTemplate}
                                     </span>
                                   </div>
                                 </Button>
@@ -264,7 +292,9 @@ const HomeContent = ({
             </div>
             <div className='tw-px-10 tw-pt-10 tw-h-[80%]'>
               <div className='tw-ml-1 tw-mb-8'>
-                <Typography style={{ color: 'black' }}>{dictionary?.homeView.selectModalTitle}</Typography>
+                <Typography style={{ color: 'black' }}>
+                  {dictionary?.homeView.selectModalTitle}
+                </Typography>
               </div>
               <Grid container spacing={2}>
                 {backgroundImages.map((item, index) => (
@@ -274,7 +304,7 @@ const HomeContent = ({
                         src={item.image}
                         alt={`Image ${item.id}`}
                         width={isSmallScreen ? 60 : 115}
-                        height={isSmallScreen ? 143 : 260}//280
+                        height={isSmallScreen ? 143 : 260} //280
                       />
                       <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
                         <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
@@ -284,12 +314,22 @@ const HomeContent = ({
                                 <Checkbox
                                   onChange={() => handleSelectBackground(item)}
                                   checked={backgroundSelect.id == item.id}
-                                  icon={<RadioButtonUncheckedOutlinedIcon
-                                    style={{ fontSize: '1rem', color: "#5278a0" }}
-                                  />}
-                                  checkedIcon={<RadioButtonCheckedOutlinedIcon
-                                    style={{ fontSize: '1rem', color: "#5278a0" }}
-                                  />}
+                                  icon={
+                                    <RadioButtonUncheckedOutlinedIcon
+                                      style={{
+                                        fontSize: '1rem',
+                                        color: '#5278a0',
+                                      }}
+                                    />
+                                  }
+                                  checkedIcon={
+                                    <RadioButtonCheckedOutlinedIcon
+                                      style={{
+                                        fontSize: '1rem',
+                                        color: '#5278a0',
+                                      }}
+                                    />
+                                  }
                                 />
                               </div>
                             </div>
@@ -303,12 +343,12 @@ const HomeContent = ({
                                 style={{ fontSize: '13px' }}
                                 className='tw-text-[#5278a0]'
                               >
-                                {dictionary?.homeView.labelBackground} {index + 1}
+                                {dictionary?.homeView.labelBackground}{' '}
+                                {index + 1}
                               </span>
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </Grid>
@@ -330,7 +370,13 @@ const HomeContent = ({
                   />
                 }
               >
-                <span style={{ color: '#000000 ', fontSize: '1rem', textTransform: 'none' }}>
+                <span
+                  style={{
+                    color: '#000000 ',
+                    fontSize: '1rem',
+                    textTransform: 'none',
+                  }}
+                >
                   {dictionary?.homeView.saveButtonLabel}
                 </span>
               </Button>

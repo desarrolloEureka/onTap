@@ -11,7 +11,7 @@ const LoginHook = (dictionary: Dictionary) => {
   const [password, setPassword] = useState<string>();
   const [errorForm, setErrorForm] = useState<LoginError | null>(null);
   const [sendLogin, setSendLogin] = useState(false);
-  
+
   const { data, isLoading, isRefetching } = GetLoginQuery({
     user: email,
     password,
@@ -42,7 +42,7 @@ const LoginHook = (dictionary: Dictionary) => {
   const userIsLogged = useCallback(() => {
     setSendLogin(false);
     data
-      ? data.profile.isAdmin
+      ? data.isAdmin
         ? router.push('/views/backOffice')
         : router.push('/views/home')
       : sendLogin &&

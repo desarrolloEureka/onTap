@@ -11,6 +11,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { useEffect, useRef } from 'react';
 
 const ItemForm = ({
   label,
@@ -22,11 +23,22 @@ const ItemForm = ({
   icon,
   handleDeleteData,
   handleModalAlert,
+  myValue,
 }: ItemFormParams) => {
+  const dataRef = useRef<any>(null);
+  useEffect(() => {
+    if (dataRef.current && myValue) {
+      console.log('myValue', myValue);
+
+      dataRef.current = myValue;
+    }
+  }, [dataRef, myValue]);
+
   return (
     <Box className='tw-flex tw-flex-row'>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>
         <TextField
+          ref={dataRef}
           id={`${name}-input`}
           label={label}
           variant='standard'
@@ -109,9 +121,14 @@ const ItemForm = ({
               </InputAdornment>
             ),
           }}
-          onChange={(text: any) =>
-            handleData({ name: name, text: text.target.value })
-          }
+          onChange={(text: any) => {
+            handleData({
+              name: name,
+              text: text.target.value,
+              currentDataRef: dataRef,
+            });
+          }}
+          value={dataRef?.current?.text ?? myValue?.text ?? ''}
         />
       </Box>
       {deleteAction === true && handleModalAlert ? (

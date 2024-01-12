@@ -16,7 +16,8 @@ const TextAreaForm = ({
   handleSwitch,
   handleData,
   checked,
-  icon
+  icon,
+  value,
 }: ItemFormParams) => {
   return (
     <Box className='tw-flex tw-flex-row'>
@@ -30,7 +31,7 @@ const TextAreaForm = ({
           InputProps={{
             startAdornment: (
               <InputAdornment position='start'>
-                {icon === 'PersonOutlinedIcon' ?
+                {icon === 'PersonOutlinedIcon' ? (
                   <PersonOutlinedIcon
                     style={{
                       color: '#62AD9B',
@@ -38,70 +39,62 @@ const TextAreaForm = ({
                       marginRight: '1rem',
                     }}
                   />
-                  :
-                  icon === 'FilePresentOutlinedIcon' ?
-                    <FilePresentOutlinedIcon
-                      style={{
-                        color: '#62AD9B',
-                        fontSize: '1.8rem',
-                        marginRight: '1rem',
-                      }}
-                    />
-                    :
-                    icon === 'WorkOutlineOutlinedIcon' ?
-                      <WorkOutlineOutlinedIcon
-                        style={{
-                          color: '#62AD9B',
-                          fontSize: '1.8rem',
-                          marginRight: '1rem',
-                        }}
-                      />
-                      :
-                      icon === 'ExploreOutlinedIcon' ?
-                        <ExploreOutlinedIcon
-                          style={{
-                            color: '#62AD9B',
-                            fontSize: '1.8rem',
-                            marginRight: '1rem',
-                          }}
-                        />
-                        :
-                        icon === 'AttachFileOutlinedIcon' ?
-                          <AttachFileOutlinedIcon
-                            style={{
-                              color: '#62AD9B',
-                              fontSize: '1.8rem',
-                              marginRight: '1rem',
-                            }}
-                          />
-                          :
-                          icon === 'AccessibilityOutlinedIcon' ?
-                            <AccessibilityOutlinedIcon
-                              style={{
-                                color: '#62AD9B',
-                                fontSize: '1.8rem',
-                                marginRight: '1rem',
-                              }}
-                            />
-                            :
-                            icon === 'TranslateIcon' ?
-                              <TranslateIcon
-                                style={{
-                                  color: '#62AD9B',
-                                  fontSize: '1.8rem',
-                                  marginRight: '1rem',
-                                }}
-                              />
-                              :
-                              null
-                }
-
+                ) : icon === 'FilePresentOutlinedIcon' ? (
+                  <FilePresentOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'WorkOutlineOutlinedIcon' ? (
+                  <WorkOutlineOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'ExploreOutlinedIcon' ? (
+                  <ExploreOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'AttachFileOutlinedIcon' ? (
+                  <AttachFileOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'AccessibilityOutlinedIcon' ? (
+                  <AccessibilityOutlinedIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'TranslateIcon' ? (
+                  <TranslateIcon
+                    style={{
+                      color: '#62AD9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : null}
               </InputAdornment>
             ),
           }}
           onChange={(text: any) =>
             handleData({ name: name, text: text.target.value })
           }
+          value={value}
         />
       </Box>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[35%] tw-mt-10'>

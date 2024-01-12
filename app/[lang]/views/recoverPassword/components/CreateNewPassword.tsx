@@ -17,6 +17,8 @@ const CreateNewPassword = ({
   handleNext: (e: number) => void;
 }) => {
   const { dictionary } = useDictionary({ lang });
+  const [showPasswordOne, setShowPasswordOne] = useState(false);
+  const [showPasswordTwo, setShowPasswordTwo] = useState(false);
   const {
     handleSetNewPassword,
     handleSetConfirmNewPassword,
@@ -25,8 +27,8 @@ const CreateNewPassword = ({
     finishReset,
     expired,
   } = RecoverPasswordHook();
-  const [showPasswordOne, setShowPasswordOne] = useState(false);
-  const [showPasswordTwo, setShowPasswordTwo] = useState(false);
+
+  console.log(validatingPassword);
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
