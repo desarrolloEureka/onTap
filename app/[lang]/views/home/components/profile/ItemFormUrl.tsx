@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Button, TextField, Avatar } from '@mui/material';
+import { Button, TextField, Avatar, Box } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
@@ -21,11 +21,15 @@ import IconTikTok from './IconTikTok';
 
 import {
   CareerDataFormValues,
+  CareerSubIndexDataForm,
   DataForm,
   DataFormValues,
   EducationDataFormValues,
+  IndexDataForm,
+  NetworksSubIndexDataForm,
 } from '@/types/profile';
 import ModalAlertLimit from './ModalAlertLimit';
+import FormUrl from './FormUrl';
 
 const ItemFormUrl = ({
   dictionary,
@@ -33,19 +37,20 @@ const ItemFormUrl = ({
   handleDataSet,
   handleSeeMore,
   index,
-  checked,
   label,
   labelArray,
   value,
   itemDetail,
+  isDetailOpen,
+  icon,
+  social,
   handleModalAlert,
 }: {
   dictionary: Dictionary;
   dataForm: DataForm;
   handleDataSet: (e: DataForm) => void;
   handleSeeMore: (e: number) => void;
-  index: string;
-  checked?: boolean;
+  index: IndexDataForm;
   label?: string;
   labelArray:
     | DataFormValues[]
@@ -53,6 +58,9 @@ const ItemFormUrl = ({
     | CareerDataFormValues[];
   value: any;
   itemDetail: number;
+  isDetailOpen: boolean;
+  icon?: string;
+  social: boolean;
   handleModalAlert: (name: string) => void;
 }) => {
   const {
@@ -61,9 +69,11 @@ const ItemFormUrl = ({
     handleAddData,
     isModalAlertLimit,
     handleModalAlertLimit,
+    handleDeleteData,
+    handleData,
+    user,
   } = ProfileHook({
     dictionary,
-    dataForm,
     handleDataSet,
   });
 
@@ -111,7 +121,7 @@ const ItemFormUrl = ({
                   textTransform: 'none',
                 }}
               >
-                {dictionary?.profileView.addAnotherURL}{' '}
+                {dictionary.profileView.addAnotherURL}{' '}
               </span>
             </Button>
           </div>
@@ -120,11 +130,50 @@ const ItemFormUrl = ({
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
           <div className='tw-w-[95%] tw-flex tw-flex-col '>
             {labelArray.map((val, key) => {
+              const myValue = (user && index == value[0]
+                ? user.profile[index]
+                : undefined) as unknown as DataFormValues;
               return (
                 <div key={key}>
-                  <div className='tw-h-[80%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
-                    <div className='tw-h-[100%] tw-w-[60%] tw-flex tw-flex-col'>
-                      <TextField
+                  <div className='tw-h-[100%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
+                    <div className='tw-h-[100%] tw-w-[90%] tw-flex tw-flex-col'>
+                      <FormUrl
+                        label={dictionary.profileView.labelDataName + ': '}
+                        handleSwitch={(e: any) => handleSwitch(e)}
+                        handleData={handleData}
+                        name={index}
+                        checked={val.checked}
+                        subindex={key}
+                        icon={val.icon}
+                        deleteAction={true}
+                        handleDeleteData={handleDeleteData}
+                        handleModalAlert={(e: any) => handleModalAlert(e)}
+                        myValue={myValue}
+                        dataForm={dataForm}
+                        index={index}
+                        withCheck={true}
+                        subLabel={'name' as NetworksSubIndexDataForm}
+                      />
+                      <Box sx={{ mb: 1 }}>
+                        <FormUrl
+                          label={dictionary.profileView.labelOptionalUrl + ': '}
+                          handleSwitch={(e: any) => handleSwitch(e)}
+                          handleData={handleData}
+                          name={index}
+                          checked={val.checked}
+                          subindex={key}
+                          icon={val.icon}
+                          deleteAction={true}
+                          handleDeleteData={handleDeleteData}
+                          handleModalAlert={(e: any) => handleModalAlert(e)}
+                          myValue={myValue}
+                          dataForm={dataForm}
+                          index={index}
+                          withCheck={false}
+                          subLabel={'url' as NetworksSubIndexDataForm}
+                        />
+                      </Box>
+                      {/* <TextField
                         variant='standard'
                         InputProps={{
                           startAdornment: (
@@ -189,10 +238,10 @@ const ItemFormUrl = ({
                             key,
                           })
                         }
-                      />
+                      /> */}
                     </div>
 
-                    <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
+                    {/* <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
                       <Button
                         className='tw-w-[100%] tw-h-[100%]'
                         onClick={() => handleModalAlert(index)}
@@ -212,7 +261,7 @@ const ItemFormUrl = ({
                         handleSwitch={(e: any) => handleSwitch(e)}
                         checked={val.checked}
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className='tw-h-[20%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center '>
@@ -245,6 +294,9 @@ const ItemFormUrl = ({
                                     key,
                                   })
                                 }
+                                className={`${
+                                  val.icon === 'facebook' && 'tw-bg-gray-100'
+                                } tw-p-2 tw-min-w-min`}
                               >
                                 <FacebookOutlinedIcon
                                   sx={{ color: '#62ad9b' }}
@@ -261,6 +313,9 @@ const ItemFormUrl = ({
                                     key,
                                   })
                                 }
+                                className={`${
+                                  val.icon === 'twitter' && 'tw-bg-gray-100'
+                                } tw-p-2 tw-min-w-min`}
                               >
                                 <TwitterIcon sx={{ color: '#62ad9b' }} />
                               </Button>
@@ -275,6 +330,9 @@ const ItemFormUrl = ({
                                     key,
                                   })
                                 }
+                                className={`${
+                                  val.icon === 'pending' && 'tw-bg-gray-100'
+                                } tw-p-2 tw-min-w-min`}
                               >
                                 <FacebookOutlinedIcon
                                   sx={{ color: '#62ad9b' }}
@@ -291,6 +349,9 @@ const ItemFormUrl = ({
                                     key,
                                   })
                                 }
+                                className={`${
+                                  val.icon === 'instagram' && 'tw-bg-gray-100'
+                                } tw-p-2 tw-min-w-min`}
                               >
                                 <InstagramIcon sx={{ color: '#62ad9b' }} />
                               </Button>
@@ -305,6 +366,9 @@ const ItemFormUrl = ({
                                     key,
                                   })
                                 }
+                                className={`${
+                                  val.icon === 'linkedin' && 'tw-bg-gray-100'
+                                } tw-p-2 tw-min-w-min`}
                               >
                                 <LinkedInIcon sx={{ color: '#62ad9b' }} />
                               </Button>
@@ -319,6 +383,9 @@ const ItemFormUrl = ({
                                     key,
                                   })
                                 }
+                                className={`${
+                                  val.icon === 'tikTok' && 'tw-bg-gray-100'
+                                } tw-p-2 tw-min-w-min`}
                               >
                                 <IconTikTok />
                               </Button>
@@ -373,7 +440,7 @@ const ItemFormUrl = ({
                 textTransform: 'none',
               }}
             >
-              {dictionary?.profileView.buttonSeeMore} (2)
+              {dictionary.profileView.buttonSeeMore} (2)
             </span>
           </Button>
         </div>

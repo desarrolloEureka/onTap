@@ -6,7 +6,6 @@ import FormAddDataUser from '@/views/home/components/profile/FormAddDataUser';
 import ModalProfile from '@/views/home/components/profile/ModalProfile';
 import PhotoUser from '@/views/home/components/profile/PhotoUser';
 import { Container } from '@mui/material';
-import { profile } from 'app/[lang]/initialData/profileInitialData';
 import { useState } from 'react';
 import ProfileHook from './hooks/ProfileHook';
 import ModalAlert from './ModalAlert';
@@ -19,8 +18,6 @@ const Profile = ({
   dictionary: Dictionary;
   isProUser: boolean;
 }) => {
-  const [dataForm, setDataForm] = useState<DataForm>(profile);
-
   const {
     handleModal,
     handleModalAlert,
@@ -32,10 +29,10 @@ const Profile = ({
     isModalAlert,
     handleModalAux,
     itemDelete,
-  } = ProfileHook({
-    dictionary,
     dataForm,
     setDataForm,
+  } = ProfileHook({
+    dictionary,
   });
 
   const router = useRouter();
@@ -45,11 +42,8 @@ const Profile = ({
   };
 
   const handleDataSet = (data: DataForm) => {
-    // console.log('data', data);
     setDataForm(data);
   };
-
-  // console.log("dataForm ", dataForm);
 
   return (
     <div>
@@ -62,7 +56,7 @@ const Profile = ({
         <div
           className={`tw-flex tw-items-center tw-justify-center ${
             isProUser
-              ? 'lg:tw-h-[1700px] md:tw-w-[100%]'
+              ? 'lg:tw-h-auto md:tw-w-[100%]'
               : 'lg:tw-h-[750px] md:tw-w-[100%]'
           }`}
         >

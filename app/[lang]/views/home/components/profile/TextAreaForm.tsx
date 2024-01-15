@@ -9,6 +9,7 @@ import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import AccessibilityOutlinedIcon from '@mui/icons-material/AccessibilityOutlined';
 import TranslateIcon from '@mui/icons-material/Translate';
+import { useEffect, useRef } from 'react';
 
 const TextAreaForm = ({
   label,
@@ -16,13 +17,23 @@ const TextAreaForm = ({
   handleSwitch,
   handleData,
   checked,
+  myValue,
   icon,
   value,
+  dataForm,
+  index,
 }: ItemFormParams) => {
+  const dataRef = useRef<any>(null);
+  useEffect(() => {
+    if (dataRef.current && myValue && dataForm && index) {
+      dataRef.current = myValue;
+    }
+  }, [dataForm, dataRef, index, myValue]);
   return (
     <Box className='tw-flex tw-flex-row'>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>
         <TextField
+          ref={dataRef}
           id={`${name}-input`}
           label={label}
           multiline
@@ -91,9 +102,13 @@ const TextAreaForm = ({
               </InputAdornment>
             ),
           }}
-          onChange={(text: any) =>
-            handleData({ name: name, text: text.target.value })
-          }
+          onChange={(text: any) => {
+            handleData({
+              name: name,
+              text: text.target.value,
+              currentDataRef: dataRef,
+            });
+          }}
           value={value}
         />
       </Box>

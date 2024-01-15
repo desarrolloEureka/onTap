@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Button, FormControl, TextField } from '@mui/material';
+import { Box, Button, FormControl, TextField } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
@@ -13,11 +13,15 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 
 import {
   CareerDataFormValues,
+  CareerSubIndexDataForm,
   DataForm,
   DataFormValues,
   EducationDataFormValues,
+  EducationSubIndexDataForm,
+  IndexDataForm,
 } from '@/types/profile';
 import ModalAlertLimit from './ModalAlertLimit';
+import FormProfession from './FormProfession';
 
 const ItemFormProfessional = ({
   dictionary,
@@ -25,19 +29,20 @@ const ItemFormProfessional = ({
   handleDataSet,
   handleSeeMore,
   index,
-  checked,
   label,
   labelArray,
   value,
   itemDetail,
+  isDetailOpen,
+  icon,
+  social,
   handleModalAlert,
 }: {
   dictionary: Dictionary;
   dataForm: DataForm;
   handleDataSet: (e: DataForm) => void;
   handleSeeMore: (e: number) => void;
-  index: string;
-  checked?: boolean;
+  index: IndexDataForm;
   label?: string;
   labelArray:
     | DataFormValues[]
@@ -45,6 +50,9 @@ const ItemFormProfessional = ({
     | CareerDataFormValues[];
   value: any;
   itemDetail: number;
+  isDetailOpen: boolean;
+  icon?: string;
+  social: boolean;
   handleModalAlert: (name: string) => void;
 }) => {
   const {
@@ -53,9 +61,10 @@ const ItemFormProfessional = ({
     handleAddData,
     isModalAlertLimit,
     handleModalAlertLimit,
+    handleDeleteData,
+    user,
   } = ProfileHook({
     dictionary,
-    dataForm,
     handleDataSet,
   });
 
@@ -108,154 +117,92 @@ const ItemFormProfessional = ({
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
           <div className='tw-w-[95%] tw-flex tw-flex-col '>
             {labelArray.map((val, key) => {
+              const myValue = (user && index == value[0]
+                ? user.profile[index]
+                : undefined) as unknown as DataFormValues;
               return (
                 <div key={key}>
                   <div className='tw-h-[100%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
-                    <div className='tw-h-[100%] tw-w-[60%] tw-flex tw-flex-col'>
-                      <TextField
-                        //id={`${name}-input`}
-                        variant='standard'
-                        InputProps={{
-                          startAdornment: (
-                            <>
-                              <TimelineIcon
-                                style={{
-                                  color: '#62AD9B',
-                                  fontSize: '1.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              />
-                              <CircleOutlinedIcon
-                                style={{
-                                  color: '#000000',
-                                  fontSize: '0.5rem',
-                                  marginRight: '0.3rem',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: '0.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              >
-                                {dictionary?.profileView.labelCompany}:{' '}
-                              </span>
-                            </>
-                          ),
-                        }}
-                        onChange={(text: any) =>
-                          handleData({
-                            name: value[0],
-                            text: text.target.value,
-                            subindex: 'company',
-                            key,
-                          })
-                        }
+                    <div className='tw-h-[100%] tw-w-[90%] tw-flex tw-flex-col'>
+                      <FormProfession
+                        label={dictionary.profileView.labelCompany + ': '}
+                        handleSwitch={(e: any) => handleSwitch(e)}
+                        handleData={handleData}
+                        name={index}
+                        checked={val.checked}
+                        subindex={key}
+                        icon={val.icon}
+                        deleteAction={true}
+                        handleDeleteData={handleDeleteData}
+                        handleModalAlert={(e: any) => handleModalAlert(e)}
+                        myValue={myValue}
+                        dataForm={dataForm}
+                        index={index}
+                        withCheck={true}
+                        subLabel={'company' as CareerSubIndexDataForm}
                       />
-                      <TextField
-                        //id={`${name}-input`}
-                        variant='standard'
-                        InputProps={{
-                          startAdornment: (
-                            <>
-                              <CircleOutlinedIcon
-                                style={{
-                                  color: '#000000',
-                                  fontSize: '0.5rem',
-                                  marginRight: '0.3rem',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: '0.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              >
-                                {dictionary?.profileView.labelPosition}:{' '}
-                              </span>
-                            </>
-                          ),
-                        }}
-                        onChange={(text: any) =>
-                          handleData({
-                            name: value[0],
-                            text: text.target.value,
-                            subindex: 'position',
-                            key,
-                          })
-                        }
-                      />
-                      <TextField
-                        //id={`${name}-input`}
-                        variant='standard'
-                        InputProps={{
-                          startAdornment: (
-                            <>
-                              <CircleOutlinedIcon
-                                style={{
-                                  color: '#000000',
-                                  fontSize: '0.5rem',
-                                  marginRight: '0.3rem',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: '0.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              >
-                                {dictionary?.profileView.labelStartDate}:{' '}
-                              </span>
-                            </>
-                          ),
-                        }}
-                        onChange={(text: any) =>
-                          handleData({
-                            name: value[0],
-                            text: text.target.value,
-                            subindex: 'data_init',
-                            key,
-                          })
-                        }
-                      />
-                      <TextField
-                        //id={`${name}-input`}
-                        variant='standard'
-                        InputProps={{
-                          startAdornment: (
-                            <>
-                              <CircleOutlinedIcon
-                                style={{
-                                  color: '#000000',
-                                  fontSize: '0.5rem',
-                                  marginRight: '0.3rem',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: '0.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              >
-                                {dictionary?.profileView.labelEndDate}:{' '}
-                              </span>
-                            </>
-                          ),
-                        }}
-                        onChange={(text: any) =>
-                          handleData({
-                            name: value[0],
-                            text: text.target.value,
-                            subindex: 'data_end',
-                            key,
-                          })
-                        }
-                      />
+                      <Box sx={{ mb: 1 }}>
+                        <FormProfession
+                          label={dictionary.profileView.labelPosition + ': '}
+                          handleSwitch={(e: any) => handleSwitch(e)}
+                          handleData={handleData}
+                          name={index}
+                          checked={val.checked}
+                          subindex={key}
+                          icon={val.icon}
+                          deleteAction={true}
+                          handleDeleteData={handleDeleteData}
+                          handleModalAlert={(e: any) => handleModalAlert(e)}
+                          myValue={myValue}
+                          dataForm={dataForm}
+                          index={index}
+                          withCheck={false}
+                          subLabel={'position' as CareerSubIndexDataForm}
+                        />
+                      </Box>
+                      <Box sx={{ my: 1 }}>
+                        <FormProfession
+                          label={dictionary.profileView.labelStartDate + ': '}
+                          handleSwitch={(e: any) => handleSwitch(e)}
+                          handleData={handleData}
+                          name={index}
+                          checked={val.checked}
+                          subindex={key}
+                          icon={val.icon}
+                          deleteAction={true}
+                          handleDeleteData={handleDeleteData}
+                          handleModalAlert={(e: any) => handleModalAlert(e)}
+                          myValue={myValue}
+                          dataForm={dataForm}
+                          index={index}
+                          withCheck={false}
+                          subLabel={'data_init' as CareerSubIndexDataForm}
+                        />
+                      </Box>
+                      <Box sx={{ my: 1 }}>
+                        <FormProfession
+                          label={dictionary.profileView.labelEndDate + ': '}
+                          handleSwitch={(e: any) => handleSwitch(e)}
+                          handleData={handleData}
+                          name={index}
+                          checked={val.checked}
+                          subindex={key}
+                          icon={val.icon}
+                          deleteAction={true}
+                          handleDeleteData={handleDeleteData}
+                          handleModalAlert={(e: any) => handleModalAlert(e)}
+                          myValue={myValue}
+                          dataForm={dataForm}
+                          index={index}
+                          withCheck={false}
+                          subLabel={'data_end' as CareerSubIndexDataForm}
+                        />
+                      </Box>
                       <FormHelperText id='standard-weight-helper-text'>
-                        {dictionary?.profileView.labelCareerPath}
+                        {dictionary.profileView.labelCareerPath}
                       </FormHelperText>
                     </div>
-                    <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+                    {/* <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                       <Button
                         className='tw-w-[100%] tw-h-[100%]'
                         onClick={() => handleModalAlert(index)}
@@ -274,7 +221,7 @@ const ItemFormProfessional = ({
                         handleSwitch={(e: any) => handleSwitch(e)}
                         checked={val.checked}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               );

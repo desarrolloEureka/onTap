@@ -2,13 +2,13 @@ import { loginFirebase } from '@/firebase/auth';
 import {
   getAllUsers,
   getUserById,
+  updateDataUserProfile,
+  updatePasswordFirebase,
   updateSwitchActivateCard,
   updateSwitchAllFirebase,
-  updateUserData,
   updateSwitchProfileFirebase,
-  updatePasswordFirebase,
   updateTemplateSelectedFirebase,
-  updateDataUserProfile,
+  updateUserData,
 } from '@/firebase/user';
 import { DataForm } from '@/types/profile';
 import { UserData, UserDb } from '@/types/user';
@@ -50,8 +50,6 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
         if (docSnap.exists()) {
           const user = docSnap.data() as UserDb;
           const getUser = userDataToSend(user, resultUser);
-          console.log('getUser', getUser);
-
           localStorage.setItem('@user', JSON.stringify(getUser));
           return getUser;
         } else {
@@ -137,10 +135,8 @@ const SendDataUserProfile = async (userId: string, data: DataForm) => {
       const updatedUser = await getUserById(userId);
       if (updatedUser.exists()) {
         const userData = updatedUser.data() as UserDb;
-        console.log('userData', userData);
 
         const getUser = reBuildUserData(userData);
-        console.log('getUser', getUser);
 
         localStorage.setItem('@user', JSON.stringify(getUser));
         return { success: true, error: false };
@@ -155,21 +151,32 @@ const SendDataUserProfile = async (userId: string, data: DataForm) => {
 const GetUser = () =>
   useQuery({
     queryKey: ['user'],
-    queryFn: () => {
+    queryFn: async () => {
       const userLogged = localStorage.getItem('@user');
-      return userLogged ? (JSON.parse(userLogged) as UserData) : null;
+      if (userLogged) {
+        const user = JSON.parse(userLogged) as UserData;
+        const updatedUser = await getUserById(user.uid);
+        if (updatedUser.exists()) {
+          const userData = updatedUser.data() as UserData;
+          const getUser = reBuildUserData(userData) as UserData;
+          localStorage.setItem('@user', JSON.stringify(getUser));
+          return userLogged ? getUser : null;
+        }
+      } else {
+        return null;
+      }
     },
   });
 
 export {
-  SendDataImage,
   GetAllUserQuery,
   GetLoginQuery,
   GetUser,
-  SendSwitchProfile,
-  SendSwitchActivateCard,
-  UpdatePassword,
-  SendTemplateSelected,
-  SendSwitchAllForm,
+  SendDataImage,
   SendDataUserProfile,
+  SendSwitchActivateCard,
+  SendSwitchAllForm,
+  SendSwitchProfile,
+  SendTemplateSelected,
+  UpdatePassword,
 };

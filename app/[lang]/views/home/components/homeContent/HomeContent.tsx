@@ -71,7 +71,6 @@ const HomeContent = ({
 
   const handleSaveTemplate = async () => {
     const userId = data?.uid;
-    console.log('userId ---> ', userId);
     userId &&
       (await SendTemplateSelected(
         userId,

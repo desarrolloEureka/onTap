@@ -13,7 +13,6 @@ export const getAllTemplates = async () => {
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {
       const dataResult = doc.data() as Templates;
-      //console.log("dataResult ", doc.id);
       templatesData.push({ ...dataResult, id: doc.id });
     });
   }
