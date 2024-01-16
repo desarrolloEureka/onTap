@@ -55,9 +55,9 @@ const ItemFormBasicInfo = ({
     handleDeleteData,
     isModalAlertLimit,
     handleModalAlertLimit,
+    user,
   } = ProfileHook({
     dictionary,
-    dataForm,
     handleDataSet,
   });
 
@@ -118,6 +118,9 @@ const ItemFormBasicInfo = ({
             if (social === true) {
               /* Social */
               if (val.principal === true || val.social === true) {
+                const myValue = (user && index == value[0]
+                  ? user.profile[index]
+                  : undefined) as unknown as DataFormValues;
                 return (
                   <div key={key}>
                     <ItemForm
@@ -126,11 +129,14 @@ const ItemFormBasicInfo = ({
                       handleData={handleData}
                       name={index}
                       checked={val.checked}
-                      key={key}
+                      subindex={key}
                       icon={val.icon}
                       deleteAction={true}
                       handleDeleteData={handleDeleteData}
                       handleModalAlert={(e: any) => handleModalAlert(e)}
+                      myValue={myValue}
+                      dataForm={dataForm}
+                      index={index}
                     />
                   </div>
                 );
@@ -138,6 +144,9 @@ const ItemFormBasicInfo = ({
             } else {
               /* Pro */
               if (val.principal === true || val.social === false) {
+                const myValue = (user && index == value[0]
+                  ? user.profile[index]
+                  : undefined) as unknown as DataFormValues;
                 return (
                   <div key={key}>
                     <ItemForm
@@ -146,11 +155,14 @@ const ItemFormBasicInfo = ({
                       handleData={handleData}
                       name={index}
                       checked={val.checked}
-                      key={key}
+                      subindex={key}
                       icon={val.icon}
                       deleteAction={true}
                       handleDeleteData={handleDeleteData}
                       handleModalAlert={(e: any) => handleModalAlert(e)}
+                      myValue={myValue}
+                      dataForm={dataForm}
+                      index={index}
                     />
                   </div>
                 );
@@ -187,7 +199,7 @@ const ItemFormBasicInfo = ({
                 textTransform: 'none',
               }}
             >
-              {dictionary?.profileView.buttonSeeMore} (2)
+              {dictionary.profileView.buttonSeeMore} (2)
             </span>
           </Button>
         </div>

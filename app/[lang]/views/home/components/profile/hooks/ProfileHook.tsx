@@ -13,24 +13,69 @@ import {
 } from '@/types/profile';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
-import {
-  GetUser,
-  SendDataUserProfile,
-  SendSwitchAllForm,
-} from '@/reactQuery/users';
+import { profile } from 'app/[lang]/initialData/profileInitialData';
+import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
 
 const ProfileHook = ({
   dictionary,
-  dataForm,
-  setDataForm,
   handleDataSet,
 }: {
   dictionary: Dictionary;
-  dataForm: DataForm;
-  setDataForm?: (e: DataForm) => void;
   handleDataSet?: (e: DataForm) => void;
 }) => {
   const { data, error } = GetUser();
+  const dataProfile = data?.profile as DataForm;
+  const [dataForm, setDataForm] = useState<DataForm>(
+    data ? dataProfile : (profile as DataForm)
+  );
+
+  const objectDataSort = Object.entries(dataForm).toSorted((a, b) => {
+    // if (
+    //   a[0] == 'urls' ||
+    //   a[0] == 'emails' ||
+    //   a[0] == 'professional_career' ||
+    //   a[0] == 'education' ||
+    //   a[0] == 'phones'
+    // ) {
+    //   if (Array.isArray(b[1])) {
+    //     if (a[1][0].order > b[1][0].order) {
+    //       return 1;
+    //     }
+    //     if (a[1][0].order < b[1][0].order) {
+    //       return -1;
+    //     }
+    //   }
+    // } else {
+    //   console.log('b[1]', b[1]);
+
+    //   console.log('a ' + a[1].order + ' >  b ' + b[1].order);
+
+    //   if (a[1].order > b[1].order) {
+    //     return 1;
+    //   }
+    //   if (a[1].order < b[1].order) {
+    //     return -1;
+    //   }
+    // }
+    if (!Array.isArray(a[1]) && !Array.isArray(b[1])) {
+      console.log('a[1].count', a[1].order);
+      console.log('b[1].count', b[1].order);
+      // console.log('b[1]', b[1]);
+      const data = a[1].order - b[1].order;
+      console.log('data 2', data);
+
+      return data;
+    } else if (Array.isArray(a[1]) && Array.isArray(b[1])) {
+      console.log('a[1][0].count', a[1][0].order);
+      console.log('b[1][0].count', b[1][0].order);
+      const data = a[1][0].order - b[1][0].order;
+      console.log('data 1', data);
+
+      return data;
+    }
+    return 0;
+  });
+
   const [allChecked, setAllChecked] = useState(false);
   const [isModalAlertLimit, setIsModalAlertLimit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,43 +87,10 @@ const ProfileHook = ({
   const [isDataError, setIsDataError] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
 
-  // const handleDataSet = useCallback(
-  //   (data: DataForm) => {
-  //     if (setDataForm) setDataForm(data);
-  //   },
-  //   [setDataForm]
-  // );
-
-  const handleSendSwitchAll = async () => {
-    const userId = data?.uid;
-    const resultArray: { [x: string]: { checked: any } }[] = [];
-
-    Object.entries(dataForm).forEach(([propiedad, valor]) => {
-      if (Array.isArray(valor)) {
-        // Si es un array
-        const arrayData = [];
-        valor.forEach((elemento, index) => {
-          ///console.log(`${propiedad}[${index}]: ${elemento.checked}`);
-          resultArray.push({ [propiedad]: { checked: elemento.checked } });
-        });
-      } else if (
-        typeof valor === 'object' &&
-        valor !== null &&
-        'checked' in valor
-      ) {
-        resultArray.push({ [propiedad]: { checked: valor.checked } });
-      }
-    });
-    //console.log("resultArray ", resultArray);
-
-    userId && (await SendSwitchAllForm(userId, resultArray));
-  };
-
   const handleSendProfile = async () => {
     const userId = data?.uid;
     if (userId) {
       const isSendDataProfile = await SendDataUserProfile(userId, dataForm);
-      console.log('isSendDataProfile', isSendDataProfile);
       if (isSendDataProfile?.success) {
         setIsDataError(false);
         setIsDataSuccess(true);
@@ -119,7 +131,15 @@ const ProfileHook = ({
     }
   };
 
-  const handleSwitch = (value: ChangeEvent<HTMLInputElement>) => {
+  const handleSwitch = ({
+    value,
+    currentDataRef,
+    key,
+  }: {
+    value: ChangeEvent<HTMLInputElement>;
+    currentDataRef?: any;
+    key?: number;
+  }) => {
     const isChecked = value.target.checked;
     const dataFormClone = { ...dataForm };
     const index = value.target.name as keyof typeof dataFormClone;
@@ -130,18 +150,15 @@ const ProfileHook = ({
       index != 'professional_career' &&
       index != 'urls'
     ) {
-      console.log('if');
-
       dataFormClone[index]!.checked = isChecked;
       handleDataSet && handleDataSet(dataFormClone);
     } else {
-      console.log('else');
-
       let dataAux = dataFormClone[index];
-      dataAux?.map((val) => {
-        val.checked = !val.checked;
+      if (dataAux && key != undefined) {
+        dataAux[key].checked = isChecked;
+        currentDataRef.current[key].checked = isChecked;
         handleDataSet && handleDataSet(dataFormClone);
-      });
+      }
     }
   };
 
@@ -195,32 +212,18 @@ const ProfileHook = ({
       index != 'urls' &&
       index != 'professional_career'
     ) {
-      console.log('index', index);
-
       dataFormClone[index]!.text = text;
-      console.log('currentDataRef>>>', currentDataRef.current);
       currentDataRef.current.text = text;
-      // if (
-      //   index != 'professional_profile' &&
-      //   index != 'other_competencies' &&
-      //   index != 'skills' &&
-      //   index != 'languages' &&
-      //   index != 'achievements_recognitions' &&
-      //   dataRef.current
-      // ) {
-      //   console.log('uuuuuuuuu');
-
-      //   dataRef.current.text = text;
-      // }
       handleDataSet && handleDataSet(dataFormClone);
       setIsDataLoad(true);
     } else {
       if (index == 'phones' || index == 'emails') {
         const dataAux = dataFormClone[index];
-        dataAux?.map((val) => {
-          val.text = text;
-          handleDataSet && handleDataSet(dataFormClone);
-        });
+        if (dataAux && key != undefined) {
+          dataAux[key].text = text;
+          currentDataRef.current[key].text = text;
+          dataAux && handleDataSet && handleDataSet(dataFormClone);
+        }
         setIsDataLoad(true);
       } else if (
         index == 'education' &&
@@ -229,6 +232,7 @@ const ProfileHook = ({
           subindex == 'institution') &&
         key != undefined
       ) {
+        currentDataRef.current[key][subindex] = text;
         fillFields(index, key, text, subindex);
       } else if (
         index == 'professional_career' &&
@@ -238,13 +242,20 @@ const ProfileHook = ({
           subindex == 'position') &&
         key != undefined
       ) {
+        currentDataRef.current[key][subindex] = text;
         fillFields(index, key, text, undefined, subindex);
+      } else if (
+        index == 'urls' &&
+        (subindex == 'name' || subindex == 'url' || subindex == 'icon') &&
+        key != undefined
+      ) {
+        currentDataRef.current[key][subindex] = text;
+        fillFields(index, key, text, undefined, undefined, subindex);
       }
     }
   };
 
   const handleDeleteData = ({ name }: { name: string }) => {
-    // console.log('handleDeleteData --->  ', name);
     /*    const dataFormClone = { ...dataForm };
        const index = name as keyof typeof dataFormClone;
    
@@ -281,6 +292,7 @@ const ProfileHook = ({
             social: social,
             professional: !social,
             icon: 'LocalPhoneOutlinedIcon',
+            order: 9,
           });
         }
       }
@@ -294,6 +306,7 @@ const ProfileHook = ({
             social: social,
             professional: !social,
             icon: 'EmailOutlinedIcon',
+            order: 10,
           });
         }
       }
@@ -309,6 +322,7 @@ const ProfileHook = ({
             social: social,
             professional: !social,
             icon: '',
+            order: 11,
           });
         }
       }
@@ -325,6 +339,7 @@ const ProfileHook = ({
             social: social,
             professional: !social,
             icon: '',
+            order: 12,
           });
         }
       }
@@ -339,6 +354,7 @@ const ProfileHook = ({
             principal: false,
             social: social,
             professional: !social,
+            order: 13,
           });
         }
       }
@@ -507,6 +523,7 @@ const ProfileHook = ({
       setAllChecked(false);
     }
   }, [allChecked, dataForm, handleDataSet]);
+  console.log('objectDataSort', objectDataSort);
 
   return {
     handleSwitch,
@@ -514,7 +531,7 @@ const ProfileHook = ({
     handleDataNetworks,
     handleAddData,
     handleSwitchAll,
-    data: dataForm && Object.entries(dataForm),
+    data: objectDataSort,
     handleDeleteData,
     handleModalAux,
     handleModal,
@@ -527,7 +544,6 @@ const ProfileHook = ({
     itemDelete,
     isModalAlertLimit,
     handleModalAlertLimit,
-    handleSendSwitchAll,
     handleSendProfile,
     isDataSuccess,
     setIsDataSuccess,
@@ -535,6 +551,8 @@ const ProfileHook = ({
     setIsDataError,
     user: data,
     isDataLoad,
+    dataForm,
+    setDataForm,
   };
 };
 

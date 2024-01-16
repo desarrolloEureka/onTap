@@ -76,20 +76,19 @@ export const updateSwitchAllFirebase = async (userId: string, newData: any) => {
 export const updatePasswordFirebase = (newPassword: string) => {
   const auth = getAuth();
   const user = auth.currentUser;
-  console.log('newPassword ', newPassword);
 
   if (user) {
     return updatePassword(user, newPassword)
       .then(() => {
-        //console.log("Contraseña actualizada correctamente");
+        console.debug('Contraseña actualizada correctamente');
         return true;
       })
       .catch((error) => {
-        console.error('Error al actualizar la contraseña:', error.message);
+        console.debug('Error al actualizar la contraseña:', error.message);
         return false;
       });
   } else {
-    console.error('No hay un usuario autenticado');
+    console.debug('No hay un usuario autenticado');
     return false;
   }
 };

@@ -35,7 +35,6 @@ const FormAddDataUser = ({
 }) => {
   const { data } = ProfileHook({
     dictionary,
-    dataForm,
     handleDataSet,
   });
 
@@ -85,9 +84,23 @@ const FormAddDataUser = ({
                     labelArray={labelArray}
                     value={value}
                     itemDetail={itemDetail}
+                    isDetailOpen={isDetailOpen}
+                    social={false}
                     handleModalAlert={handleModalAlert}
                   />
-                ) : value[0] == 'professional_career' ? (
+                ) : // <ItemFormEducation
+                //   key={key}
+                //   dictionary={dictionary}
+                //   dataForm={dataForm}
+                //   handleDataSet={(e) => handleDataSet(e)}
+                //   handleSeeMore={handleSeeMore}
+                //   index={index}
+                //   labelArray={labelArray}
+                //   value={value}
+                //   itemDetail={itemDetail}
+                //   handleModalAlert={handleModalAlert}
+                // />
+                value[0] == 'professional_career' ? (
                   <ItemFormProfessional
                     key={key}
                     dictionary={dictionary}
@@ -98,6 +111,8 @@ const FormAddDataUser = ({
                     labelArray={labelArray}
                     value={value}
                     itemDetail={itemDetail}
+                    isDetailOpen={isDetailOpen}
+                    social={false}
                     handleModalAlert={handleModalAlert}
                   />
                 ) : (
@@ -111,6 +126,8 @@ const FormAddDataUser = ({
                     labelArray={labelArray}
                     value={value}
                     itemDetail={itemDetail}
+                    isDetailOpen={isDetailOpen}
+                    social={false}
                     handleModalAlert={handleModalAlert}
                   />
                 );

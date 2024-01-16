@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Button, FormControl, TextField } from '@mui/material';
+import { Box, Button, FormControl, TextField } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
@@ -16,8 +16,12 @@ import {
   DataForm,
   DataFormValues,
   EducationDataFormValues,
+  EducationSubIndexDataForm,
+  IndexDataForm,
 } from '@/types/profile';
 import ModalAlertLimit from './ModalAlertLimit';
+import ItemForm from './ItemForm';
+import FormEducation from './FormEducation';
 
 const ItemFormEducation = ({
   dictionary,
@@ -25,19 +29,20 @@ const ItemFormEducation = ({
   handleDataSet,
   handleSeeMore,
   index,
-  checked,
   label,
   labelArray,
   value,
   itemDetail,
+  isDetailOpen,
+  icon,
+  social,
   handleModalAlert,
 }: {
   dictionary: Dictionary;
   dataForm: DataForm;
   handleDataSet: (e: DataForm) => void;
   handleSeeMore: (e: number) => void;
-  index: string;
-  checked?: boolean;
+  index: IndexDataForm;
   label?: string;
   labelArray:
     | DataFormValues[]
@@ -45,17 +50,21 @@ const ItemFormEducation = ({
     | CareerDataFormValues[];
   value: any;
   itemDetail: number;
+  isDetailOpen: boolean;
+  icon?: string;
+  social: boolean;
   handleModalAlert: (name: string) => void;
 }) => {
   const {
     handleSwitch,
     handleData,
     handleAddData,
+    handleDeleteData,
     isModalAlertLimit,
     handleModalAlertLimit,
+    user,
   } = ProfileHook({
     dictionary,
-    dataForm,
     handleDataSet,
   });
 
@@ -106,122 +115,74 @@ const ItemFormEducation = ({
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
           <div className='tw-w-[95%] tw-flex tw-flex-col '>
             {labelArray.map((val, key) => {
+              const myValue = (user && index == value[0]
+                ? user.profile[index]
+                : undefined) as unknown as DataFormValues;
               return (
                 <div key={key}>
                   <div className='tw-h-[100%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
-                    <div className='tw-h-[100%] tw-w-[60%] tw-flex tw-flex-col'>
-                      <TextField
-                        //id={`${name}-input`}
-                        variant='standard'
-                        InputProps={{
-                          startAdornment: (
-                            <>
-                              <SchoolOutlinedIcon
-                                style={{
-                                  color: '#62AD9B',
-                                  fontSize: '1.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              />
-                              <CircleOutlinedIcon
-                                style={{
-                                  color: '#000000',
-                                  fontSize: '0.5rem',
-                                  marginRight: '0.3rem',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: '0.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              >
-                                {dictionary?.profileView.labelTitle}:{' '}
-                              </span>
-                            </>
-                          ),
-                        }}
-                        onChange={(text: any) =>
-                          handleData({
-                            name: value[0],
-                            text: text.target.value,
-                            subindex: 'title',
-                            key,
-                          })
-                        }
+                    <div className='tw-h-[100%] tw-w-[90%] tw-flex tw-flex-col'>
+                      <FormEducation
+                        label={dictionary.profileView.labelTitle + ': '}
+                        handleSwitch={(e: any) => handleSwitch(e)}
+                        handleData={handleData}
+                        name={index}
+                        checked={val.checked}
+                        subindex={key}
+                        icon={val.icon}
+                        deleteAction={true}
+                        handleDeleteData={handleDeleteData}
+                        handleModalAlert={(e: any) => handleModalAlert(e)}
+                        myValue={myValue}
+                        dataForm={dataForm}
+                        index={index}
+                        withCheck={true}
+                        subLabel={'title' as EducationSubIndexDataForm}
                       />
-                      <TextField
-                        //id={`${name}-input`}
-                        variant='standard'
-                        InputProps={{
-                          startAdornment: (
-                            <>
-                              <CircleOutlinedIcon
-                                style={{
-                                  color: '#000000',
-                                  fontSize: '0.5rem',
-                                  marginRight: '0.3rem',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: '0.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              >
-                                {dictionary?.profileView.labelInstitute}:{' '}
-                              </span>
-                            </>
-                          ),
-                        }}
-                        onChange={(text: any) =>
-                          handleData({
-                            name: value[0],
-                            text: text.target.value,
-                            subindex: 'institution',
-                            key,
-                          })
-                        }
-                      />
-                      <TextField
-                        //id={`${name}-input`}
-                        variant='standard'
-                        InputProps={{
-                          startAdornment: (
-                            <>
-                              <CircleOutlinedIcon
-                                style={{
-                                  color: '#000000',
-                                  fontSize: '0.5rem',
-                                  marginRight: '0.3rem',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: '0.8rem',
-                                  marginRight: '0.5rem',
-                                }}
-                              >
-                                {dictionary?.profileView.labelYear}:{' '}
-                              </span>
-                            </>
-                          ),
-                        }}
-                        onChange={(text: any) =>
-                          handleData({
-                            name: value[0],
-                            text: text.target.value,
-                            subindex: 'year',
-                            key,
-                          })
-                        }
-                      />
+                      <Box sx={{ mb: 1 }}>
+                        <FormEducation
+                          label={dictionary.profileView.labelInstitute + ': '}
+                          handleSwitch={(e: any) => handleSwitch(e)}
+                          handleData={handleData}
+                          name={index}
+                          checked={val.checked}
+                          subindex={key}
+                          icon={val.icon}
+                          deleteAction={true}
+                          handleDeleteData={handleDeleteData}
+                          handleModalAlert={(e: any) => handleModalAlert(e)}
+                          myValue={myValue}
+                          dataForm={dataForm}
+                          index={index}
+                          withCheck={false}
+                          subLabel={'institution' as EducationSubIndexDataForm}
+                        />
+                      </Box>
+                      <Box sx={{ my: 1 }}>
+                        <FormEducation
+                          label={dictionary.profileView.labelYear + ': '}
+                          handleSwitch={(e: any) => handleSwitch(e)}
+                          handleData={handleData}
+                          name={index}
+                          checked={val.checked}
+                          subindex={key}
+                          icon={val.icon}
+                          deleteAction={true}
+                          handleDeleteData={handleDeleteData}
+                          handleModalAlert={(e: any) => handleModalAlert(e)}
+                          myValue={myValue}
+                          dataForm={dataForm}
+                          index={index}
+                          withCheck={false}
+                          subLabel={'year' as EducationSubIndexDataForm}
+                        />
+                      </Box>
                       <FormHelperText id='standard-weight-helper-text'>
-                        {dictionary?.profileView.labelEducation}
+                        {dictionary.profileView.labelEducation}
                       </FormHelperText>
                     </div>
 
-                    <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+                    {/* <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                       <Button
                         className='tw-w-[100%] tw-h-[100%]'
                         onClick={() => handleModalAlert(index)}
@@ -233,15 +194,15 @@ const ItemFormEducation = ({
                           }}
                         />
                       </Button>
-                    </div>
+                    </div> */}
 
-                    <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+                    {/* <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                       <CustomSwitchGeneral
                         name={index}
                         handleSwitch={(e: any) => handleSwitch(e)}
                         checked={val.checked}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               );
@@ -270,7 +231,7 @@ const ItemFormEducation = ({
                 textTransform: 'none',
               }}
             >
-              {dictionary?.profileView.buttonSeeMore} (2)
+              {dictionary.profileView.buttonSeeMore} (2)
             </span>
           </Button>
         </div>

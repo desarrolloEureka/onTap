@@ -27,7 +27,6 @@ const FooterProfile = ({
     setIsDataError,
   } = ProfileHook({
     dictionary,
-    dataForm,
     handleDataSet,
   });
 
@@ -37,13 +36,13 @@ const FooterProfile = ({
         isModalAlert={isDataError}
         handleModalAlert={setIsDataError}
         title={dictionary?.generalTitle}
-        description={dictionary?.profileView.errorDataSend}
+        description={dictionary.profileView.errorDataSend}
       />
       <CustomModalAlert
         isModalAlert={isDataSuccess}
         handleModalAlert={setIsDataSuccess}
         title={dictionary?.generalTitle}
-        description={dictionary?.profileView.successDataSend}
+        description={dictionary.profileView.successDataSend}
       />
 
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
@@ -58,7 +57,7 @@ const FooterProfile = ({
                   fontWeight: 'bold',
                 }}
               >
-                {dictionary?.profileView.labelSwitchMain}
+                {dictionary.profileView.labelSwitchMain}
               </span>
             </div>
             <div className=' tw-h-[70%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
@@ -93,7 +92,7 @@ const FooterProfile = ({
                   textTransform: 'none',
                 }}
               >
-                {dictionary?.homeView.saveButtonLabel}
+                {dictionary.homeView.saveButtonLabel}
               </span>
             </Button>
           </div>

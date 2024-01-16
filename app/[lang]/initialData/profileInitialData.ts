@@ -6,6 +6,7 @@ const dataPrincipalProfileEmail = {
   social: true,
   professional: true,
   icon: 'EmailOutlinedIcon',
+  order: 10,
 };
 const dataPrincipalProfilePhone = {
   label: '',
@@ -15,6 +16,7 @@ const dataPrincipalProfilePhone = {
   social: true,
   professional: true,
   icon: 'LocalPhoneOutlinedIcon',
+  order: 9,
 };
 const dataPrincipalEducations = {
   label: '',
@@ -26,6 +28,7 @@ const dataPrincipalEducations = {
   social: false,
   professional: true,
   icon: '',
+  order: 11,
 };
 const dataPrincipalCareer = {
   label: '',
@@ -38,6 +41,7 @@ const dataPrincipalCareer = {
   social: false,
   professional: true,
   icon: '',
+  order: 12,
 };
 const dataPrincipalUrl = {
   label: '',
@@ -48,6 +52,7 @@ const dataPrincipalUrl = {
   principal: true,
   social: false,
   professional: true,
+  order: 13,
 };
 export const profile = {
   name: {
@@ -57,6 +62,7 @@ export const profile = {
     social: true,
     professional: true,
     icon: 'PersonOutlinedIcon',
+    order: 1,
   },
   last_name: {
     label: '',
@@ -65,6 +71,7 @@ export const profile = {
     social: true,
     professional: true,
     icon: 'PersonOutlinedIcon',
+    order: 2,
   },
   profession: {
     label: '',
@@ -73,6 +80,7 @@ export const profile = {
     social: true,
     professional: true,
     icon: 'FilePresentOutlinedIcon',
+    order: 3,
   },
   occupation: {
     label: '',
@@ -81,6 +89,7 @@ export const profile = {
     social: true,
     professional: true,
     icon: 'WorkOutlineOutlinedIcon',
+    order: 4,
   },
   address: {
     label: '',
@@ -89,6 +98,7 @@ export const profile = {
     social: true,
     professional: true,
     icon: 'ExploreOutlinedIcon',
+    order: 5,
   },
   company: {
     label: '',
@@ -97,6 +107,7 @@ export const profile = {
     social: false,
     professional: true,
     icon: 'WorkOutlineOutlinedIcon',
+    order: 6,
   },
   position: {
     label: '',
@@ -105,6 +116,7 @@ export const profile = {
     social: false,
     professional: true,
     icon: 'AttachFileOutlinedIcon',
+    order: 7,
   },
   professional_profile: {
     label: '',
@@ -113,6 +125,7 @@ export const profile = {
     social: false,
     professional: true,
     icon: 'PersonOutlinedIcon',
+    order: 8,
   },
   phones: [dataPrincipalProfilePhone],
   emails: [dataPrincipalProfileEmail],
@@ -126,6 +139,7 @@ export const profile = {
     social: false,
     professional: true,
     icon: 'AccessibilityOutlinedIcon',
+    order: 14,
   },
   skills: {
     label: '',
@@ -134,6 +148,7 @@ export const profile = {
     social: false,
     professional: true,
     icon: 'PersonOutlinedIcon',
+    order: 15,
   },
   languages: {
     label: '',
@@ -142,6 +157,7 @@ export const profile = {
     social: false,
     professional: true,
     icon: 'TranslateIcon',
+    order: 16,
   },
   achievements_recognitions: {
     label: '',
@@ -150,5 +166,6 @@ export const profile = {
     social: false,
     professional: true,
     icon: 'AccessibilityOutlinedIcon',
+    order: 17,
   },
 };

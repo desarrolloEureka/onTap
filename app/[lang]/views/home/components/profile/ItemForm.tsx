@@ -24,12 +24,39 @@ const ItemForm = ({
   handleDeleteData,
   handleModalAlert,
   myValue,
+  dataForm,
+  index,
+  subindex,
 }: ItemFormParams) => {
   const dataRef = useRef<any>(null);
+
+  const value = () => {
+    const i = subindex as any;
+    if (
+      index != 'phones' &&
+      index != 'education' &&
+      index != 'emails' &&
+      index != 'urls' &&
+      index != 'professional_career'
+    ) {
+      return dataRef?.current?.text ?? myValue?.text;
+    } else {
+      if (dataRef.current) {
+        return dataRef.current[i].text;
+      }
+    }
+  };
+  const isChecked = () => {
+    const i = subindex as any;
+    if (index == 'phones' || index == 'emails') {
+      if (dataRef.current) {
+        return dataRef.current[i].checked;
+      }
+    }
+  };
+
   useEffect(() => {
     if (dataRef.current && myValue) {
-      console.log('myValue', myValue);
-
       dataRef.current = myValue;
     }
   }, [dataRef, myValue]);
@@ -126,9 +153,10 @@ const ItemForm = ({
               name: name,
               text: text.target.value,
               currentDataRef: dataRef,
+              key: subindex,
             });
           }}
-          value={dataRef?.current?.text ?? myValue?.text ?? ''}
+          value={value() ?? ''}
         />
       </Box>
       {deleteAction === true && handleModalAlert ? (
@@ -149,8 +177,14 @@ const ItemForm = ({
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[25%] tw-mt-10'>
             <CustomSwitchGeneral
               name={name}
-              handleSwitch={(e: any) => handleSwitch(e)}
-              checked={checked}
+              handleSwitch={(e: any) =>
+                handleSwitch({
+                  value: e,
+                  currentDataRef: dataRef,
+                  key: subindex,
+                })
+              }
+              checked={isChecked() ?? false}
             />
           </Box>
         </>
@@ -158,7 +192,7 @@ const ItemForm = ({
         <Box className='tw-flex tw-items-center tw-justify-center tw-w-[35%] tw-mt-10'>
           <CustomSwitchGeneral
             name={name}
-            handleSwitch={(e: any) => handleSwitch(e)}
+            handleSwitch={(e: any) => handleSwitch({ value: e })}
             checked={checked}
           />
         </Box>

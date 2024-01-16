@@ -28,8 +28,6 @@ const CreateNewPassword = ({
     expired,
   } = RecoverPasswordHook();
 
-  console.log(validatingPassword);
-
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
       {/* {dictionary && <Menu dictionary={dictionary} />} */}
