@@ -7,8 +7,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
 /* import useLogOut from '@/hooks/logOut/LogOut'; */
 import LogOut from '@/hooks/logOut/LogOut';
+import { useRouter } from 'next/navigation';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -51,10 +54,17 @@ const StyledMenu = styled((props: MenuProps) => (
     },
 }));
 
-const ItemMenu = ({ handleChangePassword }: { handleChangePassword: () => void; }) => {
+const ItemMenu = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const { logOut } = LogOut();
+    const isSmallScreen = useMediaQuery('(max-width:600px)');
+
+    const router = useRouter();
+
+    const handleChangePassword = () => {
+        router.replace('/views/profileRecoverPassword');
+    };
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -66,7 +76,7 @@ const ItemMenu = ({ handleChangePassword }: { handleChangePassword: () => void; 
 
     return (
         <div>
-            <Button
+            {/*     <Button
                 id="demo-customized-button"
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
@@ -79,20 +89,22 @@ const ItemMenu = ({ handleChangePassword }: { handleChangePassword: () => void; 
                 style={{ backgroundColor: '#62ae9b', textTransform: 'none', fontSize: "16px" }}
             >
                 Opciónes
-            </Button>
-            {/*  <Button
+            </Button> */}
+            <Button
                 id="demo-customized-button"
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                variant="contained"
-                disableElevation 
+                disableElevation
                 onClick={handleClick}
-                endIcon={<KeyboardArrowDownIcon />}
-                style={{ height: '100%', color: 'white', fontSize: "16px" }}
+                //endIcon={<KeyboardArrowDownIcon />}
+                startIcon={<SettingsIcon />}
+                style={{ height: '100%', color: 'white', fontSize: isSmallScreen ? "12px" : "16px", flexDirection: 'column', alignItems: 'center' }}
             >
-                Opciónes
-            </Button> */}
+                <span>
+                    Mi cuenta <KeyboardArrowDownIcon style={{ marginLeft: '2px' }} />
+                </span>
+            </Button>
             <StyledMenu
                 id="menu"
                 anchorEl={anchorEl}
