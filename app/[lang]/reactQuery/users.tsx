@@ -160,7 +160,9 @@ const GetUser = () =>
           const userData = updatedUser.data() as UserData;
           const getUser = reBuildUserData(userData) as UserData;
           localStorage.setItem('@user', JSON.stringify(getUser));
-          return userLogged ? getUser : null;
+          return getUser;
+        } else {
+          return user;
         }
       } else {
         return null;

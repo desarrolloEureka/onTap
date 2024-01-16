@@ -14,11 +14,7 @@ import {
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
 import { profile } from 'app/[lang]/initialData/profileInitialData';
-import {
-  GetUser,
-  SendDataUserProfile,
-  SendSwitchAllForm,
-} from '@/reactQuery/users';
+import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
 
 const ProfileHook = ({
   dictionary,
@@ -33,29 +29,49 @@ const ProfileHook = ({
     data ? dataProfile : (profile as DataForm)
   );
 
-  const objectDataSort = Object.entries(dataForm).sort((a, b) => {
-    if (
-      a[0] == 'urls' ||
-      a[0] == 'emails' ||
-      a[0] == 'professional_career' ||
-      a[0] == 'education' ||
-      a[0] == 'phones'
-    ) {
-      if (Array.isArray(b[1])) {
-        if (a[1][0].order > b[1][0].order) {
-          return 1;
-        }
-        if (a[1][0].order < b[1][0].order) {
-          return -1;
-        }
-      }
-    } else {
-      if (a[1].order > b[1].order) {
-        return 1;
-      }
-      if (a[1].order < b[1].order) {
-        return -1;
-      }
+  const objectDataSort = Object.entries(dataForm).toSorted((a, b) => {
+    // if (
+    //   a[0] == 'urls' ||
+    //   a[0] == 'emails' ||
+    //   a[0] == 'professional_career' ||
+    //   a[0] == 'education' ||
+    //   a[0] == 'phones'
+    // ) {
+    //   if (Array.isArray(b[1])) {
+    //     if (a[1][0].order > b[1][0].order) {
+    //       return 1;
+    //     }
+    //     if (a[1][0].order < b[1][0].order) {
+    //       return -1;
+    //     }
+    //   }
+    // } else {
+    //   console.log('b[1]', b[1]);
+
+    //   console.log('a ' + a[1].order + ' >  b ' + b[1].order);
+
+    //   if (a[1].order > b[1].order) {
+    //     return 1;
+    //   }
+    //   if (a[1].order < b[1].order) {
+    //     return -1;
+    //   }
+    // }
+    if (!Array.isArray(a[1]) && !Array.isArray(b[1])) {
+      console.log('a[1].count', a[1].order);
+      console.log('b[1].count', b[1].order);
+      // console.log('b[1]', b[1]);
+      const data = a[1].order - b[1].order;
+      console.log('data 2', data);
+
+      return data;
+    } else if (Array.isArray(a[1]) && Array.isArray(b[1])) {
+      console.log('a[1][0].count', a[1][0].order);
+      console.log('b[1][0].count', b[1][0].order);
+      const data = a[1][0].order - b[1][0].order;
+      console.log('data 1', data);
+
+      return data;
     }
     return 0;
   });
@@ -507,6 +523,7 @@ const ProfileHook = ({
       setAllChecked(false);
     }
   }, [allChecked, dataForm, handleDataSet]);
+  console.log('objectDataSort', objectDataSort);
 
   return {
     handleSwitch,
