@@ -88,11 +88,9 @@ const PhotoUser = ({ dictionary, handleChangePassword }: { dictionary: Dictionar
           </h5>
         </div>
       </div>
-      <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-        <ItemMenu
-          handleChangePassword={handleChangePassword}
-        />
-      </div>
+    {/*   <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+        <ItemMenu />
+      </div> */}
     </div>
   );
 };

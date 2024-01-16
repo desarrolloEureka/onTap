@@ -6,7 +6,7 @@ import Work from '@mui/icons-material/Work';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import Image from 'next/image';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import ItemMenu from './ItemMenu';
+import ItemMenu from '@/components/menu/ItemMenu';
 
 function a11yProps(index: number) {
   return {
@@ -48,7 +48,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
           sx={{
             fontSize: '16px',
             '@media screen and (max-width: 600px)': {
-              fontSize: '13px',
+              fontSize: '12px',
             },
           }}
         >
@@ -69,7 +69,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
         }}
       >
         <Box sx={{
-          ml: 3,
+          ml: 1,
           '@media screen and (max-width: 600px)': {
             mt: 2
           },
@@ -87,7 +87,24 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
             justifyContent: 'center',
           }}
         >
-          <Tabs value={value} onChange={handleChange} aria-label='Home Tab'>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label='Home Tab'
+            sx={isSmallScreen ?
+              {
+                '& .MuiTabs-flexContainer': {
+                  gap: 0, // Ajusta el espacio entre las pestañas según tus necesidades
+                },
+                '& .MuiTab-root': {
+                  minWidth: 'unset', // Elimina el ancho mínimo de cada pestaña
+                  width: 'auto',    // Permite que cada pestaña ajuste su propio ancho
+                  padding: '8px 9px', // Ajusta el relleno interno según tus necesidades
+                },
+              }
+              :
+              null}
+          >
             <Tab
               label={
                 <Label
@@ -123,7 +140,9 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
               }
               {...a11yProps(2)}
             />
-            {/*  <ItemMenu/> */}
+
+            <ItemMenu />
+
             {/*  <Tab
               label={
                 <Label

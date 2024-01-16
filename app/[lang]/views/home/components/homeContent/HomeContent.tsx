@@ -85,10 +85,12 @@ const HomeContent = ({
   };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const isSmallScreenHeight = useMediaQuery('(max-height: 890px)');
+  const screenHeight = useMediaQuery('(max-height: 745px)');
 
   return (
     dictionary && (
-      <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center md:tw-h-screen">
+      <div className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'}`}>
         <Header dictionary={dictionary} />
         <div
           className='tw-h-[60px] tw-flex'
@@ -108,14 +110,14 @@ const HomeContent = ({
             title={dictionary?.homeView.professional}
             handleChangeOption={handleChangeOption}
           />
-          <ButtonTab
+          {/*      <ButtonTab
             dictionary={dictionary}
             index={'corporate'}
             optionSelected={optionSelected}
             title={dictionary?.homeView.corporate}
             handleChangeOption={handleChangeOption}
             disabled
-          />
+          /> */}
         </div>
 
         <div className='tw-flex tw-items-center tw-justify-center'>
@@ -250,7 +252,6 @@ const HomeContent = ({
           </div>
         </div>
 
-        <Button onClick={logOut}>{dictionary?.logOut}</Button>
         {isModalOpen ? (
           <div
             className='tw-flex tw-justify-center tw-items-center'
@@ -289,13 +290,79 @@ const HomeContent = ({
                 onClick={handleModal}
               />
             </div>
+
             <div className='tw-px-10 tw-pt-10 tw-h-[80%]'>
+
               <div className='tw-ml-1 tw-mb-8'>
                 <Typography style={{ color: 'black' }}>
                   {dictionary?.homeView.selectModalTitle}
                 </Typography>
               </div>
-              <Grid container spacing={2}>
+
+              {/* <div className='tw-overflow-y-auto max-sm:tw-h-[50vh] sm:tw-h-[60vh] isSmallScreenHeight ? sm:tw-h-[70vh] : sm:tw-h-[20vh] '> */}{/*sm: tamaño de la pantalla es igual o mayor que 640px:  sm:tw-h-[50vh]' ////  tw-max-sm: el tamaño de la pantalla es igual o menor a  tw-max-sm:tw-h-[50vh]  */}
+              <div className={`tw-overflow-y-auto ${isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null}`}>
+
+                <Grid container spacing={2}>
+                  {backgroundImages.map((item, index) => (
+                    <Grid item xs={6} sm={6} md={4} lg={4} key={index}>
+                      <div className='max-sm:tw-h-[185Px] tw-h-[280px] max-sm:tw-w-[130px] tw-relative tw-rounded-md tw-flex tw-items-center tw-justify-center tw-bg-white'>
+                        <Image
+                          src={item.image}
+                          alt={`Image ${item.id}`}
+                          width={isSmallScreen ? 60 : 105}
+                          height={isSmallScreen ? 133 : 250} //280
+                        />
+                        <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
+                          <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
+                            <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-end'>
+                              <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>
+                                <div className='tw-w-[45%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
+                                  <Checkbox
+                                    onChange={() => handleSelectBackground(item)}
+                                    checked={backgroundSelect.id == item.id}
+                                    icon={
+                                      <RadioButtonUncheckedOutlinedIcon
+                                        style={{
+                                          fontSize: '1rem',
+                                          color: '#5278a0',
+                                        }}
+                                      />
+                                    }
+                                    checkedIcon={
+                                      <RadioButtonCheckedOutlinedIcon
+                                        style={{
+                                          fontSize: '1rem',
+                                          color: '#5278a0',
+                                        }}
+                                      />
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center '>
+                            <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start '>
+                              <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center '>
+                                <span
+                                  style={{ fontSize: '13px' }}
+                                  className='tw-text-[#5278a0]'
+                                >
+                                  {dictionary?.homeView.labelBackground}{' '}
+                                  {index + 1}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+
+              {/* <Grid container spacing={2}>
                 {backgroundImages.map((item, index) => (
                   <Grid item xs={6} sm={6} md={4} lg={4} key={index}>
                     <div className='max-sm:tw-h-[185Px] tw-h-[280px] max-sm:tw-w-[130px] tw-relative tw-rounded-md tw-flex tw-items-center tw-justify-center tw-bg-white'>
@@ -352,8 +419,9 @@ const HomeContent = ({
                     </div>
                   </Grid>
                 ))}
-              </Grid>
+              </Grid> */}
             </div>
+
             <div className='tw-flex tw-justify-start tw-mt-3 tw-pl-10 tw-pt-1 tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
               <Button
                 onClick={handleSaveTemplate}

@@ -25,7 +25,7 @@ const ButtonTab = ({
         borderBottom: optionSelected === index ? '2px solid #396593' : 'none',
         borderRadius: 0,
       }}
-      className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center'
+      className='tw-w-1/2 tw-h-full tw-flex tw-items-center tw-justify-center'
       onClick={() => handleChangeOption(index)}
     >
       <div
