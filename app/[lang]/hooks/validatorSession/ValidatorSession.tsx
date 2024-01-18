@@ -13,9 +13,10 @@ const ValidatorSession = ({ lang }: { lang: Locale }) => {
   useEffect(() => {
     const path = pathname.split(lang)[1];
     if (user) {
-      if (path !== '/views/home') {
-        router.push('/views/home');
-      }
+      user.isAdmin
+        ? router.push('/views/backOffice')
+        : path !== '/views/home'
+        && router.push('/views/home')
     } else {
       !isLoading && router.push('/views/login');
     }

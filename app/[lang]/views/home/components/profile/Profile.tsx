@@ -4,6 +4,7 @@ import FormDataUser from '@/views/home/components/form/FormDataUser';
 import FooterProfile from '@/views/home/components/profile/FooterProfile';
 import FormAddDataUser from '@/views/home/components/profile/FormAddDataUser';
 import ModalProfile from '@/views/home/components/profile/ModalProfile';
+import ModalSuccessDelete from '@/views/home/components/profile/ModalSuccessDelete';
 import PhotoUser from '@/views/home/components/profile/PhotoUser';
 import { Container } from '@mui/material';
 import { useState } from 'react';
@@ -28,9 +29,10 @@ const Profile = ({
     isModalOpen,
     isModalAlert,
     handleModalAux,
-    itemDelete,
     dataForm,
     setDataForm,
+    isSuccessDelete,
+    handleSuccessDelete
   } = ProfileHook({
     dictionary,
   });
@@ -54,11 +56,10 @@ const Profile = ({
         />
         :
         <div
-          className={`tw-flex tw-items-center tw-justify-center ${
-            isProUser
-              ? 'lg:tw-h-auto md:tw-w-[100%]'
-              : 'lg:tw-h-[750px] md:tw-w-[100%]'
-          }`}
+          className={`tw-flex tw-items-center tw-justify-center ${isProUser
+            ? 'lg:tw-h-auto md:tw-w-[100%]'
+            : 'lg:tw-h-[750px] md:tw-w-[100%]'
+            }`}
         >
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
             <FormDataUser
@@ -75,7 +76,7 @@ const Profile = ({
               isDetailOpen={isDetailOpen}
               itemDetail={itemDetail}
               handleSeeMore={handleSeeMore}
-              handleModalAlert={handleModalAlert}
+              handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
             />
           </Container>
         </div>
@@ -96,8 +97,12 @@ const Profile = ({
         isModalAlert={isModalAlert}
         handleModalAlert={handleModalAux}
         dictionary={dictionary}
-        handleDeleteData={(name) => handleDeleteData({ name })}
-        itemDelete={itemDelete}
+        handleDeleteData={handleDeleteData}
+      />
+      <ModalSuccessDelete
+        isSuccessDelete={isSuccessDelete}
+        handleSuccessDelete={handleSuccessDelete}
+        dictionary={dictionary}
       />
     </div>
   );

@@ -164,7 +164,7 @@ const ItemForm = ({
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[10%] tw-mt-10'>
             <Button
               className='tw-w-[100%] tw-h-[100%]'
-              onClick={() => handleModalAlert({ name: name })}
+              onClick={() => handleModalAlert({ index: index, subindex: "" + subindex })}
             >
               <DeleteForeverOutlinedIcon
                 style={{

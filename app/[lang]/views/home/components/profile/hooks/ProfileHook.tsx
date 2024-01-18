@@ -58,18 +58,18 @@ const ProfileHook = ({
     //   }
     // }
     if (!Array.isArray(a[1]) && !Array.isArray(b[1])) {
-      console.log('a[1].count', a[1].order);
-      console.log('b[1].count', b[1].order);
+      //console.log('a[1].count', a[1].order);
+      //console.log('b[1].count', b[1].order);
       // console.log('b[1]', b[1]);
       const data = a[1].order - b[1].order;
-      console.log('data 2', data);
+      //console.log('data 2', data);
 
       return data;
     } else if (Array.isArray(a[1]) && Array.isArray(b[1])) {
-      console.log('a[1][0].count', a[1][0].order);
-      console.log('b[1][0].count', b[1][0].order);
+      //console.log('a[1][0].count', a[1][0].order);
+      //console.log('b[1][0].count', b[1][0].order);
       const data = a[1][0].order - b[1][0].order;
-      console.log('data 1', data);
+      // console.log('data 1', data);
 
       return data;
     }
@@ -80,9 +80,13 @@ const ProfileHook = ({
   const [isModalAlertLimit, setIsModalAlertLimit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalAlert, setIsModalAlert] = useState(false);
+  const [isSuccessDelete, setSuccessDelete] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
-  const [itemDelete, setItemDelete] = useState('');
+  /* Delete items */
+  //const [itemDelete, setItemDelete] = useState<"index" | "subindex" | ''>();
+  const [itemDelete, setItemDelete] = useState<{ index: string; subindex: string } | {}>();
+
   const [isDataSuccess, setIsDataSuccess] = useState(false);
   const [isDataError, setIsDataError] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
@@ -109,14 +113,18 @@ const ProfileHook = ({
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleModalAlert = (name: string) => {
+  const handleModalAlert = (itemDelete: { index: string; subindex: string }) => {
+    console.log("itemDelete ", itemDelete);
     if (!isModalAlert) {
-      setItemDelete(name);
+      setItemDelete(itemDelete);
     } else {
       setItemDelete('');
     }
-
     setIsModalAlert(!isModalAlert);
+  };
+
+  const handleSuccessDelete = () => {
+    setSuccessDelete(!isSuccessDelete);
   };
 
   const handleModalAux = () => {
@@ -174,8 +182,8 @@ const ProfileHook = ({
     dataFormClone && index == 'education' && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == 'professional_career'
-      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-      : index == 'urls' &&
+        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+        : index == 'urls' &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -255,13 +263,28 @@ const ProfileHook = ({
     }
   };
 
-  const handleDeleteData = ({ name }: { name: string }) => {
-    /*    const dataFormClone = { ...dataForm };
-       const index = name as keyof typeof dataFormClone;
-   
-       if (index == 'phones' || index == 'emails') {
-         console.log("Eliminar phone / email");
-       } */
+  const handleDeleteData = () => {
+    setIsDataLoad(false);
+    console.log("itemDelete --> ", itemDelete);
+
+    //const index = itemDelete && itemDelete['index'];
+    //const subindex = itemDelete && itemDelete['subindex'];
+
+    const index = itemDelete && 'index' in itemDelete ? itemDelete['index'] : undefined;
+    const subindex = itemDelete && 'subindex' in itemDelete ? itemDelete['subindex'] : undefined;
+    const dataFormClone = { ...dataForm };
+    //const dataAux = dataFormClone[index];// Trae el array de correos , telefonos
+    const dataAux = dataFormClone[index as keyof typeof dataForm];
+
+    if (Array.isArray(dataAux) && subindex !== undefined) {
+      dataAux.splice(parseInt(subindex, 10), 1); // Elimina el elemento en la posición subindex
+      handleDataSet && handleDataSet(dataFormClone);
+
+      setTimeout(() => {
+        setIsModalAlert(false);
+        setSuccessDelete(true);
+      }, 500);
+    }
   };
 
   const handleAddData = (index: keyof typeof dataForm, social: boolean) => {
@@ -523,7 +546,7 @@ const ProfileHook = ({
       setAllChecked(false);
     }
   }, [allChecked, dataForm, handleDataSet]);
-  console.log('objectDataSort', objectDataSort);
+  //console.log('objectDataSort', objectDataSort);
 
   return {
     handleSwitch,
@@ -536,11 +559,13 @@ const ProfileHook = ({
     handleModalAux,
     handleModal,
     handleModalAlert,
+    handleSuccessDelete,
     handleSeeMore,
     isDetailOpen,
     itemDetail,
     isModalOpen,
     isModalAlert,
+    isSuccessDelete,
     itemDelete,
     isModalAlertLimit,
     handleModalAlertLimit,

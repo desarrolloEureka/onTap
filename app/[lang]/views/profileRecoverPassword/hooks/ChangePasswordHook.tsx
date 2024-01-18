@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { UpdatePassword } from '@/reactQuery/users';
 import { LoginError } from '@/types/login';
+import { useRouter } from 'next/navigation';
 
 const ChangePasswordHook = () => {
   const [password, setPassword] = useState<string>();
@@ -9,6 +10,7 @@ const ChangePasswordHook = () => {
   const [stateUpdate, setStateUpdate] = useState(false);
   //Errores
   const [errorForm, setErrorForm] = useState<LoginError | null>(null);
+  const router = useRouter();
 
   const handleChangePassword = async () => {
     if (password && passwordConfirm && password === passwordConfirm) {
@@ -32,12 +34,17 @@ const ChangePasswordHook = () => {
     }
   }
 
+  const handleBack = async () => {
+    router.replace('/views/home');
+  }
+
   return {
     handleChangePassword,
     setPassword,
     setPasswordConfirm,
     errorForm,
-    stateUpdate
+    stateUpdate,
+    handleBack
   };
 };
 
