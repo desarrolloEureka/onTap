@@ -18,6 +18,7 @@ export interface UserData {
   };
   user_name: string;
   profile: DataForm;
+  views: number;
 }
 export interface User {
   uid: string;

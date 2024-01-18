@@ -99,7 +99,7 @@ const HomeContent = ({
       <div className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'}`}>
         <Header
           dictionary={dictionary}
-          views={data && data?.views}
+          views={data?.views ?? 0}
         />
         <div
           className='tw-h-[60px] tw-flex'
