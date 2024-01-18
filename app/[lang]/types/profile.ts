@@ -98,9 +98,9 @@ export type handleDataProps = {
   name: string;
   text: string;
   subindex?:
-    | EducationSubIndexDataForm
-    | CareerSubIndexDataForm
-    | NetworksSubIndexDataForm;
+  | EducationSubIndexDataForm
+  | CareerSubIndexDataForm
+  | NetworksSubIndexDataForm;
   key?: number;
   currentDataRef?: any;
 };
@@ -120,7 +120,7 @@ export interface ItemFormParams {
   icon?: string;
   deleteAction?: boolean;
   handleDeleteData?: ({ name }: { name: string }) => void;
-  handleModalAlert?: ({ name }: { name: string }) => void;
+  handleModalAlert?: ({ index, subindex }: { index: string, subindex: string }) => void;
   value?: string | undefined;
   myValue?: DataFormValues;
   dataForm: DataForm;
@@ -128,7 +128,7 @@ export interface ItemFormParams {
   subindex?: number;
   withCheck?: boolean;
   subLabel?:
-    | EducationSubIndexDataForm
-    | CareerSubIndexDataForm
-    | NetworksSubIndexDataForm;
+  | EducationSubIndexDataForm
+  | CareerSubIndexDataForm
+  | NetworksSubIndexDataForm;
 }

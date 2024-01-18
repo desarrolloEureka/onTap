@@ -31,7 +31,7 @@ const FormAddDataUser = ({
   dictionary: Dictionary;
   dataForm: DataForm;
   handleDataSet: (e: DataForm) => void;
-  handleModalAlert: (name: string) => void;
+  handleModalAlert: (index: string, subindex: string) => void;
 }) => {
   const { data } = ProfileHook({
     dictionary,
@@ -49,10 +49,10 @@ const FormAddDataUser = ({
               | EducationDataFormValues[]
               | CareerDataFormValues[] =
               value[0] == 'phones' ||
-              value[0] == 'education' ||
-              value[0] == 'emails' ||
-              value[0] == 'urls' ||
-              value[0] == 'professional_career'
+                value[0] == 'education' ||
+                value[0] == 'emails' ||
+                value[0] == 'urls' ||
+                value[0] == 'professional_career'
                 ? value[1]
                 : null;
 
@@ -89,48 +89,48 @@ const FormAddDataUser = ({
                     handleModalAlert={handleModalAlert}
                   />
                 ) : // <ItemFormEducation
-                //   key={key}
-                //   dictionary={dictionary}
-                //   dataForm={dataForm}
-                //   handleDataSet={(e) => handleDataSet(e)}
-                //   handleSeeMore={handleSeeMore}
-                //   index={index}
-                //   labelArray={labelArray}
-                //   value={value}
-                //   itemDetail={itemDetail}
-                //   handleModalAlert={handleModalAlert}
-                // />
-                value[0] == 'professional_career' ? (
-                  <ItemFormProfessional
-                    key={key}
-                    dictionary={dictionary}
-                    dataForm={dataForm}
-                    handleDataSet={(e) => handleDataSet(e)}
-                    handleSeeMore={handleSeeMore}
-                    index={index}
-                    labelArray={labelArray}
-                    value={value}
-                    itemDetail={itemDetail}
-                    isDetailOpen={isDetailOpen}
-                    social={false}
-                    handleModalAlert={handleModalAlert}
-                  />
-                ) : (
-                  <ItemFormUrl
-                    key={key}
-                    dictionary={dictionary}
-                    dataForm={dataForm}
-                    handleDataSet={(e) => handleDataSet(e)}
-                    handleSeeMore={handleSeeMore}
-                    index={index}
-                    labelArray={labelArray}
-                    value={value}
-                    itemDetail={itemDetail}
-                    isDetailOpen={isDetailOpen}
-                    social={false}
-                    handleModalAlert={handleModalAlert}
-                  />
-                );
+                  //   key={key}
+                  //   dictionary={dictionary}
+                  //   dataForm={dataForm}
+                  //   handleDataSet={(e) => handleDataSet(e)}
+                  //   handleSeeMore={handleSeeMore}
+                  //   index={index}
+                  //   labelArray={labelArray}
+                  //   value={value}
+                  //   itemDetail={itemDetail}
+                  //   handleModalAlert={handleModalAlert}
+                  // />
+                  value[0] == 'professional_career' ? (
+                    <ItemFormProfessional
+                      key={key}
+                      dictionary={dictionary}
+                      dataForm={dataForm}
+                      handleDataSet={(e) => handleDataSet(e)}
+                      handleSeeMore={handleSeeMore}
+                      index={index}
+                      labelArray={labelArray}
+                      value={value}
+                      itemDetail={itemDetail}
+                      isDetailOpen={isDetailOpen}
+                      social={false}
+                      handleModalAlert={handleModalAlert}
+                    />
+                  ) : (
+                    <ItemFormUrl
+                      key={key}
+                      dictionary={dictionary}
+                      dataForm={dataForm}
+                      handleDataSet={(e) => handleDataSet(e)}
+                      handleSeeMore={handleSeeMore}
+                      index={index}
+                      labelArray={labelArray}
+                      value={value}
+                      itemDetail={itemDetail}
+                      isDetailOpen={isDetailOpen}
+                      social={false}
+                      handleModalAlert={handleModalAlert}
+                    />
+                  );
               } else {
                 return value[0] == 'phones' || value[0] == 'emails' ? (
                   <ItemFormBasicInfo

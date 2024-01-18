@@ -13,7 +13,7 @@ import Image from 'next/image';
 import LogOut from '@/hooks/logOut/LogOut';
 import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { GetUser, SendTemplateSelected } from '@/reactQuery/users';
+import { GetUser, SendTemplateSelected, SendBackgroundSelected } from '@/reactQuery/users';
 import HomeHook from '../../hooks/HomeHook';
 import { useRouter } from 'next/navigation';
 
@@ -52,6 +52,8 @@ const HomeContent = ({
   const { logOut } = LogOut();
   const { data, error } = GetUser();
   const router = useRouter();
+  //console.log("data home view ", data?.views);
+  //console.log("data home view ", typeof (data?.views));
 
   const handleChangeOption = (option: TemplateTypes) => {
     setOptionSelected(option);
@@ -65,14 +67,18 @@ const HomeContent = ({
     setBackgroundSelect(item);
   };
 
-  const handleSelectTemplate = (item: TemplateType) => {
+  const handleSelectTemplate = async (item: TemplateType) => {
     setTemplateSelect(item);
+    const userId = data?.uid;
+    if (userId) {
+      await SendTemplateSelected(userId, item.id);
+    }
   };
 
   const handleSaveTemplate = async () => {
     const userId = data?.uid;
     userId &&
-      (await SendTemplateSelected(
+      (await SendBackgroundSelected(
         userId,
         backgroundSelect.id,
         templateSelect.id
@@ -91,7 +97,10 @@ const HomeContent = ({
   return (
     dictionary && (
       <div className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'}`}>
-        <Header dictionary={dictionary} />
+        <Header
+          dictionary={dictionary}
+          views={data && data?.views}
+        />
         <div
           className='tw-h-[60px] tw-flex'
           style={{ borderBottom: '1px solid #C2C2C2' }}

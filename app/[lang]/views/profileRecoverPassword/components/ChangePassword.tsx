@@ -13,7 +13,7 @@ const ChangePassword = ({ params: { lang }, }: { params: { lang: Locale }; }) =>
     const { dictionary } = useDictionary({ lang });
     const [showPasswordOne, setShowPasswordOne] = useState(false);
     const [showPasswordTwo, setShowPasswordTwo] = useState(false);
-    const { handleChangePassword, setPassword, setPasswordConfirm, errorForm, stateUpdate } = ChangePasswordHook();
+    const { handleChangePassword, setPassword, setPasswordConfirm, errorForm, stateUpdate, handleBack } = ChangePasswordHook();
 
     return (
         <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
@@ -116,13 +116,25 @@ const ChangePassword = ({ params: { lang }, }: { params: { lang: Locale }; }) =>
                         null
                     }
 
-                    <div className='tw-h-[25%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
-                        <Button
-                            className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-white tw-mt-[30px] tw-items-center'
-                            onClick={handleChangePassword}
-                        >
-                            Guardar
-                        </Button>
+                    <div className='tw-h-[25%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
+                        <div className='tw-h-[90%] tw-w-[50%] tw-flex tw-items-center tw-justify-center'>
+                            <Button
+                                className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-white tw-mt-[30px] tw-items-center'
+                                onClick={handleChangePassword}
+                            >
+                                Guardar
+                            </Button>
+                        </div>
+                        <div className='tw-h-[90%] tw-w-[50%] tw-flex tw-items-center tw-justify-center'>
+                            <Button
+                                className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-white tw-mt-[30px] tw-items-center'
+                                onClick={handleBack}
+                            >
+                                {dictionary?.recoverPassword?.back}
+                            </Button>
+                        </div>
+
+
                     </div>
 
                 </Container>

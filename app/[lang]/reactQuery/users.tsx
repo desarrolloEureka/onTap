@@ -112,7 +112,7 @@ const UpdatePassword = async (password: string) => {
   return res;
 };
 
-const SendTemplateSelected = async (
+const SendBackgroundSelected = async (
   userId: string,
   backgroundSelect: string,
   templateSelect: string
@@ -120,6 +120,17 @@ const SendTemplateSelected = async (
   const templateData = {
     template_id: templateSelect,
     background_id: backgroundSelect,
+  };
+
+  await updateTemplateSelectedFirebase(userId, { templateData });
+};
+
+ const SendTemplateSelected = async (
+  userId: string,
+  backgroundSelect: string,
+) => {
+  const templateData = {
+    template_id: backgroundSelect,
   };
 
   await updateTemplateSelectedFirebase(userId, { templateData });
@@ -181,4 +192,5 @@ export {
   SendSwitchProfile,
   SendTemplateSelected,
   UpdatePassword,
+  SendBackgroundSelected
 };
