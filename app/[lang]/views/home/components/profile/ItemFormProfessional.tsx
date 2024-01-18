@@ -49,7 +49,7 @@ const ItemFormProfessional = ({
   isDetailOpen: boolean;
   icon?: string;
   social: boolean;
-  handleModalAlert: (index: string, subindex: string) => void;
+  handleModalAlert: ({ index, subindex }: { index: string, subindex: string }) => void;
 }) => {
   const {
     handleSwitch,
@@ -128,7 +128,7 @@ const ItemFormProfessional = ({
                         icon={val.icon}
                         deleteAction={true}
                         handleDeleteData={handleDeleteData}
-                        handleModalAlert={({ index, subindex }) => handleModalAlert(index, subindex)}
+                        handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
                         myValue={myValue}
                         dataForm={dataForm}
                         index={index}
@@ -146,7 +146,7 @@ const ItemFormProfessional = ({
                           icon={val.icon}
                           deleteAction={true}
                           handleDeleteData={handleDeleteData}
-                          handleModalAlert={({ index, subindex }) => handleModalAlert(index, subindex)}
+                          handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
                           myValue={myValue}
                           dataForm={dataForm}
                           index={index}
@@ -165,7 +165,7 @@ const ItemFormProfessional = ({
                           icon={val.icon}
                           deleteAction={true}
                           handleDeleteData={handleDeleteData}
-                          handleModalAlert={({ index, subindex }) => handleModalAlert(index, subindex)}
+                          handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
                           myValue={myValue}
                           dataForm={dataForm}
                           index={index}
@@ -184,7 +184,7 @@ const ItemFormProfessional = ({
                           icon={val.icon}
                           deleteAction={true}
                           handleDeleteData={handleDeleteData}
-                          handleModalAlert={({ index, subindex }) => handleModalAlert(index, subindex)}
+                          handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
                           myValue={myValue}
                           dataForm={dataForm}
                           index={index}

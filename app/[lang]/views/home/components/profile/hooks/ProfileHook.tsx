@@ -84,7 +84,8 @@ const ProfileHook = ({
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
   /* Delete items */
-  const [itemDelete, setItemDelete] = useState('');
+  //const [itemDelete, setItemDelete] = useState<"index" | "subindex" | ''>();
+  const [itemDelete, setItemDelete] = useState<{ index: string; subindex: string } | {}>();
 
   const [isDataSuccess, setIsDataSuccess] = useState(false);
   const [isDataError, setIsDataError] = useState(false);
@@ -101,7 +102,7 @@ const ProfileHook = ({
         setIsDataError(true);
         setIsDataSuccess(false);
       }
-    } 
+    }
   };
 
   const handleModalAlertLimit = (isOpen: boolean) => {
@@ -112,7 +113,8 @@ const ProfileHook = ({
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleModalAlert = (itemDelete: string) => {
+  const handleModalAlert = (itemDelete: { index: string; subindex: string }) => {
+    console.log("itemDelete ", itemDelete);
     if (!isModalAlert) {
       setItemDelete(itemDelete);
     } else {
@@ -263,13 +265,19 @@ const ProfileHook = ({
 
   const handleDeleteData = () => {
     setIsDataLoad(false);
-    const index = itemDelete['index'];
-    const subindex = itemDelete['subindex'];
-    const dataFormClone = { ...dataForm };
-    const dataAux = dataFormClone[index];/* Trae el array de correos , telefonos */
+    console.log("itemDelete --> ", itemDelete);
 
-    if (dataAux && subindex !== undefined) {
-      dataAux.splice(subindex, 1); // Elimina el elemento en la posición subindex
+    //const index = itemDelete && itemDelete['index'];
+    //const subindex = itemDelete && itemDelete['subindex'];
+
+    const index = itemDelete && 'index' in itemDelete ? itemDelete['index'] : undefined;
+    const subindex = itemDelete && 'subindex' in itemDelete ? itemDelete['subindex'] : undefined;
+    const dataFormClone = { ...dataForm };
+    //const dataAux = dataFormClone[index];// Trae el array de correos , telefonos
+    const dataAux = dataFormClone[index as keyof typeof dataForm];
+
+    if (Array.isArray(dataAux) && subindex !== undefined) {
+      dataAux.splice(parseInt(subindex, 10), 1); // Elimina el elemento en la posición subindex
       handleDataSet && handleDataSet(dataFormClone);
 
       setTimeout(() => {

@@ -31,7 +31,7 @@ const FormAddDataUser = ({
   dictionary: Dictionary;
   dataForm: DataForm;
   handleDataSet: (e: DataForm) => void;
-  handleModalAlert: (index: string, subindex: string) => void;
+  handleModalAlert: ({ index, subindex }: { index: string, subindex: string }) => void;
 }) => {
   const { data } = ProfileHook({
     dictionary,
@@ -71,7 +71,7 @@ const FormAddDataUser = ({
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
                     social={false}
-                    handleModalAlert={handleModalAlert}
+                    handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
                   />
                 ) : value[0] == 'education' ? (
                   <ItemFormEducation
@@ -86,20 +86,9 @@ const FormAddDataUser = ({
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
                     social={false}
-                    handleModalAlert={handleModalAlert}
+                    handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
                   />
-                ) : // <ItemFormEducation
-                  //   key={key}
-                  //   dictionary={dictionary}
-                  //   dataForm={dataForm}
-                  //   handleDataSet={(e) => handleDataSet(e)}
-                  //   handleSeeMore={handleSeeMore}
-                  //   index={index}
-                  //   labelArray={labelArray}
-                  //   value={value}
-                  //   itemDetail={itemDetail}
-                  //   handleModalAlert={handleModalAlert}
-                  // />
+                ) :
                   value[0] == 'professional_career' ? (
                     <ItemFormProfessional
                       key={key}
@@ -113,7 +102,7 @@ const FormAddDataUser = ({
                       itemDetail={itemDetail}
                       isDetailOpen={isDetailOpen}
                       social={false}
-                      handleModalAlert={handleModalAlert}
+                      handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
                     />
                   ) : (
                     <ItemFormUrl
@@ -128,7 +117,7 @@ const FormAddDataUser = ({
                       itemDetail={itemDetail}
                       isDetailOpen={isDetailOpen}
                       social={false}
-                      handleModalAlert={handleModalAlert}
+                      handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
                     />
                   );
               } else {
@@ -145,7 +134,7 @@ const FormAddDataUser = ({
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
                     social={true}
-                    handleModalAlert={handleModalAlert}
+                    handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
                   />
                 ) : null;
               }

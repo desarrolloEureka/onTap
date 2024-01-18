@@ -76,7 +76,7 @@ const Profile = ({
               isDetailOpen={isDetailOpen}
               itemDetail={itemDetail}
               handleSeeMore={handleSeeMore}
-              handleModalAlert={handleModalAlert}
+              handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
             />
           </Container>
         </div>
