@@ -131,7 +131,7 @@ const ItemFormBasicInfo = ({
                       icon={val.icon}
                       deleteAction={true}
                       handleDeleteData={handleDeleteData}
-                      handleModalAlert={(e: any) => handleModalAlert(e)}
+                      handleModalAlert={({ index, subindex }) => handleModalAlert(index, subindex)}
                       myValue={myValue}
                       dataForm={dataForm}
                       index={index}
@@ -157,7 +157,7 @@ const ItemFormBasicInfo = ({
                       icon={val.icon}
                       deleteAction={true}
                       handleDeleteData={handleDeleteData}
-                      handleModalAlert={(e: any) => handleModalAlert(e)}
+                      handleModalAlert={({ index, subindex }) => handleModalAlert(index, subindex)}
                       myValue={myValue}
                       dataForm={dataForm}
                       index={index}
