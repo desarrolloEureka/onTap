@@ -98,7 +98,7 @@ const ItemFormUrl = ({
               startIcon={
                 <AddCircleOutlinedIcon
                   style={{
-                    color: '#62AD9B',
+                    color: '#02AF9B',
                     fontSize: '1.4em',
                     marginLeft: '0rem',
                   }}
@@ -201,7 +201,7 @@ const ItemFormUrl = ({
                                   } tw-p-2 tw-min-w-min`}
                               >
                                 <FacebookOutlinedIcon
-                                  sx={{ color: '#62ad9b' }}
+                                  sx={{ color: '#02AF9B' }}
                                 />
                               </Button>
                             </div>
@@ -218,7 +218,7 @@ const ItemFormUrl = ({
                                 className={`${val.icon === 'twitter' && 'tw-bg-gray-100'
                                   } tw-p-2 tw-min-w-min`}
                               >
-                                <TwitterIcon sx={{ color: '#62ad9b' }} />
+                                <TwitterIcon sx={{ color: '#02AF9B' }} />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
@@ -235,7 +235,7 @@ const ItemFormUrl = ({
                                   } tw-p-2 tw-min-w-min`}
                               >
                                 <FacebookOutlinedIcon
-                                  sx={{ color: '#62ad9b' }}
+                                  sx={{ color: '#02AF9B' }}
                                 />
                               </Button>
                             </div>
@@ -252,7 +252,7 @@ const ItemFormUrl = ({
                                 className={`${val.icon === 'instagram' && 'tw-bg-gray-100'
                                   } tw-p-2 tw-min-w-min`}
                               >
-                                <InstagramIcon sx={{ color: '#62ad9b' }} />
+                                <InstagramIcon sx={{ color: '#02AF9B' }} />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
@@ -268,7 +268,7 @@ const ItemFormUrl = ({
                                 className={`${val.icon === 'linkedin' && 'tw-bg-gray-100'
                                   } tw-p-2 tw-min-w-min`}
                               >
-                                <LinkedInIcon sx={{ color: '#62ad9b' }} />
+                                <LinkedInIcon sx={{ color: '#02AF9B' }} />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>

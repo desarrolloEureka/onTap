@@ -89,7 +89,7 @@ const ItemFormBasicInfo = ({
               startIcon={
                 <AddCircleOutlinedIcon
                   style={{
-                    color: '#62AD9B',
+                    color: '#02AF9B',
                     fontSize: '1.4em',
                     marginLeft: '0rem',
                   }}

@@ -139,7 +139,7 @@ const HomeContent = ({
                     className={`max-sm:tw-h-[520px] tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
                   >
                     <div className='tw-relative tw-rounded-md max-sm:tw-h-[90%] tw-h-[80%] tw-w-[355px] tw-flex tw-items-center tw-justify-center'>
-                      <div className='tw-relative tw-rounded-md tw-h-[100%] tw-w-[95%] tw-flex tw-items-center tw-justify-center tw-bg-[#62ad9b]'>
+                      <div className='tw-relative tw-rounded-md tw-h-[100%] tw-w-[95%] tw-flex tw-items-center tw-justify-center tw-bg-[#02AF9B]'>
                         <Image
                           priority
                           src={value.image}
@@ -182,16 +182,16 @@ const HomeContent = ({
                                     icon={
                                       <RadioButtonUncheckedOutlinedIcon
                                         style={{
-                                          fontSize: '1rem',
-                                          color: '#396593',
+                                          fontSize: '1.1rem',
+                                          color: '#ffffff ',
                                         }}
                                       />
                                     }
                                     checkedIcon={
                                       <RadioButtonCheckedOutlinedIcon
                                         style={{
-                                          fontSize: '1rem',
-                                          color: '#396593',
+                                          fontSize: '1.1rem',
+                                          color: '#ffffff ',
                                         }}
                                       />
                                     }
@@ -214,7 +214,7 @@ const HomeContent = ({
                                   </span>
                                 </div>
                               </div>
-                              <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>
+                              <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end  tw-pl-12'>
                                 <Button
                                   style={{ borderRadius: 0 }}
                                   onClick={() => handleModal()}
@@ -244,7 +244,7 @@ const HomeContent = ({
                                           .buttonChangeBackground
                                       }{' '}
                                       <br />{' '}
-                                      {dictionary?.homeView.labelTemplate}
+                                      {dictionary?.homeView.labelBackground}
                                     </span>
                                   </div>
                                 </Button>
@@ -353,7 +353,7 @@ const HomeContent = ({
 
                           <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center '>
                             <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start '>
-                              <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center '>
+                              <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center tw-pl-3'>
                                 <span
                                   style={{ fontSize: '13px' }}
                                   className='tw-text-[#5278a0]'

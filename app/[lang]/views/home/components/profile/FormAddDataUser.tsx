@@ -136,6 +136,21 @@ const FormAddDataUser = ({
                     social={true}
                     handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
                   />
+                ) : value[0] == 'urls' ? (
+                  <ItemFormUrl
+                    key={key}
+                    dictionary={dictionary}
+                    dataForm={dataForm}
+                    handleDataSet={(e) => handleDataSet(e)}
+                    handleSeeMore={handleSeeMore}
+                    index={index}
+                    labelArray={labelArray}
+                    value={value}
+                    itemDetail={itemDetail}
+                    isDetailOpen={isDetailOpen}
+                    social={false}
+                    handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
+                  />
                 ) : null;
               }
             }

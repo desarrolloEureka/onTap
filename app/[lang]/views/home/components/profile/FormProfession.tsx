@@ -66,7 +66,7 @@ const FormProfession = ({
                 {withCheck && (
                   <TimelineIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '0.5rem',
                     }}
@@ -111,7 +111,7 @@ const FormProfession = ({
             >
               <DeleteForeverOutlinedIcon
                 style={{
-                  color: '#62AD9B',
+                  color: '#02AF9B',
                   fontSize: '1.7rem',
                 }}
               />

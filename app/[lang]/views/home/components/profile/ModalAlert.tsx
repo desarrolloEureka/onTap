@@ -37,7 +37,7 @@ const ModalAlert = ({
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    bgcolor: '#62AD9B',
+                    bgcolor: '#02AF9B',
                     paddingLeft: 4,
                     paddingRight: 4,
                     paddingTop: 5,

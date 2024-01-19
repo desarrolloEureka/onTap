@@ -17,7 +17,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
       transform: 'translateX(26px)', //movimiento
       color: '#fff',
       '& + .MuiSwitch-track': {
-        backgroundColor: '#62ae9b',
+        backgroundColor: '#02AF9B',
         opacity: 1,
         border: 0,
       },
@@ -49,7 +49,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-track': {
     // Cuando esta a la izquierda
     borderRadius: 50 / 2,
-    backgroundColor: '#62ae9b',
+    backgroundColor: '#02AF9B',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 500,
