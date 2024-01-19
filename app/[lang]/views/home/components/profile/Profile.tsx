@@ -58,7 +58,7 @@ const Profile = ({
         <div
           className={`tw-flex tw-items-center tw-justify-center ${isProUser
             ? 'lg:tw-h-auto md:tw-w-[100%]'
-            : 'lg:tw-h-[750px] md:tw-w-[100%]'
+            : 'lg:tw-h-[1000px] md:tw-w-[100%]'
             }`}
         >
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>

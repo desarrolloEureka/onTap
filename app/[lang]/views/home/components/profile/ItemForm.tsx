@@ -75,7 +75,7 @@ const ItemForm = ({
                 {icon === 'PersonOutlinedIcon' ? (
                   <PersonOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -83,7 +83,7 @@ const ItemForm = ({
                 ) : icon === 'FilePresentOutlinedIcon' ? (
                   <FilePresentOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -91,7 +91,7 @@ const ItemForm = ({
                 ) : icon === 'WorkOutlineOutlinedIcon' ? (
                   <WorkOutlineOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -99,7 +99,7 @@ const ItemForm = ({
                 ) : icon === 'ExploreOutlinedIcon' ? (
                   <ExploreOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -107,7 +107,7 @@ const ItemForm = ({
                 ) : icon === 'AttachFileOutlinedIcon' ? (
                   <AttachFileOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -115,7 +115,7 @@ const ItemForm = ({
                 ) : icon === 'AccessibilityOutlinedIcon' ? (
                   <AccessibilityOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -123,7 +123,7 @@ const ItemForm = ({
                 ) : icon === 'TranslateIcon' ? (
                   <TranslateIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -131,7 +131,7 @@ const ItemForm = ({
                 ) : icon === 'LocalPhoneOutlinedIcon' ? (
                   <LocalPhoneOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -139,7 +139,7 @@ const ItemForm = ({
                 ) : icon === 'EmailOutlinedIcon' ? (
                   <EmailOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -168,7 +168,7 @@ const ItemForm = ({
             >
               <DeleteForeverOutlinedIcon
                 style={{
-                  color: '#62AD9B',
+                  color: '#02AF9B',
                   fontSize: '1.7rem',
                 }}
               />

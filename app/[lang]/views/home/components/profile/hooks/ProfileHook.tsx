@@ -68,7 +68,7 @@ const ProfileHook = ({
     } else if (Array.isArray(a[1]) && Array.isArray(b[1])) {
       //console.log('a[1][0].count', a[1][0].order);
       //console.log('b[1][0].count', b[1][0].order);
-      const data = a[1][0].order - b[1][0].order;
+      const data = a[1][0]?.order - b[1][0]?.order;
       // console.log('data 1', data);
 
       return data;
@@ -275,6 +275,10 @@ const ProfileHook = ({
     const dataFormClone = { ...dataForm };
     //const dataAux = dataFormClone[index];// Trae el array de correos , telefonos
     const dataAux = dataFormClone[index as keyof typeof dataForm];
+
+    console.log("dataAux ", dataAux);
+    console.log("subindex ", subindex);
+    console.log("index ", index);
 
     if (Array.isArray(dataAux) && subindex !== undefined) {
       dataAux.splice(parseInt(subindex, 10), 1); // Elimina el elemento en la posición subindex

@@ -61,7 +61,7 @@ const FormEducation = ({
                 {withCheck && (
                   <SchoolOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '0.5rem',
                     }}
@@ -106,7 +106,7 @@ const FormEducation = ({
             >
               <DeleteForeverOutlinedIcon
                 style={{
-                  color: '#62AD9B',
+                  color: '#02AF9B',
                   fontSize: '1.7rem',
                 }}
               />

@@ -78,7 +78,7 @@ const FooterProfile = ({
               startIcon={
                 <SaveOutlinedIcon
                   style={{
-                    color: '#62AD9B',
+                    color: '#02AF9B',
                     fontSize: '1.6em',
                     marginLeft: '0rem',
                   }}
@@ -104,7 +104,7 @@ const FooterProfile = ({
               startIcon={
                 <AddCircleOutlinedIcon
                   style={{
-                    color: '#62AD9B',
+                    color: '#02AF9B',
                     fontSize: '1.6em',
                     marginLeft: '0rem',
                   }}
