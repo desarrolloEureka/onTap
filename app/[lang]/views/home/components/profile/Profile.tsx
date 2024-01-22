@@ -7,7 +7,6 @@ import ModalProfile from '@/views/home/components/profile/ModalProfile';
 import ModalSuccessDelete from '@/views/home/components/profile/ModalSuccessDelete';
 import PhotoUser from '@/views/home/components/profile/PhotoUser';
 import { Container } from '@mui/material';
-import { useState } from 'react';
 import ProfileHook from './hooks/ProfileHook';
 import ModalAlert from './ModalAlert';
 import { useRouter } from 'next/navigation';

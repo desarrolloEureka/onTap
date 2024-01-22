@@ -18,7 +18,7 @@ const ChangePassword = ({ params: { lang }, }: { params: { lang: Locale }; }) =>
     return (
         <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
             <div className={`tw-flex tw-items-center tw-justify-center lg:tw-h-[560px] md:tw-w-[100%]`}>
-                <Container className='tw-bg-primary tw-shadow-md tw-pt-12 tw-rounded-2xl tw-h-[465px] tw-w-[754px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+                <Container className='tw-bg-[#02AF9B] tw-shadow-md tw-pt-12 tw-rounded-2xl tw-h-[465px] tw-w-[754px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
 
                     <div className='tw-h-[10%] tw-w-[100%]'>
                         <h1 className=' tw-text-white tw-text-[18px]'>

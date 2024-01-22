@@ -1,6 +1,6 @@
 import { Dictionary } from '@/types/dictionary';
 import { Box, Button, Checkbox, Grid, Modal, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ButtonTab from '../buttonTab/ButtonTab';
 import Header from '../header/Header';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
@@ -14,7 +14,6 @@ import LogOut from '@/hooks/logOut/LogOut';
 import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { GetUser, SendTemplateSelected, SendBackgroundSelected } from '@/reactQuery/users';
-import HomeHook from '../../hooks/HomeHook';
 import { useRouter } from 'next/navigation';
 
 interface BackgroundType {
@@ -49,11 +48,33 @@ const HomeContent = ({
     name: '',
     image: '',
   });
-  const { logOut } = LogOut();
   const { data, error } = GetUser();
   const router = useRouter();
-  //console.log("data home view ", data?.views);
-  //console.log("data home view ", typeof (data?.views));
+  const checkboxRef = useRef(null);
+  const [isChecked, setIsChecked] = useState(false);
+
+
+  const handleSelectTemplate = async (item: TemplateType) => {
+    setTemplateSelect(item);
+    const userId = data?.uid;
+    if (userId && checkboxRef) {
+      await SendTemplateSelected(userId, item.id);
+    }
+  };
+
+  /* useEffect(() => {
+    const templateId = data?.templateData?.template_id;
+    if (templateId && checkboxRef.current) {
+      if (templateId === checkboxRef.current.id) {
+        console.log("Este esta seleccionado");
+        checkboxRef.current.checked = true;
+        setIsChecked(true);
+      } else {
+        checkboxRef.current.checked = false;
+        setIsChecked(false);
+      }
+    }
+  }, [data, optionSelected]); */
 
   const handleChangeOption = (option: TemplateTypes) => {
     setOptionSelected(option);
@@ -65,14 +86,6 @@ const HomeContent = ({
 
   const handleSelectBackground = (item: BackgroundType) => {
     setBackgroundSelect(item);
-  };
-
-  const handleSelectTemplate = async (item: TemplateType) => {
-    setTemplateSelect(item);
-    const userId = data?.uid;
-    if (userId) {
-      await SendTemplateSelected(userId, item.id);
-    }
   };
 
   const handleSaveTemplate = async () => {
@@ -93,6 +106,8 @@ const HomeContent = ({
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const isSmallScreenHeight = useMediaQuery('(max-height: 890px)');
   const screenHeight = useMediaQuery('(max-height: 745px)');
+  const isLargeScreen = useMediaQuery('(max-width:600px)');
+
 
   return (
     dictionary && (
@@ -119,14 +134,6 @@ const HomeContent = ({
             title={dictionary?.homeView.professional}
             handleChangeOption={handleChangeOption}
           />
-          {/*      <ButtonTab
-            dictionary={dictionary}
-            index={'corporate'}
-            optionSelected={optionSelected}
-            title={dictionary?.homeView.corporate}
-            handleChangeOption={handleChangeOption}
-            disabled
-          /> */}
         </div>
 
         <div className='tw-flex tw-items-center tw-justify-center'>
@@ -134,6 +141,7 @@ const HomeContent = ({
             {templates.map((value, index) => {
               return (
                 value.type == optionSelected && (
+
                   <div
                     key={index}
                     className={`max-sm:tw-h-[520px] tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
@@ -177,8 +185,12 @@ const HomeContent = ({
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-start tw-justify-end '>
                                 <div className='tw-w-[35%] tw-h-[80%] tw-flex tw-items-center tw-justify-center'>
                                   <Checkbox
-                                    onChange={() => handleSelectTemplate(value)}
+                                    inputRef={checkboxRef}
+                                    //checked={checkboxRef?.current?.checked ? true : false}
+                                    //checked={isChecked}
                                     checked={templateSelect.id == value.id}
+                                    onChange={() => handleSelectTemplate(value)}
+                                    id={value.id}
                                     icon={
                                       <RadioButtonUncheckedOutlinedIcon
                                         style={{
@@ -282,7 +294,7 @@ const HomeContent = ({
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
         >
-          <Box className='tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%]  sm:tw-w-[90%]  md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[40%] tw-rounded-2xl tw-bg-primary tw-relative'>
+          <Box className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${isLargeScreen ? 'tw-w-[50%]' : ''} tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}>
             <div className='tw-absolute tw-right-1 tw-top-2'>
               <Button
                 color='secondary'
