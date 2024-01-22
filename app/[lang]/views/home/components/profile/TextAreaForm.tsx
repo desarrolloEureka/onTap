@@ -23,12 +23,14 @@ const TextAreaForm = ({
   dataForm,
   index,
 }: ItemFormParams) => {
+
   const dataRef = useRef<any>(null);
   useEffect(() => {
     if (dataRef.current && myValue && dataForm && index) {
       dataRef.current = myValue;
     }
   }, [dataForm, dataRef, index, myValue]);
+  
   return (
     <Box className='tw-flex tw-flex-row'>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>

@@ -20,7 +20,7 @@ const RecoveryCode = ({
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      <Container className='tw-bg-primary tw-shadow-md tw-pt-16 tw-rounded-2xl tw-h-[475px] tw-w-[794px] flex tw-justify-center  tw-justify-items-center tw-text-center tw-mt-[50px]'>
+      <Container className='tw-bg-[#02AF9B] tw-shadow-md tw-pt-16 tw-rounded-2xl tw-h-[475px] tw-w-[794px] flex tw-justify-center  tw-justify-items-center tw-text-center tw-mt-[50px]'>
         <Typography className='tw-text-white  tw-ml-[20px] tw-text-2xl text-center'>
           {dictionary?.recoveryCode.titleCode}
         </Typography>
