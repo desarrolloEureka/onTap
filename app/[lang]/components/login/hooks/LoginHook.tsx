@@ -40,7 +40,6 @@ const LoginHook = (dictionary: Dictionary) => {
   };
 
   const userIsLogged = useCallback(() => {
-    console.log("userIsLogged");
     setSendLogin(false);
     data
       ? data.isAdmin

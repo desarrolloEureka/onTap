@@ -1,20 +1,25 @@
+import CustomCheckbox from '@/components/customCheckbox/CustomCheckbox';
+import {
+  GetUser,
+  SendBackgroundSelected,
+  SendTemplateSelected,
+} from '@/reactQuery/users';
 import { Dictionary } from '@/types/dictionary';
+import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CloseIcon from '@mui/icons-material/Close';
+import DynamicFeedOutlinedIcon from '@mui/icons-material/DynamicFeedOutlined';
+import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
+import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Button, Checkbox, Grid, Modal, Typography } from '@mui/material';
-import React, { useState, useRef, useEffect } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import ButtonTab from '../buttonTab/ButtonTab';
 import Header from '../header/Header';
-import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
-import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import DynamicFeedOutlinedIcon from '@mui/icons-material/DynamicFeedOutlined';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import CloseIcon from '@mui/icons-material/Close';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Image from 'next/image';
-import LogOut from '@/hooks/logOut/LogOut';
-import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { GetUser, SendTemplateSelected, SendBackgroundSelected } from '@/reactQuery/users';
-import { useRouter } from 'next/navigation';
+import { TemplateData } from '@/types/user';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface BackgroundType {
@@ -37,13 +42,11 @@ const HomeContent = ({
   templates: Templates[];
   backgroundImages: BackgroundImages[];
 }) => {
+  const queryClient = useQueryClient();
   const [optionSelected, setOptionSelected] = useState<TemplateTypes>('social');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [backgroundSelect, setBackgroundSelect] = useState<BackgroundType>({
-    id: '',
-    name: '',
-    image: '',
-  });
+  const [backgroundSelect, setBackgroundSelect] = useState<{ id: string }>();
+  const [selectedTemplate, setSelectedTemplate] = useState<string>();
   const [templateSelect, setTemplateSelect] = useState<TemplateType>({
     id: '',
     name: '',
@@ -51,55 +54,42 @@ const HomeContent = ({
   });
   const { data, error } = GetUser();
   const router = useRouter();
-  const checkboxRef = useRef([]);
-  const [isUpdate, setIsUpdate] = useState(false);
-  const queryClient = useQueryClient();
-  const [aux, setAux] = useState(false);
-
-  const handleSelectTemplate = async (item: TemplateType) => {
-    setTemplateSelect(item);
-    const userId = data?.uid;
-    if (userId && checkboxRef) {
-      checkboxRef.current.checked = true;
-      await SendTemplateSelected(userId, item.id, queryClient);
-      setIsUpdate(!isUpdate);
-    }
-
-    /* if (item.id === checkboxRef.current.id) {
-      console.log("Este esta seleccionado");
-      checkboxRef.current.checked = true;
-    } else {
-      checkboxRef.current.checked = false;
-    } */
-  };
-
-
 
   const handleChangeOption = (option: TemplateTypes) => {
     setOptionSelected(option);
   };
 
-  const handleModal = () => {
+  const handleModal = (item?: Templates) => {
+    item && setSelectedTemplate(item.id);
     setIsModalOpen(!isModalOpen);
   };
 
   const handleSelectBackground = (item: BackgroundType) => {
-    setBackgroundSelect(item);
+    const data = {
+      id: item.id,
+    };
+    setBackgroundSelect(data);
   };
 
   const handleSaveTemplate = async () => {
     const userId = data?.uid;
-    userId &&
-      (await SendBackgroundSelected(
-        userId,
-        backgroundSelect.id,
-        templateSelect.id
-      ));
+    const templateData = data?.templateData;
+    if (backgroundSelect && userId) {
+      const newData = templateData?.map((val) => {
+        val.id === selectedTemplate &&
+          (val.background_id = backgroundSelect.id);
+        return val;
+      });
+      newData &&
+        (await SendTemplateSelected(userId, newData, queryClient).then(() => {
+          handleModal();
+        }));
+    }
   };
 
   const handlePreview = async () => {
     //handleChange();
-    router.replace('/views/cardView');
+    router.push('/views/cardView');
   };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
@@ -107,42 +97,14 @@ const HomeContent = ({
   const screenHeight = useMediaQuery('(max-height: 745px)');
   const isLargeScreen = useMediaQuery('(max-width:600px)');
 
-  const fakedata = [{ type: 'social', id: "XfhZLINMOpRTI7cakd8o", checked: false }, { type: 'professional', id: "ZESiLxKZFwUOUOgLKt6P", checked: true }]
-
-  useEffect(() => {
-    //optionSelected
-    const item = fakedata.find(value => value.type === optionSelected);
-
-    if (item && checkboxRef.current) {
-      templates.map((val, index) => {
-
-        if (val.id === checkboxRef?.current?.id) {
-          console.log("item ", item?.id);
-          console.log("checkboxRef.current.id ", checkboxRef.current.id);
-        }
-
-        /*  if (checkboxRef.current.id === item?.id) {
-           console.log("Este esta seleccionado", item?.id);
- 
-           checkboxRef.current.checked = item?.checked;
-         } else {
-           console.log("Este NO esta seleccionado", item?.id);
-           checkboxRef.current.checked = false;
-         } */
-      })
-
-      setAux(!aux);
-    }
-  }, [data, isUpdate, optionSelected]);
-
-  optionSelected === 'professional' && console.log("checkboxRef.current.id <>", checkboxRef?.current);
   return (
     dictionary && (
-      <div className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'}`}>
-        <Header
-          dictionary={dictionary}
-          views={data?.views ?? 0}
-        />
+      <div
+        className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${
+          screenHeight ? '' : 'md:tw-h-screen'
+        }`}
+      >
+        <Header dictionary={dictionary} views={data?.views ?? 0} />
         <div
           className='tw-h-[60px] tw-flex'
           style={{ borderBottom: '1px solid #C2C2C2' }}
@@ -151,14 +113,14 @@ const HomeContent = ({
             dictionary={dictionary}
             index={'social'}
             optionSelected={optionSelected}
-            title={dictionary?.homeView.social}
+            title={dictionary?.homeView?.social}
             handleChangeOption={handleChangeOption}
           />
           <ButtonTab
             dictionary={dictionary}
             index={'professional'}
             optionSelected={optionSelected}
-            title={dictionary?.homeView.professional}
+            title={dictionary?.homeView?.professional}
             handleChangeOption={handleChangeOption}
           />
         </div>
@@ -166,9 +128,10 @@ const HomeContent = ({
         <div className='tw-flex tw-items-center tw-justify-center'>
           <div className='tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-3 lg:tw-w-[1300px] xl:tw-w-[1250px]'>
             {templates.map((value, index) => {
-              console.log("value ", value.id)
-              return (
-                value.type == optionSelected && (
+              if (value.type === optionSelected) {
+                const i: any = value.id;
+                const item = data?.templateData?.find((val) => val.id === i);
+                return (
                   <div
                     key={index}
                     className={`max-sm:tw-h-[520px] tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
@@ -202,8 +165,8 @@ const HomeContent = ({
                                         style={{ fontSize: '9px' }}
                                         className='tw-text-white'
                                       >
-                                        {dictionary?.homeView.labelView} <br />{' '}
-                                        {dictionary?.homeView.labelPrevious}
+                                        {dictionary?.homeView?.labelView} <br />{' '}
+                                        {dictionary?.homeView?.labelPrevious}
                                       </span>
                                     </div>
                                   </div>
@@ -211,28 +174,16 @@ const HomeContent = ({
                               </div>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-start tw-justify-end '>
                                 <div className='tw-w-[35%] tw-h-[80%] tw-flex tw-items-center tw-justify-center'>
-                                  <Checkbox
-                                    inputRef={(e) => checkboxRef.current.push(e)}
-                                    checked={checkboxRef?.current?.checked ? true : false}
-                                    onChange={() => handleSelectTemplate(value)}
-                                    id={value.id}
-                                    icon={
-                                      <RadioButtonUncheckedOutlinedIcon
-                                        style={{
-                                          fontSize: '1.1rem',
-                                          color: '#ffffff ',
-                                        }}
-                                      />
-                                    }
-                                    checkedIcon={
-                                      <RadioButtonCheckedOutlinedIcon
-                                        style={{
-                                          fontSize: '1.1rem',
-                                          color: '#ffffff ',
-                                        }}
-                                      />
-                                    }
-                                  />
+                                  {data && (
+                                    <CustomCheckbox
+                                      uid={data.uid}
+                                      optionSelected={optionSelected}
+                                      value={value}
+                                      setTemplateSelect={setTemplateSelect}
+                                      templates={data.templateData}
+                                      checked={item ? item.checked : false}
+                                    />
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -246,15 +197,16 @@ const HomeContent = ({
                                     style={{ fontSize: '13px' }}
                                     className='tw-text-white'
                                   >
-                                    {dictionary?.homeView.labelTemplate}{' '}
+                                    {dictionary?.homeView?.labelTemplate}{' '}
                                     {index + 1}
                                   </span>
                                 </div>
                               </div>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end  tw-pl-12'>
                                 <Button
+                                  disabled={item ? !item.checked : true}
                                   style={{ borderRadius: 0 }}
-                                  onClick={() => handleModal()}
+                                  onClick={() => handleModal(value)}
                                   className='tw-w-[60%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'
                                 >
                                   <div className='tw-w-[100%] tw-h-[60%] tw-flex tw-items-center tw-justify-center'>
@@ -278,10 +230,10 @@ const HomeContent = ({
                                     >
                                       {
                                         dictionary?.homeView
-                                          .buttonChangeBackground
+                                          ?.buttonChangeBackground
                                       }{' '}
                                       <br />{' '}
-                                      {dictionary?.homeView.labelBackground}
+                                      {dictionary?.homeView?.labelBackground}
                                     </span>
                                   </div>
                                 </Button>
@@ -292,8 +244,8 @@ const HomeContent = ({
                       </div>
                     </div>
                   </div>
-                )
-              );
+                );
+              }
             })}
           </div>
         </div>
@@ -315,11 +267,15 @@ const HomeContent = ({
         <Modal
           className='tw-flex tw-justify-center tw-justify-items-center tw-pt-16 tw-pb-16'
           open={isModalOpen}
-          onClose={handleModal}
+          onClose={() => handleModal()}
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
         >
-          <Box className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${isLargeScreen ? 'tw-w-[50%]' : ''} tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}>
+          <Box
+            className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${
+              isLargeScreen ? 'tw-w-[50%]' : ''
+            } tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}
+          >
             <div className='tw-absolute tw-right-1 tw-top-2'>
               <Button
                 color='secondary'
@@ -333,78 +289,84 @@ const HomeContent = ({
                     }}
                   />
                 }
-                onClick={handleModal}
+                onClick={() => handleModal()}
               />
             </div>
 
             <div className='tw-px-10 tw-pt-10 tw-h-[80%]'>
-
               <div className='tw-ml-1 tw-mb-8'>
                 <Typography style={{ color: 'black' }}>
-                  {dictionary?.homeView.selectModalTitle}
+                  {dictionary?.homeView?.selectModalTitle}
                 </Typography>
               </div>
 
-              {/* <div className='tw-overflow-y-auto max-sm:tw-h-[50vh] sm:tw-h-[60vh] isSmallScreenHeight ? sm:tw-h-[70vh] : sm:tw-h-[20vh] '> */}{/*sm: tamaño de la pantalla es igual o mayor que 640px:  sm:tw-h-[50vh]' ////  tw-max-sm: el tamaño de la pantalla es igual o menor a  tw-max-sm:tw-h-[50vh]  */}
-              <div className={`tw-overflow-y-auto ${isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null}`}>
-
+              {/* <div className='tw-overflow-y-auto max-sm:tw-h-[50vh] sm:tw-h-[60vh] isSmallScreenHeight ? sm:tw-h-[70vh] : sm:tw-h-[20vh] '> */}
+              {/*sm: tamaño de la pantalla es igual o mayor que 640px:  sm:tw-h-[50vh]' ////  tw-max-sm: el tamaño de la pantalla es igual o menor a  tw-max-sm:tw-h-[50vh]  */}
+              <div
+                className={`tw-overflow-y-auto ${
+                  isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null
+                }`}
+              >
                 <Grid container spacing={2}>
-                  {backgroundImages.map((item, index) => (
-                    <Grid item xs={6} sm={6} md={4} lg={4} key={index}>
-                      <div className='max-sm:tw-h-[185Px] tw-h-[280px] max-sm:tw-w-[130px] tw-relative tw-rounded-md tw-flex tw-items-center tw-justify-center tw-bg-white'>
-                        <Image
-                          src={item.image}
-                          alt={`Image ${item.id}`}
-                          width={isSmallScreen ? 60 : 105}
-                          height={isSmallScreen ? 133 : 250} //280
-                        />
-                        <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
-                          <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
-                            <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-end'>
-                              <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>
-                                <div className='tw-w-[45%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
-                                  <Checkbox
-                                    onChange={() => handleSelectBackground(item)}
-                                    checked={backgroundSelect.id == item.id}
-                                    icon={
-                                      <RadioButtonUncheckedOutlinedIcon
-                                        style={{
-                                          fontSize: '1rem',
-                                          color: '#5278a0',
-                                        }}
+                  {backgroundImages.map((item, index) => {
+                    const x = data?.templateData?.find((val) => {
+                      return (
+                        val.type === optionSelected &&
+                        val.background_id === item.id
+                      );
+                    });
+
+                    return (
+                      <Grid item xs={6} sm={6} md={4} lg={4} key={index}>
+                        <div className='max-sm:tw-h-[185Px] tw-h-[280px] max-sm:tw-w-[130px] tw-relative tw-rounded-md tw-flex tw-items-center tw-justify-center tw-bg-white'>
+                          <Image
+                            src={item.image}
+                            alt={`Image ${item.id}`}
+                            width={isSmallScreen ? 60 : 105}
+                            height={isSmallScreen ? 133 : 250} //280
+                          />
+                          <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
+                            <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
+                              <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-end'>
+                                <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>
+                                  <div className='tw-w-[45%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
+                                    {data && (
+                                      <CustomCheckbox
+                                        uid={data.uid}
+                                        optionSelected={optionSelected}
+                                        value={item}
+                                        templates={data.templateData}
+                                        handleSelectBackground={
+                                          handleSelectBackground
+                                        }
+                                        checked={x ? x.checked : false}
+                                        selectedTemplate={selectedTemplate}
+                                        handleModal={handleModal}
                                       />
-                                    }
-                                    checkedIcon={
-                                      <RadioButtonCheckedOutlinedIcon
-                                        style={{
-                                          fontSize: '1rem',
-                                          color: '#5278a0',
-                                        }}
-                                      />
-                                    }
-                                  />
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center '>
+                              <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start '>
+                                <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center tw-pl-3'>
+                                  <span
+                                    style={{ fontSize: '13px' }}
+                                    className='tw-text-[#5278a0]'
+                                  >
+                                    {dictionary?.homeView?.labelBackground}{' '}
+                                    {index + 1}
+                                  </span>
                                 </div>
                               </div>
                             </div>
                           </div>
-
-                          <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center '>
-                            <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start '>
-                              <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center tw-pl-3'>
-                                <span
-                                  style={{ fontSize: '13px' }}
-                                  className='tw-text-[#5278a0]'
-                                >
-                                  {dictionary?.homeView.labelBackground}{' '}
-                                  {index + 1}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
                         </div>
-                      </div>
-                    </Grid>
-                  ))}
+                      </Grid>
+                    );
+                  })}
                 </Grid>
               </div>
 
@@ -468,7 +430,7 @@ const HomeContent = ({
               </Grid> */}
             </div>
 
-            <div className='tw-flex tw-justify-start tw-mt-3 tw-pl-10 tw-pt-1 tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
+            {/* <div className='tw-flex tw-justify-start tw-mt-3 tw-pl-10 tw-pt-1 tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
               <Button
                 onClick={handleSaveTemplate}
                 color='secondary'
@@ -490,10 +452,10 @@ const HomeContent = ({
                     textTransform: 'none',
                   }}
                 >
-                  {dictionary?.homeView.saveButtonLabel}
+                  {dictionary?.homeView?.saveButtonLabel}
                 </span>
               </Button>
-            </div>
+            </div> */}
           </Box>
         </Modal>
       </div>

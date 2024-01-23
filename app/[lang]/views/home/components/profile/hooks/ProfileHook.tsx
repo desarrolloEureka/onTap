@@ -85,7 +85,9 @@ const ProfileHook = ({
   const [itemDetail, setItemDetail] = useState(0);
   /* Delete items */
   //const [itemDelete, setItemDelete] = useState<"index" | "subindex" | ''>();
-  const [itemDelete, setItemDelete] = useState<{ index: string; subindex: string } | {}>();
+  const [itemDelete, setItemDelete] = useState<
+    { index: string; subindex: string } | {}
+  >();
 
   const [isDataSuccess, setIsDataSuccess] = useState(false);
   const [isDataError, setIsDataError] = useState(false);
@@ -113,8 +115,11 @@ const ProfileHook = ({
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleModalAlert = (itemDelete: { index: string; subindex: string }) => {
-    console.log("itemDelete ", itemDelete);
+  const handleModalAlert = (itemDelete: {
+    index: string;
+    subindex: string;
+  }) => {
+    console.log('itemDelete ', itemDelete);
     if (!isModalAlert) {
       setItemDelete(itemDelete);
     } else {
@@ -148,9 +153,9 @@ const ProfileHook = ({
     currentDataRef?: any;
     key?: number;
   }) => {
-    const isChecked = value.target.checked;
+    const isChecked = value?.target?.checked;
     const dataFormClone = { ...dataForm };
-    const index = value.target.name as keyof typeof dataFormClone;
+    const index = value?.target?.name as keyof typeof dataFormClone;
     if (
       index != 'phones' &&
       index != 'education' &&
@@ -182,8 +187,8 @@ const ProfileHook = ({
     dataFormClone && index == 'education' && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == 'professional_career'
-        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-        : index == 'urls' &&
+      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+      : index == 'urls' &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -265,20 +270,24 @@ const ProfileHook = ({
 
   const handleDeleteData = () => {
     setIsDataLoad(false);
-    console.log("itemDelete --> ", itemDelete);
+    console.log('itemDelete --> ', itemDelete);
 
     //const index = itemDelete && itemDelete['index'];
     //const subindex = itemDelete && itemDelete['subindex'];
 
-    const index = itemDelete && 'index' in itemDelete ? itemDelete['index'] : undefined;
-    const subindex = itemDelete && 'subindex' in itemDelete ? itemDelete['subindex'] : undefined;
+    const index =
+      itemDelete && 'index' in itemDelete ? itemDelete['index'] : undefined;
+    const subindex =
+      itemDelete && 'subindex' in itemDelete
+        ? itemDelete['subindex']
+        : undefined;
     const dataFormClone = { ...dataForm };
     //const dataAux = dataFormClone[index];// Trae el array de correos , telefonos
     const dataAux = dataFormClone[index as keyof typeof dataForm];
 
-    console.log("dataAux ", dataAux);
-    console.log("subindex ", subindex);
-    console.log("index ", index);
+    console.log('dataAux ', dataAux);
+    console.log('subindex ', subindex);
+    console.log('index ', index);
 
     if (Array.isArray(dataAux) && subindex !== undefined) {
       dataAux.splice(parseInt(subindex, 10), 1); // Elimina el elemento en la posición subindex
