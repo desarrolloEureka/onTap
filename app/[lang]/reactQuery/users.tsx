@@ -13,7 +13,7 @@ import {
 import { DataForm } from '@/types/profile';
 import { UserData, UserDb } from '@/types/user';
 import { GetLoginQueryProps } from '@/types/userQuery';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const GetAllUserQuery = () => {
   const query = useQuery({
@@ -125,15 +125,25 @@ const SendBackgroundSelected = async (
   await updateTemplateSelectedFirebase(userId, { templateData });
 };
 
- const SendTemplateSelected = async (
+const SendTemplateSelected = async (
   userId: string,
   backgroundSelect: string,
+  queryClient: any
 ) => {
   const templateData = {
     template_id: backgroundSelect,
   };
 
+
   await updateTemplateSelectedFirebase(userId, { templateData });
+
+  const updatedUser = await getUserById(userId);
+  if (updatedUser.exists()) {
+    const userData = updatedUser.data() as UserDb;
+    const getUser = reBuildUserData(userData);
+    localStorage.setItem('@user', JSON.stringify(getUser));
+    queryClient.setQueryData(['user'], () => getUser);
+  }
 };
 
 const SendSwitchAllForm = async (userId: string, dataForm: any) => {
@@ -159,38 +169,40 @@ const SendDataUserProfile = async (userId: string, data: DataForm) => {
     });
 };
 
-const GetUser = () =>
+const GetUser = () => 
   useQuery({
-    queryKey: ['user'],
-    queryFn: async () => {
-      const userLogged = localStorage.getItem('@user');
-      if (userLogged) {
-        const user = JSON.parse(userLogged) as UserData;
-        const updatedUser = await getUserById(user.uid);
-        if (updatedUser.exists()) {
-          const userData = updatedUser.data() as UserData;
-          const getUser = reBuildUserData(userData) as UserData;
-          localStorage.setItem('@user', JSON.stringify(getUser));
-          return getUser;
-        } else {
-          return user;
-        }
+  queryKey: ['user'],
+  queryFn: async () => {
+    const userLogged = localStorage.getItem('@user');
+    console.log("userLogged<");
+    if (userLogged) {
+      const user = JSON.parse(userLogged) as UserData;
+      const updatedUser = await getUserById(user.uid);
+      console.log("User", user);
+      if (updatedUser.exists()) {
+        const userData = updatedUser.data() as UserData;
+        const getUser = reBuildUserData(userData) as UserData;
+        localStorage.setItem('@user', JSON.stringify(getUser));
+        return getUser;
       } else {
-        return null;
+        return user;
       }
-    },
-  });
+    } else {
+      return null;
+    }
+  },
+});
 
 export {
-  GetAllUserQuery,
-  GetLoginQuery,
-  GetUser,
-  SendDataImage,
-  SendDataUserProfile,
-  SendSwitchActivateCard,
-  SendSwitchAllForm,
-  SendSwitchProfile,
-  SendTemplateSelected,
-  UpdatePassword,
-  SendBackgroundSelected
-};
+    GetAllUserQuery,
+    GetLoginQuery,
+    GetUser,
+    SendDataImage,
+    SendDataUserProfile,
+    SendSwitchActivateCard,
+    SendSwitchAllForm,
+    SendSwitchProfile,
+    SendTemplateSelected,
+    UpdatePassword,
+    SendBackgroundSelected
+  };

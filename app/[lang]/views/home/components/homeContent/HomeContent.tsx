@@ -15,6 +15,7 @@ import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { GetUser, SendTemplateSelected, SendBackgroundSelected } from '@/reactQuery/users';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface BackgroundType {
   id: string;
@@ -50,31 +51,29 @@ const HomeContent = ({
   });
   const { data, error } = GetUser();
   const router = useRouter();
-  const checkboxRef = useRef(null);
-  const [isChecked, setIsChecked] = useState(false);
-
+  const checkboxRef = useRef([]);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const queryClient = useQueryClient();
+  const [aux, setAux] = useState(false);
 
   const handleSelectTemplate = async (item: TemplateType) => {
     setTemplateSelect(item);
     const userId = data?.uid;
     if (userId && checkboxRef) {
-      await SendTemplateSelected(userId, item.id);
+      checkboxRef.current.checked = true;
+      await SendTemplateSelected(userId, item.id, queryClient);
+      setIsUpdate(!isUpdate);
     }
+
+    /* if (item.id === checkboxRef.current.id) {
+      console.log("Este esta seleccionado");
+      checkboxRef.current.checked = true;
+    } else {
+      checkboxRef.current.checked = false;
+    } */
   };
 
-  /* useEffect(() => {
-    const templateId = data?.templateData?.template_id;
-    if (templateId && checkboxRef.current) {
-      if (templateId === checkboxRef.current.id) {
-        console.log("Este esta seleccionado");
-        checkboxRef.current.checked = true;
-        setIsChecked(true);
-      } else {
-        checkboxRef.current.checked = false;
-        setIsChecked(false);
-      }
-    }
-  }, [data, optionSelected]); */
+
 
   const handleChangeOption = (option: TemplateTypes) => {
     setOptionSelected(option);
@@ -108,7 +107,35 @@ const HomeContent = ({
   const screenHeight = useMediaQuery('(max-height: 745px)');
   const isLargeScreen = useMediaQuery('(max-width:600px)');
 
+  const fakedata = [{ type: 'social', id: "XfhZLINMOpRTI7cakd8o", checked: false }, { type: 'professional', id: "ZESiLxKZFwUOUOgLKt6P", checked: true }]
 
+  useEffect(() => {
+    //optionSelected
+    const item = fakedata.find(value => value.type === optionSelected);
+
+    if (item && checkboxRef.current) {
+      templates.map((val, index) => {
+
+        if (val.id === checkboxRef?.current?.id) {
+          console.log("item ", item?.id);
+          console.log("checkboxRef.current.id ", checkboxRef.current.id);
+        }
+
+        /*  if (checkboxRef.current.id === item?.id) {
+           console.log("Este esta seleccionado", item?.id);
+ 
+           checkboxRef.current.checked = item?.checked;
+         } else {
+           console.log("Este NO esta seleccionado", item?.id);
+           checkboxRef.current.checked = false;
+         } */
+      })
+
+      setAux(!aux);
+    }
+  }, [data, isUpdate, optionSelected]);
+
+  optionSelected === 'professional' && console.log("checkboxRef.current.id <>", checkboxRef?.current);
   return (
     dictionary && (
       <div className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'}`}>
@@ -139,9 +166,9 @@ const HomeContent = ({
         <div className='tw-flex tw-items-center tw-justify-center'>
           <div className='tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-3 lg:tw-w-[1300px] xl:tw-w-[1250px]'>
             {templates.map((value, index) => {
+              console.log("value ", value.id)
               return (
                 value.type == optionSelected && (
-
                   <div
                     key={index}
                     className={`max-sm:tw-h-[520px] tw-h-[600px] tw-flex tw-items-center tw-justify-center`}
@@ -185,10 +212,8 @@ const HomeContent = ({
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-start tw-justify-end '>
                                 <div className='tw-w-[35%] tw-h-[80%] tw-flex tw-items-center tw-justify-center'>
                                   <Checkbox
-                                    inputRef={checkboxRef}
-                                    //checked={checkboxRef?.current?.checked ? true : false}
-                                    //checked={isChecked}
-                                    checked={templateSelect.id == value.id}
+                                    inputRef={(e) => checkboxRef.current.push(e)}
+                                    checked={checkboxRef?.current?.checked ? true : false}
                                     onChange={() => handleSelectTemplate(value)}
                                     id={value.id}
                                     icon={
