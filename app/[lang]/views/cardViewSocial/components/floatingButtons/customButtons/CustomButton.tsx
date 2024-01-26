@@ -14,8 +14,6 @@ const CustomButton = ({
   index: number;
   column: number;
 }) => {
-  console.log('name', name);
-  console.log('key & column', index + 'column' + column);
   const { data } = GetAllSocialNetworks();
   const icon = data?.find((val) => val.name === name);
   const my = (index === 1 || index === 2) && 'tw-mt-8';

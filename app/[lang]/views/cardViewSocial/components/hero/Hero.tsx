@@ -16,7 +16,7 @@ const Hero = ({
   return (
     socialNetworks && (
       <Container className='tw-flex tw-flex-col tw-justify-center tw-content-center tw-items-center tw-w-[380px] tw-h-[300px]'>
-        <div className='tw-rounded-bl-2xl tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1 tw-px-3 tw-shadow-xl tw-mb-3'>
+        <div className='tw-rounded-bl-2xl tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1 tw-px-3 tw-shadow-xl tw-my-8'>
           <Typography className='tw-z-10' color={'white'}>
             {name}
           </Typography>

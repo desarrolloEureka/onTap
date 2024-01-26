@@ -4,6 +4,7 @@ import BgImage from './bgImage/BgImage';
 import TemplateContainer from './container/Container';
 import Hero from './hero/Hero';
 import { UserData } from '@/types/user';
+import { DataForm } from '@/types/profile';
 
 const SocialOne = ({
   params: { lang, background, data },
@@ -23,7 +24,7 @@ const SocialOne = ({
           photo={data.image}
           name={`${data.profile.name?.text} '' ${data.profile.last_name?.text}`}
         />
-        <TemplateContainer />
+        <TemplateContainer profile={data.profile} />
       </div>
     </div>
   );

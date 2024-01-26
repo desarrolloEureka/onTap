@@ -14,8 +14,10 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@formatjs/intl-localematcher": "^0.5.2",
-    "@mui/icons-material": "^5.14.18",
-    "@mui/material": "^5.14.18",
+    "@mui/icons-material": "^5.15.6",
+    "@mui/material": "^5.15.6",
+    "@mui/styles": "^5.15.6",
+    "@mui/system": "^5.15.6",
     "@tanstack/react-query": "^5.8.4",
     "@tanstack/react-query-devtools": "^5.8.4",
     "@types/negotiator": "^0.6.3",
@@ -26,6 +28,7 @@
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-material-ui-carousel": "^3.4.2",
     "tsx-control-statements": "^5.1.0"
   },
   "devDependencies": {
