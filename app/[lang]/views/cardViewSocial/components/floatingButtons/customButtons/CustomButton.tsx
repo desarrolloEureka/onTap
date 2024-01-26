@@ -7,20 +7,22 @@ const CustomButton = ({
   name,
   link,
   index,
-  colum,
+  column,
 }: {
   name: string;
   link: string;
   index: number;
-  colum: number;
+  column: number;
 }) => {
+  console.log('name', name);
+  console.log('key & column', index + 'column' + column);
   const { data } = GetAllSocialNetworks();
   const icon = data?.find((val) => val.name === name);
   const my = (index === 1 || index === 2) && 'tw-mt-8';
   const mx =
-    (index === 0 || index === 2) && colum == 1
+    (index === 0 || index === 2) && column == 1
       ? 'tw-ml-5'
-      : (index == 0 || index == 2) && colum == 2 && '-tw-ml-5';
+      : (index == 0 || index == 2) && column == 2 && '-tw-ml-5';
 
   return (
     icon?.image && (

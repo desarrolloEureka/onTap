@@ -10,27 +10,28 @@ const LeftButtons = ({
 }) => {
   const social = socialNetworks.filter(
     (val) =>
-      val.icon == 'whatsapp' || val.icon == 'twitter' || val.icon == 'instagram'
+      (val.icon == 'whatsapp' && val.checked) ||
+      (val.icon == 'twitter' && val.checked) ||
+      (val.icon == 'instagram' && val.checked)
   );
+
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
       }}
     >
       {social.map((val, key) => {
         return (
-          val.checked && (
-            <CustomButton
-              name={val.icon}
-              link={val.url}
-              index={key}
-              key={key}
-              colum={1}
-            />
-          )
+          <CustomButton
+            name={val.icon}
+            link={val.url}
+            index={key}
+            key={key}
+            column={1}
+          />
         );
       })}
     </Box>

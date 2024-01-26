@@ -10,27 +10,27 @@ const RightButtons = ({
 }) => {
   const social = socialNetworks.filter(
     (val) =>
-      val.icon == 'facebook' || val.icon == 'tiktok' || val.icon == 'messenger'
+      (val.icon == 'facebook' && val.checked) ||
+      (val.icon == 'tiktok' && val.checked) ||
+      (val.icon == 'messenger' && val.checked)
   );
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
       }}
     >
       {social.map((val, key) => {
         return (
-          val.checked && (
-            <CustomButton
-              name={val.icon}
-              link={val.url}
-              index={key}
-              key={key}
-              colum={2}
-            />
-          )
+          <CustomButton
+            name={val.icon}
+            link={val.url}
+            index={key}
+            key={key}
+            column={2}
+          />
         );
       })}
     </Box>
