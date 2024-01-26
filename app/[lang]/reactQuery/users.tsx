@@ -1,7 +1,7 @@
 import { loginFirebase } from '@/firebase/auth';
 import {
   getAllUsers,
-  getUserById,
+  getUserByIdFireStore,
   updateDataUserProfile,
   updatePasswordFirebase,
   updateSwitchActivateCard,
@@ -43,7 +43,7 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
       });
 
       if (resultUser && resultUser.user) {
-        const docSnap = await getUserById(resultUser.user.uid);
+        const docSnap = await getUserByIdFireStore(resultUser.user.uid);
         if (docSnap.exists()) {
           const user = docSnap.data() as UserData;
           const getUser = userDataToSend(user, resultUser);
@@ -66,7 +66,7 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
 /* Actualizar react query*/
 const SendDataImage = async (userId: string, base64String: string) => {
   await updateUserData(userId, { image: base64String });
-  const updatedUser = await getUserById(userId);
+  const updatedUser = await getUserByIdFireStore(userId);
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
@@ -86,7 +86,7 @@ const reBuildUserData = (userData: UserData) => {
 
 const SendSwitchProfile = async (userId: string, switchState: boolean) => {
   await updateSwitchProfileFirebase(userId, { switch_profile: switchState });
-  const updatedUser = await getUserById(userId);
+  const updatedUser = await getUserByIdFireStore(userId);
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
@@ -96,7 +96,7 @@ const SendSwitchProfile = async (userId: string, switchState: boolean) => {
 
 const SendSwitchActivateCard = async (userId: string, switchState: boolean) => {
   await updateSwitchActivateCard(userId, { switch_activateCard: switchState });
-  const updatedUser = await getUserById(userId);
+  const updatedUser = await getUserByIdFireStore(userId);
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
@@ -131,7 +131,7 @@ const SendTemplateSelected = async (
 
   await updateTemplateSelectedFirebase(userId, { templateData });
 
-  const updatedUser = await getUserById(userId);
+  const updatedUser = await getUserByIdFireStore(userId);
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
@@ -147,7 +147,7 @@ const SendSwitchAllForm = async (userId: string, dataForm: any) => {
 const SendDataUserProfile = async (userId: string, data: DataForm) => {
   return updateDataUserProfile(userId, data)
     .then(async (response) => {
-      const updatedUser = await getUserById(userId);
+      const updatedUser = await getUserByIdFireStore(userId);
       if (updatedUser.exists()) {
         const userData = updatedUser.data() as UserData;
 
@@ -163,6 +163,24 @@ const SendDataUserProfile = async (userId: string, data: DataForm) => {
     });
 };
 
+const GetUserById = (userUid: string) => {
+  return useQuery({
+    queryKey: ['user'],
+    queryFn: async () => {
+      const updatedUser = await getUserByIdFireStore(userUid);
+      if (updatedUser.exists()) {
+        const userData = updatedUser.data() as UserData;
+        const getUser = reBuildUserData(userData);
+        localStorage.setItem('@user', JSON.stringify(getUser));
+        return getUser;
+      } else {
+        return null;
+      }
+    },
+    enabled: !!userUid,
+  });
+};
+
 const GetUser = () =>
   useQuery({
     queryKey: ['user'],
@@ -170,7 +188,7 @@ const GetUser = () =>
       const userLogged = localStorage.getItem('@user');
       if (userLogged) {
         const user = JSON.parse(userLogged) as UserData;
-        const updatedUser = await getUserById(user.uid);
+        const updatedUser = await getUserByIdFireStore(user.uid);
         if (updatedUser.exists()) {
           const userData = updatedUser.data() as UserData;
           const getUser = reBuildUserData(userData);
@@ -197,4 +215,5 @@ export {
   SendTemplateSelected,
   UpdatePassword,
   SendBackgroundSelected,
+  GetUserById,
 };

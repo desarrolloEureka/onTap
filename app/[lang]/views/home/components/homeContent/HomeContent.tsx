@@ -87,9 +87,13 @@ const HomeContent = ({
     }
   };
 
-  const handlePreview = async () => {
-    //handleChange();
-    router.push('/views/cardView');
+  const handlePreview = async (id: string) => {
+    const bgId = data?.templateData?.find((val) => val.id === id);
+    router.push(
+      `/views/${
+        bgId?.type == 'social' ? 'cardViewSocial' : 'cardViewProfessional'
+      }`
+    );
   };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
@@ -150,7 +154,7 @@ const HomeContent = ({
                           <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
                             <div className='tw-w-[100%] tw-h-[25%] tw-flex tw-items-center tw-justify-center '>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
-                                <Button onClick={handlePreview}>
+                                <Button onClick={() => handlePreview(value.id)}>
                                   <div className='tw-w-[40%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                                     <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-center tw-justify-center'>
                                       <VisibilityIcon

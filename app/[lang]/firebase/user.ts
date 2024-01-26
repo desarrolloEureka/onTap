@@ -29,7 +29,7 @@ const loginRef = ({ user, password }: LoginRefProps) =>
     where('password', '==', password)
   );
 
-export const getUserById = async (user: string) =>
+export const getUserByIdFireStore = async (user: string) =>
   await getDoc(doc(dataBase, 'users', user));
 
 // ref({ ref: user, collection: 'users' });

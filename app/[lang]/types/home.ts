@@ -22,4 +22,10 @@ export interface BackgroundImages {
   image: string;
 }
 
+export interface SocialNetworks {
+  id: string;
+  name: string;
+  image: string;
+}
+
 export type TemplateTypes = 'social' | 'professional' | 'corporate';
