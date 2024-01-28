@@ -1,10 +1,10 @@
-import { BackgroundImages, Templates } from '@/types/home';
+import { BackgroundImages } from '@/types/home';
 import { Locale } from 'i18n-config';
 import BgImage from './bgImage/BgImage';
 import TemplateContainer from './container/Container';
 import Hero from './hero/Hero';
 import { UserData } from '@/types/user';
-import { DataForm } from '@/types/profile';
+import Footer from './footer/Footer';
 
 const SocialOne = ({
   params: { lang, background, data },
@@ -25,6 +25,7 @@ const SocialOne = ({
           name={`${data.profile.name?.text} '' ${data.profile.last_name?.text}`}
         />
         <TemplateContainer profile={data.profile} />
+        <Footer socialNetworks={data.profile.urls} />
       </div>
     </div>
   );

@@ -23,13 +23,14 @@ const RightButtons = ({
       }}
     >
       {social.map((val, key) => {
+        const my = (key === 1 || key === 2) && 'tw-mt-8';
+        const mx = (key === 0 || key === 2) && '-tw-ml-5';
         return (
           <CustomButton
             name={val.icon}
             link={val.url}
-            index={key}
             key={key}
-            column={2}
+            styles={`${mx} ${my}`}
           />
         );
       })}
