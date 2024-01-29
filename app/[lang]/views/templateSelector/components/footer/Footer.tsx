@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import React from 'react';
 import CustomButton from '../floatingButtons/customButtons/CustomButton';
 import Carousel from 'react-material-ui-carousel';
 import { UrlDataFormValues } from '@/types/profile';

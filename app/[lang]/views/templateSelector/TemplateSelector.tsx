@@ -1,4 +1,3 @@
-'use client';
 import { UserData } from '@/types/user';
 import SocialOne from './components/SocialOne';
 import SocialTwo from './components/SocialTwo';

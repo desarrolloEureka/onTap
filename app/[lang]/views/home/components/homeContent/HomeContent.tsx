@@ -88,12 +88,7 @@ const HomeContent = ({
   };
 
   const handlePreview = async (id: string) => {
-    const bgId = data?.templateData?.find((val) => val.id === id);
-    router.push(
-      `/views/${
-        bgId?.type == 'social' ? 'cardViewSocial' : 'cardViewProfessional'
-      }`
-    );
+    router.push('/views/cardView');
   };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
