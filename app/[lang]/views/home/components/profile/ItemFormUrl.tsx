@@ -131,12 +131,6 @@ const ItemFormUrl = ({
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
           <div className='tw-w-[100%] tw-flex tw-flex-col '>
             {labelArray.map((val, key) => {
-              // console.log('user', user);
-              // console.log('index', index);
-              // console.log('value[0]', value[0]);
-
-              console.log('keyyy>>>', key);
-
               const myValue = (user && index == value[0]
                 ? user.profile[index]
                 : undefined) as unknown as DataFormValues;

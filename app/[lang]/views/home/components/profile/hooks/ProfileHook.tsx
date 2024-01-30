@@ -30,50 +30,12 @@ const ProfileHook = ({
   );
 
   const objectDataSort = Object.entries(dataForm).toSorted((a, b) => {
-    // if (
-    //   a[0] == 'urls' ||
-    //   a[0] == 'emails' ||
-    //   a[0] == 'professional_career' ||
-    //   a[0] == 'education' ||
-    //   a[0] == 'phones'
-    // ) {
-    //   if (Array.isArray(b[1])) {
-    //     if (a[1][0].order > b[1][0].order) {
-    //       return 1;
-    //     }
-    //     if (a[1][0].order < b[1][0].order) {
-    //       return -1;
-    //     }
-    //   }
-    // } else {
-    //   console.log('b[1]', b[1]);
-
-    //   console.log('a ' + a[1].order + ' >  b ' + b[1].order);
-
-    //   if (a[1].order > b[1].order) {
-    //     return 1;
-    //   }
-    //   if (a[1].order < b[1].order) {
-    //     return -1;
-    //   }
-    // }
-    if (!Array.isArray(a[1]) && !Array.isArray(b[1])) {
-      //console.log('a[1].count', a[1].order);
-      //console.log('b[1].count', b[1].order);
-      // console.log('b[1]', b[1]);
-      const data = a[1].order - b[1].order;
-      //console.log('data 2', data);
-
-      return data;
-    } else if (Array.isArray(a[1]) && Array.isArray(b[1])) {
-      //console.log('a[1][0].count', a[1][0].order);
-      //console.log('b[1][0].count', b[1][0].order);
-      const data = a[1][0]?.order - b[1][0]?.order;
-      // console.log('data 1', data);
-
-      return data;
-    }
-    return 0;
+    // console.log('a[0]', a[0]);
+    // console.log('a[1]', a[1]);
+    const aa = a[1].length ? a[1][0].order : a[1].order;
+    const bb = b[1].length ? b[1][0].order : b[1].order;
+    return aa - bb;
+    // return a[0].localeCompare(b[0]);
   });
 
   const [allChecked, setAllChecked] = useState(false);
@@ -168,25 +130,12 @@ const ProfileHook = ({
         dataFormClone[index]?.label != 'professional_career' ||
         dataFormClone[index]?.label != 'urls')
     ) {
-      // console.log('dataFormClone', dataFormClone[index]);
-
       dataFormClone[index]!.checked = isChecked;
       handleDataSet && handleDataSet(dataFormClone);
     } else {
       let dataAux = dataFormClone[index] as DataFormValues[];
-      console.log('dataAux', dataAux);
-      console.log('index', index);
-      console.log('key', key);
 
-      if (
-        dataAux &&
-        key != undefined
-        // dataAux[index]?.label == 'phones' &&
-        // dataAux[index]?.label == 'education' &&
-        // dataAux[index]?.label == 'emails' &&
-        // dataAux[index]?.label == 'professional_career' &&
-        // dataAux[index]?.label == 'urls'
-      ) {
+      if (dataAux && key != undefined) {
         dataAux[key].checked = isChecked;
         currentDataRef.current[key].checked = isChecked;
         handleDataSet && handleDataSet(dataFormClone);
@@ -303,10 +252,6 @@ const ProfileHook = ({
     const dataFormClone = { ...dataForm };
     //const dataAux = dataFormClone[index];// Trae el array de correos , telefonos
     const dataAux = dataFormClone[index as keyof typeof dataForm];
-
-    console.log('dataAux ', dataAux);
-    console.log('subindex ', subindex);
-    console.log('index ', index);
 
     if (Array.isArray(dataAux) && subindex !== undefined) {
       dataAux.splice(parseInt(subindex, 10), 1); // Elimina el elemento en la posición subindex
