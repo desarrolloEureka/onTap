@@ -31,7 +31,7 @@ const Profile = ({
     dataForm,
     setDataForm,
     isSuccessDelete,
-    handleSuccessDelete
+    handleSuccessDelete,
   } = ProfileHook({
     dictionary,
   });
@@ -55,10 +55,11 @@ const Profile = ({
         />
         :
         <div
-          className={`tw-flex tw-items-center tw-justify-center ${isProUser
-            ? 'lg:tw-h-auto md:tw-w-[100%]'
-            : 'lg:tw-h-[1000px] md:tw-w-[100%]'
-            }`}
+          className={`tw-flex tw-items-center tw-justify-center ${
+            isProUser
+              ? 'lg:tw-h-auto md:tw-w-[100%]'
+              : 'lg:tw-h-[1000px] md:tw-w-[100%]'
+          }`}
         >
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
             <FormDataUser
@@ -75,7 +76,9 @@ const Profile = ({
               isDetailOpen={isDetailOpen}
               itemDetail={itemDetail}
               handleSeeMore={handleSeeMore}
-              handleModalAlert={({ index, subindex }) => handleModalAlert({ index, subindex })}
+              handleModalAlert={({ index, subindex }) =>
+                handleModalAlert({ index, subindex })
+              }
             />
           </Container>
         </div>

@@ -28,14 +28,14 @@ const FormUrl = ({
   const dataRef = useRef<any>(null);
 
   const value = () => {
-    if (dataRef.current && subindex) {
+    if (dataRef.current && (subindex != undefined || subindex != null)) {
       const i = subindex as any;
       return subLabel && dataRef.current[i][subLabel];
     }
   };
 
   const isChecked = () => {
-    if (index == 'urls' && subindex) {
+    if (index == 'urls' && (subindex != undefined || subindex != null)) {
       const i = subindex as any;
       if (dataRef.current) {
         return dataRef.current[i].checked;

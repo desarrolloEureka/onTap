@@ -11,19 +11,11 @@ import ItemForm from '../profile/ItemForm';
 import TextAreaForm from '../profile/TextAreaForm';
 import ProfileHook from '../profile/hooks/ProfileHook';
 
-interface PhoneData {
-  [key: string]: { text: string; checked: boolean };
-}
-
-let currentValue = undefined;
-let myValue = undefined;
-let newValue = undefined;
-
 const FormDataUser = ({
   isProUser,
   dictionary,
   handleDataSet,
-}: // dataForm,
+}: // dataForm left data form to profile,
 {
   isProUser: boolean;
   dictionary: Dictionary;
@@ -109,6 +101,7 @@ const FormDataUser = ({
                 const myValue = (user && index == value[0]
                   ? user.profile[index]
                   : undefined) as unknown as DataFormValues;
+
                 return value[1].social == true ? (
                   <ItemForm
                     label={value[1].label}

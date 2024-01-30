@@ -161,13 +161,32 @@ const ProfileHook = ({
       index != 'education' &&
       index != 'emails' &&
       index != 'professional_career' &&
-      index != 'urls'
+      index != 'urls' &&
+      (dataFormClone[index]?.label != 'phones' ||
+        dataFormClone[index]?.label != 'education' ||
+        dataFormClone[index]?.label != 'emails' ||
+        dataFormClone[index]?.label != 'professional_career' ||
+        dataFormClone[index]?.label != 'urls')
     ) {
+      // console.log('dataFormClone', dataFormClone[index]);
+
       dataFormClone[index]!.checked = isChecked;
       handleDataSet && handleDataSet(dataFormClone);
     } else {
-      let dataAux = dataFormClone[index];
-      if (dataAux && key != undefined) {
+      let dataAux = dataFormClone[index] as DataFormValues[];
+      console.log('dataAux', dataAux);
+      console.log('index', index);
+      console.log('key', key);
+
+      if (
+        dataAux &&
+        key != undefined
+        // dataAux[index]?.label == 'phones' &&
+        // dataAux[index]?.label == 'education' &&
+        // dataAux[index]?.label == 'emails' &&
+        // dataAux[index]?.label == 'professional_career' &&
+        // dataAux[index]?.label == 'urls'
+      ) {
         dataAux[key].checked = isChecked;
         currentDataRef.current[key].checked = isChecked;
         handleDataSet && handleDataSet(dataFormClone);
