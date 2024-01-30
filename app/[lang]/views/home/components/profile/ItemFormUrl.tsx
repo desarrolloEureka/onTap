@@ -23,6 +23,8 @@ import {
 } from '@/types/profile';
 import ModalAlertLimit from './ModalAlertLimit';
 import FormUrl from './FormUrl';
+import { WhatsApp } from '@mui/icons-material';
+import Image from 'next/image';
 
 const ItemFormUrl = ({
   dictionary,
@@ -255,18 +257,16 @@ const ItemFormUrl = ({
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'pending',
+                                    text: 'whatsapp',
                                     subindex: 'icon',
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'pending' && 'tw-bg-gray-100'
+                                  val.icon === 'whatsapp' && 'tw-bg-gray-100'
                                 } tw-p-2 tw-min-w-min`}
                               >
-                                <FacebookOutlinedIcon
-                                  sx={{ color: '#02AF9B' }}
-                                />
+                                <WhatsApp sx={{ color: '#02AF9B' }} />
                               </Button>
                             </div>
                             <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
@@ -308,16 +308,60 @@ const ItemFormUrl = ({
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'tikTok',
+                                    text: 'tiktok',
                                     subindex: 'icon',
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'tikTok' && 'tw-bg-gray-100'
+                                  val.icon === 'tiktok' && 'tw-bg-gray-100'
                                 } tw-p-2 tw-min-w-min`}
                               >
                                 <IconTikTok />
+                              </Button>
+                            </div>
+                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: 'behance',
+                                    subindex: 'icon',
+                                    key,
+                                  })
+                                }
+                                className={`${
+                                  val.icon === 'behance' && 'tw-bg-gray-100'
+                                } tw-p-2 tw-min-w-min`}
+                              >
+                                <Image
+                                  width={24}
+                                  height={24}
+                                  alt='messenger'
+                                  src={'/images/social/behance.svg'}
+                                />
+                              </Button>
+                            </div>
+                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: 'messenger',
+                                    subindex: 'icon',
+                                    key,
+                                  })
+                                }
+                                className={`${
+                                  val.icon === 'messenger' && 'tw-bg-gray-100'
+                                } tw-p-2 tw-min-w-min`}
+                              >
+                                <Image
+                                  width={24}
+                                  height={24}
+                                  alt='messenger'
+                                  src={'/images/social/messenger.svg'}
+                                />
                               </Button>
                             </div>
                           </div>
