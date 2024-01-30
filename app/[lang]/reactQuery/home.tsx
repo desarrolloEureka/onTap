@@ -1,4 +1,8 @@
-import { getAllBackgroundImages, getAllTemplates } from '@/firebase/generals';
+import {
+  getAllBackgroundImages,
+  getAllSocialNetworks,
+  getAllTemplates,
+} from '@/firebase/generals';
 import { useQuery } from '@tanstack/react-query';
 
 const GetAllTemplates = () =>
@@ -16,4 +20,12 @@ const GetAllBackgroundImages = () => {
   });
 };
 
-export { GetAllTemplates, GetAllBackgroundImages };
+const GetAllSocialNetworks = () => {
+  return useQuery({
+    queryKey: ['social_networks'],
+    queryFn: async () => await getAllSocialNetworks(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks };

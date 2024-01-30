@@ -1,5 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+    // domains: ['firebasestorage.googleapis.com'],
+    // formats: ['image/avif', 'image/webp'],
+  },
   env: {
     apiKey: 'AIzaSyAThTZvE3UaSio6WOSoYYegWjgXoTPSaaE',
     authDomain: 'onetap-f8d4f.firebaseapp.com',

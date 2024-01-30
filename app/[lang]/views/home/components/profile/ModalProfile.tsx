@@ -45,7 +45,7 @@ const ModalProfile = ({
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <Box className='tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%]  sm:tw-w-[90%]  md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[40%] tw-rounded-2xl tw-bg-primary tw-relative'>
+      <Box className='tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%]  sm:tw-w-[90%]  md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[40%] tw-rounded-2xl tw-bg-[#02AF9B] tw-relative'>
         <div className='tw-absolute tw-right-1 tw-top-2'>
           <Button
             color='secondary'
@@ -124,27 +124,27 @@ const ModalProfile = ({
                   <div className='tw-h-[40%]  max-sm:tw-w-[37%] tw-w-[70%] tw-flex tw-bg-white tw-justify-center tw-items-center tw-rounded-2xl tw-ml-5'>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <FacebookOutlinedIcon sx={{ color: '#62ad9b' }} />
+                        <FacebookOutlinedIcon sx={{ color: '#02AF9B' }} />
                       </Button>
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <TwitterIcon sx={{ color: '#62ad9b' }} />
+                        <TwitterIcon sx={{ color: '#02AF9B' }} />
                       </Button>
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <FacebookOutlinedIcon sx={{ color: '#62ad9b' }} />
+                        <FacebookOutlinedIcon sx={{ color: '#02AF9B' }} />
                       </Button>
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <InstagramIcon sx={{ color: '#62ad9b' }} />
+                        <InstagramIcon sx={{ color: '#02AF9B' }} />
                       </Button>
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <LinkedInIcon sx={{ color: '#62ad9b' }} />
+                        <LinkedInIcon sx={{ color: '#02AF9B' }} />
                       </Button>
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
@@ -154,17 +154,17 @@ const ModalProfile = ({
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <MailOutlinedIcon sx={{ color: '#62ad9b' }} />
+                        <MailOutlinedIcon sx={{ color: '#02AF9B' }} />
                       </Button>
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <LanguageOutlinedIcon sx={{ color: '#62ad9b' }} />
+                        <LanguageOutlinedIcon sx={{ color: '#02AF9B' }} />
                       </Button>
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <SendIcon sx={{ color: '#62ad9b' }} />
+                        <SendIcon sx={{ color: '#02AF9B' }} />
                       </Button>
                     </div>
                   </div>

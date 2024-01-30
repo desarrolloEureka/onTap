@@ -1,4 +1,4 @@
-import { BackgroundImages, Templates } from '@/types/home';
+import { BackgroundImages, SocialNetworks, Templates } from '@/types/home';
 import { AllRefPropsFirebase } from '@/types/userFirebase';
 import { collection, doc, getDocs } from 'firebase/firestore';
 import { dataBase } from './firebaseConfig';
@@ -25,6 +25,18 @@ export const getAllBackgroundImages = async () => {
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {
       const dataResult = doc.data() as BackgroundImages;
+      backgroundImages.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return backgroundImages;
+};
+
+export const getAllSocialNetworks = async () => {
+  const backgroundImages: SocialNetworks[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'social_icons' }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as SocialNetworks;
       backgroundImages.push({ ...dataResult, id: doc.id });
     });
   }

@@ -55,7 +55,7 @@ const PhotoUser = ({ dictionary, handleChangePassword }: { dictionary: Dictionar
                 width: 125,
                 height: 125,
                 borderRadius: '50%',
-                border: '10px solid #62ad9b',
+                border: '10px solid #02AF9B',
                 cursor: 'pointer',
               }}
             />
@@ -82,13 +82,13 @@ const PhotoUser = ({ dictionary, handleChangePassword }: { dictionary: Dictionar
         </Stack>
       </div>
       <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-        <div className='tw-h-[70%] tw-w-[100px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#62ae9b] tw-rounded-tr-xl tw-rounded-bl-xl'>
+        <div className='tw-h-[70%] tw-w-[120px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#02AF9B] tw-rounded-tr-xl tw-rounded-bl-xl'>
           <h5 className='tw-text-white'>
-            {dictionary?.profileView.labelHello} {/* {data.user_name ? data.user_name : data?.displayName} */}
+            {dictionary?.profileView.labelHello} {data && data.name ? data.name : ""}
           </h5>
         </div>
       </div>
-    {/*   <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+      {/*   <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
         <ItemMenu />
       </div> */}
     </div>

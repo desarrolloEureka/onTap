@@ -28,7 +28,7 @@ function CustomModalAlert({
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          bgcolor: '#62AD9B',
+          bgcolor: '#02AF9B',
           padding: 7,
           borderRadius: 3,
           position: 'relative',

@@ -1,15 +1,11 @@
 'use client';
 import React from 'react';
-import { Box, Button, FormControl, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
 import ProfileHook from '../profile/hooks/ProfileHook';
-import { FormHelperText, Input } from '@mui/material';
-import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { FormHelperText } from '@mui/material';
 
 import {
   CareerDataFormValues,
@@ -20,7 +16,6 @@ import {
   IndexDataForm,
 } from '@/types/profile';
 import ModalAlertLimit from './ModalAlertLimit';
-import ItemForm from './ItemForm';
 import FormEducation from './FormEducation';
 
 const ItemFormEducation = ({
@@ -45,15 +40,15 @@ const ItemFormEducation = ({
   index: IndexDataForm;
   label?: string;
   labelArray:
-    | DataFormValues[]
-    | EducationDataFormValues[]
-    | CareerDataFormValues[];
+  | DataFormValues[]
+  | EducationDataFormValues[]
+  | CareerDataFormValues[];
   value: any;
   itemDetail: number;
   isDetailOpen: boolean;
   icon?: string;
   social: boolean;
-  handleModalAlert: (name: string) => void;
+  handleModalAlert: ({ index, subindex }: { index: string, subindex: string }) => void;
 }) => {
   const {
     handleSwitch,
@@ -70,16 +65,14 @@ const ItemFormEducation = ({
 
   return (
     <div
-      className={`${
-        value[0] === 'education' && itemDetail === 3 && labelArray.length > 1
-          ? 'tw-h-[300px]'
-          : 'tw-h-[200px]'
-      } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
+      className={`${value[0] === 'education' && itemDetail === 3 && labelArray.length > 1
+        ? 'tw-h-[300px]'
+        : 'tw-h-[200px]'
+        } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
-        className={`tw-h-[${
-          labelArray.length * 20
-        }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
+        className={`tw-h-[${labelArray.length * 20
+          }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
         <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
@@ -92,7 +85,7 @@ const ItemFormEducation = ({
               startIcon={
                 <AddCircleOutlinedIcon
                   style={{
-                    color: '#62AD9B',
+                    color: '#02AF9B',
                     fontSize: '1.4em',
                     marginLeft: '0rem',
                   }}
@@ -113,15 +106,15 @@ const ItemFormEducation = ({
         </div>
 
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
-          <div className='tw-w-[95%] tw-flex tw-flex-col '>
+          <div className='tw-w-[100%] tw-flex tw-flex-col'>
             {labelArray.map((val, key) => {
               const myValue = (user && index == value[0]
                 ? user.profile[index]
                 : undefined) as unknown as DataFormValues;
               return (
                 <div key={key}>
-                  <div className='tw-h-[100%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center'>
-                    <div className='tw-h-[100%] tw-w-[90%] tw-flex tw-flex-col'>
+                  <div className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${key !== labelArray.length - 1 ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid' : ''} `} >
+                    <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
                       <FormEducation
                         label={dictionary.profileView.labelTitle + ': '}
                         handleSwitch={(e: any) => handleSwitch(e)}
@@ -132,7 +125,7 @@ const ItemFormEducation = ({
                         icon={val.icon}
                         deleteAction={true}
                         handleDeleteData={handleDeleteData}
-                        handleModalAlert={(e: any) => handleModalAlert(e)}
+                        handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
                         myValue={myValue}
                         dataForm={dataForm}
                         index={index}
@@ -150,7 +143,7 @@ const ItemFormEducation = ({
                           icon={val.icon}
                           deleteAction={true}
                           handleDeleteData={handleDeleteData}
-                          handleModalAlert={(e: any) => handleModalAlert(e)}
+                          handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
                           myValue={myValue}
                           dataForm={dataForm}
                           index={index}
@@ -169,7 +162,7 @@ const ItemFormEducation = ({
                           icon={val.icon}
                           deleteAction={true}
                           handleDeleteData={handleDeleteData}
-                          handleModalAlert={(e: any) => handleModalAlert(e)}
+                          handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
                           myValue={myValue}
                           dataForm={dataForm}
                           index={index}
@@ -181,34 +174,13 @@ const ItemFormEducation = ({
                         {dictionary.profileView.labelEducation}
                       </FormHelperText>
                     </div>
-
-                    {/* <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-                      <Button
-                        className='tw-w-[100%] tw-h-[100%]'
-                        onClick={() => handleModalAlert(index)}
-                      >
-                        <DeleteForeverOutlinedIcon
-                          style={{
-                            color: '#62AD9B',
-                            fontSize: '1.8rem',
-                          }}
-                        />
-                      </Button>
-                    </div> */}
-
-                    {/* <div className='tw-h-[100%] tw-w-[20%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-                      <CustomSwitchGeneral
-                        name={index}
-                        handleSwitch={(e: any) => handleSwitch(e)}
-                        checked={val.checked}
-                      />
-                    </div> */}
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
+
         <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
           <Button
             onClick={() => handleSeeMore(3)}

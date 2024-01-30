@@ -25,7 +25,7 @@ const PasswordModifiedSuccessfully = ({
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
       {/* {dictionary && <Menu dictionary={dictionary} />} */}
-      <Container className='tw-relative tw-bg-primary tw-pt-16 tw-shadow-md tw-rounded-2xl tw-h-[518px] tw-w-[694px] flex tw-justify-center  tw-justify-items-center tw-text-center tw-mt-[103px]'>
+      <Container className='tw-relative tw-bg-[#02AF9B] tw-pt-16 tw-shadow-md tw-rounded-2xl tw-h-[518px] tw-w-[694px] flex tw-justify-center  tw-justify-items-center tw-text-center tw-mt-[103px]'>
         <div>
           <h1 className='tw-mt-[10px] tw-text-white tw-text-3xl'>
             {dictionary?.passwordChangedSuccessfully}

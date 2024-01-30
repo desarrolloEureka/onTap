@@ -37,7 +37,7 @@ const Login = ({ dictionary }: LoginProps) => {
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      <Container className='tw-bg-primary tw-shadow-m  tw-rounded-2xl tw-h-[618px] tw-w-[794px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
+      <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[618px] tw-w-[794px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
         {isLoading || isRefetching ? (
           <CircularProgress />
         ) : (

@@ -4,7 +4,7 @@ import React from 'react';
 import { Dictionary } from '../../../../types/dictionary';
 import CustomSwitch from '@/components/customSwitch/CustomSwitch';
 
-const Header = ({ dictionary }: { dictionary: Dictionary }) => {
+const Header = ({ dictionary, views }: { dictionary: Dictionary, views: number }) => {
   return (
     <div className='sm:tw-h-[80px] tw-flex'>
       <div className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col max-sm:tw-mt-2'>
@@ -30,7 +30,7 @@ const Header = ({ dictionary }: { dictionary: Dictionary }) => {
                 fontWeight: 'bold',
               }}
             >
-              12
+              {views}
             </span>
           </Button>
         </div>

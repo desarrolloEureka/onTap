@@ -66,7 +66,7 @@ const FormProfession = ({
                 {withCheck && (
                   <TimelineIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '0.5rem',
                     }}
@@ -107,11 +107,11 @@ const FormProfession = ({
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[10%] tw-mt-4'>
             <Button
               className='tw-w-[100%] tw-h-[100%]'
-              onClick={() => handleModalAlert({ name: name })}
+              onClick={() => handleModalAlert({ index: index, subindex: "" + subindex })}
             >
               <DeleteForeverOutlinedIcon
                 style={{
-                  color: '#62AD9B',
+                  color: '#02AF9B',
                   fontSize: '1.7rem',
                 }}
               />

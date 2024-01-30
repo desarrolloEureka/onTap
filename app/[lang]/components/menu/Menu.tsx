@@ -65,7 +65,7 @@ const Menu = ({ dictionary, handleChange, value, children }: MenuProps) => {
           width: '100%',
           display: 'flex',
           flexDirection: 'row',
-          backgroundColor: '#62AD9B',
+          backgroundColor: '#02AF9B',
         }}
       >
         <Box sx={{

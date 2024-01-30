@@ -29,6 +29,7 @@ const TextAreaForm = ({
       dataRef.current = myValue;
     }
   }, [dataForm, dataRef, index, myValue]);
+
   return (
     <Box className='tw-flex tw-flex-row'>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>
@@ -45,7 +46,7 @@ const TextAreaForm = ({
                 {icon === 'PersonOutlinedIcon' ? (
                   <PersonOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -53,7 +54,7 @@ const TextAreaForm = ({
                 ) : icon === 'FilePresentOutlinedIcon' ? (
                   <FilePresentOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -61,7 +62,7 @@ const TextAreaForm = ({
                 ) : icon === 'WorkOutlineOutlinedIcon' ? (
                   <WorkOutlineOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -69,7 +70,7 @@ const TextAreaForm = ({
                 ) : icon === 'ExploreOutlinedIcon' ? (
                   <ExploreOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -77,7 +78,7 @@ const TextAreaForm = ({
                 ) : icon === 'AttachFileOutlinedIcon' ? (
                   <AttachFileOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -85,7 +86,7 @@ const TextAreaForm = ({
                 ) : icon === 'AccessibilityOutlinedIcon' ? (
                   <AccessibilityOutlinedIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -93,7 +94,7 @@ const TextAreaForm = ({
                 ) : icon === 'TranslateIcon' ? (
                   <TranslateIcon
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '1rem',
                     }}
@@ -115,7 +116,7 @@ const TextAreaForm = ({
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[35%] tw-mt-10'>
         <CustomSwitchGeneral
           name={name}
-          handleSwitch={(e: any) => handleSwitch(e)}
+          handleSwitch={(e: any) => handleSwitch({ value: e })}
           checked={checked}
         />
       </Box>

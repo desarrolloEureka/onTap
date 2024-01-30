@@ -86,7 +86,7 @@ const ItemMenu = () => {
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
                 //style={{ height: '100%', color: 'white', fontSize: "16px" }}
-                style={{ backgroundColor: '#62ae9b', textTransform: 'none', fontSize: "16px" }}
+                style={{ backgroundColor: '#02AF9B', textTransform: 'none', fontSize: "16px" }}
             >
                 Opciónes
             </Button> */}

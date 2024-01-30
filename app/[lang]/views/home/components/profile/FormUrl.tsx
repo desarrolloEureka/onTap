@@ -28,15 +28,15 @@ const FormUrl = ({
   const dataRef = useRef<any>(null);
 
   const value = () => {
-    const i = subindex as any;
-    if (dataRef.current) {
+    if (dataRef.current && (subindex != undefined || subindex != null)) {
+      const i = subindex as any;
       return subLabel && dataRef.current[i][subLabel];
     }
   };
 
   const isChecked = () => {
-    const i = subindex as any;
-    if (index == 'urls') {
+    if (index == 'urls' && (subindex != undefined || subindex != null)) {
+      const i = subindex as any;
       if (dataRef.current) {
         return dataRef.current[i].checked;
       }
@@ -63,7 +63,7 @@ const FormUrl = ({
                 {withCheck && (
                   <Share
                     style={{
-                      color: '#62AD9B',
+                      color: '#02AF9B',
                       fontSize: '1.8rem',
                       marginRight: '0.5rem',
                     }}
@@ -104,11 +104,13 @@ const FormUrl = ({
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[10%] tw-mt-4'>
             <Button
               className='tw-w-[100%] tw-h-[100%]'
-              onClick={() => handleModalAlert({ name: name })}
+              onClick={() =>
+                handleModalAlert({ index: index, subindex: '' + subindex })
+              }
             >
               <DeleteForeverOutlinedIcon
                 style={{
-                  color: '#62AD9B',
+                  color: '#02AF9B',
                   fontSize: '1.7rem',
                 }}
               />

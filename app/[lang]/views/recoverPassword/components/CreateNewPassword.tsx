@@ -31,7 +31,7 @@ const CreateNewPassword = ({
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
       {/* {dictionary && <Menu dictionary={dictionary} />} */}
-      <Container className='tw-bg-primary tw-shadow-md tw-pt-16 tw-rounded-2xl tw-h-[513px] tw-w-[794px] flex tw-justify-center  tw-justify-items-center tw-text-center tw-mt-[50px]'>
+      <Container className='tw-bg-[#02AF9B] tw-shadow-md tw-pt-16 tw-rounded-2xl tw-h-[513px] tw-w-[794px] flex tw-justify-center  tw-justify-items-center tw-text-center tw-mt-[50px]'>
         {alertErrorPassword && (
           <div>
             <Alert severity='info'>

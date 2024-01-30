@@ -31,12 +31,20 @@ const FormAddDataUser = ({
   dictionary: Dictionary;
   dataForm: DataForm;
   handleDataSet: (e: DataForm) => void;
-  handleModalAlert: (name: string) => void;
+  handleModalAlert: ({
+    index,
+    subindex,
+  }: {
+    index: string;
+    subindex: string;
+  }) => void;
 }) => {
   const { data } = ProfileHook({
     dictionary,
     handleDataSet,
   });
+
+  // console.log('data', data);
 
   return (
     <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
@@ -71,7 +79,9 @@ const FormAddDataUser = ({
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
                     social={false}
-                    handleModalAlert={handleModalAlert}
+                    handleModalAlert={({ index, subindex }) =>
+                      handleModalAlert({ index, subindex })
+                    }
                   />
                 ) : value[0] == 'education' ? (
                   <ItemFormEducation
@@ -86,21 +96,11 @@ const FormAddDataUser = ({
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
                     social={false}
-                    handleModalAlert={handleModalAlert}
+                    handleModalAlert={({ index, subindex }) =>
+                      handleModalAlert({ index, subindex })
+                    }
                   />
-                ) : // <ItemFormEducation
-                //   key={key}
-                //   dictionary={dictionary}
-                //   dataForm={dataForm}
-                //   handleDataSet={(e) => handleDataSet(e)}
-                //   handleSeeMore={handleSeeMore}
-                //   index={index}
-                //   labelArray={labelArray}
-                //   value={value}
-                //   itemDetail={itemDetail}
-                //   handleModalAlert={handleModalAlert}
-                // />
-                value[0] == 'professional_career' ? (
+                ) : value[0] == 'professional_career' ? (
                   <ItemFormProfessional
                     key={key}
                     dictionary={dictionary}
@@ -113,7 +113,9 @@ const FormAddDataUser = ({
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
                     social={false}
-                    handleModalAlert={handleModalAlert}
+                    handleModalAlert={({ index, subindex }) =>
+                      handleModalAlert({ index, subindex })
+                    }
                   />
                 ) : (
                   <ItemFormUrl
@@ -128,7 +130,9 @@ const FormAddDataUser = ({
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
                     social={false}
-                    handleModalAlert={handleModalAlert}
+                    handleModalAlert={({ index, subindex }) =>
+                      handleModalAlert({ index, subindex })
+                    }
                   />
                 );
               } else {
@@ -145,7 +149,26 @@ const FormAddDataUser = ({
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
                     social={true}
-                    handleModalAlert={handleModalAlert}
+                    handleModalAlert={({ index, subindex }) =>
+                      handleModalAlert({ index, subindex })
+                    }
+                  />
+                ) : value[0] == 'urls' ? (
+                  <ItemFormUrl
+                    key={key}
+                    dictionary={dictionary}
+                    dataForm={dataForm}
+                    handleDataSet={(e) => handleDataSet(e)}
+                    handleSeeMore={handleSeeMore}
+                    index={index}
+                    labelArray={labelArray}
+                    value={value}
+                    itemDetail={itemDetail}
+                    isDetailOpen={isDetailOpen}
+                    social={false}
+                    handleModalAlert={({ index, subindex }) =>
+                      handleModalAlert({ index, subindex })
+                    }
                   />
                 ) : null;
               }
