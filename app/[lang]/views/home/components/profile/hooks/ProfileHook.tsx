@@ -81,7 +81,7 @@ const ProfileHook = ({
     index: string;
     subindex: string;
   }) => {
-    console.log('itemDelete ', itemDelete);
+    // console.log('itemDelete ', itemDelete);
     if (!isModalAlert) {
       setItemDelete(itemDelete);
     } else {
@@ -238,7 +238,7 @@ const ProfileHook = ({
 
   const handleDeleteData = () => {
     setIsDataLoad(false);
-    console.log('itemDelete --> ', itemDelete);
+    // console.log('itemDelete --> ', itemDelete);
 
     //const index = itemDelete && itemDelete['index'];
     //const subindex = itemDelete && itemDelete['subindex'];

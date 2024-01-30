@@ -31,7 +31,7 @@ const ItemForm = ({
   const dataRef = useRef<any>(null);
 
   const value = () => {
-    const i = subindex as any;
+    // const i = subindex as any;
     if (
       index != 'phones' &&
       index != 'education' &&
@@ -42,7 +42,7 @@ const ItemForm = ({
       return dataRef?.current?.text ?? myValue?.text;
     } else {
       if (dataRef.current) {
-        return dataRef.current[i].text;
+        return dataRef.current[subindex as any].text;
       }
     }
   };
@@ -164,7 +164,9 @@ const ItemForm = ({
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[10%] tw-mt-10'>
             <Button
               className='tw-w-[100%] tw-h-[100%]'
-              onClick={() => handleModalAlert({ index: index, subindex: "" + subindex })}
+              onClick={() =>
+                handleModalAlert({ index: index, subindex: '' + subindex })
+              }
             >
               <DeleteForeverOutlinedIcon
                 style={{
