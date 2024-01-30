@@ -30,10 +30,21 @@ export const getPrincipalSocialNetworksOrderedByObject = (
   const objectArray: any[] = [];
   let data: any = [];
   const profileFilter = Object.entries(profile).filter((val) => {
+    // console.log('val', val);
+
+    // console.log('val[1]', val[1] && !val[1].length && val[1]);
+
     //Filter by social and any other different data to name, last name and urls
-    return val[1].length && val[1][0].social && val[1][0].order != 13
+    return val[1].length &&
+      val[1][0].social &&
+      val[1][0].checked &&
+      val[1][0].order != 13
       ? val
-      : val[1].social && val[1].order != 1 && val[1].order != 2 && val;
+      : val[1].social &&
+          val[1].checked &&
+          val[1].order != 1 &&
+          val[1].order != 2 &&
+          val;
   });
 
   profileFilter.forEach((val) => {
@@ -43,11 +54,15 @@ export const getPrincipalSocialNetworksOrderedByObject = (
 
   const { arraySorted } = sortedArrayObject(objectArray);
 
-  arraySorted.forEach((val, key) => {
-    //array into two arrays
-    data.push(val);
-    (key == 3 || key == 4) && (finalArray.push(data), (data = []));
-  });
+  if (arraySorted.length > 3) {
+    arraySorted.forEach((val, key) => {
+      //array into two arrays
+      data.push(val);
+      (key == 3 || key == 4) && (finalArray.push(data), (data = []));
+    });
+  } else {
+    finalArray.push(arraySorted);
+  }
   return { finalArray };
 };
 

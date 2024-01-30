@@ -22,7 +22,7 @@ const SocialOne = ({
         <Hero
           socialNetworks={data.profile.urls}
           photo={data.image}
-          name={`${data.profile.name?.text} '' ${data.profile.last_name?.text}`}
+          name={`${data.profile.name?.text}  ${data.profile.last_name?.text}`}
         />
         <TemplateContainer profile={data.profile} />
         <Footer socialNetworks={data.profile.urls} />

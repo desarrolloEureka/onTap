@@ -20,6 +20,7 @@ import {
 
 const TemplateContainer = ({ profile }: { profile: DataForm }) => {
   const { finalArray } = getPrincipalSocialNetworksOrderedByObject(profile);
+
   const Item = ({ item }: { item: DataFormValues[] }) => {
     const clickType = (type: string, url: string) => {
       switch (type) {
@@ -42,6 +43,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
       return (
         <Button
           variant='contained'
+          sx={{ textTransform: 'none' }}
           className={`${
             key % 2 == 0 ? 'tw-rounded-s-2xl' : 'tw-rounded-e-2xl'
           } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[#679a88] tw-my-2`}
@@ -93,7 +95,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
             )
           }
         >
-          <Typography className='tw-w-[90%] tw-text-center'>
+          <Typography className='tw-w-[90%] tw-text-left tw-truncate'>
             {val.text}
           </Typography>
         </Button>
