@@ -1,21 +1,30 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
+import { Box } from '@mui/material';
 
 const CustomAvatar = ({ name, image }: { image: string; name: string }) => {
   return (
-    <Avatar
+    <Box
       className='tw-shadow-xl'
-      alt={name}
-      src={image}
       sx={{
+        borderRadius: '100%',
         ml: -2,
         mt: 3,
-        width: 140,
-        height: 140,
+        padding: 1,
         backgroundColor: '#679a88',
-        p: 1,
+        height: 140,
+        width: 140,
       }}
-    />
+    >
+      <Avatar
+        alt={name}
+        src={image}
+        sx={{
+          width: 140,
+          height: 140,
+        }}
+      />
+    </Box>
   );
 };
 
