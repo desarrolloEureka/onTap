@@ -8,10 +8,10 @@ import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
-/* import useLogOut from '@/hooks/logOut/LogOut'; */
 import LogOut from '@/hooks/logOut/LogOut';
 import { useRouter } from 'next/navigation';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { GetUser, SendInactiveUser } from '../../reactQuery/users';
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -59,7 +59,7 @@ const ItemMenu = () => {
     const open = Boolean(anchorEl);
     const { logOut } = LogOut();
     const isSmallScreen = useMediaQuery('(max-width:600px)');
-
+    const { data } = GetUser();
     const router = useRouter();
 
     const handleChangePassword = () => {
@@ -74,22 +74,21 @@ const ItemMenu = () => {
         setAnchorEl(null);
     };
 
+    const handleDeleteUser = async () => {
+        const userId = data?.uid;
+        if (userId) {
+            const resUpdate = await SendInactiveUser(userId);
+            if (resUpdate === true) {
+                console.log('Se eliminó correctamente la cuenta');
+                logOut();
+            } else {
+                console.log('Ocurrió un error y no fue posible eliminar la cuenta. Por favor, inténtalo de nuevo.');
+            }
+        }
+    };
+
     return (
         <div>
-            {/*     <Button
-                id="demo-customized-button"
-                aria-controls={open ? 'demo-customized-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                variant="contained"
-                disableElevation
-                onClick={handleClick}
-                endIcon={<KeyboardArrowDownIcon />}
-                //style={{ height: '100%', color: 'white', fontSize: "16px" }}
-                style={{ backgroundColor: '#02AF9B', textTransform: 'none', fontSize: "16px" }}
-            >
-                Opciónes
-            </Button> */}
             <Button
                 id="demo-customized-button"
                 aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -97,7 +96,6 @@ const ItemMenu = () => {
                 aria-expanded={open ? 'true' : undefined}
                 disableElevation
                 onClick={handleClick}
-                //endIcon={<KeyboardArrowDownIcon />}
                 startIcon={<SettingsIcon />}
                 style={{ height: '100%', color: 'white', fontSize: isSmallScreen ? "12px" : "16px", flexDirection: 'column', alignItems: 'center' }}
             >
@@ -114,6 +112,11 @@ const ItemMenu = () => {
                 <MenuItem onClick={handleChangePassword} disableRipple>
                     <EditIcon />
                     Cambiar contraseña
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem onClick={handleDeleteUser} disableRipple>
+                    <LogoutIcon />
+                    Eliminar cuenta
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={logOut} disableRipple>

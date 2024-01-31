@@ -7,8 +7,16 @@ const LoginHookMain = () => {
   const { isLoading, user, error } = UserHook();
 
   useEffect(() => {
-    user && router.push('/views/home');
-  }, [router, user]);
+    if (user) {
+      if (user.isActive === true) {
+        user && router.push('/views/home');
+      } else {
+        //console.log("No debe entrar");
+        !isLoading;
+      }
+    }
+
+  }, [isLoading, router, user]);
 
   return { isLoading, user, error };
 };

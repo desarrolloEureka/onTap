@@ -22,6 +22,7 @@ export interface UserData {
   user_name: string;
   profile: DataForm;
   views: number;
+  isActive: boolean;
 }
 export interface User {
   uid: string;
@@ -29,6 +30,7 @@ export interface User {
   emailVerified: boolean;
   displayName: string;
   isAdmin: boolean;
+  isActive: boolean;
 }
 
 export interface UserDb {

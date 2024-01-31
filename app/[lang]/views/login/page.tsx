@@ -9,9 +9,11 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
   const { isLoading, user } = LoginHookMain();
 
-  return !user && !isLoading ? (
+  //  return !user && !isLoading ? (
+  return !isLoading ? (
     dictionary && <Login dictionary={dictionary} />
   ) : (
+    console.log("Entre cargando..."),
     <CustomCircularProgress isOpen />
   );
 };
