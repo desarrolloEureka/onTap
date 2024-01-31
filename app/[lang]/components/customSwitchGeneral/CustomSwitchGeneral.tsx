@@ -5,8 +5,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { DataForm } from '@/types/profile';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
-  width: 60,
-  height: 30,
+  width: 50,
+  height: 28,
   padding: 0,
   '& .MuiSwitch-switchBase': {
     padding: 0,
@@ -14,7 +14,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     transitionDuration: '300ms',
     '&.Mui-checked': {
       // Cuando esta a la derecha
-      transform: 'translateX(26px)', //movimiento
+      transform: 'translateX(20px)', //movimiento
       color: '#fff',
       '& + .MuiSwitch-track': {
         backgroundColor: '#02AF9B',
@@ -41,15 +41,15 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
   '& .MuiSwitch-thumb': {
     boxSizing: 'border-box',
-    width: 26,
-    height: 26,
-    marginTop: '0px',
+    width: 23,
+    height: 23,
+    marginTop: '0.3px',
     marginLeft: '2px',
   },
   '& .MuiSwitch-track': {
     // Cuando esta a la izquierda
     borderRadius: 50 / 2,
-    backgroundColor: '#02AF9B',
+    backgroundColor: '#ABA9A6',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 500,

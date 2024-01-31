@@ -9,6 +9,8 @@ import {
   updateSwitchProfileFirebase,
   updateTemplateSelectedFirebase,
   updateUserData,
+  updateViewsUser,
+  updateInactiveUser
 } from '@/firebase/user';
 import { DataForm } from '@/types/profile';
 import { TemplateData, UserData, UserDb } from '@/types/user';
@@ -163,6 +165,11 @@ const SendDataUserProfile = async (userId: string, data: DataForm) => {
     });
 };
 
+const SendViewUser = async (userId: string, numViewsNew: number) => {
+  console.log("numViewsNew ", numViewsNew);
+  await updateViewsUser(userId, { views: numViewsNew });
+};
+
 const GetUserById = (userUid: string) => {
   return useQuery({
     queryKey: ['user'],
@@ -179,6 +186,11 @@ const GetUserById = (userUid: string) => {
     },
     enabled: !!userUid,
   });
+};
+
+const SendInactiveUser = async (userId: string) => {
+  const res = await updateInactiveUser(userId, { isActive: false });
+  return res;
 };
 
 const GetUser = () =>
@@ -216,4 +228,6 @@ export {
   UpdatePassword,
   SendBackgroundSelected,
   GetUserById,
+  SendViewUser,
+  SendInactiveUser
 };

@@ -31,7 +31,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     '@media screen and (min-width: 601px)': {
       // Pantallas grandes
       '&.Mui-checked': {
-        transform: 'translateX(48px)',
+        transform: 'translateX(28px)', /* Desplazamiento  */
       },
     },
     '&.Mui-focusVisible .MuiSwitch-thumb': {
@@ -50,15 +50,15 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
   '& .MuiSwitch-thumb': {
     boxSizing: 'border-box',
-    width: 34,
-    height: 34,
-    marginTop: '-1px',
+    width: 25,
+    height: 25,
+    marginTop: '0.3px',
     marginLeft: '3px',
     transition: 'width 300ms, height 300ms', // Añadido para animar el cambio de tamaño
   },
   '& .MuiSwitch-track': {
     borderRadius: 50 / 2,
-    backgroundColor: '#02AF9B',
+    backgroundColor: '#ABA9A6',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 500,
@@ -110,11 +110,11 @@ const CustomSwitch = ({ profile }: { profile: boolean }) => {
       checked={switchRef?.current?.checked ? true : false}
       onChange={handleSwitchChange}
       sx={{
-        width: isSmallScreen ? 60 : 92,
-        height: isSmallScreen ? 30 : 37,
+        width: isSmallScreen ? 55 : 66,
+        height: isSmallScreen ? 29 : 33,
         '& .MuiSwitch-thumb': {
-          width: isSmallScreen ? 28 : 34,
-          height: isSmallScreen ? 28 : 34,
+          width: isSmallScreen ? 25 : 29,
+          height: isSmallScreen ? 25 : 29,
         },
       }}
     />
