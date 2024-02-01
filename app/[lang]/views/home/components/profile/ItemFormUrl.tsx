@@ -1,16 +1,17 @@
-'use client';
-import React, { useState } from 'react';
-import { Button, Avatar, Box } from '@mui/material';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-import { Dictionary } from '@/types/dictionary';
-import ProfileHook from '../profile/hooks/ProfileHook';
-import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import IconTikTok from './IconTikTok';
+"use client";
+import React, { useState } from "react";
+import { Button, Avatar, Box } from "@mui/material";
+import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import { Dictionary } from "@/types/dictionary";
+import ProfileHook from "../profile/hooks/ProfileHook";
+import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import IconTikTok from "./IconTikTok";
+
 
 import {
   CareerDataFormValues,
@@ -20,11 +21,11 @@ import {
   EducationDataFormValues,
   IndexDataForm,
   NetworksSubIndexDataForm,
-} from '@/types/profile';
-import ModalAlertLimit from './ModalAlertLimit';
-import FormUrl from './FormUrl';
-import { WhatsApp } from '@mui/icons-material';
-import Image from 'next/image';
+} from "@/types/profile";
+import ModalAlertLimit from "./ModalAlertLimit";
+import FormUrl from "./FormUrl";
+import { WhatsApp } from "@mui/icons-material";
+import Image from "next/image";
 
 const ItemFormUrl = ({
   dictionary,
@@ -87,9 +88,9 @@ const ItemFormUrl = ({
   return (
     <div
       className={`${
-        value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
-          ? 'tw-h-[350px]'
-          : 'tw-h-[250px]'
+        value[0] === "urls" && itemDetail === 4 && labelArray.length > 1
+          ? "tw-h-[350px]"
+          : "tw-h-[250px]"
       } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
@@ -97,39 +98,39 @@ const ItemFormUrl = ({
           labelArray.length * 20
         }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
-        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
-          <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
+        <div className="tw-w-[100%]  tw-flex tw-items-center tw-justify-end">
+          <div className="tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center ">
             <Button
               onClick={() => {
-                handleAddData('urls', false);
+                handleAddData("urls", false);
               }}
-              color='secondary'
-              size='medium'
+              color="secondary"
+              size="medium"
               startIcon={
                 <AddCircleOutlinedIcon
                   style={{
-                    color: '#02AF9B',
-                    fontSize: '1.4em',
-                    marginLeft: '0rem',
+                    color: "#02AF9B",
+                    fontSize: "1.4em",
+                    marginLeft: "0rem",
                   }}
                 />
               }
             >
               <span
                 style={{
-                  color: '#030124 ',
-                  fontSize: '0.6rem',
-                  textTransform: 'none',
+                  color: "#030124 ",
+                  fontSize: "0.6rem",
+                  textTransform: "none",
                 }}
               >
-                {dictionary.profileView.addAnotherURL}{' '}
+                {dictionary.profileView.addAnotherURL}{" "}
               </span>
             </Button>
           </div>
         </div>
 
-        <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
-          <div className='tw-w-[100%] tw-flex tw-flex-col '>
+        <div className="tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center">
+          <div className="tw-w-[100%] tw-flex tw-flex-col ">
             {labelArray.map((val, key) => {
               const myValue = (user && index == value[0]
                 ? user.profile[index]
@@ -139,16 +140,16 @@ const ItemFormUrl = ({
                   key={key}
                   className={`tw-pb-3 ${
                     key !== labelArray.length - 1
-                      ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
-                      : ''
+                      ? "tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid"
+                      : ""
                   }`}
                 >
                   <div
                     className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end `}
                   >
-                    <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
+                    <div className="tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col">
                       <FormUrl
-                        label={dictionary.profileView.labelDataName + ': '}
+                        label={dictionary.profileView.labelDataName + ": "}
                         handleSwitch={(e: any) => handleSwitch(e)}
                         handleData={handleData}
                         name={index}
@@ -164,11 +165,11 @@ const ItemFormUrl = ({
                         dataForm={dataForm}
                         index={index}
                         withCheck={true}
-                        subLabel={'name' as NetworksSubIndexDataForm}
+                        subLabel={"name" as NetworksSubIndexDataForm}
                       />
                       <Box sx={{ mb: 1 }}>
                         <FormUrl
-                          label={dictionary.profileView.labelOptionalUrl + ': '}
+                          label={dictionary.profileView.labelOptionalUrl + ": "}
                           handleSwitch={(e: any) => handleSwitch(e)}
                           handleData={handleData}
                           name={index}
@@ -184,178 +185,221 @@ const ItemFormUrl = ({
                           dataForm={dataForm}
                           index={index}
                           withCheck={false}
-                          subLabel={'url' as NetworksSubIndexDataForm}
+                          subLabel={"url" as NetworksSubIndexDataForm}
                         />
                       </Box>
                     </div>
                   </div>
 
-                  <div className='tw-h-[20%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center '>
-                    <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
-                      <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
+                  <div className="tw-h-[20%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center ">
+                    <div className="tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2">
+                      <div className="tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center ">
                         <Button onClick={handleOpenUrl}>
                           <Avatar
                             sx={{
-                              backgroundColor: '#ffffff',
+                              backgroundColor: "#ffffff",
                               width: 38,
                               height: 38,
                             }}
                           >
                             <LocalGroceryStoreOutlinedIcon
-                              sx={{ color: '#396593' }}
+                              sx={{ color: "#396593" }}
                             />
                           </Avatar>
                         </Button>
                       </div>
-                      <div className='tw-h-[100%] tw-w-[85%] tw-flex tw-justify-center tw-items-center'>
+                      <div className="tw-h-[100%] tw-w-[85%] tw-flex tw-justify-center tw-items-center">
                         {showUrls ? (
-                          <div className='tw-h-[100%] tw-w-[90%] tw-flex tw-justify-center tw-items-center tw-rounded-2xl tw-bg-white tw-mt-2'>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                          <div
+                            className="tw-h-[100%] tw-w-[90%] tw-flex tw-justify-center tw-items-center tw-rounded-2xl tw-bg-white tw-mt-2 overflow-x-auto"
+                            style={{
+                              overflowX: "auto",
+                              scrollbarWidth: "thin",
+                              scrollbarColor: "#aaa #f0f0f0",
+                            }}
+                          >
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
                               <Button
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'facebook',
-                                    subindex: 'icon',
+                                    text: "facebook",
+                                    subindex: "icon",
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'facebook' && 'tw-bg-gray-100'
+                                  val.icon === "facebook" && "tw-bg-gray-100"
                                 } tw-p-2 tw-min-w-min`}
                               >
                                 <FacebookOutlinedIcon
-                                  sx={{ color: '#02AF9B' }}
+                                  sx={{ color: "#02AF9B" }}
                                 />
                               </Button>
                             </div>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
                               <Button
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'twitter',
-                                    subindex: 'icon',
+                                    text: "twitter",
+                                    subindex: "icon",
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'twitter' && 'tw-bg-gray-100'
+                                  val.icon === "twitter" && "tw-bg-gray-100"
                                 } tw-p-2 tw-min-w-min`}
                               >
-                                <TwitterIcon sx={{ color: '#02AF9B' }} />
+                                <TwitterIcon sx={{ color: "#02AF9B" }} />
                               </Button>
                             </div>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
                               <Button
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'whatsapp',
-                                    subindex: 'icon',
+                                    text: "whatsapp",
+                                    subindex: "icon",
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'whatsapp' && 'tw-bg-gray-100'
+                                  val.icon === "whatsapp" && "tw-bg-gray-100"
                                 } tw-p-2 tw-min-w-min`}
                               >
-                                <WhatsApp sx={{ color: '#02AF9B' }} />
+                                <WhatsApp sx={{ color: "#02AF9B" }} />
                               </Button>
                             </div>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
                               <Button
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'instagram',
-                                    subindex: 'icon',
+                                    text: "instagram",
+                                    subindex: "icon",
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'instagram' && 'tw-bg-gray-100'
+                                  val.icon === "instagram" && "tw-bg-gray-100"
                                 } tw-p-2 tw-min-w-min`}
                               >
-                                <InstagramIcon sx={{ color: '#02AF9B' }} />
+                                <InstagramIcon sx={{ color: "#02AF9B" }} />
                               </Button>
                             </div>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
                               <Button
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'linkedin',
-                                    subindex: 'icon',
+                                    text: "linkedin",
+                                    subindex: "icon",
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'linkedin' && 'tw-bg-gray-100'
+                                  val.icon === "linkedin" && "tw-bg-gray-100"
                                 } tw-p-2 tw-min-w-min`}
                               >
-                                <LinkedInIcon sx={{ color: '#02AF9B' }} />
+                                <LinkedInIcon sx={{ color: "#02AF9B" }} />
                               </Button>
                             </div>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
                               <Button
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'tiktok',
-                                    subindex: 'icon',
+                                    text: "tiktok",
+                                    subindex: "icon",
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'tiktok' && 'tw-bg-gray-100'
+                                  val.icon === "tiktok" && "tw-bg-gray-100"
                                 } tw-p-2 tw-min-w-min`}
                               >
                                 <IconTikTok />
                               </Button>
                             </div>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
                               <Button
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'behance',
-                                    subindex: 'icon',
+                                    text: "behance",
+                                    subindex: "icon",
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'behance' && 'tw-bg-gray-100'
+                                  val.icon === "behance" && "tw-bg-gray-100"
                                 } tw-p-2 tw-min-w-min`}
                               >
                                 <Image
                                   width={24}
                                   height={24}
-                                  alt='messenger'
-                                  src={'/images/social/behance.svg'}
+                                  alt="messenger"
+                                  src={"/images/social/behance.svg"}
                                 />
                               </Button>
                             </div>
-                            <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
                               <Button
                                 onClick={(text: any) =>
                                   handleDataNetworks({
                                     name: value[0],
-                                    text: 'messenger',
-                                    subindex: 'icon',
+                                    text: "messenger",
+                                    subindex: "icon",
                                     key,
                                   })
                                 }
                                 className={`${
-                                  val.icon === 'messenger' && 'tw-bg-gray-100'
+                                  val.icon === "messenger" && "tw-bg-gray-100"
                                 } tw-p-2 tw-min-w-min`}
                               >
                                 <Image
                                   width={24}
                                   height={24}
-                                  alt='messenger'
-                                  src={'/images/social/messenger.svg'}
+                                  alt="messenger"
+                                  src={"/images/social/messenger.svg"}
                                 />
+                              </Button>
+                            </div>
+
+                           
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: "linkedin",
+                                    subindex: "icon",
+                                    key,
+                                  })
+                                }
+                                className={`${
+                                  val.icon === "linkedin" && "tw-bg-gray-100"
+                                } tw-p-2 tw-min-w-min`}
+                              >
+                                <LinkedInIcon sx={{ color: "#02AF9B" }} />
+                              </Button>
+                            </div>
+                            <div className="tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center">
+                              <Button
+                                onClick={(text: any) =>
+                                  handleDataNetworks({
+                                    name: value[0],
+                                    text: "linkedin",
+                                    subindex: "icon",
+                                    key,
+                                  })
+                                }
+                                className={`${
+                                  val.icon === "linkedin" && "tw-bg-gray-100"
+                                } tw-p-2 tw-min-w-min`}
+                              >
+                                <LinkedInIcon sx={{ color: "#02AF9B" }} />
                               </Button>
                             </div>
                           </div>
@@ -369,26 +413,26 @@ const ItemFormUrl = ({
           </div>
         </div>
 
-        <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
+        <div className="tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center ">
           <Button
             onClick={() => handleSeeMore(4)}
-            color='secondary'
-            size='medium'
+            color="secondary"
+            size="medium"
             endIcon={
               <KeyboardArrowDownOutlinedIcon
                 style={{
-                  color: '#396593',
-                  fontSize: '2.5rem',
-                  marginLeft: '-0.7rem',
+                  color: "#396593",
+                  fontSize: "2.5rem",
+                  marginLeft: "-0.7rem",
                 }}
               />
             }
           >
             <span
               style={{
-                color: '#396593 ',
-                fontSize: '0.8rem',
-                textTransform: 'none',
+                color: "#396593 ",
+                fontSize: "0.8rem",
+                textTransform: "none",
               }}
             >
               {dictionary.profileView.buttonSeeMore} (2)
