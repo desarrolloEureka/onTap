@@ -2,9 +2,14 @@ import { UserData } from '@/types/user';
 import SocialOne from './components/SocialOne';
 import SocialTwo from './components/SocialTwo';
 import TemplateSelectorHook from './hooks/TemplateSelectorHook';
+import ProfessionalOne from './components/ProfessionalOne';
+import CustomCircularProgress from '@/components/customCircularProgress/CustomCircularProgress';
 
-const TemplateSelector = ({ user }: { user: UserData }) => {
-  const { currentBackground, currentTemplate } = TemplateSelectorHook(user);
+const TemplateSelector = ({ user, type }: { user: UserData; type: string }) => {
+  const { currentBackground, currentTemplate } = TemplateSelectorHook(
+    user,
+    type
+  );
 
   if (currentTemplate && currentBackground && user) {
     switch (currentTemplate.name) {
@@ -28,6 +33,16 @@ const TemplateSelector = ({ user }: { user: UserData }) => {
             }}
           />
         );
+      case 'ProfessionalOne':
+        return (
+          <ProfessionalOne
+            params={{
+              lang: 'es',
+              background: currentBackground,
+              data: user,
+            }}
+          />
+        );
       default:
         return (
           <SocialOne
@@ -39,6 +54,8 @@ const TemplateSelector = ({ user }: { user: UserData }) => {
           />
         );
     }
+  } else {
+    return <CustomCircularProgress isOpen />;
   }
 };
 

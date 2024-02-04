@@ -44,6 +44,7 @@ export interface Dictionary {
     labelFirstName: string;
     labelLastName: string;
     labelProfession: string;
+    labelProfessionalCareer: string;
     labelOccupation: string;
     labelAddress: string;
     labelPhone: string;

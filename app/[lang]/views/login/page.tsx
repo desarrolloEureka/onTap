@@ -13,7 +13,6 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   return !isLoading ? (
     dictionary && <Login dictionary={dictionary} />
   ) : (
-    console.log("Entre cargando..."),
     <CustomCircularProgress isOpen />
   );
 };

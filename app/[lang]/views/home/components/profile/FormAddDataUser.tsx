@@ -44,8 +44,6 @@ const FormAddDataUser = ({
     handleDataSet,
   });
 
-  // console.log('data', data);
-
   return (
     <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
       <div className='tw-h-[100%] tw-w-full tw-flex tw-flex-col'>

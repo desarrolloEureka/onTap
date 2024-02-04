@@ -10,7 +10,7 @@ import {
   updateTemplateSelectedFirebase,
   updateUserData,
   updateViewsUser,
-  updateInactiveUser
+  updateInactiveUser,
 } from '@/firebase/user';
 import { DataForm } from '@/types/profile';
 import { TemplateData, UserData, UserDb } from '@/types/user';
@@ -166,7 +166,6 @@ const SendDataUserProfile = async (userId: string, data: DataForm) => {
 };
 
 const SendViewUser = async (userId: string, numViewsNew: number) => {
-  console.log("numViewsNew ", numViewsNew);
   await updateViewsUser(userId, { views: numViewsNew });
 };
 
@@ -229,5 +228,5 @@ export {
   SendBackgroundSelected,
   GetUserById,
   SendViewUser,
-  SendInactiveUser
+  SendInactiveUser,
 };

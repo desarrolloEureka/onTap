@@ -41,15 +41,21 @@ const ItemFormProfessional = ({
   index: IndexDataForm;
   label?: string;
   labelArray:
-  | DataFormValues[]
-  | EducationDataFormValues[]
-  | CareerDataFormValues[];
+    | DataFormValues[]
+    | EducationDataFormValues[]
+    | CareerDataFormValues[];
   value: any;
   itemDetail: number;
   isDetailOpen: boolean;
   icon?: string;
   social: boolean;
-  handleModalAlert: ({ index, subindex }: { index: string, subindex: string }) => void;
+  handleModalAlert: ({
+    index,
+    subindex,
+  }: {
+    index: string;
+    subindex: string;
+  }) => void;
 }) => {
   const {
     handleSwitch,
@@ -66,16 +72,18 @@ const ItemFormProfessional = ({
 
   return (
     <div
-      className={`${value[0] === 'professional_career' &&
+      className={`${
+        value[0] === 'professional_career' &&
         itemDetail === 4 &&
         labelArray.length > 1
-        ? 'tw-h-[350px]'
-        : 'tw-h-[250px]'
-        } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
+          ? 'tw-h-[350px]'
+          : 'tw-h-[250px]'
+      } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
-        className={`tw-h-[${labelArray.length * 20
-          }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
+        className={`tw-h-[${
+          labelArray.length * 20
+        }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
         <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
@@ -102,7 +110,7 @@ const ItemFormProfessional = ({
                   textTransform: 'none',
                 }}
               >
-                {dictionary?.profileView.addAnotherTrajectory}{' '}
+                {dictionary?.profileView?.addAnotherTrajectory}{' '}
               </span>
             </Button>
           </div>
@@ -116,7 +124,13 @@ const ItemFormProfessional = ({
                 : undefined) as unknown as DataFormValues;
               return (
                 <div key={key}>
-                  <div className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${key !== labelArray.length - 1 ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid' : ''} `} >
+                  <div
+                    className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${
+                      key !== labelArray.length - 1
+                        ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                        : ''
+                    } `}
+                  >
                     <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
                       <FormProfession
                         label={dictionary.profileView.labelCompany + ': '}
@@ -128,7 +142,9 @@ const ItemFormProfessional = ({
                         icon={val.icon}
                         deleteAction={true}
                         handleDeleteData={handleDeleteData}
-                        handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
+                        handleModalAlert={({ index, subindex }) =>
+                          handleModalAlert({ index, subindex })
+                        }
                         myValue={myValue}
                         dataForm={dataForm}
                         index={index}
@@ -146,7 +162,9 @@ const ItemFormProfessional = ({
                           icon={val.icon}
                           deleteAction={true}
                           handleDeleteData={handleDeleteData}
-                          handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
+                          handleModalAlert={({ index, subindex }) =>
+                            handleModalAlert({ index, subindex })
+                          }
                           myValue={myValue}
                           dataForm={dataForm}
                           index={index}
@@ -165,7 +183,9 @@ const ItemFormProfessional = ({
                           icon={val.icon}
                           deleteAction={true}
                           handleDeleteData={handleDeleteData}
-                          handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
+                          handleModalAlert={({ index, subindex }) =>
+                            handleModalAlert({ index, subindex })
+                          }
                           myValue={myValue}
                           dataForm={dataForm}
                           index={index}
@@ -184,7 +204,9 @@ const ItemFormProfessional = ({
                           icon={val.icon}
                           deleteAction={true}
                           handleDeleteData={handleDeleteData}
-                          handleModalAlert={({ index, subindex }) => handleModalAlert({index, subindex})}
+                          handleModalAlert={({ index, subindex }) =>
+                            handleModalAlert({ index, subindex })
+                          }
                           myValue={myValue}
                           dataForm={dataForm}
                           index={index}

@@ -4,7 +4,13 @@ import React from 'react';
 import { Dictionary } from '../../../../types/dictionary';
 import CustomSwitch from '@/components/customSwitch/CustomSwitch';
 
-const Header = ({ dictionary, views }: { dictionary: Dictionary, views: number }) => {
+const Header = ({
+  dictionary,
+  views,
+}: {
+  dictionary: Dictionary;
+  views: number;
+}) => {
   return (
     <div className='sm:tw-h-[80px] tw-flex'>
       <div className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col max-sm:tw-mt-2'>
@@ -53,9 +59,7 @@ const Header = ({ dictionary, views }: { dictionary: Dictionary, views: number }
             </div>
           </div>
           <div className=' tw-h-[60%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <CustomSwitch
-              profile={true}
-            />
+            <CustomSwitch profile={true} />
           </div>
 
           <div className=' tw-h-[20%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
@@ -70,12 +74,10 @@ const Header = ({ dictionary, views }: { dictionary: Dictionary, views: number }
           </div>
 
           <div className=' tw-h-[60%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <CustomSwitch
-              profile={false}
-            />
+            <CustomSwitch profile={false} />
           </div>
           <div className=' tw-h-[20%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <div className='tw-text-xs tw-text-black'>On | Off</div>
+            <div className='tw-text-xs tw-text-black'>Off | On</div>
           </div>
         </div>
       </div>

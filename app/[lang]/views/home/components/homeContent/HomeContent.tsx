@@ -88,7 +88,10 @@ const HomeContent = ({
   };
 
   const handlePreview = async (id: string) => {
-    router.push('/views/cardView');
+    const urlSplit = window.location.href.split('/');
+    window.open(
+      `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}&type=${optionSelected}`
+    );
   };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');

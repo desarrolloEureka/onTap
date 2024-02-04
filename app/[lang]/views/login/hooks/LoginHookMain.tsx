@@ -11,11 +11,9 @@ const LoginHookMain = () => {
       if (user.isActive === true) {
         user && router.push('/views/home');
       } else {
-        //console.log("No debe entrar");
         !isLoading;
       }
     }
-
   }, [isLoading, router, user]);
 
   return { isLoading, user, error };

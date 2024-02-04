@@ -14,7 +14,6 @@ const CustomButton = ({
 }) => {
   const { data } = GetAllSocialNetworks();
   const icon = data?.find((val) => val.name === name);
-  // console.log('icon', icon);
 
   return (
     icon?.image && (

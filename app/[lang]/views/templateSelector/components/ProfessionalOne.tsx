@@ -2,11 +2,12 @@ import { BackgroundImages } from '@/types/home';
 import { Locale } from 'i18n-config';
 import BgImage from './bgImage/BgImage';
 import TemplateContainer from './container/Container';
-import HeroSocial from './hero/HeroSocial';
+import HeroProfessional from './hero/HeroProfessional';
 import { UserData } from '@/types/user';
 import Footer from './footer/Footer';
+import TemplateContainerProfessionalOne from './container/ContainerProfessionalOne';
 
-const SocialOne = ({
+const ProfessionalOne = ({
   params: { lang, background, data },
 }: {
   params: {
@@ -17,18 +18,18 @@ const SocialOne = ({
 }) => {
   return (
     <div className='tw-flex tw-relative tw-justify-center tw-items-center tw-h-screen'>
-      <div className='tw-shadow-md tw-w-[380px] tw-rounded-2xl  tw-h-[700px]'>
+      <div className='tw-shadow-md tw-w-[380px] tw-rounded-2xl tw-pt-[0px] tw-h-[700px]'>
         <BgImage background={background} />
-        <HeroSocial
+        <HeroProfessional
           socialNetworks={data.profile.urls}
           photo={data.image}
           name={`${data.profile.name?.text}  ${data.profile.last_name?.text}`}
           profession={data.profile.profession?.text}
         />
-        <TemplateContainer profile={data.profile} />
-        <Footer socialNetworks={data.profile.urls} />
+        <TemplateContainerProfessionalOne profile={data.profile} />
+        {/*<Footer socialNetworks={data.profile.urls} /> */}
       </div>
     </div>
   );
 };
-export default SocialOne;
+export default ProfessionalOne;

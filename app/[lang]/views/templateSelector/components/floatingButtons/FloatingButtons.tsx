@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { UrlDataFormValues } from '@/types/profile';
 import LeftButtons from './leftButtons/LeftButtons';
 import RightButtons from './rightButtons/RightButtons';
-import CustomAvatar from './avatar/CustomAvatar';
+import CustomAvatar from '../avatar/CustomAvatar';
 
 const FloatingButtons = ({
   socialNetworks,
@@ -25,7 +25,7 @@ const FloatingButtons = ({
       }}
     >
       <LeftButtons socialNetworks={socialNetworks} />
-      <CustomAvatar image={photo} name={name} />
+      <CustomAvatar image={photo} name={name} ml={-2} size={140} rounded />
       <RightButtons socialNetworks={socialNetworks} />
     </Box>
   );

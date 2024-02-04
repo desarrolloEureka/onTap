@@ -3,14 +3,15 @@ import { BackgroundImages, Templates } from '@/types/home';
 import { UserData } from '@/types/user';
 import { useLayoutEffect, useState } from 'react';
 
-const TemplateSelectorHook = (user: UserData) => {
+const TemplateSelectorHook = (user: UserData, type: string) => {
   const templates = GetAllTemplates();
   const backgrounds = GetAllBackgroundImages();
   const [template, setTemplate] = useState<Templates>();
   const [background, setBackground] = useState<BackgroundImages>();
 
   useLayoutEffect(() => {
-    const bgId = user.templateData.find((val) => val.type === 'social');
+    const bgId = user.templateData.find((val) => val.type === type);
+
     if (bgId && templates.data && backgrounds.data) {
       const currentTemplate = templates.data.find((val) => val.id == bgId.id);
       const currentBackground = backgrounds.data.find(
@@ -19,7 +20,7 @@ const TemplateSelectorHook = (user: UserData) => {
       currentTemplate && setTemplate(currentTemplate);
       setBackground(currentBackground);
     }
-  }, [backgrounds.data, templates.data, user]);
+  }, [backgrounds.data, templates.data, type, user]);
 
   return { currentTemplate: template, currentBackground: background };
 };

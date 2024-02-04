@@ -37,12 +37,14 @@ const FooterProfile = ({
         handleModalAlert={setIsDataError}
         title={dictionary?.generalTitle}
         description={dictionary.profileView.errorDataSend}
+        isClosed
       />
       <CustomModalAlert
         isModalAlert={isDataSuccess}
         handleModalAlert={setIsDataSuccess}
         title={dictionary?.generalTitle}
         description={dictionary.profileView.successDataSend}
+        isClosed
       />
 
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>

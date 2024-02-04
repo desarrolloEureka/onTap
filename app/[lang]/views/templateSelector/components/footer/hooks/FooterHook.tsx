@@ -1,7 +1,7 @@
 import {
   arrayOfThreeItemsForEachElement,
   sortedArrayObject,
-} from '@/globals/fuctions';
+} from '@/globals/functionsTemplateSocialOne';
 import { UrlDataFormValues } from '@/types/profile';
 
 const FooterHook = ({
@@ -19,7 +19,7 @@ const FooterHook = ({
       val.icon != 'messenger' &&
       val.checked
   );
-  const { arraySorted } = sortedArrayObject(social ?? []);
+  const { arraySorted } = sortedArrayObject(social ?? [], 'social');
 
   const result = arrayOfThreeItemsForEachElement(arraySorted);
 

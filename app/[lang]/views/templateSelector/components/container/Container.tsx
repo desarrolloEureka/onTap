@@ -1,25 +1,17 @@
-import React from 'react';
+import { getPrincipalProfileOrderedByObject } from '@/globals/functionsTemplateSocialOne';
+import { DataForm, DataFormValues } from '@/types/profile';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import FilePresentOutlinedIcon from '@mui/icons-material/FilePresentOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import { Button, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Carousel from 'react-material-ui-carousel';
-import { DataForm, DataFormValues } from '@/types/profile';
-import Image from 'next/image';
-import FilePresentOutlinedIcon from '@mui/icons-material/FilePresentOutlined';
-import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
-import AccessibilityOutlinedIcon from '@mui/icons-material/AccessibilityOutlined';
-import TranslateIcon from '@mui/icons-material/Translate';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import {
-  capitalizeFirstLetter,
-  getPrincipalSocialNetworksOrderedByObject,
-} from '@/globals/fuctions';
+import SaveContactButton from '../saveContactButton/SaveContactButton';
 
 const TemplateContainer = ({ profile }: { profile: DataForm }) => {
-  const { finalArray } = getPrincipalSocialNetworksOrderedByObject(profile);
+  const { finalArray } = getPrincipalProfileOrderedByObject(profile, 'social');
 
   const Item = ({ item }: { item: DataFormValues[] }) => {
     const clickType = (type: string, url: string) => {
@@ -32,13 +24,10 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
           break;
         case 'ExploreOutlinedIcon':
           const newUrl = encodeURI(url);
-          // console.log(`https://maps.google.com/maps?q=${newUrl}`);
-
           window.open(`https://maps.google.com/maps?q=${newUrl}`);
           break;
       }
     };
-    // console.log('item', item);
     return item.map((val, key) => {
       return (
         <Button
@@ -95,7 +84,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
             )
           }
         >
-          <Typography className='tw-w-[90%] tw-text-left tw-truncate'>
+          <Typography className='tw-w-[90%] tw-text-center tw-truncate tw-capitalize'>
             {val.text}
           </Typography>
         </Button>
@@ -104,29 +93,17 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
   };
 
   return (
-    <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center '>
-      <Button
-        sx={{ textTransform: 'none' }}
-        className='tw-drop-shadow-xl tw-rounded-2xl tw-bg-white'
-        variant='contained'
-      >
-        <Typography color={'#679a88'}>
-          {capitalizeFirstLetter('guardar contacto')}
-        </Typography>
-      </Button>
+    <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center'>
+      <SaveContactButton />
       <Container className='tw-z-10 tw-my-8 '>
         <Carousel height={180} className='tw-px-3' autoPlay={false}>
           {finalArray.map((item, i) => {
-            return <Item key={i} item={item} />;
+            return <Item key={i} item={item as DataFormValues[]} />;
           })}
         </Carousel>
       </Container>
     </Container>
   );
 };
-
-//     return (
-//     <Item key={i} item={item} />
-//   )
 
 export default TemplateContainer;

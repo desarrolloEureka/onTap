@@ -7,17 +7,19 @@ function CustomModalAlert({
   handleModalAlert,
   title,
   description,
+  isClosed,
 }: {
   isModalAlert: boolean;
   handleModalAlert: (e: boolean) => void;
   description: string;
   title: string;
+  isClosed?: boolean;
 }) {
   return (
     <Modal
       //   style={{ backdropFilter: 'none' }}
       open={isModalAlert}
-      onClose={() => handleModalAlert(false)}
+      onClose={() => (isClosed ? handleModalAlert(false) : null)}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
       className='tw-flex tw-justify-center tw-items-center'
@@ -34,12 +36,14 @@ function CustomModalAlert({
           position: 'relative',
         }}
       >
-        <IconButton
-          className='tw-absolute tw-right-1 tw-top-1'
-          onClick={() => handleModalAlert(false)}
-        >
-          <Close className='tw-text-white' />
-        </IconButton>
+        {isClosed && (
+          <IconButton
+            className='tw-absolute tw-right-1 tw-top-1'
+            onClick={() => handleModalAlert(false)}
+          >
+            <Close className='tw-text-white' />
+          </IconButton>
+        )}
         <Typography className=' tw-text-lg tw-font-bold tw-text-white tw-text-center'>
           {title}
         </Typography>

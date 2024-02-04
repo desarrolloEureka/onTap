@@ -5,7 +5,7 @@ const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
   const { data } = GetUserById(userUid);
 
   useEffect(() => {
-    if (data) {
+    if (data && data.switch_activateCard) {
       const viewsNow = data.views;
       const viewsNew = viewsNow + 1;
       const userId = data?.uid;
