@@ -22,7 +22,7 @@ const ChangePassword = ({ params: { lang }, }: { params: { lang: Locale }; }) =>
 
                     <div className='tw-h-[10%] tw-w-[100%]'>
                         <h1 className=' tw-text-white tw-text-[18px]'>
-                            Cambiar contraseña
+                            {dictionary?.recoverPassword?.recoverPassword}
                         </h1>
                     </div>
 
@@ -97,7 +97,7 @@ const ChangePassword = ({ params: { lang }, }: { params: { lang: Locale }; }) =>
                                 variant='body2'
                                 color='textSecondary'
                             >
-                                {dictionary?.newPassword.nPassword}
+                                {dictionary?.newPassword?.nPassword}
                             </Typography>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ const ChangePassword = ({ params: { lang }, }: { params: { lang: Locale }; }) =>
 
                     {stateUpdate === true ?
                         <span className='tw-text-green-300 tw-mt-2'>
-                            Contraseña actualizada correctamente *
+                            {dictionary?.recoverPassword.passwordUpdated}
                         </span>
                         :
                         null
@@ -122,7 +122,7 @@ const ChangePassword = ({ params: { lang }, }: { params: { lang: Locale }; }) =>
                                 className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-white tw-mt-[30px] tw-items-center'
                                 onClick={handleChangePassword}
                             >
-                                Guardar
+                                {dictionary?.homeView?.saveButtonLabel}
                             </Button>
                         </div>
                         <div className='tw-h-[90%] tw-w-[50%] tw-flex tw-items-center tw-justify-center'>

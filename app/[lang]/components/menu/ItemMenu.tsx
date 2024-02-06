@@ -12,6 +12,7 @@ import LogOut from '@/hooks/logOut/LogOut';
 import { useRouter } from 'next/navigation';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { GetUser, SendInactiveUser } from '../../reactQuery/users';
+import useDictionary from '@/hooks/dictionary/useDictionary';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -63,6 +64,7 @@ const ItemMenu = () => {
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const { data } = GetUser();
   const router = useRouter();
+  //const { dictionary } = useDictionary({ lang });
 
   const handleChangePassword = () => {
     router.replace('/views/profileRecoverPassword');
@@ -120,7 +122,7 @@ const ItemMenu = () => {
       >
         <MenuItem onClick={handleChangePassword} disableRipple>
           <EditIcon />
-          Cambiar contraseña
+          {/* {dictionary?.recoverPassword?.recoverPassword} */}
         </MenuItem>
         <Divider sx={{ my: 0.5 }} />
         <MenuItem onClick={handleDeleteUser} disableRipple>

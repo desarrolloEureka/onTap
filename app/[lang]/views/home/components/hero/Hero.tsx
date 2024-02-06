@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ButtonTab from '../buttonTab/ButtonTab';
 import { Dictionary } from '@/types/dictionary';
 import { TemplateTypes } from '@/types/home';

@@ -1,25 +1,20 @@
 import CustomCheckbox from '@/components/customCheckbox/CustomCheckbox';
 import {
   GetUser,
-  SendBackgroundSelected,
   SendTemplateSelected,
 } from '@/reactQuery/users';
 import { Dictionary } from '@/types/dictionary';
 import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import DynamicFeedOutlinedIcon from '@mui/icons-material/DynamicFeedOutlined';
-import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Button, Checkbox, Grid, Modal, Typography } from '@mui/material';
+import { Box, Button, Grid, Modal, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ButtonTab from '../buttonTab/ButtonTab';
 import Header from '../header/Header';
-import { TemplateData } from '@/types/user';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface BackgroundType {
@@ -102,9 +97,8 @@ const HomeContent = ({
   return (
     dictionary && (
       <div
-        className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${
-          screenHeight ? '' : 'md:tw-h-screen'
-        }`}
+        className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'
+          }`}
       >
         <Header dictionary={dictionary} views={data?.views ?? 0} />
         <div
@@ -144,8 +138,8 @@ const HomeContent = ({
                           priority
                           src={value.image}
                           alt={`Image ${value.image}`}
-                          width={197} //247
-                          height={425} //475
+                          width={197}
+                          height={425}
                         />
 
                         <div className='tw-absolute tw-w-[350px] tw-h-[460px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
@@ -195,13 +189,13 @@ const HomeContent = ({
                             <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-center '>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
                                 <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
-                                  <span
+                                  {/*  <span
                                     style={{ fontSize: '13px' }}
                                     className='tw-text-white'
                                   >
                                     {dictionary?.homeView?.labelTemplate}{' '}
                                     {index + 1}
-                                  </span>
+                                  </span> */}
                                 </div>
                               </div>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end  tw-pl-12'>
@@ -274,9 +268,8 @@ const HomeContent = ({
           aria-describedby='modal-modal-description'
         >
           <Box
-            className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${
-              isLargeScreen ? 'tw-w-[50%]' : ''
-            } tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}
+            className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${isLargeScreen ? 'tw-w-[50%]' : ''
+              } tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}
           >
             <div className='tw-absolute tw-right-1 tw-top-2'>
               <Button
@@ -301,13 +294,9 @@ const HomeContent = ({
                   {dictionary?.homeView?.selectModalTitle}
                 </Typography>
               </div>
-
-              {/* <div className='tw-overflow-y-auto max-sm:tw-h-[50vh] sm:tw-h-[60vh] isSmallScreenHeight ? sm:tw-h-[70vh] : sm:tw-h-[20vh] '> */}
-              {/*sm: tamaño de la pantalla es igual o mayor que 640px:  sm:tw-h-[50vh]' ////  tw-max-sm: el tamaño de la pantalla es igual o menor a  tw-max-sm:tw-h-[50vh]  */}
               <div
-                className={`tw-overflow-y-auto ${
-                  isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null
-                }`}
+                className={`tw-overflow-y-auto ${isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null
+                  }`}
               >
                 <Grid container spacing={2}>
                   {backgroundImages.map((item, index) => {
@@ -325,7 +314,7 @@ const HomeContent = ({
                             src={item.image}
                             alt={`Image ${item.id}`}
                             width={isSmallScreen ? 60 : 105}
-                            height={isSmallScreen ? 133 : 250} //280
+                            height={isSmallScreen ? 133 : 250}
                           />
                           <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
                             <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
@@ -354,13 +343,6 @@ const HomeContent = ({
                             <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center '>
                               <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start '>
                                 <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center tw-pl-3'>
-                                  <span
-                                    style={{ fontSize: '13px' }}
-                                    className='tw-text-[#5278a0]'
-                                  >
-                                    {dictionary?.homeView?.labelBackground}{' '}
-                                    {index + 1}
-                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -371,93 +353,7 @@ const HomeContent = ({
                   })}
                 </Grid>
               </div>
-
-              {/* <Grid container spacing={2}>
-                {backgroundImages.map((item, index) => (
-                  <Grid item xs={6} sm={6} md={4} lg={4} key={index}>
-                    <div className='max-sm:tw-h-[185Px] tw-h-[280px] max-sm:tw-w-[130px] tw-relative tw-rounded-md tw-flex tw-items-center tw-justify-center tw-bg-white'>
-                      <Image
-                        src={item.image}
-                        alt={`Image ${item.id}`}
-                        width={isSmallScreen ? 60 : 115}
-                        height={isSmallScreen ? 143 : 260} //280
-                      />
-                      <div className='tw-absolute max-sm:tw-w-[125px] tw-w-[275px] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center '>
-                        <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
-                          <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-end'>
-                            <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-end'>
-                              <div className='tw-w-[45%] tw-h-[100%] tw-flex tw-items-center tw-justify-center'>
-                                <Checkbox
-                                  onChange={() => handleSelectBackground(item)}
-                                  checked={backgroundSelect.id == item.id}
-                                  icon={
-                                    <RadioButtonUncheckedOutlinedIcon
-                                      style={{
-                                        fontSize: '1rem',
-                                        color: '#5278a0',
-                                      }}
-                                    />
-                                  }
-                                  checkedIcon={
-                                    <RadioButtonCheckedOutlinedIcon
-                                      style={{
-                                        fontSize: '1rem',
-                                        color: '#5278a0',
-                                      }}
-                                    />
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center '>
-                          <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start '>
-                            <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center '>
-                              <span
-                                style={{ fontSize: '13px' }}
-                                className='tw-text-[#5278a0]'
-                              >
-                                {dictionary?.homeView.labelBackground}{' '}
-                                {index + 1}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Grid>
-                ))}
-              </Grid> */}
             </div>
-
-            {/* <div className='tw-flex tw-justify-start tw-mt-3 tw-pl-10 tw-pt-1 tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
-              <Button
-                onClick={handleSaveTemplate}
-                color='secondary'
-                size='medium'
-                startIcon={
-                  <AddCircleIcon
-                    style={{
-                      color: '#ffffff',
-                      fontSize: '1.8rem',
-                      marginLeft: '0.5rem',
-                    }}
-                  />
-                }
-              >
-                <span
-                  style={{
-                    color: '#000000 ',
-                    fontSize: '1rem',
-                    textTransform: 'none',
-                  }}
-                >
-                  {dictionary?.homeView?.saveButtonLabel}
-                </span>
-              </Button>
-            </div> */}
           </Box>
         </Modal>
       </div>

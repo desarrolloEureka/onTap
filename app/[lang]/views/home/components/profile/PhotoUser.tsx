@@ -1,13 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Avatar, Stack, IconButton } from '@mui/material';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { Dictionary } from '@/types/dictionary';
 import { GetUser, SendDataImage } from '@/reactQuery/users';
-import ItemMenu from '@/components/menu/ItemMenu';
+import { Button, Container } from '@mui/material';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
+import ProfileHook from './hooks/ProfileHook';
 
-const PhotoUser = ({ dictionary, handleChangePassword }: { dictionary: Dictionary; handleChangePassword: () => void; }) => {
+const PhotoUser = ({
+  dictionary
+}: {
+  dictionary: Dictionary;
+}) => {
+  const {
+    handleSendProfile,
+    isDataSuccess,
+    setIsDataSuccess,
+    isDataError,
+    setIsDataError,
+  } = ProfileHook({
+    dictionary,
+  });
+
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
   const { data, error } = GetUser();
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +60,7 @@ const PhotoUser = ({ dictionary, handleChangePassword }: { dictionary: Dictionar
   };
 
   return (
-    <div className='tw-h-[280px] tw-flex tw-items-center tw-justify-center tw-flex-col tw-mb-[-20px]'>
+    <div className='tw-h-[280px] tw-flex tw-items-center tw-justify-center tw-flex-col tw-mb-[-20px] tw-pb-6'>
       <div className=' tw-h-[70%] tw-flex tw-items-center tw-justify-center'>
         <Stack direction='row' spacing={2} className='tw-relative'>
           <label htmlFor='photoInput'>
@@ -81,16 +97,62 @@ const PhotoUser = ({ dictionary, handleChangePassword }: { dictionary: Dictionar
           </IconButton>
         </Stack>
       </div>
-      <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-        <div className='tw-h-[70%] tw-w-[120px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#02AF9B] tw-rounded-tr-xl tw-rounded-bl-xl'>
+
+      <div className=' tw-h-[20%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
+        <div className='tw-h-[45px] tw-w-[120px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#02AF9B] tw-rounded-tr-xl tw-rounded-bl-xl'>
           <h5 className='tw-text-white'>
             {dictionary?.profileView.labelHello} {data && data.name ? data.name : ""}
           </h5>
         </div>
       </div>
-      {/*   <div className=' tw-h-[20%] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-        <ItemMenu />
-      </div> */}
+
+      <div className=' tw-h-[20%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
+        <Container className='tw-h-[90%] tw-w-[85%] tw-flex tw-items-start tw-justify-end'>
+          <div className='tw-h-[100%] tw-w-[120px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+            <Button
+              className='tw-w-[90%] tw-h-[45px]'
+              onClick={handleSendProfile}
+              color='secondary'
+              size='medium'
+              startIcon={
+                <SaveOutlinedIcon
+                  style={{
+                    color: '#02AF9B',
+                    fontSize: '1.8rem',
+                    marginLeft: '0rem',
+                  }}
+                />
+              }
+            >
+              <span
+                style={{
+                  color: '#030124 ',
+                  fontSize: '1.2rem',
+                  textTransform: 'none',
+                }}
+              >
+                {dictionary.homeView.saveButtonLabel}
+              </span>
+            </Button>
+          </div>
+        </Container>
+      </div>
+
+      <CustomModalAlert
+        isModalAlert={isDataError}
+        handleModalAlert={setIsDataError}
+        title={dictionary?.generalTitle}
+        description={dictionary.profileView.errorDataSend}
+        isClosed
+      />
+      <CustomModalAlert
+        isModalAlert={isDataSuccess}
+        handleModalAlert={setIsDataSuccess}
+        title={dictionary?.generalTitle}
+        description={dictionary.profileView.successDataSend}
+        isClosed
+      />
+
     </div>
   );
 };

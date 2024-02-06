@@ -11,6 +11,7 @@ export interface Dictionary {
     profileSwitchLabel: string;
     cardSwitchLabel: string;
     social: string;
+    professionalSwitch: string;
     professional: string;
     corporate: string;
     selectModalTitle: string;
@@ -29,6 +30,8 @@ export interface Dictionary {
     alertEmailSend: string;
     alertErrorPassword: string;
     expiredRecover: string;
+    changePassword: string;
+    passwordUpdated: string;
   };
   loginView: {
     username: string;
@@ -96,6 +99,13 @@ export interface Dictionary {
     labelMessage: string;
     buttonCancel: string;
     buttonConfirm: string;
+  };
+  modalSuccessDelete: {
+    labelMessage: string;
+  };
+  modalLimit: {
+    labelAlert: string;
+    labelMessage: string;
   };
   passwordChangedSuccessfully: string;
   logOut: string;

@@ -32,7 +32,7 @@ const FooterProfile = ({
 
   return (
     <div className='tw-h-[110px] tw-flex tw-items-center tw-justify-center '>
-      <CustomModalAlert
+     {/*  <CustomModalAlert
         isModalAlert={isDataError}
         handleModalAlert={setIsDataError}
         title={dictionary?.generalTitle}
@@ -45,7 +45,7 @@ const FooterProfile = ({
         title={dictionary?.generalTitle}
         description={dictionary.profileView.successDataSend}
         isClosed
-      />
+      /> */}
 
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
         <div className=' tw-h-[80%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
@@ -71,7 +71,7 @@ const FooterProfile = ({
           </div>
         </div>
         <div className=' tw-h-[80%] tw-w-[50%] tw-flex  tw-items-end tw-justify-end '>
-          <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+        {/*   <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
             <Button
               className='tw-w-[90%] tw-h-[45px]'
               onClick={handleSendProfile}
@@ -95,32 +95,6 @@ const FooterProfile = ({
                 }}
               >
                 {dictionary.homeView.saveButtonLabel}
-              </span>
-            </Button>
-          </div>
-          {/*  <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-            <Button
-              onClick={handleModal}
-              color='secondary'
-              size='medium'
-              startIcon={
-                <AddCircleOutlinedIcon
-                  style={{
-                    color: '#02AF9B',
-                    fontSize: '1.6em',
-                    marginLeft: '0rem',
-                  }}
-                />
-              }
-            >
-              <span
-                style={{
-                  color: '#030124 ',
-                  fontSize: '0.8rem',
-                  textTransform: 'none',
-                }}
-              >
-                {dictionary?.profileView.buttonAddData}
               </span>
             </Button>
           </div> */}

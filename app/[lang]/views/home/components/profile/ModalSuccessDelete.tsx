@@ -43,7 +43,7 @@ const ModalSuccessDelete = ({
                 <Typography className=' tw-text-lg tw-font-bold tw-text-white tw-text-center'>
                     {dictionary.generalTitle}
                 </Typography>
-                <Typography className='tw-text-white tw-my-2'>El dato de perfil ha sido eliminado exitosamente.</Typography>
+                <Typography className='tw-text-white tw-my-2'>{dictionary?.modalSuccessDelete?.labelMessage}</Typography>
             </Box>
         </Modal>
     );

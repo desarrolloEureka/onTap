@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Locale } from 'i18n-config';
-import React, { useState } from 'react';
+import React from 'react';
 
 const RecoveryCode = ({
   params: { lang },
