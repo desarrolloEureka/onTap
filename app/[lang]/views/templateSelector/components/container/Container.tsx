@@ -28,6 +28,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
           break;
       }
     };
+
     return item.map((val, key) => {
       return (
         <Button
@@ -84,7 +85,11 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
             )
           }
         >
-          <Typography className='tw-w-[90%] tw-text-center tw-truncate tw-capitalize'>
+          <Typography
+            className={`tw-w-[90%] tw-text-center tw-truncate ${
+              val.order != 10 && 'tw-capitalize'
+            }`}
+          >
             {val.text}
           </Typography>
         </Button>

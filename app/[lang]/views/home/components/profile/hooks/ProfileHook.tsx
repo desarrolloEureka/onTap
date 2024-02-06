@@ -271,87 +271,170 @@ const ProfileHook = ({
       ).length;
       const count = social ? countSocial : countProfessional;
 
+      console.log('count', count);
+
       if (index === 'phones') {
-        if (count && count < 3) {
-          dataFormClone[index]?.push({
-            label: dataFormClone[index]![0].label,
-            text: '',
-            checked: false,
-            principal: false,
-            social: social,
-            professional: !social,
-            icon: 'LocalPhoneOutlinedIcon',
-            order: 9,
-          });
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.phones = [
+              {
+                label: dictionary.profileView.labelPhone,
+                text: '',
+                checked: false,
+                principal: false,
+                social: social,
+                professional: !social,
+                icon: 'LocalPhoneOutlinedIcon',
+                order: 9,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.push({
+              label: dataFormClone[index]![0].label,
+              text: '',
+              checked: false,
+              principal: false,
+              social: social,
+              professional: !social,
+              icon: 'LocalPhoneOutlinedIcon',
+              order: 9,
+            });
+          }
         } else {
           handleModalAlertLimit(true);
         }
       }
       if (index === 'emails') {
-        if (count && count < 3) {
-          dataFormClone[index]?.push({
-            label: dataFormClone[index]![0].label,
-            text: '',
-            checked: false,
-            principal: false,
-            social: social,
-            professional: !social,
-            icon: 'EmailOutlinedIcon',
-            order: 10,
-          });
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.phones = [
+              {
+                label: dictionary.profileView.labelEmail,
+                text: '',
+                checked: false,
+                principal: false,
+                social: social,
+                professional: !social,
+                icon: 'EmailOutlinedIcon',
+                order: 10,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.push({
+              label: dataFormClone[index]![0].label,
+              text: '',
+              checked: false,
+              principal: false,
+              social: social,
+              professional: !social,
+              icon: 'EmailOutlinedIcon',
+              order: 10,
+            });
+          }
         } else {
         }
       }
       if (index === 'education') {
-        if (count && count < 3) {
-          dataFormClone[index]?.push({
-            label: dataFormClone[index]![0].label,
-            title: '',
-            institution: '',
-            year: '',
-            checked: false,
-            principal: false,
-            social: social,
-            professional: !social,
-            icon: '',
-            order: 11,
-          });
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.education = [
+              {
+                label: dictionary.profileView.labelEducation,
+                title: '',
+                institution: '',
+                year: '',
+                checked: false,
+                principal: false,
+                social: social,
+                professional: !social,
+                icon: '',
+                order: 11,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.push({
+              label: dataFormClone[index]![0].label,
+              title: '',
+              institution: '',
+              year: '',
+              checked: false,
+              principal: false,
+              social: social,
+              professional: !social,
+              icon: '',
+              order: 11,
+            });
+          }
         } else {
           handleModalAlertLimit(true);
         }
       }
       if (index === 'professional_career') {
-        if (count && count < 3) {
-          dataFormClone[index]?.push({
-            label: dataFormClone[index]![0].label,
-            company: '',
-            position: '',
-            data_init: '',
-            data_end: '',
-            checked: false,
-            principal: false,
-            social: social,
-            professional: !social,
-            icon: '',
-            order: 12,
-          });
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.professional_career = [
+              {
+                label: dictionary.profileView.labelProfessionalCareer,
+                company: '',
+                position: '',
+                data_init: '',
+                data_end: '',
+                checked: false,
+                principal: false,
+                social: social,
+                professional: !social,
+                icon: '',
+                order: 12,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.push({
+              label: dataFormClone[index]![0].label,
+              company: '',
+              position: '',
+              data_init: '',
+              data_end: '',
+              checked: false,
+              principal: false,
+              social: social,
+              professional: !social,
+              icon: '',
+              order: 12,
+            });
+          }
         } else {
           handleModalAlertLimit(true);
         }
       }
       if (index === 'urls') {
-        if (count && count < 9) {
-          dataFormClone[index]?.push({
-            label: dataFormClone[index]![0].label,
-            name: '',
-            url: '',
-            icon: '',
-            checked: false,
-            principal: false,
-            social: social,
-            professional: !social,
-            order: 13,
-          });
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.urls = [
+              {
+                label: dictionary.profileView.labelProfessionalCareer,
+                name: '',
+                url: '',
+                icon: '',
+                checked: false,
+                principal: false,
+                social: social,
+                professional: !social,
+                order: 13,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.push({
+              label: dataFormClone[index]![0].label,
+              name: '',
+              url: '',
+              icon: '',
+              checked: false,
+              principal: false,
+              social: social,
+              professional: !social,
+              order: 13,
+            });
+          }
         } else {
           handleModalAlertLimit(true);
         }

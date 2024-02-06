@@ -11,6 +11,7 @@ import {
   updateUserData,
   updateViewsUser,
   updateInactiveUser,
+  updatePreView,
 } from '@/firebase/user';
 import { DataForm } from '@/types/profile';
 import { TemplateData, UserData, UserDb } from '@/types/user';
@@ -214,6 +215,11 @@ const GetUser = () =>
     },
   });
 
+const SendPreView = async (userId: string, url: string) => {
+  const res = await updatePreView(userId, { preview: url });
+  return res;
+};
+
 export {
   GetAllUserQuery,
   GetLoginQuery,
@@ -229,4 +235,5 @@ export {
   GetUserById,
   SendViewUser,
   SendInactiveUser,
+  SendPreView,
 };

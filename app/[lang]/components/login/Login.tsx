@@ -99,7 +99,11 @@ const Login = ({ dictionary }: LoginProps) => {
                         onClick={() => setShowPassword(!showPassword)}
                         edge='end'
                       >
-                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                        {showPassword ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -107,7 +111,10 @@ const Login = ({ dictionary }: LoginProps) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <Button className='tw-text-white tw-ml-[180px] '>
-                <Link href='/views/recoverPassword' className='tw-normal-case tw-no-underline tw-text-white tw-pl-10'>
+                <Link
+                  href='/views/recoverPassword'
+                  className='tw-normal-case tw-no-underline tw-text-white tw-pl-10'
+                >
                   {dictionary.loginView.recoverPassLogin}
                 </Link>
               </Button>

@@ -1,5 +1,5 @@
 import ValidatorSession from '@/hooks/validatorSession/ValidatorSession';
-import { GetLoginQuery } from '@/reactQuery/users';
+import { GetLoginQuery, SendPreView } from '@/reactQuery/users';
 import { Dictionary } from '@/types/dictionary';
 import { LoginError } from '@/types/login';
 import { useRouter } from 'next/navigation';
@@ -26,15 +26,15 @@ const LoginHook = (dictionary: Dictionary) => {
       setSendLogin(false);
       !email
         ? setErrorForm({
-          errorType: 1,
-          errorMessage: dictionary.loginView.mailMandatory,
-        })
+            errorType: 1,
+            errorMessage: dictionary.loginView.mailMandatory,
+          })
         : null;
       !password
         ? setErrorForm({
-          errorType: 2,
-          errorMessage: dictionary.loginView.passwordMandatory,
-        })
+            errorType: 2,
+            errorMessage: dictionary.loginView.passwordMandatory,
+          })
         : null;
     }
   };
@@ -59,13 +59,22 @@ const LoginHook = (dictionary: Dictionary) => {
         if (data.isAdmin) {
           router.push('/views/backOffice');
         } else {
+          const urlSplit = window.location.href.split('/');
+          const url = `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}&type=social`;
+          data && SendPreView(data?.uid, url);
           router.push('/views/home');
         }
       } else {
-        setErrorForm({ errorType: 3, errorMessage: dictionary.loginView.userNotFound });
+        setErrorForm({
+          errorType: 3,
+          errorMessage: dictionary.loginView.userNotFound,
+        });
       }
     } else if (sendLogin) {
-      setErrorForm({ errorType: 3, errorMessage: dictionary.loginView.userNotFound });
+      setErrorForm({
+        errorType: 3,
+        errorMessage: dictionary.loginView.userNotFound,
+      });
     }
   }, [data, dictionary.loginView.userNotFound, router, sendLogin]);
 

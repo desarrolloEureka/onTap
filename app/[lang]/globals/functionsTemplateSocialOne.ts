@@ -27,13 +27,13 @@ export const getPrincipalProfileOrderedByObject = (
   profile: DataForm,
   index: any
 ) => {
-  let finalArray: DataFormValues[][] = [];
+  const finalArray: DataFormValues[][] = [];
   const objectArray: any[] = [];
   let data: any = [];
   const profileFilter = Object.entries(profile).filter((val) => {
     //Filter by social and any other different data to name, last name and urls
     if (index == 'social') {
-      return val[1].length &&
+      return val[1].length > 0 &&
         val[1][0][index] &&
         val[1].find((val: any) => val.checked) &&
         val[1][0].order != 13
@@ -46,7 +46,7 @@ export const getPrincipalProfileOrderedByObject = (
             val;
     } else {
       const result =
-        val[1].length &&
+        val[1].length > 0 &&
         val[1][0].order != 9 &&
         val[1][0].order != 10 &&
         val[1][0].order != 13 &&
@@ -72,11 +72,21 @@ export const getPrincipalProfileOrderedByObject = (
   profileFilter.forEach((val) => {
     //remove from the array
     objectArray.push(
-      index == 'social' ? (val[1].length > 0 ? val[1][0] : val[1]) : val[1]
+      index == 'social'
+        ? val[1].length > 0
+          ? val[1].find(
+              (val: any) => val.social && val.checked && val.order != 13
+            )
+          : val[1]
+        : val[1]
     );
   });
 
   const { arraySorted } = sortedArrayObject(objectArray, index);
+
+  // console.log('profileFilter', profileFilter);
+  // console.log('objectArray', objectArray);
+  // console.log('arraySorted', arraySorted);
 
   if (index == 'social' && arraySorted.length > 3) {
     arraySorted.forEach((val, key) => {
@@ -84,6 +94,8 @@ export const getPrincipalProfileOrderedByObject = (
       data.push(val);
       (key == 3 || key == 4) && (finalArray.push(data), (data = []));
     });
+  } else if (index == 'social' && arraySorted.length <= 3) {
+    finalArray.push(arraySorted);
   } else {
     profileProfessionalFilter.map((val, key) => {
       finalArray.push([val[1]]);
