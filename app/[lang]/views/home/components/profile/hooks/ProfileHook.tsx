@@ -411,7 +411,7 @@ const ProfileHook = ({
           if (count === 0) {
             dataFormClone.urls = [
               {
-                label: dictionary.profileView.labelProfessionalCareer,
+                label: 'urls',
                 name: '',
                 url: '',
                 icon: '',
