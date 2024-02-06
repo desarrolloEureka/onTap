@@ -13,7 +13,7 @@ const Footer = ({
 
   return (
     <Box sx={{ height: 30, px: 4 }}>
-      <Carousel height={30} className='tw-px-3 tw-mb-8' autoPlay={false}>
+      <Carousel height={50} className='tw-px-3 tw-mb-8' autoPlay={false}>
         {finalArray?.map((item, j) => {
           return (
             <Box sx={{ display: 'flex', justifyContent: 'center' }} key={j}>

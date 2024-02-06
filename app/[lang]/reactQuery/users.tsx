@@ -88,7 +88,10 @@ const reBuildUserData = (userData: UserData) => {
 };
 
 const SendSwitchProfile = async (userId: string, switchState: boolean) => {
-  await updateSwitchProfileFirebase(userId, { switch_profile: switchState });
+  await updateSwitchProfileFirebase(userId, {
+    switch_profile: switchState,
+    preview: "http://localhost:3000/es/views/cardView?uid=" + userId + "&type=" + (switchState ? "professional" : "social")
+  });
   const updatedUser = await getUserByIdFireStore(userId);
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
@@ -148,6 +151,7 @@ const SendSwitchAllForm = async (userId: string, dataForm: any) => {
 };
 
 const SendDataUserProfile = async (userId: string, data: DataForm) => {
+  console.log("SendDataUserProfile ");
   return updateDataUserProfile(userId, data)
     .then(async (response) => {
       const updatedUser = await getUserByIdFireStore(userId);

@@ -21,7 +21,7 @@ const CustomButton = ({
         className={`tw-rounded-full tw-drop-shadow-xl tw-w-[45px] tw-h-[45px] ${styles}`}
         href={`http://${link}`}
       >
-        <Image src={icon.image} alt={name} width={45} height={45} />
+        <Image src={icon.image} alt={name} width={75} height={70} />
       </Link>
     )
   );

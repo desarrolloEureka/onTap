@@ -90,6 +90,7 @@ const CustomSwitch = ({ profile }: { profile: boolean }) => {
       switchRef.current.checked = checked;
       setIsUpdate(!isUpdate);
       if (profile) {
+        console.log("Entre!!! ");
         await SendSwitchProfile(userId, checked);
       } else {
         await SendSwitchActivateCard(userId, checked);

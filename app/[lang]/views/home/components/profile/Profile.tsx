@@ -9,7 +9,6 @@ import PhotoUser from '@/views/home/components/profile/PhotoUser';
 import { Container } from '@mui/material';
 import ProfileHook from './hooks/ProfileHook';
 import ModalAlert from './ModalAlert';
-import { useRouter } from 'next/navigation';
 
 const Profile = ({
   dictionary,
@@ -32,15 +31,10 @@ const Profile = ({
     setDataForm,
     isSuccessDelete,
     handleSuccessDelete,
+    handleSendProfile
   } = ProfileHook({
     dictionary,
   });
-
-  const router = useRouter();
-
-  const handleChangePassword = () => {
-    router.replace('/views/profileRecoverPassword');
-  };
 
   const handleDataSet = (data: DataForm) => {
     setDataForm(data);
@@ -51,15 +45,13 @@ const Profile = ({
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
         <PhotoUser
           dictionary={dictionary}
-          handleChangePassword={handleChangePassword}
         />
         :
         <div
-          className={`tw-flex tw-items-center tw-justify-center ${
-            isProUser
-              ? 'lg:tw-h-auto md:tw-w-[100%]'
-              : 'lg:tw-h-[1000px] md:tw-w-[100%]'
-          }`}
+          className={`tw-flex tw-items-start tw-justify-center ${isProUser
+            ? 'lg:tw-h-auto md:tw-w-[100%]'
+            : 'lg:tw-h-[1000px] md:tw-w-[100%]'
+            }`}
         >
           <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[90%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
             <FormDataUser

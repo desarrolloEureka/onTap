@@ -63,7 +63,7 @@ const Header = ({
           </div>
 
           <div className=' tw-h-[20%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <div className='tw-text-xs tw-text-black'>Social | PRO</div>
+            <div className='tw-text-xs tw-text-black'>{dictionary?.homeView?.social} | {dictionary?.homeView?.professionalSwitch}</div>
           </div>
         </div>
         <div className='tw-w-1/2 tw-h-full tw-flex tw-items-center tw-justify-start tw-flex-col tw-mt-2'>

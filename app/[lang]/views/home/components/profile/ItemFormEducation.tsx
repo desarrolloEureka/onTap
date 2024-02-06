@@ -40,9 +40,9 @@ const ItemFormEducation = ({
   index: IndexDataForm;
   label?: string;
   labelArray:
-    | DataFormValues[]
-    | EducationDataFormValues[]
-    | CareerDataFormValues[];
+  | DataFormValues[]
+  | EducationDataFormValues[]
+  | CareerDataFormValues[];
   value: any;
   itemDetail: number;
   isDetailOpen: boolean;
@@ -71,16 +71,14 @@ const ItemFormEducation = ({
 
   return (
     <div
-      className={`${
-        value[0] === 'education' && itemDetail === 3 && labelArray.length > 1
-          ? 'tw-h-[300px]'
-          : 'tw-h-[200px]'
-      } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
+      className={`${value[0] === 'education' && itemDetail === 3 && labelArray.length > 1
+        ? 'tw-h-[300px]'
+        : 'tw-h-[200px]'
+        } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
-        className={`tw-h-[${
-          labelArray.length * 20
-        }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
+        className={`tw-h-[${labelArray.length * 20
+          }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
         <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
@@ -122,11 +120,10 @@ const ItemFormEducation = ({
               return (
                 <div key={key}>
                   <div
-                    className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${
-                      key !== labelArray.length - 1
-                        ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
-                        : ''
-                    } `}
+                    className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${key !== labelArray.length - 1
+                      ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                      : ''
+                      } `}
                   >
                     <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
                       <FormEducation

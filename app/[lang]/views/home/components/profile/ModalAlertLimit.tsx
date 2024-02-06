@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Button,
     Box,
@@ -45,14 +45,14 @@ const ModalAlertLimit = ({
 
                 <div className='tw-w-[100%] tw-h-[15%] tw-flex tw-justify-center tw-justify-items-center'>
                     <div className='tw-w-[85%] tw-h-[75%]'>
-                        <h4>Alerta</h4>
+                        <h4>{dictionary?.modalLimit?.labelAlert}</h4>
                     </div>
                 </div>
 
                 <div className='tw-w-[100%] tw-h-[85%] tw-flex tw-justify-center tw-justify-items-center'>
                     <div className='tw-w-[90%] tw-h-[90%] tw-flex tw-justify-center tw-justify-items-center '>
                         <span className='tw-pt-14'>
-                            No es posible agregar mas datos
+                            {dictionary?.modalLimit?.labelMessage}
                         </span>
                     </div>
                 </div>

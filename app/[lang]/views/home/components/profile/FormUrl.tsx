@@ -2,10 +2,8 @@ import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGe
 import { ItemFormParams, NetworksSubIndexDataForm } from '@/types/profile';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import { Box, Button, TextField } from '@mui/material';
 import { useEffect, useRef } from 'react';
-import TimelineIcon from '@mui/icons-material/Timeline';
 import { Share } from '@mui/icons-material';
 
 const FormUrl = ({

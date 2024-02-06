@@ -150,8 +150,8 @@ const ProfileHook = ({
     dataFormClone && index == 'education' && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == 'professional_career'
-      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-      : index == 'urls' &&
+        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+        : index == 'urls' &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 

@@ -26,6 +26,7 @@
     "profileSwitchLabel": "Perfil a mostrar",
     "cardSwitchLabel": "Activar tarjeta",
     "social": "Social",
+    "professionalSwitch": "PRO",
     "professional": "Profesional",
     "corporate": "Corporativo",
     "selectModalTitle": "Seleccionar",
@@ -43,7 +44,9 @@
     "back": "Regresar",
     "alertEmailSend": "Si el correo existe en nuestra base de datos, un email será entregado para reestablecer tu contraseña",
     "alertErrorPassword": "Las contraseñas no coinciden, por favor intenta de nuevo",
-    "expiredRecover": "La url ya no es valida, por favor intentalo de nuevo"
+    "expiredRecover": "La url ya no es valida, por favor intentalo de nuevo",
+    "changePassword": "Cambiar contraseña",
+    "passwordUpdated": "Contraseña actualizada correctamente *"
   },
   "recoveryCode": {
     "titleCode": "Codigo de Recuperacion",
@@ -103,6 +106,13 @@
     "labelMessage": "¿Está seguro de eliminar este dato?",
     "buttonCancel": "Cancelar",
     "buttonConfirm": "Confirmar"
+  },
+  "modalSuccessDelete": {
+    "labelMessage": "El dato de perfil ha sido eliminado exitosamente."
+  },
+  "modalLimit": {
+    "labelAlert": "Alerta",
+    "labelMessage": "No es posible agregar mas datos"
   },
   "logOut": "Salir"
 }

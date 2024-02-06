@@ -22,10 +22,11 @@ const FloatingButtons = ({
         width: '100%',
         justifyContent: 'space-around',
         zIndex: 99999,
+        marginRight: 4.5
       }}
     >
       <LeftButtons socialNetworks={socialNetworks} />
-      <CustomAvatar image={photo} name={name} ml={-2} size={140} rounded />
+      <CustomAvatar image={photo} name={name} ml={1} size={140} rounded />
       <RightButtons socialNetworks={socialNetworks} />
     </Box>
   );
