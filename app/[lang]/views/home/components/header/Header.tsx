@@ -1,8 +1,9 @@
 import Button from '@mui/material/Button';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import React from 'react';
+import React, { useState } from 'react';
 import { Dictionary } from '../../../../types/dictionary';
 import CustomSwitch from '@/components/customSwitch/CustomSwitch';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 
 const Header = ({
   dictionary,
@@ -11,6 +12,9 @@ const Header = ({
   dictionary: Dictionary;
   views: number;
 }) => {
+  const [isModalAlert, setIsModalAlert] = useState(false);
+  const handleModalAlert = () => setIsModalAlert(!isModalAlert);
+
   return (
     <div className='sm:tw-h-[80px] tw-flex'>
       <div className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col max-sm:tw-mt-2'>
@@ -59,7 +63,10 @@ const Header = ({
             </div>
           </div>
           <div className=' tw-h-[60%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <CustomSwitch profile={true} />
+            <CustomSwitch
+              profile={true}
+              handleModalAlert={handleModalAlert}
+            />
           </div>
 
           <div className=' tw-h-[20%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
@@ -81,6 +88,14 @@ const Header = ({
           </div>
         </div>
       </div>
+
+      <CustomModalAlert
+        handleModalAlert={handleModalAlert}
+        title="Acceso Restringido"
+        description="Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico."
+        isModalAlert={isModalAlert}
+        isClosed={true}
+      />
     </div>
   );
 };

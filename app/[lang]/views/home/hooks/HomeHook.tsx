@@ -2,6 +2,7 @@ import { GetAllBackgroundImages, GetAllTemplates } from '@/reactQuery/home';
 import { TabPanelProps } from '@/types/home';
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { GetUser } from '@/reactQuery/users';
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -23,9 +24,19 @@ const HomeHook = () => {
   const [isProUser, setIsProUser] = useState(true);
   const { data, isLoading, error } = GetAllTemplates();
   const backgroundImages = GetAllBackgroundImages();
+  const datUser = GetUser();
+
+  const [isModalAlert, setIsModalAlert] = useState(false);
+  const handleModalAlert = () => setIsModalAlert(!isModalAlert);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    const plan = datUser?.data?.plan;
+    if (plan === 'basic' && newValue === 2) {
+      setIsModalAlert(!isModalAlert);
+    } else {
+      setValue(newValue);
+    }
+
   };
 
   useEffect(() => {
@@ -41,6 +52,9 @@ const HomeHook = () => {
     templates: data,
     isLoadingTemplates: isLoading,
     backgroundImages,
+    isModalAlert,
+    setIsModalAlert,
+    handleModalAlert
   };
 };
 

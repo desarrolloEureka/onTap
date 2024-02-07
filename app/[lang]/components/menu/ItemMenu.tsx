@@ -122,7 +122,7 @@ const ItemMenu = () => {
       >
         <MenuItem onClick={handleChangePassword} disableRipple>
           <EditIcon />
-          {/* {dictionary?.recoverPassword?.recoverPassword} */}
+          Cambiar Contraseña
         </MenuItem>
         <Divider sx={{ my: 0.5 }} />
         <MenuItem onClick={handleDeleteUser} disableRipple>

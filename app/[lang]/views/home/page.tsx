@@ -7,6 +7,7 @@ import Profile from './components/profile/Profile';
 import HomeHook from './hooks/HomeHook';
 import CustomCircularProgress from '@/components/customCircularProgress/CustomCircularProgress';
 import ValidatorSession from '@/hooks/validatorSession/ValidatorSession';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 
 const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -19,30 +20,42 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
     templates,
     isLoadingTemplates,
     backgroundImages,
+    isModalAlert,
+    setIsModalAlert,
+    handleModalAlert
   } = HomeHook();
 
   return isLoading || isLoadingTemplates ? (
     <CustomCircularProgress isOpen />
   ) : (
     dictionary && templates && backgroundImages.data && (
-      <Menu dictionary={dictionary} handleChange={handleChange} value={value}>
-        <CustomTabPanel value={value} index={0}>
-          <HomeContent
-            dictionary={dictionary}
-            templates={templates}
-            backgroundImages={backgroundImages.data}
-          />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <Profile dictionary={dictionary} isProUser={isProUser} />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <Profile dictionary={dictionary} isProUser={isProUser} />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={3}>
-          Item Three
-        </CustomTabPanel>
-      </Menu>
+      <>
+        <Menu dictionary={dictionary} handleChange={handleChange} value={value}>
+          <CustomTabPanel value={value} index={0}>
+            <HomeContent
+              dictionary={dictionary}
+              templates={templates}
+              backgroundImages={backgroundImages.data}
+            />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <Profile dictionary={dictionary} isProUser={isProUser} />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={2}>
+            <Profile dictionary={dictionary} isProUser={isProUser} />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={3}>
+            Item Three
+          </CustomTabPanel>
+        </Menu>
+        <CustomModalAlert
+          handleModalAlert={handleModalAlert}
+          title="Acceso Restringido"
+          description="Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico."
+          isModalAlert={isModalAlert}
+          isClosed={true}
+        />
+      </>
     )
   );
 };

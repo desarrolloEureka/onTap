@@ -23,6 +23,7 @@ export interface UserData {
   profile: DataForm;
   views: number;
   isActive: boolean;
+  plan: string;
 }
 export interface User {
   uid: string;

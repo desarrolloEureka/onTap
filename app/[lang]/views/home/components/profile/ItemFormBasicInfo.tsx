@@ -120,7 +120,6 @@ const ItemFormBasicInfo = ({
         <div className='tw-min-h-[125px] tw-pb-3 '>
           {labelArray.map((val, key) => {
             if (social === true) {
-              /* Social */
               if (val.principal === true || val.social === true) {
                 const myValue = (user && index == value[0]
                   ? user.profile[index]

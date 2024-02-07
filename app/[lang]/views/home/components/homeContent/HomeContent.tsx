@@ -16,6 +16,7 @@ import { useState } from 'react';
 import ButtonTab from '../buttonTab/ButtonTab';
 import Header from '../header/Header';
 import { useQueryClient } from '@tanstack/react-query';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 
 interface BackgroundType {
   id: string;
@@ -47,11 +48,16 @@ const HomeContent = ({
     name: '',
     image: '',
   });
+  const [isModalAlert, setIsModalAlert] = useState(false);
+  const handleModalAlert = (status: boolean) => setIsModalAlert(!isModalAlert);
   const { data, error } = GetUser();
-  const router = useRouter();
 
   const handleChangeOption = (option: TemplateTypes) => {
-    setOptionSelected(option);
+    if (option === "professional" && data?.plan === "basic") {
+      setIsModalAlert(true);
+    } else {
+      setOptionSelected(option);
+    }
   };
 
   const handleModal = (item?: Templates) => {
@@ -111,6 +117,7 @@ const HomeContent = ({
             optionSelected={optionSelected}
             title={dictionary?.homeView?.social}
             handleChangeOption={handleChangeOption}
+          //disabled={false}
           />
           <ButtonTab
             dictionary={dictionary}
@@ -118,6 +125,7 @@ const HomeContent = ({
             optionSelected={optionSelected}
             title={dictionary?.homeView?.professional}
             handleChangeOption={handleChangeOption}
+          //disabled={data?.plan === "basic" ? true : false}
           />
         </div>
 
@@ -356,6 +364,15 @@ const HomeContent = ({
             </div>
           </Box>
         </Modal>
+
+        <CustomModalAlert
+          handleModalAlert={handleModalAlert}
+          title="Acceso Restringido"
+          description="Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico."
+          isModalAlert={isModalAlert}
+          isClosed={true}
+        />
+
       </div>
     )
   );

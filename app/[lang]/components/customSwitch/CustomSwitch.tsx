@@ -1,14 +1,10 @@
-import {
-  GetUser,
-  SendSwitchActivateCard,
-  SendSwitchProfile,
-} from '@/reactQuery/users';
-import Switch from '@mui/material/Switch';
+import * as React from 'react';
 import { styled } from '@mui/material/styles';
+import Switch from '@mui/material/Switch';
+import { GetUser, SendSwitchActivateCard, SendSwitchProfile } from '@/reactQuery/users';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useEffect, useRef, useState } from 'react';
 
-const MaterialUISwitch = styled(Switch)(({ theme }) => ({
+const MaterialUISwitch = styled(Switch)(({ theme, profile }) => ({
   width: 92,
   height: 37,
   padding: 0,
@@ -29,7 +25,6 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
       },
     },
     '@media screen and (min-width: 601px)': {
-      // Pantallas grandes
       '&.Mui-checked': {
         transform: 'translateX(28px)' /* Desplazamiento  */,
       },
@@ -49,16 +44,20 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
   },
   '& .MuiSwitch-thumb': {
+    backgroundColor: profile ? '#fff' : null, // Rojo cuando está a la izquierda
     boxSizing: 'border-box',
     width: 25,
     height: 25,
     marginTop: '0.3px',
     marginLeft: '3px',
-    transition: 'width 300ms, height 300ms', // Añadido para animar el cambio de tamaño
+    transition: 'width 300ms, height 300ms', // Transición para el cambio de tamaño
+  },
+  '& .Mui-checked .MuiSwitch-thumb': {
+    backgroundColor: '#fff', // Circulo blanco cuando está a la derecha
   },
   '& .MuiSwitch-track': {
     borderRadius: 50 / 2,
-    backgroundColor: '#ABA9A6',
+    backgroundColor: profile ? '#02AF9B' : '#ABA9A6',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 500,
@@ -70,34 +69,43 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
       transform: 'translateY(-50%)',
       width: 16,
       height: 16,
+      color: '#8a2be2'
     },
   },
 }));
 
-const CustomSwitch = ({ profile }: { profile: boolean }) => {
+const CustomSwitch = ({ profile, handleModalAlert }: { profile: boolean; handleModalAlert?: () => void; }) => {
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const { data, error } = GetUser();
 
-  const [isUpdate, setIsUpdate] = useState(false);
-  const switchRef = useRef<any>(null);
+  const [isUpdate, setIsUpdate] = React.useState(false);
+  const switchRef = React.useRef<any>(null);
 
   const handleSwitchChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { checked } = event.target;
     const userId = data?.uid;
-    if (userId && switchRef) {
-      switchRef.current.checked = checked;
+    const plan = data?.plan;
+
+    if (profile && plan === 'basic') {
+      handleModalAlert && handleModalAlert();
+      switchRef.current.checked = false;
       setIsUpdate(!isUpdate);
-      if (profile) {
-        await SendSwitchProfile(userId, checked);
-      } else {
-        await SendSwitchActivateCard(userId, checked);
+    } else {
+      if (userId && switchRef) {
+        switchRef.current.checked = checked;
+        setIsUpdate(!isUpdate);
+        if (profile) {
+          await SendSwitchProfile(userId, checked);
+        } else {
+          await SendSwitchActivateCard(userId, checked);
+        }
       }
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (switchRef)
       switchRef.current.checked = profile
         ? data?.switch_profile
@@ -117,6 +125,7 @@ const CustomSwitch = ({ profile }: { profile: boolean }) => {
           height: isSmallScreen ? 25 : 29,
         },
       }}
+      profile={profile}
     />
   );
 };
