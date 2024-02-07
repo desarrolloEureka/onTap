@@ -37,7 +37,8 @@ export const loginFirebase = async ({ user, password }: LoginFirebaseProps) => {
 };
 
 export const registerFirebase = async (user: string, password: string) => {
-  const registerF = createUserWithEmailAndPassword(auth, user, password);
+  const registerF = await createUserWithEmailAndPassword(auth, user, password);
+  return registerF;
 };
 
 export const resetPasswordFirebase = async (email: string) => {
