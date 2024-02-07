@@ -50,8 +50,8 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
         </Menu>
         <CustomModalAlert
           handleModalAlert={handleModalAlert}
-          title="Acceso Restringido"
-          description="Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico."
+          title={dictionary?.homeView.labelDenyAccess}
+          description={dictionary?.homeView.labelDenyAccessDescription}
           isModalAlert={isModalAlert}
           isClosed={true}
         />

@@ -7,8 +7,10 @@ import CardViewHookWithUser from './hooks/CardViewHookWithUser';
 import TemplateSelector from '../templateSelector/TemplateSelector';
 import CustomCircularProgress from '@/components/customCircularProgress/CustomCircularProgress';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
+import useDictionary from '@/hooks/dictionary/useDictionary';
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
+  const { dictionary } = useDictionary({ lang });
   const [isModalAlert, setIsModalAlert] = useState(true);
   const searchParams = useSearchParams();
   const uid = searchParams.get('uid');
@@ -25,8 +27,8 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     ) : (
       <CustomModalAlert
         handleModalAlert={handleModalAlert}
-        title='Error'
-        description='El usuario no comparte su información en estos momentos'
+        title={dictionary?.cardView?.labelErrorUser || ''}
+        description={dictionary?.cardView.labelErrorUserDescription || ''}
         isModalAlert={isModalAlert}
       />
     )

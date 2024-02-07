@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { TextField, Button } from '@mui/material';
+import { Dictionary } from '@/types/dictionary';
 
 type ItemFormProps = {
   onAddItem: (item: { name: string; image: string }) => void;
+  dictionary: Dictionary | undefined;
 };
 
-const ItemForm: React.FC<ItemFormProps> = ({ onAddItem }) => {
+const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
   const [name, setName] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
 
@@ -63,7 +65,7 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAddItem }) => {
         className="tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-blue-600 tw-mt-[65px] tw-mx-2 tw-text-white"
         type="submit"
       >
-        Agregar
+        {dictionary?.homeView.agregar}
       </Button>
     </form>
   );

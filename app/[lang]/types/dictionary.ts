@@ -1,11 +1,16 @@
 export interface Dictionary {
   generalTitle: string;
+  cardView:{
+    labelErrorUser: string;
+    labelErrorUserDescription: string;
+  };
   homeTitle: string;
   rememberPasswordTitle: string;
   rememberPasswordDescription: string;
   mainMenu: string;
   mainTab: { tab1: string; tab2: string; tab3: string; tab4: string };
   homeView: {
+    agregar: string;
     views: string;
     title: string;
     profileSwitchLabel: string;
@@ -21,6 +26,8 @@ export interface Dictionary {
     labelTemplate: string;
     labelView: string;
     labelPrevious: string;
+    labelDenyAccess: string;
+    labelDenyAccessDescription: string;
   };
   recoverPassword: {
     recoverPassword: string;
@@ -43,6 +50,7 @@ export interface Dictionary {
     userNotFound: string;
   };
   profileView: {
+    labelDeleteProfiledata : string;
     labelHello: string;
     labelFirstName: string;
     labelLastName: string;
@@ -79,6 +87,7 @@ export interface Dictionary {
     addAnotherURL: string;
     errorDataSend: string;
     successDataSend: string;
+    labelError505: string;
   };
   recoveryCode: {
     nextCode: string;
