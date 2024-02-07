@@ -5,14 +5,13 @@ import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import FilePresentOutlinedIcon from '@mui/icons-material/FilePresentOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Carousel from 'react-material-ui-carousel';
 import SaveContactButton from '../saveContactButton/SaveContactButton';
 
 const TemplateContainer = ({ profile }: { profile: DataForm }) => {
   const { finalArray } = getPrincipalProfileOrderedByObject(profile, 'social');
-
   const Item = ({ item }: { item: DataFormValues[] }) => {
     const clickType = (type: string, url: string) => {
       switch (type) {
@@ -98,14 +97,25 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
   };
 
   return (
-    <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center'>
+    <Container className='tw-z-10 tw-flex tw-pt-2 tw-flex-col tw-content-center tw-items-center'>
       <SaveContactButton />
-      <Container className='tw-z-10 tw-my-8 '>
-        <Carousel height={180} className='tw-px-3' autoPlay={false}>
-          {finalArray.map((item, i) => {
-            return <Item key={i} item={item as DataFormValues[]} />;
-          })}
-        </Carousel>
+      <Container className='tw-z-10 tw-my-4 '>
+        {finalArray.length > 0 && finalArray[0].length > 0 && (
+          <Carousel height={180} className='tw-px-3' autoPlay={false}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: 180,
+              }}
+            >
+              {finalArray.map((item, i) => {
+                return <Item key={i} item={item as DataFormValues[]} />;
+              })}
+            </Box>
+          </Carousel>
+        )}
       </Container>
     </Container>
   );

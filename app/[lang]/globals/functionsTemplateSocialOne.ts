@@ -32,14 +32,14 @@ export const getPrincipalProfileOrderedByObject = (
   let data: any = [];
   const profileFilter = Object.entries(profile).filter((val) => {
     //Filter by social and any other different data to name, last name and urls
+    // console.log('val[1].length > 0 &&', val[1].length > 0 && val[1]);
+
     if (index == 'social') {
       return val[1].length > 0 &&
         val[1][0][index] &&
-        val[1].find((val: any) => val.checked) &&
-        val[1][0].order != 13
+        val[1].find((val: any) => val.order != 13)
         ? val
         : val[1][index] &&
-            val[1].checked &&
             val[1].order != 1 &&
             val[1].order != 2 &&
             val[1].order != 3 &&
@@ -47,14 +47,16 @@ export const getPrincipalProfileOrderedByObject = (
     } else {
       const result =
         val[1].length > 0 &&
-        val[1][0].order != 9 &&
-        val[1][0].order != 10 &&
-        val[1][0].order != 13 &&
+        val[1].find(
+          (val: any) => val.order != 9 && val.order != 10 && val.order != 13
+        ) &&
         val[1][0][index] &&
         val;
       return result;
     }
   });
+
+  // console.log('profileFilter', index == 'professional' && profileFilter);
 
   const profileProfessionalFilter = Object.entries(profile).filter((val) => {
     return (
@@ -71,21 +73,28 @@ export const getPrincipalProfileOrderedByObject = (
 
   profileFilter.forEach((val) => {
     //remove from the array
-    objectArray.push(
-      index == 'social'
-        ? val[1].length > 0
-          ? val[1].find(
-              (val: any) => val.social && val.checked && val.order != 13
-            )
-          : val[1]
-        : val[1]
-    );
+    const social =
+      val[1].length > 0
+        ? val[1].find(
+            (val: any) => val.social && val.checked && val.order != 13
+          )
+        : val[1].checked && val[1];
+
+    const profArray: any[] = [];
+    val[1].length > 0 &&
+      val[1].forEach((value: any, key: number) => {
+        value.checked && value.professional && profArray.push(value);
+      });
+
+    index == 'social'
+      ? social && objectArray.push(social)
+      : objectArray.push(profArray);
   });
 
   const { arraySorted } = sortedArrayObject(objectArray, index);
 
   // console.log('profileFilter', profileFilter);
-  // console.log('objectArray', objectArray);
+  // console.log('objectArray>>>>>', index == 'professional' && objectArray);
   // console.log('arraySorted', arraySorted);
 
   if (index == 'social' && arraySorted.length > 3) {

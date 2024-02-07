@@ -23,7 +23,7 @@ const CustomAvatar = ({
       sx={{
         borderRadius: rounded ? '100%' : square ? '20%' : '10px',
         ml: ml,
-        mt: 3,
+        mt: 5,
         padding: 1,
         backgroundColor: '#679a88',
         height: size,
