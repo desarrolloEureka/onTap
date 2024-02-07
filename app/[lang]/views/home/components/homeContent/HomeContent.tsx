@@ -82,7 +82,7 @@ const HomeContent = ({
     }
   };
 
-  const handlePreview = async (id: string) => {
+  const handlePreview = async () => {
     const urlSplit = window.location.href.split('/');
     window.open(
       `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}&type=${optionSelected}`
@@ -146,7 +146,7 @@ const HomeContent = ({
                           <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
                             <div className='tw-w-[100%] tw-h-[25%] tw-flex tw-items-center tw-justify-center '>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
-                                <Button onClick={() => handlePreview(value.id)}>
+                                <Button onClick={handlePreview}>
                                   <div className='tw-w-[40%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                                     <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-center tw-justify-center'>
                                       <VisibilityIcon

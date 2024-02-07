@@ -55,10 +55,10 @@ const FormAddDataUser = ({
               | EducationDataFormValues[]
               | CareerDataFormValues[] =
               value[0] == 'phones' ||
-                value[0] == 'education' ||
-                value[0] == 'emails' ||
-                value[0] == 'urls' ||
-                value[0] == 'professional_career'
+              value[0] == 'education' ||
+              value[0] == 'emails' ||
+              value[0] == 'urls' ||
+              value[0] == 'professional_career'
                 ? value[1]
                 : null;
 
@@ -76,7 +76,7 @@ const FormAddDataUser = ({
                     value={value}
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
-                    social={false}
+                    social={true}
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }

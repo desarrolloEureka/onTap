@@ -18,10 +18,10 @@ const CustomButton = ({
   return (
     icon?.image && (
       <Link
-        className={`tw-rounded-full tw-drop-shadow-xl tw-w-[45px] tw-h-[45px] ${styles}`}
+        className={`tw-rounded-full tw-drop-shadow-xl ${styles}`}
         href={`http://${link}`}
       >
-        <Image src={icon.image} alt={name} width={75} height={70} />
+        <Image src={icon.image} alt={name} width={70} height={70} />
       </Link>
     )
   );

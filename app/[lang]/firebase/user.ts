@@ -112,13 +112,21 @@ export const updateViewsUser = async (userId: string, newData: any) => {
   await updateDoc(userDocRef, newData);
 };
 
-export const updateInactiveUser = async (userId: string, newData: any): Promise<boolean> => {
+export const updatePreView = async (userId: string, newData: any) => {
+  const userDocRef = doc(dataBase, 'users', userId);
+  await updateDoc(userDocRef, newData);
+};
+
+export const updateInactiveUser = async (
+  userId: string,
+  newData: any
+): Promise<boolean> => {
   try {
     const userDocRef = doc(dataBase, 'users', userId);
     await updateDoc(userDocRef, newData);
     return true;
   } catch (error) {
-    console.error("Error al actualizar el usuario:", error);
+    console.error('Error al actualizar el usuario:', error);
     return false;
   }
 };

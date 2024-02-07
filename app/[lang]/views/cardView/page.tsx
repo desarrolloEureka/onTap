@@ -13,7 +13,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const searchParams = useSearchParams();
   const uid = searchParams.get('uid');
   const type = searchParams.get('type');
-  const handleModalAlert = (status: boolean) => setIsModalAlert(!isModalAlert);
+  const handleModalAlert = () => setIsModalAlert(!isModalAlert);
 
   const { user } = uid
     ? CardViewHookWithUser({ userUid: uid })
@@ -34,8 +34,6 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     <CustomCircularProgress isOpen />
   );
 };
-
-<CustomCircularProgress isOpen />;
 
 export default Page;
 

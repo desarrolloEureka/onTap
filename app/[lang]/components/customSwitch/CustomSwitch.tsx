@@ -31,7 +31,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     '@media screen and (min-width: 601px)': {
       // Pantallas grandes
       '&.Mui-checked': {
-        transform: 'translateX(28px)', /* Desplazamiento  */
+        transform: 'translateX(28px)' /* Desplazamiento  */,
       },
     },
     '&.Mui-focusVisible .MuiSwitch-thumb': {
@@ -90,7 +90,6 @@ const CustomSwitch = ({ profile }: { profile: boolean }) => {
       switchRef.current.checked = checked;
       setIsUpdate(!isUpdate);
       if (profile) {
-        console.log("Entre!!! ");
         await SendSwitchProfile(userId, checked);
       } else {
         await SendSwitchActivateCard(userId, checked);

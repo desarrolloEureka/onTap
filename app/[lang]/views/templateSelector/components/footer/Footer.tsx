@@ -13,22 +13,24 @@ const Footer = ({
 
   return (
     <Box sx={{ height: 30, px: 4 }}>
-      <Carousel height={50} className='tw-px-3 tw-mb-8' autoPlay={false}>
-        {finalArray?.map((item, j) => {
-          return (
-            <Box sx={{ display: 'flex', justifyContent: 'center' }} key={j}>
-              {item.map((val, i) => (
-                <CustomButton
-                  name={val.icon}
-                  link={val.url}
-                  key={i}
-                  styles={'tw-mx-2'}
-                />
-              ))}
-            </Box>
-          );
-        })}
-      </Carousel>
+      {finalArray.length > 0 && finalArray[0].length > 0 && (
+        <Carousel height={50} className='tw-px-3 tw-mb-8' autoPlay={false}>
+          {finalArray?.map((item, j) => {
+            return (
+              <Box sx={{ display: 'flex', justifyContent: 'center' }} key={j}>
+                {item.map((val, i) => (
+                  <CustomButton
+                    name={val.icon}
+                    link={val.url}
+                    key={i}
+                    styles={'tw-mx-3'}
+                  />
+                ))}
+              </Box>
+            );
+          })}
+        </Carousel>
+      )}
     </Box>
   );
 };

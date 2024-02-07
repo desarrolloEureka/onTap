@@ -41,7 +41,7 @@ const ItemForm = ({
     ) {
       return dataRef?.current?.text ?? myValue?.text;
     } else {
-      if (dataRef.current) {
+      if (dataRef.current && dataRef.current.length) {
         return dataRef.current[subindex as any].text;
       }
     }
@@ -56,7 +56,7 @@ const ItemForm = ({
   };
 
   useEffect(() => {
-    if (dataRef.current && myValue) {
+    if (dataRef && myValue) {
       dataRef.current = myValue;
     }
   }, [dataRef, myValue]);
