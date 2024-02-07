@@ -4,7 +4,7 @@ import Switch from '@mui/material/Switch';
 import { GetUser, SendSwitchActivateCard, SendSwitchProfile } from '@/reactQuery/users';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-const MaterialUISwitch = styled(Switch)(({ theme, profile }) => ({
+const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 92,
   height: 37,
   padding: 0,
@@ -44,7 +44,6 @@ const MaterialUISwitch = styled(Switch)(({ theme, profile }) => ({
     },
   },
   '& .MuiSwitch-thumb': {
-    backgroundColor: profile ? '#fff' : null, // Rojo cuando está a la izquierda
     boxSizing: 'border-box',
     width: 25,
     height: 25,
@@ -57,7 +56,6 @@ const MaterialUISwitch = styled(Switch)(({ theme, profile }) => ({
   },
   '& .MuiSwitch-track': {
     borderRadius: 50 / 2,
-    backgroundColor: profile ? '#02AF9B' : '#ABA9A6',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 500,
@@ -112,6 +110,10 @@ const CustomSwitch = ({ profile, handleModalAlert }: { profile: boolean; handleM
         : data?.switch_activateCard;
   }, [data, isUpdate, profile, switchRef]);
 
+  // Determina los estilos basados en el perfil
+  const thumbBackgroundColor = profile ? '#fff' : null;
+  const trackBackgroundColor = profile ? '#02AF9B' : '#ABA9A6';
+
   return (
     <MaterialUISwitch
       inputRef={switchRef}
@@ -123,9 +125,12 @@ const CustomSwitch = ({ profile, handleModalAlert }: { profile: boolean; handleM
         '& .MuiSwitch-thumb': {
           width: isSmallScreen ? 25 : 29,
           height: isSmallScreen ? 25 : 29,
+          backgroundColor: thumbBackgroundColor,
+        },
+        '& .MuiSwitch-track': {
+          backgroundColor: trackBackgroundColor,
         },
       }}
-      profile={profile}
     />
   );
 };
