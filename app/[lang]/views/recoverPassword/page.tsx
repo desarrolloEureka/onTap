@@ -15,6 +15,7 @@ const RecoverPassword = ({
   params: { lang: Locale };
 }) => {
   const { step, handleBack, handleNext, finishReset } = RecoverPasswordHook();
+  const { dictionary } = useDictionary({ lang });
 
   return (
     <div>
@@ -38,10 +39,10 @@ const RecoverPassword = ({
             handleNext={handleNext}
           />
           <div>
-            <Link href='/views/homeThree'>Home 3</Link>
+            <Link href='/views/homeThree'>{dictionary?.recoverPassword.home3}</Link>
           </div>
           <div>
-            <Link href='/views/crudN'>CRUD</Link>
+            <Link href='/views/crudN'>{dictionary?.recoverPassword.CRUD}</Link>
           </div>
         </>
       )}

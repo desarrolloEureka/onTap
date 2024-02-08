@@ -1,5 +1,10 @@
 export interface Dictionary {
   generalTitle: string;
+  backOffice: {
+    CRUD: string;
+    ID: string;
+    Name: string;
+  };
   cardView:{
     labelErrorUser: string;
     labelErrorUserDescription: string;
@@ -39,6 +44,8 @@ export interface Dictionary {
     expiredRecover: string;
     changePassword: string;
     passwordUpdated: string;
+    home3: string;
+    CRUD: string;
   };
   loginView: {
     username: string;
@@ -98,6 +105,8 @@ export interface Dictionary {
     titleCode: string;
   };
   newPassword: {
+    mandatoryPassword: string;
+    mandatoryRepeatPassword: string;
     createNewPass: string;
     nPassword: string;
     repeatPassword: string;

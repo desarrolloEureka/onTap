@@ -1,5 +1,10 @@
 {
   "generalTitle": "One Tap dice!",
+  "backOffice": {
+    "CRUD": "CRUD",
+    "ID": "ID",
+    "Name": "Name"
+  },
   "cardView":{
     "labelErrorUser": "Error",
     "labelErrorUserDescription": "El usuario no comparte su información en estos momentos"
@@ -53,7 +58,9 @@
     "alertErrorPassword": "Las contraseñas no coinciden, por favor intenta de nuevo",
     "expiredRecover": "La url ya no es valida, por favor intentalo de nuevo",
     "changePassword": "Cambiar contraseña",
-    "passwordUpdated": "Contraseña actualizada correctamente *"
+    "passwordUpdated": "Contraseña actualizada correctamente *",
+    "home3": "Home 3",
+    "CRUD": "CRUD"
   },
   "recoveryCode": {
     "titleCode": "Codigo de Recuperacion",
@@ -64,6 +71,8 @@
     "backCode": "Regresar"
   },
   "newPassword": {
+    "mandatoryPassword": "La contraseña es obligatoria",
+    "mandatoryRepeatPassword": "La contraseña de confirmación es obligatoria",
     "createNewPass": "Crear Nueva Contraseña",
     "nPassword": "Nueva contraseña",
     "repeatPassword": "Repetir contraseña",
