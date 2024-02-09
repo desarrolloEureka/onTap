@@ -31,8 +31,8 @@ const FooterProfile = ({
   });
 
   return (
-    <div className='tw-h-[110px] tw-flex tw-items-center tw-justify-center '>
-     {/*  <CustomModalAlert
+    <div className='tw-h-[110px] tw-flex tw-items-center tw-justify-center'>
+      <CustomModalAlert
         isModalAlert={isDataError}
         handleModalAlert={setIsDataError}
         title={dictionary?.generalTitle}
@@ -45,7 +45,7 @@ const FooterProfile = ({
         title={dictionary?.generalTitle}
         description={dictionary.profileView.successDataSend}
         isClosed
-      /> */}
+      />
 
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
         <div className=' tw-h-[80%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
@@ -71,7 +71,7 @@ const FooterProfile = ({
           </div>
         </div>
         <div className=' tw-h-[80%] tw-w-[50%] tw-flex  tw-items-end tw-justify-end '>
-        {/*   <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+          <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
             <Button
               className='tw-w-[90%] tw-h-[45px]'
               onClick={handleSendProfile}
@@ -81,7 +81,7 @@ const FooterProfile = ({
                 <SaveOutlinedIcon
                   style={{
                     color: '#02AF9B',
-                    fontSize: '1.6em',
+                    fontSize: '1.8rem',
                     marginLeft: '0rem',
                   }}
                 />
@@ -90,14 +90,14 @@ const FooterProfile = ({
               <span
                 style={{
                   color: '#030124 ',
-                  fontSize: '0.9rem',
+                  fontSize: '1.2rem',
                   textTransform: 'none',
                 }}
               >
                 {dictionary.homeView.saveButtonLabel}
               </span>
             </Button>
-          </div> */}
+          </div>
         </div>
       </Container>
     </div>

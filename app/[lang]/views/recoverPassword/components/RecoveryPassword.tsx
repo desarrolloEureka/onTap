@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Locale } from 'i18n-config';
 import Link from 'next/link';
 import RecoverPasswordHook from '../hooks/RecoverPasswordHook';
-import { Alert } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 
 const RecoveryPassword = ({
   params: { lang },
@@ -31,23 +31,40 @@ const RecoveryPassword = ({
         <h1 className=' tw-text-white tw-text-[26px]  '>
           {dictionary?.recoverPassword.recoverPassword}
         </h1>
-        <TextField
+        <Box className='tw-w-[386px]'>
+          <Typography
+            className='tw-text-white  tw-mt-10 tw-w-full'
+            variant='body2'
+            color='textSecondary'
+            display={'flow'}
+          >
+            {dictionary?.recoverPassword.mail}
+          </Typography>
+          <TextField
+            className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
+            required
+            id='outlined-required'
+            //label={dictionary?.recoverPassword.mail}
+            defaultValue=''
+            variant='outlined'
+            InputProps={{ className: 'tw-rounded-3xl' }}
+            InputLabelProps={{ style: { color: 'white' }, shrink: true }}
+            onChange={handleSetEmail}
+          />
+        </Box>
+
+        {/* <TextField
           className='tw-h-[52px] tw-w-[386px] tw-text-sm tw-mt-[80px] '
           required
           id='outlined-required'
-          label={dictionary?.recoverPassword.mail}
+          //label={dictionary?.recoverPassword.mail}
           defaultValue=''
           variant='outlined'
           InputProps={{ className: 'tw-rounded-3xl' }}
+          InputLabelProps={{ style: { color: 'white' }, shrink: true }}
           onChange={handleSetEmail}
-        />
-        <Typography
-          className='tw-text-white tw-mt-3 tw-mr-80'
-          variant='body2'
-          color='textSecondary'
-        >
-          {dictionary?.recoverPassword.mail}
-        </Typography>
+        /> */}
+
         <div className='tw-flex tw-flex-row tw-justify-center tw-items-center'>
           <Button
             className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-10'
