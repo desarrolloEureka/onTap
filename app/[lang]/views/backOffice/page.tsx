@@ -10,11 +10,6 @@ import UserRegister from '@/components/userRegisterForm/UserRegisterForm';
 import UserTable from '@/components/userTable/UserTable';
 import LoadFonts from '@/components/loadFonts/LoadFonts';
 
-type Item = {
-  id: number;
-  name: string;
-  image: string;
-};
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;

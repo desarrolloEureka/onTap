@@ -53,12 +53,14 @@ const UserRegister = () => {
             <TextField
               className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
               required
+              type="number"
               id='outlined-required'
               defaultValue={dni}
               variant='outlined'
               InputProps={{ className: 'tw-rounded-3xl' }}
               onChange={(e) => setDni(e.target.value)}
             />
+
             <Typography
               className='tw-text-white  tw-mt-10 tw-w-full'
               variant='body2'

@@ -40,7 +40,6 @@ const UserRegisterForm = () => {
     result.gif = true;
     result.email = email;
     result.dni = dni;
-    //console.log(data);
     registerUserFb({ data : result }).then((res) => {
       //console.log('res::::', res);
     });
