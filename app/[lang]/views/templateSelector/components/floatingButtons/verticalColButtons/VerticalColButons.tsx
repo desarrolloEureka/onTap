@@ -10,7 +10,6 @@ const VerticalColButtons = ({
   socialNetworks: UrlDataFormValues[];
 }) => {
   const { data } = getSocialNetworksOrderedByObject(socialNetworks, 2);
-
   return (
     <Container className='tw-flex tw-px-0 tw-pt-16 tw-pb-3 tw-mt-[48px] tw-flex-col tw-justify-center tw-items-center tw-h-56 tw-w-[180px] tw-overflow-y-scroll no-scrollbar'>
       {data.map((val, key) => {
@@ -31,7 +30,7 @@ const VerticalColButtons = ({
                     alignItems: 'flex-end',
                     width: '100%',
                     height: 70,
-                    marginLeft: 1.5
+                    marginLeft: 1.5,
                   }}
                   key={i}
                 >

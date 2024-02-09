@@ -1,0 +1,32 @@
+import { registerFirebase } from '@/firebase/auth';
+import { registerUserData } from '@/firebase/user';
+import { UserCredential } from 'firebase/auth';
+
+export const registerUserAuth = async ({
+  user,
+  password,
+}: {
+  user: string;
+  password: string;
+}) => {
+  const result: UserCredential = await registerFirebase(user, password);
+  const userData = {
+    uid: result.user.uid,
+    emailVerified: result.user.emailVerified,
+    name: '',
+    plan: '',
+    isActive: true,
+    is_admin: false,
+    views: 0,
+    switch_activateCard: true,
+    switch_profile: true,
+    preView: `http://backoffice.onetap.com.co/es/views/cardView?uid=${result.user.uid}type=social`,
+  };
+  return userData;
+};
+
+export const registerUserFb = async ({ data }: { data: any }) => {
+  const result = await registerUserData(data);
+  console.log('result::::', result);
+  return result;
+};

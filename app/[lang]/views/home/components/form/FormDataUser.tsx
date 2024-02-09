@@ -56,10 +56,10 @@ const FormDataUser = ({
                   value[0] == 'achievements_recognitions'
                 ) {
                   const myValue =
-                    user && index == value[0]
+                    user && user.profile && index == value[0]
                       ? user.profile[index]?.text
                       : undefined;
-                  const myValue1 = (user && index == value[0]
+                  const myValue1 = (user && user.profile && index == value[0]
                     ? user.profile[index]
                     : undefined) as unknown as DataFormValues;
                   return (
@@ -78,7 +78,7 @@ const FormDataUser = ({
                     />
                   );
                 } else {
-                  const myValue = (user && index == value[0]
+                  const myValue = (user && user.profile && index == value[0]
                     ? user.profile[index]
                     : undefined) as unknown as DataFormValues;
                   return (
@@ -98,7 +98,7 @@ const FormDataUser = ({
                   );
                 }
               } else {
-                const myValue = (user && index == value[0]
+                const myValue = (user && user.profile && index == value[0]
                   ? user.profile[index]
                   : undefined) as unknown as DataFormValues;
 

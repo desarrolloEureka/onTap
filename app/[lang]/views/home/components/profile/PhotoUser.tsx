@@ -8,11 +8,7 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import ProfileHook from './hooks/ProfileHook';
 
-const PhotoUser = ({
-  dictionary
-}: {
-  dictionary: Dictionary;
-}) => {
+const PhotoUser = ({ dictionary }: { dictionary: Dictionary }) => {
   const {
     handleSendProfile,
     isDataSuccess,
@@ -26,7 +22,9 @@ const PhotoUser = ({
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { data, error } = GetUser();
 
-  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files && event.target.files[0];
 
     if (file) {
@@ -66,7 +64,11 @@ const PhotoUser = ({
           <label htmlFor='photoInput'>
             <Avatar
               alt='Photo User'
-              src={selectedImage != null ? selectedImage : data?.image || '/images/profilePhoto.png'}
+              src={
+                selectedImage != null
+                  ? selectedImage
+                  : data?.image || '/images/profilePhoto.png'
+              }
               sx={{
                 width: 125,
                 height: 125,
@@ -101,7 +103,8 @@ const PhotoUser = ({
       <div className=' tw-h-[20%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
         <div className='tw-h-[45px] tw-w-[120px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#02AF9B] tw-rounded-tr-xl tw-rounded-bl-xl'>
           <h5 className='tw-text-white'>
-            {dictionary?.profileView.labelHello} {data && data.name ? data.name : ""}
+            {dictionary?.profileView?.labelHello}{' '}
+            {data && data.name ? data.name : ''}
           </h5>
         </div>
       </div>
@@ -152,7 +155,6 @@ const PhotoUser = ({
         description={dictionary.profileView.successDataSend}
         isClosed
       />
-
     </div>
   );
 };

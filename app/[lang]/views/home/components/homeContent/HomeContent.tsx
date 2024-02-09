@@ -1,8 +1,5 @@
 import CustomCheckbox from '@/components/customCheckbox/CustomCheckbox';
-import {
-  GetUser,
-  SendTemplateSelected,
-} from '@/reactQuery/users';
+import { GetUser, SendTemplateSelected } from '@/reactQuery/users';
 import { Dictionary } from '@/types/dictionary';
 import { BackgroundImages, TemplateTypes, Templates } from '@/types/home';
 import CloseIcon from '@mui/icons-material/Close';
@@ -103,8 +100,9 @@ const HomeContent = ({
   return (
     dictionary && (
       <div
-        className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'
-          }`}
+        className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${
+          screenHeight ? '' : 'md:tw-h-screen'
+        }`}
       >
         <Header dictionary={dictionary} views={data?.views ?? 0} />
         <div
@@ -276,8 +274,9 @@ const HomeContent = ({
           aria-describedby='modal-modal-description'
         >
           <Box
-            className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${isLargeScreen ? 'tw-w-[50%]' : ''
-              } tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}
+            className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${
+              isLargeScreen ? 'tw-w-[50%]' : ''
+            } tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}
           >
             <div className='tw-absolute tw-right-1 tw-top-2'>
               <Button
@@ -303,8 +302,9 @@ const HomeContent = ({
                 </Typography>
               </div>
               <div
-                className={`tw-overflow-y-auto ${isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null
-                  }`}
+                className={`tw-overflow-y-auto ${
+                  isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null
+                }`}
               >
                 <Grid container spacing={2}>
                   {backgroundImages.map((item, index) => {
@@ -350,8 +350,7 @@ const HomeContent = ({
 
                             <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-end tw-justify-center '>
                               <div className='tw-w-[100%] tw-h-[30%] tw-flex tw-items-center tw-justify-start '>
-                                <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center tw-pl-3'>
-                                </div>
+                                <div className='max-sm:tw-w-[45%] tw-w-[25%] tw-h-[100%] tw-flex tw-items-center tw-justify-center tw-pl-3'></div>
                               </div>
                             </div>
                           </div>

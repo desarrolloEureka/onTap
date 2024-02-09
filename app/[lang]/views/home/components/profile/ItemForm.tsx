@@ -49,7 +49,7 @@ const ItemForm = ({
   const isChecked = () => {
     const i = subindex as any;
     if (index == 'phones' || index == 'emails') {
-      if (dataRef.current) {
+      if (dataRef.current && dataRef.current.length > 0) {
         return dataRef.current[i].checked;
       }
     }

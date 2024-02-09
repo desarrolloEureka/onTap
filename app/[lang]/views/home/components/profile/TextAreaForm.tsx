@@ -24,6 +24,7 @@ const TextAreaForm = ({
   index,
 }: ItemFormParams) => {
   const dataRef = useRef<any>(null);
+
   useEffect(() => {
     if (dataRef.current && myValue && dataForm && index) {
       dataRef.current = myValue;

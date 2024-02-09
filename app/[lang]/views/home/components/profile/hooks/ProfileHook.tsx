@@ -24,11 +24,12 @@ const ProfileHook = ({
   handleDataSet?: (e: DataForm) => void;
 }) => {
   const { data, error } = GetUser();
-  const dataProfile = data?.profile as DataForm;
+  const dataProfile = (data?.profile ?? {}) as DataForm;
   const [dataForm, setDataForm] = useState<DataForm>(
-    data ? dataProfile : (profile as DataForm)
+    dataProfile.name ? dataProfile : (profile as DataForm)
   );
 
+  // console.log('data', dataProfile.name);
   // console.log('dataForm', dataForm);
 
   const objectDataSort = Object.entries(dataForm).toSorted((a, b) => {

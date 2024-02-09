@@ -1,11 +1,9 @@
 import { BackgroundImages } from '@/types/home';
+import { UserData } from '@/types/user';
 import { Locale } from 'i18n-config';
 import BgImage from './bgImage/BgImage';
-import TemplateContainer from './container/Container';
-import HeroProfessional from './hero/HeroProfessional';
-import { UserData } from '@/types/user';
-import Footer from './footer/Footer';
 import TemplateContainerProfessionalOne from './container/ContainerProfessionalOne';
+import HeroProfessional from './hero/HeroProfessional';
 
 const ProfessionalOne = ({
   params: { lang, background, data },
@@ -27,7 +25,6 @@ const ProfessionalOne = ({
           profession={data.profile.profession?.text}
         />
         <TemplateContainerProfessionalOne profile={data.profile} />
-        {/*<Footer socialNetworks={data.profile.urls} /> */}
       </div>
     </div>
   );

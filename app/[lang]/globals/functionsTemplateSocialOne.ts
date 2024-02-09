@@ -56,7 +56,7 @@ export const getPrincipalProfileOrderedByObject = (
     }
   });
 
-  // console.log('profileFilter', index == 'professional' && profileFilter);
+  // console.log('profileFilter', profileFilter);
 
   const profileProfessionalFilter = Object.entries(profile).filter((val) => {
     return (
@@ -91,11 +91,18 @@ export const getPrincipalProfileOrderedByObject = (
       : objectArray.push(profArray);
   });
 
-  const { arraySorted } = sortedArrayObject(objectArray, index);
+  const { arraySorted } =
+    objectArray.length > 0
+      ? index == 'social'
+        ? sortedArrayObject(objectArray, index)
+        : objectArray[0].length > 0
+        ? sortedArrayObject(objectArray, index)
+        : { arraySorted: [] }
+      : { arraySorted: [] };
 
   // console.log('profileFilter', profileFilter);
   // console.log('objectArray>>>>>', index == 'professional' && objectArray);
-  // console.log('arraySorted', arraySorted);
+  console.log('arraySorted', arraySorted);
 
   if (index == 'social' && arraySorted.length > 3) {
     arraySorted.forEach((val, key) => {

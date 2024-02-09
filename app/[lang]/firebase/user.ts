@@ -6,6 +6,8 @@ import {
   query,
   where,
   updateDoc,
+  addDoc,
+  setDoc,
 } from 'firebase/firestore';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { dataBase } from 'app/[lang]/firebase/firebaseConfig';
@@ -35,6 +37,11 @@ export const getUserByIdFireStore = async (user: string) =>
 // ref({ ref: user, collection: 'users' });
 
 export const getAllUsers = async () => await getDocs(allRef({ ref: 'users' }));
+
+export const registerUserData = async (data: any) => {
+  const docRef = await setDoc(doc(dataBase, 'users', data.uid), data);
+  return docRef;
+};
 
 export const updateUserData = async (userId: string, newData: any) => {
   const userDocRef = doc(dataBase, 'users', userId);
