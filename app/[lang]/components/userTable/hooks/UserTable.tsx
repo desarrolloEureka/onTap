@@ -7,12 +7,13 @@ const UserTableLogic = () => {
         const getquery = async () => {
             const usersDataSanpShot = await getAllUsers();
             const usersData = usersDataSanpShot.docs.map((doc) => ({
-                id: doc.id,
+                id: doc.data().dni,
                 is_admin: doc.data().is_admin,
                 url: doc.data().preview,
-                name: doc.data().name,
-                email: doc.data().profile?.emails[0]?.text || '',
+                name:  doc.data().name ,
+                email: doc.data().email || '',
                 lastName: doc.data().profile?.last_name?.text || '',
+                plan: doc.data().plan || '',
             })).filter((user) => !user.is_admin);
             setQuery(usersData);
         }

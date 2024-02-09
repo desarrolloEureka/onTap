@@ -144,8 +144,8 @@ const UserRegister = () => {
               variant='outlined'
               onChange={(e) => setPlan(e.target.value)}
             >
-              <MenuItem value='basic'>Básico</MenuItem>
-              <MenuItem value='profesional'>Profesional</MenuItem>
+              <MenuItem value='standar'>Estandar</MenuItem>
+              <MenuItem value='premium'>Premium</MenuItem>
             </Select>
             {errorDataForm && (
               <span className='tw-text-red-500'>

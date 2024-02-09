@@ -10,7 +10,7 @@ const TemplateSelectorHook = (user: UserData, type: string) => {
   const [background, setBackground] = useState<BackgroundImages>();
 
   useLayoutEffect(() => {
-    const bgId = user.templateData.find((val) => val.type === type);
+    const bgId = user?.templateData?.find((val) => val.type === type);
 
     if (bgId && templates.data && backgrounds.data) {
       const currentTemplate = templates.data.find((val) => val.id == bgId.id);

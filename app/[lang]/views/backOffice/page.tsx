@@ -70,10 +70,10 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <LoadFonts params={{ lang }} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <UserRegister />
+          <UserTable />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <UserTable />
+          <UserRegister />
         </CustomTabPanel>
       </Box>
     </div>

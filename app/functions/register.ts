@@ -21,12 +21,15 @@ export const registerUserAuth = async ({
     switch_activateCard: true,
     switch_profile: true,
     preview: `http://backoffice.onetap.com.co/es/views/cardView?uid=${result.user.uid}type=social`,
+    gif: false,
+    email: '',
+    dni: '',
   };
   return userData;
 };
 
 export const registerUserFb = async ({ data }: { data: any }) => {
   const result = await registerUserData(data);
-  console.log('result::::', result);
+  //console.log('result::::', result);
   return result;
 };

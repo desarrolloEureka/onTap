@@ -102,7 +102,7 @@ export const getPrincipalProfileOrderedByObject = (
 
   // console.log('profileFilter', profileFilter);
   // console.log('objectArray>>>>>', index == 'professional' && objectArray);
-  console.log('arraySorted', arraySorted);
+  //console.log('arraySorted', arraySorted);
 
   if (index == 'social' && arraySorted.length > 3) {
     arraySorted.forEach((val, key) => {

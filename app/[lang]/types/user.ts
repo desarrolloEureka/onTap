@@ -24,6 +24,8 @@ export interface UserData {
   views: number;
   isActive: boolean;
   plan: string;
+  gif: boolean;
+  dni: string;
 }
 export interface User {
   uid: string;

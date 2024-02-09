@@ -1,4 +1,5 @@
 import { Dictionary } from '@/types/dictionary';
+import { registerUserAuth, registerUserFb } from 'app/functions/register';
 import { useState } from 'react';
 
 const UserRegisterForm = () => {
@@ -32,15 +33,17 @@ const UserRegisterForm = () => {
       plan,
       gif: true,
     };
-    /*
-        const response = await fetch('https://aquiLaURL.com/posts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });*/
-    console.log(data);
+    const result = await registerUserAuth({ user: email, password: dni });
+    result.name = `${name} ${lastName}`;
+    result.plan = plan;
+    result.switch_profile = plan === 'standard' ? false : true;
+    result.gif = true;
+    result.email = email;
+    result.dni = dni;
+    //console.log(data);
+    registerUserFb({ data : result }).then((res) => {
+      //console.log('res::::', res);
+    });
   };
 
   return {
