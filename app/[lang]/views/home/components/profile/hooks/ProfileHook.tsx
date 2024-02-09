@@ -69,8 +69,8 @@ const ProfileHook = ({
     }
   };
 
-  const handleModalAlertLimit = (isOpen: boolean) => {
-    setIsModalAlertLimit(isOpen);
+  const handleModalAlertLimit = () => {
+    setIsModalAlertLimit(!isModalAlertLimit);
   };
 
   const handleModal = () => {
@@ -154,8 +154,8 @@ const ProfileHook = ({
     dataFormClone && index == 'education' && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == 'professional_career'
-      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-      : index == 'urls' &&
+        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+        : index == 'urls' &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -272,13 +272,15 @@ const ProfileHook = ({
       index == 'urls' ||
       index == 'professional_career'
     ) {
-      const countProfessional = dataFormClone[index]?.filter(
+      /* const countProfessional = dataFormClone[index]?.filter(
         (item: any) => item.professional
       ).length;
       const countSocial = dataFormClone[index]?.filter(
         (item: any) => item.social
       ).length;
-      const count = social ? countSocial : countProfessional;
+      const count = social ? countSocial : countProfessional; */
+
+      const count = dataFormClone?.[index]?.length;
 
       // console.log('count', count);
 
@@ -310,7 +312,7 @@ const ProfileHook = ({
             });
           }
         } else {
-          handleModalAlertLimit(true);
+          setIsModalAlertLimit(true);
         }
       }
       if (index === 'emails') {
@@ -341,7 +343,7 @@ const ProfileHook = ({
             });
           }
         } else {
-          handleModalAlertLimit(true);
+          setIsModalAlertLimit(true);
         }
       }
       if (index === 'education') {
@@ -376,7 +378,7 @@ const ProfileHook = ({
             });
           }
         } else {
-          handleModalAlertLimit(true);
+          setIsModalAlertLimit(true);
         }
       }
       if (index === 'professional_career') {
@@ -413,28 +415,15 @@ const ProfileHook = ({
             });
           }
         } else {
-          handleModalAlertLimit(true);
+          setIsModalAlertLimit(true);
         }
       }
       if (index === 'urls') {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.urls = [
-              {
-                label: 'urls',
-                name: '',
-                url: '',
-                icon: '',
-                checked: false,
-                principal: false,
-                social: social,
-                professional: !social,
-                order: 13,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.push({
-              label: dataFormClone[index]![0].label,
+        //if ((count != null || count != undefined) && count < 3) {
+        if (count === 0) {
+          dataFormClone.urls = [
+            {
+              label: 'urls',
               name: '',
               url: '',
               icon: '',
@@ -443,11 +432,24 @@ const ProfileHook = ({
               social: social,
               professional: !social,
               order: 13,
-            });
-          }
+            },
+          ];
         } else {
-          handleModalAlertLimit(true);
+          dataFormClone[index]?.push({
+            label: dataFormClone[index]![0].label,
+            name: '',
+            url: '',
+            icon: '',
+            checked: false,
+            principal: false,
+            social: social,
+            professional: !social,
+            order: 13,
+          });
         }
+        /*  } else {
+           setIsModalAlertLimit(true);
+         } */
       }
 
       handleDataSet && handleDataSet(dataFormClone);
@@ -525,6 +527,7 @@ const ProfileHook = ({
   );
 
   const handleSwitchAll = (val: ChangeEvent<HTMLInputElement>) => {
+    console.log("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     const isChecked = val.target.checked;
     const dataFormClone = { ...dataForm };
     const items = Object.entries(dataFormClone);

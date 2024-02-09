@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import { Avatar, Stack, IconButton } from '@mui/material';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
@@ -7,9 +8,12 @@ import { Button, Container } from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import ProfileHook from './hooks/ProfileHook';
+import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
+import { DataForm } from '@/types/profile';
 
-const PhotoUser = ({ dictionary }: { dictionary: Dictionary }) => {
+const PhotoUser = ({ dictionary, handleDataSet, }: { dictionary: Dictionary; handleDataSet: (e: DataForm) => void; }) => {
   const {
+    handleSwitchAll,
     handleSendProfile,
     isDataSuccess,
     setIsDataSuccess,
@@ -17,6 +21,7 @@ const PhotoUser = ({ dictionary }: { dictionary: Dictionary }) => {
     setIsDataError,
   } = ProfileHook({
     dictionary,
+    handleDataSet
   });
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -109,34 +114,58 @@ const PhotoUser = ({ dictionary }: { dictionary: Dictionary }) => {
         </div>
       </div>
 
-      <div className=' tw-h-[20%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
-        <Container className='tw-h-[90%] tw-w-[85%] tw-flex tw-items-start tw-justify-end'>
-          <div className='tw-h-[100%] tw-w-[120px] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-            <Button
-              className='tw-w-[90%] tw-h-[45px]'
-              onClick={handleSendProfile}
-              color='secondary'
-              size='medium'
-              startIcon={
-                <SaveOutlinedIcon
+      <div className=' tw-h-[35%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
+        <Container className='tw-h-[98%] tw-w-[85%] tw-flex tw-items-start tw-justify-end'>
+          <div className=' tw-h-[100%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
+            <div className=' tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+              <div className=' tw-h-[30%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
+                <span
                   style={{
-                    color: '#02AF9B',
-                    fontSize: '1.8rem',
-                    marginLeft: '0rem',
+                    color: '#000000',
+                    fontSize: '0.8rem',
+                    textTransform: 'none',
+                    fontWeight: 'bold',
                   }}
+                >
+                  {dictionary.profileView.labelSwitchMain}
+                </span>
+              </div>
+              <div className=' tw-h-[70%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
+                <CustomSwitchGeneral
+                  name='all_true'
+                  handleSwitch={(e: any) => handleSwitchAll(e)}
                 />
-              }
-            >
-              <span
-                style={{
-                  color: '#030124 ',
-                  fontSize: '1.2rem',
-                  textTransform: 'none',
-                }}
+              </div>
+            </div>
+          </div>
+          <div className=' tw-h-[100%] tw-w-[50%] tw-flex  tw-items-end tw-justify-end '>
+            <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
+              <Button
+                className='tw-w-[90%] tw-h-[45px]'
+                onClick={handleSendProfile}
+                color='secondary'
+                size='medium'
+                startIcon={
+                  <SaveOutlinedIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginLeft: '0rem',
+                    }}
+                  />
+                }
               >
-                {dictionary.homeView.saveButtonLabel}
-              </span>
-            </Button>
+                <span
+                  style={{
+                    color: '#030124 ',
+                    fontSize: '1.2rem',
+                    textTransform: 'none',
+                  }}
+                >
+                  {dictionary.homeView.saveButtonLabel}
+                </span>
+              </Button>
+            </div>
           </div>
         </Container>
       </div>

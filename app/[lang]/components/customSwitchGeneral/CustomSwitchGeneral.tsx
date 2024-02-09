@@ -2,7 +2,6 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { DataForm } from '@/types/profile';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 50,
