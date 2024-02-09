@@ -22,7 +22,11 @@ const ProfessionalOne = ({
           socialNetworks={data.profile.urls}
           photo={data.image}
           name={`${data.profile.name?.text}  ${data.profile.last_name?.text}`}
-          profession={data.profile.profession?.text}
+          profession={
+            data.profile.profession?.checked
+              ? data.profile.profession?.text
+              : ''
+          }
         />
         <TemplateContainerProfessionalOne profile={data.profile} />
       </div>
