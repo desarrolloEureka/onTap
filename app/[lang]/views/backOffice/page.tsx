@@ -1,9 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import ItemForm from './components/ItemForm';
-import ItemList from './components/ItemList';
-import { Button } from '@mui/material';
-import LogOut from '@/hooks/logOut/LogOut';
 import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import Tabs from '@mui/material/Tabs';
@@ -12,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import UserRegister from '@/components/userRegisterForm/UserRegisterForm';
 import UserTable from '@/components/userTable/UserTable';
+import LoadFonts from '@/components/loadFonts/LoadFonts';
 
 type Item = {
   id: number;
@@ -53,27 +50,24 @@ function a11yProps(index: number) {
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
-  const [items, setItems] = useState<Array<Item>>([]);
-  const { logOut } = LogOut();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const handleAddItem = (newItem: { name: string; image: string }) => {
-    setItems([...items, { id: items.length + 1, ...newItem }]);
-  };
+
   return (
     <div>
       <Box sx={{ width: '100%' }} className="tw-bg-white">
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tabs value={value} onChange={handleChange} aria-label="NavTab BackOffice">
             <Tab label="Cargar fondos" {...a11yProps(0)} />
             <Tab label="Listar usuarios/clientes" {...a11yProps(1)} />
             <Tab label="Crear usuarios/clientes" {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
+          <LoadFonts params={{ lang }} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <UserRegister />
@@ -82,12 +76,6 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <UserTable />
         </CustomTabPanel>
       </Box>
-      <div className='tw-container tw-mx-auto tw-p-4'>
-        <h1 className='tw-text-4xl tw-font-bold tw-mb-8'> {dictionary?.backOffice.CRUD} </h1>
-        <ItemForm onAddItem={handleAddItem} dictionary={dictionary} />
-        <ItemList items={items} />
-        <Button onClick={logOut}>{dictionary?.logOut}</Button>
-      </div>
     </div>
   );
 };
