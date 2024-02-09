@@ -9,9 +9,9 @@ type ItemProps = {
   image: string;
 };
 
-const { dictionary } = useDictionary({ lang: 'es' });
 
 const Item: React.FC<ItemProps> = ({ id, name, image }) => {
+  const { dictionary } = useDictionary({ lang: 'es' });
   return (
     <Card className='tw-mb-4'>
       <CardContent>

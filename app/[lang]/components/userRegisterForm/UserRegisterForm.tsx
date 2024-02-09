@@ -35,7 +35,7 @@ const UserRegister = () => {
         setEmail,
         setName,
         setLastName,
-        setPlan, //es un dropdown con valor "basic" por defecto y otra opcion "profesional"
+        setPlan,
         dataRegisterHandle,
         errorMailForm,
         errorDataForm
