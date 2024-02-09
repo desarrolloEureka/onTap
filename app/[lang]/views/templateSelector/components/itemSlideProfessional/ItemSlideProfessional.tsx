@@ -80,7 +80,9 @@ const ItemSlideProfessional = ({ item }: { item: DataFormValues[] }) => {
       >
         <Typography
           color={'#679a88'}
-          className='tw-w-[90%] tw-text-center tw-truncate tw-capitalize'
+          className={`tw-w-[90%] tw-text-center tw-truncate ${
+            val.order != 10 && 'tw-capitalize'
+          }`}
         >
           {val.text}
         </Typography>

@@ -40,7 +40,6 @@ export const getAllUsers = async () => await getDocs(allRef({ ref: 'users' }));
 
 export const registerUserData = async (data: any) => {
   const docRef = await setDoc(doc(dataBase, 'users', data.uid), data);
-  console.log('res>>', docRef);
   return docRef;
 };
 

@@ -41,8 +41,6 @@ const Profile = ({
     setDataForm(data);
   };
 
-  console.log('dataForm', dataForm);
-
   return (
     <div>
       <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">

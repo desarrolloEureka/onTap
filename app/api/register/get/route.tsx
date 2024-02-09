@@ -16,7 +16,6 @@ export async function GET(request: NextRequest) {
       result.name = `${name} ${last_name}`;
       result.plan = plan;
       result.switch_profile = plan === 'standard' ? false : true;
-      console.log('result', result);
       const registerResult = await registerUserFb({ data: result });
       response = {
         payload: { dni, email, name, last_name, plan },
