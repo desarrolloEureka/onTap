@@ -18,7 +18,8 @@
     "PremiumPlan": "Premium",
     "FillAllFields": "Por favor llene todos los campos",
     "Register": "Registrar",
-    "UserTable": "Tabla de usuarios"
+    "UserTable": "Tabla de usuarios",
+    "OneTapMessage": "One Tap dice!"
   },
   "cardView":{
     "labelErrorUser": "Error",

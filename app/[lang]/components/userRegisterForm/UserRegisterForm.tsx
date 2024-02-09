@@ -5,6 +5,10 @@ import {
   TextField,
   Typography,
   Select,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import UserRegisterForm from './hooks/UserRegisterForm';
 import MenuItem from '@mui/material/MenuItem';
@@ -25,6 +29,10 @@ const UserRegister = () => {
     dataRegisterHandle,
     errorMailForm,
     errorDataForm,
+    open,
+    handleClickOpen,
+    handleClose,
+    status,
   } = UserRegisterForm();
 
   const dictionary = useDictionary({ lang: 'es' });
@@ -150,6 +158,21 @@ const UserRegister = () => {
             >
               {dictionary.dictionary?.backOffice.Register}
             </Button>
+            <Dialog onClose={handleClose} open={open}>
+              <DialogTitle>
+                {dictionary.dictionary?.backOffice.OneTapMessage}
+              </DialogTitle>
+              <DialogContent dividers>
+                <Typography gutterBottom>
+                  {status}
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button autoFocus onClick={handleClose}>
+                  Ok
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Box>
         </>
       </Container>

@@ -19,6 +19,7 @@ export interface Dictionary {
     FillAllFields: string;
     Register: string;
     UserTable: string;
+    OneTapMessage: string;
   };
   cardView:{
     labelErrorUser: string;

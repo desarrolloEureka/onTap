@@ -1,5 +1,6 @@
 import { Dictionary } from '@/types/dictionary';
 import { registerUserAuth, registerUserFb } from 'app/functions/register';
+import { set } from 'firebase/database';
 import { useState } from 'react';
 
 const UserRegisterForm = () => {
@@ -10,6 +11,15 @@ const UserRegisterForm = () => {
   const [plan, setPlan] = useState<string>();
   const [errorMailForm, setErrorMailForm] = useState<Boolean>(false);
   const [errorDataForm, setErrorDataForm] = useState<Boolean>(false);
+  const [status, setStatus] = useState<string>('');
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const dataRegisterHandle = async () => {
     if (!dni || !email || !name || !lastName || !plan) {
@@ -33,6 +43,13 @@ const UserRegisterForm = () => {
       plan,
       gif: true,
     };
+    //Esto ya funciona
+    //Si es correcto
+    //setStatus('El usuario se ha registrado correctamente');
+    //Si es incorrecto
+    //setStatus('El usuario ya se encuentra registrado');
+    //handleClickOpen();
+    //Hasta aquí
     const result = await registerUserAuth({ user: email, password: dni });
     result.name = `${name} ${lastName}`;
     result.plan = plan;
@@ -41,7 +58,16 @@ const UserRegisterForm = () => {
     result.email = email;
     result.dni = dni;
     registerUserFb({ data : result }).then((res) => {
-      //console.log('res::::', res);
+      setStatus('El usuario se ha registrado correctamente');
+      handleClickOpen();
+      //Se limpian los campos
+      setDni('');
+      setEmail('');
+      setName('');
+      setLastName('');
+    }).catch((err) => {
+      setStatus('El usuario ya se encuentra registrado');
+      handleClickOpen();
     });
   };
 
@@ -61,6 +87,10 @@ const UserRegisterForm = () => {
     setErrorMailForm,
     errorDataForm,
     setErrorDataForm,
+    open,
+    handleClickOpen,
+    handleClose,
+    status,
   };
 };
 
