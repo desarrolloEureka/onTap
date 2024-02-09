@@ -37,12 +37,7 @@ export function middleware(request: NextRequest) {
   //     // Your other files in `public`
   //   ].includes(pathname)
   // )
-  if (
-    pathname.includes('/images') ||
-    pathname.includes('/favicon.ico') ||
-    pathname.includes('/upload-file.svg')
-  )
-    return;
+  if (pathname.includes('/images') || pathname.includes('/favicon.ico')) return;
 
   // Check if there is any supported locale in the pathname
   const pathnameIsMissingLocale = i18n.locales.every(
