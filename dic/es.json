@@ -1,5 +1,14 @@
 {
   "generalTitle": "One Tap dice!",
+  "backOffice": {
+    "CRUD": "CRUD",
+    "ID": "ID",
+    "Name": "Name"
+  },
+  "cardView":{
+    "labelErrorUser": "Error",
+    "labelErrorUserDescription": "El usuario no comparte su información en estos momentos"
+  },
   "homeTitle": "Hola titulo español",
   "rememberPasswordTitle": "Recuperar contraseña123",
   "rememberPasswordDescription": "Descripcion de constraseña",
@@ -21,6 +30,7 @@
     "recoverPass": "Recuperar Contraseña"
   },
   "homeView": {
+    "agregar": "Agregar",
     "views": "Visualizaciones del perfil",
     "title": "Plantillas",
     "profileSwitchLabel": "Perfil a mostrar",
@@ -35,7 +45,9 @@
     "buttonChangeBackground": "Cambiar",
     "labelTemplate": "Plantilla",
     "labelView": "vista",
-    "labelPrevious": "previa"
+    "labelPrevious": "previa",
+    "labelDenyAccess": "Acceso Restringido",
+    "labelDenyAccessDescription": "Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico."
   },
   "recoverPassword": {
     "recoverPassword": "Recuperar Contraseña",
@@ -46,7 +58,9 @@
     "alertErrorPassword": "Las contraseñas no coinciden, por favor intenta de nuevo",
     "expiredRecover": "La url ya no es valida, por favor intentalo de nuevo",
     "changePassword": "Cambiar contraseña",
-    "passwordUpdated": "Contraseña actualizada correctamente *"
+    "passwordUpdated": "Contraseña actualizada correctamente *",
+    "home3": "Home 3",
+    "CRUD": "CRUD"
   },
   "recoveryCode": {
     "titleCode": "Codigo de Recuperacion",
@@ -57,6 +71,8 @@
     "backCode": "Regresar"
   },
   "newPassword": {
+    "mandatoryPassword": "La contraseña es obligatoria",
+    "mandatoryRepeatPassword": "La contraseña de confirmación es obligatoria",
     "createNewPass": "Crear Nueva Contraseña",
     "nPassword": "Nueva contraseña",
     "repeatPassword": "Repetir contraseña",
@@ -64,6 +80,7 @@
   },
   "passwordChangedSuccessfully": "Contraseña modificada con exito",
   "profileView": {
+    "labelDeleteProfiledata" : "El dato de perfil ha sido eliminado exitosamente, recuerda guardar tus cambios para que surtan efecto.",
     "labelHello": "Hola",
     "labelFirstName": "Nombres",
     "labelLastName": "Apellidos",
@@ -99,7 +116,8 @@
     "addAnotherEducation": "Agregar otra educacion",
     "addAnotherURL": "Agregar otra URL",
     "successDataSend": "La información del usuario ha sido registrada con éxito.",
-    "errorDataSend": "La información del usuario no pudo ser registrada, por favor intenta de nuevo."
+    "errorDataSend": "La información del usuario no pudo ser registrada, por favor intenta de nuevo.",
+    "labelError505" : "Error 505"
   },
   "modalDelete": {
     "labelAlert": "Alerta",

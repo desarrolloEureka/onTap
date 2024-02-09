@@ -1,11 +1,21 @@
 export interface Dictionary {
   generalTitle: string;
+  backOffice: {
+    CRUD: string;
+    ID: string;
+    Name: string;
+  };
+  cardView:{
+    labelErrorUser: string;
+    labelErrorUserDescription: string;
+  };
   homeTitle: string;
   rememberPasswordTitle: string;
   rememberPasswordDescription: string;
   mainMenu: string;
   mainTab: { tab1: string; tab2: string; tab3: string; tab4: string };
   homeView: {
+    agregar: string;
     views: string;
     title: string;
     profileSwitchLabel: string;
@@ -21,6 +31,8 @@ export interface Dictionary {
     labelTemplate: string;
     labelView: string;
     labelPrevious: string;
+    labelDenyAccess: string;
+    labelDenyAccessDescription: string;
   };
   recoverPassword: {
     recoverPassword: string;
@@ -32,6 +44,8 @@ export interface Dictionary {
     expiredRecover: string;
     changePassword: string;
     passwordUpdated: string;
+    home3: string;
+    CRUD: string;
   };
   loginView: {
     username: string;
@@ -43,6 +57,7 @@ export interface Dictionary {
     userNotFound: string;
   };
   profileView: {
+    labelDeleteProfiledata : string;
     labelHello: string;
     labelFirstName: string;
     labelLastName: string;
@@ -79,6 +94,7 @@ export interface Dictionary {
     addAnotherURL: string;
     errorDataSend: string;
     successDataSend: string;
+    labelError505: string;
   };
   recoveryCode: {
     nextCode: string;
@@ -89,6 +105,8 @@ export interface Dictionary {
     titleCode: string;
   };
   newPassword: {
+    mandatoryPassword: string;
+    mandatoryRepeatPassword: string;
     createNewPass: string;
     nPassword: string;
     repeatPassword: string;
