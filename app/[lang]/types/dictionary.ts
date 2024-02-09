@@ -4,6 +4,21 @@ export interface Dictionary {
     CRUD: string;
     ID: string;
     Name: string;
+    LoadFonts: string;
+    UserList: string;
+    CreateUser: string;
+    UserRegister: string;
+    dni: string;
+    Nombre: string;
+    Apellido: string;
+    Email: string;
+    ValidEmail: string;
+    Plan: string;
+    StandardPlan: string;
+    PremiumPlan: string;
+    FillAllFields: string;
+    Register: string;
+    UserTable: string;
   };
   cardView:{
     labelErrorUser: string;

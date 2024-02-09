@@ -61,9 +61,9 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
       <Box sx={{ width: '100%' }} className="tw-bg-white">
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="NavTab BackOffice">
-            <Tab label="Cargar fondos" {...a11yProps(0)} />
-            <Tab label="Listar usuarios/clientes" {...a11yProps(1)} />
-            <Tab label="Crear usuarios/clientes" {...a11yProps(2)} />
+            <Tab label={dictionary?.backOffice.LoadFonts} {...a11yProps(0)} />
+            <Tab label={dictionary?.backOffice.UserList} {...a11yProps(1)} />
+            <Tab label={dictionary?.backOffice.CreateUser} {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

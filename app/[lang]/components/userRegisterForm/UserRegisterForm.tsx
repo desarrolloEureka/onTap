@@ -1,16 +1,3 @@
-/*
-Data a recolectar:
-{
-    "dni": "111023456",
-    "email": "email2@gmail.com",
-    "name": "name",
-    "last_name": "lastname",
-    "plan": "basic",
-    "gif": true
-}
-
-*/
-
 import {
   Box,
   Button,
@@ -19,9 +6,9 @@ import {
   Typography,
   Select,
 } from '@mui/material';
-import { Dictionary } from '@/types/dictionary';
 import UserRegisterForm from './hooks/UserRegisterForm';
 import MenuItem from '@mui/material/MenuItem';
+import useDictionary from '@/hooks/dictionary/useDictionary';
 
 const UserRegister = () => {
   const {
@@ -40,6 +27,8 @@ const UserRegister = () => {
     errorDataForm,
   } = UserRegisterForm();
 
+  const dictionary = useDictionary({ lang: 'es' });
+
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
       <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[700px] tw-w-[794px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
@@ -51,7 +40,7 @@ const UserRegister = () => {
               color='textPrimary'
               display={'flow'}
             >
-              Registro de usuario
+              {dictionary.dictionary?.backOffice.UserRegister}
             </Typography>
             <Typography
               className='tw-text-white  tw-mt-10 tw-w-full'
@@ -59,7 +48,7 @@ const UserRegister = () => {
               color='textSecondary'
               display={'flow'}
             >
-              Cedula:{' '}
+              {dictionary.dictionary?.backOffice.dni}:{' '}
             </Typography>
             <TextField
               className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
@@ -76,7 +65,7 @@ const UserRegister = () => {
               color='textSecondary'
               display={'flow'}
             >
-              Nombre:{' '}
+              {dictionary.dictionary?.backOffice.Nombre}:{' '}
             </Typography>
             <TextField
               className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
@@ -93,7 +82,7 @@ const UserRegister = () => {
               color='textSecondary'
               display={'flow'}
             >
-              Apellido:{' '}
+              {dictionary.dictionary?.backOffice.Apellido}:{' '}
             </Typography>
             <TextField
               className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
@@ -111,11 +100,11 @@ const UserRegister = () => {
               color='textSecondary'
               display={'flow'}
             >
-              Email:{' '}
+              {dictionary.dictionary?.backOffice.Email}:{' '}
             </Typography>
             {errorMailForm && (
               <span className='tw-text-red-500'>
-                Ingrese un correo valido *
+                {dictionary.dictionary?.backOffice.ValidEmail}
               </span>
             )}
             <TextField
@@ -133,7 +122,7 @@ const UserRegister = () => {
               color='textSecondary'
               display={'flow'}
             >
-              Plan:{' '}
+              {dictionary.dictionary?.backOffice.Plan}:{' '}
             </Typography>
             <Select
               className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
@@ -144,12 +133,12 @@ const UserRegister = () => {
               variant='outlined'
               onChange={(e) => setPlan(e.target.value)}
             >
-              <MenuItem value='standar'>Estandar</MenuItem>
-              <MenuItem value='premium'>Premium</MenuItem>
+              <MenuItem value='standar'>{dictionary.dictionary?.backOffice.StandardPlan}</MenuItem>
+              <MenuItem value='premium'>{dictionary.dictionary?.backOffice.PremiumPlan}</MenuItem>
             </Select>
             {errorDataForm && (
               <span className='tw-text-red-500'>
-                Complete todos los campos *
+                {dictionary.dictionary?.backOffice.FillAllFields}
               </span>
             )}
 
@@ -157,7 +146,7 @@ const UserRegister = () => {
               className='tw-text-white tw-mt-10 tw-mb-10 tw-w-[386px] '
               onClick={dataRegisterHandle}
             >
-              Registrarse
+              {dictionary.dictionary?.backOffice.Register}
             </Button>
           </Box>
         </>

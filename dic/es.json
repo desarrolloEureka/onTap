@@ -3,7 +3,22 @@
   "backOffice": {
     "CRUD": "CRUD",
     "ID": "ID",
-    "Name": "Name"
+    "Name": "Name",
+    "LoadFonts": "Cargar fondos",
+    "UserList": "Listar usuarios/clientes",
+    "CreateUser":"Crear usuarios/clientes",
+    "UserRegister":"Registro de usuario",
+    "dni":"Cedula",
+    "Nombre":"Nombre",
+    "Apellido":"Apellido",
+    "Email":"Correo",
+    "ValidEmail":"Ingrese un correo valido *",
+    "Plan": "Plan",
+    "StandardPlan": "Estandar",
+    "PremiumPlan": "Premium",
+    "FillAllFields": "Por favor llene todos los campos",
+    "Register": "Registrar",
+    "UserTable": "Tabla de usuarios"
   },
   "cardView":{
     "labelErrorUser": "Error",
