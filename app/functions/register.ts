@@ -20,7 +20,7 @@ export const registerUserAuth = async ({
     views: 0,
     switch_activateCard: true,
     switch_profile: true,
-    preView: `http://backoffice.onetap.com.co/es/views/cardView?uid=${result.user.uid}type=social`,
+    preview: `http://backoffice.onetap.com.co/es/views/cardView?uid=${result.user.uid}type=social`,
   };
   return userData;
 };

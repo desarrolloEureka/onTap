@@ -62,7 +62,7 @@ export const changePasswordFirebase = async (
       confirmPassword
     );
 
-    return true;
+    return setPassword;
   } catch (error: any) {
     console.debug('error message', error.message);
     return null;

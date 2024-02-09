@@ -39,10 +39,12 @@ const RecoverPassword = ({
             handleNext={handleNext}
           />
           <div>
-            <Link href='/views/homeThree'>{dictionary?.recoverPassword.home3}</Link>
+            <Link href='/views/homeThree'>
+              {dictionary?.recoverPassword?.home3}
+            </Link>
           </div>
           <div>
-            <Link href='/views/crudN'>{dictionary?.recoverPassword.CRUD}</Link>
+            <Link href='/views/crudN'>{dictionary?.recoverPassword?.CRUD}</Link>
           </div>
         </>
       )}

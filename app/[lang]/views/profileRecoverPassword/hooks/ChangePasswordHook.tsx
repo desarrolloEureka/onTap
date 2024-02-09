@@ -13,7 +13,7 @@ const ChangePasswordHook = () => {
   //Errores
   const [errorForm, setErrorForm] = useState<LoginError | null>(null);
   const router = useRouter();
-  const dictionary = useDictionary({ lang: 'es'});
+  const dictionary = useDictionary({ lang: 'es' });
 
   const handleChangePassword = async () => {
     if (password && passwordConfirm && password === passwordConfirm) {
@@ -24,22 +24,26 @@ const ChangePasswordHook = () => {
       setSendLogin(false);
       !setPasswordConfirm
         ? setErrorForm({
-          errorType: 1,
-          errorMessage: dictionary?.dictionary?.newPassword?.mandatoryPassword || "La contraseña es obligatorio",
-        })
+            errorType: 1,
+            errorMessage:
+              dictionary?.dictionary?.newPassword?.mandatoryPassword ||
+              'La contraseña es obligatorio',
+          })
         : null;
       !password
         ? setErrorForm({
-          errorType: 2,
-          errorMessage: dictionary?.dictionary?.newPassword?.mandatoryRepeatPassword || "La contraseña es obligatorio",
-        })
+            errorType: 2,
+            errorMessage:
+              dictionary?.dictionary?.newPassword?.mandatoryRepeatPassword ||
+              'La contraseña es obligatorio',
+          })
         : null;
     }
-  }
+  };
 
   const handleBack = async () => {
     router.replace('/views/home');
-  }
+  };
 
   return {
     handleChangePassword,
@@ -47,7 +51,7 @@ const ChangePasswordHook = () => {
     setPasswordConfirm,
     errorForm,
     stateUpdate,
-    handleBack
+    handleBack,
   };
 };
 
