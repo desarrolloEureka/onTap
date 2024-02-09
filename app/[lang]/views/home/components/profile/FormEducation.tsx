@@ -27,7 +27,7 @@ const FormEducation = ({
 
   const value = () => {
     const i = subindex as any;
-    if (dataRef.current) {
+    if (dataRef.current && dataRef.current.length > 0) {
       return subLabel && dataRef.current[i][subLabel];
     }
   };
@@ -35,7 +35,7 @@ const FormEducation = ({
   const isChecked = () => {
     const i = subindex as any;
     if (index == 'education') {
-      if (dataRef.current) {
+      if (dataRef.current && dataRef.current.length > 0) {
         return dataRef.current[i].checked;
       }
     }
@@ -102,7 +102,9 @@ const FormEducation = ({
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[10%] tw-mt-4'>
             <Button
               className='tw-w-[100%] tw-h-[100%]'
-              onClick={() => handleModalAlert({ index: index, subindex: "" + subindex })}
+              onClick={() =>
+                handleModalAlert({ index: index, subindex: '' + subindex })
+              }
             >
               <DeleteForeverOutlinedIcon
                 style={{

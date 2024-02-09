@@ -1,8 +1,5 @@
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
-import {
-  CareerSubIndexDataForm,
-  ItemFormParams,
-} from '@/types/profile';
+import { CareerSubIndexDataForm, ItemFormParams } from '@/types/profile';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { Box, Button, TextField } from '@mui/material';
@@ -30,7 +27,7 @@ const FormProfession = ({
 
   const value = () => {
     const i = subindex as any;
-    if (dataRef.current) {
+    if (dataRef.current && dataRef.current.length > 0) {
       return subLabel && dataRef.current[i][subLabel];
     }
   };
@@ -38,7 +35,7 @@ const FormProfession = ({
   const isChecked = () => {
     const i = subindex as any;
     if (index == 'professional_career') {
-      if (dataRef.current) {
+      if (dataRef.current && dataRef.current.length > 0) {
         return dataRef.current[i].checked;
       }
     }
@@ -105,7 +102,9 @@ const FormProfession = ({
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[10%] tw-mt-4'>
             <Button
               className='tw-w-[100%] tw-h-[100%]'
-              onClick={() => handleModalAlert({ index: index, subindex: "" + subindex })}
+              onClick={() =>
+                handleModalAlert({ index: index, subindex: '' + subindex })
+              }
             >
               <DeleteForeverOutlinedIcon
                 style={{
