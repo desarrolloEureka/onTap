@@ -28,6 +28,8 @@ const FormDataUser = ({
       handleDataSet,
     });
 
+  console.log('user', user);
+
   return (
     <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
       <div className='tw-h-[100%] tw-w-full tw-flex tw-flex-col'>
@@ -56,10 +58,10 @@ const FormDataUser = ({
                   value[0] == 'achievements_recognitions'
                 ) {
                   const myValue =
-                    user && index == value[0]
+                    user && user.profile && index == value[0]
                       ? user.profile[index]?.text
                       : undefined;
-                  const myValue1 = (user && index == value[0]
+                  const myValue1 = (user && user.profile && index == value[0]
                     ? user.profile[index]
                     : undefined) as unknown as DataFormValues;
                   return (
@@ -78,7 +80,7 @@ const FormDataUser = ({
                     />
                   );
                 } else {
-                  const myValue = (user && index == value[0]
+                  const myValue = (user && user.profile && index == value[0]
                     ? user.profile[index]
                     : undefined) as unknown as DataFormValues;
                   return (
@@ -98,7 +100,7 @@ const FormDataUser = ({
                   );
                 }
               } else {
-                const myValue = (user && index == value[0]
+                const myValue = (user && user.profile && index == value[0]
                   ? user.profile[index]
                   : undefined) as unknown as DataFormValues;
 

@@ -1,4 +1,4 @@
-import { registerUser } from 'app/functions/register';
+import { registerUserAuth, registerUserFb } from 'app/functions/register';
 
 // payload {"success":"ok","dni":"123456789","email":"email@gmail.com","name":"name","last_name":"lastname"} http://localhost:3000/api/register/post
 export async function POST(request: Request) {
@@ -11,15 +11,16 @@ export async function POST(request: Request) {
     const last_name = req.last_name;
     const plan = req.plan;
     if (email && dni && plan) {
-      const result = await registerUser({ user: email, password: dni });
+      const result = await registerUserAuth({ user: email, password: dni });
       result.name = `${name} ${last_name}`;
       result.plan = plan;
-      result.switch_profile = plan === 'basic' ? false : true;
+      result.switch_profile = plan === 'standard' ? false : true;
       console.log('result', result);
-
+      const registerResult = await registerUserFb({ data: result });
       response = {
         payload: { dni, email, name, last_name, plan },
         register: result,
+        register_firestore: registerResult,
       };
     }
     // Process the webhook payload
