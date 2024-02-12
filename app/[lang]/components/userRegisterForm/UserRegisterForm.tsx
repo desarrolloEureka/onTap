@@ -13,6 +13,7 @@ import {
 import UserRegisterForm from './hooks/UserRegisterForm';
 import MenuItem from '@mui/material/MenuItem';
 import useDictionary from '@/hooks/dictionary/useDictionary';
+import CustomModalAlert from '../customModalAlert/CustomModalAlert';
 
 const UserRegister = () => {
   const {
@@ -158,21 +159,13 @@ const UserRegister = () => {
             >
               {dictionary.dictionary?.backOffice.Register}
             </Button>
-            <Dialog onClose={handleClose} open={open}>
-              <DialogTitle>
-                {dictionary.dictionary?.backOffice.OneTapMessage}
-              </DialogTitle>
-              <DialogContent dividers>
-                <Typography gutterBottom>
-                  {status}
-                </Typography>
-              </DialogContent>
-              <DialogActions>
-                <Button autoFocus onClick={handleClose}>
-                  Ok
-                </Button>
-              </DialogActions>
-            </Dialog>
+            <CustomModalAlert
+              isModalAlert={open}
+              handleModalAlert={handleClose}
+              title={'Registro de usuario'}
+              description={status}
+              isClosed={true}
+            />
           </Box>
         </>
       </Container>

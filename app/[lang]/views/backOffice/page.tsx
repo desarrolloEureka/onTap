@@ -9,6 +9,9 @@ import Box from '@mui/material/Box';
 import UserRegister from '@/components/userRegisterForm/UserRegisterForm';
 import UserTable from '@/components/userTable/UserTable';
 import LoadFonts from '@/components/loadFonts/LoadFonts';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,7 +56,23 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
   return (
     <div>
-      <Box sx={{ width: '100%' }} className="tw-bg-white">
+        <Box>
+          <BottomNavigation value={value} onChange={handleChange} showLabels>
+            <BottomNavigationAction label={dictionary?.backOffice.LoadFonts} />
+            <BottomNavigationAction label={dictionary?.backOffice.UserList} />
+            <BottomNavigationAction label={dictionary?.backOffice.CreateUser} />
+          </BottomNavigation>
+          {value === 0 && <LoadFonts params={{ lang }} />}
+          {value === 1 && <UserTable />}
+          {value === 2 && <UserRegister />}
+        </Box>
+    </div>
+  );
+};
+
+export default Page;
+/*
+<Box sx={{ width: '100%' }} className="tw-bg-white">
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="NavTab BackOffice">
             <Tab label={dictionary?.backOffice.LoadFonts} {...a11yProps(0)} />
@@ -71,8 +90,4 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <UserRegister />
         </CustomTabPanel>
       </Box>
-    </div>
-  );
-};
-
-export default Page;
+*/ 
