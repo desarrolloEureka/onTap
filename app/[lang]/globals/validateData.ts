@@ -9,3 +9,4 @@ export const validatePhoneNumber = (phone: string) => {
   const re = /^[0-9]{10}$/;
   return re.test(phone);
 };
+
