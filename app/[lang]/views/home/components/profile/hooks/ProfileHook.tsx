@@ -15,6 +15,8 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
 import { profile } from 'app/[lang]/initialData/profileInitialData';
 import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
+import { validateEmail, validatePhoneNumber } from '@/globals/validateData';
+import { set } from 'firebase/database';
 
 const ProfileHook = ({
   dictionary,
@@ -54,9 +56,29 @@ const ProfileHook = ({
   const [isDataError, setIsDataError] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
   const [noDeleted, setNoDeleted] = useState(false);
+  const [isEmailPhoneRight, setisEmailPhoneRight] = useState(false);
+  const [status, setStatus] = useState<string>('');
 
   const handleSendProfile = async () => {
     const userId = data?.uid;
+    const emails = dataForm?.emails?.map((email) => email.text);
+    const phones = dataForm?.phones?.map((phone) => phone.text);
+    if (emails) {
+      const isEmailValid = emails.every((email) => validateEmail(email as string));
+      if (!isEmailValid) {
+        setStatus("Emails no válidos");
+        setisEmailPhoneRight(true);
+        return;
+      }
+    }
+    if (phones) {
+      const isPhoneValid = phones.every((phone) => validatePhoneNumber(phone as string));
+      if (!isPhoneValid) {
+        setStatus("Teléfonos no válidos");
+        setisEmailPhoneRight(true);
+        return;
+      }
+    }
     if (userId) {
       const isSendDataProfile = await SendDataUserProfile(userId, dataForm);
       if (isSendDataProfile?.success) {
@@ -117,6 +139,7 @@ const ProfileHook = ({
     const isChecked = value?.target?.checked;
     const dataFormClone = { ...dataForm };
     const index = value?.target?.name as keyof typeof dataFormClone;
+    console.log('index', index);
     if (
       index != 'phones' &&
       index != 'education' &&
@@ -527,7 +550,6 @@ const ProfileHook = ({
   );
 
   const handleSwitchAll = (val: ChangeEvent<HTMLInputElement>) => {
-    console.log("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     const isChecked = val.target.checked;
     const dataFormClone = { ...dataForm };
     const items = Object.entries(dataFormClone);
@@ -646,6 +668,9 @@ const ProfileHook = ({
     dataForm,
     setDataForm,
     noDeleted,
+    status,
+    isEmailPhoneRight,
+    setisEmailPhoneRight,
   };
 };
 

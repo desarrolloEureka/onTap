@@ -40,11 +40,10 @@ const UserRegister = () => {
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[700px] tw-w-[794px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
-        <>
+      <Container className='tw-bg-white tw-shadow-m  tw-rounded-2xl tw-h-[700px] tw-w-[794px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
           <Box className='tw-w-[386px]' component='form'>
             <Typography
-              className='tw-text-white  tw-mt-10 tw-w-full'
+              className='tw-mb-2 tw-w-[184px] tw-h-[45px]  tw-mt-10 tw-w-full'
               variant='body2'
               color='textPrimary'
               display={'flow'}
@@ -52,7 +51,7 @@ const UserRegister = () => {
               {dictionary.dictionary?.backOffice.UserRegister}
             </Typography>
             <Typography
-              className='tw-text-white  tw-mt-10 tw-w-full'
+              className="tw-mb-2 tw-w-[184px] tw-h-[45px]"
               variant='body2'
               color='textSecondary'
               display={'flow'}
@@ -167,7 +166,6 @@ const UserRegister = () => {
               isClosed={true}
             />
           </Box>
-        </>
       </Container>
     </div>
   );
