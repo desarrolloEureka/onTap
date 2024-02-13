@@ -52,6 +52,7 @@ import IconAmazon from './IconAmazon';
 import IconOnlyFans from './IconOnlyFans';
 import IconAirbnb from './IconAirbnb';
 import { WhatsApp } from '@mui/icons-material';
+import LinkSharpIcon from '@mui/icons-material/LinkSharp';
 
 const ItemFormUrl = ({
   dictionary,
@@ -75,9 +76,9 @@ const ItemFormUrl = ({
   index: IndexDataForm;
   label?: string;
   labelArray:
-    | DataFormValues[]
-    | EducationDataFormValues[]
-    | CareerDataFormValues[];
+  | DataFormValues[]
+  | EducationDataFormValues[]
+  | CareerDataFormValues[];
   value: any;
   itemDetail: number;
   isDetailOpen: boolean;
@@ -113,16 +114,14 @@ const ItemFormUrl = ({
 
   return (
     <div
-      className={`${
-        value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
-          ? 'tw-h-[350px]'
-          : 'tw-h-[250px]'
-      } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
+      className={`${value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
+        ? 'tw-h-[350px]'
+        : 'tw-h-[250px]'
+        } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
-        className={`tw-h-[${
-          labelArray.length * 20
-        }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
+        className={`tw-h-[${labelArray.length * 20
+          }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
         <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
@@ -164,11 +163,10 @@ const ItemFormUrl = ({
               return (
                 <div
                   key={key}
-                  className={`tw-pb-3 ${
-                    key !== labelArray.length - 1
-                      ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
-                      : ''
-                  }`}
+                  className={`tw-pb-3 ${key !== labelArray.length - 1
+                    ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                    : ''
+                    }`}
                 >
                   <div
                     className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end `}
@@ -245,6 +243,26 @@ const ItemFormUrl = ({
                             }}
                           >
                             <div className='tw-h-[40px] tw-w-[95%] tw-flex'>
+
+                              <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                                <Button
+                                  onClick={(text: any) =>
+                                    handleDataNetworks({
+                                      name: value[0],
+                                      text: 'www',
+                                      subindex: 'icon',
+                                      key,
+                                    })
+                                  }
+                                  className={`${val.icon === 'www' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
+                                >
+                                  <LinkSharpIcon
+                                    sx={{ color: '#02AF9B' }}
+                                  />
+                                </Button>
+                              </div>
+
                               <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                   onClick={(text: any) =>
@@ -255,9 +273,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'facebook' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'facebook' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <FacebookOutlinedIcon
                                     sx={{ color: '#02AF9B' }}
@@ -275,9 +292,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'tiktok' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'tiktok' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconTikTok />
                                 </Button>
@@ -293,9 +309,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'linkedin' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'linkedin' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <LinkedInIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
@@ -311,9 +326,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'messenger' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'messenger' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconMessenger />
                                 </Button>
@@ -329,9 +343,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'instagram' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'instagram' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <InstagramIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
@@ -347,9 +360,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'tiktok' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'tiktok' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconTikTok />
                                 </Button>
@@ -365,9 +377,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'snapchat' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'snapchat' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconSnapchat />
                                 </Button>
@@ -383,9 +394,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'twitter' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'twitter' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <TwitterIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
@@ -401,9 +411,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'twitch' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'twitch' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconTwitch />
                                 </Button>
@@ -419,9 +428,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'youTube' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'youTube' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <YouTubeIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
@@ -437,9 +445,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'whatsapp' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'whatsapp' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <WhatsApp sx={{ color: '#02AF9B' }} />
                                 </Button>
@@ -455,9 +462,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'zoom' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'zoom' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconZoom />
                                 </Button>
@@ -473,9 +479,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'line' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'line' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconLine />
                                 </Button>
@@ -491,9 +496,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'gmail' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'gmail' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconGmail />
                                 </Button>
@@ -509,9 +513,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'email' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'email' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <EmailIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
@@ -527,9 +530,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'phone' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'phone' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <LocalPhoneIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
@@ -545,9 +547,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'telegram' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'telegram' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <TelegramIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
@@ -563,10 +564,9 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'whatsappbusiness' &&
+                                  className={`${val.icon === 'whatsappbusiness' &&
                                     'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconWhatsAppB />
                                 </Button>
@@ -582,9 +582,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'skype' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'skype' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconSkype />
                                 </Button>
@@ -600,9 +599,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'wechat' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'wechat' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconWeChat />
                                 </Button>
@@ -618,9 +616,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'whatsapp' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'whatsapp' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconPayPal />
                                 </Button>
@@ -636,9 +633,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'vsco' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'vsco' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconVSCO />
                                 </Button>
@@ -654,9 +650,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'tumblr' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'tumblr' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconTumblr />
                                 </Button>
@@ -672,9 +667,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'vimeo' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'vimeo' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconVimeo />
                                 </Button>
@@ -690,9 +684,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'spotify' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'spotify' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconSpotify />
                                 </Button>
@@ -708,9 +701,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'deezer' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'deezer' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconDeezer />
                                 </Button>
@@ -726,10 +718,9 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'applemusic' &&
+                                  className={`${val.icon === 'applemusic' &&
                                     'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconAppleMusic />
                                 </Button>
@@ -745,10 +736,9 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'googlemaps' &&
+                                  className={`${val.icon === 'googlemaps' &&
                                     'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconGoogleMaps />
                                 </Button>
@@ -764,10 +754,9 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'tripadvisor' &&
+                                  className={`${val.icon === 'tripadvisor' &&
                                     'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconTripAdvisor />
                                 </Button>
@@ -783,9 +772,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'booking' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'booking' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconBooking />
                                 </Button>
@@ -801,9 +789,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'tinder' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'tinder' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconTinder />
                                 </Button>
@@ -819,9 +806,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'amazon' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'amazon' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconAmazon />
                                 </Button>
@@ -837,9 +823,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'onlyfans' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'onlyfans' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconOnlyFans />
                                 </Button>
@@ -855,9 +840,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'airbnb' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'airbnb' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <IconAirbnb />
                                 </Button>
@@ -873,9 +857,8 @@ const ItemFormUrl = ({
                                       key,
                                     })
                                   }
-                                  className={`${
-                                    val.icon === 'pinteres' && 'tw-bg-gray-100'
-                                  } tw-p-2 tw-min-w-min`}
+                                  className={`${val.icon === 'pinteres' && 'tw-bg-[#d9dce0]'
+                                    } tw-p-2 tw-min-w-min`}
                                 >
                                   <PinterestIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
