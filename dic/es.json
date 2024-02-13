@@ -20,7 +20,7 @@
     "Register": "Registrar",
     "UserTable": "Tabla de usuarios",
     "OneTapMessage": "One Tap dice!",
-    "logOut": "Salir"
+    "LogOut": "Salir"
   },
   "cardView":{
     "labelErrorUser": "Error",
