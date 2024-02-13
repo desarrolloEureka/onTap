@@ -135,8 +135,8 @@
     "successDataSend": "La información del usuario ha sido registrada con éxito.",
     "errorDataSend": "La información del usuario no pudo ser registrada, por favor intenta de nuevo.",
     "labelError505" : "Error 505",
-    "errorEmail": "El correo no es valido, no se pueden dejar espacios en blanco",
-    "errorPhone": "El teléfono no es valido, no se pueden dejar espacios en blanco"
+    "errorEmail": "El correo no es valido ó no se pueden dejar espacios en blanco",
+    "errorPhone": "El teléfono no es valido ó no se pueden dejar espacios en blanco"
   },
   "modalDelete": {
     "labelAlert": "Alerta",

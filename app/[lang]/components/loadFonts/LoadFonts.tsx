@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import ItemForm from './hooks/ItemForm';
 import ItemList from './hooks/ItemList';
-import { Button, Container } from '@mui/material';
-import LogOut from '@/hooks/logOut/LogOut';
+import { Container } from '@mui/material';
 import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 
@@ -16,7 +15,6 @@ type Item = {
 const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
     const { dictionary } = useDictionary({ lang });
     const [items, setItems] = useState<Array<Item>>([]);
-    const { logOut } = LogOut();
 
     const handleAddItem = (newItem: { name: string; image: string }) => {
         setItems([...items, { id: items.length + 1, ...newItem }]);
@@ -31,7 +29,6 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
                 <div className='tw-mb-4'>
                     <ItemList items={items} />
                 </div>
-                <Button onClick={logOut}>{dictionary?.logOut}</Button>
             </Container>
         </div>
     );

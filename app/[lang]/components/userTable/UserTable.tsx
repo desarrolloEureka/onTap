@@ -4,6 +4,7 @@ import { Container, Typography } from "@mui/material";
 import Link from "next/link";
 import useDictionary from "@/hooks/dictionary/useDictionary";
 
+
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'Cedula', width: 130 },
     { field: 'name', headerName: 'Nombre', width: 130 },
@@ -45,6 +46,7 @@ const UserTable = () => {
                         }}
                         pageSizeOptions={[15, 30]}
                         checkboxSelection
+                        className="tw-rounded-2xl"
                     />
                 </div>
             </div>

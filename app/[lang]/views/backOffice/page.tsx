@@ -90,9 +90,17 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
             //en el centro de la pantalla los iconos juntos
             className="tw-bg-[#02AF9B] tw-flex tw-justify-center tw-items-center tw-w-full"
           >
-            <BottomNavigationAction label={dictionary?.backOffice.LoadFonts} icon={<FilterIcon sx={{ color: 'white' }} />} sx={{ color: 'white' }} />
-            <BottomNavigationAction label={dictionary?.backOffice.UserList} icon={<GroupIcon sx={{ color: 'white' }} />} sx={{ color: 'white' }} />
-            <BottomNavigationAction label={dictionary?.backOffice.CreateUser} icon={<GroupAddIcon sx={{ color: 'white' }} />} sx={{ color: 'white' }} />
+            <BottomNavigationAction label={dictionary?.backOffice.CreateUser}
+              icon={<GroupAddIcon fontSize="large" sx={{ color: 'white'}} />}
+              sx={{ color: 'white', fontSize:70  }} />
+            <BottomNavigationAction label={dictionary?.backOffice.UserList}
+              icon={<GroupIcon fontSize="large"
+                sx={{ color: 'white' }} />}
+              sx={{ color: 'white' }} />
+            <BottomNavigationAction label={dictionary?.backOffice.LoadFonts}
+              icon={<FilterIcon fontSize="large"
+                sx={{ color: 'white' }} />}
+              sx={{ color: 'white' }} />
           </BottomNavigation>
           <Button onClick={logOut} sx={{ color: 'white' }}>
             <div className="tw-flex tw-items-center">
@@ -101,9 +109,9 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
             </div>
           </Button>
         </div>
-        {value === 0 && <LoadFonts params={{ lang }} />}
+        {value === 0 && <UserRegister />}
         {value === 1 && <UserTable />}
-        {value === 2 && <UserRegister />}
+        {value === 2 && <LoadFonts params={{ lang }} />}
       </Box>
     </div>
   );
