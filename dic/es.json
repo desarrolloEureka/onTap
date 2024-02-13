@@ -19,7 +19,8 @@
     "FillAllFields": "Por favor llene todos los campos",
     "Register": "Registrar",
     "UserTable": "Tabla de usuarios",
-    "OneTapMessage": "One Tap dice!"
+    "OneTapMessage": "One Tap dice!",
+    "logOut": "Salir"
   },
   "cardView":{
     "labelErrorUser": "Error",

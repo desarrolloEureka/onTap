@@ -11,6 +11,15 @@ import UserTable from '@/components/userTable/UserTable';
 import LoadFonts from '@/components/loadFonts/LoadFonts';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import FilterIcon from '@mui/icons-material/Filter';
+import GroupIcon from '@mui/icons-material/Group';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from 'next/image';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { QueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { Button } from '@mui/material';
 
 
 interface TabPanelProps {
@@ -49,23 +58,53 @@ function a11yProps(index: number) {
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
   const [value, setValue] = React.useState(0);
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const queryClient = new QueryClient();
+  const router = useRouter();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const logOut = () => {
+    localStorage.clear();
+    queryClient.clear();
+    router.replace('/views/login');
+  };
+
 
   return (
     <div>
-        <Box>
-          <BottomNavigation value={value} onChange={handleChange} showLabels>
-            <BottomNavigationAction label={dictionary?.backOffice.LoadFonts} />
-            <BottomNavigationAction label={dictionary?.backOffice.UserList} />
-            <BottomNavigationAction label={dictionary?.backOffice.CreateUser} />
+      <Box >
+        <div className="tw-flex tw-justify-between tw-items-center tw-bg-[#02AF9B] tw-p-4">
+          <Image
+            src='/images/simple_logo.png'
+            alt='Logo One Tap'
+            width={isSmallScreen ? 31 : 81}
+            height={isSmallScreen ? 27 : 77}
+            priority
+          />
+          <BottomNavigation
+            value={value}
+            onChange={handleChange}
+            showLabels
+            //en el centro de la pantalla los iconos juntos
+            className="tw-bg-[#02AF9B] tw-flex tw-justify-center tw-items-center tw-w-full"
+          >
+            <BottomNavigationAction label={dictionary?.backOffice.LoadFonts} icon={<FilterIcon sx={{ color: 'white' }} />} sx={{ color: 'white' }} />
+            <BottomNavigationAction label={dictionary?.backOffice.UserList} icon={<GroupIcon sx={{ color: 'white' }} />} sx={{ color: 'white' }} />
+            <BottomNavigationAction label={dictionary?.backOffice.CreateUser} icon={<GroupAddIcon sx={{ color: 'white' }} />} sx={{ color: 'white' }} />
           </BottomNavigation>
-          {value === 0 && <LoadFonts params={{ lang }} />}
-          {value === 1 && <UserTable />}
-          {value === 2 && <UserRegister />}
-        </Box>
+          <Button onClick={logOut} sx={{ color: 'white' }}>
+            <div className="tw-flex tw-items-center">
+              <LogoutIcon />
+              <Typography>{dictionary?.logOut}</Typography>
+            </div>
+          </Button>
+        </div>
+        {value === 0 && <LoadFonts params={{ lang }} />}
+        {value === 1 && <UserTable />}
+        {value === 2 && <UserRegister />}
+      </Box>
     </div>
   );
 };
