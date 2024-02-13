@@ -112,6 +112,8 @@ export interface Dictionary {
     errorDataSend: string;
     successDataSend: string;
     labelError505: string;
+    errorEmail: string;
+    errorPhone: string;
   };
   recoveryCode: {
     nextCode: string;

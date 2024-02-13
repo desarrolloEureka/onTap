@@ -17,6 +17,7 @@ import { profile } from 'app/[lang]/initialData/profileInitialData';
 import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
 import { validateEmail, validatePhoneNumber } from '@/globals/validateData';
 import { set } from 'firebase/database';
+import { d } from 'node_modules/@tanstack/react-query-devtools/build/modern/devtools-5fd5b190';
 
 const ProfileHook = ({
   dictionary,
@@ -66,7 +67,7 @@ const ProfileHook = ({
     if (emails) {
       const isEmailValid = emails.every((email) => validateEmail(email as string));
       if (!isEmailValid) {
-        setStatus("Emails no válidos");
+        setStatus(dictionary.profileView.errorEmail);
         setisEmailPhoneRight(true);
         return;
       }
@@ -74,7 +75,7 @@ const ProfileHook = ({
     if (phones) {
       const isPhoneValid = phones.every((phone) => validatePhoneNumber(phone as string));
       if (!isPhoneValid) {
-        setStatus("Teléfonos no válidos");
+        setStatus(dictionary.profileView.errorPhone);
         setisEmailPhoneRight(true);
         return;
       }
