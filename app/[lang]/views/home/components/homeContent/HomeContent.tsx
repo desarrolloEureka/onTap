@@ -87,7 +87,7 @@ const HomeContent = ({
 
   const handlePreview = async () => {
     const urlSplit = window.location.href.split('/');
-    window.open(`http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}`);
+    window.open(`http://${urlSplit[2]}/es/views/cardView`);
   };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');

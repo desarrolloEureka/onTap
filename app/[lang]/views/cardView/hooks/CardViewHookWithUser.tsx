@@ -6,11 +6,7 @@ const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
   const { data } = GetUserById(userUid);
   const [type, setType] = useState<string | undefined>();
 
-  // const datUser = GetUser();
-
   useEffect(() => {
-    // if (datUser) {
-    // const uid = datUser?.data?.uid;
     if (data) {
       const type = data?.switch_profile ? 'professional' : 'social';
       setType(type);
@@ -23,7 +19,6 @@ const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
         }
       }
     }
-    // }
   }, [data]);
 
   return { user: data, type };
