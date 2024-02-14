@@ -17,7 +17,9 @@ export async function POST(request: Request) {
       result.dni = dni;
       result.name = `${name} ${last_name}`;
       result.email = email;
-      result.plan = plan.name;
+      result.plan = plan.name.toLowerCase().includes("premium")
+        ? "premium"
+        : "standard";
       result.switch_profile = plan.name.toLowerCase().includes("premium");
       const registerResult = await registerUserFb({ data: result });
       response = {
