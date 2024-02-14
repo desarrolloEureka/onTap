@@ -88,13 +88,10 @@ const reBuildUserData = (userData: UserData) => {
 };
 
 const SendSwitchProfile = async (userId: string, switchState: boolean) => {
+  const urlSplit = window.location.href.split('/');
   await updateSwitchProfileFirebase(userId, {
     switch_profile: switchState,
-    preview:
-      'http://localhost:3000/es/views/cardView?uid=' +
-      userId +
-      '&type=' +
-      (switchState ? 'professional' : 'social'),
+    preview: `http://${urlSplit[2]}/es/views/cardView?uid=${userId}`,
   });
   const updatedUser = await getUserByIdFireStore(userId);
   if (updatedUser.exists()) {
