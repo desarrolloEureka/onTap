@@ -95,6 +95,7 @@ const ProfileHook = ({
 
   const handleModalAux = () => {
     setIsModalAlert(!isModalAlert);
+    setNoDeleted(!noDeleted);
   };
 
   const handleSeeMore = (numItem: number) => {
@@ -154,8 +155,8 @@ const ProfileHook = ({
     dataFormClone && index == 'education' && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == 'professional_career'
-        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-        : index == 'urls' &&
+      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+      : index == 'urls' &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -527,7 +528,6 @@ const ProfileHook = ({
   );
 
   const handleSwitchAll = (val: ChangeEvent<HTMLInputElement>) => {
-    console.log("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     const isChecked = val.target.checked;
     const dataFormClone = { ...dataForm };
     const items = Object.entries(dataFormClone);

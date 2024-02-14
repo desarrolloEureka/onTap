@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-import { GetUser, SendSwitchActivateCard, SendSwitchProfile } from '@/reactQuery/users';
+import {
+  GetUser,
+  SendSwitchActivateCard,
+  SendSwitchProfile,
+} from '@/reactQuery/users';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -67,12 +71,18 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
       transform: 'translateY(-50%)',
       width: 16,
       height: 16,
-      color: '#8a2be2'
+      color: '#8a2be2',
     },
   },
 }));
 
-const CustomSwitch = ({ profile, handleModalAlert }: { profile: boolean; handleModalAlert?: () => void; }) => {
+const CustomSwitch = ({
+  profile,
+  handleModalAlert,
+}: {
+  profile: boolean;
+  handleModalAlert?: () => void;
+}) => {
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const { data, error } = GetUser();
 
@@ -86,7 +96,7 @@ const CustomSwitch = ({ profile, handleModalAlert }: { profile: boolean; handleM
     const userId = data?.uid;
     const plan = data?.plan;
 
-    if (profile && plan === 'basic') {
+    if (profile && plan === 'standard') {
       handleModalAlert && handleModalAlert();
       switchRef.current.checked = false;
       setIsUpdate(!isUpdate);

@@ -41,7 +41,7 @@ const UserRegisterForm = () => {
     result.email = email;
     result.dni = dni;
     //console.log(data);
-    registerUserFb({ data : result }).then((res) => {
+    registerUserFb({ data: result }).then((res) => {
       //console.log('res::::', res);
     });
   };
@@ -55,7 +55,7 @@ const UserRegisterForm = () => {
     setName,
     lastName,
     setLastName,
-    plan: 'basic',
+    plan: 'standard',
     setPlan,
     dataRegisterHandle,
     errorMailForm,
