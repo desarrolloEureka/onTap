@@ -20,7 +20,11 @@
     "Register": "Registrar",
     "UserTable": "Tabla de usuarios",
     "OneTapMessage": "One Tap dice!",
-    "LogOut": "Salir"
+    "LogOut": "Salir",
+    "AddDesaign": "Agregar diseño",
+    "FontName": "Nombre del fondo",
+    "agregarImagen": "Agregar imagen",
+    "imagenSeleccionada": "Imagen seleccionada"
   },
   "cardView":{
     "labelErrorUser": "Error",

@@ -21,6 +21,10 @@ export interface Dictionary {
     UserTable: string;
     OneTapMessage: string;
     LogOut: string;
+    AddDesaign: string;
+    FontName: string;
+    agregarImagen: string;
+    imagenSeleccionada: string;
   };
   cardView:{
     labelErrorUser: string;
