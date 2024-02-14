@@ -6,11 +6,13 @@ export async function POST(request: Request) {
   let response = null;
   try {
     const req = await request.json();
-    const dni = req.dni;
-    const email = req.email;
-    const name = req.name;
-    const last_name = req.last_name;
-    const plan = req.plan;
+    const dni = req.meta_data.filter(
+      (item: any) => item.key === "_billing_dni"
+    )[0].value;
+    const email = req.billing.email;
+    const name = req.billing.first_name;
+    const last_name = req.billing.last_name;
+    const plan = req.line_items.map((item: any) => item.name).join(", ");
     if (email && dni && plan) {
       const result = await registerUserAuth({ user: email, password: dni });
       result.name = `${name} ${last_name}`;
