@@ -15,12 +15,12 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const [isModalAlert, setIsModalAlert] = useState(true);
   const searchParams = useSearchParams();
   const uid = searchParams.get('uid');
-  // const type = searchParams.get('type');
+  const typeParam = searchParams.get('type');
   const handleModalAlert = () => setIsModalAlert(!isModalAlert);
 
   const { user, type } = uid
     ? CardViewHookWithUser({ userUid: uid })
-    : CardViewWhitOutUser();
+    : CardViewWhitOutUser(typeParam);
 
   return user && type ? (
     user.switch_activateCard ? (

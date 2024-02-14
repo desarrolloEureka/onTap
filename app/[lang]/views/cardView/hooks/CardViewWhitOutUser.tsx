@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { GetUser } from '@/reactQuery/users';
 
-const CardViewWhitOutUser = () => {
+const CardViewWhitOutUser = (typeParam: string | null) => {
   const [type, setType] = useState<string | undefined>();
   const { data } = GetUser();
 
   useEffect(() => {
-    if (data) {
-      const type = data?.switch_profile ? 'professional' : 'social';
+    if (typeParam) {
+      const type = typeParam;
       setType(type);
     }
-  }, [data]);
+  }, [typeParam]);
 
   return { user: data, type };
 };

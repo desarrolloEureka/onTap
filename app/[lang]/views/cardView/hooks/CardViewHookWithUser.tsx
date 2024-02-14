@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { GetUserById, SendViewUser } from '@/reactQuery/users';
-import { GetUser } from '@/reactQuery/users';
 
 const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
   const { data } = GetUserById(userUid);
