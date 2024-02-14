@@ -56,7 +56,7 @@ export const getPrincipalProfileOrderedByObject = (
     }
   });
 
-  // console.log('profileFilter', profileFilter);
+  console.log('profileFilter', profileFilter);
 
   const profileProfessionalFilter = Object.entries(profile).filter((val) => {
     return (
