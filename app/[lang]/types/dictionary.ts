@@ -25,6 +25,8 @@ export interface Dictionary {
     FontName: string;
     agregarImagen: string;
     imagenSeleccionada: string;
+    alertTitle: string;
+    alertMessage: string;
   };
   cardView:{
     labelErrorUser: string;

@@ -24,7 +24,9 @@
     "AddDesaign": "Agregar diseño",
     "FontName": "Nombre del fondo",
     "agregarImagen": "Agregar imagen",
-    "imagenSeleccionada": "Imagen seleccionada"
+    "imagenSeleccionada": "Imagen seleccionada",
+    "alertTitle": "Alerta fondo",
+    "alertMessage": "El fondo ha sido cargado con exito"
   },
   "cardView":{
     "labelErrorUser": "Error",
