@@ -28,7 +28,9 @@ const HeroSocial = ({
           photo={photo}
           name={name}
         />
-        <Typography className='tw-z-10 tw-text-black'>{profession}</Typography>
+        <div className='tw-rounded-bl-2xl tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 -tw-mb-4 tw-mt-2 tw-px-3 tw-drop-shadow-xl tw-mb-1'>
+          <Typography className='tw-z-10 ' color={'white'}>{profession}</Typography>
+        </div>
       </Container>
     )
   );

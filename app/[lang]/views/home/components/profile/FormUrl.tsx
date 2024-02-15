@@ -60,6 +60,9 @@ const FormUrl = ({
           id={`${name}-input`}
           variant='standard'
           InputProps={{
+            endAdornment: (
+              value() && value != undefined && subLabel === 'url' && value().length > 25 ? ' ...' : null
+            ),
             startAdornment: (
               <>
                 {withCheck && (
@@ -99,6 +102,7 @@ const FormUrl = ({
             });
           }}
           value={value() ?? ''}
+
         />
       </Box>
       {withCheck && deleteAction === true && handleModalAlert ? (

@@ -46,6 +46,9 @@ const ProfileHook = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalAlert, setIsModalAlert] = useState(false);
   const [isSuccessDelete, setSuccessDelete] = useState(false);
+  const [isModalIcons, setModalIcons] = useState(false);
+  const [itemUrlSelected, setItemUrlSelected] = useState([]);
+  const [itemUrlKey, setItemUrlKey] = useState(0);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
   /* Delete items */
@@ -114,6 +117,12 @@ const ProfileHook = ({
 
   const handleSuccessDelete = () => {
     setSuccessDelete(!isSuccessDelete);
+  };
+
+  const handleModalIcons = (item: any, key: any) => {
+    setItemUrlSelected(item ? item : []);
+    setItemUrlKey(key);
+    setModalIcons(!isModalIcons);
   };
 
   const handleModalAux = () => {
@@ -670,7 +679,12 @@ const ProfileHook = ({
     dataForm,
     setDataForm,
     noDeleted,
-    status,
+     isModalIcons,
+    setModalIcons,
+    handleModalIcons,
+    itemUrlSelected,
+    itemUrlKey,
+        status,
     isEmailPhoneRight,
     setisEmailPhoneRight,
   };
