@@ -4,6 +4,29 @@ export interface Dictionary {
     CRUD: string;
     ID: string;
     Name: string;
+    LoadFonts: string;
+    UserList: string;
+    CreateUser: string;
+    UserRegister: string;
+    dni: string;
+    Nombre: string;
+    Apellido: string;
+    Email: string;
+    ValidEmail: string;
+    Plan: string;
+    StandardPlan: string;
+    PremiumPlan: string;
+    FillAllFields: string;
+    Register: string;
+    UserTable: string;
+    OneTapMessage: string;
+    LogOut: string;
+    AddDesaign: string;
+    FontName: string;
+    agregarImagen: string;
+    imagenSeleccionada: string;
+    alertTitle: string;
+    alertMessage: string;
   };
   cardView:{
     labelErrorUser: string;
@@ -95,6 +118,8 @@ export interface Dictionary {
     errorDataSend: string;
     successDataSend: string;
     labelError505: string;
+    errorEmail: string;
+    errorPhone: string;
   };
   recoveryCode: {
     nextCode: string;

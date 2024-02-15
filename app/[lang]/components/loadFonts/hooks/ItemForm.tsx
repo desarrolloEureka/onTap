@@ -1,6 +1,12 @@
 import { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, InputAdornment, Fab } from '@mui/material';
 import { Dictionary } from '@/types/dictionary';
+import ImagesearchRollerIcon from '@mui/icons-material/ImagesearchRoller';
+import AddIcon from '@mui/icons-material/Add';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { saveBackgroundImage } from '@/firebase/generals';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
+import { set } from 'firebase/database';
 
 type ItemFormProps = {
   onAddItem: (item: { name: string; image: string }) => void;
@@ -10,7 +16,12 @@ type ItemFormProps = {
 const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
   const [name, setName] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [open, setOpen] = useState(false);
 
+  const handleClose = () => {
+    setOpen(false);
+    window.location.reload();
+  };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
@@ -25,15 +36,19 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (imageFile) {
-      convertToBase64(imageFile)
-        .then((base64Image) => {
-          onAddItem({ name, image: base64Image });
+      convertToBase64(imageFile).then((image) => {
+        saveBackgroundImage(image, name).then(() => {
+          onAddItem({ name, image });
           setName('');
           setImageFile(null);
-        })
-        .catch((error) => console.error('Error converting to base64:', error));
+        });
+      });
+      setOpen(true);
     }
+
   };
+
+  const imgStatus = imageFile ? dictionary?.backOffice.imagenSeleccionada : dictionary?.backOffice.agregarImagen;
 
   const convertToBase64 = (file: File) => {
     return new Promise<string>((resolve, reject) => {
@@ -45,28 +60,61 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="tw-mb-4 tw-mt-10">
-      <h2 className="tw-text-2xl tw-font-bold tw-mb-4">Agregar Diseño</h2>
+    <form onSubmit={handleSubmit} className='tw-w-full tw-flex tw-flex-col tw-items-center'>
       <TextField
-        className="tw-mb-2 tw-w-[184px] tw-h-[45px]"
-        label="Nombre"
-        variant="outlined"
+        label={dictionary?.backOffice.FontName}
+        className='tw-mb-4'
+        variant="standard"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <ImagesearchRollerIcon
+                style={{
+                  color: '#02AF9B',
+                  fontSize: '2rem',
+                  marginRight: '1rem',
+                }}
+              />
+            </InputAdornment>
+          ),
+        }}
         fullWidth
         value={name}
         onChange={handleNameChange}
       />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        className="tw-mb-2 tw-w-[284px] tw-h-[45px]"
-      />
+
+      <label className='tw-flex tw-items-center tw-justify-center tw-gap-2 tw-text-white tw-font-bold tw-cursor-pointer'>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          hidden
+        />
+        <Fab
+        //font color white
+          className='tw-bg-[#C3CEC2] tw-text-white'
+          size="small"
+          component="span"
+          aria-label="add"
+          variant="extended"
+          sx={{ mb: 2 }}
+        >
+          <UploadFileIcon /> {imgStatus}
+        </Fab>
+      </label>
       <Button
-        className="tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-blue-600 tw-mt-[65px] tw-mx-2 tw-text-white"
+        className="tw-w-[184px] tw-h-[40px] tw-rounded-3xl tw-bg-[#02AF9B] tw-text-white tw-font-bold tw-mb-4"
         type="submit"
       >
         {dictionary?.homeView.agregar}
       </Button>
+      <CustomModalAlert
+        isModalAlert={open}
+        handleModalAlert={handleClose}
+        title={dictionary?.backOffice?.alertTitle || ''}
+        description={dictionary?.backOffice?.alertMessage || ''}
+        isClosed={true}
+      />
     </form>
   );
 };
