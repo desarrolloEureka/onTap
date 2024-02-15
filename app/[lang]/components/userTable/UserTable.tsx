@@ -2,6 +2,8 @@ import UserTableLogic from "./hooks/UserTable";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Container, Typography } from "@mui/material";
 import Link from "next/link";
+import useDictionary from "@/hooks/dictionary/useDictionary";
+
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'Cedula', width: 130 },
@@ -18,9 +20,10 @@ const columns: GridColDef[] = [
 
 const UserTable = () => {
     const { query } = UserTableLogic();
+    const dictionary = useDictionary({ lang: 'es' });
     return (
         <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-            <div className='tw-bg-[#02AF9B] tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[500px] tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-center '>
+            <div className='tw-bg-[#02AF9B] tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[800px] tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-center '>
                 <Typography
                     className='tw-text-white  tw-mt-10 tw-w-full'
                     variant='h6'
@@ -29,19 +32,21 @@ const UserTable = () => {
                     align='center'
                     fontWeight='bold'
                 >
-                    Tabla de usuarios
+                    {dictionary.dictionary?.backOffice.UserTable}
                 </Typography>
-                <div style={{ height: 400, width: '100%' }}>
+
+                <div style={{ height: 600, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-10'>
                     <DataGrid
                         rows={query}
                         columns={columns}
                         initialState={{
                             pagination: {
-                                paginationModel: { page: 0, pageSize: 5 },
+                                paginationModel: { page: 0, pageSize: 15 },
                             },
                         }}
-                        pageSizeOptions={[5, 10]}
+                        pageSizeOptions={[15, 30]}
                         checkboxSelection
+                        className="tw-rounded-2xl"
                     />
                 </div>
             </div>

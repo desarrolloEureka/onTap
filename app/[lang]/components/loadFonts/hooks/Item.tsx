@@ -20,7 +20,9 @@ const Item: React.FC<ItemProps> = ({ id, name, image }) => {
         <Image
           src={image}
           alt={name}
-          className='w-full tw-h-auto tw-max-w-[200px] tw-max-h-[200px] tw-mt-2'
+          width={200}
+          height={200}
+          className='w-full tw-h-auto tw-mt-2'
         />
       </CardContent>
     </Card>

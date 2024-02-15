@@ -25,6 +25,9 @@ const FooterProfile = ({
     setIsDataSuccess,
     isDataError,
     setIsDataError,
+    status,
+    isEmailPhoneRight,
+    setisEmailPhoneRight,
   } = ProfileHook({
     dictionary,
     handleDataSet,
@@ -39,6 +42,13 @@ const FooterProfile = ({
         description={dictionary.profileView.errorDataSend}
         isClosed
       />
+        <CustomModalAlert
+          isModalAlert={isEmailPhoneRight}
+          handleModalAlert={setisEmailPhoneRight}
+          title={dictionary?.generalTitle}
+          description={status}
+          isClosed
+        />
       <CustomModalAlert
         isModalAlert={isDataSuccess}
         handleModalAlert={setIsDataSuccess}

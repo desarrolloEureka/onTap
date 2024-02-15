@@ -19,6 +19,9 @@ const PhotoUser = ({ dictionary, handleDataSet, }: { dictionary: Dictionary; han
     setIsDataSuccess,
     isDataError,
     setIsDataError,
+    isEmailPhoneRight,
+    setisEmailPhoneRight,
+    status,
   } = ProfileHook({
     dictionary,
     handleDataSet
@@ -184,6 +187,13 @@ const PhotoUser = ({ dictionary, handleDataSet, }: { dictionary: Dictionary; han
         description={dictionary.profileView.successDataSend}
         isClosed
       />
+      <CustomModalAlert
+          isModalAlert={isEmailPhoneRight}
+          handleModalAlert={setisEmailPhoneRight}
+          title={dictionary?.generalTitle}
+          description={status}
+          isClosed
+        />
     </div>
   );
 };

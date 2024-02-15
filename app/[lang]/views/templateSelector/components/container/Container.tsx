@@ -33,8 +33,9 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
         <Button
           variant='contained'
           sx={{ textTransform: 'none' }}
-          className={`${key % 2 == 0 ? 'tw-rounded-s-2xl' : 'tw-rounded-e-2xl'
-            } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[#679a88] tw-my-2`}
+          className={`${
+            key % 2 == 0 ? 'tw-rounded-s-2xl' : 'tw-rounded-e-2xl'
+          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[#679a88] tw-my-2`}
           key={key}
           onClick={() => val.icon && val.text && clickType(val.icon, val.text)}
           startIcon={
@@ -84,9 +85,10 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
           }
         >
           <Typography
-            style={{ fontSize: val.label === "Correo" ? '14px' : undefined }}
-            className={`tw-w-[90%] tw-text-center tw-truncate ${val.order != 10 && 'tw-capitalize'
-              }`}
+            style={{ fontSize: val.label === 'Correo' ? '14px' : undefined }}
+            className={`tw-w-[90%] tw-text-center tw-truncate ${
+              val.order != 10 && 'tw-capitalize'
+            }`}
           >
             {val.text}
           </Typography>
@@ -95,24 +97,28 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
     });
   };
 
+  console.log('finalArray', finalArray);
   return (
     <Container className='tw-z-10 tw-flex tw-pt-2 tw-flex-col tw-content-center tw-items-center'>
       <SaveContactButton />
       <Container className='tw-z-10 tw-my-4 '>
         {finalArray.length > 0 && finalArray[0].length > 0 && (
-          <Carousel height={180} className='tw-px-3' autoPlay={false}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: 180,
-              }}
-            >
-              {finalArray.map((item, i) => {
-                return <Item key={i} item={item as DataFormValues[]} />;
-              })}
-            </Box>
+          <Carousel height={190} className='tw-px-3' autoPlay={false}>
+            {finalArray.map((item, i) => {
+              return (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    height: 190,
+                  }}
+                  key={i}
+                >
+                  <Item item={item as DataFormValues[]} />
+                </Box>
+              );
+            })}
           </Carousel>
         )}
       </Container>

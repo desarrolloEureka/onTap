@@ -3,7 +3,30 @@
   "backOffice": {
     "CRUD": "CRUD",
     "ID": "ID",
-    "Name": "Name"
+    "Name": "Name",
+    "LoadFonts": "Cargar fondos",
+    "UserList": "Listar usuarios/clientes",
+    "CreateUser":"Crear usuarios/clientes",
+    "UserRegister":"Registro de usuario",
+    "dni":"Cedula",
+    "Nombre":"Nombre",
+    "Apellido":"Apellido",
+    "Email":"Correo",
+    "ValidEmail":"Ingrese un correo valido *",
+    "Plan": "Plan",
+    "StandardPlan": "Estandar",
+    "PremiumPlan": "Premium",
+    "FillAllFields": "Por favor llene todos los campos",
+    "Register": "Registrar",
+    "UserTable": "Tabla de usuarios",
+    "OneTapMessage": "One Tap dice!",
+    "LogOut": "Salir",
+    "AddDesaign": "Agregar diseño",
+    "FontName": "Nombre del fondo",
+    "agregarImagen": "Agregar imagen",
+    "imagenSeleccionada": "Imagen seleccionada",
+    "alertTitle": "Alerta fondo",
+    "alertMessage": "El fondo ha sido cargado con exito"
   },
   "cardView":{
     "labelErrorUser": "Error",
@@ -117,7 +140,9 @@
     "addAnotherURL": "Agregar URL",
     "successDataSend": "La información del usuario ha sido registrada con éxito.",
     "errorDataSend": "La información del usuario no pudo ser registrada, por favor intenta de nuevo.",
-    "labelError505" : "Error 505"
+    "labelError505" : "Error 505",
+    "errorEmail": "El correo no es valido ó no se pueden dejar espacios en blanco",
+    "errorPhone": "El teléfono no es valido ó no se pueden dejar espacios en blanco"
   },
   "modalDelete": {
     "labelAlert": "Alerta",
