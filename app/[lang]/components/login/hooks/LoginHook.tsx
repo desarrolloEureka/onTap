@@ -60,7 +60,7 @@ const LoginHook = (dictionary: Dictionary) => {
           router.push('/views/backOffice');
         } else {
           const urlSplit = window.location.href.split('/');
-          const url = `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}&type=social`;
+          const url = `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}`;
           data && SendPreView(data?.uid, url);
           router.push('/views/home');
         }

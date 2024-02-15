@@ -11,7 +11,6 @@ const TemplateSelectorHook = (user: UserData, type: string) => {
 
   useLayoutEffect(() => {
     const bgId = user?.templateData?.find((val) => val.type === type);
-
     if (bgId && templates.data && backgrounds.data) {
       const currentTemplate = templates.data.find((val) => val.id == bgId.id);
       const currentBackground = backgrounds.data.find(

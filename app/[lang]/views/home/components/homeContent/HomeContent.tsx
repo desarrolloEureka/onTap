@@ -50,7 +50,7 @@ const HomeContent = ({
   const { data, error } = GetUser();
 
   const handleChangeOption = (option: TemplateTypes) => {
-    if (option === "professional" && data?.plan === "basic") {
+    if (option === 'professional' && data?.plan === 'basic') {
       setIsModalAlert(true);
     } else {
       setOptionSelected(option);
@@ -88,7 +88,7 @@ const HomeContent = ({
   const handlePreview = async () => {
     const urlSplit = window.location.href.split('/');
     window.open(
-      `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}&type=${optionSelected}`
+      `http://${urlSplit[2]}/es/views/cardView?&type=${optionSelected}`
     );
   };
 
@@ -115,7 +115,7 @@ const HomeContent = ({
             optionSelected={optionSelected}
             title={dictionary?.homeView?.social}
             handleChangeOption={handleChangeOption}
-          //disabled={false}
+            //disabled={false}
           />
           <ButtonTab
             dictionary={dictionary}
@@ -123,7 +123,7 @@ const HomeContent = ({
             optionSelected={optionSelected}
             title={dictionary?.homeView?.professional}
             handleChangeOption={handleChangeOption}
-          //disabled={data?.plan === "basic" ? true : false}
+            //disabled={data?.plan === "basic" ? true : false}
           />
         </div>
 
@@ -371,7 +371,6 @@ const HomeContent = ({
           isModalAlert={isModalAlert}
           isClosed={true}
         />
-
       </div>
     )
   );

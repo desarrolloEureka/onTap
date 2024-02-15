@@ -10,11 +10,13 @@ export const capitalizeFirstLetter = (text: string) => {
 
 export const sortedArrayObject = (data: any[], index: string) => {
   const arraySorted = data.sort((x, y) => {
+    const xx = x.length > 0 ? x[0].order : x.order;
+    const yy = y.length > 0 ? y[0].order : y.order;
     //array sorted
-    if (index == 'social' ? x.order > y.order : x[0].order > y[0].order) {
+    if (index == 'social' ? xx > yy : x[0].order > y[0].order) {
       return 1;
     }
-    if (index == 'social' ? x.order < y.order : x[0].order < y[0].order) {
+    if (index == 'social' ? xx < yy : x[0].order < y[0].order) {
       return -1;
     }
     return 0;
@@ -73,12 +75,32 @@ export const getPrincipalProfileOrderedByObject = (
 
   profileFilter.forEach((val) => {
     //remove from the array
-    const social =
+    // console.log('val>>', val);
+
+    // const social =
+    //   val[1].length > 0
+    //     ? val[1].find(
+    //         (val: any) => val.social && val.checked && val.order != 13
+    //       )
+    //     : val[1].checked && val[1];
+
+    const socialOld =
       val[1].length > 0
-        ? val[1].find(
+        ? val[1].filter(
             (val: any) => val.social && val.checked && val.order != 13
           )
         : val[1].checked && val[1];
+
+    const destructuringArray = (data: any) => {
+      data.forEach((val: any) => {
+        objectArray.push(val);
+      });
+    };
+
+    const social =
+      val[1].length > 0 ? destructuringArray(val[1]) : val[1].checked && val[1];
+
+    // console.log('social:::::', social);
 
     const profArray: any[] = [];
     val[1].length > 0 &&
@@ -101,8 +123,8 @@ export const getPrincipalProfileOrderedByObject = (
       : { arraySorted: [] };
 
   // console.log('profileFilter', profileFilter);
-  // console.log('objectArray>>>>>', index == 'professional' && objectArray);
-  //console.log('arraySorted', arraySorted);
+  // console.log('objectArray>>>>>', index == 'social' && objectArray);
+  // console.log('arraySorted', arraySorted);
 
   if (index == 'social' && arraySorted.length > 3) {
     arraySorted.forEach((val, key) => {
@@ -118,6 +140,8 @@ export const getPrincipalProfileOrderedByObject = (
     });
     finalArray.push(...arraySorted);
   }
+  // console.log('finalArray', finalArray);
+
   return { finalArray };
 };
 

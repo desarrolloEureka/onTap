@@ -50,7 +50,7 @@ const UserRegisterForm = () => {
     //setStatus('El usuario ya se encuentra registrado');
     //handleClickOpen();
     //Hasta aquí
-    try{
+    try {
       const result = await registerUserAuth({ user: email, password: dni });
       result.name = `${name} ${lastName}`;
       result.plan = plan;
@@ -58,23 +58,24 @@ const UserRegisterForm = () => {
       result.gif = true;
       result.email = email;
       result.dni = dni;
-      registerUserFb({ data : result }).then((res) => {
-        setStatus('El usuario se ha registrado correctamente');
-        handleClickOpen();
-        //Se limpian los campos
-        setDni('');
-        setEmail('');
-        setName('');
-        setLastName('');
-      }).catch((err) => {
-        setStatus('El usuario ya se encuentra registrado');
-        handleClickOpen();
-      });
-    }catch(err){
+      registerUserFb({ data: result })
+        .then((res) => {
+          setStatus('El usuario se ha registrado correctamente');
+          handleClickOpen();
+          //Se limpian los campos
+          setDni('');
+          setEmail('');
+          setName('');
+          setLastName('');
+        })
+        .catch((err) => {
+          setStatus('El usuario ya se encuentra registrado');
+          handleClickOpen();
+        });
+    } catch (err) {
       setStatus('El usuario ya se encuentra registrado');
       handleClickOpen();
-    };
-    
+    }
   };
 
   return {
@@ -86,7 +87,7 @@ const UserRegisterForm = () => {
     setName,
     lastName,
     setLastName,
-    plan: 'basic',
+    plan: 'standard',
     setPlan,
     dataRegisterHandle,
     errorMailForm,

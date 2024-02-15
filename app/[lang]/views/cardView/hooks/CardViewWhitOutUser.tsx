@@ -1,9 +1,18 @@
+import { useEffect, useState } from 'react';
 import { GetUser } from '@/reactQuery/users';
-import React from 'react';
 
-const CardViewWhitOutUser = () => {
+const CardViewWhitOutUser = (typeParam: string | null) => {
+  const [type, setType] = useState<string | undefined>();
   const { data } = GetUser();
-  return { user: data };
+
+  useEffect(() => {
+    if (typeParam) {
+      const type = typeParam;
+      setType(type);
+    }
+  }, [typeParam]);
+
+  return { user: data, type };
 };
 
 export default CardViewWhitOutUser;

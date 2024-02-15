@@ -1,21 +1,26 @@
 import { registerUserAuth, registerUserFb } from "app/functions/register";
-import { NextResponse } from "next/server";
 
 // payload {"success":"ok","dni":"123456789","email":"email@gmail.com","name":"name","last_name":"lastname"} http://localhost:3000/api/register/post
 export async function POST(request: Request) {
   let response = null;
   try {
     const req = await request.json();
-    const dni = req.dni;
-    const email = req.email;
-    const name = req.name;
-    const last_name = req.last_name;
-    const plan = req.plan;
+    const dni = req.meta_data.filter(
+      (item: any) => item.key === "_billing_dni"
+    )[0].value;
+    const email = req.billing.email;
+    const name = req.billing.first_name;
+    const last_name = req.billing.last_name;
+    const plan = req.line_items[0];
     if (email && dni && plan) {
       const result = await registerUserAuth({ user: email, password: dni });
+      result.dni = dni;
       result.name = `${name} ${last_name}`;
-      result.plan = plan;
-      result.switch_profile = plan === "standard" ? false : true;
+      result.email = email;
+      result.plan = plan.name.toLowerCase().includes("premium")
+        ? "premium"
+        : "standard";
+      result.switch_profile = plan.name.toLowerCase().includes("premium");
       const registerResult = await registerUserFb({ data: result });
       response = {
         payload: { dni, email, name, last_name, plan },
