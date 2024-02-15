@@ -201,7 +201,7 @@ const ItemFormEducation = ({
           </div>
         </div>
 
-        <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
+       {/*  <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
           <Button
             onClick={() => handleSeeMore(3)}
             color='secondary'
@@ -226,7 +226,8 @@ const ItemFormEducation = ({
               {dictionary.profileView.buttonSeeMore} (2)
             </span>
           </Button>
-        </div>
+        </div> */}
+
       </div>
       <ModalAlertLimit
         isModalAlertLimit={isModalAlertLimit}
