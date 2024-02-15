@@ -31,6 +31,8 @@ export const getAllBackgroundImages = async () => {
   return backgroundImages;
 };
 
+//La imagen se recive en base 64(imagen), tambien se recive el nombre de la imagen(name)
+
 export const getAllSocialNetworks = async () => {
   const backgroundImages: SocialNetworks[] = [];
   const querySnapshot = await getDocs(allRef({ ref: 'social_icons' }));

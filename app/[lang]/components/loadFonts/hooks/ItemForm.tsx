@@ -87,7 +87,6 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
           component="span"
           aria-label="add"
           variant="extended"
-          //mas espacio entre el texto de arriva y el de abajo
           sx={{ mb: 2 }}
         >
           <UploadFileIcon /> {imgStatus}

@@ -20,6 +20,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { QueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
+import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 
 
 interface TabPanelProps {
@@ -118,23 +119,3 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
 };
 
 export default Page;
-/*
-<Box sx={{ width: '100%' }} className="tw-bg-white">
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="NavTab BackOffice">
-            <Tab label={dictionary?.backOffice.LoadFonts} {...a11yProps(0)} />
-            <Tab label={dictionary?.backOffice.UserList} {...a11yProps(1)} />
-            <Tab label={dictionary?.backOffice.CreateUser} {...a11yProps(2)} />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <LoadFonts params={{ lang }} />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <UserTable />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <UserRegister />
-        </CustomTabPanel>
-      </Box>
-*/ 
