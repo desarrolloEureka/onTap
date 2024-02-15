@@ -1,6 +1,6 @@
 import { BackgroundImages, SocialNetworks, Templates } from '@/types/home';
 import { AllRefPropsFirebase } from '@/types/userFirebase';
-import { collection, doc, getDocs } from 'firebase/firestore';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { dataBase } from './firebaseConfig';
 
 const allRef = ({ ref }: AllRefPropsFirebase) => collection(dataBase, ref);
@@ -31,7 +31,19 @@ export const getAllBackgroundImages = async () => {
   return backgroundImages;
 };
 
-//La imagen se recive en base 64(imagen), tambien se recive el nombre de la imagen(name)
+//La imagen se recive en base 64(imagen), tambien se recive el nombre de la imagen(image)
+export const saveBackgroundImage = async (image: string, name: string) => {
+  //generar un id unico
+  const id = Math.random().toString(36).substring(2);
+  const docRef = await setDoc(doc(dataBase, 'background_images', id), {
+    name,
+    image,
+  }).catch((error) => {
+    console.error('Error adding document: ', error);
+  });
+  return docRef;
+
+}
 
 export const getAllSocialNetworks = async () => {
   const backgroundImages: SocialNetworks[] = [];

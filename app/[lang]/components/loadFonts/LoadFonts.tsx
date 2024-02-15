@@ -40,7 +40,6 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             {dictionary?.backOffice.AddDesaign}
                         </Typography>
                         <ItemForm onAddItem={handleAddItem} dictionary={dictionary} />
-                        <ItemList items={items} />
                     </Box>
                 </Container>
             </div>

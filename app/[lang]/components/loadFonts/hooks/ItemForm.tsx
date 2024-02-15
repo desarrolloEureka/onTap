@@ -4,6 +4,7 @@ import { Dictionary } from '@/types/dictionary';
 import ImagesearchRollerIcon from '@mui/icons-material/ImagesearchRoller';
 import AddIcon from '@mui/icons-material/Add';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { saveBackgroundImage } from '@/firebase/generals';
 
 type ItemFormProps = {
   onAddItem: (item: { name: string; image: string }) => void;
@@ -28,13 +29,13 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (imageFile) {
-      convertToBase64(imageFile)
-        .then((base64Image) => {
-          onAddItem({ name, image: base64Image });
+      convertToBase64(imageFile).then((image) => {
+        saveBackgroundImage(image, name).then(() => {
+          onAddItem({ name, image });
           setName('');
           setImageFile(null);
-        })
-        .catch((error) => console.error('Error converting to base64:', error));
+        });
+      });
     }
   };
 
