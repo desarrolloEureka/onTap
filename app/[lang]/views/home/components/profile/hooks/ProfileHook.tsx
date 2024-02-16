@@ -367,7 +367,7 @@ const ProfileHook = ({
               },
             ];
           } else {
-            dataFormClone[index]?.push({
+            dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
               text: '',
               checked: true,
@@ -401,7 +401,7 @@ const ProfileHook = ({
               },
             ];
           } else {
-            dataFormClone[index]?.push({
+            dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
               text: '',
               checked: true,
@@ -434,7 +434,7 @@ const ProfileHook = ({
               },
             ];
           } else {
-            dataFormClone[index]?.push({
+            dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
               title: '',
               institution: '',
@@ -470,7 +470,7 @@ const ProfileHook = ({
               },
             ];
           } else {
-            dataFormClone[index]?.push({
+            dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
               company: '',
               position: '',
@@ -505,7 +505,7 @@ const ProfileHook = ({
             },
           ];
         } else {
-          dataFormClone[index]?.push({
+          dataFormClone[index]?.unshift({
             label: dataFormClone[index]![0].label,
             name: '',
             url: '',
