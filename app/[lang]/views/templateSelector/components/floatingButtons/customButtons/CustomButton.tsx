@@ -23,8 +23,6 @@ const CustomButton = ({
     urlLink = link;
   }
 
-  console.log("http://" + urlLink);
-
   return (
     icon?.image && (
       <Link
