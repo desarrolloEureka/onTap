@@ -74,33 +74,21 @@ export const getPrincipalProfileOrderedByObject = (
   });
 
   profileFilter.forEach((val) => {
-    //remove from the array
-    // console.log('val>>', val);
-
-    // const social =
+    // const socialOld =
     //   val[1].length > 0
-    //     ? val[1].find(
+    //     ? val[1].filter(
     //         (val: any) => val.social && val.checked && val.order != 13
     //       )
     //     : val[1].checked && val[1];
 
-    const socialOld =
-      val[1].length > 0
-        ? val[1].filter(
-            (val: any) => val.social && val.checked && val.order != 13
-          )
-        : val[1].checked && val[1];
-
     const destructuringArray = (data: any) => {
       data.forEach((val: any) => {
-        objectArray.push(val);
+        val.checked && objectArray.push(val);
       });
     };
 
     const social =
       val[1].length > 0 ? destructuringArray(val[1]) : val[1].checked && val[1];
-
-    // console.log('social:::::', social);
 
     const profArray: any[] = [];
     val[1].length > 0 &&
