@@ -13,6 +13,15 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { useEffect, useRef } from 'react';
 
+
+import SchoolIcon from '@mui/icons-material/School';
+import CreateIcon from '@mui/icons-material/Create';
+import FactoryIcon from '@mui/icons-material/Factory';
+
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import EngineeringIcon from '@mui/icons-material/Engineering';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
+
 const ItemForm = ({
   label,
   name,
@@ -144,6 +153,54 @@ const ItemForm = ({
                       marginRight: '1rem',
                     }}
                   />
+                ) : icon === 'SchoolIcon' ? (
+                  <SchoolIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'CreateIcon' ? (
+                  <CreateIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'FactoryIcon' ? (
+                  <FactoryIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'NoteAltIcon' ? (
+                  <NoteAltIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'EngineeringIcon' ? (
+                  <EngineeringIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'MilitaryTechIcon' ? (
+                    <MilitaryTechIcon
+                      style={{
+                        color: '#02AF9B',
+                        fontSize: '1.8rem',
+                        marginRight: '1rem',
+                      }}
+                    />
                 ) : null}
               </InputAdornment>
             ),
