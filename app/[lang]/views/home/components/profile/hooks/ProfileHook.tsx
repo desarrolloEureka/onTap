@@ -67,6 +67,10 @@ const ProfileHook = ({
     const userId = data?.uid;
     const emails = dataForm?.emails?.map((email) => email.text);
     const phones = dataForm?.phones?.map((phone) => phone.text);
+    const urls = dataForm?.urls?.map((urls) => urls);
+    const education = dataForm?.education?.map((education) => education);
+    const professionalCareer = dataForm?.professional_career?.map((proCareer) => proCareer);
+
     if (emails) {
       const isEmailValid = emails.every((email) => validateEmail(email as string));
       if (!isEmailValid) {
@@ -83,6 +87,35 @@ const ProfileHook = ({
         return;
       }
     }
+
+
+    if (urls) {
+      const allObjectsFilled = dataForm?.urls?.every(obj => obj.name !== "" && obj.url !== "" && obj.icon !== "");
+      if (!allObjectsFilled) {
+        setStatus(dictionary.profileView.errorEmptyUrl);
+        setisEmailPhoneRight(true);
+        return;
+      }
+    }
+
+    if (education) {
+      const allObjectsFilled = dataForm?.education?.every(obj => obj.title !== "" && obj.institution !== "" && obj.year !== "");
+      if (!allObjectsFilled) {
+        setStatus(dictionary.profileView.errorEmptyEducation);
+        setisEmailPhoneRight(true);
+        return;
+      }
+    }
+
+    if (professionalCareer) {
+      const allObjectsFilled = dataForm?.professional_career?.every(obj => obj.company !== "" && obj.position !== "" && obj.data_init !== "" && obj.data_end !== "");
+      if (!allObjectsFilled) {
+        setStatus(dictionary.profileView.errorEmptyProCareer);
+        setisEmailPhoneRight(true);
+        return;
+      }
+    }
+
     if (userId) {
       const isSendDataProfile = await SendDataUserProfile(userId, dataForm);
       if (isSendDataProfile?.success) {
@@ -188,8 +221,8 @@ const ProfileHook = ({
     dataFormClone && index == 'education' && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == 'professional_career'
-      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-      : index == 'urls' &&
+        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+        : index == 'urls' &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -325,7 +358,7 @@ const ProfileHook = ({
               {
                 label: dictionary.profileView.labelPhone,
                 text: '',
-                checked: false,
+                checked: true,
                 principal: false,
                 social: social,
                 professional: true,
@@ -337,7 +370,7 @@ const ProfileHook = ({
             dataFormClone[index]?.push({
               label: dataFormClone[index]![0].label,
               text: '',
-              checked: false,
+              checked: true,
               principal: false,
               social: social,
               professional: true,
@@ -349,6 +382,9 @@ const ProfileHook = ({
           setIsModalAlertLimit(true);
         }
       }
+
+      console.log("dataFormClone ", dataFormClone);
+
       if (index === 'emails') {
         if ((count != null || count != undefined) && count < 3) {
           if (count === 0) {
@@ -356,7 +392,7 @@ const ProfileHook = ({
               {
                 label: dictionary.profileView.labelEmail,
                 text: '',
-                checked: false,
+                checked: true,
                 principal: false,
                 social: social,
                 professional: true,
@@ -368,7 +404,7 @@ const ProfileHook = ({
             dataFormClone[index]?.push({
               label: dataFormClone[index]![0].label,
               text: '',
-              checked: false,
+              checked: true,
               principal: false,
               social: social,
               professional: true,
@@ -389,7 +425,7 @@ const ProfileHook = ({
                 title: '',
                 institution: '',
                 year: '',
-                checked: false,
+                checked: true,
                 principal: false,
                 social: social,
                 professional: !social,
@@ -403,7 +439,7 @@ const ProfileHook = ({
               title: '',
               institution: '',
               year: '',
-              checked: false,
+              checked: true,
               principal: false,
               social: social,
               professional: !social,
@@ -425,7 +461,7 @@ const ProfileHook = ({
                 position: '',
                 data_init: '',
                 data_end: '',
-                checked: false,
+                checked: true,
                 principal: false,
                 social: social,
                 professional: !social,
@@ -440,7 +476,7 @@ const ProfileHook = ({
               position: '',
               data_init: '',
               data_end: '',
-              checked: false,
+              checked: true,
               principal: false,
               social: social,
               professional: !social,
@@ -461,7 +497,7 @@ const ProfileHook = ({
               name: '',
               url: '',
               icon: '',
-              checked: false,
+              checked: true,
               principal: false,
               social: social,
               professional: !social,
@@ -474,7 +510,7 @@ const ProfileHook = ({
             name: '',
             url: '',
             icon: '',
-            checked: false,
+            checked: true,
             principal: false,
             social: social,
             professional: !social,
@@ -679,12 +715,12 @@ const ProfileHook = ({
     dataForm,
     setDataForm,
     noDeleted,
-     isModalIcons,
+    isModalIcons,
     setModalIcons,
     handleModalIcons,
     itemUrlSelected,
     itemUrlKey,
-        status,
+    status,
     isEmailPhoneRight,
     setisEmailPhoneRight,
   };

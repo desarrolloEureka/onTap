@@ -57,7 +57,7 @@
     "views": "Visualizaciones del perfil",
     "title": "Plantillas",
     "profileSwitchLabel": "Modo",
-    "cardSwitchLabel": "Activar tarjeta",
+    "cardSwitchLabel": "Inactivar perfil",
     "social": "Social",
     "professionalSwitch": "PRO",
     "professional": "Profesional",
@@ -142,7 +142,10 @@
     "errorDataSend": "La información del usuario no pudo ser registrada, por favor intenta de nuevo.",
     "labelError505" : "Error 505",
     "errorEmail": "El correo no es valido ó no se pueden dejar espacios en blanco",
-    "errorPhone": "El teléfono no es valido ó no se pueden dejar espacios en blanco"
+    "errorPhone": "El teléfono no es valido ó no se pueden dejar espacios en blanco",
+    "errorEmptyUrl": "No se pueden dejar espacios en blanco en urls",
+    "errorEmptyEducation": "No se pueden dejar espacios en blanco en educación",
+    "errorEmptyProCareer": "No se pueden dejar espacios en blanco en trayectoria"
   },
   "modalDelete": {
     "labelAlert": "Alerta",

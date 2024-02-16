@@ -6,7 +6,7 @@ import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import IconTikTok from './IconTikTok';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import XIcon from '@mui/icons-material/X';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import EmailIcon from '@mui/icons-material/Email';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
@@ -233,7 +233,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'twitter' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <TwitterIcon sx={{ color: '#02AF9B' }} />
+                                    <XIcon sx={{ color: '#02AF9B' }} />
                                 </Button>
                             </div>
                         </div>
