@@ -197,7 +197,7 @@ const SendInactiveUser = async (userId: string) => {
   return res;
 };
 
-const GetUser = () =>
+const GetUser = (refetch?: boolean) =>
   useQuery({
     queryKey: ['user'],
     queryFn: async () => {
@@ -217,7 +217,7 @@ const GetUser = () =>
         return null;
       }
     },
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: refetch ?? false,
   });
 
 const SendPreView = async (userId: string, url: string) => {

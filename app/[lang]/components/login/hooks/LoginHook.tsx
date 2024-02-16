@@ -53,7 +53,7 @@ const LoginHook = (dictionary: Dictionary) => {
    }, [data, dictionary.loginView.userNotFound, router, sendLogin]); */
 
   const userIsLogged = useCallback(() => {
-    setSendLogin(false);
+    // setSendLogin(false);
     if (data) {
       if (data.isActive === true) {
         if (data.isAdmin) {
@@ -75,6 +75,10 @@ const LoginHook = (dictionary: Dictionary) => {
         errorType: 3,
         errorMessage: dictionary.loginView.userNotFound,
       });
+      setTimeout(() => {
+        setErrorForm(null);
+        setSendLogin(false);
+      }, 2000);
     }
   }, [data, dictionary.loginView.userNotFound, router, sendLogin]);
 

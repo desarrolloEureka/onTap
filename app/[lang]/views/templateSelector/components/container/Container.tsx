@@ -97,7 +97,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
     });
   };
 
-  console.log('finalArray', finalArray);
+  // console.log('finalArray', finalArray);
   return (
     <Container className='tw-z-10 tw-flex tw-pt-2 tw-flex-col tw-content-center tw-items-center'>
       <SaveContactButton />
