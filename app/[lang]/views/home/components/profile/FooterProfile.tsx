@@ -42,13 +42,13 @@ const FooterProfile = ({
         description={dictionary.profileView.errorDataSend}
         isClosed
       />
-        <CustomModalAlert
-          isModalAlert={isEmailPhoneRight}
-          handleModalAlert={setisEmailPhoneRight}
-          title={dictionary?.generalTitle}
-          description={status}
-          isClosed
-        />
+      <CustomModalAlert
+        isModalAlert={isEmailPhoneRight}
+        handleModalAlert={setisEmailPhoneRight}
+        title={dictionary?.generalTitle}
+        description={status}
+        isClosed
+      />
       <CustomModalAlert
         isModalAlert={isDataSuccess}
         handleModalAlert={setIsDataSuccess}
@@ -58,26 +58,28 @@ const FooterProfile = ({
       />
 
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
-        <div className=' tw-h-[80%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
-          <div className=' tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-            <div className=' tw-h-[30%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
-              <span
-                style={{
-                  color: '#000000',
-                  fontSize: '0.8rem',
-                  textTransform: 'none',
-                  fontWeight: 'bold',
-                }}
-              >
-                {dictionary.profileView.labelSwitchMain}
-              </span>
-            </div>
-            <div className=' tw-h-[70%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
+        <div className=' tw-h-[100%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
+          <div className=' tw-h-[100%] tw-w-[80%] tw-flex tw-flex-row tw-items-center tw-justify-center'>
+
+            <div className=' tw-h-[100%] max-sm:tw-w-[50%] tw-w-[20%] tw-flex tw-items-center tw-justify-center tw-pt-3 max-md:tw-mr-2'>
               <CustomSwitchGeneral
                 name='all_true'
                 handleSwitch={(e: any) => handleSwitchAll(e)}
               />
             </div>
+
+            <div className=' tw-h-[100%] max-sm:tw-w-[70%] tw-w-[80%] tw-flex tw-items-center tw-justify-start'>
+              <span
+                style={{
+                  color: '#030124',
+                  fontSize: '1rem',
+                  textTransform: 'none',
+                }}
+              >
+                {dictionary.profileView.labelSwitchMain}
+              </span>
+            </div>
+
           </div>
         </div>
         <div className=' tw-h-[80%] tw-w-[50%] tw-flex  tw-items-end tw-justify-end '>

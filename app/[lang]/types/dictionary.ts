@@ -28,7 +28,7 @@ export interface Dictionary {
     alertTitle: string;
     alertMessage: string;
   };
-  cardView:{
+  cardView: {
     labelErrorUser: string;
     labelErrorUserDescription: string;
   };
@@ -80,7 +80,7 @@ export interface Dictionary {
     userNotFound: string;
   };
   profileView: {
-    labelDeleteProfiledata : string;
+    labelDeleteProfiledata: string;
     labelHello: string;
     labelFirstName: string;
     labelLastName: string;
@@ -120,6 +120,9 @@ export interface Dictionary {
     labelError505: string;
     errorEmail: string;
     errorPhone: string;
+    errorEmptyUrl: string;
+    errorEmptyEducation: string;
+    errorEmptyProCareer: string;
   };
   recoveryCode: {
     nextCode: string;

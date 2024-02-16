@@ -14,12 +14,20 @@ const CustomButton = ({
 }) => {
   const { data } = GetAllSocialNetworks();
   const icon = data?.find((val) => val.name === name);
+  const regex = /^https?:\/\//i;
+  let urlLink = ''
+
+  if (regex.test(link)) {
+    urlLink = link.replace(regex, '');
+  } else {
+    urlLink = link;
+  }
 
   return (
     icon?.image && (
       <Link
         className={`tw-rounded-full tw-drop-shadow-xl ${styles}`}
-        href={`http://${link}`}
+        href={`http://${urlLink}`}
       >
         <Image src={icon.image} alt={name} width={70} height={70} />
       </Link>
