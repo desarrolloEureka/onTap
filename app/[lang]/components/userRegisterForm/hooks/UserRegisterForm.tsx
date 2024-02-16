@@ -8,7 +8,7 @@ const UserRegisterForm = () => {
   const [email, setEmail] = useState<string>();
   const [name, setName] = useState<string>();
   const [lastName, setLastName] = useState<string>();
-  const [plan, setPlan] = useState<string>();
+  const [plan, setPlan] = useState<string>("Estándar");
   const [errorMailForm, setErrorMailForm] = useState<Boolean>(false);
   const [errorDataForm, setErrorDataForm] = useState<Boolean>(false);
   const [status, setStatus] = useState<string>('');
@@ -22,6 +22,8 @@ const UserRegisterForm = () => {
   };
 
   const dataRegisterHandle = async () => {
+    setErrorMailForm(false);
+    setErrorDataForm(false);
     if (!dni || !email || !name || !lastName || !plan) {
       setErrorDataForm(true);
       return;
@@ -43,13 +45,6 @@ const UserRegisterForm = () => {
       plan,
       gif: true,
     };
-    //Esto ya funciona
-    //Si es correcto
-    //setStatus('El usuario se ha registrado correctamente');
-    //Si es incorrecto
-    //setStatus('El usuario ya se encuentra registrado');
-    //handleClickOpen();
-    //Hasta aquí
     try {
       const result = await registerUserAuth({ user: email, password: dni });
       result.name = `${name} ${lastName}`;

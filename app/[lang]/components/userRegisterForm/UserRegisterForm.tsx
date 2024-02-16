@@ -40,9 +40,9 @@ const UserRegister = () => {
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[550px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
+      <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[570px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
         <Typography
-          className='tw-text-white  tw-mt-9 tw-w-full tw-mb-6'
+          className='tw-text-white  tw-mt-9 tw-w-full c tw-mb-4'
           variant='h4'
           color='textPrimary'
           display={'flow'}
@@ -69,9 +69,9 @@ const UserRegister = () => {
               ),
             }}
             required
-            type="number"
             id='outlined-required'
             defaultValue={dni}
+            className='tw-mb-4 tw-w-[300px]'
             onChange={(e) => setDni(e.target.value)}
           />
           <TextField
@@ -80,6 +80,7 @@ const UserRegister = () => {
             defaultValue={name}
             variant='standard'
             label={dictionary.dictionary?.backOffice.Nombre}
+            className='tw-mb-4 tw-w-[300px]'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -99,6 +100,7 @@ const UserRegister = () => {
             required
             id='outlined-required'
             defaultValue={lastName}
+            className='tw-mb-4 tw-w-[300px]'
             variant='standard'
             label={dictionary.dictionary?.backOffice.Apellido}
             InputProps={{
@@ -116,16 +118,12 @@ const UserRegister = () => {
             }}
             onChange={(e) => setLastName(e.target.value)}
           />
-          {errorMailForm && (
-            <span className='tw-text-red-500'>
-              {dictionary.dictionary?.backOffice.ValidEmail}
-            </span>
-          )}
           <TextField
             required
             id='outlined-required'
             defaultValue={email}
             variant='standard'
+            className='tw-mb-4 tw-w-[300px]'
             label={dictionary.dictionary?.backOffice.Email}
             InputProps={{
               startAdornment: (
@@ -142,12 +140,20 @@ const UserRegister = () => {
             }}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Typography
-            color='textSecondary'
-            display={'flow'}
-          >
-            {dictionary.dictionary?.backOffice.Plan}:{' '}
-          </Typography>
+          {errorMailForm && (
+            <span className='tw-text-red-500'>
+              {dictionary.dictionary?.backOffice.ValidEmail}
+            </span>
+          )}
+          <div className='tw-w-[300px]'>
+            <Typography
+              color='textSecondary'
+              display={'flow'}
+              className='tw-text-left tw-text-sm tw-mb-2'
+            >
+              {dictionary.dictionary?.backOffice.Plan}*
+            </Typography>
+          </div>
           <div className='tw-relative'>
             <PersonOutlinedIcon
               style={{
@@ -159,15 +165,16 @@ const UserRegister = () => {
               }}
             />
             <Select
-              className='tw-w-[250px] tw-text-center'
+              className='tw-w-[300px] tw-text-center tw-mb-4'
               required
               id='outlined-required'
-              defaultValue={plan}
+              value='standar'
+              defaultValue={dictionary.dictionary?.backOffice.StandardPlan}
               type='email'
               variant='outlined'
               onChange={(e) => setPlan(e.target.value)}
             >
-              <MenuItem value='standar'>{dictionary.dictionary?.backOffice.StandardPlan}</MenuItem>
+              <MenuItem value='standar' selected>{dictionary.dictionary?.backOffice.StandardPlan}</MenuItem>
               <MenuItem value='premium'>{dictionary.dictionary?.backOffice.PremiumPlan}</MenuItem>
             </Select>
           </div>
