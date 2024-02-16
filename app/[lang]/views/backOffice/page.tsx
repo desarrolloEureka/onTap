@@ -80,8 +80,8 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <Image
             src='/images/simple_logo.png'
             alt='Logo One Tap'
-            width={isSmallScreen ? 31 : 81}
-            height={isSmallScreen ? 27 : 77}
+            width={ 81}
+            height={ 77}
             priority
           />
           <BottomNavigation
@@ -89,19 +89,28 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
             onChange={handleChange}
             showLabels
             //en el centro de la pantalla los iconos juntos
-            className="tw-bg-[#02AF9B] tw-flex tw-justify-center tw-items-center tw-w-full"
+            className="tw-bg-[#02AF9B] tw-flex tw-justify-center tw-items-center tw-w-full tw-text-white tw-font-bold"
           >
             <BottomNavigationAction label={dictionary?.backOffice.CreateUser}
-              icon={<GroupAddIcon fontSize="large" sx={{ color: 'white'}} />}
-              sx={{ color: 'white', fontSize:70  }} />
+              icon={
+                <GroupAddIcon fontSize="large" sx={{ color: 'white' }} />
+              }
+              className='tw-text-white tw-text-lg tw-font-bold'
+            />
             <BottomNavigationAction label={dictionary?.backOffice.UserList}
-              icon={<GroupIcon fontSize="large"
-                sx={{ color: 'white' }} />}
-              sx={{ color: 'white' }} />
+              icon={
+                <GroupIcon fontSize="large"
+                  sx={{ color: 'white' }} />
+              }
+              className='tw-text-white tw-text-lg tw-font-bold'
+            />
             <BottomNavigationAction label={dictionary?.backOffice.LoadFonts}
-              icon={<FilterIcon fontSize="large"
-                sx={{ color: 'white' }} />}
-              sx={{ color: 'white' }} />
+              icon={
+                <FilterIcon fontSize="large"
+                  sx={{ color: 'white' }}
+                />}
+                className='tw-text-white tw-text-lg tw-font-bold'
+            />
           </BottomNavigation>
           <Button onClick={logOut} sx={{ color: 'white' }}>
             <div className="tw-flex tw-items-center">
