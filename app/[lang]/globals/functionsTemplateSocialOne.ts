@@ -113,22 +113,41 @@ export const getPrincipalProfileOrderedByObject = (
   // console.log('profileFilter', profileFilter);
   // console.log('objectArray>>>>>', index == 'social' && objectArray);
   // console.log('arraySorted', arraySorted);
-
-  if (index == 'social' && arraySorted.length > 3) {
+  let count = 3;
+  let countN = 1;
+  if (index == 'social' && arraySorted.length > count) {
     arraySorted.forEach((val, key) => {
       //array into two arrays
       data.push(val);
-      (key == 3 || key == 4) && (finalArray.push(data), (data = []));
+      // (key == 3 || key == 4) && (finalArray.push(data), (data = []));
+      console.log('count', count);
+      console.log('key', key);
+      console.log('val', val);
+      console.log('arraySorted.length', arraySorted.length);
+      if (count == key) {
+        finalArray.push(data);
+        data = [];
+        count = count + 4;
+      } else {
+        if (countN == arraySorted.length) {
+          console.log('arraySorted.length', arraySorted.length);
+          console.log('data', data);
+
+          finalArray.push(data);
+        }
+      }
+      countN++;
     });
-  } else if (index == 'social' && arraySorted.length <= 3) {
+  } else if (index == 'social' && arraySorted.length <= count) {
     finalArray.push(arraySorted);
   } else {
+    console.log('profileProfessionalFilter', profileProfessionalFilter);
     profileProfessionalFilter.map((val, key) => {
       finalArray.push([val[1]]);
     });
     finalArray.push(...arraySorted);
   }
-  // console.log('finalArray', finalArray);
+  console.log('finalArray', finalArray);
 
   return { finalArray };
 };

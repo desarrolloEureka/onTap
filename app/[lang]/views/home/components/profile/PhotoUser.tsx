@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Avatar, Stack, IconButton } from '@mui/material';
+import { Avatar, Stack, IconButton, Typography } from '@mui/material';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { Dictionary } from '@/types/dictionary';
 import { GetUser, SendDataImage } from '@/reactQuery/users';
@@ -11,7 +11,13 @@ import ProfileHook from './hooks/ProfileHook';
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
 import { DataForm } from '@/types/profile';
 
-const PhotoUser = ({ dictionary, handleDataSet, }: { dictionary: Dictionary; handleDataSet: (e: DataForm) => void; }) => {
+const PhotoUser = ({
+  dictionary,
+  handleDataSet,
+}: {
+  dictionary: Dictionary;
+  handleDataSet: (e: DataForm) => void;
+}) => {
   const {
     handleSwitchAll,
     handleSendProfile,
@@ -24,7 +30,7 @@ const PhotoUser = ({ dictionary, handleDataSet, }: { dictionary: Dictionary; han
     status,
   } = ProfileHook({
     dictionary,
-    handleDataSet
+    handleDataSet,
   });
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -109,11 +115,13 @@ const PhotoUser = ({ dictionary, handleDataSet, }: { dictionary: Dictionary; han
       </div>
 
       <div className=' tw-h-[20%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
-        <div className='tw-h-[45px] tw-w-[120px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#02AF9B] tw-rounded-tr-xl tw-rounded-bl-xl'>
-          <h5 className='tw-text-white'>
+        <div className='tw-h-[35px] tw-w-[120px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#02AF9B] tw-rounded-tr-xl tw-rounded-bl-xl'>
+          <Typography
+            className={`tw-w-[90%] tw-text-center tw-truncate tw-capitalize`}
+          >
             {dictionary?.profileView?.labelHello}{' '}
             {data && data.name ? data.name : ''}
-          </h5>
+          </Typography>
         </div>
       </div>
 
@@ -121,7 +129,6 @@ const PhotoUser = ({ dictionary, handleDataSet, }: { dictionary: Dictionary; han
         <Container className='tw-h-[98%] tw-w-[85%] tw-flex tw-items-start tw-justify-end'>
           <div className=' tw-h-[100%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
             <div className=' tw-h-[100%] tw-w-[80%] tw-flex tw-flex-row tw-items-center tw-justify-center'>
-
               <div className=' tw-h-[100%] max-sm:tw-w-[50%] tw-w-[20%] tw-flex tw-items-center tw-justify-center tw-pt-3 max-md:tw-mr-2'>
                 <CustomSwitchGeneral
                   name='all_true'
@@ -140,7 +147,6 @@ const PhotoUser = ({ dictionary, handleDataSet, }: { dictionary: Dictionary; han
                   {dictionary.profileView.labelSwitchMain}
                 </span>
               </div>
-
             </div>
           </div>
           <div className=' tw-h-[100%] tw-w-[50%] tw-flex  tw-items-end tw-justify-end '>
