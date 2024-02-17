@@ -40,7 +40,7 @@ const UserRegister = () => {
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[570px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
+      <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[650px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
         <Typography
           className='tw-text-white  tw-mt-9 tw-w-full c tw-mb-4'
           variant='h4'
@@ -71,7 +71,7 @@ const UserRegister = () => {
             required
             id='outlined-required'
             defaultValue={dni}
-            className='tw-mb-4 tw-w-[300px]'
+            className='tw-mb-4 tw-w-[300px] tw-text-sm tw-mt-4'
             onChange={(e) => setDni(e.target.value)}
           />
           <TextField
@@ -80,7 +80,7 @@ const UserRegister = () => {
             defaultValue={name}
             variant='standard'
             label={dictionary.dictionary?.backOffice.Nombre}
-            className='tw-mb-4 tw-w-[300px]'
+            className='tw-mb-4 tw-w-[300px] tw-text-sm'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -100,7 +100,7 @@ const UserRegister = () => {
             required
             id='outlined-required'
             defaultValue={lastName}
-            className='tw-mb-4 tw-w-[300px]'
+            className='tw-mb-4 tw-w-[300px] tw-text-sm'
             variant='standard'
             label={dictionary.dictionary?.backOffice.Apellido}
             InputProps={{
@@ -123,7 +123,7 @@ const UserRegister = () => {
             id='outlined-required'
             defaultValue={email}
             variant='standard'
-            className='tw-mb-4 tw-w-[300px]'
+            className='tw-mb-4 tw-w-[300px] tw-text-sm'
             label={dictionary.dictionary?.backOffice.Email}
             InputProps={{
               startAdornment: (

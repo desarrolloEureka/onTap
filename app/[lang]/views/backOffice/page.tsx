@@ -115,7 +115,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <Button onClick={logOut} sx={{ color: 'white' }}>
             <div className="tw-flex tw-items-center">
               <LogoutIcon />
-              <Typography>{dictionary?.logOut}</Typography>
+              <Typography className='tw-font-bold' >{dictionary?.logOut}</Typography>
             </div>
           </Button>
         </div>

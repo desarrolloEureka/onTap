@@ -8,22 +8,24 @@ import LinkIcon from '@mui/icons-material/Link';
 
 
 const columns: GridColDef[] = [
-    { field: 'id', headerName: 'Cedula', width: 130 },
-    { field: 'name', headerName: 'Nombre', width: 400 },
+    { field: 'date', headerName: 'Fecha Registro', width: 130},
+    { field: 'id', headerName: 'No. Identificación', width: 160 },
+    { field: 'name', headerName: 'Nombres y Apellidos', width: 270 },
     { field: 'email', headerName: 'Correo', width: 300 },
+    { field: 'plan', headerName: 'Plan', width: 110 },
+    { field: 'userType', headerName: 'Tipo Usuario', width: 130 }, //Es para que se pueda identifica si es un usuario comprador o solo le reglaran la tarjeta
     {
-        field: 'url', headerName: 'URL', width: 100,
+        field: 'url', headerName: 'URL', width: 140,
         renderCell: (params) => (
             //mostrar los iconos de link y copy al lado del url
             <div className='tw-flex tw-justify-center tw-items-center'>
-                <Link className="tw-mr-2" href={`${params.value}`}><LinkIcon /> </Link>
+                <Link className="tw-mr-5" href={`${params.value}`}><LinkIcon /> </Link>
                 <div onClick={() => { navigator.clipboard.writeText(`${params.value}`) }}>
                     <ContentCopyIcon />
                 </div>
             </div>
         )
     },
-    { field: 'plan', headerName: 'Plan', width: 130 }
 ];
 
 const UserTable = () => {
