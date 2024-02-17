@@ -12,11 +12,13 @@ const FooterProfile = ({
   dictionary,
   dataForm,
   handleDataSet,
+  isProUser,
 }: {
   handleModal: () => void;
   dictionary: Dictionary;
   handleDataSet: (e: DataForm) => void;
   dataForm: any;
+  isProUser: boolean;
 }) => {
   const {
     handleSwitchAll,
@@ -60,7 +62,6 @@ const FooterProfile = ({
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
         <div className=' tw-h-[100%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
           <div className=' tw-h-[100%] tw-w-[80%] tw-flex tw-flex-row tw-items-center tw-justify-center'>
-
             <div className=' tw-h-[100%] max-sm:tw-w-[50%] tw-w-[20%] tw-flex tw-items-center tw-justify-center tw-pt-3 max-md:tw-mr-2'>
               <CustomSwitchGeneral
                 name='all_true'
@@ -79,14 +80,13 @@ const FooterProfile = ({
                 {dictionary.profileView.labelSwitchMain}
               </span>
             </div>
-
           </div>
         </div>
         <div className=' tw-h-[80%] tw-w-[50%] tw-flex  tw-items-end tw-justify-end '>
           <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
             <Button
               className='tw-w-[90%] tw-h-[45px]'
-              onClick={handleSendProfile}
+              onClick={() => handleSendProfile(isProUser)}
               color='secondary'
               size='medium'
               startIcon={

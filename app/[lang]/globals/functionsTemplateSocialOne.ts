@@ -74,13 +74,6 @@ export const getPrincipalProfileOrderedByObject = (
   });
 
   profileFilter.forEach((val) => {
-    // const socialOld =
-    //   val[1].length > 0
-    //     ? val[1].filter(
-    //         (val: any) => val.social && val.checked && val.order != 13
-    //       )
-    //     : val[1].checked && val[1];
-
     const destructuringArray = (data: any) => {
       data.forEach((val: any) => {
         val.checked && objectArray.push(val);
@@ -119,20 +112,12 @@ export const getPrincipalProfileOrderedByObject = (
     arraySorted.forEach((val, key) => {
       //array into two arrays
       data.push(val);
-      // (key == 3 || key == 4) && (finalArray.push(data), (data = []));
-      console.log('count', count);
-      console.log('key', key);
-      console.log('val', val);
-      console.log('arraySorted.length', arraySorted.length);
       if (count == key) {
         finalArray.push(data);
         data = [];
         count = count + 4;
       } else {
         if (countN == arraySorted.length) {
-          console.log('arraySorted.length', arraySorted.length);
-          console.log('data', data);
-
           finalArray.push(data);
         }
       }
@@ -141,13 +126,12 @@ export const getPrincipalProfileOrderedByObject = (
   } else if (index == 'social' && arraySorted.length <= count) {
     finalArray.push(arraySorted);
   } else {
-    console.log('profileProfessionalFilter', profileProfessionalFilter);
     profileProfessionalFilter.map((val, key) => {
       finalArray.push([val[1]]);
     });
     finalArray.push(...arraySorted);
   }
-  console.log('finalArray', finalArray);
+  // console.log('finalArray', finalArray);
 
   return { finalArray };
 };

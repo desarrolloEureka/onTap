@@ -13,7 +13,6 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { useEffect, useRef } from 'react';
 
-
 import SchoolIcon from '@mui/icons-material/School';
 import CreateIcon from '@mui/icons-material/Create';
 import FactoryIcon from '@mui/icons-material/Factory';
@@ -194,24 +193,25 @@ const ItemForm = ({
                     }}
                   />
                 ) : icon === 'MilitaryTechIcon' ? (
-                    <MilitaryTechIcon
-                      style={{
-                        color: '#02AF9B',
-                        fontSize: '1.8rem',
-                        marginRight: '1rem',
-                      }}
-                    />
+                  <MilitaryTechIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
                 ) : null}
               </InputAdornment>
             ),
           }}
           onChange={(text: any) => {
-            handleData({
-              name: name,
-              text: text.target.value,
-              currentDataRef: dataRef,
-              key: subindex,
-            });
+            dataRef &&
+              handleData({
+                name: name,
+                text: text.target.value,
+                currentDataRef: dataRef,
+                key: subindex,
+              });
           }}
           value={value() ?? ''}
         />

@@ -21,7 +21,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
 import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
-
+import LogOut from '@/hooks/logOut/LogOut';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -34,7 +34,7 @@ function CustomTabPanel(props: TabPanelProps) {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -62,26 +62,21 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const queryClient = new QueryClient();
   const router = useRouter();
+  const { logOut } = LogOut();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const logOut = () => {
-    localStorage.clear();
-    queryClient.clear();
-    router.replace('/views/login');
-  };
-
 
   return (
     <div>
-      <Box >
-        <div className="tw-flex tw-justify-between tw-items-center tw-bg-[#02AF9B] tw-p-4">
+      <Box>
+        <div className='tw-flex tw-justify-between tw-items-center tw-bg-[#02AF9B] tw-p-4'>
           <Image
             src='/images/simple_logo.png'
             alt='Logo One Tap'
-            width={ 81}
-            height={ 77}
+            width={81}
+            height={77}
             priority
           />
           <BottomNavigation
@@ -89,31 +84,26 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
             onChange={handleChange}
             showLabels
             //en el centro de la pantalla los iconos juntos
-            className="tw-bg-[#02AF9B] tw-flex tw-justify-center tw-items-center tw-w-full tw-text-white tw-font-bold"
+            className='tw-bg-[#02AF9B] tw-flex tw-justify-center tw-items-center tw-w-full tw-text-white tw-font-bold'
           >
-            <BottomNavigationAction label={dictionary?.backOffice.CreateUser}
-              icon={
-                <GroupAddIcon fontSize="large" sx={{ color: 'white' }} />
-              }
+            <BottomNavigationAction
+              label={dictionary?.backOffice.CreateUser}
+              icon={<GroupAddIcon fontSize='large' sx={{ color: 'white' }} />}
               className='tw-text-white tw-text-lg tw-font-bold'
             />
-            <BottomNavigationAction label={dictionary?.backOffice.UserList}
-              icon={
-                <GroupIcon fontSize="large"
-                  sx={{ color: 'white' }} />
-              }
+            <BottomNavigationAction
+              label={dictionary?.backOffice.UserList}
+              icon={<GroupIcon fontSize='large' sx={{ color: 'white' }} />}
               className='tw-text-white tw-text-lg tw-font-bold'
             />
-            <BottomNavigationAction label={dictionary?.backOffice.LoadFonts}
-              icon={
-                <FilterIcon fontSize="large"
-                  sx={{ color: 'white' }}
-                />}
-                className='tw-text-white tw-text-lg tw-font-bold'
+            <BottomNavigationAction
+              label={dictionary?.backOffice.LoadFonts}
+              icon={<FilterIcon fontSize='large' sx={{ color: 'white' }} />}
+              className='tw-text-white tw-text-lg tw-font-bold'
             />
           </BottomNavigation>
           <Button onClick={logOut} sx={{ color: 'white' }}>
-            <div className="tw-flex tw-items-center">
+            <div className='tw-flex tw-items-center'>
               <LogoutIcon />
               <Typography>{dictionary?.logOut}</Typography>
             </div>

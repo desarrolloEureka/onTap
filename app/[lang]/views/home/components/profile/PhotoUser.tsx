@@ -14,9 +14,11 @@ import { DataForm } from '@/types/profile';
 const PhotoUser = ({
   dictionary,
   handleDataSet,
+  isProUser,
 }: {
   dictionary: Dictionary;
   handleDataSet: (e: DataForm) => void;
+  isProUser: boolean;
 }) => {
   const {
     handleSwitchAll,
@@ -153,7 +155,7 @@ const PhotoUser = ({
             <div className='tw-h-[100%] tw-w-[30%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
               <Button
                 className='tw-w-[90%] tw-h-[45px]'
-                onClick={handleSendProfile}
+                onClick={() => handleSendProfile(isProUser)}
                 color='secondary'
                 size='medium'
                 startIcon={
