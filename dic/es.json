@@ -23,10 +23,12 @@
     "LogOut": "Salir",
     "AddDesaign": "Agregar diseño",
     "FontName": "Nombre del fondo",
-    "agregarImagen": "Agregar imagen",
+    "agregarImagen": "Examinar",
     "imagenSeleccionada": "Imagen seleccionada",
     "alertTitle": "Alerta fondo",
-    "alertMessage": "El fondo ha sido cargado con exito"
+    "alertMessage": "El fondo ha sido cargado con exito",
+    "fondoPlantilla": "Fondos de PLantilla One Tap",
+    "guardar": "Guardar"
   },
   "cardView":{
     "labelErrorUser": "Error",

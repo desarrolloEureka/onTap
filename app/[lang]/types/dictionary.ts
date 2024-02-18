@@ -27,6 +27,8 @@ export interface Dictionary {
     imagenSeleccionada: string;
     alertTitle: string;
     alertMessage: string;
+    fondoPlantilla: string;
+    guardar: string;
   };
   cardView: {
     labelErrorUser: string;

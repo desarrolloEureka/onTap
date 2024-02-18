@@ -22,9 +22,9 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
         setItems([...items, { id: items.length + 1, ...newItem }]);
     };
     return (
-        <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-            <div className='tw-flex tw-flex-col tw-items-center tw-justify-center tw-w-full tw-h-full'>
-                <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[500px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
+        <div className='tw-flex  tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")]  tw-flex-col tw-bg-no-repeat tw-bg-center tw-bg-cover'>
+            <div className='tw-flex tw-items-center tw-justify-center tw-w-full tw-h-full'>
+                <Container className='tw-bg-[#02AF9B] tw-shadow-m tw-mt-6   tw-rounded-2xl tw-h-[350px] tw-w-[580px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
                     <Typography
                         className='tw-text-white  tw-mt-9 tw-w-full tw-mb-6'
                         variant='h4'
@@ -33,17 +33,14 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         align='center'
                         fontWeight='bold'
                     >
-                        {dictionary?.backOffice.LoadFonts}
+                        {dictionary?.backOffice.fondoPlantilla}
                     </Typography>
                     <Box className='tw-w-[400px] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-4 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center '>
-                        <Typography variant='h5' color='textPrimary' display={'flow'} align='center' fontWeight='bold'>
-                            {dictionary?.backOffice.AddDesaign}
-                        </Typography>
                         <ItemForm onAddItem={handleAddItem} dictionary={dictionary} />
                     </Box>
                 </Container>
             </div>
-            <div className='tw-flex tw-flex-col tw-items-center tw-justify-center tw-w-full tw-h-full'>
+            <div className='tw-flex tw-mt-4 tw-flex-col tw-items-center tw-justify-center tw-w-full tw-h-full'>
                 <FontsTable />
             </div>
         </div>

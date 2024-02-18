@@ -106,7 +106,7 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
         className="tw-w-[184px] tw-h-[40px] tw-rounded-3xl tw-bg-[#02AF9B] tw-text-white tw-font-bold tw-mb-4"
         type="submit"
       >
-        {dictionary?.homeView.agregar}
+        {dictionary?.backOffice.guardar}
       </Button>
       <CustomModalAlert
         isModalAlert={open}
