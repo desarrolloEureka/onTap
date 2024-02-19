@@ -74,13 +74,6 @@ export const getPrincipalProfileOrderedByObject = (
   });
 
   profileFilter.forEach((val) => {
-    // const socialOld =
-    //   val[1].length > 0
-    //     ? val[1].filter(
-    //         (val: any) => val.social && val.checked && val.order != 13
-    //       )
-    //     : val[1].checked && val[1];
-
     const destructuringArray = (data: any) => {
       data.forEach((val: any) => {
         val.checked && objectArray.push(val);
@@ -113,14 +106,24 @@ export const getPrincipalProfileOrderedByObject = (
   // console.log('profileFilter', profileFilter);
   // console.log('objectArray>>>>>', index == 'social' && objectArray);
   // console.log('arraySorted', arraySorted);
-
-  if (index == 'social' && arraySorted.length > 3) {
+  let count = 3;
+  let countN = 1;
+  if (index == 'social' && arraySorted.length > count) {
     arraySorted.forEach((val, key) => {
       //array into two arrays
       data.push(val);
-      (key == 3 || key == 4) && (finalArray.push(data), (data = []));
+      if (count == key) {
+        finalArray.push(data);
+        data = [];
+        count = count + 4;
+      } else {
+        if (countN == arraySorted.length) {
+          finalArray.push(data);
+        }
+      }
+      countN++;
     });
-  } else if (index == 'social' && arraySorted.length <= 3) {
+  } else if (index == 'social' && arraySorted.length <= count) {
     finalArray.push(arraySorted);
   } else {
     profileProfessionalFilter.map((val, key) => {

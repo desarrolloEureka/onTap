@@ -50,17 +50,18 @@ const FormAddDataUser = ({
         <FormGroup sx={{ m: 1, mt: 1 }}>
           {data.map((value, key) => {
             const index = value[0] as keyof typeof dataForm;
-            const labelArray:
-              | DataFormValues[]
-              | EducationDataFormValues[]
-              | CareerDataFormValues[] =
+            const validation =
               value[0] == 'phones' ||
               value[0] == 'education' ||
               value[0] == 'emails' ||
               value[0] == 'urls' ||
-              value[0] == 'professional_career'
-                ? value[1]
-                : null;
+              value[0] == 'professional_career';
+            const labelArray:
+              | DataFormValues[]
+              | EducationDataFormValues[]
+              | CareerDataFormValues[] = validation ? value[1] : null;
+
+            // console.log('labelArray', labelArray);
 
             if (labelArray) {
               if (isProUser) {

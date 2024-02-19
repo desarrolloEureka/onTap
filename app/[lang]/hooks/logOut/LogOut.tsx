@@ -1,13 +1,13 @@
-import { QueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 const LogOut = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const logOut = () => {
+    queryClient.removeQueries();
     localStorage.clear();
-    queryClient.clear();
     router.replace('/views/login');
   };
   return { logOut };

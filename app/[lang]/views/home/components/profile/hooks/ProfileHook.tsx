@@ -11,13 +11,12 @@ import {
   handleDataNetworksProps,
   NetworksSubIndexDataForm,
 } from '@/types/profile';
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
 import { profile } from 'app/[lang]/initialData/profileInitialData';
 import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
 import { validateEmail, validatePhoneNumber } from '@/globals/validateData';
-import { set } from 'firebase/database';
-import { d } from 'node_modules/@tanstack/react-query-devtools/build/modern/devtools-5fd5b190';
+import { UserData } from '@/types/user';
 
 const ProfileHook = ({
   dictionary,
@@ -33,13 +32,16 @@ const ProfileHook = ({
   );
 
   // console.log('data', dataProfile.name);
-  // console.log('dataForm', dataForm);
+  const userDataBuilding = (data ?? []) as UserData;
+  userDataBuilding.profile = dataForm;
 
   const objectDataSort = Object.entries(dataForm).toSorted((a, b) => {
     const aa = a[1].length ? a[1][0].order : a[1].order;
     const bb = b[1].length ? b[1][0].order : b[1].order;
     return aa - bb;
   });
+
+  // console.log('objectDataSort', objectDataSort);
 
   const [allChecked, setAllChecked] = useState(false);
   const [isModalAlertLimit, setIsModalAlertLimit] = useState(false);
@@ -63,16 +65,20 @@ const ProfileHook = ({
   const [isEmailPhoneRight, setisEmailPhoneRight] = useState(false);
   const [status, setStatus] = useState<string>('');
 
-  const handleSendProfile = async () => {
+  const handleSendProfile = async (isProUser: boolean) => {
     const userId = data?.uid;
     const emails = dataForm?.emails?.map((email) => email.text);
     const phones = dataForm?.phones?.map((phone) => phone.text);
     const urls = dataForm?.urls?.map((urls) => urls);
     const education = dataForm?.education?.map((education) => education);
-    const professionalCareer = dataForm?.professional_career?.map((proCareer) => proCareer);
+    const professionalCareer = dataForm?.professional_career?.map(
+      (proCareer) => proCareer
+    );
 
     if (emails) {
-      const isEmailValid = emails.every((email) => validateEmail(email as string));
+      const isEmailValid = emails.every((email) =>
+        validateEmail(email as string)
+      );
       if (!isEmailValid) {
         setStatus(dictionary.profileView.errorEmail);
         setisEmailPhoneRight(true);
@@ -80,7 +86,9 @@ const ProfileHook = ({
       }
     }
     if (phones) {
-      const isPhoneValid = phones.every((phone) => validatePhoneNumber(phone as string));
+      const isPhoneValid = phones.every((phone) =>
+        validatePhoneNumber(phone as string)
+      );
       if (!isPhoneValid) {
         setStatus(dictionary.profileView.errorPhone);
         setisEmailPhoneRight(true);
@@ -88,9 +96,10 @@ const ProfileHook = ({
       }
     }
 
-
     if (urls) {
-      const allObjectsFilled = dataForm?.urls?.every(obj => obj.name !== "" && obj.url !== "" && obj.icon !== "");
+      const allObjectsFilled = dataForm?.urls?.every(
+        (obj) => obj.name !== '' && obj.url !== '' && obj.icon !== ''
+      );
       if (!allObjectsFilled) {
         setStatus(dictionary.profileView.errorEmptyUrl);
         setisEmailPhoneRight(true);
@@ -98,8 +107,10 @@ const ProfileHook = ({
       }
     }
 
-    if (education) {
-      const allObjectsFilled = dataForm?.education?.every(obj => obj.title !== "" && obj.institution !== "" && obj.year !== "");
+    if (isProUser && education) {
+      const allObjectsFilled = dataForm?.education?.every(
+        (obj) => obj.title !== '' && obj.institution !== '' && obj.year !== ''
+      );
       if (!allObjectsFilled) {
         setStatus(dictionary.profileView.errorEmptyEducation);
         setisEmailPhoneRight(true);
@@ -107,8 +118,14 @@ const ProfileHook = ({
       }
     }
 
-    if (professionalCareer) {
-      const allObjectsFilled = dataForm?.professional_career?.every(obj => obj.company !== "" && obj.position !== "" && obj.data_init !== "" && obj.data_end !== "");
+    if (isProUser && professionalCareer) {
+      const allObjectsFilled = dataForm?.professional_career?.every(
+        (obj) =>
+          obj.company !== '' &&
+          obj.position !== '' &&
+          obj.data_init !== '' &&
+          obj.data_end !== ''
+      );
       if (!allObjectsFilled) {
         setStatus(dictionary.profileView.errorEmptyProCareer);
         setisEmailPhoneRight(true);
@@ -183,7 +200,7 @@ const ProfileHook = ({
     const isChecked = value?.target?.checked;
     const dataFormClone = { ...dataForm };
     const index = value?.target?.name as keyof typeof dataFormClone;
-    console.log('index', index);
+    // console.log('index', index);
     if (
       index != 'phones' &&
       index != 'education' &&
@@ -221,8 +238,8 @@ const ProfileHook = ({
     dataFormClone && index == 'education' && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == 'professional_career'
-        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-        : index == 'urls' &&
+      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+      : index == 'urls' &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -268,7 +285,7 @@ const ProfileHook = ({
         const dataAux = dataFormClone[index];
         if (dataAux && key != undefined) {
           dataAux[key].text = text;
-          currentDataRef.current[key].text = text;
+          currentDataRef?.current && (currentDataRef.current[key].text = text);
           dataAux && handleDataSet && handleDataSet(dataFormClone);
         }
         setIsDataLoad(true);
@@ -383,7 +400,7 @@ const ProfileHook = ({
         }
       }
 
-      console.log("dataFormClone ", dataFormClone);
+      console.log('dataFormClone ', dataFormClone);
 
       if (index === 'emails') {
         if ((count != null || count != undefined) && count < 3) {

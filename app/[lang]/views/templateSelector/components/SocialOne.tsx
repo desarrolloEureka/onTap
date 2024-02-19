@@ -24,7 +24,9 @@ const SocialOne = ({
           photo={data.image}
           name={`${
             data.profile.name?.checked ? data.profile.name?.text : ''
-          }  ${data.profile.name?.checked ? data.profile.last_name?.text : ''}`}
+          }  ${
+            data.profile.last_name?.checked ? data.profile.last_name?.text : ''
+          }`}
           profession={
             data.profile.profession?.checked
               ? data.profile.profession?.text

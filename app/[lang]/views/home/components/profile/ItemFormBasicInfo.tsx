@@ -67,6 +67,8 @@ const ItemFormBasicInfo = ({
     handleDataSet,
   });
 
+  // console.log('labelArray', labelArray);
+
   return (
     <div
       className={`${
@@ -126,6 +128,7 @@ const ItemFormBasicInfo = ({
                 const myValue = (user && user.profile && index == value[0]
                   ? user.profile[index]
                   : undefined) as unknown as DataFormValues;
+
                 return (
                   <div
                     key={key}
@@ -194,7 +197,7 @@ const ItemFormBasicInfo = ({
           })}
         </div>
 
-      {/*   <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
+        {/*   <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
           <Button
             onClick={() => {
               if (value[0] === 'phones') {
