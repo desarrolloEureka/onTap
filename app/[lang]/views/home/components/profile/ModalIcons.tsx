@@ -503,7 +503,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconWhatsAppB />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-[9px] tw-text-center tw-font-bold tw-mt-1'>
                                             WhatsApp Business
                                         </Typography>
                                     </div>
@@ -710,7 +710,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconAppleMusic />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-[7px] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Apple Music
                                         </Typography>
                                     </div>
@@ -734,7 +734,7 @@ const ModalIcons = ({
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconGoogleMaps />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Google Maps
+                                            Maps
                                         </Typography>
                                     </div>
                                 </Button>
@@ -756,7 +756,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconTripAdvisor />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-[7px] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Trip Advisor
                                         </Typography>
                                     </div>
