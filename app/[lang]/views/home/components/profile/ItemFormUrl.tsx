@@ -170,7 +170,7 @@ const ItemFormUrl = ({
                 <div
                   key={key}
                   className={`tw-pb-3 ${key !== labelArray.length - 1
-                    ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                    ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
                     : ''
                     }`}
                 >
@@ -197,49 +197,51 @@ const ItemFormUrl = ({
                         withCheck={true}
                         subLabel={'name' as NetworksSubIndexDataForm}
                       />
-                      <Box sx={{ mb: 1 }}>
-                        <FormUrl
-                          label={dictionary.profileView.labelOptionalUrl + ': '}
-                          handleSwitch={(e: any) => handleSwitch(e)}
-                          handleData={handleData}
-                          name={index}
-                          checked={val.checked}
-                          subindex={key}
-                          icon={val.icon}
-                          deleteAction={true}
-                          handleDeleteData={handleDeleteData}
-                          handleModalAlert={({ index, subindex }) =>
-                            handleModalAlert({ index, subindex })
-                          }
-                          myValue={myValue}
-                          dataForm={dataForm}
-                          index={index}
-                          withCheck={false}
-                          subLabel={'url' as NetworksSubIndexDataForm}
-                        />
+                      <Box sx={{ mb: 1 }} className='tw-w-[90%] tw-flex tw-mt-2 tw-justify-start '>
+                        <div className='tw-w-[480px]'>
+                          <FormUrl
+                            label={dictionary.profileView.labelOptionalUrl + ': '}
+                            handleSwitch={(e: any) => handleSwitch(e)}
+                            handleData={handleData}
+                            name={index}
+                            checked={val.checked}
+                            subindex={key}
+                            icon={val.icon}
+                            deleteAction={true}
+                            handleDeleteData={handleDeleteData}
+                            handleModalAlert={({ index, subindex }) =>
+                              handleModalAlert({ index, subindex })
+                            }
+                            myValue={myValue}
+                            dataForm={dataForm}
+                            index={index}
+                            withCheck={false}
+                            subLabel={'url' as NetworksSubIndexDataForm}
+                          />
+                        </div>
+                        <div className='tw-h-[20%] tw-w-0 tw-flex tw-flex-col tw-mr-4'>
+                          <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
+                            <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
+                              <Button onClick={() => handleModalIcons(val, key)}>
+                                <Avatar
+                                  sx={{
+                                    backgroundColor: '#ffffff',
+                                    width: 38,
+                                    height: 38,
+                                  }}
+                                >
+                                  <LanguageIcon
+                                    sx={{ color: '#396593' }}
+                                  />
+                                </Avatar>
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
                       </Box>
                     </div>
                   </div>
 
-                  <div className='tw-h-[20%] tw-w-[100%]  tw-flex tw-items-center tw-justify-center '>
-                    <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
-                      <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
-                        <Button onClick={() => handleModalIcons(val, key)}>
-                          <Avatar
-                            sx={{
-                              backgroundColor: '#ffffff',
-                              width: 38,
-                              height: 38,
-                            }}
-                          >
-                            <LanguageIcon
-                              sx={{ color: '#396593' }}
-                            />
-                          </Avatar>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               );
             })}
