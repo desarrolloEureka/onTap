@@ -17,6 +17,7 @@ import {
 import ModalAlertLimit from './ModalAlertLimit';
 import FormUrl from './FormUrl';
 
+import LanguageIcon from '@mui/icons-material/Language';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -231,7 +232,7 @@ const ItemFormUrl = ({
                               height: 38,
                             }}
                           >
-                            <LocalGroceryStoreOutlinedIcon
+                            <LanguageIcon
                               sx={{ color: '#396593' }}
                             />
                           </Avatar>
