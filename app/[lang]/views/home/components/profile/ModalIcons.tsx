@@ -104,7 +104,7 @@ const ModalIcons = ({
                                         <LinkSharpIcon
                                             sx={{ color: '#02AF9B' }}
                                         />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Link
                                         </Typography>
                                     </div>
@@ -130,7 +130,7 @@ const ModalIcons = ({
                                         <FacebookOutlinedIcon
                                             sx={{ color: '#02AF9B' }}
                                         />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Facebook
                                         </Typography>
                                     </div>
@@ -154,7 +154,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconTikTok />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             TikTok
                                         </Typography>
                                     </div>
@@ -180,7 +180,7 @@ const ModalIcons = ({
                                         <LinkedInIcon
                                             sx={{ color: '#02AF9B' }}
                                         />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             LinkedIn
                                         </Typography>
                                     </div>
@@ -204,7 +204,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[55px]'>
                                         <IconMessenger />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Messenger
                                         </Typography>
                                     </div>
@@ -227,7 +227,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <InstagramIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Insta
                                         </Typography>
                                     </div>
@@ -250,7 +250,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconSnapchat />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Snapchat
                                         </Typography>
                                     </div>
@@ -273,7 +273,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <XIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Twitter
                                         </Typography>
                                     </div>
@@ -296,7 +296,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconTwitch />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Twitch
                                         </Typography>
                                     </div>
@@ -319,7 +319,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <YouTubeIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             YouTube
                                         </Typography>
                                     </div>
@@ -342,7 +342,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <WhatsApp sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             WhatsApp
                                         </Typography>
                                     </div>
@@ -365,7 +365,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconZoom />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Zoom
                                         </Typography>
                                     </div>
@@ -388,7 +388,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconLine />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Line
                                         </Typography>
                                     </div>
@@ -411,7 +411,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconGmail />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Gmail
                                         </Typography>
                                     </div>
@@ -434,7 +434,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <EmailIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Email
                                         </Typography>
                                     </div>
@@ -457,7 +457,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <LocalPhoneIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Phone
                                         </Typography>
                                     </div>
@@ -480,7 +480,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <TelegramIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Telegram
                                         </Typography>
                                     </div>
@@ -503,7 +503,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconWhatsAppB />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             WhatsApp Business
                                         </Typography>
                                     </div>
@@ -526,7 +526,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconSkype />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Skype
                                         </Typography>
                                     </div>
@@ -549,7 +549,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconWeChat />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             WeChat
                                         </Typography>
                                     </div>
@@ -572,7 +572,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconPayPal />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             PayPal
                                         </Typography>
                                     </div>
@@ -595,7 +595,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconVSCO />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             VSCO
                                         </Typography>
                                     </div>
@@ -618,7 +618,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconTumblr />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Tumblr
                                         </Typography>
                                     </div>
@@ -641,7 +641,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconVimeo />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Vimeo
                                         </Typography>
                                     </div>
@@ -664,7 +664,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconSpotify />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Spotify
                                         </Typography>
                                     </div>
@@ -687,7 +687,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconDeezer />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Deezer
                                         </Typography>
                                     </div>
@@ -710,7 +710,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconAppleMusic />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Apple Music
                                         </Typography>
                                     </div>
@@ -733,7 +733,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconGoogleMaps />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Google Maps
                                         </Typography>
                                     </div>
@@ -756,7 +756,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconTripAdvisor />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Trip Advisor
                                         </Typography>
                                     </div>
@@ -779,7 +779,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconBooking />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Booking
                                         </Typography>
                                     </div>
@@ -802,7 +802,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconTinder />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Tinder
                                         </Typography>
                                     </div>
@@ -825,7 +825,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconAmazon />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Amazon
                                         </Typography>
                                     </div>
@@ -848,7 +848,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconOnlyFans />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             OnlyFans
                                         </Typography>
                                     </div>
@@ -871,7 +871,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <IconAirbnb />
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Airbnb
                                         </Typography>
                                     </div>
@@ -894,7 +894,7 @@ const ModalIcons = ({
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
                                         <PinterestIcon sx={{ color: '#02AF9B' }}/>
-                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Pinterest
                                         </Typography>
                                     </div>
