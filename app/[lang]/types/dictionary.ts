@@ -58,6 +58,8 @@ export interface Dictionary {
     labelPrevious: string;
     labelDenyAccess: string;
     labelDenyAccessDescription: string;
+    labelPersonalData: string;
+    labelProfessionalData: string;
   };
   recoverPassword: {
     recoverPassword: string;

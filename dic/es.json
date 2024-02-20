@@ -72,7 +72,9 @@
     "labelView": "vista",
     "labelPrevious": "previa",
     "labelDenyAccess": "Acceso Restringido",
-    "labelDenyAccessDescription": "Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico."
+    "labelDenyAccessDescription": "Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico.",
+    "labelPersonalData" : "Datos Personales",
+    "labelProfessionalData" : "Datos Profesionales"
   },
   "recoverPassword": {
     "recoverPassword": "Recuperar Contraseña",
