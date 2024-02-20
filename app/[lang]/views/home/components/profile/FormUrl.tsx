@@ -5,6 +5,7 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import { Box, Button, TextField } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { Share } from '@mui/icons-material';
+import CreateIcon from '@mui/icons-material/Create';
 
 const FormUrl = ({
   label,
@@ -66,7 +67,7 @@ const FormUrl = ({
             startAdornment: (
               <>
                 {withCheck && (
-                  <Share
+                  <CreateIcon
                     style={{
                       color: '#02AF9B',
                       fontSize: '1.8rem',

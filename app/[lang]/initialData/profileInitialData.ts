@@ -79,7 +79,7 @@ export const profile = {
     checked: false,
     social: true,
     professional: true,
-    icon: 'FilePresentOutlinedIcon',
+    icon: 'SchoolIcon',
     order: 3,
   },
   occupation: {
@@ -106,7 +106,7 @@ export const profile = {
     checked: false,
     social: false,
     professional: true,
-    icon: 'WorkOutlineOutlinedIcon',
+    icon: 'FactoryIcon',
     order: 6,
   },
   position: {
@@ -115,7 +115,7 @@ export const profile = {
     checked: false,
     social: false,
     professional: true,
-    icon: 'AttachFileOutlinedIcon',
+    icon: 'AssignmentIndIcon',
     order: 7,
   },
   professional_profile: {
@@ -124,7 +124,7 @@ export const profile = {
     checked: false,
     social: false,
     professional: true,
-    icon: 'PersonOutlinedIcon',
+    icon: 'NoteAltIcon',
     order: 8,
   },
   phones: [dataPrincipalProfilePhone],
@@ -138,7 +138,7 @@ export const profile = {
     checked: false,
     social: false,
     professional: true,
-    icon: 'AccessibilityOutlinedIcon',
+    icon: 'EngineeringIcon',
     order: 14,
   },
   skills: {
@@ -165,7 +165,7 @@ export const profile = {
     checked: false,
     social: false,
     professional: true,
-    icon: 'AccessibilityOutlinedIcon',
+    icon: 'MilitaryTechIcon',
     order: 17,
   },
 };

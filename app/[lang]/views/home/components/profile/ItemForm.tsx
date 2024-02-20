@@ -20,7 +20,7 @@ import FactoryIcon from '@mui/icons-material/Factory';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
-
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 const ItemForm = ({
   label,
   name,
@@ -194,6 +194,14 @@ const ItemForm = ({
                   />
                 ) : icon === 'MilitaryTechIcon' ? (
                   <MilitaryTechIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                ) : icon === 'AssignmentIndIcon' ? (
+                  <AssignmentIndIcon
                     style={{
                       color: '#02AF9B',
                       fontSize: '1.8rem',

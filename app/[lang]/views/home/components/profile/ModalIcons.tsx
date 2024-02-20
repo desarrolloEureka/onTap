@@ -100,7 +100,7 @@ const ModalIcons = ({
                                     className={`${val.icon === 'www' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <LinkSharpIcon
                                             sx={{ color: '#02AF9B' }}
                                         />
@@ -126,7 +126,7 @@ const ModalIcons = ({
                                     className={`${val.icon === 'facebook' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <FacebookOutlinedIcon
                                             sx={{ color: '#02AF9B' }}
                                         />
@@ -152,7 +152,7 @@ const ModalIcons = ({
                                     className={`${val.icon === 'tiktok' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconTikTok />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             TikTok
@@ -176,7 +176,7 @@ const ModalIcons = ({
                                     className={`${val.icon === 'linkedin' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <LinkedInIcon
                                             sx={{ color: '#02AF9B' }}
                                         />
@@ -202,7 +202,7 @@ const ModalIcons = ({
                                     className={`${val.icon === 'messenger' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[55px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[55px] tw-h-[50px]'>
                                         <IconMessenger />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Messenger
@@ -225,7 +225,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'instagram' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <InstagramIcon sx={{ color: '#02AF9B' }} />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Insta
@@ -248,7 +248,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'snapchat' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconSnapchat />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Snapchat
@@ -271,7 +271,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'twitter' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <XIcon sx={{ color: '#02AF9B' }} />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Twitter
@@ -294,7 +294,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'twitch' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconTwitch />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Twitch
@@ -317,7 +317,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'youTube' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <YouTubeIcon sx={{ color: '#02AF9B' }} />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             YouTube
@@ -340,7 +340,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'whatsapp' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <WhatsApp sx={{ color: '#02AF9B' }} />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             WhatsApp
@@ -363,7 +363,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'zoom' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconZoom />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Zoom
@@ -386,7 +386,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'line' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconLine />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Line
@@ -409,7 +409,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'gmail' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconGmail />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Gmail
@@ -432,7 +432,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'email' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <EmailIcon sx={{ color: '#02AF9B' }} />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Email
@@ -455,7 +455,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'phone' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <LocalPhoneIcon sx={{ color: '#02AF9B' }} />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Phone
@@ -478,7 +478,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'telegram' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <TelegramIcon sx={{ color: '#02AF9B' }} />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Telegram
@@ -501,7 +501,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'whatsappbusiness' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconWhatsAppB />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             WhatsApp Business
@@ -524,7 +524,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'skype' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconSkype />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Skype
@@ -547,7 +547,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'wechat' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconWeChat />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             WeChat
@@ -570,7 +570,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'paypal' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconPayPal />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             PayPal
@@ -593,7 +593,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'vsco' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconVSCO />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             VSCO
@@ -616,7 +616,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'tumblr' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconTumblr />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Tumblr
@@ -639,7 +639,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'vimeo' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconVimeo />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Vimeo
@@ -662,7 +662,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'spotify' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconSpotify />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Spotify
@@ -685,7 +685,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'deezer' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconDeezer />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Deezer
@@ -708,7 +708,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'applemusic' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconAppleMusic />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Apple Music
@@ -731,7 +731,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'googlemaps' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconGoogleMaps />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Google Maps
@@ -754,7 +754,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'tripadvisor' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconTripAdvisor />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Trip Advisor
@@ -777,7 +777,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'booking' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconBooking />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Booking
@@ -800,7 +800,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'tinder' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconTinder />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Tinder
@@ -823,7 +823,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'amazon' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconAmazon />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Amazon
@@ -846,7 +846,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'onlyfans' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconOnlyFans />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             OnlyFans
@@ -869,7 +869,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'airbnb' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <IconAirbnb />
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Airbnb
@@ -892,7 +892,7 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'pinteres' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
                                         <PinterestIcon sx={{ color: '#02AF9B' }}/>
                                         <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
                                             Pinterest
