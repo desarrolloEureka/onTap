@@ -8,7 +8,7 @@ import LinkIcon from '@mui/icons-material/Link';
 
 
 const columns: GridColDef[] = [
-    { field: 'date', headerName: 'Fecha Registro', width: 130},
+    { field: 'date', headerName: 'Fecha Registro', width: 130 },
     { field: 'id', headerName: 'No. Identificación', width: 160 },
     { field: 'name', headerName: 'Nombres y Apellidos', width: 270 },
     { field: 'email', headerName: 'Correo', width: 300 },
@@ -26,6 +26,14 @@ const columns: GridColDef[] = [
             </div>
         )
     },
+    {
+        field: 'status', headerName: 'Estado del Cliente', width: 150,
+        renderCell: (params) => (
+            <div>
+                {params.value}
+            </div>)
+    },
+    { field: 'edit', headerName: 'Editar', width: 110 },//Boton? a donde?
 ];
 
 const UserTable = () => {

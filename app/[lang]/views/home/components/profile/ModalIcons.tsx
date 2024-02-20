@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import { Box, IconButton, Modal, Button } from '@mui/material';
+import { Box, IconButton, Modal, Button, Typography } from '@mui/material';
 import React from 'react';
 import { Dictionary } from '@/types/dictionary';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
@@ -37,6 +37,7 @@ import IconOnlyFans from './IconOnlyFans';
 import IconAirbnb from './IconAirbnb';
 import { WhatsApp } from '@mui/icons-material';
 import LinkSharpIcon from '@mui/icons-material/LinkSharp';
+import { title } from 'process';
 
 const ModalIcons = ({
     isModalIcons,
@@ -83,9 +84,9 @@ const ModalIcons = ({
                 </IconButton>
 
                 <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-justify-center tw-justify-items-center tw-pl-3 tw-pr-3'>
-                    <div className='tw-grid max-sm:tw-grid-cols-3 sm:tw-grid-cols-4 md:tw-grid-cols-5 lg:tw-grid-cols-5 max-sm:tw-w-[150px] lg:tw-w-[350px] xl:tw-w-[300px]'>
+                    <div className='tw-grid max-sm:tw-grid-cols-3 sm:tw-grid-cols-4 md:tw-grid-cols-5 lg:tw-grid-cols-5 max-sm:tw-w-[150px] lg:tw-w-[350px] xl:tw-w-[350px]'>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -99,14 +100,19 @@ const ModalIcons = ({
                                     className={`${val.icon === 'www' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <LinkSharpIcon
-                                        sx={{ color: '#02AF9B' }}
-                                    />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <LinkSharpIcon
+                                            sx={{ color: '#02AF9B' }}
+                                        />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Link
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -120,14 +126,19 @@ const ModalIcons = ({
                                     className={`${val.icon === 'facebook' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <FacebookOutlinedIcon
-                                        sx={{ color: '#02AF9B' }}
-                                    />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <FacebookOutlinedIcon
+                                            sx={{ color: '#02AF9B' }}
+                                        />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Facebook
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -141,12 +152,17 @@ const ModalIcons = ({
                                     className={`${val.icon === 'tiktok' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconTikTok />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconTikTok />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            TikTok
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -160,12 +176,19 @@ const ModalIcons = ({
                                     className={`${val.icon === 'linkedin' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <LinkedInIcon sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <LinkedInIcon
+                                            sx={{ color: '#02AF9B' }}
+                                        />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            LinkedIn
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -179,12 +202,17 @@ const ModalIcons = ({
                                     className={`${val.icon === 'messenger' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconMessenger />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[55px]'>
+                                        <IconMessenger />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Messenger
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -197,12 +225,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'instagram' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <InstagramIcon sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <InstagramIcon sx={{ color: '#02AF9B' }} />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Insta
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -215,12 +248,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'snapchat' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconSnapchat />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconSnapchat />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Snapchat
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -233,12 +271,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'twitter' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <XIcon sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <XIcon sx={{ color: '#02AF9B' }} />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Twitter
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -251,12 +294,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'twitch' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconTwitch />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconTwitch />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Twitch
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -269,12 +317,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'youTube' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <YouTubeIcon sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <YouTubeIcon sx={{ color: '#02AF9B' }} />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            YouTube
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -287,12 +340,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'whatsapp' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <WhatsApp sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <WhatsApp sx={{ color: '#02AF9B' }} />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            WhatsApp
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -305,12 +363,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'zoom' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconZoom />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconZoom />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Zoom
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -323,12 +386,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'line' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconLine />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconLine />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Line
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -341,12 +409,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'gmail' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconGmail />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconGmail />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Gmail
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -359,12 +432,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'email' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <EmailIcon sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <EmailIcon sx={{ color: '#02AF9B' }} />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Email
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -377,12 +455,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'phone' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <LocalPhoneIcon sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <LocalPhoneIcon sx={{ color: '#02AF9B' }} />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Phone
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -395,12 +478,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'telegram' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <TelegramIcon sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <TelegramIcon sx={{ color: '#02AF9B' }} />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Telegram
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -413,12 +501,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'whatsappbusiness' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconWhatsAppB />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconWhatsAppB />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            WhatsApp Business
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -431,12 +524,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'skype' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconSkype />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconSkype />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Skype
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -449,12 +547,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'wechat' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconWeChat />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconWeChat />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            WeChat
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -467,12 +570,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'paypal' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconPayPal />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconPayPal />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            PayPal
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -485,12 +593,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'vsco' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconVSCO />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconVSCO />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            VSCO
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -503,12 +616,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'tumblr' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconTumblr />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconTumblr />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Tumblr
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -521,12 +639,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'vimeo' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconVimeo />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconVimeo />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Vimeo
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -539,12 +662,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'spotify' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconSpotify />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconSpotify />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Spotify
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -557,12 +685,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'deezer' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconDeezer />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconDeezer />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Deezer
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -575,12 +708,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'applemusic' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconAppleMusic />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconAppleMusic />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Apple Music
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -593,12 +731,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'googlemaps' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconGoogleMaps />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconGoogleMaps />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Google Maps
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -611,12 +754,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'tripadvisor' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconTripAdvisor />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconTripAdvisor />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Trip Advisor
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -629,12 +777,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'booking' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconBooking />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconBooking />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Booking
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -647,12 +800,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'tinder' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconTinder />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconTinder />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Tinder
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -665,12 +823,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'amazon' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconAmazon />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconAmazon />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Amazon
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -683,12 +846,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'onlyfans' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconOnlyFans />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconOnlyFans />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            OnlyFans
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -701,12 +869,17 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'airbnb' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <IconAirbnb />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <IconAirbnb />
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Airbnb
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>
 
-                        <div className='tw-h-[60px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
+                        <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
                                 <Button
                                     onClick={(text: any) =>
@@ -719,7 +892,12 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'pinteres' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <PinterestIcon sx={{ color: '#02AF9B' }} />
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px]'>
+                                        <PinterestIcon sx={{ color: '#02AF9B' }}/>
+                                        <Typography className='tw-text-black tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
+                                            Pinterest
+                                        </Typography>
+                                    </div>
                                 </Button>
                             </div>
                         </div>

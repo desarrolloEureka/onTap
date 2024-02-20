@@ -5,6 +5,7 @@ function IconSnapchat() {
       width='22px'
       height='22px'
       viewBox='0 0 48 48' xmlns="http://www.w3.org/2000/svg">
+      <title>Snapchat</title>
       <g id="Layer_2" data-name="Layer 2">
         <g id="invisible_box" data-name="invisible box">
           <rect width="48" height="48" fill="none" />

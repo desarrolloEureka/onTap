@@ -1,7 +1,7 @@
 function IconTumblr() {
   return (
     <svg  fill="#02AF9B" width="24px" height="24px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <title>tumblr</title>
+    <title>Tumblr</title>
     <g id="Layer_2" data-name="Layer 2">
       <g id="invisible_box" data-name="invisible box">
         <rect width="48" height="48" fill="none"/>

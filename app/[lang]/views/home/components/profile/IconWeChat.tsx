@@ -1,7 +1,7 @@
 function IconWeChat() {
   return (
     <svg width="24px" height="24px" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">
-
+      <title>wechat</title>
       <g fill="none" fillRule="evenodd">
 
         <path d="m0 0h32v32h-32z" />
