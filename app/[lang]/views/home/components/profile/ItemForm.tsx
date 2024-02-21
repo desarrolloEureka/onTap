@@ -69,6 +69,8 @@ const ItemForm = ({
     }
   }, [dataRef, myValue]);
 
+  console.log("myValue ", myValue);
+
   return (
     <Box className='tw-flex tw-flex-row'>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>
