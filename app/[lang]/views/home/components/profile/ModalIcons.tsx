@@ -87,7 +87,10 @@ const ModalIcons = ({
                     <div className='tw-grid max-sm:tw-grid-cols-3 sm:tw-grid-cols-4 md:tw-grid-cols-5 lg:tw-grid-cols-5 max-sm:tw-w-[150px] lg:tw-w-[350px] xl:tw-w-[350px]'>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Link
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -100,20 +103,21 @@ const ModalIcons = ({
                                     className={`${val.icon === 'www' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <LinkSharpIcon
                                             sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
                                         />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Link
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Facebook
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -126,20 +130,22 @@ const ModalIcons = ({
                                     className={`${val.icon === 'facebook' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <FacebookOutlinedIcon
                                             sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
                                         />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Facebook
-                                        </Typography>
+
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    TikTok
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -152,18 +158,18 @@ const ModalIcons = ({
                                     className={`${val.icon === 'tiktok' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconTikTok />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            TikTok
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    LinkedIn
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -176,20 +182,21 @@ const ModalIcons = ({
                                     className={`${val.icon === 'linkedin' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <LinkedInIcon
                                             sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
                                         />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            LinkedIn
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Messenger
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -202,18 +209,18 @@ const ModalIcons = ({
                                     className={`${val.icon === 'messenger' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'
                                         } tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[55px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconMessenger />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Messenger
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Insta
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -225,18 +232,21 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'instagram' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
-                                        <InstagramIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Insta
-                                        </Typography>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
+                                        <InstagramIcon
+                                            sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
+                                        />
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Snapchat
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -248,18 +258,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'snapchat' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconSnapchat />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Snapchat
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    X
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -271,18 +281,21 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'twitter' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
-                                        <XIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Twitter
-                                        </Typography>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
+                                        <XIcon
+                                            sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
+                                        />
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Twitch
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -294,18 +307,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'twitch' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconTwitch />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Twitch
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    YouTube
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -317,18 +330,21 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'youTube' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
-                                        <YouTubeIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            YouTube
-                                        </Typography>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
+                                        <YouTubeIcon
+                                            sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
+                                        />
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    WhatsApp
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -340,18 +356,21 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'whatsapp' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
-                                        <WhatsApp sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            WhatsApp
-                                        </Typography>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
+                                        <WhatsApp
+                                            sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
+                                        />
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Zoom
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -363,18 +382,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'zoom' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconZoom />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Zoom
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Line
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -386,18 +405,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'line' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconLine />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Line
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Gmail
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -409,18 +428,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'gmail' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconGmail />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Gmail
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Email
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -432,18 +451,21 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'email' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
-                                        <EmailIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Email
-                                        </Typography>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
+                                        <EmailIcon
+                                            sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
+                                        />
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Phone
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -455,18 +477,21 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'phone' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
-                                        <LocalPhoneIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Phone
-                                        </Typography>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
+                                        <LocalPhoneIcon
+                                            sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
+                                        />
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Telegram
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -478,18 +503,21 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'telegram' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
-                                        <TelegramIcon sx={{ color: '#02AF9B' }} />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Telegram
-                                        </Typography>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
+                                        <TelegramIcon
+                                            sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
+                                        />
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
+                                    WhatsApp Business
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -499,20 +527,20 @@ const ModalIcons = ({
                                             key: keyItem,
                                         })
                                     }
-                                    className={`${val.icon === 'whatsappbusiness' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
+                                    className={`${val.icon === 'whatsappbusiness' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-mb-3 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconWhatsAppB />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-[9px] tw-text-center tw-font-bold tw-mt-1'>
-                                            WhatsApp Business
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Skype
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -524,18 +552,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'skype' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconSkype />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Skype
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    WeChat
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -547,18 +575,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'wechat' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconWeChat />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            WeChat
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    PayPal
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -570,18 +598,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'paypal' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconPayPal />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            PayPal
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    VSCO
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -593,18 +621,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'vsco' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconVSCO />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            VSCO
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Tumblr
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -616,18 +644,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'tumblr' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconTumblr />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Tumblr
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Vimeo
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -639,18 +667,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'vimeo' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconVimeo />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Vimeo
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Spotify
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -662,18 +690,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'spotify' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconSpotify />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Spotify
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Deezer
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -685,18 +713,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'deezer' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconDeezer />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Deezer
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
+                                    Apple Music
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -706,20 +734,20 @@ const ModalIcons = ({
                                             key: keyItem,
                                         })
                                     }
-                                    className={`${val.icon === 'applemusic' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
+                                    className={`${val.icon === 'applemusic' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-mb-3 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconAppleMusic />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-[7px] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Apple Music
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Maps
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -731,18 +759,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'googlemaps' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconGoogleMaps />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Maps
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
+                                    Trip Advisor
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -752,20 +780,20 @@ const ModalIcons = ({
                                             key: keyItem,
                                         })
                                     }
-                                    className={`${val.icon === 'tripadvisor' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
+                                    className={`${val.icon === 'tripadvisor' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min tw-mb-3`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconTripAdvisor />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-[7px] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Trip Advisor
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Booking
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -777,18 +805,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'booking' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconBooking />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Booking
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Tinder
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -800,18 +828,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'tinder' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconTinder />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Tinder
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Amazon
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -823,18 +851,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'amazon' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconAmazon />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Amazon
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    OnlyFans
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -846,18 +874,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'onlyfans' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconOnlyFans />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            OnlyFans
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Airbnb
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -869,18 +897,18 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'airbnb' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <IconAirbnb />
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Airbnb
-                                        </Typography>
                                     </div>
                                 </Button>
                             </div>
                         </div>
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
-                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-justify-center tw-items-center'>
+                            <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                    Pinterest
+                                </Typography>
                                 <Button
                                     onClick={(text: any) =>
                                         handleDataNetworks({
@@ -892,11 +920,11 @@ const ModalIcons = ({
                                     }
                                     className={`${val.icon === 'pinteres' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
-                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[50px] tw-h-[50px]'>
-                                        <PinterestIcon sx={{ color: '#02AF9B' }}/>
-                                        <Typography className='tw-text-[#02AF9B] tw-text-xs tw-text-center tw-font-bold tw-mt-1'>
-                                            Pinterest
-                                        </Typography>
+                                    <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
+                                        <PinterestIcon
+                                            sx={{ color: '#02AF9B' }}
+                                            fontSize='large'
+                                        />
                                     </div>
                                 </Button>
                             </div>

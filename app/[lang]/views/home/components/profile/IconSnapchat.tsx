@@ -2,8 +2,8 @@ function IconSnapchat() {
   return (
     <svg
       fill='#02AF9B'
-      width='22px'
-      height='22px'
+      width='32px'
+      height='32px'
       viewBox='0 0 48 48' xmlns="http://www.w3.org/2000/svg">
       <title>Snapchat</title>
       <g id="Layer_2" data-name="Layer 2">
