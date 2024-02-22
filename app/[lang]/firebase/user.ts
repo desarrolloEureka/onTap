@@ -64,10 +64,15 @@ export const updateTemplateSelectedFirebase = async (
   await updateDoc(userDocRef, newData);
 };
 
-export const updateDataUserProfile = async (userId: string, data: DataForm) => {
+export const updateDataUserProfile = async (
+  userId: string,
+  data: DataForm,
+  isProUser: boolean
+) => {
   try {
+    const dataToSend = isProUser ? { professional: data } : { social: data };
     const userDocRef = doc(dataBase, 'users', userId);
-    const res = await updateDoc(userDocRef, { profile: data });
+    const res = await updateDoc(userDocRef, { profile: dataToSend });
     return res;
   } catch (error: any) {
     console.debug('error message', error.message);

@@ -32,6 +32,7 @@ const ItemFormEducation = ({
   icon,
   social,
   handleModalAlert,
+  isProUser,
 }: {
   dictionary: Dictionary;
   dataForm: DataForm;
@@ -55,6 +56,7 @@ const ItemFormEducation = ({
     index: string;
     subindex: string;
   }) => void;
+  isProUser: boolean;
 }) => {
   const {
     handleSwitch,
@@ -67,7 +69,10 @@ const ItemFormEducation = ({
   } = ProfileHook({
     dictionary,
     handleDataSet,
+    isProUser,
   });
+
+  // console.log('labelArray', labelArray);
 
   return (
     <div
@@ -118,7 +123,9 @@ const ItemFormEducation = ({
             {labelArray.map((val, key) => {
               const myValue = (user && user.profile && index == value[0]
                 ? user.profile[index]
-                : undefined) as unknown as DataFormValues;
+                : dataForm &&
+                  index == value[0] &&
+                  dataForm[index]) as unknown as DataFormValues;
               return (
                 <div key={key}>
                   <div
@@ -201,7 +208,7 @@ const ItemFormEducation = ({
           </div>
         </div>
 
-       {/*  <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
+        {/*  <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
           <Button
             onClick={() => handleSeeMore(3)}
             color='secondary'
@@ -227,7 +234,6 @@ const ItemFormEducation = ({
             </span>
           </Button>
         </div> */}
-
       </div>
       <ModalAlertLimit
         isModalAlertLimit={isModalAlertLimit}

@@ -17,6 +17,7 @@ const Profile = ({
   dictionary: Dictionary;
   isProUser: boolean;
 }) => {
+  // console.log('isProUser>>>>>>>>>>', isProUser);
   const {
     handleModal,
     handleModalAlert,
@@ -33,13 +34,17 @@ const Profile = ({
     handleSuccessDelete,
     handleSendProfile,
     noDeleted,
+    data,
   } = ProfileHook({
     dictionary,
+    isProUser,
   });
 
   const handleDataSet = (data: DataForm) => {
     setDataForm(data);
   };
+
+  // console.log('dataForm ____ Profile', dataForm);
 
   return (
     <div>
@@ -62,6 +67,7 @@ const Profile = ({
               isProUser={isProUser}
               dataForm={dataForm}
               handleDataSet={(e) => handleDataSet(e)}
+              data={data}
             />
             <FormAddDataUser
               dictionary={dictionary}
@@ -74,6 +80,7 @@ const Profile = ({
               handleModalAlert={({ index, subindex }) =>
                 handleModalAlert({ index, subindex })
               }
+              data={data}
             />
           </Container>
         </div>

@@ -21,7 +21,7 @@ function CustomTabPanel(props: TabPanelProps) {
 
 const HomeHook = () => {
   const [value, setValue] = useState(0);
-  const [isProUser, setIsProUser] = useState(true);
+  const [isProUser, setIsProUser] = useState(false);
   const { data, isLoading, error } = GetAllTemplates();
   const backgroundImages = GetAllBackgroundImages();
   const datUser = GetUser();
@@ -36,11 +36,10 @@ const HomeHook = () => {
     } else {
       setValue(newValue);
     }
-
   };
 
   useEffect(() => {
-    value === 1 ? setIsProUser(false) : setIsProUser(true);
+    value === 0 || value == 1 ? setIsProUser(false) : setIsProUser(true);
   }, [value]);
 
   return {
@@ -54,7 +53,7 @@ const HomeHook = () => {
     backgroundImages,
     isModalAlert,
     setIsModalAlert,
-    handleModalAlert
+    handleModalAlert,
   };
 };
 

@@ -26,9 +26,11 @@ const FormProfession = ({
   const dataRef = useRef<any>(null);
 
   const value = () => {
-    const i = subindex as any;
-    if (dataRef.current && dataRef.current.length > 0) {
-      return subLabel && dataRef.current[i][subLabel];
+    if (dataRef.current && dataRef.current.length) {
+      const res = subLabel
+        ? dataRef.current[subindex as any][subLabel]
+        : undefined;
+      return res ?? undefined;
     }
   };
 
@@ -86,15 +88,16 @@ const FormProfession = ({
             ),
           }}
           onChange={(text: any) => {
-            handleData({
-              name: name,
-              text: text.target.value,
-              currentDataRef: dataRef,
-              key: subindex,
-              subindex: subLabel as CareerSubIndexDataForm,
-            });
+            dataRef &&
+              handleData({
+                name: name,
+                text: text.target.value,
+                currentDataRef: dataRef,
+                key: subindex,
+                subindex: subLabel as CareerSubIndexDataForm,
+              });
           }}
-          value={value() ?? ''}
+          value={value()}
         />
       </Box>
       {withCheck && deleteAction === true && handleModalAlert ? (

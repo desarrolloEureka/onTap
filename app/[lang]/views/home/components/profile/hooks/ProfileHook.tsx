@@ -21,19 +21,18 @@ import { UserData } from '@/types/user';
 const ProfileHook = ({
   dictionary,
   handleDataSet,
+  isProUser,
 }: {
   dictionary: Dictionary;
   handleDataSet?: (e: DataForm) => void;
+  isProUser: boolean;
 }) => {
   const { data, error } = GetUser();
-  const dataProfile = (data?.profile ?? {}) as DataForm;
-  const [dataForm, setDataForm] = useState<DataForm>(
-    dataProfile.name ? dataProfile : (profile as DataForm)
-  );
-
-  // console.log('data', dataProfile.name);
-  const userDataBuilding = (data ?? []) as UserData;
-  userDataBuilding.profile = dataForm;
+  // const dataProfile = (data?.profile ?? {}) as DataForm;
+  // console.log('isProUser ProfileHook', isProUser);
+  // const [dataProfile, setDataProfile] = useState<DataForm>({});
+  const [dataForm, setDataForm] = useState<DataForm>(profile.social);
+  // console.log('dataForm', dataForm);
 
   const objectDataSort = Object.entries(dataForm).toSorted((a, b) => {
     const aa = a[1].length ? a[1][0].order : a[1].order;
@@ -64,6 +63,7 @@ const ProfileHook = ({
   const [noDeleted, setNoDeleted] = useState(false);
   const [isEmailPhoneRight, setisEmailPhoneRight] = useState(false);
   const [status, setStatus] = useState<string>('');
+  const [flag, setFlag] = useState(false);
 
   const handleSendProfile = async (isProUser: boolean) => {
     const userId = data?.uid;
@@ -134,7 +134,11 @@ const ProfileHook = ({
     }
 
     if (userId) {
-      const isSendDataProfile = await SendDataUserProfile(userId, dataForm);
+      const isSendDataProfile = await SendDataUserProfile(
+        userId,
+        dataForm,
+        isProUser
+      );
       if (isSendDataProfile?.success) {
         setIsDataError(false);
         setIsDataSuccess(true);
@@ -198,6 +202,10 @@ const ProfileHook = ({
     key?: number;
   }) => {
     const isChecked = value?.target?.checked;
+    // console.log('isChecked', isChecked);
+
+    // console.log('dataForm', dataForm);
+
     const dataFormClone = { ...dataForm };
     const index = value?.target?.name as keyof typeof dataFormClone;
     // console.log('index', index);
@@ -220,7 +228,8 @@ const ProfileHook = ({
 
       if (dataAux && key != undefined) {
         dataAux[key].checked = isChecked;
-        currentDataRef.current[key].checked = isChecked;
+        currentDataRef.current.length > 0 &&
+          (currentDataRef.current[key].checked = isChecked);
         handleDataSet && handleDataSet(dataFormClone);
       }
     }
@@ -276,16 +285,21 @@ const ProfileHook = ({
       index != 'urls' &&
       index != 'professional_career'
     ) {
+      console.log('currentDataRef', currentDataRef);
       dataFormClone[index]!.text = text;
       currentDataRef.current.text = text;
+      console.log('dataFormClone', dataFormClone);
+
       handleDataSet && handleDataSet(dataFormClone);
       setIsDataLoad(true);
     } else {
       if (index == 'phones' || index == 'emails') {
         const dataAux = dataFormClone[index];
+        console.log('currentDataRef', currentDataRef);
         if (dataAux && key != undefined) {
           dataAux[key].text = text;
-          currentDataRef?.current && (currentDataRef.current[key].text = text);
+          currentDataRef.current.length > 0 &&
+            (currentDataRef.current[key].text = text);
           dataAux && handleDataSet && handleDataSet(dataFormClone);
         }
         setIsDataLoad(true);
@@ -400,7 +414,7 @@ const ProfileHook = ({
         }
       }
 
-      console.log('dataFormClone ', dataFormClone);
+      // console.log('dataFormClone ', dataFormClone);
 
       if (index === 'emails') {
         if ((count != null || count != undefined) && count < 3) {
@@ -539,6 +553,8 @@ const ProfileHook = ({
          } */
       }
 
+      console.log('dataFormClone', dataFormClone);
+
       handleDataSet && handleDataSet(dataFormClone);
     }
   };
@@ -641,6 +657,26 @@ const ProfileHook = ({
     handleDataSet && handleDataSet(dataFormChecked);
     setAllChecked(true);
   };
+
+  // console.log('isProUser', isProUser);
+
+  useEffect(() => {
+    console.log('dataForm', dataForm);
+    setFlag(true);
+    setTimeout(() => {
+      setFlag(false);
+    }, 1000);
+  }, [dataForm]);
+
+  useEffect(() => {
+    let myDataForm = null;
+    if (data?.profile) {
+      myDataForm = data.profile;
+    } else {
+      myDataForm = isProUser ? profile.professional : profile.social;
+    }
+    setDataForm(myDataForm);
+  }, [data, isProUser]);
 
   useEffect(() => {
     if (dataForm?.name?.label == '') {

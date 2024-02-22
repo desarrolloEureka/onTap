@@ -26,9 +26,11 @@ const FormEducation = ({
   const dataRef = useRef<any>(null);
 
   const value = () => {
-    const i = subindex as any;
-    if (dataRef.current && dataRef.current.length > 0) {
-      return subLabel && dataRef.current[i][subLabel];
+    if (dataRef.current && dataRef.current.length) {
+      const res = subLabel
+        ? dataRef.current[subindex as any][subLabel]
+        : undefined;
+      return res ?? undefined;
     }
   };
 
@@ -42,10 +44,11 @@ const FormEducation = ({
   };
 
   useEffect(() => {
-    if (dataRef.current && myValue) {
+    if (dataRef && myValue) {
       dataRef.current = myValue;
     }
-  }, [dataRef, myValue]);
+  }, [myValue, dataRef]);
+  console.log('value', value());
 
   return (
     <Box className='tw-flex tw-flex-row'>
@@ -86,15 +89,16 @@ const FormEducation = ({
             ),
           }}
           onChange={(text: any) => {
-            handleData({
-              name: name,
-              text: text.target.value,
-              currentDataRef: dataRef,
-              key: subindex,
-              subindex: subLabel as EducationSubIndexDataForm,
-            });
+            dataRef &&
+              handleData({
+                name: name,
+                text: text.target.value,
+                currentDataRef: dataRef,
+                key: subindex,
+                subindex: subLabel as EducationSubIndexDataForm,
+              });
           }}
-          value={value() ?? ''}
+          value={value()}
         />
       </Box>
       {withCheck && deleteAction === true && handleModalAlert ? (

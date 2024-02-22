@@ -13,21 +13,28 @@ import ProfileHook from '../profile/hooks/ProfileHook';
 import { Box } from '@mui/system';
 
 const FormDataUser = ({
-  isProUser,
   dictionary,
   handleDataSet,
+  isProUser,
+  dataForm,
+  data,
 }: // dataForm left data form to profile,
-  {
-    isProUser: boolean;
-    dictionary: Dictionary;
-    dataForm: DataForm;
-    handleDataSet: (e: DataForm) => void;
-  }) => {
-  const { handleSwitch, handleData, data, user, isDataLoad, dataForm } =
-    ProfileHook({
-      dictionary,
-      handleDataSet,
-    });
+{
+  dictionary: Dictionary;
+  dataForm: DataForm;
+  handleDataSet: (e: DataForm) => void;
+  isProUser: boolean;
+  data: [string, any][];
+}) => {
+  // console.log('isProUser FormDataUser', isProUser);
+
+  const { handleSwitch, handleData, user } = ProfileHook({
+    dictionary,
+    handleDataSet,
+    isProUser,
+  });
+  // console.log('dataForm', dataForm);
+  // console.log('data>>', data);
 
   return (
     <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
@@ -39,16 +46,22 @@ const FormDataUser = ({
             </Typography>
             {data.map((value, key) => {
               const index = value[0] as keyof typeof dataForm;
-              if (index == 'name' || index == 'last_name' || index == 'profession' || index == 'occupation' || index == 'address') {
+              if (
+                index == 'name' ||
+                index == 'last_name' ||
+                index == 'profession' ||
+                index == 'occupation' ||
+                index == 'address'
+              ) {
                 const labelArray:
                   | DataFormValues[]
                   | EducationDataFormValues[]
                   | CareerDataFormValues[] =
                   value[0] == 'phones' ||
-                    value[0] == 'education' ||
-                    value[0] == 'emails' ||
-                    value[0] == 'urls' ||
-                    value[0] == 'professional_career'
+                  value[0] == 'education' ||
+                  value[0] == 'emails' ||
+                  value[0] == 'urls' ||
+                  value[0] == 'professional_career'
                     ? value[1]
                     : null;
 
@@ -60,7 +73,8 @@ const FormDataUser = ({
                       value[0] == 'skills' ||
                       value[0] == 'languages' ||
                       value[0] == 'achievements_recognitions'
-                    ) {/*
+                    ) {
+                      /*
                     Validar con Rhonal
                     const myValue =
                         user && user.profile && index == value[0]
@@ -72,10 +86,26 @@ const FormDataUser = ({
                       return
                     */
                       const myValue =
-                        user && user.profile && ['name', 'last_name', 'profession', 'occupation', 'address'].includes(index)
+                        user &&
+                        user.profile &&
+                        [
+                          'name',
+                          'last_name',
+                          'profession',
+                          'occupation',
+                          'address',
+                        ].includes(index)
                           ? user.profile[index]?.text
                           : undefined;
-                      const myValue1 = (user && user.profile && ['name', 'last_name', 'profession', 'occupation', 'address'].includes(index)
+                      const myValue1 = (user &&
+                      user.profile &&
+                      [
+                        'name',
+                        'last_name',
+                        'profession',
+                        'occupation',
+                        'address',
+                      ].includes(index)
                         ? user.profile[index]
                         : undefined) as unknown as DataFormValues;
                       return (
@@ -114,9 +144,12 @@ const FormDataUser = ({
                       );
                     }
                   } else {
+                    // console.log('user FormDataUser', user);
                     const myValue = (user && user.profile && index == value[0]
                       ? user.profile[index]
-                      : undefined) as unknown as DataFormValues;
+                      : dataForm &&
+                        dataForm[index]) as unknown as DataFormValues;
+                    // console.log('myValue', myValue);
 
                     return value[1].social == true ? (
                       <ItemForm
@@ -134,7 +167,6 @@ const FormDataUser = ({
                     ) : null;
                   }
                 }
-
               }
             })}
           </Box>
@@ -146,17 +178,29 @@ const FormDataUser = ({
             ) : null}
             {data.map((value, key) => {
               const index = value[0] as keyof typeof dataForm;
-              if (index == 'company' || index == 'position' || index == 'phones' || index == 'education' || index == 'emails' || index == 'urls' || index == 'professional_career' || index == 'professional_profile' || index == 'other_competencies' || index == 'skills' || index == 'languages' || index == 'achievements_recognitions') {
-                console.log('index', index);
+              if (
+                index == 'company' ||
+                index == 'position' ||
+                index == 'phones' ||
+                index == 'education' ||
+                index == 'emails' ||
+                index == 'urls' ||
+                index == 'professional_career' ||
+                index == 'professional_profile' ||
+                index == 'other_competencies' ||
+                index == 'skills' ||
+                index == 'languages' ||
+                index == 'achievements_recognitions'
+              ) {
                 const labelArray:
                   | DataFormValues[]
                   | EducationDataFormValues[]
                   | CareerDataFormValues[] =
                   value[0] == 'phones' ||
-                    value[0] == 'education' ||
-                    value[0] == 'emails' ||
-                    value[0] == 'urls' ||
-                    value[0] == 'professional_career'
+                  value[0] == 'education' ||
+                  value[0] == 'emails' ||
+                  value[0] == 'urls' ||
+                  value[0] == 'professional_career'
                     ? value[1]
                     : null;
 
@@ -173,7 +217,9 @@ const FormDataUser = ({
                         user && user.profile && index == value[0]
                           ? user.profile[index]?.text
                           : undefined;
-                      const myValue1 = (user && user.profile && index == value[0]
+                      const myValue1 = (user &&
+                      user.profile &&
+                      index == value[0]
                         ? user.profile[index]
                         : undefined) as unknown as DataFormValues;
                       return (
@@ -232,7 +278,6 @@ const FormDataUser = ({
                     ) : null;
                   }
                 }
-
               }
             })}
           </Box>

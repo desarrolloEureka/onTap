@@ -33,6 +33,7 @@ const FooterProfile = ({
   } = ProfileHook({
     dictionary,
     handleDataSet,
+    isProUser,
   });
 
   return (

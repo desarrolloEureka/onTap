@@ -70,6 +70,7 @@ const ItemFormUrl = ({
   icon,
   social,
   handleModalAlert,
+  isProUser,
 }: {
   dictionary: Dictionary;
   dataForm: DataForm;
@@ -78,9 +79,9 @@ const ItemFormUrl = ({
   index: IndexDataForm;
   label?: string;
   labelArray:
-  | DataFormValues[]
-  | EducationDataFormValues[]
-  | CareerDataFormValues[];
+    | DataFormValues[]
+    | EducationDataFormValues[]
+    | CareerDataFormValues[];
   value: any;
   itemDetail: number;
   isDetailOpen: boolean;
@@ -93,6 +94,7 @@ const ItemFormUrl = ({
     index: string;
     subindex: string;
   }) => void;
+  isProUser: boolean;
 }) => {
   const {
     handleSwitch,
@@ -107,27 +109,31 @@ const ItemFormUrl = ({
     handleModalIcons,
     itemUrlSelected,
     itemUrlKey,
-    setModalIcons
+    setModalIcons,
   } = ProfileHook({
     dictionary,
     handleDataSet,
+    isProUser,
   });
 
   const [showUrls, setShowUrls] = useState(false);
+
   const handleOpenUrl = () => {
     setShowUrls(!showUrls);
   };
 
   return (
     <div
-      className={`${value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
-        ? 'tw-h-[350px]'
-        : 'tw-h-[250px]'
-        } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
+      className={`${
+        value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
+          ? 'tw-h-[350px]'
+          : 'tw-h-[250px]'
+      } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
-        className={`tw-h-[${labelArray.length * 20
-          }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
+        className={`tw-h-[${
+          labelArray.length * 20
+        }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
         <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
@@ -165,14 +171,15 @@ const ItemFormUrl = ({
             {labelArray.map((val, key) => {
               const myValue = (user && user.profile && index == value[0]
                 ? user.profile[index]
-                : undefined) as unknown as DataFormValues;
+                : dataForm && dataForm[index]) as unknown as DataFormValues;
               return (
                 <div
                   key={key}
-                  className={`tw-pb-3 ${key !== labelArray.length - 1
-                    ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
-                    : ''
-                    }`}
+                  className={`tw-pb-3 ${
+                    key !== labelArray.length - 1
+                      ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                      : ''
+                  }`}
                 >
                   <div
                     className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end `}
@@ -197,10 +204,15 @@ const ItemFormUrl = ({
                         withCheck={true}
                         subLabel={'name' as NetworksSubIndexDataForm}
                       />
-                      <Box sx={{ mb: 1 }} className='tw-w-[90%] tw-flex tw-mt-2 tw-justify-start '>
+                      <Box
+                        sx={{ mb: 1 }}
+                        className='tw-w-[90%] tw-flex tw-mt-2 tw-justify-start '
+                      >
                         <div className='tw-w-[480px]'>
                           <FormUrl
-                            label={dictionary.profileView.labelOptionalUrl + ': '}
+                            label={
+                              dictionary.profileView.labelOptionalUrl + ': '
+                            }
                             handleSwitch={(e: any) => handleSwitch(e)}
                             handleData={handleData}
                             name={index}
@@ -222,7 +234,9 @@ const ItemFormUrl = ({
                         <div className='tw-h-[20%] tw-w-0 tw-flex tw-flex-col tw-mr-4'>
                           <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
                             <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
-                              <Button onClick={() => handleModalIcons(val, key)}>
+                              <Button
+                                onClick={() => handleModalIcons(val, key)}
+                              >
                                 <Avatar
                                   sx={{
                                     backgroundColor: '#ffffff',
@@ -230,9 +244,7 @@ const ItemFormUrl = ({
                                     height: 38,
                                   }}
                                 >
-                                  <LanguageIcon
-                                    sx={{ color: '#396593' }}
-                                  />
+                                  <LanguageIcon sx={{ color: '#396593' }} />
                                 </Avatar>
                               </Button>
                             </div>
@@ -241,7 +253,6 @@ const ItemFormUrl = ({
                       </Box>
                     </div>
                   </div>
-
                 </div>
               );
             })}
@@ -274,7 +285,6 @@ const ItemFormUrl = ({
             </span>
           </Button>
         </div> */}
-
       </div>
       <ModalAlertLimit
         isModalAlertLimit={isModalAlertLimit}

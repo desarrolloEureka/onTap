@@ -23,6 +23,7 @@ const FormAddDataUser = ({
   dataForm,
   handleDataSet,
   handleModalAlert,
+  data,
 }: {
   isDetailOpen: boolean;
   itemDetail: number;
@@ -38,11 +39,13 @@ const FormAddDataUser = ({
     index: string;
     subindex: string;
   }) => void;
+  data: [string, any][];
 }) => {
-  const { data } = ProfileHook({
-    dictionary,
-    handleDataSet,
-  });
+  // const { data } = ProfileHook({
+  //   dictionary,
+  //   handleDataSet,
+  //   isProUser,
+  // });
 
   return (
     <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
@@ -81,6 +84,7 @@ const FormAddDataUser = ({
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }
+                    isProUser={isProUser}
                   />
                 ) : value[0] == 'education' ? (
                   <ItemFormEducation
@@ -98,6 +102,7 @@ const FormAddDataUser = ({
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }
+                    isProUser={isProUser}
                   />
                 ) : value[0] == 'professional_career' ? (
                   <ItemFormProfessional
@@ -115,6 +120,7 @@ const FormAddDataUser = ({
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }
+                    isProUser={isProUser}
                   />
                 ) : (
                   <ItemFormUrl
@@ -132,6 +138,7 @@ const FormAddDataUser = ({
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }
+                    isProUser={isProUser}
                   />
                 );
               } else {
@@ -151,6 +158,7 @@ const FormAddDataUser = ({
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }
+                    isProUser={isProUser}
                   />
                 ) : value[0] == 'urls' ? (
                   <ItemFormUrl
@@ -168,6 +176,7 @@ const FormAddDataUser = ({
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }
+                    isProUser={isProUser}
                   />
                 ) : null;
               }

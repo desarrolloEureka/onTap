@@ -33,6 +33,7 @@ const PhotoUser = ({
   } = ProfileHook({
     dictionary,
     handleDataSet,
+    isProUser,
   });
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);

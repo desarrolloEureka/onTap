@@ -50,10 +50,12 @@ const ItemForm = ({
       return dataRef?.current?.text ?? myValue?.text;
     } else {
       if (dataRef.current && dataRef.current.length) {
-        return dataRef.current[subindex as any].text;
+        const res = dataRef.current[subindex as any].text;
+        return res ?? undefined;
       }
     }
   };
+
   const isChecked = () => {
     const i = subindex as any;
     if (index == 'phones' || index == 'emails') {
@@ -64,6 +66,8 @@ const ItemForm = ({
   };
 
   useEffect(() => {
+    // console.log('myValue', myValue);
+
     if (dataRef && myValue) {
       dataRef.current = myValue;
     }
@@ -221,7 +225,8 @@ const ItemForm = ({
                 key: subindex,
               });
           }}
-          value={value() ?? ''}
+          type={name == 'phones' ? 'tel' : name == 'emails' ? 'email' : 'text'}
+          value={value()}
         />
       </Box>
       {deleteAction === true && handleModalAlert ? (
@@ -244,13 +249,15 @@ const ItemForm = ({
           <Box className='tw-flex tw-items-center tw-justify-center tw-w-[25%] tw-mt-10'>
             <CustomSwitchGeneral
               name={name}
-              handleSwitch={(e: any) =>
+              handleSwitch={(e: any) => {
+                // console.log('dataRef', dataRef);
+
                 handleSwitch({
                   value: e,
                   currentDataRef: dataRef,
                   key: subindex,
-                })
-              }
+                });
+              }}
               checked={isChecked() ?? false}
             />
           </Box>

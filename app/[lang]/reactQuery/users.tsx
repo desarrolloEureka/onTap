@@ -151,8 +151,12 @@ const SendSwitchAllForm = async (userId: string, dataForm: any) => {
   await updateSwitchAllFirebase(userId, { switchAllForm: dataForm });
 };
 
-const SendDataUserProfile = async (userId: string, data: DataForm) => {
-  return updateDataUserProfile(userId, data)
+const SendDataUserProfile = async (
+  userId: string,
+  data: DataForm,
+  isProUser: boolean
+) => {
+  return updateDataUserProfile(userId, data, isProUser)
     .then(async (response) => {
       const updatedUser = await getUserByIdFireStore(userId);
       if (updatedUser.exists()) {

@@ -30,6 +30,7 @@ const ItemFormBasicInfo = ({
   icon,
   social,
   handleModalAlert,
+  isProUser,
 }: {
   dictionary: Dictionary;
   dataForm: DataForm;
@@ -53,6 +54,7 @@ const ItemFormBasicInfo = ({
     index: string;
     subindex: string;
   }) => void;
+  isProUser: boolean;
 }) => {
   const {
     handleSwitch,
@@ -65,6 +67,7 @@ const ItemFormBasicInfo = ({
   } = ProfileHook({
     dictionary,
     handleDataSet,
+    isProUser,
   });
 
   // console.log('labelArray', labelArray);
@@ -125,9 +128,15 @@ const ItemFormBasicInfo = ({
           {labelArray.map((val, key) => {
             if (social === true) {
               if (val.principal === true || val.social === true) {
+                // console.log('user ItemFormBasicInfo', user);
+
                 const myValue = (user && user.profile && index == value[0]
                   ? user.profile[index]
-                  : undefined) as unknown as DataFormValues;
+                  : dataForm && dataForm[index]) as unknown as DataFormValues;
+
+                // console.log('dataForm', dataForm ? dataForm : null);
+
+                // console.log('myVAlueBasic', myValue);
 
                 return (
                   <div
