@@ -173,7 +173,7 @@ const ItemFormUrl = ({
                 <div
                   key={key}
                   className={`tw-pb-3 ${key !== labelArray.length - 1
-                    ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                    ? 'tw-border-b-8 tw-border-gray-400 tw-border-t-0 tw-border-x-0 tw-border-solid'
                     : ''
                     }`}
                 >
