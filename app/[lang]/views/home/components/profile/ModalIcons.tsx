@@ -88,7 +88,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Link
                                 </Typography>
                                 <Button
@@ -143,7 +143,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     TikTok
                                 </Typography>
                                 <Button
@@ -167,7 +167,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     LinkedIn
                                 </Typography>
                                 <Button
@@ -218,7 +218,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Insta
                                 </Typography>
                                 <Button
@@ -244,7 +244,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Snapchat
                                 </Typography>
                                 <Button
@@ -267,7 +267,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     X
                                 </Typography>
                                 <Button
@@ -293,7 +293,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Twitch
                                 </Typography>
                                 <Button
@@ -316,7 +316,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     YouTube
                                 </Typography>
                                 <Button
@@ -342,7 +342,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     WhatsApp
                                 </Typography>
                                 <Button
@@ -368,7 +368,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Zoom
                                 </Typography>
                                 <Button
@@ -391,7 +391,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Line
                                 </Typography>
                                 <Button
@@ -414,7 +414,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Gmail
                                 </Typography>
                                 <Button
@@ -437,7 +437,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Email
                                 </Typography>
                                 <Button
@@ -463,7 +463,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Phone
                                 </Typography>
                                 <Button
@@ -489,7 +489,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Telegram
                                 </Typography>
                                 <Button
@@ -538,7 +538,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Skype
                                 </Typography>
                                 <Button
@@ -561,7 +561,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     WeChat
                                 </Typography>
                                 <Button
@@ -584,7 +584,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     PayPal
                                 </Typography>
                                 <Button
@@ -607,7 +607,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     VSCO
                                 </Typography>
                                 <Button
@@ -630,7 +630,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Tumblr
                                 </Typography>
                                 <Button
@@ -653,7 +653,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Vimeo
                                 </Typography>
                                 <Button
@@ -676,7 +676,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Spotify
                                 </Typography>
                                 <Button
@@ -699,7 +699,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Deezer
                                 </Typography>
                                 <Button
@@ -745,7 +745,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Maps
                                 </Typography>
                                 <Button
@@ -791,7 +791,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Booking
                                 </Typography>
                                 <Button
@@ -814,7 +814,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Tinder
                                 </Typography>
                                 <Button
@@ -837,7 +837,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Amazon
                                 </Typography>
                                 <Button
@@ -860,7 +860,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     OnlyFans
                                 </Typography>
                                 <Button
@@ -883,7 +883,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Airbnb
                                 </Typography>
                                 <Button
@@ -906,7 +906,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[100%] tw-w-[40px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Pinterest
                                 </Typography>
                                 <Button
