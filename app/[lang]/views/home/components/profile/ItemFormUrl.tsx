@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Button, Avatar, Box } from '@mui/material';
+import { Button, Avatar, Box, Typography } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
@@ -129,7 +129,10 @@ const ItemFormUrl = ({
         className={`tw-h-[${labelArray.length * 20
           }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
-        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
+        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-around'>
+          <Typography className='tw-text-white tw-bg-[#02af9b] tw-max-w-[250px] tw-min-w-[150px] tw-text-center tw-rounded-md tw-text-base tw-mr-6'>
+            {dictionary?.profileView?.url}
+          </Typography>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {

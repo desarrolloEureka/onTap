@@ -127,6 +127,11 @@ export interface Dictionary {
     errorEmptyUrl: string;
     errorEmptyEducation: string;
     errorEmptyProCareer: string;
+    phones: string;
+    emails: string;
+    educational: string;
+    professional: string;
+    url: string;
   };
   recoveryCode: {
     nextCode: string;

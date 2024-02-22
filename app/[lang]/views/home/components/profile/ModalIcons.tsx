@@ -115,7 +115,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Facebook
                                 </Typography>
                                 <Button
@@ -194,7 +194,7 @@ const ModalIcons = ({
 
                         <div className='tw-h-[90px] tw-w-[70px] tw-flex tw-justify-center tw-items-center'>
                             <div className='tw-h-[90%] tw-w-[50px] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <Typography className='tw-text-white tw-text-sm tw-text-center'>
+                                <Typography className='tw-text-white tw-text-xs tw-text-center'>
                                     Messenger
                                 </Typography>
                                 <Button
