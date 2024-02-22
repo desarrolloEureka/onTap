@@ -222,7 +222,12 @@ const ItemFormUrl = ({
                             subLabel={'url' as NetworksSubIndexDataForm}
                           />
                         </div>
-                        <div className='tw-h-[20%] tw-w-0 tw-flex tw-flex-col tw-mr-4'>
+                      </Box>
+                      <div className='tw-w-full tw-flex tw-items-center tw-mt-2 tw-mb-2 tw-justify-normal'>
+                            <Typography className='tw-text-black tw-w-[65%] tw-text-center tw-rounded-md tw-text-base tw-mr-6'>
+                              {dictionary.profileView.selectURL}
+                            </Typography>
+                        <div className='tw-h-[20%] tw-w-[30%] tw-flex tw-flex-col tw-mr-4'>
                           <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
                             <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
                               <Button onClick={() => handleModalIcons(val, key)}>
@@ -241,7 +246,7 @@ const ItemFormUrl = ({
                             </div>
                           </div>
                         </div>
-                      </Box>
+                      </div>
                     </div>
                   </div>
 

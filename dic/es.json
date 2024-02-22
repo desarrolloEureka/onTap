@@ -154,7 +154,8 @@
     "emails": "Correos de Contacto",
     "educational": "Formación Académica",
     "professional": "Trayectoria Profesional",
-    "url": "Registro de URLs"
+    "url": "Registro de URLs",
+    "selectURL": "Seleccionar Icono URL"
   },
   "modalDelete": {
     "labelAlert": "Alerta",

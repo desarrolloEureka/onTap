@@ -132,6 +132,7 @@ export interface Dictionary {
     educational: string;
     professional: string;
     url: string;
+    selectURL: string;
   };
   recoveryCode: {
     nextCode: string;
