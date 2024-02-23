@@ -5,6 +5,7 @@ import Link from "next/link";
 import useDictionary from "@/hooks/dictionary/useDictionary";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LinkIcon from '@mui/icons-material/Link';
+import CreateIcon from '@mui/icons-material/Create';
 
 
 const columns: GridColDef[] = [
@@ -33,7 +34,11 @@ const columns: GridColDef[] = [
                 {params.value}
             </div>)
     },
-    { field: 'edit', headerName: 'Editar', width: 110 },//Boton? a donde?
+    { field: 'edit', headerName: 'Editar', width: 110, renderCell: (params) => (
+        <div>
+            <CreateIcon />
+        </div>
+    ) },
 ];
 
 const UserTable = () => {

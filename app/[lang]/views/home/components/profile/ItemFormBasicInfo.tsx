@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
@@ -38,9 +38,9 @@ const ItemFormBasicInfo = ({
   index: IndexDataForm;
   label?: string;
   labelArray:
-    | DataFormValues[]
-    | EducationDataFormValues[]
-    | CareerDataFormValues[];
+  | DataFormValues[]
+  | EducationDataFormValues[]
+  | CareerDataFormValues[];
   value: any;
   itemDetail: number;
   isDetailOpen: boolean;
@@ -71,20 +71,21 @@ const ItemFormBasicInfo = ({
 
   return (
     <div
-      className={`${
-        value[0] === 'phones' && itemDetail === 1 && labelArray.length > 1
+      className={`${value[0] === 'phones' && itemDetail === 1 && labelArray.length > 1
           ? 'tw-h-[300px]'
           : value[0] === 'emails' && itemDetail === 2 && labelArray.length > 1
-          ? 'tw-h-[300px]'
-          : 'tw-h-[200px]'
-      } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
+            ? 'tw-h-[300px]'
+            : 'tw-h-[200px]'
+        } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
-        className={`tw-h-[${
-          labelArray.length * 20
-        }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
+        className={`tw-h-[${labelArray.length * 20
+          }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
-        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end '>
+        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-around '>
+          <Typography className='tw-text-white tw-bg-[#02af9b] tw-max-w-[250px] tw-min-w-[180px] tw-text-center tw-rounded-md tw-text-base tw-mr-6'>
+            {value[0] === 'phones' ? dictionary?.profileView?.phones : dictionary?.profileView?.emails}
+          </Typography>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {
@@ -132,11 +133,10 @@ const ItemFormBasicInfo = ({
                 return (
                   <div
                     key={key}
-                    className={`tw-pb-3 ${
-                      key !== labelArray.length - 1
+                    className={`tw-pb-3 ${key !== labelArray.length - 1
                         ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
                         : ''
-                    }`}
+                      }`}
                   >
                     <ItemForm
                       label={val.label!}
@@ -167,11 +167,10 @@ const ItemFormBasicInfo = ({
               return (
                 <div
                   key={key}
-                  className={`tw-pb-3 ${
-                    key !== labelArray.length - 1
+                  className={`tw-pb-3 ${key !== labelArray.length - 1
                       ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
                       : ''
-                  }`}
+                    }`}
                 >
                   <ItemForm
                     label={val.label!}

@@ -10,7 +10,7 @@ const BgImage = ({ background }: { background: BackgroundImages }) => {
         src={background.image}
         alt='Card'
         width={380}
-        height={700}
+        height={800}
         style={{ display: 'block', position: 'relative', zIndex: 0 }}
       />
     )

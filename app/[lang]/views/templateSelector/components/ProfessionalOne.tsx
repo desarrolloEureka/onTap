@@ -4,6 +4,7 @@ import { Locale } from 'i18n-config';
 import BgImage from './bgImage/BgImage';
 import TemplateContainerProfessionalOne from './container/ContainerProfessionalOne';
 import HeroProfessional from './hero/HeroProfessional';
+import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 
 const ProfessionalOne = ({
   params: { lang, background, data },
@@ -15,7 +16,7 @@ const ProfessionalOne = ({
   };
 }) => {
   return (
-    <div className='tw-flex tw-relative tw-justify-center tw-items-center tw-h-screen'>
+    <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
       <div className='tw-shadow-md tw-w-[380px] tw-rounded-2xl tw-pt-[0px] tw-h-[700px]'>
         <BgImage background={background} />
         <HeroProfessional
@@ -30,6 +31,7 @@ const ProfessionalOne = ({
         />
         <TemplateContainerProfessionalOne profile={data.profile} />
       </div>
+        <OneTapLogo />
     </div>
   );
 };

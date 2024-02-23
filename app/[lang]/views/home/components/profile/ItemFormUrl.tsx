@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Button, Avatar, Box } from '@mui/material';
+import { Button, Avatar, Box, Typography } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
@@ -129,7 +129,10 @@ const ItemFormUrl = ({
         className={`tw-h-[${labelArray.length * 20
           }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
-        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
+        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-around'>
+          <Typography className='tw-text-white tw-bg-[#02af9b] tw-max-w-[250px] tw-min-w-[150px] tw-text-center tw-rounded-md tw-text-base tw-mr-6'>
+            {dictionary?.profileView?.url}
+          </Typography>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {
@@ -170,7 +173,7 @@ const ItemFormUrl = ({
                 <div
                   key={key}
                   className={`tw-pb-3 ${key !== labelArray.length - 1
-                    ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                    ? 'tw-border-b-8 tw-border-gray-400 tw-border-t-0 tw-border-x-0 tw-border-solid'
                     : ''
                     }`}
                 >
@@ -219,7 +222,12 @@ const ItemFormUrl = ({
                             subLabel={'url' as NetworksSubIndexDataForm}
                           />
                         </div>
-                        <div className='tw-h-[20%] tw-w-0 tw-flex tw-flex-col tw-mr-4'>
+                      </Box>
+                      <div className='tw-w-full tw-flex tw-items-center tw-mt-2 tw-mb-2 tw-justify-normal'>
+                            <Typography className='tw-text-black tw-w-[65%] tw-text-center tw-rounded-md tw-text-base tw-mr-6'>
+                              {dictionary.profileView.selectURL}
+                            </Typography>
+                        <div className='tw-h-[20%] tw-w-[30%] tw-flex tw-flex-col tw-mr-4'>
                           <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
                             <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
                               <Button onClick={() => handleModalIcons(val, key)}>
@@ -238,7 +246,7 @@ const ItemFormUrl = ({
                             </div>
                           </div>
                         </div>
-                      </Box>
+                      </div>
                     </div>
                   </div>
 

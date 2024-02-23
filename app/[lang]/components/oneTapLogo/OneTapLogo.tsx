@@ -4,13 +4,13 @@ import Link from 'next/link';
 const OneTapLogo = () => {
     return (
         //lImagen encima del texto
-        <div className="tw-justify-center tw-p-4 tw-flex tw-item-center tw-flex-col tw-w-[180px]">
-            <div className="tw-items-center tw-w-full tw-flex tw-justify-center">
+        <div className="tw-justify-center tw-z-10 tw-p-3 tw-flex tw-item-center tw-flex-col tw-w-[180px]">
+            <div className="tw-items-center tw-w-full tw-flex tw-justify-center tw-z-20">
                 <Image
-                    src='/images/onetap_logo.png'
+                    src='/images/onetap_logo_plantilla.png'
                     alt="One Tap"
-                    width={50}
-                    height={40}
+                    width={65}
+                    height={45}
                     priority
                 />
             </div>

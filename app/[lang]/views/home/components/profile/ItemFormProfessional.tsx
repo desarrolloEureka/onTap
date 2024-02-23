@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
@@ -41,9 +41,9 @@ const ItemFormProfessional = ({
   index: IndexDataForm;
   label?: string;
   labelArray:
-    | DataFormValues[]
-    | EducationDataFormValues[]
-    | CareerDataFormValues[];
+  | DataFormValues[]
+  | EducationDataFormValues[]
+  | CareerDataFormValues[];
   value: any;
   itemDetail: number;
   isDetailOpen: boolean;
@@ -72,20 +72,21 @@ const ItemFormProfessional = ({
 
   return (
     <div
-      className={`${
-        value[0] === 'professional_career' &&
-        itemDetail === 4 &&
-        labelArray.length > 1
+      className={`${value[0] === 'professional_career' &&
+          itemDetail === 4 &&
+          labelArray.length > 1
           ? 'tw-h-[350px]'
           : 'tw-h-[250px]'
-      } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
+        } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
-        className={`tw-h-[${
-          labelArray.length * 20
-        }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
+        className={`tw-h-[${labelArray.length * 20
+          }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
-        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end'>
+        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-around'>
+          <Typography className='tw-text-white tw-bg-[#02af9b] tw-max-w-[250px] tw-min-w-[180px] tw-text-center tw-rounded-md tw-text-base tw-mr-6'>
+            {dictionary?.profileView?.professional}
+          </Typography>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {
@@ -125,11 +126,10 @@ const ItemFormProfessional = ({
               return (
                 <div key={key}>
                   <div
-                    className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${
-                      key !== labelArray.length - 1
+                    className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${key !== labelArray.length - 1
                         ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
                         : ''
-                    } `}
+                      } `}
                   >
                     <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
                       <FormProfession
@@ -225,7 +225,7 @@ const ItemFormProfessional = ({
           </div>
         </div>
 
-       {/*  <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
+        {/*  <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
           <Button
             onClick={() => handleSeeMore(4)}
             color='secondary'
