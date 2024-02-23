@@ -31,7 +31,7 @@ const HomeHook = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     const plan = datUser?.data?.plan;
-    if (plan === 'basic' && newValue === 2) {
+    if (plan === 'standard' && newValue === 2) {
       setIsModalAlert(!isModalAlert);
     } else {
       setValue(newValue);

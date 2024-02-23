@@ -17,7 +17,7 @@ const Header = ({
 
   return (
     <div className='sm:tw-h-[80px] tw-flex'>
-      <div className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col max-sm:tw-mt-2'>
+      <div className='tw-w-1/3 tw-h-full tw-flex tw-items-center tw-justify-center tw-flex-col max-sm:tw-mt-2 tw-pt-1'>
         <div className='tw-bg-white tw-shadow-inner tw-rounded-md tw-h-[50%] tw-w-[90px]  tw-flex'>
           <Button
             disabled
@@ -28,7 +28,7 @@ const Header = ({
                 style={{
                   color: '#396593',
                   fontSize: '1.5rem',
-                  marginRight: '1rem',
+                  marginRight: '0.2rem',
                 }}
               />
             }
@@ -44,8 +44,8 @@ const Header = ({
             </span>
           </Button>
         </div>
-        <div className=' tw-h-[20%] tw-w-[45%] tw-flex tw-items-center tw-justify-center'>
-          <div className='tw-text-[#396593]' style={{ fontSize: '0.7rem' }}>
+        <div className=' tw-h-[20%] tw-w-[50%] tw-flex tw-items-center tw-justify-center tw-pt-2'>
+          <div className='tw-text-[#396593]' style={{ fontSize: '0.9rem' }}>
             {dictionary.homeView.views}
           </div>
         </div>
