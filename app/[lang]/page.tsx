@@ -4,7 +4,6 @@ import { Locale } from 'i18n-config';
 import CustomCircularProgress from './components/customCircularProgress/CustomCircularProgress';
 import useDictionary from './hooks/dictionary/useDictionary';
 
-
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
   const { isLoading, error } = ValidatorSession({ lang });
@@ -13,7 +12,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   ) : error ? (
     <></>
   ) : (
-    <>{dictionary?.profileView.labelError505}</>
+    <>{dictionary?.profileView?.labelError505}</>
   );
 };
 

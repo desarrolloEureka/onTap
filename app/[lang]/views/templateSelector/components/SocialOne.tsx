@@ -1,11 +1,14 @@
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
+import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
+import useDictionary from '@/hooks/dictionary/useDictionary';
 import { BackgroundImages } from '@/types/home';
+import { UserData } from '@/types/user';
 import { Locale } from 'i18n-config';
+import { useLayoutEffect, useState } from 'react';
 import BgImage from './bgImage/BgImage';
 import TemplateContainer from './container/Container';
-import HeroSocial from './hero/HeroSocial';
-import { UserData } from '@/types/user';
 import Footer from './footer/Footer';
-import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
+import HeroSocial from './hero/HeroSocial';
 
 const SocialOne = ({
   params: { lang, background, data },
@@ -16,9 +19,16 @@ const SocialOne = ({
     data: UserData;
   };
 }) => {
-  return (
+  const { dictionary } = useDictionary({ lang });
+  const [isDataError, setIsDataError] = useState(true);
+
+  useLayoutEffect(() => {
+    data.profile && setIsDataError(false);
+  }, [data.profile]);
+
+  return data.profile ? (
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
-      <div className='tw-shadow-md tw-w-[380px] tw-rounded-2xl  tw-h-[700px]'>
+      <div className='tw-shadow-md tw-w-[380px] tw-rounded-2xl tw-h-[700px] tw-bg-slate-500'>
         <BgImage background={background} />
         <HeroSocial
           socialNetworks={data.profile.social?.urls}
@@ -43,6 +53,14 @@ const SocialOne = ({
       </div>
       <OneTapLogo />
     </div>
+  ) : (
+    <CustomModalAlert
+      isModalAlert={isDataError}
+      handleModalAlert={() => setIsDataError(false)}
+      title={dictionary?.generalTitle || ''}
+      description={dictionary?.cardView?.dataNotFound || ''}
+      isClosed={true}
+    />
   );
 };
 export default SocialOne;

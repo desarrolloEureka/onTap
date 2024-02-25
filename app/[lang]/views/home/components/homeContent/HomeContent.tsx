@@ -366,8 +366,8 @@ const HomeContent = ({
 
         <CustomModalAlert
           handleModalAlert={handleModalAlert}
-          title={dictionary?.homeView.labelDenyAccess}
-          description={dictionary?.homeView.labelDenyAccessDescription}
+          title={dictionary?.homeView?.labelDenyAccess}
+          description={dictionary?.homeView?.labelDenyAccessDescription}
           isModalAlert={isModalAlert}
           isClosed={true}
         />

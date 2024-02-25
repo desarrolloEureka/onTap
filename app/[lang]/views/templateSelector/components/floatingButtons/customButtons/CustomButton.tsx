@@ -15,7 +15,7 @@ const CustomButton = ({
   const { data } = GetAllSocialNetworks();
   const icon = data?.find((val) => val.name === name);
   const regex = /^https?:\/\//i;
-  let urlLink = ''
+  let urlLink = '';
 
   if (regex.test(link)) {
     urlLink = link.replace(regex, '');
@@ -29,7 +29,7 @@ const CustomButton = ({
         className={`tw-rounded-full tw-drop-shadow-xl ${styles}`}
         href={`http://${urlLink}`}
       >
-        <Image src={icon.image} alt={name} width={70} height={70} />
+        <Image src={icon.image} alt={name} width={60} height={60} />
       </Link>
     )
   );
