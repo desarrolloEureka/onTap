@@ -55,7 +55,6 @@ const HeroProfessional = ({
                       {profession}
                     </Typography>
                   </div>
-
                 </Container>
               </Item>
             </Grid>

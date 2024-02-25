@@ -20,18 +20,18 @@ const ProfessionalOne = ({
       <div className='tw-shadow-md tw-w-[380px] tw-rounded-2xl tw-pt-[0px] tw-h-[700px]'>
         <BgImage background={background} />
         <HeroProfessional
-          socialNetworks={data.profile.urls}
+          socialNetworks={data.profile.social?.urls}
           photo={data.image}
-          name={`${data.profile.name?.text}  ${data.profile.last_name?.text}`}
+          name={`${data.profile.social?.name?.text}  ${data.profile.social?.last_name?.text}`}
           profession={
-            data.profile.profession?.checked
-              ? data.profile.profession?.text
+            data.profile.social?.profession?.checked
+              ? data.profile.social?.profession?.text
               : ''
           }
         />
         <TemplateContainerProfessionalOne profile={data.profile} />
       </div>
-        <OneTapLogo />
+      <OneTapLogo />
     </div>
   );
 };
