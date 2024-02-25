@@ -11,8 +11,6 @@ const Footer = ({
 }) => {
   const { finalArray } = FooterHook({ socialNetworks });
 
-  console.log('finalArray', finalArray);
-
   return (
     <Box sx={{ height: 30, px: 4 }}>
       {finalArray.length > 0 && finalArray[0].length > 0 && (

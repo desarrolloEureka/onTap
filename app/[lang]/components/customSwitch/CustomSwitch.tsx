@@ -7,6 +7,7 @@ import {
   SendSwitchProfile,
 } from '@/reactQuery/users';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useEffect } from 'react';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 92,
@@ -89,12 +90,13 @@ const CustomSwitch = ({
   const [isUpdate, setIsUpdate] = React.useState(false);
   const switchRef = React.useRef<any>(null);
 
+  const userId = data?.uid;
+  const plan = data?.plan;
+
   const handleSwitchChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { checked } = event.target;
-    const userId = data?.uid;
-    const plan = data?.plan;
 
     if (profile && plan === 'standard') {
       handleModalAlert && handleModalAlert();
@@ -113,12 +115,14 @@ const CustomSwitch = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (switchRef)
       switchRef.current.checked = profile
-        ? data?.switch_profile
+        ? plan === 'standard'
+          ? false
+          : data?.switch_profile
         : data?.switch_activateCard;
-  }, [data, isUpdate, profile, switchRef]);
+  }, [data, isUpdate, plan, profile, switchRef]);
 
   // Determina los estilos basados en el perfil
   const thumbBackgroundColor = profile ? '#fff' : null;

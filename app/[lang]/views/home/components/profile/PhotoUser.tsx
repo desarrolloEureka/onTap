@@ -1,40 +1,30 @@
 'use client';
-import React, { useState } from 'react';
-import { Avatar, Stack, IconButton, Typography } from '@mui/material';
-import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
-import { Dictionary } from '@/types/dictionary';
-import { GetUser, SendDataImage } from '@/reactQuery/users';
-import { Button, Container } from '@mui/material';
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
-import ProfileHook from './hooks/ProfileHook';
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
-import { DataForm } from '@/types/profile';
+import { GetUser, SendDataImage } from '@/reactQuery/users';
+import { Dictionary } from '@/types/dictionary';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import {
+  Avatar,
+  Button,
+  Container,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
+import React, { useState } from 'react';
 
 const PhotoUser = ({
   dictionary,
-  handleDataSet,
   isProUser,
+  handleSendProfile,
+  handleSwitchAll,
 }: {
   dictionary: Dictionary;
-  handleDataSet: (e: DataForm) => void;
   isProUser: boolean;
+  handleSendProfile: (isProUser: boolean) => Promise<void>;
+  handleSwitchAll: (val: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
-  const {
-    handleSwitchAll,
-    handleSendProfile,
-    isDataSuccess,
-    setIsDataSuccess,
-    isDataError,
-    setIsDataError,
-    isEmailPhoneRight,
-    setisEmailPhoneRight,
-    status,
-  } = ProfileHook({
-    dictionary,
-    handleDataSet,
-  });
-
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { data, error } = GetUser();
 
@@ -182,28 +172,6 @@ const PhotoUser = ({
           </div>
         </Container>
       </div>
-
-      <CustomModalAlert
-        isModalAlert={isDataError}
-        handleModalAlert={setIsDataError}
-        title={dictionary?.generalTitle}
-        description={dictionary.profileView.errorDataSend}
-        isClosed
-      />
-      <CustomModalAlert
-        isModalAlert={isDataSuccess}
-        handleModalAlert={setIsDataSuccess}
-        title={dictionary?.generalTitle}
-        description={dictionary.profileView.successDataSend}
-        isClosed
-      />
-      <CustomModalAlert
-        isModalAlert={isEmailPhoneRight}
-        handleModalAlert={setisEmailPhoneRight}
-        title={dictionary?.generalTitle}
-        description={status}
-        isClosed
-      />
     </div>
   );
 };

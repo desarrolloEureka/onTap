@@ -13,7 +13,11 @@ import {
   updateInactiveUser,
   updatePreView,
 } from '@/firebase/user';
-import { DataForm } from '@/types/profile';
+import {
+  DataForm,
+  ProfessionalDataForm,
+  SocialDataForm,
+} from '@/types/profile';
 import { TemplateData, UserData, UserDb } from '@/types/user';
 import { GetLoginQueryProps } from '@/types/userQuery';
 import { useQuery } from '@tanstack/react-query';
@@ -151,8 +155,12 @@ const SendSwitchAllForm = async (userId: string, dataForm: any) => {
   await updateSwitchAllFirebase(userId, { switchAllForm: dataForm });
 };
 
-const SendDataUserProfile = async (userId: string, data: DataForm) => {
-  return updateDataUserProfile(userId, data)
+const SendDataUserProfile = async (
+  userId: string,
+  data: SocialDataForm | ProfessionalDataForm,
+  isProUser: boolean
+) => {
+  return updateDataUserProfile(userId, data, isProUser)
     .then(async (response) => {
       const updatedUser = await getUserByIdFireStore(userId);
       if (updatedUser.exists()) {

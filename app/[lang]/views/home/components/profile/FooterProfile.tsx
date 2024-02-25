@@ -1,64 +1,23 @@
 'use client';
-import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import CustomSwitchGeneral from '@/components/customSwitchGeneral/CustomSwitchGeneral';
 import { Dictionary } from '@/types/dictionary';
-import { DataForm } from '@/types/profile';
+import { ProfessionalDataForm, SocialDataForm } from '@/types/profile';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import { Button, Container } from '@mui/material';
-import ProfileHook from './hooks/ProfileHook';
 
 const FooterProfile = ({
-  handleModal,
   dictionary,
-  dataForm,
-  handleDataSet,
   isProUser,
+  handleSendProfile,
+  handleSwitchAll,
 }: {
-  handleModal: () => void;
   dictionary: Dictionary;
-  handleDataSet: (e: DataForm) => void;
-  dataForm: any;
   isProUser: boolean;
+  handleSendProfile: (isProUser: boolean) => Promise<void>;
+  handleSwitchAll: (val: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
-  const {
-    handleSwitchAll,
-    handleSendProfile,
-    isDataSuccess,
-    setIsDataSuccess,
-    isDataError,
-    setIsDataError,
-    status,
-    isEmailPhoneRight,
-    setisEmailPhoneRight,
-  } = ProfileHook({
-    dictionary,
-    handleDataSet,
-  });
-
   return (
     <div className='tw-h-[110px] tw-flex tw-items-center tw-justify-center'>
-      <CustomModalAlert
-        isModalAlert={isDataError}
-        handleModalAlert={setIsDataError}
-        title={dictionary?.generalTitle}
-        description={dictionary.profileView.errorDataSend}
-        isClosed
-      />
-      <CustomModalAlert
-        isModalAlert={isEmailPhoneRight}
-        handleModalAlert={setisEmailPhoneRight}
-        title={dictionary?.generalTitle}
-        description={status}
-        isClosed
-      />
-      <CustomModalAlert
-        isModalAlert={isDataSuccess}
-        handleModalAlert={setIsDataSuccess}
-        title={dictionary?.generalTitle}
-        description={dictionary.profileView.successDataSend}
-        isClosed
-      />
-
       <Container className='tw-h-[90%] tw-w-[90%] tw-flex tw-items-center tw-justify-center'>
         <div className=' tw-h-[100%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
           <div className=' tw-h-[100%] tw-w-[80%] tw-flex tw-flex-row tw-items-center tw-justify-center'>

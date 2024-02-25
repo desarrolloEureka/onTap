@@ -21,21 +21,25 @@ const SocialOne = ({
       <div className='tw-shadow-md tw-w-[380px] tw-rounded-2xl  tw-h-[700px]'>
         <BgImage background={background} />
         <HeroSocial
-          socialNetworks={data.profile.urls}
+          socialNetworks={data.profile.social?.urls}
           photo={data.image}
           name={`${
-            data.profile.name?.checked ? data.profile.name?.text : ''
+            data.profile.social?.name?.checked
+              ? data.profile.social?.name?.text
+              : ''
           }  ${
-            data.profile.last_name?.checked ? data.profile.last_name?.text : ''
+            data.profile.social?.last_name?.checked
+              ? data.profile.social?.last_name?.text
+              : ''
           }`}
           profession={
-            data.profile.profession?.checked
-              ? data.profile.profession?.text
+            data.profile.social?.profession?.checked
+              ? data.profile.social?.profession?.text
               : ''
           }
         />
         <TemplateContainer profile={data.profile} />
-        <Footer socialNetworks={data.profile.urls} />
+        <Footer socialNetworks={data.profile.social?.urls} />
       </div>
       <OneTapLogo />
     </div>

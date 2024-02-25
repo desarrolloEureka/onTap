@@ -8,6 +8,7 @@ import HomeHook from './hooks/HomeHook';
 import CustomCircularProgress from '@/components/customCircularProgress/CustomCircularProgress';
 import ValidatorSession from '@/hooks/validatorSession/ValidatorSession';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
+import ProfileProfessional from './components/profile/ProfileProfessional';
 
 const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -15,15 +16,15 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const {
     handleChange,
     value,
-    isProUser,
     CustomTabPanel,
     templates,
     isLoadingTemplates,
     backgroundImages,
     isModalAlert,
-    setIsModalAlert,
-    handleModalAlert
+    handleModalAlert,
   } = HomeHook();
+
+  // console.log('isProUser', isProUser);
 
   return isLoading || isLoadingTemplates ? (
     <CustomCircularProgress isOpen />
@@ -39,10 +40,10 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
             />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <Profile dictionary={dictionary} isProUser={isProUser} />
+            <Profile dictionary={dictionary} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            <Profile dictionary={dictionary} isProUser={isProUser} />
+            <ProfileProfessional dictionary={dictionary} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={3}>
             Item Three
@@ -50,8 +51,8 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
         </Menu>
         <CustomModalAlert
           handleModalAlert={handleModalAlert}
-          title={dictionary?.homeView.labelDenyAccess}
-          description={dictionary?.homeView.labelDenyAccessDescription}
+          title={dictionary?.homeView?.labelDenyAccess}
+          description={dictionary?.homeView?.labelDenyAccessDescription}
           isModalAlert={isModalAlert}
           isClosed={true}
         />

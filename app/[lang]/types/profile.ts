@@ -1,4 +1,4 @@
-export interface DataForm {
+export interface DataFormSorted {
   name?: DataFormValues;
   last_name?: DataFormValues;
   profession?: DataFormValues;
@@ -16,6 +16,45 @@ export interface DataForm {
   skills?: DataFormValues;
   languages?: DataFormValues;
   achievements_recognitions?: DataFormValues;
+}
+
+export type SocialDataForm = {
+  name?: DataFormValues;
+  last_name?: DataFormValues;
+  profession?: DataFormValues;
+  occupation?: DataFormValues;
+  address?: DataFormValues;
+  phones?: DataFormValues[];
+  emails?: DataFormValues[];
+  urls?: UrlDataFormValues[];
+};
+export type ProfessionalDataForm = {
+  name?: DataFormValues;
+  last_name?: DataFormValues;
+  profession?: DataFormValues;
+  occupation?: DataFormValues;
+  address?: DataFormValues;
+  company?: DataFormValues;
+  position?: DataFormValues;
+  professional_profile?: DataFormValues;
+  phones?: DataFormValues[];
+  emails?: DataFormValues[];
+  education?: EducationDataFormValues[];
+  professional_career?: CareerDataFormValues[];
+  urls?: UrlDataFormValues[];
+  other_competencies?: DataFormValues;
+  skills?: DataFormValues;
+  languages?: DataFormValues;
+  achievements_recognitions?: DataFormValues;
+};
+export interface DataForm {
+  social?: SocialDataForm;
+  professional?: ProfessionalDataForm;
+}
+
+export interface DataFormSortedArray {
+  social: [string, any][];
+  professional: [string, any][];
 }
 
 export type DataFormValues = {
@@ -98,9 +137,9 @@ export type handleDataProps = {
   name: string;
   text: string;
   subindex?:
-  | EducationSubIndexDataForm
-  | CareerSubIndexDataForm
-  | NetworksSubIndexDataForm;
+    | EducationSubIndexDataForm
+    | CareerSubIndexDataForm
+    | NetworksSubIndexDataForm;
   key?: number;
   currentDataRef?: any;
 };
@@ -115,20 +154,31 @@ export interface ItemFormParams {
   label: string;
   name: IndexDataForm;
   handleSwitch: (e: any) => void;
-  handleData: ({ name, text, subindex }: handleDataProps) => void;
+  handleData: ({
+    name,
+    text,
+    subindex,
+    key,
+    currentDataRef,
+  }: handleDataProps) => void;
   checked?: boolean;
   icon?: string;
   deleteAction?: boolean;
   handleDeleteData?: ({ name }: { name: string }) => void;
-  handleModalAlert?: ({ index, subindex }: { index: string, subindex: string }) => void;
+  handleModalAlert?: ({
+    index,
+    subindex,
+  }: {
+    index: string;
+    subindex: string;
+  }) => void;
   value?: string | undefined;
   myValue?: DataFormValues;
-  dataForm: DataForm;
   index: IndexDataForm;
   subindex?: number;
   withCheck?: boolean;
   subLabel?:
-  | EducationSubIndexDataForm
-  | CareerSubIndexDataForm
-  | NetworksSubIndexDataForm;
+    | EducationSubIndexDataForm
+    | CareerSubIndexDataForm
+    | NetworksSubIndexDataForm;
 }
