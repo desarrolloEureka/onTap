@@ -1,59 +1,24 @@
 'use client';
-import React, { useState } from 'react';
-import { Button, Avatar, Box } from '@mui/material';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
-import ProfileHook from '../profile/hooks/ProfileHook';
 import {
   CareerDataFormValues,
-  DataForm,
   DataFormValues,
   EducationDataFormValues,
   IndexDataForm,
   NetworksSubIndexDataForm,
+  ProfessionalDataForm,
+  SocialDataForm,
+  handleDataNetworksProps,
+  handleDataProps,
 } from '@/types/profile';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import { Avatar, Box, Button } from '@mui/material';
 
-import ModalAlertLimit from './ModalAlertLimit';
 import FormUrl from './FormUrl';
+import ModalAlertLimit from './ModalAlertLimit';
 
+import { UserData } from '@/types/user';
 import LanguageIcon from '@mui/icons-material/Language';
-import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import IconTikTok from './IconTikTok';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import EmailIcon from '@mui/icons-material/Email';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import PinterestIcon from '@mui/icons-material/Pinterest';
-import IconMessenger from './IconMessenger';
-import IconSnapchat from './IconSnapchat';
-import IconTwitch from './IconTwitch';
-import IconZoom from './IconZoom';
-import IconLine from './IconLine';
-import IconGmail from './IconGmail';
-import IconWhatsAppB from './IconWhatsAppB';
-import IconSkype from './IconSkype';
-import IconWeChat from './IconWeChat';
-import IconPayPal from './IconPayPal';
-import IconVSCO from './IconVSCO';
-import IconTumblr from './IconTumblr';
-import IconVimeo from './IconVimeo';
-import IconSpotify from './IconSpotify';
-import IconDeezer from './IconDeezer';
-import IconAppleMusic from './IconAppleMusic';
-import IconGoogleMaps from './IconGoogleMaps';
-import IconTripAdvisor from './IconTripAdvisor';
-import IconBooking from './IconBooking';
-import IconTinder from './IconTinder';
-import IconAmazon from './IconAmazon';
-import IconOnlyFans from './IconOnlyFans';
-import IconAirbnb from './IconAirbnb';
-import { WhatsApp } from '@mui/icons-material';
-import LinkSharpIcon from '@mui/icons-material/LinkSharp';
 import ModalIcons from './ModalIcons';
 
 const ItemFormUrl = ({
@@ -71,10 +36,23 @@ const ItemFormUrl = ({
   social,
   handleModalAlert,
   isProUser,
+  handleData,
+  user,
+  handleSwitch,
+  handleAddData,
+  handleModalAlertLimit,
+  isModalAlertLimit,
+  handleDataNetworks,
+  setModalIcons,
+  itemUrlKey,
+  itemUrlSelected,
+  handleModalIcons,
+  isModalIcons,
+  handleDeleteData,
 }: {
   dictionary: Dictionary;
-  dataForm: DataForm;
-  handleDataSet: (e: DataForm) => void;
+  dataForm: SocialDataForm | ProfessionalDataForm;
+  handleDataSet: (e: SocialDataForm | ProfessionalDataForm) => void;
   handleSeeMore: (e: number) => void;
   index: IndexDataForm;
   label?: string;
@@ -95,32 +73,37 @@ const ItemFormUrl = ({
     subindex: string;
   }) => void;
   isProUser: boolean;
+  handleData: ({
+    name,
+    text,
+    subindex,
+    key,
+    currentDataRef,
+  }: handleDataProps) => void;
+  user: UserData;
+  handleSwitch: (e: any) => void;
+  handleAddData: (index: any) => void;
+  handleModalAlertLimit: () => void;
+  isModalAlertLimit: boolean;
+  handleDataNetworks: ({
+    name,
+    text,
+    subindex,
+    key,
+  }: handleDataNetworksProps) => void;
+  setModalIcons: (e: any) => void;
+  itemUrlKey: number;
+  itemUrlSelected: any;
+  handleModalIcons: (item: any, key: any) => void;
+  isModalIcons: boolean;
+  handleDeleteData: () => void;
 }) => {
-  const {
-    handleSwitch,
-    handleDataNetworks,
-    handleAddData,
-    isModalAlertLimit,
-    handleModalAlertLimit,
-    handleDeleteData,
-    handleData,
-    user,
-    isModalIcons,
-    handleModalIcons,
-    itemUrlSelected,
-    itemUrlKey,
-    setModalIcons,
-  } = ProfileHook({
-    dictionary,
-    handleDataSet,
-    isProUser,
-  });
-
-  const [showUrls, setShowUrls] = useState(false);
-
-  const handleOpenUrl = () => {
-    setShowUrls(!showUrls);
-  };
+  // console.log('labelArray', labelArray);
+  // console.log('user', user);
+  // console.log('social', social);
+  // console.log('value', value);
+  // console.log('itemUrlSelected', itemUrlSelected);
+  // console.log('itemUrlKey', itemUrlKey);
 
   return (
     <div
@@ -139,7 +122,7 @@ const ItemFormUrl = ({
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {
-                handleAddData('urls', false);
+                handleAddData('urls');
               }}
               color='secondary'
               size='medium'
@@ -169,122 +152,102 @@ const ItemFormUrl = ({
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
           <div className='tw-w-[100%] tw-flex tw-flex-col '>
             {labelArray.map((val, key) => {
-              const myValue = (user && user.profile && index == value[0]
-                ? user.profile[index]
-                : dataForm && dataForm[index]) as unknown as DataFormValues;
-              return (
-                <div
-                  key={key}
-                  className={`tw-pb-3 ${
-                    key !== labelArray.length - 1
-                      ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
-                      : ''
-                  }`}
-                >
+              if (index == 'urls') {
+                const myValue = (user && user.profile
+                  ? isProUser
+                    ? user.profile.professional
+                      ? user.profile.professional?.[index]
+                      : dataForm && dataForm[index]
+                    : user.profile.social
+                    ? user.profile?.social?.[index]
+                    : dataForm && dataForm[index]
+                  : dataForm && dataForm[index]) as unknown as DataFormValues;
+
+                return (
                   <div
-                    className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end `}
+                    key={key}
+                    className={`tw-pb-3 ${
+                      key !== labelArray.length - 1
+                        ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                        : ''
+                    }`}
                   >
-                    <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
-                      <FormUrl
-                        label={dictionary.profileView.labelDataName + ': '}
-                        handleSwitch={(e: any) => handleSwitch(e)}
-                        handleData={handleData}
-                        name={index}
-                        checked={val.checked}
-                        subindex={key}
-                        icon={val.icon}
-                        deleteAction={true}
-                        handleDeleteData={handleDeleteData}
-                        handleModalAlert={({ index, subindex }) =>
-                          handleModalAlert({ index, subindex })
-                        }
-                        myValue={myValue}
-                        dataForm={dataForm}
-                        index={index}
-                        withCheck={true}
-                        subLabel={'name' as NetworksSubIndexDataForm}
-                      />
-                      <Box
-                        sx={{ mb: 1 }}
-                        className='tw-w-[90%] tw-flex tw-mt-2 tw-justify-start '
-                      >
-                        <div className='tw-w-[480px]'>
-                          <FormUrl
-                            label={
-                              dictionary.profileView.labelOptionalUrl + ': '
-                            }
-                            handleSwitch={(e: any) => handleSwitch(e)}
-                            handleData={handleData}
-                            name={index}
-                            checked={val.checked}
-                            subindex={key}
-                            icon={val.icon}
-                            deleteAction={true}
-                            handleDeleteData={handleDeleteData}
-                            handleModalAlert={({ index, subindex }) =>
-                              handleModalAlert({ index, subindex })
-                            }
-                            myValue={myValue}
-                            dataForm={dataForm}
-                            index={index}
-                            withCheck={false}
-                            subLabel={'url' as NetworksSubIndexDataForm}
-                          />
-                        </div>
-                        <div className='tw-h-[20%] tw-w-0 tw-flex tw-flex-col tw-mr-4'>
-                          <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
-                            <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
-                              <Button
-                                onClick={() => handleModalIcons(val, key)}
-                              >
-                                <Avatar
-                                  sx={{
-                                    backgroundColor: '#ffffff',
-                                    width: 38,
-                                    height: 38,
-                                  }}
+                    <div
+                      className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end `}
+                    >
+                      <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
+                        <FormUrl
+                          label={dictionary.profileView.labelDataName + ': '}
+                          handleSwitch={(e: any) => handleSwitch(e)}
+                          handleData={handleData}
+                          name={index}
+                          checked={val.checked}
+                          subindex={key}
+                          icon={val.icon}
+                          deleteAction={true}
+                          handleDeleteData={handleDeleteData}
+                          handleModalAlert={({ index, subindex }) =>
+                            handleModalAlert({ index, subindex })
+                          }
+                          myValue={myValue}
+                          index={index}
+                          withCheck={true}
+                          subLabel={'name' as NetworksSubIndexDataForm}
+                        />
+                        <Box
+                          sx={{ mb: 1 }}
+                          className='tw-w-[90%] tw-flex tw-mt-2 tw-justify-start '
+                        >
+                          <div className='tw-w-[480px]'>
+                            <FormUrl
+                              label={
+                                dictionary.profileView.labelOptionalUrl + ': '
+                              }
+                              handleSwitch={(e: any) => handleSwitch(e)}
+                              handleData={handleData}
+                              name={index}
+                              checked={val.checked}
+                              subindex={key}
+                              icon={val.icon}
+                              deleteAction={true}
+                              handleDeleteData={handleDeleteData}
+                              handleModalAlert={({ index, subindex }) =>
+                                handleModalAlert({ index, subindex })
+                              }
+                              myValue={myValue}
+                              index={index}
+                              withCheck={false}
+                              subLabel={'url' as NetworksSubIndexDataForm}
+                            />
+                          </div>
+                          <div className='tw-h-[20%] tw-w-0 tw-flex tw-flex-col tw-mr-4'>
+                            <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
+                              <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
+                                <Button
+                                  onClick={() => handleModalIcons(val, key)}
                                 >
-                                  <LanguageIcon sx={{ color: '#396593' }} />
-                                </Avatar>
-                              </Button>
+                                  <Avatar
+                                    sx={{
+                                      backgroundColor: '#ffffff',
+                                      width: 38,
+                                      height: 38,
+                                    }}
+                                  >
+                                    <LanguageIcon sx={{ color: '#396593' }} />
+                                  </Avatar>
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </Box>
+                        </Box>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
+              }
             })}
           </div>
         </div>
-
-        {/* <div className='tw-h-[30px] tw-w-[100%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-items-center tw-justify-center '>
-          <Button
-            onClick={() => handleSeeMore(4)}
-            color='secondary'
-            size='medium'
-            endIcon={
-              <KeyboardArrowDownOutlinedIcon
-                style={{
-                  color: '#396593',
-                  fontSize: '2.5rem',
-                  marginLeft: '-0.7rem',
-                }}
-              />
-            }
-          >
-            <span
-              style={{
-                color: '#396593 ',
-                fontSize: '0.8rem',
-                textTransform: 'none',
-              }}
-            >
-              {dictionary.profileView.buttonSeeMore} (2)
-            </span>
-          </Button>
-        </div> */}
       </div>
       <ModalAlertLimit
         isModalAlertLimit={isModalAlertLimit}

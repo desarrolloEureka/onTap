@@ -17,7 +17,11 @@ import {
   LoginRefProps,
   RefPropsFirebase,
 } from '@/types/userFirebase';
-import { DataForm } from '@/types/profile';
+import {
+  DataForm,
+  ProfessionalDataForm,
+  SocialDataForm,
+} from '@/types/profile';
 
 const ref = ({ ref, collection }: RefPropsFirebase) =>
   doc(dataBase, collection, ref.document);
@@ -66,13 +70,17 @@ export const updateTemplateSelectedFirebase = async (
 
 export const updateDataUserProfile = async (
   userId: string,
-  data: DataForm,
+  data: SocialDataForm | ProfessionalDataForm,
   isProUser: boolean
 ) => {
   try {
-    const dataToSend = isProUser ? { professional: data } : { social: data };
+    console.log('isProUser', isProUser);
+    const profRef = isProUser
+      ? { 'profile.professional': data }
+      : { 'profile.social': data };
     const userDocRef = doc(dataBase, 'users', userId);
-    const res = await updateDoc(userDocRef, { profile: dataToSend });
+    console.log('profRef', profRef);
+    const res = await updateDoc(userDocRef, profRef);
     return res;
   } catch (error: any) {
     console.debug('error message', error.message);

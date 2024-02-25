@@ -1,19 +1,19 @@
 'use client';
-import React from 'react';
-import { Button } from '@mui/material';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
-import ProfileHook from '../profile/hooks/ProfileHook';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import { Button } from '@mui/material';
 import ItemForm from '../profile/ItemForm';
 
 import {
   CareerDataFormValues,
-  DataForm,
   DataFormValues,
   EducationDataFormValues,
   IndexDataForm,
+  ProfessionalDataForm,
+  SocialDataForm,
+  handleDataProps,
 } from '@/types/profile';
+import { UserData } from '@/types/user';
 import ModalAlertLimit from './ModalAlertLimit';
 
 const ItemFormBasicInfo = ({
@@ -31,10 +31,17 @@ const ItemFormBasicInfo = ({
   social,
   handleModalAlert,
   isProUser,
+  handleData,
+  user,
+  handleSwitch,
+  handleAddData,
+  handleModalAlertLimit,
+  isModalAlertLimit,
+  handleDeleteData,
 }: {
   dictionary: Dictionary;
-  dataForm: DataForm;
-  handleDataSet: (e: DataForm) => void;
+  dataForm: SocialDataForm | ProfessionalDataForm;
+  handleDataSet: (e: SocialDataForm | ProfessionalDataForm) => void;
   handleSeeMore: (e: number) => void;
   index: IndexDataForm;
   label?: string;
@@ -55,22 +62,26 @@ const ItemFormBasicInfo = ({
     subindex: string;
   }) => void;
   isProUser: boolean;
+  handleData: ({
+    name,
+    text,
+    subindex,
+    key,
+    currentDataRef,
+  }: handleDataProps) => void;
+  user: UserData;
+  handleSwitch: (e: any) => void;
+  handleAddData: (index: any) => void;
+  handleModalAlertLimit: () => void;
+  isModalAlertLimit: boolean;
+  handleDeleteData: () => void;
 }) => {
-  const {
-    handleSwitch,
-    handleData,
-    handleAddData,
-    handleDeleteData,
-    isModalAlertLimit,
-    handleModalAlertLimit,
-    user,
-  } = ProfileHook({
-    dictionary,
-    handleDataSet,
-    isProUser,
-  });
+  // console.log('user ItemFormBasic', user);
+  // console.log('dataForm', dataForm);
 
   // console.log('labelArray', labelArray);
+
+  // console.log('isModalAlertLimit', isModalAlertLimit);
 
   return (
     <div
@@ -92,9 +103,9 @@ const ItemFormBasicInfo = ({
             <Button
               onClick={() => {
                 if (value[0] === 'phones') {
-                  handleAddData('phones', social);
+                  handleAddData('phones');
                 } else if (value[0] === 'emails') {
-                  handleAddData('emails', social);
+                  handleAddData('emails');
                 }
               }}
               color='secondary'
@@ -126,53 +137,19 @@ const ItemFormBasicInfo = ({
 
         <div className='tw-min-h-[125px] tw-pb-3 '>
           {labelArray.map((val, key) => {
-            if (social === true) {
-              if (val.principal === true || val.social === true) {
-                // console.log('user ItemFormBasicInfo', user);
+            if (index == 'phones' || index == 'emails') {
+              const myValue = (user && user.profile
+                ? isProUser
+                  ? user.profile.professional
+                    ? user.profile.professional?.[index]
+                    : dataForm && dataForm[index]
+                  : user.profile.social
+                  ? user.profile?.social?.[index]
+                  : dataForm && dataForm[index]
+                : dataForm && dataForm[index]) as unknown as DataFormValues;
 
-                const myValue = (user && user.profile && index == value[0]
-                  ? user.profile[index]
-                  : dataForm && dataForm[index]) as unknown as DataFormValues;
+              // console.log('myVAlueBasic social', myValue);
 
-                // console.log('dataForm', dataForm ? dataForm : null);
-
-                // console.log('myVAlueBasic', myValue);
-
-                return (
-                  <div
-                    key={key}
-                    className={`tw-pb-3 ${
-                      key !== labelArray.length - 1
-                        ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
-                        : ''
-                    }`}
-                  >
-                    <ItemForm
-                      label={val.label!}
-                      handleSwitch={(e: any) => handleSwitch(e)}
-                      handleData={handleData}
-                      name={index}
-                      checked={val.checked}
-                      subindex={key}
-                      icon={val.icon}
-                      deleteAction={true}
-                      handleDeleteData={handleDeleteData}
-                      handleModalAlert={({ index, subindex }) =>
-                        handleModalAlert({ index, subindex })
-                      }
-                      myValue={myValue}
-                      dataForm={dataForm}
-                      index={index}
-                    />
-                  </div>
-                );
-              }
-            } else {
-              /* Pro */
-              // if (val.principal === true || val.social === false) {
-              const myValue = (user && user.profile && index == value[0]
-                ? user.profile[index]
-                : undefined) as unknown as DataFormValues;
               return (
                 <div
                   key={key}
@@ -196,13 +173,11 @@ const ItemFormBasicInfo = ({
                       handleModalAlert({ index, subindex })
                     }
                     myValue={myValue}
-                    dataForm={dataForm}
                     index={index}
                   />
                 </div>
               );
             }
-            // }
           })}
         </div>
 

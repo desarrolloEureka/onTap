@@ -17,7 +17,6 @@ const FormEducation = ({
   handleDeleteData,
   handleModalAlert,
   myValue,
-  dataForm,
   index,
   subindex,
   withCheck,
@@ -48,7 +47,7 @@ const FormEducation = ({
       dataRef.current = myValue;
     }
   }, [myValue, dataRef]);
-  console.log('value', value());
+  // console.log('value', value());
 
   return (
     <Box className='tw-flex tw-flex-row'>
@@ -89,6 +88,8 @@ const FormEducation = ({
             ),
           }}
           onChange={(text: any) => {
+            console.log('dataRef >>>>', dataRef);
+
             dataRef &&
               handleData({
                 name: name,

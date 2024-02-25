@@ -1,23 +1,20 @@
 'use client';
-import React from 'react';
-import { Box, Button } from '@mui/material';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
-import ProfileHook from '../profile/hooks/ProfileHook';
-import { FormHelperText } from '@mui/material';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import { Box, Button, FormHelperText } from '@mui/material';
 
 import {
   CareerDataFormValues,
   CareerSubIndexDataForm,
-  DataForm,
   DataFormValues,
   EducationDataFormValues,
-  EducationSubIndexDataForm,
   IndexDataForm,
+  ProfessionalDataForm,
+  handleDataProps,
 } from '@/types/profile';
-import ModalAlertLimit from './ModalAlertLimit';
+import { UserData } from '@/types/user';
 import FormProfession from './FormProfession';
+import ModalAlertLimit from './ModalAlertLimit';
 
 const ItemFormProfessional = ({
   dictionary,
@@ -34,10 +31,17 @@ const ItemFormProfessional = ({
   social,
   handleModalAlert,
   isProUser,
+  handleData,
+  user,
+  handleSwitch,
+  handleAddData,
+  handleModalAlertLimit,
+  isModalAlertLimit,
+  handleDeleteData,
 }: {
   dictionary: Dictionary;
-  dataForm: DataForm;
-  handleDataSet: (e: DataForm) => void;
+  dataForm: ProfessionalDataForm;
+  handleDataSet: (e: ProfessionalDataForm) => void;
   handleSeeMore: (e: number) => void;
   index: IndexDataForm;
   label?: string;
@@ -58,21 +62,20 @@ const ItemFormProfessional = ({
     subindex: string;
   }) => void;
   isProUser: boolean;
+  handleData: ({
+    name,
+    text,
+    subindex,
+    key,
+    currentDataRef,
+  }: handleDataProps) => void;
+  user: UserData;
+  handleSwitch: (e: any) => void;
+  handleAddData: (index: any) => void;
+  handleModalAlertLimit: () => void;
+  isModalAlertLimit: boolean;
+  handleDeleteData: () => void;
 }) => {
-  const {
-    handleSwitch,
-    handleData,
-    handleAddData,
-    isModalAlertLimit,
-    handleModalAlertLimit,
-    handleDeleteData,
-    user,
-  } = ProfileHook({
-    dictionary,
-    handleDataSet,
-    isProUser,
-  });
-
   return (
     <div
       className={`${
@@ -92,7 +95,7 @@ const ItemFormProfessional = ({
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {
-                handleAddData('professional_career', false);
+                handleAddData('professional_career');
               }}
               color='secondary'
               size='medium'
@@ -122,11 +125,13 @@ const ItemFormProfessional = ({
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
           <div className='tw-w-[100%] tw-flex tw-flex-col'>
             {labelArray.map((val, key) => {
-              const myValue = (user && user.profile && index == value[0]
-                ? user.profile[index]
-                : dataForm &&
-                  index == value[0] &&
-                  dataForm[index]) as unknown as DataFormValues;
+              const myValue = (user && user.profile
+                ? isProUser
+                  ? user.profile.professional
+                    ? user.profile.professional?.[index]
+                    : dataForm && dataForm[index]
+                  : dataForm && dataForm[index]
+                : dataForm && dataForm[index]) as unknown as DataFormValues;
               return (
                 <div key={key}>
                   <div
@@ -151,7 +156,6 @@ const ItemFormProfessional = ({
                           handleModalAlert({ index, subindex })
                         }
                         myValue={myValue}
-                        dataForm={dataForm}
                         index={index}
                         withCheck={true}
                         subLabel={'company' as CareerSubIndexDataForm}
@@ -171,7 +175,6 @@ const ItemFormProfessional = ({
                             handleModalAlert({ index, subindex })
                           }
                           myValue={myValue}
-                          dataForm={dataForm}
                           index={index}
                           withCheck={false}
                           subLabel={'position' as CareerSubIndexDataForm}
@@ -192,7 +195,6 @@ const ItemFormProfessional = ({
                             handleModalAlert({ index, subindex })
                           }
                           myValue={myValue}
-                          dataForm={dataForm}
                           index={index}
                           withCheck={false}
                           subLabel={'data_init' as CareerSubIndexDataForm}
@@ -213,7 +215,6 @@ const ItemFormProfessional = ({
                             handleModalAlert({ index, subindex })
                           }
                           myValue={myValue}
-                          dataForm={dataForm}
                           index={index}
                           withCheck={false}
                           subLabel={'data_end' as CareerSubIndexDataForm}

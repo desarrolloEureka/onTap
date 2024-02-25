@@ -1,22 +1,20 @@
 'use client';
-import React from 'react';
-import { Box, Button } from '@mui/material';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { Dictionary } from '@/types/dictionary';
-import ProfileHook from '../profile/hooks/ProfileHook';
-import { FormHelperText } from '@mui/material';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import { Box, Button, FormHelperText } from '@mui/material';
 
 import {
   CareerDataFormValues,
-  DataForm,
   DataFormValues,
   EducationDataFormValues,
   EducationSubIndexDataForm,
   IndexDataForm,
+  ProfessionalDataForm,
+  handleDataProps,
 } from '@/types/profile';
-import ModalAlertLimit from './ModalAlertLimit';
+import { UserData } from '@/types/user';
 import FormEducation from './FormEducation';
+import ModalAlertLimit from './ModalAlertLimit';
 
 const ItemFormEducation = ({
   dictionary,
@@ -33,10 +31,17 @@ const ItemFormEducation = ({
   social,
   handleModalAlert,
   isProUser,
+  handleData,
+  user,
+  handleSwitch,
+  handleAddData,
+  handleModalAlertLimit,
+  isModalAlertLimit,
+  handleDeleteData,
 }: {
   dictionary: Dictionary;
-  dataForm: DataForm;
-  handleDataSet: (e: DataForm) => void;
+  dataForm: ProfessionalDataForm;
+  handleDataSet: (e: ProfessionalDataForm) => void;
   handleSeeMore: (e: number) => void;
   index: IndexDataForm;
   label?: string;
@@ -57,21 +62,20 @@ const ItemFormEducation = ({
     subindex: string;
   }) => void;
   isProUser: boolean;
+  handleData: ({
+    name,
+    text,
+    subindex,
+    key,
+    currentDataRef,
+  }: handleDataProps) => void;
+  user: UserData;
+  handleSwitch: (e: any) => void;
+  handleAddData: (index: string) => void;
+  handleModalAlertLimit: () => void;
+  isModalAlertLimit: boolean;
+  handleDeleteData: () => void;
 }) => {
-  const {
-    handleSwitch,
-    handleData,
-    handleAddData,
-    handleDeleteData,
-    isModalAlertLimit,
-    handleModalAlertLimit,
-    user,
-  } = ProfileHook({
-    dictionary,
-    handleDataSet,
-    isProUser,
-  });
-
   // console.log('labelArray', labelArray);
 
   return (
@@ -91,7 +95,9 @@ const ItemFormEducation = ({
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {
-                handleAddData('education', false);
+                // console.log('education');
+
+                handleAddData('education');
               }}
               color='secondary'
               size='medium'
@@ -121,43 +127,32 @@ const ItemFormEducation = ({
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
           <div className='tw-w-[100%] tw-flex tw-flex-col'>
             {labelArray.map((val, key) => {
-              const myValue = (user && user.profile && index == value[0]
-                ? user.profile[index]
-                : dataForm &&
-                  index == value[0] &&
-                  dataForm[index]) as unknown as DataFormValues;
-              return (
-                <div key={key}>
-                  <div
-                    className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${
-                      key !== labelArray.length - 1
-                        ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
-                        : ''
-                    } `}
-                  >
-                    <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
-                      <FormEducation
-                        label={dictionary.profileView.labelTitle + ': '}
-                        handleSwitch={(e: any) => handleSwitch(e)}
-                        handleData={handleData}
-                        name={index}
-                        checked={val.checked}
-                        subindex={key}
-                        icon={val.icon}
-                        deleteAction={true}
-                        handleDeleteData={handleDeleteData}
-                        handleModalAlert={({ index, subindex }) =>
-                          handleModalAlert({ index, subindex })
-                        }
-                        myValue={myValue}
-                        dataForm={dataForm}
-                        index={index}
-                        withCheck={true}
-                        subLabel={'title' as EducationSubIndexDataForm}
-                      />
-                      <Box sx={{ mb: 1 }}>
+              if (
+                index == 'education' ||
+                index == 'last_name' ||
+                index == 'profession' ||
+                index == 'occupation' ||
+                index == 'address'
+              ) {
+                const myValue = (user && user.profile
+                  ? isProUser
+                    ? user.profile.professional
+                      ? user.profile.professional?.[index]
+                      : dataForm && dataForm[index]
+                    : dataForm && dataForm[index]
+                  : dataForm && dataForm[index]) as unknown as DataFormValues;
+                return (
+                  <div key={key}>
+                    <div
+                      className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end tw-pb-7 ${
+                        key !== labelArray.length - 1
+                          ? 'tw-border-b tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                          : ''
+                      } `}
+                    >
+                      <div className='tw-h-[100%] tw-w-[91%] tw-flex tw-flex-col'>
                         <FormEducation
-                          label={dictionary.profileView.labelInstitute + ': '}
+                          label={dictionary.profileView.labelTitle + ': '}
                           handleSwitch={(e: any) => handleSwitch(e)}
                           handleData={handleData}
                           name={index}
@@ -170,40 +165,60 @@ const ItemFormEducation = ({
                             handleModalAlert({ index, subindex })
                           }
                           myValue={myValue}
-                          dataForm={dataForm}
                           index={index}
-                          withCheck={false}
-                          subLabel={'institution' as EducationSubIndexDataForm}
+                          withCheck={true}
+                          subLabel={'title' as EducationSubIndexDataForm}
                         />
-                      </Box>
-                      <Box sx={{ my: 1 }}>
-                        <FormEducation
-                          label={dictionary.profileView.labelYear + ': '}
-                          handleSwitch={(e: any) => handleSwitch(e)}
-                          handleData={handleData}
-                          name={index}
-                          checked={val.checked}
-                          subindex={key}
-                          icon={val.icon}
-                          deleteAction={true}
-                          handleDeleteData={handleDeleteData}
-                          handleModalAlert={({ index, subindex }) =>
-                            handleModalAlert({ index, subindex })
-                          }
-                          myValue={myValue}
-                          dataForm={dataForm}
-                          index={index}
-                          withCheck={false}
-                          subLabel={'year' as EducationSubIndexDataForm}
-                        />
-                      </Box>
-                      <FormHelperText id='standard-weight-helper-text'>
-                        {dictionary.profileView.labelEducation}
-                      </FormHelperText>
+                        <Box sx={{ mb: 1 }}>
+                          <FormEducation
+                            label={dictionary.profileView.labelInstitute + ': '}
+                            handleSwitch={(e: any) => handleSwitch(e)}
+                            handleData={handleData}
+                            name={index}
+                            checked={val.checked}
+                            subindex={key}
+                            icon={val.icon}
+                            deleteAction={true}
+                            handleDeleteData={handleDeleteData}
+                            handleModalAlert={({ index, subindex }) =>
+                              handleModalAlert({ index, subindex })
+                            }
+                            myValue={myValue}
+                            index={index}
+                            withCheck={false}
+                            subLabel={
+                              'institution' as EducationSubIndexDataForm
+                            }
+                          />
+                        </Box>
+                        <Box sx={{ my: 1 }}>
+                          <FormEducation
+                            label={dictionary.profileView.labelYear + ': '}
+                            handleSwitch={(e: any) => handleSwitch(e)}
+                            handleData={handleData}
+                            name={index}
+                            checked={val.checked}
+                            subindex={key}
+                            icon={val.icon}
+                            deleteAction={true}
+                            handleDeleteData={handleDeleteData}
+                            handleModalAlert={({ index, subindex }) =>
+                              handleModalAlert({ index, subindex })
+                            }
+                            myValue={myValue}
+                            index={index}
+                            withCheck={false}
+                            subLabel={'year' as EducationSubIndexDataForm}
+                          />
+                        </Box>
+                        <FormHelperText id='standard-weight-helper-text'>
+                          {dictionary.profileView.labelEducation}
+                        </FormHelperText>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
+              }
             })}
           </div>
         </div>

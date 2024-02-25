@@ -1,14 +1,16 @@
 'use client';
-import React from 'react';
 import { Dictionary } from '@/types/dictionary';
-import { FormGroup } from '@mui/material';
-import ProfileHook from '../profile/hooks/ProfileHook';
 import {
   CareerDataFormValues,
-  DataForm,
   DataFormValues,
   EducationDataFormValues,
+  ProfessionalDataForm,
+  SocialDataForm,
+  handleDataNetworksProps,
+  handleDataProps,
 } from '@/types/profile';
+import { UserData } from '@/types/user';
+import { FormGroup } from '@mui/material';
 import ItemFormBasicInfo from './ItemFormBasicInfo';
 import ItemFormEducation from './ItemFormEducation';
 import ItemFormProfessional from './ItemFormProfessional';
@@ -24,14 +26,27 @@ const FormAddDataUser = ({
   handleDataSet,
   handleModalAlert,
   data,
+  handleData,
+  user,
+  handleSwitch,
+  handleAddData,
+  handleModalAlertLimit,
+  isModalAlertLimit,
+  handleDataNetworks,
+  setModalIcons,
+  itemUrlKey,
+  itemUrlSelected,
+  handleModalIcons,
+  isModalIcons,
+  handleDeleteData,
 }: {
   isDetailOpen: boolean;
   itemDetail: number;
   handleSeeMore: (numItem: number) => void;
   isProUser: boolean;
   dictionary: Dictionary;
-  dataForm: DataForm;
-  handleDataSet: (e: DataForm) => void;
+  dataForm: SocialDataForm | ProfessionalDataForm;
+  handleDataSet: (e: SocialDataForm | ProfessionalDataForm) => void;
   handleModalAlert: ({
     index,
     subindex,
@@ -40,13 +55,31 @@ const FormAddDataUser = ({
     subindex: string;
   }) => void;
   data: [string, any][];
+  handleData: ({
+    name,
+    text,
+    subindex,
+    key,
+    currentDataRef,
+  }: handleDataProps) => void;
+  user: UserData;
+  handleSwitch: (e: any) => void;
+  handleAddData: (index: string) => void;
+  handleModalAlertLimit: () => void;
+  isModalAlertLimit: boolean;
+  handleDataNetworks: ({
+    name,
+    text,
+    subindex,
+    key,
+  }: handleDataNetworksProps) => void;
+  setModalIcons: (e: any) => void;
+  itemUrlKey: number;
+  itemUrlSelected: any;
+  handleModalIcons: (item: any, key: any) => void;
+  isModalIcons: boolean;
+  handleDeleteData: () => void;
 }) => {
-  // const { data } = ProfileHook({
-  //   dictionary,
-  //   handleDataSet,
-  //   isProUser,
-  // });
-
   return (
     <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
       <div className='tw-h-[100%] tw-w-full tw-flex tw-flex-col'>
@@ -65,6 +98,7 @@ const FormAddDataUser = ({
               | CareerDataFormValues[] = validation ? value[1] : null;
 
             // console.log('labelArray', labelArray);
+            // console.log('isProUser', isProUser);
 
             if (labelArray) {
               if (isProUser) {
@@ -80,11 +114,18 @@ const FormAddDataUser = ({
                     value={value}
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
-                    social={true}
+                    social={false}
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }
                     isProUser={isProUser}
+                    handleData={handleData}
+                    user={user}
+                    handleSwitch={handleSwitch}
+                    handleAddData={handleAddData}
+                    handleModalAlertLimit={handleModalAlertLimit}
+                    isModalAlertLimit={isModalAlertLimit}
+                    handleDeleteData={handleDeleteData}
                   />
                 ) : value[0] == 'education' ? (
                   <ItemFormEducation
@@ -103,6 +144,13 @@ const FormAddDataUser = ({
                       handleModalAlert({ index, subindex })
                     }
                     isProUser={isProUser}
+                    handleData={handleData}
+                    user={user}
+                    handleSwitch={handleSwitch}
+                    handleAddData={handleAddData}
+                    handleModalAlertLimit={handleModalAlertLimit}
+                    isModalAlertLimit={isModalAlertLimit}
+                    handleDeleteData={handleDeleteData}
                   />
                 ) : value[0] == 'professional_career' ? (
                   <ItemFormProfessional
@@ -121,6 +169,13 @@ const FormAddDataUser = ({
                       handleModalAlert({ index, subindex })
                     }
                     isProUser={isProUser}
+                    handleData={handleData}
+                    user={user}
+                    handleSwitch={handleSwitch}
+                    handleAddData={handleAddData}
+                    handleModalAlertLimit={handleModalAlertLimit}
+                    isModalAlertLimit={isModalAlertLimit}
+                    handleDeleteData={handleDeleteData}
                   />
                 ) : (
                   <ItemFormUrl
@@ -139,6 +194,19 @@ const FormAddDataUser = ({
                       handleModalAlert({ index, subindex })
                     }
                     isProUser={isProUser}
+                    handleData={handleData}
+                    user={user}
+                    handleSwitch={handleSwitch}
+                    handleAddData={handleAddData}
+                    handleModalAlertLimit={handleModalAlertLimit}
+                    isModalAlertLimit={isModalAlertLimit}
+                    handleDataNetworks={handleDataNetworks}
+                    setModalIcons={setModalIcons}
+                    itemUrlKey={itemUrlKey}
+                    itemUrlSelected={itemUrlSelected}
+                    handleModalIcons={handleModalIcons}
+                    isModalIcons={isModalIcons}
+                    handleDeleteData={handleDeleteData}
                   />
                 );
               } else {
@@ -159,6 +227,13 @@ const FormAddDataUser = ({
                       handleModalAlert({ index, subindex })
                     }
                     isProUser={isProUser}
+                    handleData={handleData}
+                    user={user}
+                    handleSwitch={handleSwitch}
+                    handleAddData={handleAddData}
+                    handleModalAlertLimit={handleModalAlertLimit}
+                    isModalAlertLimit={isModalAlertLimit}
+                    handleDeleteData={handleDeleteData}
                   />
                 ) : value[0] == 'urls' ? (
                   <ItemFormUrl
@@ -172,11 +247,24 @@ const FormAddDataUser = ({
                     value={value}
                     itemDetail={itemDetail}
                     isDetailOpen={isDetailOpen}
-                    social={false}
+                    social={true}
                     handleModalAlert={({ index, subindex }) =>
                       handleModalAlert({ index, subindex })
                     }
                     isProUser={isProUser}
+                    handleData={handleData}
+                    user={user}
+                    handleSwitch={handleSwitch}
+                    handleAddData={handleAddData}
+                    handleModalAlertLimit={handleModalAlertLimit}
+                    isModalAlertLimit={isModalAlertLimit}
+                    handleDataNetworks={handleDataNetworks}
+                    setModalIcons={setModalIcons}
+                    itemUrlKey={itemUrlKey}
+                    itemUrlSelected={itemUrlSelected}
+                    handleModalIcons={handleModalIcons}
+                    isModalIcons={isModalIcons}
+                    handleDeleteData={handleDeleteData}
                   />
                 ) : null;
               }

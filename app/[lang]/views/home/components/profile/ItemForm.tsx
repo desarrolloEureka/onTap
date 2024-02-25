@@ -29,10 +29,8 @@ const ItemForm = ({
   checked,
   deleteAction,
   icon,
-  handleDeleteData,
   handleModalAlert,
   myValue,
-  dataForm,
   index,
   subindex,
 }: ItemFormParams) => {
@@ -51,6 +49,8 @@ const ItemForm = ({
     } else {
       if (dataRef.current && dataRef.current.length) {
         const res = dataRef.current[subindex as any].text;
+        // console.log('res', res);
+
         return res ?? undefined;
       }
     }
@@ -66,8 +66,7 @@ const ItemForm = ({
   };
 
   useEffect(() => {
-    // console.log('myValue', myValue);
-
+    // console.log('myValue>>>>>>>', myValue);
     if (dataRef && myValue) {
       dataRef.current = myValue;
     }
@@ -217,6 +216,8 @@ const ItemForm = ({
             ),
           }}
           onChange={(text: any) => {
+            // console.log('click', dataRef);
+
             dataRef &&
               handleData({
                 name: name,

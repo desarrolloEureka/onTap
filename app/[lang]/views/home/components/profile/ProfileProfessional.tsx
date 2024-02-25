@@ -1,6 +1,9 @@
-import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import { Dictionary } from '@/types/dictionary';
-import { SocialDataForm } from '@/types/profile';
+import {
+  DataForm,
+  ProfessionalDataForm,
+  SocialDataForm,
+} from '@/types/profile';
 import FormDataUser from '@/views/home/components/form/FormDataUser';
 import FooterProfile from '@/views/home/components/profile/FooterProfile';
 import FormAddDataUser from '@/views/home/components/profile/FormAddDataUser';
@@ -8,10 +11,12 @@ import ModalProfile from '@/views/home/components/profile/ModalProfile';
 import ModalSuccessDelete from '@/views/home/components/profile/ModalSuccessDelete';
 import PhotoUser from '@/views/home/components/profile/PhotoUser';
 import { Container } from '@mui/material';
-import ModalAlert from './ModalAlert';
 import ProfileHook from './hooks/ProfileHook';
+import ModalAlert from './ModalAlert';
+import ProfileProfessionalHook from './hooks/ProfileProfessoinalHook';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 
-const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
+const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
   // console.log('isProUser>>>>>>>>>>', isProUser);
   const {
     handleModal,
@@ -49,37 +54,35 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
     setIsDataSuccess,
     isEmailPhoneRight,
     setisEmailPhoneRight,
-    status,
-  } = ProfileHook({
+  } = ProfileProfessionalHook({
     dictionary,
-    isProUser: false,
+    isProUser: true,
   });
 
-  const handleDataSet = (data: SocialDataForm) => {
+  const handleDataSet = (data: ProfessionalDataForm) => {
     setDataForm(data);
   };
 
-  // console.log('dataForm ____ Profile', dataForm);
-  // console.log('data', data);
+  //   console.log('dataForm ____ Profile', dataForm);
+  //   console.log('data', data);
   // data.length > 0 && console.log('profile');
-  // console.log('isModalAlertLimit>>>>>>', isModalAlertLimit);
 
   return (
-    data.length &&
+    data &&
     user && (
       <div>
         <div className="tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center">
           <PhotoUser
             dictionary={dictionary}
-            isProUser={false}
+            isProUser={true}
             handleSendProfile={handleSendProfile}
             handleSwitchAll={handleSwitchAll}
           />
-          <div className='tw-flex tw-items-start tw-justify-center lg:tw-h-[930px] md:tw-w-[100%]'>
+          <div className='tw-flex tw-items-start tw-justify-center lg:tw-h-auto md:tw-w-[100%]'>
             <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[98%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
               <FormDataUser
                 dictionary={dictionary}
-                isProUser={false}
+                isProUser={true}
                 dataForm={dataForm}
                 handleDataSet={(e) => handleDataSet(e)}
                 data={data}
@@ -89,7 +92,7 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
               />
               <FormAddDataUser
                 dictionary={dictionary}
-                isProUser={false}
+                isProUser={true}
                 dataForm={dataForm}
                 handleDataSet={(e) => handleDataSet(e)}
                 isDetailOpen={isDetailOpen}
@@ -117,7 +120,7 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
           </div>
           <FooterProfile
             dictionary={dictionary}
-            isProUser={false}
+            isProUser={true}
             handleSendProfile={handleSendProfile}
             handleSwitchAll={handleSwitchAll}
           />
@@ -166,4 +169,4 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
   );
 };
 
-export default Profile;
+export default ProfileProfessional;

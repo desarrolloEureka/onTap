@@ -17,7 +17,6 @@ const FormProfession = ({
   handleDeleteData,
   handleModalAlert,
   myValue,
-  dataForm,
   index,
   subindex,
   withCheck,
@@ -88,6 +87,7 @@ const FormProfession = ({
             ),
           }}
           onChange={(text: any) => {
+            console.log('dataRef>>>>', dataRef);
             dataRef &&
               handleData({
                 name: name,
