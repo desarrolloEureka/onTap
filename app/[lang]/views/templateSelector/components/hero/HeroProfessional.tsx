@@ -50,9 +50,12 @@ const HeroProfessional = ({
                       {name}
                     </Typography>
                   </div>
-                  <Typography className='tw-z-10 -tw-mt-2 tw-text-white tw-truncate'>
-                    {profession}
-                  </Typography>
+                  <div className='tw-rounded-bl-2xl tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1 tw-px-3 tw-drop-shadow-xl tw-my-2'>
+                    <Typography className='tw-z-10  tw-text-white tw-truncate'>
+                      {profession}
+                    </Typography>
+                  </div>
+
                 </Container>
               </Item>
             </Grid>

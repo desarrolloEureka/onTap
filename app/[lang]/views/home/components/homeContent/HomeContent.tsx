@@ -50,7 +50,7 @@ const HomeContent = ({
   const { data, error } = GetUser();
 
   const handleChangeOption = (option: TemplateTypes) => {
-    if (option === 'professional' && data?.plan === 'basic') {
+    if (option === 'professional' && data?.plan === 'standard') {
       setIsModalAlert(true);
     } else {
       setOptionSelected(option);

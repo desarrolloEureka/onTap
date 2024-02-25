@@ -59,7 +59,7 @@
     "views": "Visualizaciones del perfil",
     "title": "Plantillas",
     "profileSwitchLabel": "Modo",
-    "cardSwitchLabel": "Inactivar perfil",
+    "cardSwitchLabel": "Inactivar Perfil",
     "social": "Social",
     "professionalSwitch": "PRO",
     "professional": "Profesional",
@@ -137,7 +137,7 @@
     "buttonAddData": "Agregar Url",
     "titleNewData": "Url nuevo",
     "labelDataName": "Nombre",
-    "labelOptionalUrl": "Sitio Web/URL",
+    "labelOptionalUrl": "Web/URL",
     "labelSwitchMain": "Compartir Todo",
     "addAnotherTrajectory": "Agregar otra trayectoria",
     "addAnotherEducation": "Agregar otra educacion",
@@ -149,7 +149,13 @@
     "errorPhone": "El teléfono no es valido ó no se pueden dejar espacios en blanco",
     "errorEmptyUrl": "No se pueden dejar espacios en blanco en urls",
     "errorEmptyEducation": "No se pueden dejar espacios en blanco en educación",
-    "errorEmptyProCareer": "No se pueden dejar espacios en blanco en trayectoria"
+    "errorEmptyProCareer": "No se pueden dejar espacios en blanco en trayectoria",
+    "phones": "Teléfonos de Contacto",
+    "emails": "Correos de Contacto",
+    "educational": "Formación Académica",
+    "professional": "Trayectoria Profesional",
+    "url": "Registro de URLs",
+    "selectURL": "Seleccionar Icono URL"
   },
   "modalDelete": {
     "labelAlert": "Alerta",

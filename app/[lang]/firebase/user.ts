@@ -74,12 +74,10 @@ export const updateDataUserProfile = async (
   isProUser: boolean
 ) => {
   try {
-    console.log('isProUser', isProUser);
     const profRef = isProUser
       ? { 'profile.professional': data }
       : { 'profile.social': data };
     const userDocRef = doc(dataBase, 'users', userId);
-    console.log('profRef', profRef);
     const res = await updateDoc(userDocRef, profRef);
     return res;
   } catch (error: any) {

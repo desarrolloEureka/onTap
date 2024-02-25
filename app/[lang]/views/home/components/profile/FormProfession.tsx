@@ -87,7 +87,6 @@ const FormProfession = ({
             ),
           }}
           onChange={(text: any) => {
-            console.log('dataRef>>>>', dataRef);
             dataRef &&
               handleData({
                 name: name,

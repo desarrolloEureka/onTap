@@ -88,8 +88,6 @@ const FormEducation = ({
             ),
           }}
           onChange={(text: any) => {
-            console.log('dataRef >>>>', dataRef);
-
             dataRef &&
               handleData({
                 name: name,

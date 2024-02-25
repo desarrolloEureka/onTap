@@ -2,8 +2,8 @@ function IconVimeo() {
   return (
     <svg
       fill='#02AF9B'
-      width='24px'
-      height='24px'
+      width='34px'
+      height='34px'
       viewBox='-2 -3.5 24 24'
       xmlns='http://www.w3.org/2000/svg'
       preserveAspectRatio='xMinYMin'

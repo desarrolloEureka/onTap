@@ -78,13 +78,7 @@ const FormUrl = ({
                     }}
                   />
                 )}
-                <CircleOutlinedIcon
-                  style={{
-                    color: '#000000',
-                    fontSize: '0.5rem',
-                    marginRight: '0.3rem',
-                  }}
-                />
+                
                 <span
                   style={{
                     fontSize: '0.8rem',

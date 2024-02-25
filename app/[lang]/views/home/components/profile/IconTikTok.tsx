@@ -2,8 +2,8 @@ function IconTikTok() {
   return (
     <svg
       fill='#02AF9B'
-      width='20px'
-      height='20px'
+      width='30px'
+      height='30px'
       viewBox='0 0 20 20'
       id='icons'
       xmlns='http://www.w3.org/2000/svg'

@@ -1,13 +1,11 @@
-import { GetAllBackgroundImages } from "@/reactQuery/home";
-import { use, useEffect, useState } from "react";
+import { GetAllBackgroundImages } from '@/reactQuery/home';
+import { useEffect } from 'react';
 
 const FontsTableLogic = () => {
-    const usersDataSanpShot = GetAllBackgroundImages();
-    const data = usersDataSanpShot.data;
-    useEffect(() => {
-        console.log(usersDataSanpShot.data);
-    },[usersDataSanpShot.data]);
-    return { data };
-}
+  const usersDataSanpShot = GetAllBackgroundImages();
+  const data = usersDataSanpShot.data;
+  useEffect(() => {}, [usersDataSanpShot.data]);
+  return { data };
+};
 
 export default FontsTableLogic;

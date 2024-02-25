@@ -1,7 +1,8 @@
 'use client';
-import { Dictionary } from '@/types/dictionary';
+import React from 'react';
+import { Button, Typography } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import { Button } from '@mui/material';
+import { Dictionary } from '@/types/dictionary';
 import ItemForm from '../profile/ItemForm';
 
 import {
@@ -98,7 +99,12 @@ const ItemFormBasicInfo = ({
           labelArray.length * 20
         }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
-        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-end '>
+        <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-around '>
+          <Typography className='tw-text-white tw-bg-[#02af9b] tw-max-w-[250px] tw-min-w-[180px] tw-text-center tw-rounded-md tw-text-base tw-mr-6'>
+            {value[0] === 'phones'
+              ? dictionary?.profileView?.phones
+              : dictionary?.profileView?.emails}
+          </Typography>
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {

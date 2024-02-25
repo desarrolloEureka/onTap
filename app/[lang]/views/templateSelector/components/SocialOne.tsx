@@ -5,6 +5,7 @@ import TemplateContainer from './container/Container';
 import HeroSocial from './hero/HeroSocial';
 import { UserData } from '@/types/user';
 import Footer from './footer/Footer';
+import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 
 const SocialOne = ({
   params: { lang, background, data },
@@ -16,7 +17,7 @@ const SocialOne = ({
   };
 }) => {
   return (
-    <div className='tw-flex tw-relative tw-justify-center tw-items-center tw-h-screen'>
+    <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
       <div className='tw-shadow-md tw-w-[380px] tw-rounded-2xl  tw-h-[700px]'>
         <BgImage background={background} />
         <HeroSocial
@@ -36,6 +37,7 @@ const SocialOne = ({
         <TemplateContainer profile={data.profile} />
         <Footer socialNetworks={data.profile.urls} />
       </div>
+      <OneTapLogo />
     </div>
   );
 };

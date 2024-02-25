@@ -1,25 +1,22 @@
+import { validateEmail, validatePhoneNumber } from '@/globals/validateData';
+import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
 import {
   CareerDataFormValues,
-  DataForm,
+  CareerSubIndexDataForm,
+  DataFormSorted,
   DataFormValues,
   EducationDataFormValues,
-  IndexDataForm,
   EducationSubIndexDataForm,
-  CareerSubIndexDataForm,
-  UrlDataFormValues,
-  handleDataProps,
-  handleDataNetworksProps,
+  IndexDataForm,
   NetworksSubIndexDataForm,
-  DataFormSorted,
-  DataFormSortedArray,
-  SocialDataForm,
   ProfessionalDataForm,
+  UrlDataFormValues,
+  handleDataNetworksProps,
+  handleDataProps,
 } from '@/types/profile';
+import { profile } from 'app/[lang]/initialData/profileInitialData';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Dictionary } from '../../../../../types/dictionary';
-import { profile } from 'app/[lang]/initialData/profileInitialData';
-import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
-import { validateEmail, validatePhoneNumber } from '@/globals/validateData';
 
 const ProfileProfessionalHook = ({
   dictionary,
@@ -63,8 +60,6 @@ const ProfileProfessionalHook = ({
   const [flag, setFlag] = useState(false);
 
   const handleSendProfile = async (isProUser: boolean) => {
-    console.log('oooooo');
-
     const userId = data?.uid;
     const emails = dataForm?.emails?.map((email) => email.text);
     const phones = dataForm?.phones?.map((phone) => phone.text);
