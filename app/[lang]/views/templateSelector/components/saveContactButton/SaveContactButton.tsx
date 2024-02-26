@@ -1,7 +1,7 @@
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 
-const SaveContactButton = ({ circular }: { circular: boolean }) => {
+const SaveContactButton = ({ circular }: { circular?: boolean }) => {
   return (
     <Box sx={{ position: 'relative' }}>
       {circular ? (
