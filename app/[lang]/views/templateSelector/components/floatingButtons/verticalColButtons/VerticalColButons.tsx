@@ -25,9 +25,6 @@ const VerticalColButtons = ({
               return (
                 <Box
                   sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-center',
-                    alignItems: 'flex-end',
                     width: '100%',
                     height: 70,
                     marginLeft: 1.5,
