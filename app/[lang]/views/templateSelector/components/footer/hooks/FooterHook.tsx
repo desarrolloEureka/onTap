@@ -22,8 +22,9 @@ const FooterHook = ({
   const { arraySorted } = sortedArrayObject(social ?? [], 'social');
 
   const result = arrayOfThreeItemsForEachElement(arraySorted);
-
-  const finalArray = result.finalArray as UrlDataFormValues[][];
+  // console.log('result>>>', result);
+  // const finalArray = result.finalArray as UrlDataFormValues[][];
+  const finalArray = arraySorted;
 
   return { finalArray };
 };

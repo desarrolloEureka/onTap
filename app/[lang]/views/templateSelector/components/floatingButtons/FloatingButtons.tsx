@@ -19,7 +19,6 @@ const FloatingButtons = ({
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        width: '100%',
         justifyContent: 'space-around',
         zIndex: 99999,
       }}

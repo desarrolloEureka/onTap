@@ -1,5 +1,5 @@
 import { getPrincipalProfileOrderedByObject } from '@/globals/functionsTemplateSocialOne';
-import { DataForm, DataFormValues } from '@/types/profile';
+import { DataForm, DataFormValues, SocialDataForm } from '@/types/profile';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import FilePresentOutlinedIcon from '@mui/icons-material/FilePresentOutlined';
@@ -11,7 +11,10 @@ import Carousel from 'react-material-ui-carousel';
 import SaveContactButton from '../saveContactButton/SaveContactButton';
 
 const TemplateContainer = ({ profile }: { profile: DataForm }) => {
-  const { finalArray } = getPrincipalProfileOrderedByObject(profile, 'social');
+  const { finalArray } = getPrincipalProfileOrderedByObject(
+    profile.social as SocialDataForm,
+    'social'
+  );
   const Item = ({ item }: { item: DataFormValues[] }) => {
     const clickType = (type: string, url: string) => {
       switch (type) {

@@ -63,14 +63,14 @@ const Header = ({
             </div>
           </div>
           <div className=' tw-h-[60%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <CustomSwitch
-              profile={true}
-              handleModalAlert={handleModalAlert}
-            />
+            <CustomSwitch profile={true} handleModalAlert={handleModalAlert} />
           </div>
 
           <div className=' tw-h-[20%] tw-w-[70%] tw-flex tw-items-center tw-justify-center'>
-            <div className='tw-text-xs tw-text-black'>{dictionary?.homeView?.social} | {dictionary?.homeView?.professionalSwitch}</div>
+            <div className='tw-text-xs tw-text-black'>
+              {dictionary?.homeView?.social} |{' '}
+              {dictionary?.homeView?.professionalSwitch}
+            </div>
           </div>
         </div>
         <div className='tw-w-1/2 tw-h-full tw-flex tw-items-center tw-justify-start tw-flex-col tw-mt-2'>
@@ -91,8 +91,8 @@ const Header = ({
 
       <CustomModalAlert
         handleModalAlert={handleModalAlert}
-        title={dictionary?.homeView.labelDenyAccess}
-        description={dictionary?.homeView.labelDenyAccessDescription}
+        title={dictionary?.homeView?.labelDenyAccess}
+        description={dictionary?.homeView?.labelDenyAccessDescription}
         isModalAlert={isModalAlert}
         isClosed={true}
       />

@@ -10,6 +10,7 @@ import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import AccessibilityOutlinedIcon from '@mui/icons-material/AccessibilityOutlined';
+import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 
 const ItemProfessionalCards = ({
   item,
@@ -109,15 +110,17 @@ const ItemProfessionalCards = ({
       return (
         <div key={key}>
           <Box sx={{ display: 'flex', color: 'white' }}>
-            {value.order == 6 ? (
+            {value.order == 6 || value.order == 16 ? (
               <WorkOutlineOutlinedIcon className='tw-text-base -tw-ml-[2px] tw-mr-1' />
-            ) : value.order == 15 ? (
+            ) : value.order == 15 || value.order == 8 ? (
               <PersonOutlinedIcon className='tw-text-base -tw-ml-[2px] tw-mr-1' />
             ) : value.order == 14 || value.order == 17 ? (
               <AccessibilityOutlinedIcon className='tw-text-base -tw-ml-[2px] tw-mr-1' />
+            ) : value.order == 1 ? (
+              <SchoolOutlinedIcon className='tw-text-base -tw-ml-[2px] tw-mr-1' />
             ) : (
-              value.order == 1 && (
-                <SchoolOutlinedIcon className='tw-text-base -tw-ml-[2px] tw-mr-1' />
+              value.order == 7 && (
+                <AttachFileOutlinedIcon className='tw-text-base -tw-ml-[2px] tw-mr-1' />
               )
             )}
             <Typography

@@ -4,58 +4,82 @@ import SocialTwo from './components/SocialTwo';
 import TemplateSelectorHook from './hooks/TemplateSelectorHook';
 import ProfessionalOne from './components/ProfessionalOne';
 import CustomCircularProgress from '@/components/customCircularProgress/CustomCircularProgress';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
+import useDictionary from '@/hooks/dictionary/useDictionary';
+import { useState } from 'react';
+import { Locale } from 'i18n-config';
 
-const TemplateSelector = ({ user, type }: { user: UserData; type: string }) => {
+const TemplateSelector = ({
+  user,
+  type,
+  lang,
+}: {
+  user: UserData;
+  type: string;
+  lang: Locale;
+}) => {
+  const { dictionary } = useDictionary({ lang });
+  const [isDataError, setIsDataError] = useState(true);
   const { currentBackground, currentTemplate } = TemplateSelectorHook(
     user,
     type
   );
 
-  if (currentTemplate && currentBackground && user) {
-    switch (currentTemplate.name) {
-      case 'SocialOne':
-        return (
-          <SocialOne
-            params={{
-              lang: 'es',
-              background: currentBackground,
-              data: user,
-            }}
-          />
-        );
-      case 'SocialTwo':
-        return (
-          <SocialTwo
-            params={{
-              lang: 'es',
-              template: currentTemplate,
-              background: currentBackground,
-            }}
-          />
-        );
-      case 'ProfessionalOne':
-        return (
-          <ProfessionalOne
-            params={{
-              lang: 'es',
-              background: currentBackground,
-              data: user,
-            }}
-          />
-        );
-      default:
-        return (
-          <SocialOne
-            params={{
-              lang: 'es',
-              background: currentBackground,
-              data: user,
-            }}
-          />
-        );
+  if (user.profile) {
+    if (currentTemplate && currentBackground && user) {
+      switch (currentTemplate.name) {
+        case 'SocialOne':
+          return (
+            <SocialOne
+              params={{
+                lang: 'es',
+                background: currentBackground,
+                data: user,
+              }}
+            />
+          );
+        case 'SocialTwo':
+          return (
+            <SocialTwo
+              params={{
+                lang: 'es',
+                template: currentTemplate,
+                background: currentBackground,
+              }}
+            />
+          );
+        case 'ProfessionalOne':
+          return (
+            <ProfessionalOne
+              params={{
+                lang: 'es',
+                background: currentBackground,
+                data: user,
+              }}
+            />
+          );
+        default:
+          return (
+            <SocialOne
+              params={{
+                lang: 'es',
+                background: currentBackground,
+                data: user,
+              }}
+            />
+          );
+      }
+    } else {
+      return <CustomCircularProgress isOpen />;
     }
   } else {
-    return <CustomCircularProgress isOpen />;
+    <CustomModalAlert
+      isModalAlert={isDataError}
+      handleModalAlert={() => setIsDataError(false)}
+      title={dictionary?.generalTitle || ''}
+      description={dictionary?.cardView?.dataNotFound || ''}
+      isClosed={true}
+    />;
   }
 };
 

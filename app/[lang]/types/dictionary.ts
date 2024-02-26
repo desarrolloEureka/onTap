@@ -33,6 +33,7 @@ export interface Dictionary {
   cardView: {
     labelErrorUser: string;
     labelErrorUserDescription: string;
+    dataNotFound: string;
   };
   homeTitle: string;
   rememberPasswordTitle: string;

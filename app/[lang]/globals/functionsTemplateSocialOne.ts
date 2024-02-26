@@ -1,4 +1,9 @@
-import { DataForm, DataFormValues } from '@/types/profile';
+import {
+  DataForm,
+  DataFormSorted,
+  DataFormValues,
+  SocialDataForm,
+} from '@/types/profile';
 
 export const capitalizeFirstLetter = (text: string) => {
   const firstLetter = text.charAt(0);
@@ -26,41 +31,45 @@ export const sortedArrayObject = (data: any[], index: string) => {
 };
 
 export const getPrincipalProfileOrderedByObject = (
-  profile: DataForm,
+  profile: SocialDataForm,
   index: any
 ) => {
   const finalArray: DataFormValues[][] = [];
   const objectArray: any[] = [];
   let data: any = [];
-  const profileFilter = Object.entries(profile).filter((val) => {
-    //Filter by social and any other different data to name, last name and urls
-    // console.log('val[1].length > 0 &&', val[1].length > 0 && val[1]);
+  const profileFilter = Object.entries(profile as DataFormSorted).filter(
+    (val) => {
+      //Filter by social and any other different data to name, last name and urls
+      // console.log('val[1].length > 0 &&', val[1].length > 0 && val[1]);
 
-    if (index == 'social') {
-      return val[1].length > 0 &&
-        val[1][0][index] &&
-        val[1].find((val: any) => val.order != 13)
-        ? val
-        : val[1][index] &&
-            val[1].order != 1 &&
-            val[1].order != 2 &&
-            val[1].order != 3 &&
-            val;
-    } else {
-      const result =
-        val[1].length > 0 &&
-        val[1].find(
-          (val: any) => val.order != 9 && val.order != 10 && val.order != 13
-        ) &&
-        val[1][0][index] &&
-        val;
-      return result;
+      if (index == 'social') {
+        return val[1].length > 0 &&
+          val[1][0][index] &&
+          val[1].find((val: any) => val.order != 13)
+          ? val
+          : val[1][index] &&
+              val[1].order != 1 &&
+              val[1].order != 2 &&
+              val[1].order != 3 &&
+              val;
+      } else {
+        const result =
+          val[1].length > 0 &&
+          val[1].find(
+            (val: any) => val.order != 9 && val.order != 10 && val.order != 13
+          ) &&
+          val[1][0][index] &&
+          val;
+        return result;
+      }
     }
-  });
+  );
 
   // console.log('profileFilter', profileFilter);
 
-  const profileProfessionalFilter = Object.entries(profile).filter((val) => {
+  const profileProfessionalFilter = Object.entries(
+    profile as DataFormSorted
+  ).filter((val) => {
     return (
       val[1][index] &&
       val[1].checked &&

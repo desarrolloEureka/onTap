@@ -1,5 +1,12 @@
-import { getPrincipalProfileOrderedByObject } from '@/globals/functionsTemplateSocialOne';
-import { DataForm, DataFormValues } from '@/types/profile';
+import {
+  getPrincipalDataSlide,
+  getPrincipalProfileOrderedByObject,
+} from '@/globals/functionsTemplateProfessionalOne';
+import {
+  DataForm,
+  DataFormValues,
+  ProfessionalDataForm,
+} from '@/types/profile';
 import { Box, Grid, Paper, styled } from '@mui/material';
 import Container from '@mui/material/Container';
 import SaveContactButton from '../saveContactButton/SaveContactButton';
@@ -20,21 +27,43 @@ const TemplateContainerProfessionalOne = ({
 }: {
   profile: DataForm;
 }) => {
-  const socialData = getPrincipalProfileOrderedByObject(profile, 'social');
+  const principalData = getPrincipalDataSlide(
+    profile.professional as ProfessionalDataForm,
+    'professional'
+  );
   const professionalData = getPrincipalProfileOrderedByObject(
-    profile,
+    profile.professional as ProfessionalDataForm,
     'professional'
   );
 
+  console.log('professionalData', professionalData);
+  // console.log('socialData', socialData.finalArray);
+
   return (
     <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center'>
-      <SaveContactButton />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          width: '100%',
+          position: 'relative',
+        }}
+      >
+        <SaveContactButton circular />
+      </Box>
       <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-6 no-scrollbar'>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-          {socialData.finalArray.map((item, key) => {
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+          }}
+        >
+          {principalData.map((item, key) => {
             return (
               <ItemSlideProfessional
                 item={item as DataFormValues[]}
+                index={key}
                 key={key}
               />
             );
@@ -46,11 +75,11 @@ const TemplateContainerProfessionalOne = ({
           <Grid container spacing={1}>
             {professionalData.finalArray.map((item, key) => {
               return (
-                <Grid item xs={6} key={key}>
+                <Grid item xs={12} key={key}>
                   <Item
                     sx={{
                       backgroundColor: '#679a88',
-                      height: 120,
+                      p: 2,
                     }}
                   >
                     <ItemProfessionalCards item={item} key={key} />

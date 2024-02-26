@@ -6,13 +6,13 @@
     "Name": "Name",
     "LoadFonts": "CARGAR FONDOS",
     "UserList": "LISTAR CLIENTES",
-    "CreateUser":"CREAR CLIENTE",
-    "UserRegister":"Registro de Clientes",
-    "dni":"No. Identificación",
-    "Nombre":"Nombres",
-    "Apellido":"Apellidos",
-    "Email":"Correo",
-    "ValidEmail":"Ingrese un correo valido *",
+    "CreateUser": "CREAR CLIENTE",
+    "UserRegister": "Registro de Clientes",
+    "dni": "No. Identificación",
+    "Nombre": "Nombres",
+    "Apellido": "Apellidos",
+    "Email": "Correo",
+    "ValidEmail": "Ingrese un correo valido *",
     "Plan": "Plan",
     "StandardPlan": "Estándar",
     "PremiumPlan": "Premium",
@@ -30,9 +30,10 @@
     "fondoPlantilla": "Fondos de PLantilla One Tap",
     "guardar": "Guardar"
   },
-  "cardView":{
+  "cardView": {
     "labelErrorUser": "Error",
-    "labelErrorUserDescription": "El usuario no comparte su información en estos momentos"
+    "labelErrorUserDescription": "El usuario no comparte su información en estos momentos",
+    "dataNotFound": "No se ha encontrado información para mostrar el resultado esperado!"
   },
   "homeTitle": "Hola titulo español",
   "rememberPasswordTitle": "Recuperar contraseña123",
@@ -73,8 +74,8 @@
     "labelPrevious": "previa",
     "labelDenyAccess": "Acceso Restringido",
     "labelDenyAccessDescription": "Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico.",
-    "labelPersonalData" : "Datos Personales",
-    "labelProfessionalData" : "Datos Profesionales"
+    "labelPersonalData": "Datos Personales",
+    "labelProfessionalData": "Datos Profesionales"
   },
   "recoverPassword": {
     "recoverPassword": "Recuperar Contraseña",
@@ -107,7 +108,7 @@
   },
   "passwordChangedSuccessfully": "Contraseña modificada con exito",
   "profileView": {
-    "labelDeleteProfiledata" : "El dato de perfil ha sido eliminado exitosamente, recuerda guardar tus cambios para que surtan efecto.",
+    "labelDeleteProfiledata": "El dato de perfil ha sido eliminado exitosamente, recuerda guardar tus cambios para que surtan efecto.",
     "labelHello": "Hola",
     "labelFirstName": "Nombres",
     "labelLastName": "Apellidos",
@@ -144,7 +145,7 @@
     "addAnotherURL": "Agregar URL",
     "successDataSend": "La información del usuario ha sido registrada con éxito.",
     "errorDataSend": "La información del usuario no pudo ser registrada, por favor intenta de nuevo.",
-    "labelError505" : "Error 505",
+    "labelError505": "Error 505",
     "errorEmail": "El correo no es valido ó no se pueden dejar espacios en blanco",
     "errorPhone": "El teléfono no es valido ó no se pueden dejar espacios en blanco",
     "errorEmptyUrl": "No se pueden dejar espacios en blanco en urls",

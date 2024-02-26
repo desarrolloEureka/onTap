@@ -24,7 +24,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
   return user && type ? (
     user.switch_activateCard ? (
-      <TemplateSelector user={user} type={type} />
+      <TemplateSelector user={user} type={type} lang={lang} />
     ) : (
       <CustomModalAlert
         handleModalAlert={handleModalAlert}
