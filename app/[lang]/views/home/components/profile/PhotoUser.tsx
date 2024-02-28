@@ -150,7 +150,7 @@ const PhotoUser = ({
               <Typography className='tw-text-[#02af9b] tw-text-sm'>
                 {dictionary.homeView.openUrlButtonLabel}
               </Typography>
-              <Link href=''>
+              <Link href={data?.preview || ''}>
                 <LinkIcon
                   sx={{
                     color: '#02AF9B',
@@ -159,7 +159,7 @@ const PhotoUser = ({
                 />
               </Link>
             </div>
-            <div className='tw-w-[100px] tw-align-middle tw-items-center tw-flex tw-flex-col' onClick={() => { setCopied(true); navigator.clipboard.writeText("") }}>
+            <div className='tw-w-[100px] tw-align-middle tw-items-center tw-flex tw-flex-col' onClick={() => { setCopied(true); navigator.clipboard.writeText(data?.preview || '') }}>
               <Typography className='tw-text-[#02af9b] tw-text-sm'>
                 {dictionary.homeView.copyUrlButtonLabel}
               </Typography>

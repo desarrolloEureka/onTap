@@ -56,7 +56,7 @@ const ProfileProfessionalHook = ({
   const [isDataLoad, setIsDataLoad] = useState(false);
   const [noDeleted, setNoDeleted] = useState(false);
   const [isEmailPhoneRight, setisEmailPhoneRight] = useState(false);
-  const [status, setStatus] = useState<string>('');
+  const [labelStatus, setlabelStatus] = useState<string>('');
   const [flag, setFlag] = useState(false);
 
   const handleSendProfile = async (isProUser: boolean) => {
@@ -74,7 +74,7 @@ const ProfileProfessionalHook = ({
         validateEmail(email as string)
       );
       if (!isEmailValid) {
-        setStatus(dictionary.profileView.errorEmail);
+        setlabelStatus(dictionary.profileView.errorEmail);
         setisEmailPhoneRight(true);
         return;
       }
@@ -84,7 +84,7 @@ const ProfileProfessionalHook = ({
         validatePhoneNumber(phone as string)
       );
       if (!isPhoneValid) {
-        setStatus(dictionary.profileView.errorPhone);
+        setlabelStatus(dictionary.profileView.errorPhone);
         setisEmailPhoneRight(true);
         return;
       }
@@ -95,7 +95,7 @@ const ProfileProfessionalHook = ({
         (obj) => obj.name !== '' && obj.url !== '' && obj.icon !== ''
       );
       if (!allObjectsFilled) {
-        setStatus(dictionary.profileView.errorEmptyUrl);
+        setlabelStatus(dictionary.profileView.errorEmptyUrl);
         setisEmailPhoneRight(true);
         return;
       }
@@ -106,7 +106,7 @@ const ProfileProfessionalHook = ({
         (obj) => obj.title !== '' && obj.institution !== '' && obj.year !== ''
       );
       if (!allObjectsFilled) {
-        setStatus(dictionary.profileView.errorEmptyEducation);
+        setlabelStatus(dictionary.profileView.errorEmptyEducation);
         setisEmailPhoneRight(true);
         return;
       }
@@ -121,7 +121,7 @@ const ProfileProfessionalHook = ({
           obj.data_end !== ''
       );
       if (!allObjectsFilled) {
-        setStatus(dictionary.profileView.errorEmptyProCareer);
+        setlabelStatus(dictionary.profileView.errorEmptyProCareer);
         setisEmailPhoneRight(true);
         return;
       }
@@ -784,7 +784,7 @@ const ProfileProfessionalHook = ({
     handleModalIcons,
     itemUrlSelected,
     itemUrlKey,
-    status,
+    labelStatus,
     isEmailPhoneRight,
     setisEmailPhoneRight,
   };

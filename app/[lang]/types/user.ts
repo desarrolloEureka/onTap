@@ -26,6 +26,7 @@ export interface UserData {
   plan: string;
   gif: boolean;
   dni: string;
+  preview: string;
 }
 export interface User {
   uid: string;
