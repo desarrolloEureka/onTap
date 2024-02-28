@@ -75,7 +75,10 @@
     "labelDenyAccess": "Acceso Restringido",
     "labelDenyAccessDescription": "Actualmente no tienes acceso a las opciones de profesional porque estás utilizando un plan básico.",
     "labelPersonalData": "Datos Personales",
-    "labelProfessionalData": "Datos Profesionales"
+    "labelProfessionalData": "Datos Profesionales",
+    "openUrlButtonLabel": "Abrir URL",
+    "copyUrlButtonLabel": "Copiar URL",
+    "copyUrlMessageLabel": "Copiado!"
   },
   "recoverPassword": {
     "recoverPassword": "Recuperar Contraseña",

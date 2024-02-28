@@ -50,7 +50,7 @@ const TemplateContainerProfessionalOne = ({
           position: 'relative',
         }}
       >
-        <SaveContactButton circular />
+        <SaveContactButton  />
       </Box>
       <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-6 no-scrollbar'>
         <Box
@@ -75,7 +75,7 @@ const TemplateContainerProfessionalOne = ({
           <Grid container spacing={1}>
             {professionalData.finalArray.map((item, key) => {
               return (
-                <Grid item xs={12} key={key}>
+                <Grid item xs={12} key={key} className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]'>
                   <Item
                     sx={{
                       backgroundColor: '#679a88',

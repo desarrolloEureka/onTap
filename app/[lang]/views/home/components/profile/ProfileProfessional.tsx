@@ -54,6 +54,7 @@ const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
     setIsDataSuccess,
     isEmailPhoneRight,
     setisEmailPhoneRight,
+    labelStatus
   } = ProfileProfessionalHook({
     dictionary,
     isProUser: true,
@@ -161,7 +162,7 @@ const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
           isModalAlert={isEmailPhoneRight}
           handleModalAlert={setisEmailPhoneRight}
           title={dictionary?.generalTitle}
-          description={status}
+          description={labelStatus}
           isClosed
         />
       </div>

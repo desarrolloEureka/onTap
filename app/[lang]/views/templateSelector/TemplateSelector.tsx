@@ -43,8 +43,8 @@ const TemplateSelector = ({
             <SocialTwo
               params={{
                 lang: 'es',
-                template: currentTemplate,
                 background: currentBackground,
+                data: user,
               }}
             />
           );

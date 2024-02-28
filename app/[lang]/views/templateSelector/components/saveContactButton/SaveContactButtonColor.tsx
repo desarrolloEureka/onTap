@@ -1,12 +1,12 @@
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 
-const SaveContactButton = ({ circular }: { circular?: boolean }) => {
+const SaveContactButtonColor = (
+  { circular, colorButton } : { circular?: boolean, colorButton?:string }) => {
   return (
     <Box sx={{ position: 'relative' }} className='tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl'>
       {circular ? (
         <Box
-          
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -17,7 +17,7 @@ const SaveContactButton = ({ circular }: { circular?: boolean }) => {
           <IconButton sx={{ backgroundColor: '#fff', width: 40, height: 40 }}>
             <SaveOutlinedIcon
               style={{
-                color: '#02AF9B',
+                color: colorButton || undefined,
                 fontSize: '1.5rem',
                 marginLeft: '0rem',
               }}
@@ -35,14 +35,14 @@ const SaveContactButton = ({ circular }: { circular?: boolean }) => {
           startIcon={
             <SaveOutlinedIcon
               style={{
-                color: '#02AF9B',
+                color: colorButton || undefined,
                 fontSize: '1.5rem',
                 marginLeft: '0rem',
               }}
             />
           }
         >
-          <Typography className='tw-capitalize' color={'#679a88'}>
+          <Typography className='tw-capitalize' color={colorButton}>
             guardar Contacto
           </Typography>
         </Button>
@@ -51,4 +51,4 @@ const SaveContactButton = ({ circular }: { circular?: boolean }) => {
   );
 };
 
-export default SaveContactButton;
+export default SaveContactButtonColor;

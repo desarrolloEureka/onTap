@@ -32,8 +32,8 @@ const ItemSlideProfessional = ({
     <Button
       variant='contained'
       sx={{ textTransform: 'none' }}
-      className={`tw-drop-shadow-xl tw-w-max tw-rounded-3xl tw-h-8 ${
-        index > 0 && 'tw-mx-2'
+      className={`tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-drop-shadow-xl tw-w-max tw-rounded-3xl tw-h-8 ${
+        index > 0 && 'tw-mx-2 '
       } ${index === 0 && 'tw-mr-2'} tw-px-4 tw-bg-[#fff] tw-my-2`}
       onClick={() =>
         item[0].icon && item[0].text && clickType(item[0].icon, item[0].text)
