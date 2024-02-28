@@ -13,6 +13,8 @@ import CustomAvatar from './avatar/CustomAvatar';
 import zIndex from '@mui/material/styles/zIndex';
 import RectangularCustomAvatar from './avatar/RectangularCustomAvatar';
 import { Box } from '@mui/system';
+import SaveContactButtonColor from './saveContactButton/SaveContactButtonColor';
+import TemplateContainerColor from './container/ContainerColor';
 
 const SocialTwo = ({
   params: { lang, background, data },
@@ -34,7 +36,7 @@ const SocialTwo = ({
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
       <div className='tw-justify-center tw-shadow-md tw-w-[380px] tw-rounded-2xl tw-h-[700px] tw-bg-slate-500'>
         <BgImage background={background} />
-        <Box className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center tw-bg-white'>
+        <Box className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center '>
           <RectangularCustomAvatar
             image={data.image}
             name={data.profile.social?.name?.text || ''}
@@ -44,7 +46,11 @@ const SocialTwo = ({
             profession={data.profile.social?.profession?.text}
           />
         </Box>
-        <TemplateContainer profile={data.profile} />
+        <div className='tw-w-full tw-flex tw-flex-col tw-items-center tw-mt-10 tw-bg-black tw-bg-opacity-25 tw-z-20'>
+          <div className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center tw-mt-10'>
+            <TemplateContainerColor profile={data.profile} color='#396593' />
+          </div>
+        </div>
         <Footer socialNetworks={data.profile.social?.urls} />
       </div>
       <OneTapLogo />

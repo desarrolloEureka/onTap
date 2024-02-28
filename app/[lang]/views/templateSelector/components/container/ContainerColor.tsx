@@ -9,8 +9,9 @@ import { Box, Button, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Carousel from 'react-material-ui-carousel';
 import SaveContactButton from '../saveContactButton/SaveContactButton';
+import SaveContactButtonColor from '../saveContactButton/SaveContactButtonColor';
 
-const TemplateContainer = ({ profile }: { profile: DataForm }) => {
+const TemplateContainerColor = ({ profile, color }: { profile: DataForm, color:string }) => {
   const { finalArray } = getPrincipalProfileOrderedByObject(
     profile.social as SocialDataForm,
     'social'
@@ -38,7 +39,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
           sx={{ textTransform: 'none'}}
           className={`${
             key % 2 == 0 ? 'tw-rounded-s-2xl' : 'tw-rounded-e-2xl'
-          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[#679a88] tw-my-2`}
+          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[${color}] tw-my-2`}
           key={key}
           onClick={() => val.icon && val.text && clickType(val.icon, val.text)}
           startIcon={
@@ -103,7 +104,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
   // console.log('finalArray', finalArray);
   return (
     <Container className='tw-z-10 tw-flex tw-pt-2 tw-flex-col tw-content-center tw-items-center'>
-      <SaveContactButton />
+      <SaveContactButtonColor colorButton={color} />
       <Container className='tw-z-10 tw-my-4 '>
         {finalArray.length > 0 && finalArray[0].length > 0 && (
           <Carousel height={190} className='tw-px-3' autoPlay={false}>
@@ -129,4 +130,4 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
   );
 };
 
-export default TemplateContainer;
+export default TemplateContainerColor;

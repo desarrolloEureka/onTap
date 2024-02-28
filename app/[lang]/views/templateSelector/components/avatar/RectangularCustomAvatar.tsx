@@ -20,16 +20,9 @@ const RectangularCustomAvatar = ({
     profession?: string;
 }) => {
     return (
-        <div className='tw-bg-[#396593] tw-flex tw-flex-col tw-z-10 tw-items-center tw-w-[78%] tw-rounded-md'>
+        <div className='tw-bg-[#396593] tw-flex tw-flex-col tw-z-10 tw-items-center tw-w-[78%] tw-h-[200px] tw-rounded-md tw-mt-5'>
             <Box
-                className='tw-shadow-xl tw-z-10'
-                sx={{
-                    borderRadius: rounded ? '100%' : square ? '20%' : '10px',
-                    padding: 1,
-                    backgroundColor: 'white',
-                    height: size,
-                    width: size,
-                }}
+                className='tw-shadow-2xl tw-z-10 tw-mt-3 tw-rounded'
             >
                 <Avatar
                     alt={name}
@@ -40,13 +33,15 @@ const RectangularCustomAvatar = ({
                         height: size,
                         borderRadius: rounded ? '100%' : '12%',
                     }}
+                    className=''
                 />
             </Box>
-            <Box className=' tw-flex tw-flex-row tw-w-full tw-align-middle tw- tw-justify-around tw-items-center'>
-                <div className='tw-text-[#396593] tw-w-[100px] tw-h-[18px] tw-bg-white tw-rounded-md tw-text-xs tw-text-center'>
+            <Box className=' tw-flex tw-flex-row tw-w-full tw-align-middle tw- tw-justify-center tw-items-center tw-mt-4'>
+                <div className='tw-text-[#396593] tw-flex tw-justify-center tw-items-center tw-mr-2 tw-shadow-2xl tw-w-[110px] tw-h-[20px] tw-bg-white tw-rounded-xl tw-truncate tw-text-xs'>
                     {name}
                 </div>
-                <div className='tw-text-[#396593] tw-w-[100px] tw-h-[18px] tw-bg-white tw-rounded-md  tw-text-xs tw-text-center'>
+                
+                <div className='tw-text-[#396593] tw-flex tw-justify-center tw-items-center tw-ml-2 tw-shadow-2xl tw-w-[110px] tw-h-[20px] tw-bg-white tw-rounded-xl tw-truncate  tw-text-xs'>
                     {profession}
                 </div>
             </Box>
