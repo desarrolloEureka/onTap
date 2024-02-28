@@ -20,7 +20,7 @@ const RectangularCustomAvatar = ({
     profession?: string;
 }) => {
     return (
-        <div className='tw-bg-[#396593] tw-flex tw-flex-col tw-z-10 tw-items-center tw-w-[78%] tw-h-[200px] tw-rounded-md tw-mt-5'>
+        <div className='tw-bg-[#396593] tw-flex tw-flex-col tw-z-10 tw-items-center tw-w-[80%] tw-h-[210px] tw-rounded-xl tw-mt-5'>
             <Box
                 className='tw-shadow-2xl tw-z-10 tw-mt-3 tw-rounded'
             >
