@@ -46,12 +46,12 @@ const SocialTwo = ({
             profession={data.profile.social?.profession?.text}
           />
         </Box>
-        <div className='tw-w-full tw-flex tw-flex-col tw-items-center tw-mt-10 tw-bg-black tw-bg-opacity-25 tw-relative tw-z-20'>
+        <div className='tw-flex tw-flex-col tw-h-[531px] tw-w-[380px] tw-rounded-3xl tw-items-center tw-mt-10 tw-bg-white tw-bg-opacity-25 tw-relative tw-z-20'>
           <div className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center tw-mt-10'>
             <TemplateContainerColor profile={data.profile} color='#396593' />
+            <Footer socialNetworks={data.profile.social?.urls} />
           </div>
         </div>
-        <Footer socialNetworks={data.profile.social?.urls} />
       </div>
       <OneTapLogo />
     </div>

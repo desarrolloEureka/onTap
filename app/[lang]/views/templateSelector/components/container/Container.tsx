@@ -102,7 +102,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
 
   // console.log('finalArray', finalArray);
   return (
-    <Container className='tw-z-10 tw-flex tw-pt-2 tw-flex-col tw-content-center tw-items-center'>
+    <Container className='tw-z-10 tw-flex tw-pt-0 tw-flex-col tw-content-center tw-items-center'>
       <SaveContactButton />
       <Container className='tw-z-10 tw-my-4 '>
         {finalArray.length > 0 && finalArray[0].length > 0 && (
