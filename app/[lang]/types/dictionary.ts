@@ -61,6 +61,9 @@ export interface Dictionary {
     labelDenyAccessDescription: string;
     labelPersonalData: string;
     labelProfessionalData: string;
+    openUrlButtonLabel: string;
+    copyUrlButtonLabel: string;
+    copyUrlMessageLabel: string;
   };
   recoverPassword: {
     recoverPassword: string;

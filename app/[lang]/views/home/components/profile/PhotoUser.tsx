@@ -4,6 +4,8 @@ import { GetUser, SendDataImage } from '@/reactQuery/users';
 import { Dictionary } from '@/types/dictionary';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import LinkIcon from '@mui/icons-material/Link';
 import {
   Avatar,
   Button,
@@ -12,6 +14,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const PhotoUser = ({
@@ -27,6 +30,7 @@ const PhotoUser = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { data, error } = GetUser();
+  const [copied, setCopied] = useState(false);
 
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -138,6 +142,42 @@ const PhotoUser = ({
                 >
                   {dictionary.profileView.labelSwitchMain}
                 </span>
+              </div>
+            </div>
+          </div>
+          <div className='tw-flex tw-flex-row tw-mt-4'>
+            <div className='tw-w-[100px] tw-align-middle tw-items-center tw-flex tw-flex-col'>
+              <Typography className='tw-text-[#02af9b] tw-text-sm'>
+                {dictionary.homeView.openUrlButtonLabel}
+              </Typography>
+              <Link href=''>
+                <LinkIcon
+                  sx={{
+                    color: '#02AF9B',
+
+                  }}
+                />
+              </Link>
+            </div>
+            <div className='tw-w-[100px] tw-align-middle tw-items-center tw-flex tw-flex-col' onClick={() => { setCopied(true); navigator.clipboard.writeText("") }}>
+              <Typography className='tw-text-[#02af9b] tw-text-sm'>
+                {dictionary.homeView.copyUrlButtonLabel}
+              </Typography>
+              <ContentCopyIcon
+                sx={{
+                  color: '#02AF9B',
+                }}
+              />
+
+              <div>
+                <Typography
+                  className='tw-text-[#02af9b] tw-text-xs'
+                  sx={{
+                    display: copied ? 'block' : 'none'
+                  }}
+                >
+                  {dictionary.homeView.copyUrlMessageLabel}
+                </Typography>
               </div>
             </div>
           </div>
