@@ -38,7 +38,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
           sx={{ textTransform: 'none'}}
           className={`${
             key % 2 == 0 ? 'tw-rounded-s-2xl' : 'tw-rounded-e-2xl'
-          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[#679a88] tw-my-2`}
+          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[#679a88] tw-my-2 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]`}
           key={key}
           onClick={() => val.icon && val.text && clickType(val.icon, val.text)}
           startIcon={
@@ -90,7 +90,7 @@ const TemplateContainer = ({ profile }: { profile: DataForm }) => {
           <Typography
             style={{ fontSize: val.label === 'Correo' ? '14px' : undefined }}
             className={`tw-w-[90%] tw-text-center tw-truncate ${
-              val.order != 10 && 'tw-capitalize'
+              val.order != 10 && 'tw-capitalize '
             }`}
           >
             {val.text}

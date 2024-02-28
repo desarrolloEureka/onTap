@@ -75,7 +75,7 @@ const TemplateContainerProfessionalOne = ({
           <Grid container spacing={1}>
             {professionalData.finalArray.map((item, key) => {
               return (
-                <Grid item xs={12} key={key}>
+                <Grid item xs={12} key={key} className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]'>
                   <Item
                     sx={{
                       backgroundColor: '#679a88',

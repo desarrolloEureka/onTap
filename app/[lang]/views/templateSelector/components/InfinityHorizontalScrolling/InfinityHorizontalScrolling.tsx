@@ -36,6 +36,7 @@ const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
                 link={val.url}
                 styles={'tw-mx-3'}
                 key={i}
+                
               />
             ))}
           </Box>

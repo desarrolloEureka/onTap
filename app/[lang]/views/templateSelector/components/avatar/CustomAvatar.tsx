@@ -19,7 +19,7 @@ const CustomAvatar = ({
 }) => {
   return (
     <Box
-      className='tw-shadow-xl'
+      className='tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)]'
       sx={{
         borderRadius: rounded ? '100%' : square ? '20%' : '10px',
         ml: ml,
