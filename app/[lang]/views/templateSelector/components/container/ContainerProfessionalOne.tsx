@@ -50,7 +50,7 @@ const TemplateContainerProfessionalOne = ({
           position: 'relative',
         }}
       >
-        <SaveContactButton circular />
+        <SaveContactButton  />
       </Box>
       <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-6 no-scrollbar'>
         <Box
