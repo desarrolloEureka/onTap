@@ -32,7 +32,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm, color:s
           break;
       }
     };
-
+    console.log('color', color);
     return item.map((val, key) => {
       return (
         <Button
@@ -104,7 +104,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm, color:s
 
   // console.log('finalArray', finalArray);
   return (
-    <Container className='tw-z-10 tw-flex tw-pt-2 tw-flex-col tw-content-center tw-items-center'>
+    <Container className='tw-z-10 tw-flex tw-pt-0 tw-flex-col tw-content-center tw-items-center'>
       <SaveContactButtonColor colorButton={color} />
       <Container className='tw-z-10 tw-my-4 '>
         {finalArray.length > 0 && finalArray[0].length > 0 && (
