@@ -58,9 +58,9 @@ const ItemFormUrl = ({
   index: IndexDataForm;
   label?: string;
   labelArray:
-    | DataFormValues[]
-    | EducationDataFormValues[]
-    | CareerDataFormValues[];
+  | DataFormValues[]
+  | EducationDataFormValues[]
+  | CareerDataFormValues[];
   value: any;
   itemDetail: number;
   isDetailOpen: boolean;
@@ -108,16 +108,14 @@ const ItemFormUrl = ({
 
   return (
     <div
-      className={`${
-        value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
+      className={`${value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
           ? 'tw-h-[350px]'
           : 'tw-h-[250px]'
-      } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
+        } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
-        className={`tw-h-[${
-          labelArray.length * 20
-        }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
+        className={`tw-h-[${labelArray.length * 20
+          }px]tw-bg-blue-200 tw-flex tw-flex-col tw-justify-around`}
       >
         <div className='tw-w-[100%]  tw-flex tw-items-center tw-justify-around'>
           <Typography className='tw-text-white tw-bg-[#02af9b] tw-max-w-[250px] tw-min-w-[150px] tw-text-center tw-rounded-md tw-text-base tw-mr-6'>
@@ -163,18 +161,17 @@ const ItemFormUrl = ({
                       ? user.profile.professional?.[index]
                       : dataForm && dataForm[index]
                     : user.profile.social
-                    ? user.profile?.social?.[index]
-                    : dataForm && dataForm[index]
+                      ? user.profile?.social?.[index]
+                      : dataForm && dataForm[index]
                   : dataForm && dataForm[index]) as unknown as DataFormValues;
 
                 return (
                   <div
                     key={key}
-                    className={`tw-pb-3 ${
-                      key !== labelArray.length - 1
+                    className={`tw-pb-3 ${key !== labelArray.length - 1
                         ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
                         : ''
-                    }`}
+                      }`}
                   >
                     <div
                       className={`tw-h-[100%] tw-w-[100%] tw-flex tw-items-center tw-justify-end `}
@@ -226,20 +223,27 @@ const ItemFormUrl = ({
                           </div>
                           <div className='tw-h-[20%] tw-w-0 tw-flex tw-flex-col tw-mr-4'>
                             <div className='tw-h-[40%]  tw-w-[100%] tw-flex tw-mt-4 tw-mb-2'>
-                              <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
-                                <Button
-                                  onClick={() => handleModalIcons(val, key)}
-                                >
-                                  <Avatar
-                                    sx={{
-                                      backgroundColor: '#ffffff',
-                                      width: 38,
-                                      height: 38,
-                                    }}
+                              <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-flex-col tw-justify-center tw-items-center '>
+                                <div className='tw-h-[100%] tw-w-[15%] tw-flex tw-justify-center tw-items-center '>
+                                  <Button
+                                    onClick={() => handleModalIcons(val, key)}
                                   >
-                                    <LanguageIcon sx={{ color: '#396593' }} />
-                                  </Avatar>
-                                </Button>
+                                    <Avatar
+                                      sx={{
+                                        backgroundColor: 'transparent',
+                                        width: 38,
+                                        height: 38,
+                                      }}
+                                    >
+                                      <LanguageIcon sx={{ color: '#396593', fontSize: '2.6rem' }} />
+                                    </Avatar>
+                                  </Button>
+                                </div>
+                                <div>
+                                  <Typography className='tw-text-xs tw-text-center tw-text-gray-500 tw-mt-1 tw-w-[100px]'>
+                                    {dictionary.profileView.selectURL}
+                                  </Typography>
+                                </div>
                               </div>
                             </div>
                           </div>

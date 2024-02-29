@@ -7,10 +7,12 @@ import InfinityHorizontalScrolling from '../InfinityHorizontalScrolling/Infinity
 
 const Footer = ({
   socialNetworks,
+  fullSocialIcons,
 }: {
   socialNetworks: UrlDataFormValues[] | undefined;
+  fullSocialIcons?: boolean;
 }) => {
-  const { finalArray } = FooterHook({ socialNetworks });
+  const { finalArray } = FooterHook({ socialNetworks, fullSocialIcons });
   return <InfinityHorizontalScrolling finalArray={finalArray} />;
 };
 

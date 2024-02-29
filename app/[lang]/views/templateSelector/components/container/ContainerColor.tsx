@@ -26,7 +26,8 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm, color:s
           window.open('tel:' + url);
           break;
         case 'ExploreOutlinedIcon':
-          const newUrl = encodeURI(url);
+          let newUrl = url.replace('#', '%23');
+          newUrl = encodeURIComponent(url);
           window.open(`https://maps.google.com/maps?q=${newUrl}`);
           break;
       }

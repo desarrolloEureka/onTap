@@ -8,7 +8,6 @@ import BgImage from './bgImage/BgImage';
 import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 import HeroSocial from './hero/HeroSocial';
 import Footer from './footer/Footer';
-import TemplateContainer from './container/Container';
 import CustomAvatar from './avatar/CustomAvatar';
 import zIndex from '@mui/material/styles/zIndex';
 import RectangularCustomAvatar from './avatar/RectangularCustomAvatar';
@@ -34,7 +33,7 @@ const SocialTwo = ({
 
   return data.profile ? (
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
-      <div className='tw-justify-center tw-shadow-2xl tw-w-[380px] tw-rounded-2xl tw-h-[700px] tw-bg-slate-500'>
+      <div className='tw-justify-center tw-shadow-2xl tw-w-[380px] tw-rounded-2xl tw-h-[670px] tw-bg-slate-500'>
         <BgImage background={background} />
         <Box className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center '>
           <RectangularCustomAvatar
@@ -46,14 +45,16 @@ const SocialTwo = ({
             profession={data.profile.social?.profession?.text}
           />
         </Box>
-        <div className='tw-flex tw-flex-col tw-h-[531px] tw-w-[380px] tw-rounded-3xl tw-items-center tw-mt-10 tw-bg-white tw-bg-opacity-[50%] tw-relative tw-z-20'>
+        <div className='tw-flex tw-flex-col tw-h-[510px] tw-w-[380px] tw-rounded-3xl tw-items-center tw-mt-10 tw-bg-white tw-bg-opacity-[50%] tw-relative tw-z-20'>
           <div className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center tw-mt-10'>
             <TemplateContainerColor profile={data.profile} color='#396593' />
-            <Footer socialNetworks={data.profile.social?.urls} />
+            <Footer socialNetworks={data.profile.social?.urls} fullSocialIcons />
           </div>
         </div>
       </div>
-      <OneTapLogo />
+      <div className='tw-mt-4 tw-z-30 tw-relative'>
+        <OneTapLogo />
+      </div>
     </div>
   ) : (
     <CustomModalAlert
