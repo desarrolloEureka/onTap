@@ -8,7 +8,6 @@ import BgImage from './bgImage/BgImage';
 import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 import HeroSocial from './hero/HeroSocial';
 import Footer from './footer/Footer';
-import TemplateContainer from './container/Container';
 import CustomAvatar from './avatar/CustomAvatar';
 import zIndex from '@mui/material/styles/zIndex';
 import RectangularCustomAvatar from './avatar/RectangularCustomAvatar';
@@ -49,11 +48,13 @@ const SocialTwo = ({
         <div className='tw-flex tw-flex-col tw-h-[510px] tw-w-[380px] tw-rounded-3xl tw-items-center tw-mt-10 tw-bg-white tw-bg-opacity-[50%] tw-relative tw-z-20'>
           <div className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center tw-mt-10'>
             <TemplateContainerColor profile={data.profile} color='#396593' />
-            <Footer socialNetworks={data.profile.social?.urls} />
+            <Footer socialNetworks={data.profile.social?.urls} fullSocialIcons />
           </div>
         </div>
       </div>
-      <OneTapLogo />
+      <div className='tw-mt-4 tw-z-30 tw-relative'>
+        <OneTapLogo />
+      </div>
     </div>
   ) : (
     <CustomModalAlert

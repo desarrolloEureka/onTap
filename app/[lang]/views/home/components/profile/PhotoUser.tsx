@@ -22,11 +22,13 @@ const PhotoUser = ({
   isProUser,
   handleSendProfile,
   handleSwitchAll,
+  name
 }: {
   dictionary: Dictionary;
   isProUser: boolean;
   handleSendProfile: (isProUser: boolean) => Promise<void>;
   handleSwitchAll: (val: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string;
 }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { data, error } = GetUser();
@@ -116,7 +118,7 @@ const PhotoUser = ({
             className={`tw-w-[90%] tw-text-center tw-truncate tw-capitalize`}
           >
             {dictionary?.profileView?.labelHello}{' '}
-            {data && data.name ? data.name : ''}
+            {name}
           </Typography>
         </div>
       </div>

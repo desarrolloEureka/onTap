@@ -78,6 +78,7 @@ const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
             isProUser={true}
             handleSendProfile={handleSendProfile}
             handleSwitchAll={handleSwitchAll}
+            name={user?.profile?.professional?.name?.text || ''}
           />
           <div className='tw-flex tw-items-start tw-justify-center lg:tw-h-auto md:tw-w-[100%]'>
             <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[98%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
