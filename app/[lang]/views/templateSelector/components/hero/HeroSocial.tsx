@@ -19,7 +19,7 @@ const HeroSocial = ({
     socialNetworks && (
       <Container className='tw-flex tw-flex-col tw-justify-center tw-items-center tw-w-[380px] tw-h-[360px] tw-z-10'>
         <div className='tw-rounded-bl-2xl tw-rounded-tr-2xl tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-bg-[#679a88] tw-z-10 tw-mt-2 tw-px-3  tw-mb-1'>
-          <Typography className='tw-z-10 ' color={'white'}>
+          <Typography className='tw-z-10 tw-text-xl' color={'white'}>
             {name}
           </Typography>
         </div>
@@ -29,7 +29,7 @@ const HeroSocial = ({
           name={name}
         />
         <div className='tw-rounded-bl-2xl tw-rounded-tr-2xl tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-bg-[#679a88] tw-z-10 tw-mt-2 tw-px-3 tw-mb-1'>
-          <Typography className='tw-z-10 ' color={'white'}>
+          <Typography className='tw-z-10 tw-text-xl' color={'white'}>
             {profession}
           </Typography>
         </div>

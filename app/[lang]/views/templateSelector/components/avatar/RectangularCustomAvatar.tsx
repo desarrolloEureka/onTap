@@ -1,6 +1,6 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const RectangularCustomAvatar = ({
     name,
@@ -38,11 +38,15 @@ const RectangularCustomAvatar = ({
             </Box>
             <Box className=' tw-flex tw-flex-row tw-w-full tw-align-middle tw- tw-justify-center tw-items-center tw-mt-6'>
                 <div className='tw-text-[#396593] tw-flex tw-justify-center tw-items-center tw-mr-2 tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-w-[130px] tw-h-[30px] tw-bg-white tw-rounded-xl tw-truncate tw-text-base'>
-                    {name}
+                    <Typography className='tw-text-xl'>
+                        {name}
+                    </Typography>
                 </div>
-                
+
                 <div className='tw-text-[#396593] tw-flex tw-justify-center tw-items-center tw-ml-2 tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-w-[130px] tw-h-[30px] tw-bg-white tw-rounded-xl tw-truncate  tw-text-base'>
-                    {profession}
+                    <Typography className='tw-text-xl'>
+                        {profession}
+                    </Typography>
                 </div>
             </Box>
         </div>

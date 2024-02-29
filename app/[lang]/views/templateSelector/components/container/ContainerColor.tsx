@@ -32,7 +32,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm, color:s
           break;
       }
     };
-
+    console.log('color', color);
     return item.map((val, key) => {
       return (
         <Button
@@ -40,7 +40,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm, color:s
           sx={{ textTransform: 'none'}}
           className={`${
             key % 2 == 0 ? 'tw-rounded-s-2xl' : 'tw-rounded-e-2xl'
-          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[${color}] tw-my-2 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.2)]`}
+          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[${color}]  tw-my-2 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.2)]`}
           key={key}
           onClick={() => val.icon && val.text && clickType(val.icon, val.text)}
           startIcon={
@@ -104,7 +104,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm, color:s
 
   // console.log('finalArray', finalArray);
   return (
-    <Container className='tw-z-10 tw-flex tw-pt-2 tw-flex-col tw-content-center tw-items-center'>
+    <Container className='tw-z-10 tw-flex tw-pt-0 tw-flex-col tw-content-center tw-items-center'>
       <SaveContactButtonColor colorButton={color} />
       <Container className='tw-z-10 tw-my-4 '>
         {finalArray.length > 0 && finalArray[0].length > 0 && (
