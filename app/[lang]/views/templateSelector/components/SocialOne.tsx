@@ -6,10 +6,10 @@ import { UserData } from '@/types/user';
 import { Locale } from 'i18n-config';
 import { useLayoutEffect, useState } from 'react';
 import BgImage from './bgImage/BgImage';
-import TemplateContainer from './container/Container';
 import Footer from './footer/Footer';
 import HeroSocial from './hero/HeroSocial';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import TemplateContainerColor from './container/ContainerColor';
 
 const SocialOne = ({
   params: { lang, background, data },
@@ -51,7 +51,7 @@ const SocialOne = ({
               : ''
           }
         />
-        <TemplateContainer profile={data.profile} />
+        <TemplateContainerColor profile={data.profile}  color='#7cab9a'/>
         <Footer socialNetworks={data.profile.social?.urls} />
       </div>
       <OneTapLogo />

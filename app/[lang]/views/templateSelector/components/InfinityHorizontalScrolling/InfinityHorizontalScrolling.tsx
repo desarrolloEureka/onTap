@@ -1,4 +1,4 @@
-import { Box } from '@mui/system';
+import { Box, Container } from '@mui/system';
 import React from 'react';
 import CustomButton from '../floatingButtons/customButtons/CustomButton';
 import { styled } from '@mui/material';
@@ -16,33 +16,19 @@ const MyScrollingElement = styled(Box)(() => ({
 
 const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
   return (
-    <Box sx={{ height: 30, px: 4 }}>
-      {finalArray.length > 0 && (
-        <MyScrollingElement
-          sx={{
-            display: 'flex',
-            height: 100,
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-            }}
-          >
-            {finalArray.map((val, i) => (
+      <Container className='tw-h-30 tw-flex tw-w-[310px] tw-overflow-scroll tw-relative no-scrollbar'>
+        {finalArray.length > 0 && 
+          
+            finalArray.map((val, i) => (
               <CustomButton
                 name={val.icon}
                 link={val.url}
                 styles={'tw-mx-3'}
                 key={i}
-                
               />
-            ))}
-          </Box>
-        </MyScrollingElement>
-      )}
-    </Box>
+            ))
+        }
+      </Container>
   );
 };
 

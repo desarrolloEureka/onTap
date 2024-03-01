@@ -14,6 +14,7 @@ import ButtonTab from '../buttonTab/ButtonTab';
 import Header from '../header/Header';
 import { useQueryClient } from '@tanstack/react-query';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
+import { TemplateData } from '@/types/user';
 
 interface BackgroundType {
   id: string;
@@ -46,7 +47,9 @@ const HomeContent = ({
     image: '',
   });
   const [isModalAlert, setIsModalAlert] = useState(false);
+  const [isModalAlertBg, setIsModalAlertBg] = useState(false);
   const handleModalAlert = (status: boolean) => setIsModalAlert(!isModalAlert);
+  const handleModalAlertBg = (status: boolean) => setIsModalAlertBg(!isModalAlertBg);
   const { data, error } = GetUser();
 
   const handleChangeOption = (option: TemplateTypes) => {
@@ -85,11 +88,15 @@ const HomeContent = ({
     }
   };
 
-  const handlePreview = async () => {
-    const urlSplit = window.location.href.split('/');
-    window.open(
-      `http://${urlSplit[2]}/es/views/cardView?&type=${optionSelected}`
-    );
+  const handlePreview = async (background: TemplateData | undefined) => {
+    if (background) {
+      const urlSplit = window.location.href.split('/');
+      window.open(
+        `http://${urlSplit[2]}/es/views/cardView?&type=${optionSelected}`
+      );
+    }else{
+      setIsModalAlertBg(true);
+    }
   };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
@@ -100,9 +107,8 @@ const HomeContent = ({
   return (
     dictionary && (
       <div
-        className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${
-          screenHeight ? '' : 'md:tw-h-screen'
-        }`}
+        className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'
+          }`}
       >
         <Header dictionary={dictionary} views={data?.views ?? 0} />
         <div
@@ -115,7 +121,7 @@ const HomeContent = ({
             optionSelected={optionSelected}
             title={dictionary?.homeView?.social}
             handleChangeOption={handleChangeOption}
-            //disabled={false}
+          //disabled={false}
           />
           <ButtonTab
             dictionary={dictionary}
@@ -123,7 +129,7 @@ const HomeContent = ({
             optionSelected={optionSelected}
             title={dictionary?.homeView?.professional}
             handleChangeOption={handleChangeOption}
-            //disabled={data?.plan === "basic" ? true : false}
+          //disabled={data?.plan === "basic" ? true : false}
           />
         </div>
 
@@ -133,6 +139,7 @@ const HomeContent = ({
               if (value.type === optionSelected) {
                 const i: any = value.id;
                 const item = data?.templateData?.find((val) => val.id === i);
+                const background = data?.templateData?.find((val) => val.id === i && val.background_id);
                 return (
                   <div
                     key={index}
@@ -152,7 +159,10 @@ const HomeContent = ({
                           <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-start tw-justify-center'>
                             <div className='tw-w-[100%] tw-h-[25%] tw-flex tw-items-center tw-justify-center '>
                               <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-items-center tw-justify-start'>
-                                <Button onClick={handlePreview}>
+                                <Button
+                                  onClick={() => handlePreview(background)}
+                                  disabled={item ? !item.checked : true}
+                                >
                                   <div className='tw-w-[40%] tw-h-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
                                     <div className='tw-w-[100%] tw-h-[50%] tw-flex tw-items-center tw-justify-center'>
                                       <VisibilityIcon
@@ -274,9 +284,8 @@ const HomeContent = ({
           aria-describedby='modal-modal-description'
         >
           <Box
-            className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${
-              isLargeScreen ? 'tw-w-[50%]' : ''
-            } tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}
+            className={`tw-flex tw-flex-col tw-justify-evenly max-sm:tw-w-[90%] sm:tw-w-[90%] md:tw-w-[80%] lg:tw-w-[80%] 2xl:tw-w-[65%] ${isLargeScreen ? 'tw-w-[50%]' : ''
+              } tw-rounded-2xl tw-bg-[#02AF9B] tw-relative`}
           >
             <div className='tw-absolute tw-right-1 tw-top-2'>
               <Button
@@ -302,9 +311,8 @@ const HomeContent = ({
                 </Typography>
               </div>
               <div
-                className={`tw-overflow-y-auto ${
-                  isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null
-                }`}
+                className={`tw-overflow-y-auto ${isSmallScreenHeight ? 'sm:tw-h-[45vh]' : null
+                  }`}
               >
                 <Grid container spacing={2}>
                   {backgroundImages.map((item, index) => {
@@ -369,6 +377,13 @@ const HomeContent = ({
           title={dictionary?.homeView?.labelDenyAccess}
           description={dictionary?.homeView?.labelDenyAccessDescription}
           isModalAlert={isModalAlert}
+          isClosed={true}
+        />
+        <CustomModalAlert
+          handleModalAlert={handleModalAlertBg}
+          title={dictionary?.generalTitle}
+          description={"No se ha seleccionado un fondo para la plantilla"}
+          isModalAlert={isModalAlertBg}
           isClosed={true}
         />
       </div>
