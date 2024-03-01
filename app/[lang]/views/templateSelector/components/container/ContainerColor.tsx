@@ -37,10 +37,10 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm, color:s
       return (
         <Button
           variant='contained'
-          sx={{ textTransform: 'none'}}
+          sx={{ textTransform: 'none', backgroundColor: color}}
           className={`${
             key % 2 == 0 ? 'tw-rounded-s-2xl' : 'tw-rounded-e-2xl'
-          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-bg-[${color}]  tw-my-2 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.2)]`}
+          } tw-drop-shadow-xl tw-w-full tw-h-8 tw-px-1  tw-relative  tw-my-2 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.2)]`}
           key={key}
           onClick={() => val.icon && val.text && clickType(val.icon, val.text)}
           startIcon={
