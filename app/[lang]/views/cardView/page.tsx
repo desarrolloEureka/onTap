@@ -9,6 +9,7 @@ import CustomCircularProgress from '@/components/customCircularProgress/CustomCi
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import { Dictionary } from '@/types/dictionary';
+import CardViewUserMobile from './hooks/CardViewUserMobile';
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const dictionary = useDictionary({ lang })!.dictionary as Dictionary;
@@ -18,10 +19,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const typeParam = searchParams.get('type');
   const handleModalAlert = () => setIsModalAlert(!isModalAlert);
 
-  const { user, type } = uid
-    ? CardViewHookWithUser({ userUid: uid })
-    : CardViewWhitOutUser(typeParam);
-
+  const { user, type } = uid && typeParam ?
+    CardViewUserMobile({ userUid: uid, typeParam: typeParam })
+    :
+    uid ?
+      CardViewHookWithUser({ userUid: uid })
+      :
+      CardViewWhitOutUser(typeParam);
   return user && type ? (
     user.switch_activateCard ? (
       <TemplateSelector user={user} type={type} lang={lang} />

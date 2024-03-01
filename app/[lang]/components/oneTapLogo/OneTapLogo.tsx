@@ -7,15 +7,15 @@ const OneTapLogo = () => {
         <div className="tw-justify-center tw-z-30 tw-p-3 tw-flex tw-item-center tw-mt-1 tw-flex-col tw-w-[180px]">
             <div className="tw-items-center tw-w-full tw-flex tw-justify-center tw-z-20">
                 <Image
-                    src='/images/onetap_green.png'
+                    src='/images/onetap_logo_plantilla.png'
                     alt="One Tap"
                     width={65}
-                    height={45} 
+                    height={45}
                     priority
                 />
             </div>
             <div className='tw-w-full tw-flex tw-justify-center'>
-                <Link href='https://www.onetap.com.co' target='_blank' className='tw-font-bold tw-text-white tw-text-sm'>
+  <Link href='https://www.onetap.com.co' target='_blank' className='tw-font-bold tw-text-white tw-text-sm'>
                     www.onetap.com.co
                 </Link>
             </div>
