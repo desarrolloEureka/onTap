@@ -1,3 +1,4 @@
+
 import { Dictionary } from '@/types/dictionary';
 import { registerUserAuth, registerUserFb } from 'app/functions/register';
 import { set } from 'firebase/database';
@@ -8,7 +9,7 @@ const UserRegisterForm = () => {
   const [email, setEmail] = useState<string>();
   const [name, setName] = useState<string>();
   const [lastName, setLastName] = useState<string>();
-  const [plan, setPlan] = useState<string>("Estándar");
+  const [plan, setPlan] = useState<string>("standard");
   const [errorMailForm, setErrorMailForm] = useState<Boolean>(false);
   const [errorDataForm, setErrorDataForm] = useState<Boolean>(false);
   const [status, setStatus] = useState<string>('');
