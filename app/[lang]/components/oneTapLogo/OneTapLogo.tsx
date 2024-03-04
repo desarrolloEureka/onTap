@@ -3,7 +3,7 @@ import Link from 'next/link';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const OneTapLogo = () => {
-    const isSmallScreen = useMediaQuery('(max-height:740px)');
+    const isSmallScreen = useMediaQuery('(max-height:760px)');
     return (
         //lImagen encima del texto
         <div className={`tw-justify-center tw-z-30 ${isSmallScreen ? 'tw-p-1' : 'tw-p-3' } tw-flex tw-item-center tw-mt-1 tw-flex-col tw-w-[180px]`}>
