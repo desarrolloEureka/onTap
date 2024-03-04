@@ -4,6 +4,7 @@ import { UrlDataFormValues } from '@/types/profile';
 import LeftButtons from './leftButtons/LeftButtons';
 import RightButtons from './rightButtons/RightButtons';
 import CustomAvatar from '../avatar/CustomAvatar';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const FloatingButtons = ({
   socialNetworks,
@@ -14,6 +15,9 @@ const FloatingButtons = ({
   photo: string;
   name: string;
 }) => {
+
+  const isSmallScreen = useMediaQuery('(max-height:668px)');
+
   return (
     <Box
       sx={{
@@ -24,7 +28,7 @@ const FloatingButtons = ({
       }}
     >
       <LeftButtons socialNetworks={socialNetworks} />
-      <CustomAvatar image={photo} name={name} ml={0} size={140} rounded />
+      <CustomAvatar image={photo} name={name} ml={0} size={isSmallScreen ? 110 : 140} rounded />
       <RightButtons socialNetworks={socialNetworks} />
     </Box>
   );

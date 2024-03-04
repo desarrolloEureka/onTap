@@ -4,10 +4,9 @@ import { BackgroundImages } from '@/types/home';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const BgImage = ({ background }: { background: BackgroundImages }) => {
-
-  const isSmallScreen = useMediaQuery('(max-height:668px)');
-  const isSmallScreenTwo = useMediaQuery('(max-height:896px)');
-  const isSmallScreenthree = useMediaQuery('(max-height:933px)');
+  const isSmallScreenWidth = useMediaQuery('(max-width:440px)');
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
 
   return (
     background && (
@@ -15,8 +14,8 @@ const BgImage = ({ background }: { background: BackgroundImages }) => {
         className='tw-rounded-2xl tw-absolute tw-z-0'
         src={background.image}
         alt='Card'
-        width={380}
-        height={isSmallScreen ? 670 : isSmallScreenTwo ? 890 : isSmallScreenthree ? 930 : 800}
+        width={isSmallScreenWidth ? windowWidth : 380}
+        height={windowHeight}
         style={{ display: 'block', position: 'relative', zIndex: 0 }}
       />
     )

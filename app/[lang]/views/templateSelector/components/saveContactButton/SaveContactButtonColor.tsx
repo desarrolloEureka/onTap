@@ -1,10 +1,14 @@
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const SaveContactButtonColor = (
-  { circular, colorButton } : { circular?: boolean, colorButton?:string }) => {
+  { circular, colorButton }: { circular?: boolean, colorButton?: string }) => {
+
+  const isSmallScreen = useMediaQuery('(max-height:668px)');
+
   return (
-    <Box sx={{ position: 'relative' }} className='tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl'>
+    <Box sx={{ position: 'relative' }} className={`tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl ${isSmallScreen ? 'tw-mt-3' : undefined}`}>
       {circular ? (
         <Box
           sx={{

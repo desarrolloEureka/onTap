@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import CustomButton from '../customButtons/CustomButton';
 import { UrlDataFormValues } from '@/types/profile';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const LeftButtons = ({
   socialNetworks,
@@ -15,6 +16,7 @@ const LeftButtons = ({
       (val.icon == 'instagram' && val.checked)
   );
 
+  const isSmallScreen = useMediaQuery('(max-height:668px)');
   return (
     <Box
       sx={{
@@ -25,15 +27,14 @@ const LeftButtons = ({
       }}
     >
       {social.map((val, key) => {
-        const my = (key === 1 || key === 2) && 'tw-mt-5';
+        const my = (isSmallScreen && (key === 1 || key === 2)) ? 'tw-mt-2' : 'tw-mt-5';
         const mx = (key === 0 || key === 2) && 'tw-ml-5';
-        // const mx = (key === 0 || key === 2) && 'tw-ml-5 -tw-ml-10';
         return (
           <CustomButton
             name={val.icon}
             link={val.url}
             key={key}
-            styles={`${mx}  ${my} tw-w-[90px] tw-flex tw-justify-center`}
+            styles={`${mx} ${my} tw-w-[90px] tw-flex tw-justify-center`}
           />
         );
       })}
