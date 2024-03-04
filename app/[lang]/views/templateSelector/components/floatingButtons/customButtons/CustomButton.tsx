@@ -24,7 +24,7 @@ const CustomButton = ({
     urlLink = link;
   }
 
-  const isSmallScreenOne = useMediaQuery('(max-height:755px)');
+  const isSmallScreenOne = useMediaQuery('(max-height:799px)');
 
   return (
     icon?.image && (
