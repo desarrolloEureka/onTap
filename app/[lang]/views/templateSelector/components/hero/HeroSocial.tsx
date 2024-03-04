@@ -25,7 +25,7 @@ const HeroSocial = ({
   return (
     socialNetworks && (
       /* <Container className='tw-flex tw-flex-col tw-justify-center tw-items-center tw-w-[380px] tw-h-[360px] tw-z-10'> */
-      < Container className={`tw-flex tw-flex-col tw-justify-center tw-items-center tw-w-[380px] ${isSmallScreen ? 'tw-h-[282px]' : isSmallScreenThree ? 'tw-h-[320px]' : 'tw-h-[330px]'} tw-z-10 ${isSmallScreenTwo ? 'tw-mb-5' : undefined}`} >
+      < Container className={`tw-flex tw-flex-col tw-justify-center tw-items-center tw-w-[380px] ${isSmallScreen ? 'tw-h-[270px]' : isSmallScreenThree ? 'tw-h-[300px]' : 'tw-h-[330px]'} tw-z-10 ${isSmallScreenTwo ? 'tw-mb-5' : undefined}`} >
         <div className={`tw-rounded-bl-2xl tw-rounded-tr-2xl tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-bg-[#679a88] tw-z-10 ${isSmallScreen ? 'tw-mt-5' : 'tw-mt-1'}  tw-px-3 tw-mb-1`}>
           <Typography className='tw-z-10 tw-text-xl' color={'white'}>
             {name}
