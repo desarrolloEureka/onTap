@@ -4,7 +4,7 @@ import useDictionary from '@/hooks/dictionary/useDictionary';
 import { BackgroundImages } from '@/types/home';
 import { UserData } from '@/types/user';
 import { Locale } from 'i18n-config';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import BgImage from './bgImage/BgImage';
 import Footer from './footer/Footer';
 import HeroSocial from './hero/HeroSocial';
@@ -27,13 +27,35 @@ const SocialOne = ({
     data.profile && setIsDataError(false);
   }, [data.profile]);
 
-  const isSmallScreen = useMediaQuery('(max-height:668px)');/* pantalla sea igual o menor a 668 píxeles */
-  const isSmallScreenTwo = useMediaQuery('(max-height:896px)');
-  const isSmallScreenthree = useMediaQuery('(max-height:933px)');
+  const isSmallScreen = useMediaQuery('(max-height:935px)');
+  const isSmallScreenWidth = useMediaQuery('(max-width:440px)');
+
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  console.log("height ", windowSize.height);
+  console.log("width  ", windowSize.width);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return data.profile ? (
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
-      <div className={`tw-shadow-md tw-w-[380px] tw-rounded-2xl tw-bg-slate-500 ${isSmallScreen && 'tw-h-[571px]'} ${isSmallScreenTwo && 'tw-h-[785px]'} ${isSmallScreenthree && 'tw-h-[930px]'}`}>
+      <div className={`tw-shadow-md tw-rounded-2xl tw-bg-slate-500`} style={{ height: isSmallScreen ? windowSize.height : '700px', width: isSmallScreenWidth ? windowSize.width : '380px', overflow: 'hidden' }}>
         <BgImage background={background} />
         <HeroSocial
           socialNetworks={data.profile.social?.urls}
@@ -51,7 +73,7 @@ const SocialOne = ({
               : ''
           }
         />
-        <TemplateContainerColor profile={data.profile}  color='#7cab9a'/>
+        <TemplateContainerColor profile={data.profile} color='#7cab9a' />
         <Footer socialNetworks={data.profile.social?.urls} />
       </div>
       <OneTapLogo />

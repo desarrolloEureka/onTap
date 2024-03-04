@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import CustomButton from '../customButtons/CustomButton';
 import { UrlDataFormValues } from '@/types/profile';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const RightButtons = ({
   socialNetworks,
@@ -14,6 +15,9 @@ const RightButtons = ({
       (val.icon == 'tiktok' && val.checked) ||
       (val.icon == 'messenger' && val.checked)
   );
+
+  const isSmallScreen = useMediaQuery('(max-height:668px)');
+
   return (
     <Box
       sx={{
@@ -24,7 +28,8 @@ const RightButtons = ({
       }}
     >
       {social.map((val, key) => {
-        const my = (key === 1 || key === 2) && 'tw-mt-5';
+        /* const my = (key === 1 || key === 2) && 'tw-mt-5'; */
+        const my = (isSmallScreen && (key === 1 || key === 2)) ? 'tw-mt-2' : 'tw-mt-5';
         const mx = (key === 0 || key === 2) && '-tw-ml-5';
         return (
           <CustomButton

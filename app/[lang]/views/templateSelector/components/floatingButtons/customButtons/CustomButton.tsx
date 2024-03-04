@@ -2,6 +2,7 @@ import { GetAllSocialNetworks } from '@/reactQuery/home';
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const CustomButton = ({
   name,
@@ -23,13 +24,15 @@ const CustomButton = ({
     urlLink = link;
   }
 
+  const isSmallScreenOne = useMediaQuery('(max-height:740px)');
+
   return (
     icon?.image && (
       <Link
         className={`tw-rounded-full tw-mt-2 tw-drop-shadow-xl ${styles}`}
         href={`http://${urlLink}`}
       >
-        <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={icon.image} alt={name} width={60} height={60} />
+        <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={icon.image} alt={name} width={isSmallScreenOne ? 50 : 60} height={isSmallScreenOne ? 50 : 60} />
       </Link>
     )
   );
