@@ -13,6 +13,7 @@ import SaveContactButton from '../saveContactButton/SaveContactButton';
 import ItemSlideProfessional from '../itemSlideProfessional/ItemSlideProfessional';
 import ItemProfessionalCards from '../itemProfessionalCards/ItemProfessionalCards';
 import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -38,6 +39,8 @@ const TemplateContainerProfessionalOne = ({
 
   console.log('professionalData', professionalData);
   // console.log('socialData', socialData.finalArray);
+  const isSmallScreen = useMediaQuery('(max-height:935px)');
+  const isSmallScreenOne = useMediaQuery('(max-height:790px)');
 
   return (
     <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center'>
@@ -50,7 +53,7 @@ const TemplateContainerProfessionalOne = ({
           position: 'relative',
         }}
       >
-        <SaveContactButton  />
+        <SaveContactButton />
       </Box>
       <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-6 no-scrollbar'>
         <Box
@@ -70,7 +73,7 @@ const TemplateContainerProfessionalOne = ({
           })}
         </Box>
       </Container>
-      <Container className='tw-z-10 tw-rounded-md tw-p-0 tw-h-[258px] tw-overflow-y-auto no-scrollbar'>
+      <Container className={`tw-z-10 tw-rounded-md tw-p-0 ${isSmallScreenOne ? 'tw-h-[258px]' : 'tw-h-[400px] '} tw-overflow-y-auto no-scrollbar`}>
         <Box flexGrow={1}>
           <Grid container spacing={1}>
             {professionalData.finalArray.map((item, key) => {

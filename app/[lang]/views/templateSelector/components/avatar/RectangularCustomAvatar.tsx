@@ -1,6 +1,7 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import { Box, Typography } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const RectangularCustomAvatar = ({
     name,
@@ -19,9 +20,12 @@ const RectangularCustomAvatar = ({
     square?: boolean;
     profession?: string;
 }) => {
+    const isSmallScreenTwo = useMediaQuery('(max-height:700px)');
+
     return (
-        <div className='tw-bg-[#396593] tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.3)] tw-relative tw-flex tw-flex-col tw-z-10 tw-items-center tw-w-[80%] tw-h-[230px] tw-rounded-xl tw-mt-5'>
-            <Box
+        <div className={`tw-bg-[#396593] tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.3)] tw-relative tw-flex tw-flex-col tw-z-10 tw-items-center tw-w-[80%] ${isSmallScreenTwo ? 'tw-h-[180px]' : 'tw-h-[230px] '}  tw-rounded-xl tw-mt-5`}>
+            {/*         <div className='tw-bg-[#396593] tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.3)] tw-relative tw-flex tw-flex-col tw-z-10 tw-items-center tw-w-[80%] tw-rounded-xl tw-mt-5'>
+ */}            <Box
                 className='tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.3)] tw-z-10 tw-mt-3 tw-rounded-3xl'
             >
                 <Avatar

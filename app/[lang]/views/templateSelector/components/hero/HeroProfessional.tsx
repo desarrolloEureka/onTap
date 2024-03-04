@@ -47,12 +47,12 @@ const HeroProfessional = ({
                   />
                   <div className='tw-rounded-bl-2xl tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1 tw-px-3 tw-my-2'>
                     <Typography className='tw-z-10 tw-text-xl' color={'white'}>
-                      {name}
+                      {name ? name.split(" ")[0] : ''}
                     </Typography>
                   </div>
                   <div className='tw-rounded-bl-2xl tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1 tw-px-3 tw-my-2'>
                     <Typography className='tw-z-10 tw-text-xl  tw-text-white tw-truncate'>
-                      {profession}
+                      {profession ? profession.length > 3 ? profession.substring(0, 14) + '...' : profession : ''}
                     </Typography>
                   </div>
                 </Container>
