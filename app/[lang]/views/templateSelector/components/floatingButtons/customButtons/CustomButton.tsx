@@ -30,7 +30,7 @@ const CustomButton = ({
     icon?.image && (
       <Link
         className={`tw-rounded-full tw-mt-2 tw-drop-shadow-xl ${styles}`}
-        href={`http://${urlLink}`}
+        href={`https://${urlLink}`}
       >
         <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={icon.image} alt={name} width={isSmallScreenOne ? 50 : 60} height={isSmallScreenOne ? 50 : 60} />
       </Link>
