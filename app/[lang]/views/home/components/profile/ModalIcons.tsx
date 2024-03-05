@@ -323,7 +323,7 @@ const ModalIcons = ({
                                     onClick={(text: any) =>
                                         handleDataNetworks({
                                             name: value[0],
-                                            text: 'youTube',
+                                            text: 'youtube',
                                             subindex: 'icon',
                                             key: keyItem,
                                         })
@@ -375,7 +375,7 @@ const ModalIcons = ({
                                     onClick={(text: any) =>
                                         handleDataNetworks({
                                             name: value[0],
-                                            text: 'zoom ',
+                                            text: 'zoom',
                                             subindex: 'icon',
                                             key: keyItem,
                                         })

@@ -26,15 +26,15 @@ const LoginHook = (dictionary: Dictionary) => {
       setSendLogin(false);
       !email
         ? setErrorForm({
-            errorType: 1,
-            errorMessage: dictionary.loginView.mailMandatory,
-          })
+          errorType: 1,
+          errorMessage: dictionary.loginView.mailMandatory,
+        })
         : null;
       !password
         ? setErrorForm({
-            errorType: 2,
-            errorMessage: dictionary.loginView.passwordMandatory,
-          })
+          errorType: 2,
+          errorMessage: dictionary.loginView.passwordMandatory,
+        })
         : null;
     }
   };
@@ -65,16 +65,20 @@ const LoginHook = (dictionary: Dictionary) => {
           router.push('/views/home');
         }
       } else {
+       /*  setTimeout(() => { */
+          setErrorForm({
+            errorType: 3,
+            errorMessage: dictionary.loginView.userNotFound,
+          });
+      /*   }, 4000); */
+      }
+    } else if (sendLogin) {
+      setTimeout(() => {
         setErrorForm({
           errorType: 3,
           errorMessage: dictionary.loginView.userNotFound,
         });
-      }
-    } else if (sendLogin) {
-      setErrorForm({
-        errorType: 3,
-        errorMessage: dictionary.loginView.userNotFound,
-      });
+      }, 3000);
       setTimeout(() => {
         setErrorForm(null);
         setSendLogin(false);
