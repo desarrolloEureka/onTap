@@ -74,7 +74,7 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
             isProUser={false}
             handleSendProfile={handleSendProfile}
             handleSwitchAll={handleSwitchAll}
-            name={user.profile.social?.name?.text || ''}
+            name={user.profile && user.profile.social ? user.profile.social?.name?.text || '' : ''}
           />
           
           <div className='tw-flex tw-items-start tw-justify-center lg:tw-h-[930px] md:tw-w-[100%]'>

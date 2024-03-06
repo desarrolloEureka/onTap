@@ -168,15 +168,14 @@ const UserRegister = () => {
               className='tw-w-[300px] tw-text-center tw-mb-4'
               required
               id='outlined-required'
-              value='standar'
-              defaultValue={dictionary.dictionary?.backOffice.StandardPlan}
-              type='email'
+              defaultValue={plan}
               variant='outlined'
               onChange={(e) => setPlan(e.target.value)}
             >
-              <MenuItem value='standar' selected>{dictionary.dictionary?.backOffice.StandardPlan}</MenuItem>
+              <MenuItem value='standard'>{dictionary.dictionary?.backOffice.StandardPlan}</MenuItem>
               <MenuItem value='premium'>{dictionary.dictionary?.backOffice.PremiumPlan}</MenuItem>
             </Select>
+
           </div>
           {errorDataForm && (
             <span className='tw-text-red-500'>

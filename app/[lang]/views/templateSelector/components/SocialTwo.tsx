@@ -42,9 +42,6 @@ const SocialTwo = ({
     height: window.innerHeight,
   });
 
-  console.log("height ", windowSize.height);
-  console.log("width  ", windowSize.width);
-
   useEffect(() => {
     const handleResize = () => {
       setWindowSize({
@@ -62,14 +59,13 @@ const SocialTwo = ({
 
   return data.profile ? (
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
-      {/* <div className='tw-justify-center tw-shadow-2xl tw-w-[380px] tw-rounded-2xl tw-h-[670px] tw-bg-slate-500'> */}
       <div className={`tw-justify-center tw-items-center tw-shadow-2xl tw-rounded-2xl tw-bg-slate-500`} style={{ height: isSmallScreen ? windowSize.height : '670px', width: isSmallScreenWidth ? windowSize.width : '380px', overflow: 'hidden' }}>
 
         <BgImage background={background} />
         <Box className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center '>
           <RectangularCustomAvatar
             image={data.image}
-            name={data.profile.social?.name?.text || ''}
+            name={data.profile.social?.name?.text + " " + data.profile.social?.last_name?.text || ''}
             ml={0}
             size={isSmallScreenTwo ? 100 : 140}
             //size={140}

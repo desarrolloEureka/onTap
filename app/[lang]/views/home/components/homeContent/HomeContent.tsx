@@ -48,8 +48,12 @@ const HomeContent = ({
   });
   const [isModalAlert, setIsModalAlert] = useState(false);
   const [isModalAlertBg, setIsModalAlertBg] = useState(false);
+  const [isAlertProfileSocial, setIsAlertProfileSocial] = useState(false);
+  const [isAlertProfilePro, setIsAlertProfilePro] = useState(false);
   const handleModalAlert = (status: boolean) => setIsModalAlert(!isModalAlert);
   const handleModalAlertBg = (status: boolean) => setIsModalAlertBg(!isModalAlertBg);
+  const handleAlertProfileSocial = (status: boolean) => setIsAlertProfileSocial(!isAlertProfileSocial);
+  const handleAlertProfilePro = (status: boolean) => setIsAlertProfilePro(!isAlertProfilePro);
   const { data, error } = GetUser();
 
   const handleChangeOption = (option: TemplateTypes) => {
@@ -89,13 +93,29 @@ const HomeContent = ({
   };
 
   const handlePreview = async (background: TemplateData | undefined) => {
-    if (background) {
-      const urlSplit = window.location.href.split('/');
-      window.open(
-        `http://${urlSplit[2]}/es/views/cardView?&type=${optionSelected}`
-      );
-    }else{
-      setIsModalAlertBg(true);
+    const urlSplit = window.location.href.split('/');
+    const baseUrl = `http://${urlSplit[2]}/es/views/cardView?&type=${optionSelected}`;
+
+    if (optionSelected === 'social') {
+      if (data?.profile?.social) {
+        if (background) {
+          window.open(baseUrl);
+        } else {
+          setIsModalAlertBg(true);
+        }
+      } else {
+        setIsAlertProfileSocial(true);
+      }
+    } else {
+      if (data?.profile?.professional) {
+        if (background) {
+          window.open(baseUrl);
+        } else {
+          setIsModalAlertBg(true);
+        }
+      } else {
+        setIsAlertProfilePro(true);
+      }
     }
   };
 
@@ -384,6 +404,20 @@ const HomeContent = ({
           title={dictionary?.generalTitle}
           description={"No se ha seleccionado un fondo para la plantilla"}
           isModalAlert={isModalAlertBg}
+          isClosed={true}
+        />
+        <CustomModalAlert
+          handleModalAlert={handleAlertProfileSocial}
+          title={dictionary?.generalTitle}
+          description={"Debes registrar los datos en el perfil social"}
+          isModalAlert={isAlertProfileSocial}
+          isClosed={true}
+        />
+        <CustomModalAlert
+          handleModalAlert={handleAlertProfilePro}
+          title={dictionary?.generalTitle}
+          description={"Debes registrar los datos en el perfil profesional"}
+          isModalAlert={isAlertProfilePro}
           isClosed={true}
         />
       </div>

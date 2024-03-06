@@ -16,11 +16,12 @@ const MyScrollingElement = styled(Box)(() => ({
 }));
 const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
   const isSmallScreen = useMediaQuery('(max-height:668px)');
+  const reversedArray = finalArray.slice().reverse();
+
   return (
     <Container className={`${isSmallScreen ? 'tw-h-20' : 'tw-h-30'} tw-h-20 tw-flex tw-w-[310px] tw-overflow-scroll tw-relative no-scrollbar`}>
-      {finalArray.length > 0 &&
-
-        finalArray.map((val, i) => (
+      {reversedArray.length > 0 &&
+        reversedArray.map((val, i) => (
           <CustomButton
             name={val.icon}
             link={val.url}
