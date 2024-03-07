@@ -43,16 +43,16 @@ const HeroProfessional = ({
                     image={photo}
                     name={name}
                     ml={0}
-                    size={135}
+                    size={132}
                     square
                   />
-                  <div className='tw-rounded-bl-2xl tw-w-[145px] tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1.5 tw-px-2 tw-mt-3 tw-mb-2'>
-                    <Typography style={{ fontSize: '1.15rem', lineHeight: '1.75rem', zIndex: '10', color: 'white' }}>
-                      {name ? name.length > 15 ? name.substring(0, 15) + '...' : name : ''}
+                  <div className='tw-rounded-bl-2xl tw-w-[145px] tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1.5 tw-px-1 tw-mt-3 tw-mb-2'>
+                    <Typography style={{ fontSize: '1.09rem', lineHeight: '1.75rem', zIndex: '10', color: 'white' }}>
+                      {name ? name.length > 13 ? name.substring(0, 13) + '...' : name : ''}
                     </Typography>
                   </div>
-                  <div className='tw-rounded-bl-2xl tw-w-[145px] tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1.5 tw-px-2 tw-my-2'>
-                    <Typography className='tw-z-10  tw-text-white tw-truncate' style={{ fontSize: '1.15rem', lineHeight: '1.75rem' }}>
+                  <div className='tw-rounded-bl-2xl tw-w-[145px] tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-tr-2xl tw-bg-[#679a88] tw-z-10 tw-py-1.5 tw-px-1.5 tw-my-2'>
+                    <Typography className='tw-z-10  tw-text-white tw-truncate' style={{ fontSize: '1.09rem', lineHeight: '1.75rem' }}>
                       {profession ? profession.length > 3 ? profession.substring(0, 14) + '...' : profession : ''}
                     </Typography>
                   </div>
