@@ -73,7 +73,7 @@ const SocialTwo = ({
             profession={data.profile.social?.profession?.text}
           />
         </Box>
-        <div className={`tw-flex tw-flex-col tw-h-[510px] tw-rounded-3xl tw-items-center ${isSmallScreenTwo ? 'tw-mt-5' : 'tw-mt-8'}  tw-bg-white tw-bg-opacity-[50%] tw-relative tw-z-20`} style={{ width: isSmallScreenWidth ? windowSize.width : '380px' }}>
+        <div className={`tw-flex tw-flex-col tw-h-[510px] tw-rounded-3xl tw-items-center ${isSmallScreenTwo ? 'tw-mt-2' : 'tw-mt-3'}  tw-bg-white tw-bg-opacity-[50%] tw-relative tw-z-20`} style={{ width: isSmallScreenWidth ? windowSize.width : '380px' }}>
           <div className={`tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center ${isSmallScreenThree ? 'tw-mt-5' : 'tw-mt-9'}`}>
             <TemplateContainerColor profile={data.profile} color='#396593' />
             <Footer socialNetworks={data.profile.social?.urls} fullSocialIcons />

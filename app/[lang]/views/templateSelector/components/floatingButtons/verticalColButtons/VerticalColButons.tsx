@@ -10,9 +10,11 @@ const VerticalColButtons = ({
   socialNetworks: UrlDataFormValues[];
 }) => {
   const { data } = getSocialNetworksOrderedByObject(socialNetworks, 2);
+  const reversedArray = data.slice().reverse();
+
   return (
-    <Container className='tw-mt-12 tw-h-56 tw-w-[230px] tw-overflow-y-scroll no-scrollbar'>
-      {data.map((val, key) => {
+    <Container className='tw-mt-12 tw-h-[250px] tw-w-[220px] tw-overflow-y-scroll no-scrollbar'>
+      {reversedArray.map((val, key) => {
         return (
           <Box
             sx={{
@@ -27,7 +29,7 @@ const VerticalColButtons = ({
                   sx={{
                     width: '100%',
                     height: 70,
-                    marginLeft: 1.5,
+                    marginLeft: -1,
                   }}
                   key={i}
                 >

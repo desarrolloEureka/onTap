@@ -34,13 +34,13 @@ const SaveContactButtonColor = (
       ) : (
         <Button
           sx={{ textTransform: 'none' }}
-          className='tw-drop-shadow-xl tw-rounded-2xl tw-bg-white'
+          className='tw-drop-shadow-xl tw-rounded-2xl tw-bg-white tw-h-[32px]'
           variant='contained'
           startIcon={
             <SaveOutlinedIcon
               style={{
                 color: colorButton || undefined,
-                fontSize: '1.5rem',
+                fontSize: '1.4rem',
                 marginLeft: '0rem',
               }}
             />

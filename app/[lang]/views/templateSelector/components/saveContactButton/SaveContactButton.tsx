@@ -6,7 +6,6 @@ const SaveContactButton = ({ circular }: { circular?: boolean }) => {
     <Box sx={{ position: 'relative' }} className='tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl'>
       {circular ? (
         <Box
-          
           sx={{
             display: 'flex',
             flexDirection: 'column',

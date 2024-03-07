@@ -37,17 +37,14 @@ const TemplateContainerProfessionalOne = ({
     'professional'
   );
 
-  console.log('professionalData', professionalData);
-  // console.log('socialData', socialData.finalArray);
-  const isSmallScreen = useMediaQuery('(max-height:935px)');
   const isSmallScreenOne = useMediaQuery('(max-height:790px)');
 
   return (
-    <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center'>
+    <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center tw-mt-9'>
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
           position: 'relative',
@@ -55,7 +52,7 @@ const TemplateContainerProfessionalOne = ({
       >
         <SaveContactButton />
       </Box>
-      <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-6 no-scrollbar'>
+      <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-5 no-scrollbar'>
         <Box
           sx={{
             display: 'flex',

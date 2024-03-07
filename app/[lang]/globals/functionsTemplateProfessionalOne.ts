@@ -26,12 +26,12 @@ export const getPrincipalDataSlide = (
     return val[1].length
       ? destructuringArray(val[1])
       : val[1][index] &&
-          val[1].checked &&
-          (val[1].order == 4 ||
-            val[1].order == 5 ||
-            val[1].order == 9 ||
-            val[1].order == 10) &&
-          val;
+      val[1].checked &&
+      (val[1].order == 4 ||
+        val[1].order == 5 ||
+        val[1].order == 9 ||
+        val[1].order == 10) &&
+      val;
   });
   // console.log('objectArray', objectArray);
 
@@ -61,10 +61,10 @@ export const getPrincipalProfileOrderedByObject = (
           val[1].find((val: any) => val.order != 13)
           ? val
           : val[1][index] &&
-              val[1].order != 1 &&
-              val[1].order != 2 &&
-              val[1].order != 3 &&
-              val;
+          val[1].order != 1 &&
+          val[1].order != 2 &&
+          val[1].order != 3 &&
+          val;
       } else {
         const result =
           val[1].length > 0 &&
@@ -133,16 +133,15 @@ export const getSocialNetworksOrderedByObject = (
 ) => {
   let count = 2;
   const finalArray: UrlDataFormValues[][][] = [];
-  let newData2: any[][] = [];
   let data2: any[][] = [];
   let data: any[] = [];
-  const isPair = urls.length % 2 == 0;
   if (columns) {
     const urlsFiltered = urls.filter((val) => val.checked);
-    urlsFiltered.forEach((val, key) => {
+    const reversedArray = urlsFiltered.slice().reverse();
+    reversedArray.forEach((val, key) => {
       //array into two arrays
       data.push(val);
-      if (urlsFiltered.length >= count) {
+      if (reversedArray.length >= count) {
         if (count == key + 1) {
           data2.push(data);
           data = [];
