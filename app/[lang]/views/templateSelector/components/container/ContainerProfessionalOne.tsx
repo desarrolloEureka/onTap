@@ -70,7 +70,7 @@ const TemplateContainerProfessionalOne = ({
           })}
         </Box>
       </Container>
-      <Container className={`tw-z-10 tw-rounded-md tw-p-0 ${isSmallScreenOne ? 'tw-h-[248px]' : 'tw-h-[360px] '} tw-overflow-y-auto no-scrollbar tw- tw-pb-12`}>
+      <Container className={`tw-z-10 tw-rounded-md tw-p-0 ${isSmallScreenOne ? 'tw-h-[230px]' : 'tw-h-[360px] '} tw-overflow-y-auto no-scrollbar tw- tw-pb-12`}>
         <Box flexGrow={1}>
           <Grid container spacing={1}>
             {professionalData.finalArray.map((item, key) => {
