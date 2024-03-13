@@ -51,7 +51,7 @@ const ProfessionalOne = ({
         <BgImage background={background} />
         <HeroProfessional
           socialNetworks={data.profile.professional?.urls}
-          photo={data.image}
+          photo={data.imagePro}
           name={`${data.profile.professional?.name?.text}  ${data.profile.professional?.last_name?.text}`}
           profession={
             data.profile.professional?.profession?.checked
