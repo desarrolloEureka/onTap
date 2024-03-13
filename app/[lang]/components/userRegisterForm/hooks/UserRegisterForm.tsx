@@ -5,10 +5,10 @@ import { set } from 'firebase/database';
 import { useState } from 'react';
 
 const UserRegisterForm = () => {
-  const [dni, setDni] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [name, setName] = useState<string>();
-  const [lastName, setLastName] = useState<string>();
+  const [dni, setDni] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
   const [plan, setPlan] = useState<string>('standard');
   const [errorMailForm, setErrorMailForm] = useState<Boolean>(false);
   const [errorDataForm, setErrorDataForm] = useState<Boolean>(false);
@@ -46,6 +46,7 @@ const UserRegisterForm = () => {
       plan,
       gif: true,
     };
+
     try {
       const result = await registerUserAuth({ user: email, password: dni });
       result.name = `${name} ${lastName}`;
@@ -63,6 +64,7 @@ const UserRegisterForm = () => {
           setEmail('');
           setName('');
           setLastName('');
+          setPlan('standard');
         })
         .catch((err) => {
           setStatus('El usuario ya se encuentra registrado');
@@ -83,7 +85,7 @@ const UserRegisterForm = () => {
     setName,
     lastName,
     setLastName,
-    plan: 'standard',
+    plan,
     setPlan,
     dataRegisterHandle,
     errorMailForm,

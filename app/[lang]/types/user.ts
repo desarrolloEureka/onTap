@@ -14,6 +14,7 @@ export interface UserData {
   isAdmin: boolean;
   background_id: string;
   image: string;
+  imagePro: string;
   is_admin: boolean;
   name: string;
   switch_activateCard: boolean;

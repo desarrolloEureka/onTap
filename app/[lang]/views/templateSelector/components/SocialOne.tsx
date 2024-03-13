@@ -35,9 +35,6 @@ const SocialOne = ({
     height: window.innerHeight,
   });
 
-  console.log("height ", windowSize.height);
-  console.log("width  ", windowSize.width);
-
   useEffect(() => {
     const handleResize = () => {
       setWindowSize({

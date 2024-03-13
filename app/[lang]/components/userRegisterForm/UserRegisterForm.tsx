@@ -70,14 +70,14 @@ const UserRegister = () => {
             }}
             required
             id='outlined-required'
-            defaultValue={dni}
+            value={dni}
             className='tw-mb-4 tw-w-[300px] tw-text-sm tw-mt-4'
             onChange={(e) => setDni(e.target.value)}
           />
           <TextField
             required
             id='outlined-required'
-            defaultValue={name}
+            value={name}
             variant='standard'
             label={dictionary.dictionary?.backOffice.Nombre}
             className='tw-mb-4 tw-w-[300px] tw-text-sm'
@@ -99,7 +99,7 @@ const UserRegister = () => {
           <TextField
             required
             id='outlined-required'
-            defaultValue={lastName}
+            value={lastName}
             className='tw-mb-4 tw-w-[300px] tw-text-sm'
             variant='standard'
             label={dictionary.dictionary?.backOffice.Apellido}
@@ -121,7 +121,7 @@ const UserRegister = () => {
           <TextField
             required
             id='outlined-required'
-            defaultValue={email}
+            value={email}
             variant='standard'
             className='tw-mb-4 tw-w-[300px] tw-text-sm'
             label={dictionary.dictionary?.backOffice.Email}
@@ -168,7 +168,7 @@ const UserRegister = () => {
               className='tw-w-[300px] tw-text-center tw-mb-4'
               required
               id='outlined-required'
-              defaultValue={plan}
+              value={plan}
               variant='outlined'
               onChange={(e) => setPlan(e.target.value)}
             >

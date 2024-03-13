@@ -59,11 +59,6 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
     setDataForm(data);
   };
 
-  // console.log('dataForm ____ Profile', dataForm);
-  // console.log('data', data);
-  // data.length > 0 && console.log('profile');
-  // console.log('isModalAlertLimit>>>>>>', isModalAlertLimit);
-  console.log(user);
   return (
     data.length &&
     user && (
@@ -76,7 +71,7 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
             handleSwitchAll={handleSwitchAll}
             name={user.profile && user.profile.social ? user.profile.social?.name?.text || '' : ''}
           />
-          
+
           <div className='tw-flex tw-items-start tw-justify-center lg:tw-h-[930px] md:tw-w-[100%]'>
             <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[98%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>
               <FormDataUser
