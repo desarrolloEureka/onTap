@@ -6,6 +6,7 @@ import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUnc
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { TemplateTypes } from '@/types/home';
+import { GetAllBackgroundImages } from '@/reactQuery/home';
 
 interface TemplateType {
   id: string;
@@ -49,7 +50,8 @@ const CustomCheckbox = ({
   const checkboxRef = useRef<any>(null);
   const [isUpdate, setIsUpdate] = useState(false);
   const [fakeData, setFakeData] = useState<TemplateData[]>(templates ?? []);
-  //   const item = fakeData?.find((value) => value.type === optionSelected);
+  const backgrounds = GetAllBackgroundImages();
+  const firstBackgroundId = backgrounds.data && backgrounds.data.length > 0 ? backgrounds.data[0]?.id : null;
 
   const handleSaveTemplate = async (background_id: string) => {
     const userId = uid;
@@ -81,6 +83,7 @@ const CustomCheckbox = ({
           type: optionSelected,
           id: checkboxRef.current.id,
           checked: true,
+          background_id: firstBackgroundId !== null ? firstBackgroundId : undefined,
         });
         setFakeData(fakeDataCloneFilter);
         await SendTemplateSelected(userId, fakeDataCloneFilter, queryClient);
@@ -91,6 +94,7 @@ const CustomCheckbox = ({
           type: optionSelected,
           id: checkboxRef.current.id,
           checked: true,
+          background_id: firstBackgroundId !== null ? firstBackgroundId : undefined,
         });
         setFakeData(fakeDataClone);
         userId &&

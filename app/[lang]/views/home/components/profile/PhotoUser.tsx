@@ -31,6 +31,7 @@ const PhotoUser = ({
   name: string;
 }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImagePro, setSelectedImagePro] = useState<string | null>(null);
   const { data, error } = GetUser();
   const [copied, setCopied] = useState(false);
 
@@ -41,10 +42,15 @@ const PhotoUser = ({
 
     if (file) {
       const base64String = await convertFileToBase64(file);
-      setSelectedImage(base64String);
+      if (isProUser === true) {
+        setSelectedImagePro(base64String);
+      } else {
+        setSelectedImage(base64String);
+      }
+
       const userId = data?.uid;
       if (userId) {
-        await SendDataImage(userId, base64String);
+        await SendDataImage(isProUser, userId, base64String);
       }
     }
   };
@@ -77,9 +83,15 @@ const PhotoUser = ({
             <Avatar
               alt='Photo User'
               src={
-                selectedImage != null
-                  ? selectedImage
-                  : data?.image || '/images/profilePhoto.png'
+                !isProUser && selectedImage ?
+                  selectedImage
+                  : isProUser && selectedImagePro ?
+                    selectedImagePro
+                    : !isProUser && data?.image ?
+                      data.image
+                      : isProUser && data?.imagePro ?
+                        data?.imagePro
+                        : '/images/profilePhoto.png'
               }
               sx={{
                 width: 125,

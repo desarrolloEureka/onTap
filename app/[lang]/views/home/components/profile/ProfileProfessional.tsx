@@ -17,7 +17,6 @@ import ProfileProfessionalHook from './hooks/ProfileProfessoinalHook';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 
 const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
-  // console.log('isProUser>>>>>>>>>>', isProUser);
   const {
     handleModal,
     handleModalAlert,
