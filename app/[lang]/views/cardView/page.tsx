@@ -26,6 +26,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
       CardViewHookWithUser({ userUid: uid })
       :
       CardViewWhitOutUser(typeParam);
+
   return user && type ? (
     user.switch_activateCard ? (
       <TemplateSelector user={user} type={type} lang={lang} />
