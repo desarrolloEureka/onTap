@@ -57,7 +57,7 @@ const ProfileHook = ({
     const emails = dataForm?.emails?.map((email) => email.text);
     const phones = dataForm?.phones?.map((phone) => phone.text);
     const urls = dataForm?.urls?.map((urls) => urls);
-    if (emails) {
+   /*  if (emails) {
       const isEmailValid = emails.every((email) =>
         validateEmail(email as string)
       );
@@ -66,7 +66,7 @@ const ProfileHook = ({
         setisEmailPhoneRight(true);
         return;
       }
-    }
+    } 
     if (phones) {
       const isPhoneValid = phones.every((phone) =>
         validatePhoneNumber(phone as string)
@@ -88,6 +88,7 @@ const ProfileHook = ({
         return;
       }
     }
+    */
 
     if (userId) {
       const isSendDataProfile = await SendDataUserProfile(
@@ -214,6 +215,9 @@ const ProfileHook = ({
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
     key != undefined && subindex && fillFields(index, key, text, subindex);
+    setTimeout(() => {
+      setModalIcons(!isModalIcons);
+    }, 500);
   };
 
   const handleData = ({

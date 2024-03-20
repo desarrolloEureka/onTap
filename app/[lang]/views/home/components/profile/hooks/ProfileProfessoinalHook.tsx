@@ -69,7 +69,7 @@ const ProfileProfessionalHook = ({
       (proCareer) => proCareer
     );
 
-    if (emails) {
+    /* if (emails) {
       const isEmailValid = emails.every((email) =>
         validateEmail(email as string)
       );
@@ -99,7 +99,7 @@ const ProfileProfessionalHook = ({
         setisEmailPhoneRight(true);
         return;
       }
-    }
+    } */
 
     if (isProUser && education) {
       const allObjectsFilled = dataForm?.education?.every(

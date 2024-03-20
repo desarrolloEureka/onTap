@@ -124,7 +124,7 @@ const ItemProfessionalCards = ({
               )
             )}
             <Typography
-              className='tw-w-[146px] tw-text-xs tw-mb-3 tw-font-bold tw-capitalize tw-truncate'
+              className='tw-w-[170px] tw-text-xs tw-mb-3 tw-font-bold tw-capitalize tw-truncate'
               color={'white'}
               textAlign={'left'}
             >

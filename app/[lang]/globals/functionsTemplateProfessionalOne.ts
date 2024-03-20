@@ -95,6 +95,11 @@ export const getPrincipalProfileOrderedByObject = (
     );
   });
 
+  // Ordenar los objetos por order
+  profileProfessionalFilter.sort((a, b) => {
+    return a[1].order - b[1].order;
+  });
+
   profileFilter.forEach((val) => {
     const profArray: any[] = [];
     val[1].length > 0 &&
