@@ -52,18 +52,27 @@ const SocialOne = ({
 
   return data.profile ? (
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
-      <div className={`tw-shadow-md tw-rounded-2xl tw-bg-slate-500`} style={{ height: isSmallScreen ? windowSize.height : '700px', width: isSmallScreenWidth ? windowSize.width : '380px', overflow: 'hidden' }}>
+      <div
+        className={`tw-shadow-md tw-rounded-2xl tw-bg-slate-500`}
+        style={{
+          height: isSmallScreen ? windowSize.height : '700px',
+          width: isSmallScreenWidth ? windowSize.width : '380px',
+          overflow: 'hidden',
+        }}
+      >
         <BgImage background={background} />
         <HeroSocial
           socialNetworks={data.profile.social?.urls}
           photo={data.image}
-          name={`${data.profile.social?.name?.checked
-            ? data.profile.social?.name?.text
-            : ''
-            }  ${data.profile.social?.last_name?.checked
+          name={`${
+            data.profile.social?.name?.checked
+              ? data.profile.social?.name?.text
+              : ''
+          }  ${
+            data.profile.social?.last_name?.checked
               ? data.profile.social?.last_name?.text
               : ''
-            }`}
+          }`}
           profession={
             data.profile.social?.profession?.checked
               ? data.profile.social?.profession?.text

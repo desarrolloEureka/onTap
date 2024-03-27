@@ -12,6 +12,18 @@ const nextConfig = {
     // domains: ['firebasestorage.googleapis.com'],
     // formats: ['image/avif', 'image/webp'],
   },
+  webpack: (config) => {
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        fs: false,
+        path: false,
+        os: false,
+      },
+    };
+    return config;
+  },
+
   env: {
     apiKey: 'AIzaSyAThTZvE3UaSio6WOSoYYegWjgXoTPSaaE',
     authDomain: 'onetap-f8d4f.firebaseapp.com',

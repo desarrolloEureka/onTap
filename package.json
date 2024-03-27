@@ -23,6 +23,7 @@
     "@tanstack/react-query": "^5.8.4",
     "@tanstack/react-query-devtools": "^5.8.4",
     "@types/negotiator": "^0.6.3",
+    "@types/vcards-js": "^2.10.5",
     "firebase": "^10.7.0",
     "i18n": "^0.15.1",
     "i18next": "^23.7.6",
@@ -31,7 +32,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-material-ui-carousel": "^3.4.2",
-    "tsx-control-statements": "^5.1.0"
+    "tsx-control-statements": "^5.1.0",
+    "vcards-js": "^2.10.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.23.3",
