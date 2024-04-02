@@ -241,8 +241,8 @@ const ProfileProfessionalHook = ({
     dataFormClone && index == 'education' && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == 'professional_career'
-      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-      : index == 'urls' &&
+        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+        : index == 'urls' &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -261,6 +261,10 @@ const ProfileProfessionalHook = ({
     key != undefined &&
       subindex &&
       fillFields(index, key, text, undefined, undefined, subindex);
+
+    setTimeout(() => {
+      setModalIcons(!isModalIcons);
+    }, 500);
   };
 
   const handleData = ({

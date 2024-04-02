@@ -24,6 +24,7 @@ export interface UserData {
   profile: DataForm;
   views: number;
   isActive: boolean;
+  isActiveByAdmin: boolean;
   plan: string;
   gif: boolean;
   dni: string;
@@ -36,6 +37,7 @@ export interface User {
   displayName: string;
   isAdmin: boolean;
   isActive: boolean;
+  isActiveByAdmin: boolean;
 }
 
 export interface UserDb {

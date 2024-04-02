@@ -27,10 +27,27 @@ const TextAreaForm = ({
   checked,
   myValue,
   icon,
-  value,
   index,
+  subindex
 }: ItemFormParams) => {
   const dataRef = useRef<any>(null);
+
+  const value = () => {
+    if (
+      index != 'phones' &&
+      index != 'education' &&
+      index != 'emails' &&
+      index != 'urls' &&
+      index != 'professional_career'
+    ) {
+      return dataRef?.current?.text ?? myValue?.text;
+    } else {
+      if (dataRef.current && dataRef.current.length) {
+        const res = dataRef.current[subindex as any].text;
+        return res ?? undefined;
+      }
+    }
+  };
 
   useEffect(() => {
     if (dataRef.current && myValue && index) {
@@ -47,6 +64,7 @@ const TextAreaForm = ({
           label={label}
           multiline
           rows={3}
+          maxRows={3}
           variant='standard'
           InputProps={{
             startAdornment: (
@@ -166,7 +184,7 @@ const TextAreaForm = ({
               currentDataRef: dataRef,
             });
           }}
-          value={value}
+          value={value()}
         />
       </Box>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[35%] tw-mt-10'>

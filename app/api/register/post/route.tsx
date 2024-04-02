@@ -12,11 +12,18 @@ export async function POST(request: Request) {
     const name = req.name;
     const last_name = req.last_name;
     const plan = req.plan;
+
+    // Crear un objeto Date y obtener su timestamp
+    const dateCreated = new Date();
+    const dateCreatedBd = dateCreated.getTime();
+
     if (email && dni && plan && status === "processing") {
       const result = await registerUserAuth({ user: email, password: dni });
       result.name = `${name} ${last_name}`;
       result.plan = plan;
       result.switch_profile = plan === "standard" ? false : true;
+      result.created = dateCreatedBd;
+
       const registerResult = await registerUserFb({ data: result });
       response = {
         payload: { dni, email, name, last_name, plan },

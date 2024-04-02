@@ -24,6 +24,8 @@ export const registerUserAuth = async ({
     gif: false,
     email: '',
     dni: '',
+    isActiveByAdmin: false,
+    created: 0
   };
   return userData;
 };

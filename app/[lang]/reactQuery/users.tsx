@@ -12,6 +12,7 @@ import {
   updateViewsUser,
   updateInactiveUser,
   updatePreView,
+  updateSwitchStateByAdmin,
 } from '@/firebase/user';
 import {
   DataForm,
@@ -114,6 +115,10 @@ const SendSwitchActivateCard = async (userId: string, switchState: boolean) => {
     const getUser = reBuildUserData(userData);
     localStorage.setItem('@user', JSON.stringify(getUser));
   }
+};
+
+const SendSwitchEditAdmin = async (userId: string, switchState: boolean) => {
+  await updateSwitchStateByAdmin(userId, { switch_activateCard: switchState, isActiveByAdmin: switchState });
 };
 
 const UpdatePassword = async (password: string) => {
@@ -250,4 +255,5 @@ export {
   SendViewUser,
   SendInactiveUser,
   SendPreView,
+  SendSwitchEditAdmin
 };

@@ -39,7 +39,7 @@ const TemplateContainerProfessionalOne = ({
 
   const isSmallScreenOne = useMediaQuery('(max-height:790px)');
 
-  return (
+  return profile.professional && (
     <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center tw-mt-9'>
       <Box
         sx={{
@@ -50,7 +50,7 @@ const TemplateContainerProfessionalOne = ({
           position: 'relative',
         }}
       >
-        <SaveContactButton />
+        <SaveContactButton profile={profile.professional} />
       </Box>
       <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-5 no-scrollbar'>
         <Box
