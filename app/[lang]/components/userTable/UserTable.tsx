@@ -1,50 +1,63 @@
 import UserTableLogic from "./hooks/UserTable";
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Container, Typography } from "@mui/material";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Typography } from "@mui/material";
 import Link from "next/link";
 import useDictionary from "@/hooks/dictionary/useDictionary";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LinkIcon from '@mui/icons-material/Link';
 import CreateIcon from '@mui/icons-material/Create';
-
-
-const columns: GridColDef[] = [
-    { field: 'date', headerName: 'Fecha Registro', width: 130 },
-    { field: 'id', headerName: 'No. Identificación', width: 160 },
-    { field: 'name', headerName: 'Nombres y Apellidos', width: 270 },
-    { field: 'email', headerName: 'Correo', width: 300 },
-    { field: 'plan', headerName: 'Plan', width: 110 },
-    { field: 'userType', headerName: 'Tipo Usuario', width: 130 }, //Es para que se pueda identifica si es un usuario comprador o solo le reglaran la tarjeta
-    {
-        field: 'url', headerName: 'URL', width: 140,
-        renderCell: (params) => (
-            //mostrar los iconos de link y copy al lado del url
-            <div className='tw-flex tw-justify-center tw-items-center'>
-                <Link className="tw-mr-5" href={`${params.value}`}><LinkIcon /> </Link>
-                <div onClick={() => { navigator.clipboard.writeText(`${params.value}`) }}>
-                    <ContentCopyIcon />
-                </div>
-            </div>
-        )
-    },
-    {
-        field: 'status', headerName: 'Estado del Cliente', width: 150,
-        renderCell: (params) => (
-            <div>
-                {params.value}
-            </div>)
-    },
-    { field: 'edit', headerName: 'Editar', width: 110, renderCell: (params) => (
-        <div>
-            <CreateIcon />
-        </div>
-    ) },
-];
+import SwitchEdit from "./SwitchEdit";
 
 const UserTable = () => {
-    const { query } = UserTableLogic();
+    const { query, setFlag, flag } = UserTableLogic();
     const dictionary = useDictionary({ lang: 'es' });
-    return (
+    //const uniqueKeyData = query.map((row: any, index: any) => ({ ...row, id: index }));
+
+    const columns: GridColDef[] = [
+        { field: 'date', headerName: 'Fecha Registro', width: 170 },
+        { field: 'id', headerName: 'No. Identificación', width: 160 },
+        { field: 'name', headerName: 'Nombres y Apellidos', width: 270 },
+        { field: 'email', headerName: 'Correo', width: 300 },
+        { field: 'plan', headerName: 'Plan', width: 110 },
+        { field: 'userType', headerName: 'Tipo Usuario', width: 130 }, //Es para que se pueda identifica si es un usuario comprador o solo le reglaran la tarjeta
+        {
+            field: 'url', headerName: 'URL', width: 140,
+            renderCell: (params) => (
+                //mostrar los iconos de link y copy al lado del url
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    <Link className="tw-mr-5" href={`${params.value}`}><LinkIcon /> </Link>
+                    <div onClick={() => { navigator.clipboard.writeText(`${params.value}`) }}>
+                        <ContentCopyIcon />
+                    </div>
+                </div>
+            )
+        },
+        {
+            field: 'status', headerName: 'Estado del Cliente', width: 150,
+            renderCell: (params) => (
+                <div>
+                    {params.value}
+                </div>)
+        },
+        {
+            field: 'edit', headerName: 'Editar', width: 110,
+            renderCell: (params) => (
+                <div>
+                    <SwitchEdit
+                        isActive={params.value.switch}
+                        uid={params.value.uid}
+                        onSwitchChange={handleSwitchChange}
+                    />
+                </div>
+            )
+        },
+    ];
+
+    const handleSwitchChange = () => {
+        setFlag(!flag);
+    };
+
+    return query && (
         <div className='tw-flex tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
             <div className='tw-bg-[#02AF9B] tw-mt-4 tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[800px] tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-center '>
                 <Typography
@@ -70,6 +83,7 @@ const UserTable = () => {
                         pageSizeOptions={[15, 30]}
                         checkboxSelection
                         className="tw-rounded-2xl"
+
                     />
                 </div>
             </div>

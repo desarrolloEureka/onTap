@@ -41,6 +41,10 @@ const SaveContactButtonColor = ({
       generatorVCard.lastName = profile.last_name?.text ?? '';
       generatorVCard.email = emails ?? [];
       generatorVCard.cellPhone = phones ?? [];
+      generatorVCard.homeAddress.label = 'Address';
+      generatorVCard.homeAddress.street = profile.address?.text ?? '';
+      generatorVCard.title = profile.profession?.text ?? '';
+
       generatorVCard.socialUrls = urls ?? [];
       // generatorVCard.homeAddress = profile.address?.text ?? '';k
       downloadTxtFile(generatorVCard.getFormattedString());
@@ -50,9 +54,8 @@ const SaveContactButtonColor = ({
   return (
     <Box
       sx={{ position: 'relative' }}
-      className={`tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl ${
-        isSmallScreen ? 'tw-mt-3' : undefined
-      }`}
+      className={`tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl ${isSmallScreen ? 'tw-mt-3' : undefined
+        }`}
     >
       {circular ? (
         <Box

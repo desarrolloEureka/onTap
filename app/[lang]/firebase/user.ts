@@ -125,6 +125,20 @@ export const updateSwitchActivateCard = async (
   }
 };
 
+export const updateSwitchStateByAdmin = async (
+  userId: string,
+  switchState: any
+) => {
+  try {
+    const userDocRef = doc(dataBase, 'users', userId);
+    const res = await updateDoc(userDocRef, switchState);
+    return res;
+  } catch (error: any) {
+    console.debug('error message', error.message);
+    return null;
+  }
+};
+
 export const updateViewsUser = async (userId: string, newData: any) => {
   const userDocRef = doc(dataBase, 'users', userId);
   await updateDoc(userDocRef, newData);

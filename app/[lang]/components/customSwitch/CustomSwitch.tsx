@@ -109,7 +109,10 @@ const CustomSwitch = ({
         if (profile) {
           await SendSwitchProfile(userId, checked);
         } else {
-          await SendSwitchActivateCard(userId, checked);
+          console.log("data?.isActiveByAdmin  ", data?.isActiveByAdmin);
+          if (data?.isActiveByAdmin === true) {
+            await SendSwitchActivateCard(userId, checked);
+          }
         }
       }
     }
@@ -133,6 +136,7 @@ const CustomSwitch = ({
       inputRef={switchRef}
       checked={switchRef?.current?.checked ? true : false}
       onChange={handleSwitchChange}
+      disabled={!profile && data?.isActiveByAdmin === false ? true : false}
       sx={{
         width: isSmallScreen ? 55 : 66,
         height: isSmallScreen ? 29 : 33,

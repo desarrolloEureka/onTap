@@ -55,23 +55,31 @@ const LoginHook = (dictionary: Dictionary) => {
   const userIsLogged = useCallback(() => {
     // setSendLogin(false);
     if (data) {
-      if (data.isActive === true) {
-        if (data.isAdmin) {
+      if (data.isAdmin) {
+        if (data.isActive === true) {
           router.push('/views/backOffice');
         } else {
-          const urlSplit = window.location.href.split('/');
-          const url = `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}`;
-          data && SendPreView(data?.uid, url);
-          router.push('/views/home');
-        }
-      } else {
-       /*  setTimeout(() => { */
           setErrorForm({
             errorType: 3,
             errorMessage: dictionary.loginView.userNotFound,
           });
-      /*   }, 4000); */
+        }
+      } else {
+        if (data.isActive === true && data.isActiveByAdmin === true) {
+          const urlSplit = window.location.href.split('/');
+          const url = `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}`;
+          data && SendPreView(data?.uid, url);
+          router.push('/views/home');
+        } else {
+          setErrorForm({
+            errorType: 3,
+            errorMessage: dictionary.loginView.userNotFound,
+          });
+        }
       }
+
+
+
     } else if (sendLogin) {
       setTimeout(() => {
         setErrorForm({

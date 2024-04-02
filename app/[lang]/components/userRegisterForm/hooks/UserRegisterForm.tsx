@@ -45,7 +45,13 @@ const UserRegisterForm = () => {
       last_name: lastName,
       plan,
       gif: true,
+      isActiveByAdmin: true,
+      created: ''
     };
+
+    // Crear un objeto Date y obtener su timestamp
+    const dateCreated = new Date();
+    const dateCreatedBd = dateCreated.getTime();
 
     try {
       const result = await registerUserAuth({ user: email, password: dni });
@@ -55,6 +61,9 @@ const UserRegisterForm = () => {
       result.gif = true;
       result.email = email;
       result.dni = dni;
+      result.isActiveByAdmin = true;
+      result.created = dateCreatedBd;
+
       registerUserFb({ data: result })
         .then((res) => {
           setStatus('El usuario se ha registrado correctamente');
