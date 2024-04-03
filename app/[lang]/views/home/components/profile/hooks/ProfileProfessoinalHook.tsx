@@ -99,7 +99,7 @@ const ProfileProfessionalHook = ({
         setisEmailPhoneRight(true);
         return;
       }
-    } */
+    } 
 
     if (isProUser && education) {
       const allObjectsFilled = dataForm?.education?.every(
@@ -126,6 +126,7 @@ const ProfileProfessionalHook = ({
         return;
       }
     }
+    */
 
     if (userId) {
       const isSendDataProfile = await SendDataUserProfile(

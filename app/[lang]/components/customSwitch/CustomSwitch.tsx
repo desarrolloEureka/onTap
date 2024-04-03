@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import {
@@ -7,7 +7,7 @@ import {
   SendSwitchProfile,
 } from '@/reactQuery/users';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useEffect } from 'react';
+import LogOut from '@/hooks/logOut/LogOut';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 92,
@@ -84,11 +84,13 @@ const CustomSwitch = ({
   profile: boolean;
   handleModalAlert?: () => void;
 }) => {
+  const [flag, setFlag] = useState(false);
   const isSmallScreen = useMediaQuery('(max-width:600px)');
-  const { data, error } = GetUser();
-
+  const { data } = GetUser(flag, setFlag);
+  const { logOut } = LogOut();
   const [isUpdate, setIsUpdate] = React.useState(false);
   const switchRef = React.useRef<any>(null);
+  const [switchCard, setSwitchCard] = useState(false);
 
   const userId = data?.uid;
   const plan = data?.plan;
@@ -109,14 +111,27 @@ const CustomSwitch = ({
         if (profile) {
           await SendSwitchProfile(userId, checked);
         } else {
-          console.log("data?.isActiveByAdmin  ", data?.isActiveByAdmin);
-          if (data?.isActiveByAdmin === true) {
-            await SendSwitchActivateCard(userId, checked);
-          }
+          setSwitchCard(!switchCard);
+          setFlag(!flag);
         }
       }
     }
   };
+
+  const handleSwitchContinue = async () => {
+    const userId = data?.uid;
+    if (userId && data) {
+      if (data?.isActiveByAdmin === true) {
+        SendSwitchActivateCard(userId, switchCard);
+      } else {
+        logOut();
+      }
+    }
+  }
+
+  useEffect(() => {
+    handleSwitchContinue();
+  }, [flag, data])
 
   useEffect(() => {
     if (switchRef)

@@ -118,7 +118,11 @@ const SendSwitchActivateCard = async (userId: string, switchState: boolean) => {
 };
 
 const SendSwitchEditAdmin = async (userId: string, switchState: boolean) => {
-  await updateSwitchStateByAdmin(userId, { switch_activateCard: switchState, isActiveByAdmin: switchState });
+  if (switchState === false) {
+    await updateSwitchStateByAdmin(userId, { switch_activateCard: switchState, isActiveByAdmin: switchState });
+  } else {
+    await updateSwitchStateByAdmin(userId, { isActiveByAdmin: switchState });
+  }
 };
 
 const UpdatePassword = async (password: string) => {
@@ -211,7 +215,7 @@ const SendInactiveUser = async (userId: string) => {
   return res;
 };
 
-const GetUser = (refetch?: boolean) =>
+const GetUser = (flag?: boolean, setFlag?: (e: boolean) => void) =>
   useQuery({
     queryKey: ['user'],
     queryFn: async () => {
@@ -225,13 +229,16 @@ const GetUser = (refetch?: boolean) =>
           localStorage.setItem('@user', JSON.stringify(getUser));
           return getUser;
         } else {
+          setFlag && setFlag(false);
           return user;
         }
       } else {
+        setFlag && setFlag(false);
         return null;
       }
     },
-    refetchOnWindowFocus: refetch ?? false,
+    //refetchOnWindowFocus: refetch ?? false,
+    enabled: !!flag,
   });
 
 const SendPreView = async (userId: string, url: string) => {

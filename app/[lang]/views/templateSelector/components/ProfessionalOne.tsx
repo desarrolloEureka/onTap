@@ -52,7 +52,16 @@ const ProfessionalOne = ({
         <HeroProfessional
           socialNetworks={data.profile.professional?.urls}
           photo={data.imagePro}
-          name={`${data.profile.professional?.name?.text}  ${data.profile.professional?.last_name?.text}`}
+          //name={`${data.profile.professional?.name?.text}  ${data.profile.professional?.last_name?.text}`}
+
+          name={`${data.profile.professional?.name?.checked
+            ? data.profile.professional?.name?.text
+            : ''
+            }  ${data.profile.professional?.last_name?.checked
+              ? data.profile.professional?.last_name?.text
+              : ''
+            }`}
+
           profession={
             data.profile.professional?.profession?.checked
               ? data.profile.professional?.profession?.text

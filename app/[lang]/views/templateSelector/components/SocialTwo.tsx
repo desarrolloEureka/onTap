@@ -65,7 +65,14 @@ const SocialTwo = ({
         <Box className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center '>
           <RectangularCustomAvatar
             image={data.image}
-            name={data.profile.social?.name?.text + " " + data.profile.social?.last_name?.text || ''}
+            //name={data.profile.social?.name?.text + " " + data.profile.social?.last_name?.text || ''}
+            name={`${data.profile.social?.name?.checked
+                ? data.profile.social?.name?.text
+                : ''
+              }  ${data.profile.social?.last_name?.checked
+                ? data.profile.social?.last_name?.text
+                : ''
+              }`}
             ml={0}
             size={isSmallScreenTwo ? 100 : 140}
             //size={140}
