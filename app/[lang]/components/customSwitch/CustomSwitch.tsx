@@ -111,7 +111,7 @@ const CustomSwitch = ({
         if (profile) {
           await SendSwitchProfile(userId, checked);
         } else {
-          setSwitchCard(!switchCard);
+          setSwitchCard(checked);
           setFlag(!flag);
         }
       }
@@ -124,6 +124,7 @@ const CustomSwitch = ({
       if (data?.isActiveByAdmin === true) {
         SendSwitchActivateCard(userId, switchCard);
       } else {
+        console.log("ENTREEEEEEEEEEEEEEEEE");
         logOut();
       }
     }
