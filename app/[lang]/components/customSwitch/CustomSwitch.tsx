@@ -112,27 +112,18 @@ const CustomSwitch = ({
           await SendSwitchProfile(userId, checked);
         } else {
           setSwitchCard(checked);
-          setFlag(!flag);
+          await setFlag(true);
+          if (data?.isActiveByAdmin === true) {
+            SendSwitchActivateCard(userId, checked);
+          } else {
+            SendSwitchActivateCard(userId, false);
+            logOut();
+          }
+          setFlag(false);
         }
       }
     }
   };
-
-  const handleSwitchContinue = async () => {
-    const userId = data?.uid;
-    if (userId && data) {
-      if (data?.isActiveByAdmin === true) {
-        SendSwitchActivateCard(userId, switchCard);
-      } else {
-        console.log("ENTREEEEEEEEEEEEEEEEE");
-        logOut();
-      }
-    }
-  }
-
-  useEffect(() => {
-    handleSwitchContinue();
-  }, [flag, data])
 
   useEffect(() => {
     if (switchRef)
@@ -152,7 +143,7 @@ const CustomSwitch = ({
       inputRef={switchRef}
       checked={switchRef?.current?.checked ? true : false}
       onChange={handleSwitchChange}
-      disabled={!profile && data?.isActiveByAdmin === false ? true : false}
+      //disabled={!profile && data?.isActiveByAdmin === false ? true : false}
       sx={{
         width: isSmallScreen ? 55 : 66,
         height: isSmallScreen ? 29 : 33,

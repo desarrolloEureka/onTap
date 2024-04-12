@@ -55,7 +55,7 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
         if (docSnap.exists()) {
           const user = docSnap.data() as UserData;
           const getUser = userDataToSend(user, resultUser);
-          localStorage.setItem('@user', JSON.stringify(getUser));
+          await localStorage.setItem('@user', JSON.stringify(getUser));
           return getUser;
         } else {
           return null;
@@ -156,7 +156,7 @@ const SendTemplateSelected = async (
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
-    localStorage.setItem('@user', JSON.stringify(getUser));
+    await localStorage.setItem('@user', JSON.stringify(getUser));
     queryClient.setQueryData(['user'], () => getUser);
   }
 };
@@ -226,7 +226,8 @@ const GetUser = (flag?: boolean, setFlag?: (e: boolean) => void) =>
         if (updatedUser.exists()) {
           const userData = updatedUser.data() as UserData;
           const getUser = reBuildUserData(userData);
-          localStorage.setItem('@user', JSON.stringify(getUser));
+          await localStorage.setItem('@user', JSON.stringify(getUser));
+          console.log("getUser ", getUser);
           return getUser;
         } else {
           setFlag && setFlag(false);
