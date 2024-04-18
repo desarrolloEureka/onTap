@@ -227,7 +227,6 @@ const GetUser = (flag?: boolean, setFlag?: (e: boolean) => void) =>
           const userData = updatedUser.data() as UserData;
           const getUser = reBuildUserData(userData);
           await localStorage.setItem('@user', JSON.stringify(getUser));
-          console.log("getUser ", getUser);
           return getUser;
         } else {
           setFlag && setFlag(false);

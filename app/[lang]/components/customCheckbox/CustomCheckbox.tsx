@@ -4,7 +4,7 @@ import { Checkbox } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { TemplateTypes } from '@/types/home';
 import { GetAllBackgroundImages } from '@/reactQuery/home';
 
@@ -73,6 +73,7 @@ const CustomCheckbox = ({
     if (handleSelectBackground) {
       handleSaveTemplate(checkboxRef?.current?.id);
     } else {
+      console.log("Entreeeeeeeeeeee");
       const userId = uid;
       if (checkboxRef && userId && fakeData.length > 0) {
         const fakeDataClone = [...fakeData];
@@ -83,7 +84,8 @@ const CustomCheckbox = ({
           type: optionSelected,
           id: checkboxRef.current.id,
           checked: true,
-          background_id: firstBackgroundId !== null ? firstBackgroundId : undefined,
+          //background_id: firstBackgroundId !== null ? firstBackgroundId : undefined,
+          background_id: '7ynTMVt3M6VFV3KykOXQ',
         });
         setFakeData(fakeDataCloneFilter);
         await SendTemplateSelected(userId, fakeDataCloneFilter, queryClient);
@@ -94,7 +96,8 @@ const CustomCheckbox = ({
           type: optionSelected,
           id: checkboxRef.current.id,
           checked: true,
-          background_id: firstBackgroundId !== null ? firstBackgroundId : undefined,
+          //background_id: firstBackgroundId !== null ? firstBackgroundId : undefined,
+          background_id: '7ynTMVt3M6VFV3KykOXQ',
         });
         setFakeData(fakeDataClone);
         userId &&

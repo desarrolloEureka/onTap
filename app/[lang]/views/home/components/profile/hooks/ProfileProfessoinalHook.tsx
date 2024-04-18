@@ -46,6 +46,8 @@ const ProfileProfessionalHook = ({
   const [itemUrlKey, setItemUrlKey] = useState(0);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
+  const [isAlertSave, setIsAlertSave] = useState(false);
+
   /* Delete items */
   const [itemDelete, setItemDelete] = useState<
     { index: string; subindex: string } | {}
@@ -196,14 +198,11 @@ const ProfileProfessionalHook = ({
     currentDataRef?: any;
     key?: number;
   }) => {
+    setIsAlertSave(true);
     const isChecked = value?.target?.checked;
-    // console.log('isChecked', isChecked);
-
-    // console.log('dataForm', dataForm);
-
     const dataFormClone = { ...dataForm };
     const index = value?.target?.name as keyof typeof dataFormClone;
-    // console.log('index', index);
+
     if (
       index != 'phones' &&
       index != 'education' &&
@@ -228,6 +227,10 @@ const ProfileProfessionalHook = ({
         setDataForm(dataFormClone);
       }
     }
+
+    setTimeout(() => {
+      setIsAlertSave(false);
+    }, 5000);
   };
 
   const fillFields = (
@@ -634,6 +637,7 @@ const ProfileProfessionalHook = ({
   );
 
   const handleSwitchAll = (val: ChangeEvent<HTMLInputElement>) => {
+    setIsAlertSave(true);
     const isChecked = val.target.checked;
     const dataFormClone = { ...dataForm };
     const items = Object.entries(dataFormClone);
@@ -660,6 +664,10 @@ const ProfileProfessionalHook = ({
     const dataFormChecked = Object.fromEntries(newData);
     handleDataSet && handleDataSet(dataFormChecked);
     setAllChecked(true);
+
+    setTimeout(() => {
+      setIsAlertSave(false);
+    }, 5000);
   };
 
   // console.log('isProUser', isProUser);
@@ -792,6 +800,7 @@ const ProfileProfessionalHook = ({
     labelStatus,
     isEmailPhoneRight,
     setisEmailPhoneRight,
+    isAlertSave
   };
 };
 

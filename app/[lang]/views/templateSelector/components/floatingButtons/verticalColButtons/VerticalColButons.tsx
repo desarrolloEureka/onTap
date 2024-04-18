@@ -27,15 +27,17 @@ const VerticalColButtons = ({
               return (
                 <Box
                   sx={{
-                    width: '100%',
+                    width: '55%',
                     height: 70,
                     marginLeft: -1,
+                    paddingBottom: 2.5
                   }}
                   key={i}
                 >
                   <CustomButton
                     name={value.icon}
                     link={value.url}
+                    nameLabel={value.name}
                     key={key}
                     styles={`tw-flex tw-flex-col`}
                   />

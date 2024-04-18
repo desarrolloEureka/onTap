@@ -18,12 +18,15 @@ const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
   const isSmallScreen = useMediaQuery('(max-height:668px)');
   const reversedArray = finalArray.slice().reverse();
 
+  console.log("reversedArray ", reversedArray);
+
   return (
-    <Container className={`${isSmallScreen ? 'tw-h-20' : 'tw-h-30'} tw-h-20 tw-flex tw-w-[310px] tw-overflow-scroll tw-relative no-scrollbar`}>
+    <Container className={`${isSmallScreen ? 'tw-h-15' : 'tw-h-32'} tw-h-20 tw-flex tw-w-[310px] tw-overflow-scroll tw-relative no-scrollbar`}>
       {reversedArray.length > 0 &&
         reversedArray.map((val, i) => (
           <CustomButton
             name={val.icon}
+            nameLabel={val.name}
             link={val.url}
             styles={'tw-mx-3'}
             key={i}

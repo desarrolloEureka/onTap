@@ -99,6 +99,7 @@ const HomeContent = ({
     if (optionSelected === 'social') {
       if (data?.profile?.social) {
         if (background) {
+          console.log('baseUrl ', baseUrl);
           window.open(baseUrl);
         } else {
           setIsModalAlertBg(true);
@@ -127,8 +128,8 @@ const HomeContent = ({
   return (
     dictionary && (
       <div
-        className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'
-          }`}
+        //className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-h-screen'}`}
+      className={`tw-bg-[url('/images/homeBackground.png')] tw-bg-cover tw-bg-center ${screenHeight ? '' : 'md:tw-min-h-screen'}`}
       >
         <Header dictionary={dictionary} views={data?.views ?? 0} />
         <div

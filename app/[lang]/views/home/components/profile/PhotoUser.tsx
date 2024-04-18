@@ -22,13 +22,15 @@ const PhotoUser = ({
   isProUser,
   handleSendProfile,
   handleSwitchAll,
-  name
+  name,
+  isAlertSave
 }: {
   dictionary: Dictionary;
   isProUser: boolean;
   handleSendProfile: (isProUser: boolean) => Promise<void>;
   handleSwitchAll: (val: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
+  isAlertSave: boolean
 }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedImagePro, setSelectedImagePro] = useState<string | null>(null);
@@ -76,8 +78,9 @@ const PhotoUser = ({
   };
 
   return (
-    <div className='tw-h-[280px] tw-flex tw-items-center tw-justify-center tw-flex-col tw-mb-[-20px] tw-pb-6'>
-      <div className=' tw-h-[70%] tw-flex tw-items-center tw-justify-center'>
+    <div className='tw-h-[300px] tw-flex tw-items-center tw-justify-center tw-flex-col tw-mb-[-20px] tw-pb-6'>
+
+      <div className={`${isAlertSave === true ? 'tw-h-[50%]' : 'tw-h-[55%]'}  tw-flex tw-items-end tw-justify-center`}>
         <Stack direction='row' spacing={2} className='tw-relative'>
           <label htmlFor='photoInput'>
             <Avatar
@@ -133,9 +136,22 @@ const PhotoUser = ({
             {name}
           </Typography>
         </div>
+
       </div>
 
-      <div className=' tw-h-[35%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
+      {isAlertSave === true && (
+        <div className=' tw-h-[10%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
+          <div className='tw-h-[35px] tw-w-[240px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#f48c42] tw-rounded-xl'>
+            <Typography
+              className={`tw-w-[90%] tw-text-center tw-truncate`}
+            >
+              Recuerde guardar los datos
+            </Typography>
+          </div>
+        </div>
+      )}
+
+      <div className=' tw-h-[20%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
         <Container className='tw-h-[98%] tw-w-[85%] tw-flex tw-items-start tw-justify-end'>
           <div className=' tw-h-[100%] tw-w-[50%] tw-flex tw-flex-col tw-items-start tw-justify-center'>
             <div className=' tw-h-[100%] tw-w-[80%] tw-flex tw-flex-row tw-items-center tw-justify-center'>

@@ -1,6 +1,6 @@
-function IconTumblr() {
+function IconTumblr({ color }: { color: string }) {
   return (
-    <svg  fill="#02AF9B" width="34px" height="34px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <svg  fill={color} width="34px" height="34px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
     <title>Tumblr</title>
     <g id="Layer_2" data-name="Layer 2">
       <g id="invisible_box" data-name="invisible box">

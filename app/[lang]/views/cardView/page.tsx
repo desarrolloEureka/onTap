@@ -20,12 +20,12 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const handleModalAlert = () => setIsModalAlert(!isModalAlert);
 
   const { user, type } = uid && typeParam ?
-    CardViewUserMobile({ userUid: uid, typeParam: typeParam })
+    CardViewUserMobile({ userUid: uid, typeParam: typeParam })/* Abrir desde el WebView del cel */
     :
     uid ?
-      CardViewHookWithUser({ userUid: uid })
+      CardViewHookWithUser({ userUid: uid })/* Cuando comparto mi url */
       :
-      CardViewWhitOutUser(typeParam);
+      CardViewWhitOutUser(typeParam);/*  Abrir desde la parte web */
 
   return user && type ? (
     user.switch_activateCard ? (

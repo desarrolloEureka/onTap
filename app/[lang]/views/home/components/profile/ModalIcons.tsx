@@ -159,7 +159,9 @@ const ModalIcons = ({
                                         } tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconTikTok />
+                                        <IconTikTok
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -210,7 +212,9 @@ const ModalIcons = ({
                                         } tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconMessenger />
+                                        <IconMessenger
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -259,7 +263,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'snapchat' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconSnapchat />
+                                        <IconSnapchat
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -308,7 +314,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'twitch' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconTwitch />
+                                        <IconTwitch
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -328,7 +336,7 @@ const ModalIcons = ({
                                             key: keyItem,
                                         })
                                     }
-                                    className={`${val.icon === 'youTube' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
+                                    className={`${val.icon === 'youtube' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <YouTubeIcon
@@ -383,7 +391,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'zoom' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconZoom />
+                                        <IconZoom
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -406,7 +416,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'line' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconLine />
+                                        <IconLine
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -429,7 +441,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'gmail' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconGmail />
+                                        <IconGmail
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -530,7 +544,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'whatsappbusiness' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-mb-3 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconWhatsAppB />
+                                        <IconWhatsAppB
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -553,7 +569,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'skype' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconSkype />
+                                        <IconSkype
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -576,7 +594,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'wechat' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconWeChat />
+                                        <IconWeChat
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -599,7 +619,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'paypal' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconPayPal />
+                                        <IconPayPal
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -622,7 +644,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'vsco' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconVSCO />
+                                        <IconVSCO
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -645,7 +669,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'tumblr' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconTumblr />
+                                        <IconTumblr
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -668,7 +694,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'vimeo' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconVimeo />
+                                        <IconVimeo
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -691,7 +719,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'spotify' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconSpotify />
+                                        <IconSpotify
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -714,7 +744,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'deezer' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconDeezer />
+                                        <IconDeezer
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -737,7 +769,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'applemusic' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-mb-3 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconAppleMusic />
+                                        <IconAppleMusic
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -760,7 +794,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'googlemaps' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconGoogleMaps />
+                                        <IconGoogleMaps
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -783,7 +819,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'tripadvisor' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min tw-mb-3`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconTripAdvisor />
+                                        <IconTripAdvisor
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -806,7 +844,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'booking' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconBooking />
+                                        <IconBooking
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -829,7 +869,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'tinder' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconTinder />
+                                        <IconTinder
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -852,7 +894,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'amazon' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconAmazon />
+                                        <IconAmazon
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -875,7 +919,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'onlyfans' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconOnlyFans />
+                                        <IconOnlyFans
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -898,7 +944,9 @@ const ModalIcons = ({
                                     className={`${val.icon === 'airbnb' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
-                                        <IconAirbnb />
+                                        <IconAirbnb
+                                            color={'#02AF9B'}
+                                        />
                                     </div>
                                 </Button>
                             </div>
@@ -913,12 +961,12 @@ const ModalIcons = ({
                                     onClick={(text: any) =>
                                         handleDataNetworks({
                                             name: value[0],
-                                            text: 'pinteres',
+                                            text: 'pinterest',
                                             subindex: 'icon',
                                             key: keyItem,
                                         })
                                     }
-                                    className={`${val.icon === 'pinteres' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
+                                    className={`${val.icon === 'pinterest' ? 'tw-bg-[#b8bcc0]' : 'tw-bg-white'} tw-p-2 tw-min-w-min`}
                                 >
                                     <div className='tw-flex tw-flex-col tw-items-center tw-w-[35px] tw-h-[35px]'>
                                         <PinterestIcon
