@@ -29,7 +29,7 @@ const RightButtons = ({
     >
       {social.map((val, key) => {
         /* const my = (key === 1 || key === 2) && 'tw-mt-5'; */
-        const my = (isSmallScreen && (key === 1 || key === 2)) ? 'tw-mt-2' : 'tw-mt-5';
+        const my = (isSmallScreen && (key === 1 || key === 2)) ? 'tw-mt-2' : 'tw-mt-4';
         const mx = (key === 0 || key === 2) && '-tw-ml-5';
         return (
           <CustomButton

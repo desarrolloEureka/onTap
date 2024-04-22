@@ -149,7 +149,9 @@ const ModalProfile = ({
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>
                       <Button>
-                        <IconTikTok />
+                        <IconTikTok
+                          color={'#02AF9B'}
+                        />
                       </Button>
                     </div>
                     <div className='tw-h-[100%] tw-w-[11%] tw-flex tw-justify-center tw-items-center'>

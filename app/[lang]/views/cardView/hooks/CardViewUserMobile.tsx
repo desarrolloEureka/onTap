@@ -10,11 +10,11 @@ const CardViewUserMobile = ({ userUid, typeParam }: { userUid: string, typeParam
             setType(typeParam);
             if (data && data.switch_activateCard) {
                 const viewsNow = data.views;
-                const viewsNew = viewsNow + 1;
+                const viewsNew = viewsNow;
                 const userId = data?.uid;
-                if (userId) {
-                    SendViewUser(userId, viewsNew);
-                }
+                /*  if (userId) {
+                     SendViewUser(userId, viewsNew);
+                 } */
             }
         }
     }, [data, typeParam]);

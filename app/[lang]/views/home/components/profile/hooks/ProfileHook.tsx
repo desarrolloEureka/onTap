@@ -39,6 +39,8 @@ const ProfileHook = ({
   const [itemUrlKey, setItemUrlKey] = useState(0);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
+  const [isAlertSave, setIsAlertSave] = useState(false);
+
   /* Delete items */
   const [itemDelete, setItemDelete] = useState<
     { index: string; subindex: string } | {}
@@ -57,38 +59,38 @@ const ProfileHook = ({
     const emails = dataForm?.emails?.map((email) => email.text);
     const phones = dataForm?.phones?.map((phone) => phone.text);
     const urls = dataForm?.urls?.map((urls) => urls);
-   /*  if (emails) {
-      const isEmailValid = emails.every((email) =>
-        validateEmail(email as string)
-      );
-      if (!isEmailValid) {
-        setStatus(dictionary.profileView.errorEmail);
-        setisEmailPhoneRight(true);
-        return;
-      }
-    } 
-    if (phones) {
-      const isPhoneValid = phones.every((phone) =>
-        validatePhoneNumber(phone as string)
-      );
-      if (!isPhoneValid) {
-        setStatus(dictionary.profileView.errorPhone);
-        setisEmailPhoneRight(true);
-        return;
-      }
-    }
-
-    if (urls) {
-      const allObjectsFilled = dataForm?.urls?.every(
-        (obj) => obj.name !== '' && obj.url !== '' && obj.icon !== ''
-      );
-      if (!allObjectsFilled) {
-        setStatus(dictionary.profileView.errorEmptyUrl);
-        setisEmailPhoneRight(true);
-        return;
-      }
-    }
-    */
+    /*  if (emails) {
+       const isEmailValid = emails.every((email) =>
+         validateEmail(email as string)
+       );
+       if (!isEmailValid) {
+         setStatus(dictionary.profileView.errorEmail);
+         setisEmailPhoneRight(true);
+         return;
+       }
+     } 
+     if (phones) {
+       const isPhoneValid = phones.every((phone) =>
+         validatePhoneNumber(phone as string)
+       );
+       if (!isPhoneValid) {
+         setStatus(dictionary.profileView.errorPhone);
+         setisEmailPhoneRight(true);
+         return;
+       }
+     }
+ 
+     if (urls) {
+       const allObjectsFilled = dataForm?.urls?.every(
+         (obj) => obj.name !== '' && obj.url !== '' && obj.icon !== ''
+       );
+       if (!allObjectsFilled) {
+         setStatus(dictionary.profileView.errorEmptyUrl);
+         setisEmailPhoneRight(true);
+         return;
+       }
+     }
+     */
 
     if (userId) {
       const isSendDataProfile = await SendDataUserProfile(
@@ -158,14 +160,11 @@ const ProfileHook = ({
     currentDataRef?: any;
     key?: number;
   }) => {
+    setIsAlertSave(true);
     const isChecked = value?.target?.checked;
-    // console.log('isChecked', isChecked);
-
-    // console.log('dataForm', dataForm);
-
     const dataFormClone = { ...dataForm };
     const index = value?.target?.name as keyof typeof dataFormClone;
-    // console.log('index', index);
+
     if (
       index != 'phones' &&
       index != 'emails' &&
@@ -188,6 +187,10 @@ const ProfileHook = ({
         setDataForm(dataFormClone);
       }
     }
+
+    setTimeout(() => {
+      setIsAlertSave(false);
+    }, 5000);
   };
 
   const fillFields = (
@@ -489,6 +492,7 @@ const ProfileHook = ({
   );
 
   const handleSwitchAll = (val: ChangeEvent<HTMLInputElement>) => {
+    setIsAlertSave(true);
     const isChecked = val.target.checked;
     const dataFormClone = { ...dataForm };
     const items = Object.entries(dataFormClone);
@@ -511,10 +515,13 @@ const ProfileHook = ({
         return checkedItem(data, value[0], isChecked);
       }
     });
-
     const dataFormChecked = Object.fromEntries(newData);
     handleDataSet && handleDataSet(dataFormChecked);
     setAllChecked(true);
+
+    setTimeout(() => {
+      setIsAlertSave(false);
+    }, 5000);
   };
 
   // console.log('isProUser', isProUser);
@@ -644,6 +651,7 @@ const ProfileHook = ({
     status,
     isEmailPhoneRight,
     setisEmailPhoneRight,
+    isAlertSave
   };
 };
 

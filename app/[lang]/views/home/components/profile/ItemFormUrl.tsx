@@ -22,6 +22,42 @@ import { UserData } from '@/types/user';
 import LanguageIcon from '@mui/icons-material/Language';
 import ModalIcons from './ModalIcons';
 
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import IconTikTok from './IconTikTok';
+import XIcon from '@mui/icons-material/X';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import EmailIcon from '@mui/icons-material/Email';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import PinterestIcon from '@mui/icons-material/Pinterest';
+import IconMessenger from './IconMessenger';
+import IconSnapchat from './IconSnapchat';
+import IconTwitch from './IconTwitch';
+import IconZoom from './IconZoom';
+import IconLine from './IconLine';
+import IconGmail from './IconGmail';
+import IconWhatsAppB from './IconWhatsAppB';
+import IconSkype from './IconSkype';
+import IconWeChat from './IconWeChat';
+import IconPayPal from './IconPayPal';
+import IconVSCO from './IconVSCO';
+import IconTumblr from './IconTumblr';
+import IconVimeo from './IconVimeo';
+import IconSpotify from './IconSpotify';
+import IconDeezer from './IconDeezer';
+import IconAppleMusic from './IconAppleMusic';
+import IconGoogleMaps from './IconGoogleMaps';
+import IconTripAdvisor from './IconTripAdvisor';
+import IconBooking from './IconBooking';
+import IconTinder from './IconTinder';
+import IconAmazon from './IconAmazon';
+import IconOnlyFans from './IconOnlyFans';
+import IconAirbnb from './IconAirbnb';
+import { WhatsApp } from '@mui/icons-material';
+import LinkSharpIcon from '@mui/icons-material/LinkSharp';
+
 const ItemFormUrl = ({
   dictionary,
   dataForm,
@@ -99,18 +135,11 @@ const ItemFormUrl = ({
   isModalIcons: boolean;
   handleDeleteData: () => void;
 }) => {
-  // console.log('labelArray', labelArray);
-  // console.log('user', user);
-  // console.log('social', social);
-  // console.log('value', value);
-  // console.log('itemUrlSelected', itemUrlSelected);
-  // console.log('itemUrlKey', itemUrlKey);
-
   return (
     <div
       className={`${value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
-          ? 'tw-h-[350px]'
-          : 'tw-h-[250px]'
+        ? 'tw-h-[350px]'
+        : 'tw-h-[250px]'
         } tw-overflow-y-auto tw-w-[100%] tw-bg-[#E9E9E9] tw-rounded-2xl tw-my-3 tw-py-5`}
     >
       <div
@@ -169,8 +198,8 @@ const ItemFormUrl = ({
                   <div
                     key={key}
                     className={`tw-pb-3 ${key !== labelArray.length - 1
-                        ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
-                        : ''
+                      ? 'tw-border-b-8 tw-border-gray-300 tw-border-t-0 tw-border-x-0 tw-border-solid'
+                      : ''
                       }`}
                   >
                     <div
@@ -235,7 +264,165 @@ const ItemFormUrl = ({
                                         height: 38,
                                       }}
                                     >
-                                      <LanguageIcon sx={{ color: '#396593', fontSize: '2.6rem' }} />
+                                      {val.icon === 'www' ?
+                                        <LinkSharpIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                        :
+                                        val.icon === 'facebook' ?
+                                          <FacebookOutlinedIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                          :
+                                          val.icon === 'tiktok' ?
+                                            <IconTikTok
+                                              color={'#396593'}
+                                            />
+                                            :
+                                            val.icon === 'linkedin' ?
+                                              <LinkedInIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                              :
+                                              val.icon === 'messenger' ?
+                                                <IconMessenger
+                                                  color={'#396593'}
+                                                />
+                                                :
+                                                val.icon === 'instagram' ?
+                                                  <InstagramIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                                  :
+                                                  val.icon === 'snapchat' ?
+                                                    <IconSnapchat
+                                                      color={'#396593'}
+                                                    />
+                                                    :
+                                                    val.icon === 'twitter' ?
+                                                      <XIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                                      :
+                                                      val.icon === 'twitch' ?
+                                                        <IconTwitch
+                                                          color={'#396593'}
+                                                        />
+                                                        :
+                                                        val.icon === 'youtube' ?
+                                                          <YouTubeIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                                          :
+                                                          val.icon === 'whatsapp' ?
+                                                            <WhatsApp sx={{ color: '#396593', fontSize: '2rem' }} />
+                                                            :
+                                                            val.icon === 'zoom' ?
+                                                              <IconZoom
+                                                                color={'#396593'}
+                                                              />
+                                                              :
+                                                              val.icon === 'line' ?
+                                                                <IconLine
+                                                                  color={'#396593'}
+                                                                />
+                                                                :
+                                                                val.icon === 'gmail' ?
+                                                                  <IconGmail
+                                                                    color={'#396593'}
+                                                                  />
+                                                                  :
+                                                                  val.icon === 'email' ?
+                                                                    <EmailIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                                                    :
+                                                                    val.icon === 'phone' ?
+                                                                      <LocalPhoneIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                                                      :
+                                                                      val.icon === 'telegram' ?
+                                                                        <TelegramIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                                                        :
+                                                                        val.icon === 'whatsappbusiness' ?
+                                                                          <IconWhatsAppB
+                                                                            color={'#396593'}
+                                                                          />
+                                                                          :
+                                                                          val.icon === 'skype' ?
+                                                                            <IconSkype
+                                                                              color={'#396593'}
+                                                                            />
+                                                                            :
+                                                                            val.icon === 'wechat' ?
+                                                                              <IconWeChat
+                                                                                color={'#396593'}
+                                                                              />
+                                                                              :
+                                                                              val.icon === 'paypal' ?
+                                                                                <IconPayPal
+                                                                                  color={'#396593'}
+                                                                                />
+                                                                                :
+                                                                                val.icon === 'vsco' ?
+                                                                                  <IconVSCO
+                                                                                    color={'#396593'}
+                                                                                  />
+                                                                                  :
+                                                                                  val.icon === 'tumblr' ?
+                                                                                    <IconTumblr
+                                                                                      color={'#396593'}
+                                                                                    />
+                                                                                    :
+                                                                                    val.icon === 'vimeo' ?
+                                                                                      <IconVimeo
+                                                                                        color={'#396593'}
+                                                                                      />
+                                                                                      :
+                                                                                      val.icon === 'spotify' ?
+                                                                                        <IconSpotify
+                                                                                          color={'#396593'}
+                                                                                        />
+                                                                                        :
+                                                                                        val.icon === 'deezer' ?
+                                                                                          <IconDeezer
+                                                                                            color={'#396593'}
+                                                                                          />
+                                                                                          :
+                                                                                          val.icon === 'applemusic' ?
+                                                                                            <IconAppleMusic
+                                                                                              color={'#396593'}
+                                                                                            />
+                                                                                            :
+                                                                                            val.icon === 'googlemaps' ?
+                                                                                              <IconGoogleMaps
+                                                                                                color={'#396593'}
+                                                                                              />
+                                                                                              :
+                                                                                              val.icon === 'tripadvisor' ?
+                                                                                                <IconTripAdvisor
+                                                                                                  color={'#396593'}
+                                                                                                />
+                                                                                                :
+                                                                                                val.icon === 'booking' ?
+                                                                                                  <IconBooking
+                                                                                                    color={'#396593'}
+                                                                                                  />
+                                                                                                  :
+                                                                                                  val.icon === 'tinder' ?
+                                                                                                    <IconTinder
+                                                                                                      color={'#396593'}
+                                                                                                    />
+                                                                                                    :
+                                                                                                    val.icon === 'amazon' ?
+                                                                                                      <IconAmazon
+                                                                                                        color={'#396593'}
+                                                                                                      />
+                                                                                                      :
+                                                                                                      val.icon === 'onlyfans' ?
+                                                                                                        <IconOnlyFans
+                                                                                                          color={'#396593'}
+                                                                                                        />
+                                                                                                        :
+                                                                                                        val.icon === 'airbnb' ?
+                                                                                                          <IconAirbnb
+                                                                                                            color={'#396593'}
+                                                                                                          />
+                                                                                                          :
+                                                                                                          val.icon === 'pinterest' ?
+                                                                                                            <PinterestIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                                                                                            :
+                                                                                                            <LanguageIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+
+                                      }
+
+
+                                      {/* <LanguageIcon sx={{ color: '#396593', fontSize: '2rem' }} /> */}
                                     </Avatar>
                                   </Button>
                                 </div>

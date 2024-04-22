@@ -53,7 +53,8 @@ const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
     setIsDataSuccess,
     isEmailPhoneRight,
     setisEmailPhoneRight,
-    labelStatus
+    labelStatus,
+    isAlertSave
   } = ProfileProfessionalHook({
     dictionary,
     isProUser: true,
@@ -78,7 +79,7 @@ const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
             handleSendProfile={handleSendProfile}
             handleSwitchAll={handleSwitchAll}
             name={user.profile && user?.profile?.professional ? user?.profile?.professional?.name?.text || '' : ''}
-
+            isAlertSave={isAlertSave}
           />
           <div className='tw-flex tw-items-start tw-justify-center lg:tw-h-auto md:tw-w-[100%]'>
             <Container className='tw-bg-white tw-shadow-md tw-rounded-2xl tw-h-[98%] tw-w-[85%] md:tw-flex tw-items-start tw-justify-center'>

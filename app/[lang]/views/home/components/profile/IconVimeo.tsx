@@ -1,7 +1,7 @@
-function IconVimeo() {
+function IconVimeo({ color }: { color: string }) {
   return (
     <svg
-      fill='#02AF9B'
+      fill={color}
       width='34px'
       height='34px'
       viewBox='-2 -3.5 24 24'

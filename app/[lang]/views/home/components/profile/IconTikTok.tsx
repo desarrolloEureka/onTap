@@ -1,7 +1,7 @@
-function IconTikTok() {
+function IconTikTok({ color }: { color: string }) {
   return (
     <svg
-      fill='#02AF9B'
+      fill={color}
       width='30px'
       height='30px'
       viewBox='0 0 20 20'

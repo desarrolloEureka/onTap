@@ -1,7 +1,7 @@
-function IconMessenger() {
+function IconMessenger({ color }: { color: string }) {
   return (
     <svg
-      fill='#02AF9B'
+      fill={color}
       width='30px'
       height='30px'
       viewBox='0 0 25 25'

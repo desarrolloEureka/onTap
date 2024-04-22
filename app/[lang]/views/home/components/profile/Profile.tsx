@@ -50,6 +50,7 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
     isEmailPhoneRight,
     setisEmailPhoneRight,
     status,
+    isAlertSave
   } = ProfileHook({
     dictionary,
     isProUser: false,
@@ -70,6 +71,7 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
             handleSendProfile={handleSendProfile}
             handleSwitchAll={handleSwitchAll}
             name={user.profile && user.profile.social ? user.profile.social?.name?.text || '' : ''}
+            isAlertSave={isAlertSave}
           />
 
           <div className='tw-flex tw-items-start tw-justify-center lg:tw-h-[930px] md:tw-w-[100%]'>
