@@ -8,6 +8,7 @@ export interface Dictionary {
     UserList: string;
     CreateUser: string;
     UserRegister: string;
+    CreateLogo: string;
     dni: string;
     Nombre: string;
     Apellido: string;
@@ -23,11 +24,13 @@ export interface Dictionary {
     LogOut: string;
     AddDesaign: string;
     FontName: string;
+    LogoName: string;
     agregarImagen: string;
     imagenSeleccionada: string;
     alertTitle: string;
     alertMessage: string;
     fondoPlantilla: string;
+    logosTitle: string;
     guardar: string;
   };
   cardView: {
@@ -125,6 +128,7 @@ export interface Dictionary {
     addAnotherURL: string;
     errorDataSend: string;
     successDataSend: string;
+    emptyData: string;
     labelError505: string;
     errorEmail: string;
     errorPhone: string;

@@ -47,6 +47,7 @@ const ProfileProfessionalHook = ({
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
   const [isAlertSave, setIsAlertSave] = useState(false);
+  const [isAlertEmptyData, setIsEmptyData] = useState(false);
 
   /* Delete items */
   const [itemDelete, setItemDelete] = useState<
@@ -202,7 +203,7 @@ const ProfileProfessionalHook = ({
     const isChecked = value?.target?.checked;
     const dataFormClone = { ...dataForm };
     const index = value?.target?.name as keyof typeof dataFormClone;
-
+    console.log("index ", index);
     if (
       index != 'phones' &&
       index != 'education' &&
@@ -215,16 +216,41 @@ const ProfileProfessionalHook = ({
         dataFormClone[index]?.label != 'professional_career' ||
         dataFormClone[index]?.label != 'urls')
     ) {
-      dataFormClone[index]!.checked = isChecked;
-      setDataForm(dataFormClone);
+      if (dataFormClone[index]?.text?.length === 0 && isChecked === true) {
+        setIsEmptyData(true);
+      } else {
+        dataFormClone[index]!.checked = isChecked;
+        setDataForm(dataFormClone);
+      }
+
     } else {
       let dataAux = dataFormClone[index] as DataFormValues[];
+      let dataUrl = dataFormClone[index] as UrlDataFormValues[];
+      let dataEduca = dataFormClone[index] as EducationDataFormValues[];
+      let dataCareer = dataFormClone[index] as CareerDataFormValues[];
 
       if (dataAux && key != undefined) {
-        dataAux[key].checked = isChecked;
-        currentDataRef.current.length > 0 &&
-          (currentDataRef.current[key].checked = isChecked);
-        setDataForm(dataFormClone);
+
+        if (isChecked === true && dataAux[key]) {
+          const isEmptyText = dataAux[key].text?.length === 0 && index !== 'urls';
+          const isEmptyUrls = index === 'urls' && (dataUrl[key]?.name?.length === 0 || dataUrl[key]?.url?.length === 0 || dataUrl[key]?.icon?.length === 0);
+          const isEmptyEduca = index === 'education' && (dataEduca[key]?.title?.length === 0 || dataEduca[key]?.institution?.length === 0 || dataEduca[key]?.year?.length === 0);
+          const isEmptyCareer = index === 'professional_career' && (dataCareer[key]?.company?.length === 0 || dataCareer[key]?.position?.length === 0 || dataCareer[key]?.data_init?.length === 0 || dataCareer[key]?.data_end?.length === 0);
+
+          if (isEmptyText || isEmptyUrls || isEmptyEduca || isEmptyCareer) {
+            setIsEmptyData(true);
+          } else {
+            dataAux[key].checked = isChecked;
+            currentDataRef.current.length > 0 &&
+              (currentDataRef.current[key].checked = isChecked);
+            setDataForm(dataFormClone);
+          }
+        } else {
+          dataAux[key].checked = isChecked;
+          currentDataRef.current.length > 0 &&
+            (currentDataRef.current[key].checked = isChecked);
+          setDataForm(dataFormClone);
+        }
       }
     }
 
@@ -396,7 +422,7 @@ const ProfileProfessionalHook = ({
               {
                 label: dictionary.profileView.labelPhone,
                 text: '',
-                checked: true,
+                checked: false,
                 principal: false,
                 social: true,
                 professional: true,
@@ -408,7 +434,7 @@ const ProfileProfessionalHook = ({
             dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
               text: '',
-              checked: true,
+              checked: false,
               principal: false,
               social: true,
               professional: true,
@@ -430,7 +456,7 @@ const ProfileProfessionalHook = ({
               {
                 label: dictionary.profileView.labelEmail,
                 text: '',
-                checked: true,
+                checked: false,
                 principal: false,
                 social: true,
                 professional: true,
@@ -442,7 +468,7 @@ const ProfileProfessionalHook = ({
             dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
               text: '',
-              checked: true,
+              checked: false,
               principal: false,
               social: true,
               professional: true,
@@ -463,7 +489,7 @@ const ProfileProfessionalHook = ({
                 title: '',
                 institution: '',
                 year: '',
-                checked: true,
+                checked: false,
                 principal: false,
                 social: false,
                 professional: true,
@@ -477,7 +503,7 @@ const ProfileProfessionalHook = ({
               title: '',
               institution: '',
               year: '',
-              checked: true,
+              checked: false,
               principal: false,
               social: false,
               professional: true,
@@ -499,7 +525,7 @@ const ProfileProfessionalHook = ({
                 position: '',
                 data_init: '',
                 data_end: '',
-                checked: true,
+                checked: false,
                 principal: false,
                 social: false,
                 professional: true,
@@ -514,7 +540,7 @@ const ProfileProfessionalHook = ({
               position: '',
               data_init: '',
               data_end: '',
-              checked: true,
+              checked: false,
               principal: false,
               social: false,
               professional: true,
@@ -535,7 +561,7 @@ const ProfileProfessionalHook = ({
               name: '',
               url: '',
               icon: '',
-              checked: true,
+              checked: false,
               principal: false,
               social: false,
               professional: true,
@@ -548,7 +574,7 @@ const ProfileProfessionalHook = ({
             name: '',
             url: '',
             icon: '',
-            checked: true,
+            checked: false,
             principal: false,
             social: false,
             professional: true,
@@ -800,7 +826,9 @@ const ProfileProfessionalHook = ({
     labelStatus,
     isEmailPhoneRight,
     setisEmailPhoneRight,
-    isAlertSave
+    isAlertSave,
+    isAlertEmptyData,
+    setIsEmptyData
   };
 };
 

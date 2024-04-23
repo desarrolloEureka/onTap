@@ -21,7 +21,7 @@ const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
   console.log("reversedArray ", reversedArray);
 
   return (
-    <Container className={`${isSmallScreen ? 'tw-h-15' : 'tw-h-32'} tw-h-20 tw-flex tw-w-[310px] tw-overflow-scroll tw-relative no-scrollbar`}>
+    <Container className={`${isSmallScreen ? 'tw-h-15' : 'tw-h-24'} tw-bg-red-200 tw-h-20 tw-flex tw-w-[310px] tw-overflow-scroll tw-relative no-scrollbar`}>
       {reversedArray.length > 0 &&
         reversedArray.map((val, i) => (
           <CustomButton

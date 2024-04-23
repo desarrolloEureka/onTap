@@ -50,7 +50,9 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
     isEmailPhoneRight,
     setisEmailPhoneRight,
     status,
-    isAlertSave
+    isAlertSave,
+    isAlertEmptyData,
+    setIsEmptyData
   } = ProfileHook({
     dictionary,
     isProUser: false,
@@ -151,6 +153,13 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
           handleModalAlert={setIsDataSuccess}
           title={dictionary?.generalTitle}
           description={dictionary.profileView.successDataSend}
+          isClosed
+        />
+        <CustomModalAlert
+          isModalAlert={isAlertEmptyData}
+          handleModalAlert={setIsEmptyData}
+          title={dictionary?.generalTitle}
+          description={dictionary.profileView.emptyData}
           isClosed
         />
         <CustomModalAlert

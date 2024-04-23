@@ -40,6 +40,7 @@ const ProfileHook = ({
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
   const [isAlertSave, setIsAlertSave] = useState(false);
+  const [isAlertEmptyData, setIsEmptyData] = useState(false);
 
   /* Delete items */
   const [itemDelete, setItemDelete] = useState<
@@ -175,16 +176,37 @@ const ProfileHook = ({
         dataFormClone[index]?.label != 'professional_career' ||
         dataFormClone[index]?.label != 'urls')
     ) {
-      dataFormClone[index]!.checked = isChecked;
-      setDataForm(dataFormClone);
+      if (dataFormClone[index]?.text?.length === 0 && isChecked === true) {
+        setIsEmptyData(true);
+      } else {
+        dataFormClone[index]!.checked = isChecked;
+        setDataForm(dataFormClone);
+      }
+
+
     } else {
       let dataAux = dataFormClone[index] as DataFormValues[];
+      let dataUrl = dataFormClone[index] as UrlDataFormValues[];
 
       if (dataAux && key != undefined) {
-        dataAux[key].checked = isChecked;
-        currentDataRef.current.length > 0 &&
-          (currentDataRef.current[key].checked = isChecked);
-        setDataForm(dataFormClone);
+        if (isChecked === true && dataAux[key]) {
+          const isEmptyText = dataAux[key].text?.length === 0 && index !== 'urls';
+          const isEmptyUrls = index === 'urls' && (dataUrl[key]?.name?.length === 0 || dataUrl[key]?.url?.length === 0 || dataUrl[key]?.icon?.length === 0);
+
+          if (isEmptyText || isEmptyUrls) {
+            setIsEmptyData(true);
+          } else {
+            dataAux[key].checked = isChecked;
+            currentDataRef.current.length > 0 &&
+              (currentDataRef.current[key].checked = isChecked);
+            setDataForm(dataFormClone);
+          }
+        } else {
+          dataAux[key].checked = isChecked;
+          currentDataRef.current.length > 0 &&
+            (currentDataRef.current[key].checked = isChecked);
+          setDataForm(dataFormClone);
+        }
       }
     }
 
@@ -323,7 +345,7 @@ const ProfileHook = ({
               {
                 label: dictionary.profileView.labelPhone,
                 text: '',
-                checked: true,
+                checked: false,
                 principal: false,
                 social: true,
                 professional: true,
@@ -335,7 +357,7 @@ const ProfileHook = ({
             dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
               text: '',
-              checked: true,
+              checked: false,
               principal: false,
               social: true,
               professional: true,
@@ -357,7 +379,7 @@ const ProfileHook = ({
               {
                 label: dictionary.profileView.labelEmail,
                 text: '',
-                checked: true,
+                checked: false,
                 principal: false,
                 social: true,
                 professional: true,
@@ -369,7 +391,7 @@ const ProfileHook = ({
             dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
               text: '',
-              checked: true,
+              checked: false,
               principal: false,
               social: true,
               professional: true,
@@ -390,7 +412,7 @@ const ProfileHook = ({
               name: '',
               url: '',
               icon: '',
-              checked: true,
+              checked: false,
               principal: false,
               social: true,
               professional: true,
@@ -403,7 +425,7 @@ const ProfileHook = ({
             name: '',
             url: '',
             icon: '',
-            checked: true,
+            checked: false,
             principal: false,
             social: true,
             professional: true,
@@ -651,7 +673,9 @@ const ProfileHook = ({
     status,
     isEmailPhoneRight,
     setisEmailPhoneRight,
-    isAlertSave
+    isAlertSave,
+    isAlertEmptyData,
+    setIsEmptyData
   };
 };
 

@@ -84,9 +84,8 @@ const CustomSwitch = ({
   profile: boolean;
   handleModalAlert?: () => void;
 }) => {
-  const [flag, setFlag] = useState(false);
   const isSmallScreen = useMediaQuery('(max-width:600px)');
-  const { data } = GetUser(flag, setFlag);
+  const { data, refetch } = GetUser();
   const { logOut } = LogOut();
   const [isUpdate, setIsUpdate] = React.useState(false);
   const switchRef = React.useRef<any>(null);
@@ -98,6 +97,7 @@ const CustomSwitch = ({
   const handleSwitchChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    refetch();
     const { checked } = event.target;
 
     if (profile && plan === 'standard') {
@@ -112,15 +112,14 @@ const CustomSwitch = ({
           await SendSwitchProfile(userId, checked);
         } else {
           setSwitchCard(checked);
-          await setFlag(true);
           if (data?.isActiveByAdmin === true) {
             SendSwitchActivateCard(userId, checked);
           } else {
             SendSwitchActivateCard(userId, false);
             logOut();
           }
-          setFlag(false);
         }
+        refetch();
       }
     }
   };

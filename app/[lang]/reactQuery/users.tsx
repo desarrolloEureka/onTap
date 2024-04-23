@@ -215,30 +215,27 @@ const SendInactiveUser = async (userId: string) => {
   return res;
 };
 
-const GetUser = (flag?: boolean, setFlag?: (e: boolean) => void) =>
+const GetUser = (refetch?: boolean) =>
   useQuery({
     queryKey: ['user'],
     queryFn: async () => {
-      const userLogged = localStorage.getItem('@user');
+      const userLogged = await localStorage.getItem('@user');
       if (userLogged) {
-        const user = JSON.parse(userLogged) as UserData;
+        const user = await JSON.parse(userLogged) as UserData;
         const updatedUser = await getUserByIdFireStore(user.uid);
         if (updatedUser.exists()) {
-          const userData = updatedUser.data() as UserData;
-          const getUser = reBuildUserData(userData);
+          const userData = await updatedUser.data() as UserData;
+          const getUser = await reBuildUserData(userData);
           await localStorage.setItem('@user', JSON.stringify(getUser));
           return getUser;
         } else {
-          setFlag && setFlag(false);
           return user;
         }
       } else {
-        setFlag && setFlag(false);
         return null;
       }
     },
-    //refetchOnWindowFocus: refetch ?? false,
-    enabled: !!flag,
+    refetchOnWindowFocus: refetch ?? false,
   });
 
 const SendPreView = async (userId: string, url: string) => {
