@@ -18,8 +18,6 @@ const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
   const isSmallScreen = useMediaQuery('(max-height:668px)');
   const reversedArray = finalArray.slice().reverse();
 
-  console.log("reversedArray ", reversedArray);
-
   return (
     <Container className={`${isSmallScreen ? 'tw-h-15' : 'tw-h-24'} tw-h-20 tw-flex tw-w-[310px] tw-overflow-scroll tw-relative no-scrollbar`}>
       {reversedArray.length > 0 &&

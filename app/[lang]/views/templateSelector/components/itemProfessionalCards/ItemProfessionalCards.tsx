@@ -46,21 +46,21 @@ const ItemProfessionalCards = ({
             {value.order == 11 && (
               <>
                 <Typography
-                  className='tw-text-xs tw-font-bold tw-capitalize truncate'
+                  className='tw-text-xs tw-font-bold truncate'
                   textAlign={'left'}
                   color={'black'}
                 >
                   Titulo: {valEducation.title}
                 </Typography>
                 <Typography
-                  className='tw-text-xs tw-font-bold tw-capitalize truncate'
+                  className='tw-text-xs tw-font-bold truncate'
                   textAlign={'left'}
                   color={'black'}
                 >
                   Institución: {valEducation.institution}
                 </Typography>
                 <Typography
-                  className='tw-text-xs tw-font-bold tw-capitalize truncate'
+                  className='tw-text-xs tw-font-bold truncate'
                   textAlign={'left'}
                   color={'black'}
                 >
@@ -71,28 +71,28 @@ const ItemProfessionalCards = ({
             {value.order == 12 && (
               <>
                 <Typography
-                  className='tw-text-xs tw-font-bold tw-capitalize truncate'
+                  className='tw-text-xs tw-font-bold truncate'
                   textAlign={'left'}
                   color={'black'}
                 >
                   Empresa: {valProfession.company}
                 </Typography>
                 <Typography
-                  className='tw-text-xs tw-font-bold tw-capitalize truncate'
+                  className='tw-text-xs tw-font-bold truncate'
                   textAlign={'left'}
                   color={'black'}
                 >
                   Cargo: {valProfession.position}
                 </Typography>
                 <Typography
-                  className='tw-text-xs tw-font-bold tw-capitalize truncate'
+                  className='tw-text-xs tw-font-bold truncate'
                   textAlign={'left'}
                   color={'black'}
                 >
                   Inicio: {valProfession.data_init}
                 </Typography>
                 <Typography
-                  className='tw-text-xs tw-font-bold tw-capitalize truncate'
+                  className='tw-text-xs tw-font-bold truncate'
                   textAlign={'left'}
                   color={'black'}
                 >
@@ -132,7 +132,7 @@ const ItemProfessionalCards = ({
             </Typography>
           </Box>
           <Typography
-            className='tw-text-xs tw-font-bold tw-capitalize truncate'
+            className='tw-text-xs tw-font-bold truncate'
             textAlign={'left'}
             color={'black'}
           >

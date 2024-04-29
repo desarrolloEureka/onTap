@@ -17,7 +17,6 @@ function CustomModalAlert({
 }) {
   return (
     <Modal
-      //   style={{ backdropFilter: 'none' }}
       open={isModalAlert}
       onClose={() => (isClosed ? handleModalAlert(false) : null)}
       aria-labelledby='modal-modal-title'

@@ -12,6 +12,7 @@ import LoadFonts from '@/components/loadFonts/LoadFonts';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import FilterIcon from '@mui/icons-material/Filter';
+import LogoDevIcon from '@mui/icons-material/LogoDev';
 import GroupIcon from '@mui/icons-material/Group';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -22,6 +23,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
 import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 import LogOut from '@/hooks/logOut/LogOut';
+import LoadLogos from '@/components/loadLogos/LoadLogos';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -101,6 +103,11 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
               icon={<FilterIcon fontSize='large' sx={{ color: 'white' }} />}
               className='tw-text-white tw-text-lg tw-font-bold'
             />
+           {/*  <BottomNavigationAction
+              label={dictionary?.backOffice.CreateLogo}
+              icon={<LogoDevIcon fontSize='large' sx={{ color: 'white' }} />}
+              className='tw-text-white tw-text-lg tw-font-bold'
+            /> */}
           </BottomNavigation>
           <Button onClick={logOut} sx={{ color: 'white' }}>
             <div className='tw-flex tw-items-center'>
@@ -112,6 +119,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 0 && <UserRegister />}
         {value === 1 && <UserTable />}
         {value === 2 && <LoadFonts params={{ lang }} />}
+        {value === 3 && <LoadLogos params={{ lang }} />}
       </Box>
     </div>
   );

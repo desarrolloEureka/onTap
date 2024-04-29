@@ -15,8 +15,11 @@ export interface Dictionary {
     Email: string;
     ValidEmail: string;
     Plan: string;
+    TypeUser: string;
     StandardPlan: string;
     PremiumPlan: string;
+    TypeGift: string;
+    TypeBuyer: string;
     FillAllFields: string;
     Register: string;
     UserTable: string;
@@ -30,8 +33,16 @@ export interface Dictionary {
     alertTitle: string;
     alertMessage: string;
     fondoPlantilla: string;
+    alertTitleLogo: string;
+    alertSuccessLogo: string;
     logosTitle: string;
     guardar: string;
+    alertSuccessEdit: string;
+    alertFailEdit: string;
+    labelSuccessDelete: string;
+    labelFailDelete: string;
+    labelSuccessEdit: string;
+    labelFailEdit: string;
   };
   cardView: {
     labelErrorUser: string;
@@ -129,6 +140,7 @@ export interface Dictionary {
     errorDataSend: string;
     successDataSend: string;
     emptyData: string;
+    emptyDataAll: string;
     labelError505: string;
     errorEmail: string;
     errorPhone: string;

@@ -1,5 +1,6 @@
 import {
   getAllBackgroundImages,
+  getAllLogosImages,
   getAllSocialNetworks,
   getAllTemplates,
 } from '@/firebase/generals';
@@ -20,6 +21,14 @@ const GetAllBackgroundImages = () => {
   });
 };
 
+const GetAllLogosImages = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['social_icons', flag],
+    queryFn: async () => await getAllLogosImages(),
+    refetchOnWindowFocus: false,
+  });
+};
+
 const GetAllSocialNetworks = () => {
   return useQuery({
     queryKey: ['social_networks'],
@@ -28,4 +37,4 @@ const GetAllSocialNetworks = () => {
   });
 };
 
-export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks };
+export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages };

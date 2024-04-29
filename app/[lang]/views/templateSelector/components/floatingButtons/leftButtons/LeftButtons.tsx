@@ -32,6 +32,7 @@ const LeftButtons = ({
         return (
           <CustomButton
             name={val.icon}
+            nameLabel={val.name}
             link={val.url}
             key={key}
             styles={`${mx} ${my} tw-w-[90px] tw-flex tw-justify-center`}

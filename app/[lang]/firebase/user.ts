@@ -144,6 +144,17 @@ export const updateViewsUser = async (userId: string, newData: any) => {
   await updateDoc(userDocRef, newData);
 };
 
+export const updateDataUser = async (userId: string, newData: any) => {
+  try {
+    const userDocRef = doc(dataBase, 'users', userId);
+    await updateDoc(userDocRef, newData);
+    return true;
+  } catch (error: any) {
+    console.error('Error updating user data:', error.message);
+    return false;
+  }
+};
+
 export const updatePreView = async (userId: string, newData: any) => {
   const userDocRef = doc(dataBase, 'users', userId);
   await updateDoc(userDocRef, newData);

@@ -91,7 +91,7 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
           hidden
         />
         <Fab
-        //font color white
+          //font color white
           className='tw-bg-[#C3CEC2] tw-text-white'
           size="small"
           component="span"

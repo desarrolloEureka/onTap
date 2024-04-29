@@ -13,6 +13,7 @@ import {
   updateInactiveUser,
   updatePreView,
   updateSwitchStateByAdmin,
+  updateDataUser,
 } from '@/firebase/user';
 import {
   DataForm,
@@ -123,6 +124,11 @@ const SendSwitchEditAdmin = async (userId: string, switchState: boolean) => {
   } else {
     await updateSwitchStateByAdmin(userId, { isActiveByAdmin: switchState });
   }
+};
+
+const SendEditData = async (userId: string, userData: any) => {
+  const res = await updateDataUser(userId, userData);
+  return res;
 };
 
 const UpdatePassword = async (password: string) => {
@@ -259,5 +265,6 @@ export {
   SendViewUser,
   SendInactiveUser,
   SendPreView,
-  SendSwitchEditAdmin
+  SendSwitchEditAdmin,
+  SendEditData
 };

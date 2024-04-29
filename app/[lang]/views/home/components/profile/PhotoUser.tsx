@@ -37,42 +37,84 @@ const PhotoUser = ({
   const { data, error } = GetUser();
   const [copied, setCopied] = useState(false);
 
-  const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files && event.target.files[0];
+  function resizeImage(file: File, maxWidth: number, maxHeight: number): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = URL.createObjectURL(file);
+      image.onload = () => {
+        let width = image.width;
+        let height = image.height;
 
-    if (file) {
-      const base64String = await convertFileToBase64(file);
-      if (isProUser === true) {
-        setSelectedImagePro(base64String);
-      } else {
-        setSelectedImage(base64String);
-      }
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
 
-      const userId = data?.uid;
-      if (userId) {
-        await SendDataImage(isProUser, userId, base64String);
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx && ctx.drawImage(image, 0, 0, width, height);
+        canvas.toBlob(blob => {
+          if (blob) {
+            const resizedFile = new File([blob], file.name, {
+              type: blob.type || 'image/jpeg',
+              lastModified: Date.now()
+            });
+            resolve(resizedFile); // Aquí aseguramos que estamos devolviendo un File
+          } else {
+            reject(new Error("Failed to create Blob"));
+          }
+        }, file.type || 'image/jpeg', 0.95);
+      };
+      image.onerror = () => {
+        reject(new Error('Could not load image'));
+      };
+    });
+  }
+
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+
+    if (file && file instanceof File) {
+      try {
+        const resizedImage = await resizeImage(file, 2560, 1440);
+        const base64String = await convertFileToBase64(resizedImage);
+        if (isProUser) {
+          setSelectedImagePro(base64String);
+        } else {
+          setSelectedImage(base64String);
+        }
+
+        const userId = data?.uid;
+        if (userId) {
+          await SendDataImage(isProUser, userId, base64String);
+        }
+      } catch (error) {
+        console.error("Error handling the image:", error);
       }
     }
   };
 
-  const convertFileToBase64 = (file: File): Promise<string> => {
+
+  const convertFileToBase64 = (file: Blob): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-
       reader.onload = () => {
-        if (reader.result && typeof reader.result === 'string') {
+        if (typeof reader.result === 'string') {
           resolve(reader.result);
         } else {
-          reject(new Error('Error al convertir el archivo a base64.'));
+          reject(new Error('Failed to convert file to base64 string.'));
         }
       };
-
-      reader.onerror = () => {
-        reject(new Error('Error al leer el archivo.'));
-      };
-
+      reader.onerror = () => reject(new Error('Error reading file.'));
       reader.readAsDataURL(file);
     });
   };
