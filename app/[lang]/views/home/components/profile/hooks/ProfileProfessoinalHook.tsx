@@ -602,37 +602,32 @@ const ProfileProfessionalHook = ({
     data.map((el) => {
       if (checked === true) {
         if (label === 'urls') {
-          if (el.name != "" && el.icon != "" && el.url != "") {
+          let urlData = el as UrlDataFormValues;
+          if (urlData.name !== "" && urlData.icon !== "" && urlData.url !== "") {
             el.checked = checked;
             el.label = label ?? el.label;
           } else {
             setIsEmptyDataAll(true);
           }
-
-        } else if (label === 'emails') {
-          if (el.text != "") {
-            el.checked = checked;
-            el.label = label ?? el.label;
-          } else {
-            setIsEmptyDataAll(true);
-          }
-
-        } else if (label === 'phones') {
-          if (el.text != "") {
-            el.checked = checked;
-            el.label = label ?? el.label;
+        } else if (label === 'emails' || label === 'phones') {
+          let textData = el as DataFormValues;
+          if (textData.text !== "") {
+            textData.checked = checked;
+            textData.label = label;
           } else {
             setIsEmptyDataAll(true);
           }
         } else if (label === 'education') {
-          if (el.title != "" && el.institution != "" && el.year != "") {
+          let textData = el as EducationDataFormValues;
+          if (textData.title !== "" && textData.institution !== "" && textData.year !== "") {
             el.checked = checked;
             el.label = label ?? el.label;
           } else {
             setIsEmptyDataAll(true);
           }
         } else if (label === 'professional_career') {
-          if (el.company != "" && el.position != "" && el.data_init != "" && el.data_end != "") {
+          let textData = el as CareerDataFormValues;
+          if (textData.company !== "" && textData.position !== "" && textData.data_init !== "" && textData.data_end !== "") {
             el.checked = checked;
             el.label = label ?? el.label;
           } else {
