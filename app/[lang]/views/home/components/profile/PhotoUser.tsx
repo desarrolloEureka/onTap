@@ -72,7 +72,7 @@ const PhotoUser = ({
           } else {
             reject(new Error("Failed to create Blob"));
           }
-        }, file.type || 'image/jpeg', 0.95);
+        }, file.type || 'image/jpeg', 0.35);
       };
       image.onerror = () => {
         reject(new Error('Could not load image'));
@@ -85,7 +85,8 @@ const PhotoUser = ({
 
     if (file && file instanceof File) {
       try {
-        const resizedImage = await resizeImage(file, 2560, 1440);
+        const resizedImage = await resizeImage(file, 750, 750);
+        //console.log('resizedImage --> ', resizedImage)
         const base64String = await convertFileToBase64(resizedImage);
         if (isProUser) {
           setSelectedImagePro(base64String);
