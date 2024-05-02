@@ -35,6 +35,7 @@
     "fondoPlantilla": "Fondos de PLantilla One Tap",
     "alertTitleLogo": "Alerta Logo",
     "alertSuccessLogo": "El logo ha sido cargado con exito",
+    "alertFailSaveLogo": "No se pudo crear el logo. Por favor, intenta de nuevo.",
     "logosTitle": "Logos Redes Sociales",
     "guardar": "Guardar",
     "alertSuccessEdit": "La información del usuario ha sido actualizada con éxito.",

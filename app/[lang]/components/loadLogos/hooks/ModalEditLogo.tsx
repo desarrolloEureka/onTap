@@ -3,9 +3,8 @@ import { Box, IconButton, Modal, Button, TextField, InputAdornment, Fab } from '
 import React, { useEffect, useState } from 'react';
 import ImagesearchRollerIcon from '@mui/icons-material/ImagesearchRoller';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import Image from 'next/image';
-import { updateSocialNetwork } from '@/firebase/generals';
+import { UpdateSocialNetwork } from '@/reactQuery/home';
 
 function ModalEditLogo({
     isModalAlert,
@@ -47,14 +46,14 @@ function ModalEditLogo({
         e.preventDefault();
         if (imageFile && name) {
             try {
-                const result = await updateSocialNetwork(imageFile, dataLogo.name, name, dataLogo.id);
-                /* setFlag(!flag);
+                const result = await UpdateSocialNetwork(imageFile, dataLogo.name, name, dataLogo.id);
+                setFlag(!flag);
                 handleModalAlert(false);
                 if (result === true) {
                     setIsModalSuccessEdit(true);
                 } else {
                     setIsModalFailEdit(true);
-                } */
+                }
 
             } catch (error) {
                 console.error('Error uploading image:', error);
@@ -167,8 +166,6 @@ function ModalEditLogo({
                     </div>
                 )}
             </Box>
-
-
         </Modal>
     );
 }

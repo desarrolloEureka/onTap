@@ -4,7 +4,7 @@ import { Dictionary } from '@/types/dictionary';
 import ImagesearchRollerIcon from '@mui/icons-material/ImagesearchRoller';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
-import { saveSocialNetworkImage } from '@/firebase/generals';
+import { SaveSocialNetwork } from '@/reactQuery/home';
 
 type ItemFormProps = {
     dictionary: Dictionary | undefined;
@@ -15,11 +15,16 @@ type ItemFormProps = {
 const LogosForm: React.FC<ItemFormProps> = ({ dictionary, flag, setFlag }) => {
     const [name, setName] = useState('');
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const [open, setOpen] = useState(false);
+    const [isModalSuccessSave, setIsModalSuccessSave] = useState(false);
+    const [isModalFailSave, setIsModalFailSave] = useState(false);
     const imgStatus = imageFile ? dictionary?.backOffice.imagenSeleccionada : dictionary?.backOffice.agregarImagen;
 
     const handleClose = () => {
-        setOpen(false);
+        setIsModalSuccessSave(false);
+    };
+
+    const handleCloseFailSave = () => {
+        setIsModalFailSave(false);
     };
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,9 +42,17 @@ const LogosForm: React.FC<ItemFormProps> = ({ dictionary, flag, setFlag }) => {
         e.preventDefault();
         if (imageFile && name) {
             try {
-                const result = await saveSocialNetworkImage(imageFile, name);
-                setOpen(true);
-                setFlag(!flag);
+                const result = await SaveSocialNetwork(imageFile, name);
+                if (result === true) {
+                    setIsModalSuccessSave(true);
+                    setFlag(!flag);
+                } else {
+                    setIsModalFailSave(true);
+                }
+
+                setName('');
+                setImageFile(null);
+
             } catch (error) {
                 console.error('Error uploading image:', error);
             }
@@ -96,13 +109,23 @@ const LogosForm: React.FC<ItemFormProps> = ({ dictionary, flag, setFlag }) => {
             >
                 {dictionary?.backOffice.guardar}
             </Button>
+
             <CustomModalAlert
-                isModalAlert={open}
+                isModalAlert={isModalSuccessSave}
                 handleModalAlert={handleClose}
                 title={dictionary?.backOffice?.alertTitleLogo || ''}
                 description={dictionary?.backOffice?.alertSuccessLogo || ''}
                 isClosed={true}
             />
+
+            <CustomModalAlert
+                isModalAlert={isModalFailSave}
+                handleModalAlert={handleCloseFailSave}
+                title={dictionary?.backOffice?.alertTitleLogo || ''}
+                description={dictionary?.backOffice?.alertFailSaveLogo || ''}
+                isClosed={true}
+            />
+
         </form>
     );
 };

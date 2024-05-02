@@ -99,7 +99,6 @@ const HomeContent = ({
     if (optionSelected === 'social') {
       if (data?.profile?.social) {
         if (background) {
-          console.log('baseUrl ', baseUrl);
           window.open(baseUrl);
         } else {
           setIsModalAlertBg(true);

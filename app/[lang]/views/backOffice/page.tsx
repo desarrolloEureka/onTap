@@ -103,11 +103,11 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
               icon={<FilterIcon fontSize='large' sx={{ color: 'white' }} />}
               className='tw-text-white tw-text-lg tw-font-bold'
             />
-           {/*  <BottomNavigationAction
+            <BottomNavigationAction
               label={dictionary?.backOffice.CreateLogo}
               icon={<LogoDevIcon fontSize='large' sx={{ color: 'white' }} />}
               className='tw-text-white tw-text-lg tw-font-bold'
-            /> */}
+            />
           </BottomNavigation>
           <Button onClick={logOut} sx={{ color: 'white' }}>
             <div className='tw-flex tw-items-center'>

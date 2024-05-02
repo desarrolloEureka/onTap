@@ -35,6 +35,7 @@ export interface Dictionary {
     fondoPlantilla: string;
     alertTitleLogo: string;
     alertSuccessLogo: string;
+    alertFailSaveLogo: string;
     logosTitle: string;
     guardar: string;
     alertSuccessEdit: string;

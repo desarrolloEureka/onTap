@@ -5,9 +5,6 @@ import { addDoc, collection, doc, getDocs, deleteDoc, updateDoc } from 'firebase
 import { dataBase } from './firebaseConfig';
 
 const allRef = ({ ref }: AllRefPropsFirebase) => collection(dataBase, ref);
-
-const countriesRef = doc(dataBase, 'countries', 'sSbpwcKROo5wEi8Naxqj');
-
 export const getAllTemplates = async () => {
   const templatesData: Templates[] = [];
   const querySnapshot = await getDocs(allRef({ ref: 'templates' }));
@@ -80,10 +77,11 @@ export const saveSocialNetworkImage = async (imageFile: File, imageName: string)
       name: imageName,
     });
 
-    return { docRef, imageUrl };
+    return true;
+    //return { docRef, imageUrl };
   } catch (error) {
     console.error('Error al cargar la imagen en Firebase Storage: ', error);
-    throw new Error('Failed to upload PNG image');
+    return false;
   }
 };
 
@@ -102,10 +100,40 @@ export const deleteSocialNetwork = async (imageName: string, docId: any) => {
     return true;
   } catch (error) {
     console.error("Error during the delete process: ", error);
-    throw new Error("Failed to delete image and/or its reference.");
+    return false;
   }
 };
 
 export const updateSocialNetwork = async (imageFile: File, oldImageName: string, newImageName: string, docId: string) => {
+  const storage = getStorage();
+  // Crear referencias para la imagen nueva y la antigua
+  const newImageRef = ref(storage, `social_networks/${newImageName}`);
+  const oldImageRef = ref(storage, `social_networks/${oldImageName}`);
 
+  try {
+    // Subir la nueva imagen al path especificado
+    const snapshot = await uploadBytes(newImageRef, imageFile);
+    const newImageUrl = await getDownloadURL(snapshot.ref);
+
+    // Eliminar la imagen antigua si el nombre ha cambiado
+    if (newImageName !== oldImageName) {
+      await deleteObject(oldImageRef);
+    }
+
+    try {
+      // Actualizar la referencia en Firestore con la nueva URL y el nuevo nombre
+      const docRef = doc(dataBase, 'social_icons', docId);
+      await updateDoc(docRef, {
+        image: newImageUrl,
+        name: newImageName
+      });
+      return true;
+    } catch (updateError) {
+      console.error("Error updating Firestore reference:", updateError);
+      return false;
+    }
+  } catch (uploadError) {
+    console.error("Error uploading image to Storage:", uploadError);
+    return false;
+  }
 };

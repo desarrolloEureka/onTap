@@ -14,12 +14,7 @@ import { deleteSocialNetwork } from '@/firebase/generals';
 import ModalDelete from './hooks/ModalDelete';
 import CustomModalAlert from '../customModalAlert/CustomModalAlert';
 import ModalEditLogo from './hooks/ModalEditLogo';
-
-type Item = {
-    id: number;
-    name: string;
-    image: string;
-};
+import { DeleteSocialNetwork } from '@/reactQuery/home';
 
 const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
     const { dictionary } = useDictionary({ lang });
@@ -51,8 +46,7 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
     };
 
     const handleDeleteLogo = async (dataLogo: any) => {
-        const result = await deleteSocialNetwork(dataLogo.name, dataLogo.id);
-
+        const result = await DeleteSocialNetwork(dataLogo.name, dataLogo.id);
         if (result === true) {
             setIsModalDelete(false);
             setIsModalSuccessDelete(true);
@@ -83,10 +77,9 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
             headerAlign: 'center',
             align: 'center',
             renderCell: (params) => (
-                /* <Button style={{ color: 'black' }} onClick={() => handleEditLogo(params?.value)}>
+                <Button style={{ color: 'black' }} onClick={() => handleEditLogo(params?.value)}>
                     <EditIcon />
-                </Button> */
-                <EditIcon />
+                </Button>
             )
         },
         {

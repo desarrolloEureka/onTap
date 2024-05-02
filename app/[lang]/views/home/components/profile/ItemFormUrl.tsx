@@ -14,7 +14,7 @@ import {
   handleDataNetworksProps,
   handleDataProps,
 } from '@/types/profile';
-
+import Image from 'next/image';
 import FormUrl from './FormUrl';
 import ModalAlertLimit from './ModalAlertLimit';
 
@@ -57,6 +57,7 @@ import IconOnlyFans from './IconOnlyFans';
 import IconAirbnb from './IconAirbnb';
 import { WhatsApp } from '@mui/icons-material';
 import LinkSharpIcon from '@mui/icons-material/LinkSharp';
+import { GetAllLogosImages } from '@/reactQuery/home';
 
 const ItemFormUrl = ({
   dictionary,
@@ -135,6 +136,11 @@ const ItemFormUrl = ({
   isModalIcons: boolean;
   handleDeleteData: () => void;
 }) => {
+
+  const { data } = GetAllLogosImages();
+  //console.log('dataLogos --<<<>>> ', data);
+
+
   return (
     <div
       className={`${value[0] === 'urls' && itemDetail === 4 && labelArray.length > 1
@@ -183,6 +189,8 @@ const ItemFormUrl = ({
         <div className='tw-min-h-[125px] tw-pb-3 tw-flex tw-flex-col tw-items-end tw-justify-center'>
           <div className='tw-w-[100%] tw-flex tw-flex-col '>
             {labelArray.map((val, key) => {
+              const datafilter = data?.find(item => item.name === val.icon);
+
               if (index == 'urls') {
                 const myValue = (user && user.profile
                   ? isProUser
@@ -264,165 +272,11 @@ const ItemFormUrl = ({
                                         height: 38,
                                       }}
                                     >
-                                      {val.icon === 'www' ?
-                                        <LinkSharpIcon sx={{ color: '#396593', fontSize: '2rem' }} />
+                                      {datafilter ?
+                                        <Image src={datafilter.image} alt={datafilter.name} width={38} height={38} />
                                         :
-                                        val.icon === 'facebook' ?
-                                          <FacebookOutlinedIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                          :
-                                          val.icon === 'tiktok' ?
-                                            <IconTikTok
-                                              color={'#396593'}
-                                            />
-                                            :
-                                            val.icon === 'linkedin' ?
-                                              <LinkedInIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                              :
-                                              val.icon === 'messenger' ?
-                                                <IconMessenger
-                                                  color={'#396593'}
-                                                />
-                                                :
-                                                val.icon === 'instagram' ?
-                                                  <InstagramIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                                  :
-                                                  val.icon === 'snapchat' ?
-                                                    <IconSnapchat
-                                                      color={'#396593'}
-                                                    />
-                                                    :
-                                                    val.icon === 'twitter' ?
-                                                      <XIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                                      :
-                                                      val.icon === 'twitch' ?
-                                                        <IconTwitch
-                                                          color={'#396593'}
-                                                        />
-                                                        :
-                                                        val.icon === 'youtube' ?
-                                                          <YouTubeIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                                          :
-                                                          val.icon === 'whatsapp' ?
-                                                            <WhatsApp sx={{ color: '#396593', fontSize: '2rem' }} />
-                                                            :
-                                                            val.icon === 'zoom' ?
-                                                              <IconZoom
-                                                                color={'#396593'}
-                                                              />
-                                                              :
-                                                              val.icon === 'line' ?
-                                                                <IconLine
-                                                                  color={'#396593'}
-                                                                />
-                                                                :
-                                                                val.icon === 'gmail' ?
-                                                                  <IconGmail
-                                                                    color={'#396593'}
-                                                                  />
-                                                                  :
-                                                                  val.icon === 'email' ?
-                                                                    <EmailIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                                                    :
-                                                                    val.icon === 'phone' ?
-                                                                      <LocalPhoneIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                                                      :
-                                                                      val.icon === 'telegram' ?
-                                                                        <TelegramIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                                                        :
-                                                                        val.icon === 'whatsappbusiness' ?
-                                                                          <IconWhatsAppB
-                                                                            color={'#396593'}
-                                                                          />
-                                                                          :
-                                                                          val.icon === 'skype' ?
-                                                                            <IconSkype
-                                                                              color={'#396593'}
-                                                                            />
-                                                                            :
-                                                                            val.icon === 'wechat' ?
-                                                                              <IconWeChat
-                                                                                color={'#396593'}
-                                                                              />
-                                                                              :
-                                                                              val.icon === 'paypal' ?
-                                                                                <IconPayPal
-                                                                                  color={'#396593'}
-                                                                                />
-                                                                                :
-                                                                                val.icon === 'vsco' ?
-                                                                                  <IconVSCO
-                                                                                    color={'#396593'}
-                                                                                  />
-                                                                                  :
-                                                                                  val.icon === 'tumblr' ?
-                                                                                    <IconTumblr
-                                                                                      color={'#396593'}
-                                                                                    />
-                                                                                    :
-                                                                                    val.icon === 'vimeo' ?
-                                                                                      <IconVimeo
-                                                                                        color={'#396593'}
-                                                                                      />
-                                                                                      :
-                                                                                      val.icon === 'spotify' ?
-                                                                                        <IconSpotify
-                                                                                          color={'#396593'}
-                                                                                        />
-                                                                                        :
-                                                                                        val.icon === 'deezer' ?
-                                                                                          <IconDeezer
-                                                                                            color={'#396593'}
-                                                                                          />
-                                                                                          :
-                                                                                          val.icon === 'applemusic' ?
-                                                                                            <IconAppleMusic
-                                                                                              color={'#396593'}
-                                                                                            />
-                                                                                            :
-                                                                                            val.icon === 'googlemaps' ?
-                                                                                              <IconGoogleMaps
-                                                                                                color={'#396593'}
-                                                                                              />
-                                                                                              :
-                                                                                              val.icon === 'tripadvisor' ?
-                                                                                                <IconTripAdvisor
-                                                                                                  color={'#396593'}
-                                                                                                />
-                                                                                                :
-                                                                                                val.icon === 'booking' ?
-                                                                                                  <IconBooking
-                                                                                                    color={'#396593'}
-                                                                                                  />
-                                                                                                  :
-                                                                                                  val.icon === 'tinder' ?
-                                                                                                    <IconTinder
-                                                                                                      color={'#396593'}
-                                                                                                    />
-                                                                                                    :
-                                                                                                    val.icon === 'amazon' ?
-                                                                                                      <IconAmazon
-                                                                                                        color={'#396593'}
-                                                                                                      />
-                                                                                                      :
-                                                                                                      val.icon === 'onlyfans' ?
-                                                                                                        <IconOnlyFans
-                                                                                                          color={'#396593'}
-                                                                                                        />
-                                                                                                        :
-                                                                                                        val.icon === 'airbnb' ?
-                                                                                                          <IconAirbnb
-                                                                                                            color={'#396593'}
-                                                                                                          />
-                                                                                                          :
-                                                                                                          val.icon === 'pinterest' ?
-                                                                                                            <PinterestIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-                                                                                                            :
-                                                                                                            <LanguageIcon sx={{ color: '#396593', fontSize: '2rem' }} />
-
+                                        null
                                       }
-
-
-                                      {/* <LanguageIcon sx={{ color: '#396593', fontSize: '2rem' }} /> */}
                                     </Avatar>
                                   </Button>
                                 </div>
@@ -444,6 +298,7 @@ const ItemFormUrl = ({
           </div>
         </div>
       </div>
+
       <ModalAlertLimit
         isModalAlertLimit={isModalAlertLimit}
         handleModalAlertLimit={handleModalAlertLimit}
@@ -458,6 +313,7 @@ const ItemFormUrl = ({
         val={itemUrlSelected}
         keyItem={itemUrlKey}
         handleDataNetworks={handleDataNetworks}
+        dataLogos={data}
       />
     </div>
   );
