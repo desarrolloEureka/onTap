@@ -21,7 +21,7 @@ const SaveContactButtonColor = ({
 
   const downloadTxtFile = (vcfText: string) => {
     const element = document.createElement('a');
-    const file = new Blob([vcfText], { type: 'text/plain;charset=utf-8' });
+    const file = new Blob([vcfText], { type: "text/vcard;charset=utf-8" });
     element.href = URL.createObjectURL(file);
     element.download = 'contact.vcf';
     document.body.appendChild(element);
