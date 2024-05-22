@@ -39,58 +39,69 @@ const TemplateContainerProfessionalOne = ({
 
   const isSmallScreenOne = useMediaQuery('(max-height:790px)');
 
-  return profile.professional && (
-    <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center tw-mt-9'>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          position: 'relative',
-        }}
-      >
-        <SaveContactButton profile={profile.professional} />
-      </Box>
-      <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-5 no-scrollbar'>
+  return (
+    profile.professional && (
+      <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center tw-mt-9'>
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            position: 'relative',
           }}
         >
-          {principalData.map((item, key) => {
-            return (
-              <ItemSlideProfessional
-                item={item as DataFormValues[]}
-                index={key}
-                key={key}
-              />
-            );
-          })}
+          <SaveContactButton profile={profile.professional} />
         </Box>
-      </Container>
-      <Container className={`tw-z-10 tw-rounded-md tw-p-0 ${isSmallScreenOne ? 'tw-h-[230px]' : 'tw-h-[360px] '} tw-overflow-y-auto no-scrollbar tw- tw-pb-12`}>
-        <Box flexGrow={1}>
-          <Grid container spacing={1}>
-            {professionalData.finalArray.map((item, key) => {
+        <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-5 no-scrollbar'>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+            }}
+          >
+            {principalData.map((item, key) => {
               return (
-                <Grid item xs={12} key={key} className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]'>
-                  <Item
-                    sx={{
-                      backgroundColor: '#679a88',
-                      p: 2,
-                    }}
-                  >
-                    <ItemProfessionalCards item={item} key={key} />
-                  </Item>
-                </Grid>
+                <ItemSlideProfessional
+                  item={item as DataFormValues[]}
+                  index={key}
+                  key={key}
+                />
               );
             })}
-          </Grid>
-        </Box>
+          </Box>
+        </Container>
+        <Container
+          className={`tw-z-10 tw-rounded-md tw-p-0 ${
+            isSmallScreenOne ? 'tw-h-[230px]' : 'tw-h-[360px] '
+          } tw-overflow-y-auto no-scrollbar tw- tw-pb-12`}
+        >
+          <Box flexGrow={1}>
+            <Grid container spacing={1}>
+              {professionalData.finalArray.map((item, key) => {
+                return (
+                  <Grid
+                    item
+                    xs={12}
+                    key={key}
+                    className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]'
+                  >
+                    <Item
+                      sx={{
+                        backgroundColor: '#679a88',
+                        p: 2,
+                      }}
+                    >
+                      <ItemProfessionalCards item={item} key={key} />
+                    </Item>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Box>
+        </Container>
       </Container>
-    </Container>
+    )
   );
 };
 

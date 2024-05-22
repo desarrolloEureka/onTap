@@ -6,7 +6,7 @@ import { SocialUrls, VCard } from '@/types/vCard';
 
 const SaveContactButton = ({
   circular,
-  profile
+  profile,
 }: {
   circular?: boolean;
   profile: ProfessionalDataForm;
@@ -15,14 +15,14 @@ const SaveContactButton = ({
 
   const downloadTxtFile = (vcfText: string) => {
     const element = document.createElement('a');
-    const file = new Blob([vcfText], { type: 'text/plain;charset=utf-8' });
+    const file = new Blob([vcfText], { type: 'text/vcard;charset=utf-8' });
     element.href = URL.createObjectURL(file);
     element.download = 'contact.vcf';
     document.body.appendChild(element);
     element.click();
   };
 
-  const saveVCard = () => {
+  const saveVCardOld = () => {
     if (profile) {
       const urls = {} as SocialUrls;
       const emails = profile.emails?.map((value) => value.text ?? '');
@@ -43,8 +43,57 @@ const SaveContactButton = ({
     }
   };
 
+  const saveVCard = () => {
+    if (profile) {
+      // Convertir la imagen a base64
+      // var reader = new FileReader();
+      // reader.readAsDataURL();
+      // reader.onload = function () {
+      //   var imageData = reader.result.split(',')[1]; // Obtener solo los datos base64
+      // };
+
+      var vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${
+        profile.name?.text ?? ''
+      } ${profile.last_name?.text ?? ''}\nN:${profile.last_name?.text ?? ''};${
+        profile.name?.text ?? ''
+      };;;\n`;
+      // Agregar cada dirección de correo electrónico
+      profile.emails?.forEach((email) => {
+        vCardData += `EMAIL;TYPE=INTERNET:${email.text}\n`;
+      });
+
+      // Agregar cada número de teléfono
+      profile.phones?.forEach((phone) => {
+        vCardData += `TEL;TYPE=CELL:${phone.text}\n`;
+      });
+
+      vCardData += `TITLE:${profile.profession?.text ?? ''}\n`;
+      vCardData += `ORG:${profile.company?.text ?? ''}\n`;
+      vCardData += `ROLE:${profile.position?.text ?? ''}\n`;
+      vCardData += `NOTE:${profile.professional_profile?.text ?? ''}\n`;
+
+      // Agregar cada URL social si están disponibles
+      profile.urls?.forEach((url, index) => {
+        vCardData += `item${index}.URL:${url.url}\n`;
+        vCardData += `item${index}.X-ABLabel:${url.name}\n`;
+      });
+
+      // Agregar la imagen en formato base64
+      // vCardData += `PHOTO;ENCODING=b;TYPE=JPEG:${imageData}\n`;
+
+      // Cerrar la vCard
+      vCardData += `END:VCARD`;
+      console.log(vCardData);
+
+      downloadTxtFile(vCardData);
+    }
+  };
+
   return (
-    <Box sx={{ position: 'relative' }} className='tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl'>
+    <Box
+      sx={{ position: 'relative' }}
+      className='tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl'
+    >
       {circular ? (
         <Box
           sx={{
