@@ -15,6 +15,7 @@ import { Box } from '@mui/system';
 import SaveContactButtonColor from './saveContactButton/SaveContactButtonColor';
 import TemplateContainerColor from './container/ContainerColor';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import ModalCookies from '@/components/customModalAlert/ModalCookies';
 
 const SocialTwo = ({
   params: { lang, background, data },
@@ -27,6 +28,7 @@ const SocialTwo = ({
 }) => {
   const { dictionary } = useDictionary({ lang });
   const [isDataError, setIsDataError] = useState(true);
+  const [isCookies, setIsCookies] = useState(false);
 
   useLayoutEffect(() => {
     data.profile && setIsDataError(false);
@@ -42,7 +44,20 @@ const SocialTwo = ({
     height: window.innerHeight,
   });
 
+  const handleAceptCookies = async () => {
+    console.log(JSON.stringify(true));
+    await localStorage.setItem('@cookies', JSON.stringify(true));
+    setIsCookies(false);
+  };
+
   useEffect(() => {
+    const cookies = localStorage.getItem('@cookies');
+    if (cookies) {
+      setIsCookies(false);
+    } else {
+      setIsCookies(true);
+    }
+
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
@@ -67,8 +82,8 @@ const SocialTwo = ({
             image={data.image}
             //name={data.profile.social?.name?.text + " " + data.profile.social?.last_name?.text || ''}
             name={`${data.profile.social?.name?.checked
-                ? data.profile.social?.name?.text
-                : ''
+              ? data.profile.social?.name?.text
+              : ''
               }  ${data.profile.social?.last_name?.checked
                 ? data.profile.social?.last_name?.text
                 : ''
@@ -90,6 +105,13 @@ const SocialTwo = ({
       <div className='tw-mt-4 tw-z-30 tw-relative'>
         <OneTapLogo />
       </div>
+
+      <ModalCookies
+        isModalAlert={isCookies}
+        handleModalAlert={() => setIsCookies(false)}
+        handleAceptCookies={handleAceptCookies}
+      />
+
     </div>
   ) : (
     <CustomModalAlert

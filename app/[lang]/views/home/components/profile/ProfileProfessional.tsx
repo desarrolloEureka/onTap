@@ -16,7 +16,7 @@ import ModalAlert from './ModalAlert';
 import ProfileProfessionalHook from './hooks/ProfileProfessoinalHook';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 
-const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
+const ProfileProfessional = ({ dictionary, setIsChangeData }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; }) => {
   const {
     handleModal,
     handleModalAlert,
@@ -62,6 +62,7 @@ const ProfileProfessional = ({ dictionary }: { dictionary: Dictionary }) => {
   } = ProfileProfessionalHook({
     dictionary,
     isProUser: true,
+    setIsChangeData
   });
 
   const handleDataSet = (data: ProfessionalDataForm) => {

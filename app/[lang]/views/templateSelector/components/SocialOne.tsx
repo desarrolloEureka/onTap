@@ -10,6 +10,7 @@ import Footer from './footer/Footer';
 import HeroSocial from './hero/HeroSocial';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import TemplateContainerColor from './container/ContainerColor';
+import ModalCookies from '@/components/customModalAlert/ModalCookies';
 
 const SocialOne = ({
   params: { lang, background, data },
@@ -22,6 +23,7 @@ const SocialOne = ({
 }) => {
   const { dictionary } = useDictionary({ lang });
   const [isDataError, setIsDataError] = useState(true);
+  const [isCookies, setIsCookies] = useState(false);
 
   useLayoutEffect(() => {
     data.profile && setIsDataError(false);
@@ -35,7 +37,22 @@ const SocialOne = ({
     height: window.innerHeight,
   });
 
+  const handleAceptCookies = async () => {
+    console.log(JSON.stringify(true));
+    await localStorage.setItem('@cookies', JSON.stringify(true));
+    setIsCookies(false);
+  };
+
   useEffect(() => {
+    const cookies = localStorage.getItem('@cookies');
+    console.log('cookies ---> ', cookies);
+
+    if (cookies) {
+      setIsCookies(false);
+    } else {
+      setIsCookies(true);
+    }
+
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
@@ -64,15 +81,13 @@ const SocialOne = ({
         <HeroSocial
           socialNetworks={data.profile.social?.urls}
           photo={data.image}
-          name={`${
-            data.profile.social?.name?.checked
-              ? data.profile.social?.name?.text
-              : ''
-          }  ${
-            data.profile.social?.last_name?.checked
+          name={`${data.profile.social?.name?.checked
+            ? data.profile.social?.name?.text
+            : ''
+            }  ${data.profile.social?.last_name?.checked
               ? data.profile.social?.last_name?.text
               : ''
-          }`}
+            }`}
           profession={
             data.profile.social?.profession?.checked
               ? data.profile.social?.profession?.text
@@ -83,6 +98,13 @@ const SocialOne = ({
         <Footer socialNetworks={data.profile.social?.urls} />
       </div>
       <OneTapLogo />
+
+      <ModalCookies
+        isModalAlert={isCookies}
+        handleModalAlert={() => setIsCookies(false)}
+        handleAceptCookies={handleAceptCookies}
+      />
+
     </div>
   ) : (
     <CustomModalAlert

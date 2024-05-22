@@ -96,7 +96,8 @@
     "labelProfessionalData": "Datos Profesionales",
     "openUrlButtonLabel": "Abrir URL",
     "copyUrlButtonLabel": "Copiar URL",
-    "copyUrlMessageLabel": "Copiado!"
+    "copyUrlMessageLabel": "Copiado!",
+    "labelRememberSave":"Ha realizado cambios. Recuerde guardarlos usando la opción 'Guardar'."
   },
   "recoverPassword": {
     "recoverPassword": "Recuperar Contraseña",
