@@ -22,10 +22,13 @@ const ProfileProfessionalHook = ({
   dictionary,
   handleDataSet,
   isProUser,
+  setIsChangeData
 }: {
   dictionary: Dictionary;
   handleDataSet?: (e: ProfessionalDataForm) => void;
   isProUser: boolean;
+  setIsChangeData: (e: boolean) => void;
+
 }) => {
   const { data, error } = GetUser();
   // const dataProfile = (data?.profile ?? {}) as DataForm;
@@ -139,6 +142,7 @@ const ProfileProfessionalHook = ({
         isProUser
       );
       if (isSendDataProfile?.success) {
+        setIsChangeData(false);
         setIsDataError(false);
         setIsDataSuccess(true);
       } else {
@@ -200,7 +204,8 @@ const ProfileProfessionalHook = ({
     currentDataRef?: any;
     key?: number;
   }) => {
-    setIsAlertSave(true);
+    setIsChangeData(true);
+    //setIsAlertSave(true);
     const isChecked = value?.target?.checked;
     const dataFormClone = { ...dataForm };
     const index = value?.target?.name as keyof typeof dataFormClone;
@@ -305,6 +310,7 @@ const ProfileProfessionalHook = ({
     key,
     currentDataRef,
   }: handleDataProps) => {
+    setIsChangeData(true);
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
     if (
@@ -709,7 +715,8 @@ const ProfileProfessionalHook = ({
   );
 
   const handleSwitchAll = (val: ChangeEvent<HTMLInputElement>) => {
-    setIsAlertSave(true);
+    //setIsAlertSave(true);
+    setIsChangeData(true);
     const isChecked = val.target.checked;
     const dataFormClone = { ...dataForm };
     const items = Object.entries(dataFormClone);

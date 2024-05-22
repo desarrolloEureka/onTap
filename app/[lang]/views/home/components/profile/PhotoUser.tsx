@@ -182,7 +182,7 @@ const PhotoUser = ({
 
       </div>
 
-      {isAlertSave === true && (
+     {/*  {isAlertSave === true && (
         <div className=' tw-h-[10%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
           <div className='tw-h-[35px] tw-w-[240px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#f48c42] tw-rounded-xl'>
             <Typography
@@ -192,7 +192,7 @@ const PhotoUser = ({
             </Typography>
           </div>
         </div>
-      )}
+      )} */}
 
       <div className=' tw-h-[20%] tw-w-[100%] tw-flex  tw-items-center tw-justify-center tw-flex-row'>
         <Container className='tw-h-[98%] tw-w-[85%] tw-flex tw-items-start tw-justify-end'>

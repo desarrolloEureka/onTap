@@ -29,12 +29,34 @@ const HomeHook = () => {
   const [isModalAlert, setIsModalAlert] = useState(false);
   const handleModalAlert = () => setIsModalAlert(!isModalAlert);
 
+  const [isAlertSave, setIsAlertSave] = useState(false);
+  const [isChangeData, setIsChangeData] = useState(false);
+  const handleModalSaveAlert = () => setIsAlertSave(!isAlertSave);
+
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    const plan = datUser?.data?.plan;
-    if (plan === 'standard' && newValue === 2) {
-      setIsModalAlert(!isModalAlert);
+    if (isChangeData) {
+      setIsAlertSave(true);
+
+      setTimeout(() => {
+        setIsAlertSave(false);
+        setIsChangeData(false);
+        const plan = datUser?.data?.plan;
+        if (plan === 'standard' && newValue === 2) {
+          setIsModalAlert(!isModalAlert);
+        } else {
+          setValue(newValue);
+        }
+      }, 4000);
     } else {
-      setValue(newValue);
+      setIsAlertSave(false);
+      setIsChangeData(false);
+      const plan = datUser?.data?.plan;
+      if (plan === 'standard' && newValue === 2) {
+        setIsModalAlert(!isModalAlert);
+      } else {
+        setValue(newValue);
+      }
     }
   };
 
@@ -54,6 +76,11 @@ const HomeHook = () => {
     isModalAlert,
     setIsModalAlert,
     handleModalAlert,
+    isAlertSave,
+    setIsAlertSave,
+    handleModalSaveAlert,
+    isChangeData,
+    setIsChangeData
   };
 };
 

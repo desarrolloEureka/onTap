@@ -12,7 +12,6 @@ import LogOut from '@/hooks/logOut/LogOut';
 import { useRouter } from 'next/navigation';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { GetUser, SendInactiveUser } from '../../reactQuery/users';
-import useDictionary from '@/hooks/dictionary/useDictionary';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu

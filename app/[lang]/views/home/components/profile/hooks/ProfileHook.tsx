@@ -22,10 +22,12 @@ const ProfileHook = ({
   dictionary,
   handleDataSet,
   isProUser,
+  setIsChangeData
 }: {
   dictionary: Dictionary;
   handleDataSet?: (e: SocialDataForm) => void;
   isProUser: boolean;
+  setIsChangeData: (e: boolean) => void; 
 }) => {
   const { data, error } = GetUser();
   const [dataForm, setDataForm] = useState<SocialDataForm>(profile.social);
@@ -41,6 +43,7 @@ const ProfileHook = ({
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState(0);
   const [isAlertSave, setIsAlertSave] = useState(false);
+
   const [isAlertEmptyData, setIsEmptyData] = useState(false);
   const [isAlertEmptyDataAll, setIsEmptyDataAll] = useState(false);
 
@@ -103,6 +106,7 @@ const ProfileHook = ({
         isProUser
       );
       if (isSendDataProfile?.success) {
+        setIsChangeData(false);
         setIsDataError(false);
         setIsDataSuccess(true);
       } else {
@@ -164,7 +168,8 @@ const ProfileHook = ({
     currentDataRef?: any;
     key?: number;
   }) => {
-    setIsAlertSave(true);
+    //setIsAlertSave(true);
+    setIsChangeData(true);
     const isChecked = value?.target?.checked;
     const dataFormClone = { ...dataForm };
     const index = value?.target?.name as keyof typeof dataFormClone;
@@ -213,9 +218,9 @@ const ProfileHook = ({
       }
     }
 
-    setTimeout(() => {
+    /* setTimeout(() => {
       setIsAlertSave(false);
-    }, 5000);
+    }, 5000); */
   };
 
   const fillFields = (
@@ -255,7 +260,7 @@ const ProfileHook = ({
     key,
     currentDataRef,
   }: handleDataProps) => {
-    // console.log('sssss', dataForm);
+    setIsChangeData(true);
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
     if (
@@ -538,7 +543,8 @@ const ProfileHook = ({
   );
 
   const handleSwitchAll = (val: ChangeEvent<HTMLInputElement>) => {
-    setIsAlertSave(true);
+    //setIsAlertSave(true);
+    setIsChangeData(true);
     const isChecked = val.target.checked;
     const dataFormClone = { ...dataForm };
     const items = Object.entries(dataFormClone);
@@ -564,10 +570,10 @@ const ProfileHook = ({
     const dataFormChecked = Object.fromEntries(newData);
     handleDataSet && handleDataSet(dataFormChecked);
     setAllChecked(true);
-
+/* 
     setTimeout(() => {
       setIsAlertSave(false);
-    }, 5000);
+    }, 5000); */
   };
 
   // console.log('isProUser', isProUser);

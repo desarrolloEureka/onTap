@@ -79,6 +79,7 @@ export interface Dictionary {
     openUrlButtonLabel: string;
     copyUrlButtonLabel: string;
     copyUrlMessageLabel: string;
+    labelRememberSave: string;
   };
   recoverPassword: {
     recoverPassword: string;

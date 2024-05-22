@@ -9,6 +9,7 @@ import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import { useEffect, useState } from 'react';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import ModalCookies from '@/components/customModalAlert/ModalCookies';
 
 const ProfessionalOne = ({
   params: { lang, background, data },
@@ -21,6 +22,7 @@ const ProfessionalOne = ({
 }) => {
   const { dictionary } = useDictionary({ lang });
   const [isDataError, setIsDataError] = useState(true);
+  const [isCookies, setIsCookies] = useState(false);
 
   const isSmallScreen = useMediaQuery('(max-height:935px)');
   const isSmallScreenWidth = useMediaQuery('(max-width:440px)');
@@ -30,7 +32,20 @@ const ProfessionalOne = ({
     height: window.innerHeight,
   });
 
+  const handleAceptCookies = async () => {
+    console.log(JSON.stringify(true));
+    await localStorage.setItem('@cookies', JSON.stringify(true));
+    setIsCookies(false);
+  };
+
   useEffect(() => {
+    const cookies = localStorage.getItem('@cookies');
+    if (cookies) {
+      setIsCookies(false);
+    } else {
+      setIsCookies(true);
+    }
+
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
@@ -71,6 +86,13 @@ const ProfessionalOne = ({
         <TemplateContainerProfessionalOne profile={data.profile} />
       </div>
       <OneTapLogo />
+
+      <ModalCookies
+        isModalAlert={isCookies}
+        handleModalAlert={() => setIsCookies(false)}
+        handleAceptCookies={handleAceptCookies}
+      />
+
     </div>
   ) : (
     <CustomModalAlert

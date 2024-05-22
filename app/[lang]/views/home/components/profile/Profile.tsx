@@ -7,12 +7,12 @@ import FormAddDataUser from '@/views/home/components/profile/FormAddDataUser';
 import ModalProfile from '@/views/home/components/profile/ModalProfile';
 import ModalSuccessDelete from '@/views/home/components/profile/ModalSuccessDelete';
 import PhotoUser from '@/views/home/components/profile/PhotoUser';
-import { Container } from '@mui/material';
+import { Container, Button } from '@mui/material';
 import ModalAlert from './ModalAlert';
 import ProfileHook from './hooks/ProfileHook';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 
-const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
-  // console.log('isProUser>>>>>>>>>>', isProUser);
+const Profile = ({ dictionary, setIsChangeData }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; }) => {
   const {
     handleModal,
     handleModalAlert,
@@ -54,10 +54,11 @@ const Profile = ({ dictionary }: { dictionary: Dictionary }) => {
     isAlertEmptyData,
     setIsEmptyData,
     isAlertEmptyDataAll,
-    setIsEmptyDataAll
+    setIsEmptyDataAll,
   } = ProfileHook({
     dictionary,
     isProUser: false,
+    setIsChangeData
   });
 
   const handleDataSet = (data: SocialDataForm) => {
