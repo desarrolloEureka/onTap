@@ -47,7 +47,7 @@ const HomeHook = () => {
         } else {
           setValue(newValue);
         }
-      }, 4000);
+      }, 9000);
     } else {
       setIsAlertSave(false);
       setIsChangeData(false);
