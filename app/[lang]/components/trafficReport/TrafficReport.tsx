@@ -178,21 +178,21 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             <div style={{ height: '33%', width: '97%' }} className='tw-flex tw-justify-end tw-items-center'>
                                 <div style={{ height: '100%', width: '35%' }} className=''>
                                     <Typography className=' tw-text-lg tw-font-bold tw-text-black tw-text-end'>
-                                        {dataDetailUser ? dataDetailUser?.name : ''}
+                                        {/* {dataDetailUser ? dataDetailUser?.name : ''} */}
                                     </Typography>
                                 </div>
                             </div>
                             <div style={{ height: '33%', width: '97%' }} className='tw-flex tw-justify-end tw-items-center'>
                                 <div style={{ height: '100%', width: '35%' }} className=''>
                                     <Typography className=' tw-text-sm  tw-text-black tw-text-end'>
-                                        {dataDetailUser ? dataDetailUser?.dni : ''}
+                                        {/* {dataDetailUser ? dataDetailUser?.dni : ''} */}
                                     </Typography>
                                 </div>
                             </div>
                             <div style={{ height: '33%', width: '97%' }} className='tw-flex tw-justify-end tw-items-center'>
                                 <div style={{ height: '100%', width: '35%' }} className=''>
                                     <Typography className=' tw-text-sm  tw-text-black tw-text-end'>
-                                        {dataDetailUser ? dataDetailUser?.email : ''}
+                                        {/* {dataDetailUser ? dataDetailUser?.email : ''} */}
                                     </Typography>
                                 </div>
                             </div>
