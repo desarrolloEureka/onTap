@@ -22,6 +22,7 @@ function CustomTabPanel(props: TabPanelProps) {
 const HomeHook = () => {
   const [value, setValue] = useState(0);
   const [isProUser, setIsProUser] = useState(false);
+  const [navigationItem, setNavigationItem] = useState(0);
   const { data, isLoading, error } = GetAllTemplates();
   const backgroundImages = GetAllBackgroundImages();
   const datUser = GetUser();
@@ -35,19 +36,9 @@ const HomeHook = () => {
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setNavigationItem(newValue);
     if (isChangeData) {
       setIsAlertSave(true);
-
-      setTimeout(() => {
-        setIsAlertSave(false);
-        setIsChangeData(false);
-        const plan = datUser?.data?.plan;
-        if (plan === 'standard' && newValue === 2) {
-          setIsModalAlert(!isModalAlert);
-        } else {
-          setValue(newValue);
-        }
-      }, 9000);
     } else {
       setIsAlertSave(false);
       setIsChangeData(false);
@@ -58,6 +49,17 @@ const HomeHook = () => {
         setValue(newValue);
       }
     }
+  };
+
+  const handleMyCount = (opcion: number) => {
+
+  };
+
+  const handleAccept = () => {
+    console.log(navigationItem);
+    setIsAlertSave(false);
+    setIsChangeData(false);
+    setValue(navigationItem);
   };
 
   useEffect(() => {
@@ -80,7 +82,9 @@ const HomeHook = () => {
     setIsAlertSave,
     handleModalSaveAlert,
     isChangeData,
-    setIsChangeData
+    setIsChangeData,
+    handleAccept,
+    handleMyCount
   };
 };
 

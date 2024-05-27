@@ -24,7 +24,7 @@ const FloatingButtons = ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        zIndex: 99999,
+        //zIndex: 99999,
       }}
     >
       <LeftButtons socialNetworks={socialNetworks} />

@@ -43,8 +43,8 @@ const UserTable = () => {
     const columns: GridColDef[] = [
         { field: 'date', headerName: 'Fecha Registro', width: 170 },
         { field: 'id', headerName: 'No. Identificación', width: 160 },
-        { field: 'name', headerName: 'Nombres y Apellidos', width: 270 },
-        { field: 'email', headerName: 'Correo', width: 300 },
+        { field: 'name', headerName: 'Nombres y Apellidos', width: 230 },
+        { field: 'email', headerName: 'Correo', width: 280 },
         { field: 'plan', headerName: 'Plan', width: 110 },
         { field: 'userType', headerName: 'Tipo Usuario', width: 130 }, //Es para que se pueda identifica si es un usuario comprador o solo le reglaran la tarjeta
         {
@@ -60,7 +60,7 @@ const UserTable = () => {
             )
         },
         {
-            field: 'status', headerName: 'Estado del Cliente', width: 150,
+            field: 'status', headerName: 'Estado del Cliente', width: 130,
             renderCell: (params) => (
                 <div>
                     {params.value}
@@ -89,7 +89,7 @@ const UserTable = () => {
                     <EditIcon />
                 </Button>
             )
-        },
+        }
     ];
 
     const handleSwitchChange = () => {

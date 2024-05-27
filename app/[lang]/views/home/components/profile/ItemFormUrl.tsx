@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Button, Avatar, Box, Typography } from '@mui/material';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import LinkIcon from '@mui/icons-material/Link';
 import { Dictionary } from '@/types/dictionary';
 import {
   CareerDataFormValues,
@@ -17,46 +18,9 @@ import {
 import Image from 'next/image';
 import FormUrl from './FormUrl';
 import ModalAlertLimit from './ModalAlertLimit';
-
 import { UserData } from '@/types/user';
-import LanguageIcon from '@mui/icons-material/Language';
 import ModalIcons from './ModalIcons';
-
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import IconTikTok from './IconTikTok';
-import XIcon from '@mui/icons-material/X';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import EmailIcon from '@mui/icons-material/Email';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import PinterestIcon from '@mui/icons-material/Pinterest';
-import IconMessenger from './IconMessenger';
-import IconSnapchat from './IconSnapchat';
-import IconTwitch from './IconTwitch';
-import IconZoom from './IconZoom';
-import IconLine from './IconLine';
-import IconGmail from './IconGmail';
-import IconWhatsAppB from './IconWhatsAppB';
-import IconSkype from './IconSkype';
-import IconWeChat from './IconWeChat';
-import IconPayPal from './IconPayPal';
-import IconVSCO from './IconVSCO';
-import IconTumblr from './IconTumblr';
-import IconVimeo from './IconVimeo';
-import IconSpotify from './IconSpotify';
-import IconDeezer from './IconDeezer';
-import IconAppleMusic from './IconAppleMusic';
-import IconGoogleMaps from './IconGoogleMaps';
-import IconTripAdvisor from './IconTripAdvisor';
-import IconBooking from './IconBooking';
-import IconTinder from './IconTinder';
-import IconAmazon from './IconAmazon';
-import IconOnlyFans from './IconOnlyFans';
-import IconAirbnb from './IconAirbnb';
-import { WhatsApp } from '@mui/icons-material';
-import LinkSharpIcon from '@mui/icons-material/LinkSharp';
+import LockIcon from '@mui/icons-material/Lock';
 import { GetAllLogosImages } from '@/reactQuery/home';
 
 const ItemFormUrl = ({
@@ -138,8 +102,6 @@ const ItemFormUrl = ({
 }) => {
 
   const { data } = GetAllLogosImages();
-  //console.log('dataLogos --<<<>>> ', data);
-
 
   return (
     <div
@@ -275,7 +237,8 @@ const ItemFormUrl = ({
                                       {datafilter ?
                                         <Image src={datafilter.image} alt={datafilter.name} width={38} height={38} />
                                         :
-                                        null
+                                        /* <LockIcon className='tw-text-gray-400' /> */
+                                        <LinkIcon style={{ fontSize: 34 }} className='tw-text-gray-400' />
                                       }
                                     </Avatar>
                                   </Button>

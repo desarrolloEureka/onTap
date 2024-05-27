@@ -8,6 +8,7 @@
     "UserList": "LISTAR CLIENTES",
     "CreateUser": "CREAR CLIENTE",
     "CreateLogo": "CREAR LOGOS",
+    "TrafficReport": "REPORTE TRAFICO",
     "UserRegister": "Registro de Clientes",
     "dni": "No. Identificación",
     "Nombre": "Nombres",
@@ -97,7 +98,7 @@
     "openUrlButtonLabel": "Abrir URL",
     "copyUrlButtonLabel": "Copiar URL",
     "copyUrlMessageLabel": "Copiado!",
-    "labelRememberSave":"Ha realizado cambios. Recuerde guardarlos usando la opción 'Guardar'."
+    "labelRememberSave": "Ha realizado cambios. ¿Desea continuar sin guardar?"
   },
   "recoverPassword": {
     "recoverPassword": "Recuperar Contraseña",
@@ -194,6 +195,9 @@
   "modalLimit": {
     "labelAlert": "Alerta",
     "labelMessage": "No es posible agregar mas datos"
+  },
+  "modalLogOut": {
+    "labelMessage": "¿Está seguro de eliminar su cuenta?"
   },
   "logOut": "Salir"
 }

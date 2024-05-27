@@ -24,6 +24,8 @@ import { Button } from '@mui/material';
 import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 import LogOut from '@/hooks/logOut/LogOut';
 import LoadLogos from '@/components/loadLogos/LoadLogos';
+import TableRowsIcon from '@mui/icons-material/TableRows';
+import TrafficReport from '@/components/trafficReport/TrafficReport';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -108,6 +110,11 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
               icon={<LogoDevIcon fontSize='large' sx={{ color: 'white' }} />}
               className='tw-text-white tw-text-lg tw-font-bold'
             />
+            {/* <BottomNavigationAction
+              label={dictionary?.backOffice.TrafficReport}
+              icon={<TableRowsIcon fontSize='large' sx={{ color: 'white' }} />}
+              className='tw-text-white tw-text-lg tw-font-bold'
+            /> */}
           </BottomNavigation>
           <Button onClick={logOut} sx={{ color: 'white' }}>
             <div className='tw-flex tw-items-center'>
@@ -120,6 +127,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 1 && <UserTable />}
         {value === 2 && <LoadFonts params={{ lang }} />}
         {value === 3 && <LoadLogos params={{ lang }} />}
+        {/* {value === 4 && <TrafficReport params={{ lang }} />} */}
       </Box>
     </div>
   );

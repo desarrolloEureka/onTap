@@ -80,7 +80,9 @@ const UserTableLogic = () => {
                     plan: doc.data().plan || "",
                     date: formattedDate,
                     status: doc.data().isActiveByAdmin === true ? "true" : "false" || "",
+                    statusDelete: doc.data().isActiveByAdmin === true ? "true" : "false" || "",
                     edit: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
+                    editDelete: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
                     userType: doc.data().gif ? doc.data().gif === true ? "Obsequio" : "Comprador" : "Comprador",
                     optionEdit: doc.data()
                 };

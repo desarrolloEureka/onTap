@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
@@ -12,6 +12,10 @@ import LogOut from '@/hooks/logOut/LogOut';
 import { useRouter } from 'next/navigation';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { GetUser, SendInactiveUser } from '../../reactQuery/users';
+import ModalAlertLogOut from '@/views/home/components/profile/ModalAlertLogOut';
+import useDictionary from '@/hooks/dictionary/useDictionary';
+import { Dictionary } from '@/types/dictionary';
+import CustomModalAlertSave from '../customModalAlert/CustomModalAlertSave';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -56,25 +60,69 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-const ItemMenu = () => {
+const ItemMenu = ({ isChangeData, handleMyCount }: { isChangeData: any; handleMyCount: any }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { logOut } = LogOut();
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const { data } = GetUser();
   const router = useRouter();
-  //const { dictionary } = useDictionary({ lang });
+  const [isModalLogOut, setIsModalLogOut] = useState(false);
+  const { dictionary } = useDictionary({ lang: 'es' });
+
+  //Validacion
+  const [isAlertSave, setIsAlertSave] = useState(false);
+  const handleModalSaveAlert = () => setIsAlertSave(false);
+  const [navigationItem, setNavigationItem] = useState(0);
+
+  const handleAccept = () => {
+    setIsAlertSave(false);
+    if (navigationItem === 1) {
+      router.replace('/views/profileRecoverPassword');
+    } else if (navigationItem === 2) {
+      setIsModalLogOut(!isModalLogOut);
+    } else {
+      logOut();
+    }
+  };
 
   const handleChangePassword = () => {
-    router.replace('/views/profileRecoverPassword');
+    if (isChangeData) {
+      setIsAlertSave(true);
+      setNavigationItem(1);
+    } else {
+      router.replace('/views/profileRecoverPassword');
+    }
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleModalAux = () => {
+    if (isChangeData) {
+      setIsAlertSave(true);
+      setNavigationItem(2);
+    } else {
+      setIsModalLogOut(!isModalLogOut);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setIsModalLogOut(false);
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogOutUser = () => {
+    if (isChangeData) {
+      setIsAlertSave(true);
+      setNavigationItem(3);
+    } else {
+      logOut();
+    }
   };
 
   const handleDeleteUser = async () => {
@@ -124,16 +172,33 @@ const ItemMenu = () => {
           Cambiar Contraseña
         </MenuItem>
         <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={handleDeleteUser} disableRipple>
+        <MenuItem onClick={handleModalAux} disableRipple>
           <LogoutIcon />
           Eliminar cuenta
         </MenuItem>
         <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={logOut} disableRipple>
+        <MenuItem onClick={handleLogOutUser} disableRipple>
           <LogoutIcon />
           Cerrar Sesión
         </MenuItem>
       </StyledMenu>
+
+      <ModalAlertLogOut
+        isModalAlert={isModalLogOut}
+        handleModalAlert={handleCancelDelete}
+        dictionary={dictionary as Dictionary}
+        handleDeleteAccount={handleDeleteUser}
+        noDeleted={true}
+      />
+
+      <CustomModalAlertSave
+        isModalAlert={isAlertSave}
+        handleModalAlert={handleModalSaveAlert}
+        title={dictionary?.generalTitle ?? ""}
+        description={dictionary?.homeView?.labelRememberSave ?? ""}
+        isClosed={true}
+        handleAccept={handleAccept}
+      />
     </div>
   );
 };

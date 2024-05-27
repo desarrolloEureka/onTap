@@ -1,12 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Box, Modal } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import { Dictionary } from '@/types/dictionary';
-import useMediaQuery from '@mui/material/useMediaQuery';
-
 import { Close } from '@mui/icons-material';
-import { IconButton, Typography } from '@mui/material';
+import { IconButton } from '@mui/material';
 
 const ModalAlert = ({
   isModalAlert,

@@ -10,6 +10,7 @@ import ValidatorSession from '@/hooks/validatorSession/ValidatorSession';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import ProfileProfessional from './components/profile/ProfileProfessional';
 import { useState } from 'react';
+import CustomModalAlertSave from '@/components/customModalAlert/CustomModalAlertSave';
 
 const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -27,7 +28,9 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
     setIsAlertSave,
     handleModalSaveAlert,
     isChangeData,
-    setIsChangeData
+    setIsChangeData,
+    handleAccept,
+    handleMyCount
   } = HomeHook();
 
   return isLoading || isLoadingTemplates ? (
@@ -35,7 +38,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   ) : (
     dictionary && templates && backgroundImages.data && (
       <>
-        <Menu dictionary={dictionary} handleChange={handleChange} value={value}>
+        <Menu dictionary={dictionary} handleChange={handleChange} value={value} isChangeData={isChangeData} setIsAlertSave={setIsAlertSave} handleMyCount={handleMyCount}>
           <CustomTabPanel value={value} index={0}>
             <HomeContent
               dictionary={dictionary}
@@ -53,6 +56,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
             Item Three
           </CustomTabPanel>
         </Menu>
+        
         <CustomModalAlert
           handleModalAlert={handleModalAlert}
           title={dictionary?.homeView?.labelDenyAccess}
@@ -60,13 +64,15 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
           isModalAlert={isModalAlert}
           isClosed={true}
         />
-        <CustomModalAlert
+        <CustomModalAlertSave
+          isModalAlert={isAlertSave}
           handleModalAlert={handleModalSaveAlert}
           title={dictionary?.generalTitle}
           description={dictionary?.homeView?.labelRememberSave}
-          isModalAlert={isAlertSave}
           isClosed={true}
+          handleAccept={handleAccept}
         />
+
       </>
     )
   );

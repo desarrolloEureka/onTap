@@ -9,6 +9,7 @@ export interface Dictionary {
     CreateUser: string;
     UserRegister: string;
     CreateLogo: string;
+    TrafficReport: string;
     dni: string;
     Nombre: string;
     Apellido: string;
@@ -177,6 +178,9 @@ export interface Dictionary {
     labelMessage: string;
     buttonCancel: string;
     buttonConfirm: string;
+  };
+  modalLogOut: {
+    labelMessage: string;
   };
   modalSuccessDelete: {
     labelMessage: string;
