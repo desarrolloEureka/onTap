@@ -22,12 +22,16 @@ const ProfileHook = ({
   dictionary,
   handleDataSet,
   isProUser,
-  setIsChangeData
+  setIsChangeData,
+  setIsAlertSaveModal,
+  handleNavigate
 }: {
   dictionary: Dictionary;
   handleDataSet?: (e: SocialDataForm) => void;
   isProUser: boolean;
-  setIsChangeData: (e: boolean) => void; 
+  setIsChangeData: (e: boolean) => void;
+  setIsAlertSaveModal: any;
+  handleNavigate: () => void;
 }) => {
   const { data, error } = GetUser();
   const [dataForm, setDataForm] = useState<SocialDataForm>(profile.social);
@@ -105,10 +109,12 @@ const ProfileHook = ({
         dataForm,
         isProUser
       );
+      setIsAlertSaveModal(false);
       if (isSendDataProfile?.success) {
         setIsChangeData(false);
         setIsDataError(false);
         setIsDataSuccess(true);
+        handleNavigate();
       } else {
         setIsDataError(true);
         setIsDataSuccess(false);
@@ -305,6 +311,7 @@ const ProfileHook = ({
 
   const handleDeleteData = () => {
     setIsDataLoad(false);
+    setIsChangeData(true);
     const index =
       itemDelete && 'index' in itemDelete ? itemDelete['index'] : undefined;
     const subindex =
@@ -570,10 +577,10 @@ const ProfileHook = ({
     const dataFormChecked = Object.fromEntries(newData);
     handleDataSet && handleDataSet(dataFormChecked);
     setAllChecked(true);
-/* 
-    setTimeout(() => {
-      setIsAlertSave(false);
-    }, 5000); */
+    /* 
+        setTimeout(() => {
+          setIsAlertSave(false);
+        }, 5000); */
   };
 
   // console.log('isProUser', isProUser);

@@ -176,6 +176,7 @@ const SendDataUserProfile = async (
   data: SocialDataForm | ProfessionalDataForm,
   isProUser: boolean
 ) => {
+  console.log('idPros ',isProUser)
   return updateDataUserProfile(userId, data, isProUser)
     .then(async (response) => {
       const updatedUser = await getUserByIdFireStore(userId);

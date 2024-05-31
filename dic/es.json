@@ -98,7 +98,7 @@
     "openUrlButtonLabel": "Abrir URL",
     "copyUrlButtonLabel": "Copiar URL",
     "copyUrlMessageLabel": "Copiado!",
-    "labelRememberSave": "Ha realizado cambios. ¿Desea continuar sin guardar?"
+    "labelRememberSave": "Ha modificado datos. ¿Desea guardar los cambios antes de continuar?"
   },
   "recoverPassword": {
     "recoverPassword": "Recuperar Contraseña",

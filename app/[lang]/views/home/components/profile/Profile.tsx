@@ -11,8 +11,9 @@ import { Container, Button } from '@mui/material';
 import ModalAlert from './ModalAlert';
 import ProfileHook from './hooks/ProfileHook';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import CustomModalAlertSave from '@/components/customModalAlert/CustomModalAlertSave';
 
-const Profile = ({ dictionary, setIsChangeData }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; }) => {
+const Profile = ({ dictionary, setIsChangeData, isAlertSaveModal, setIsAlertSaveModal, handleModalSaveAlert, handleNavigate }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; isAlertSaveModal: boolean; setIsAlertSaveModal: any; handleModalSaveAlert: () => void; handleNavigate: () => void; }) => {
   const {
     handleModal,
     handleModalAlert,
@@ -58,7 +59,9 @@ const Profile = ({ dictionary, setIsChangeData }: { dictionary: Dictionary; setI
   } = ProfileHook({
     dictionary,
     isProUser: false,
-    setIsChangeData
+    setIsChangeData,
+    setIsAlertSaveModal,
+    handleNavigate
   });
 
   const handleDataSet = (data: SocialDataForm) => {
@@ -179,6 +182,18 @@ const Profile = ({ dictionary, setIsChangeData }: { dictionary: Dictionary; setI
           description={status}
           isClosed
         />
+
+        <CustomModalAlertSave
+          isModalAlert={isAlertSaveModal}
+          handleModalAlert={handleModalSaveAlert}
+          title={dictionary?.generalTitle}
+          description={dictionary?.homeView?.labelRememberSave}
+          isClosed={true}
+          isProUser={false}
+          handleAccept={handleSendProfile}
+          handleCancel={handleNavigate}
+        />
+        
       </div>
     )
   );

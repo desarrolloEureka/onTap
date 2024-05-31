@@ -3,6 +3,8 @@ import { TabPanelProps } from '@/types/home';
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { GetUser } from '@/reactQuery/users';
+import { useRouter } from 'next/navigation';
+import LogOut from '@/hooks/logOut/LogOut';
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -20,27 +22,32 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 const HomeHook = () => {
+  const router = useRouter();
   const [value, setValue] = useState(0);
   const [isProUser, setIsProUser] = useState(false);
   const [navigationItem, setNavigationItem] = useState(0);
   const { data, isLoading, error } = GetAllTemplates();
   const backgroundImages = GetAllBackgroundImages();
   const datUser = GetUser();
+  const { logOut } = LogOut();
 
   const [isModalAlert, setIsModalAlert] = useState(false);
   const handleModalAlert = () => setIsModalAlert(!isModalAlert);
 
-  const [isAlertSave, setIsAlertSave] = useState(false);
+  const [isAlertSaveModal, setIsAlertSaveModal] = useState(false);
   const [isChangeData, setIsChangeData] = useState(false);
-  const handleModalSaveAlert = () => setIsAlertSave(!isAlertSave);
+  const handleModalSaveAlert = () => setIsAlertSaveModal(!isAlertSaveModal);
+  const [isSubItemNav, setIsSubItemNav] = useState(null);
+  const [isModalLogOut, setIsModalLogOut] = useState(false);
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setNavigationItem(newValue);
     if (isChangeData) {
-      setIsAlertSave(true);
+      setValue(newValue);
+      //setIsAlertSaveModal(true);
     } else {
-      setIsAlertSave(false);
+      //setIsAlertSaveModal(false);
       setIsChangeData(false);
       const plan = datUser?.data?.plan;
       if (plan === 'standard' && newValue === 2) {
@@ -51,16 +58,58 @@ const HomeHook = () => {
     }
   };
 
-  const handleMyCount = (opcion: number) => {
+  /*   const handleNavigate = () => {
+      setIsAlertSaveModal(false);
+  
+      if (isChangeData) {
+        setTimeout(() => {
+          if (isSubItemNav != null) {
+            if (isSubItemNav === 1) {
+              router.replace('/views/profileRecoverPassword');
+            } else if (isSubItemNav === 2) {
+              setIsModalLogOut(true);
+            } else {
+              logOut();
+            }
+            setIsSubItemNav(null);
+            setIsChangeData(false);
+          } else {
+            setValue(navigationItem);
+            setIsChangeData(false);
+            setIsAlertSaveModal(false);
+          }
+        }, 1200);
+      } else {
+        if (isSubItemNav != null) {
+          if (isSubItemNav === 1) {
+            router.replace('/views/profileRecoverPassword');
+          } else if (isSubItemNav === 2) {
+            setIsModalLogOut(true);
+          } else {
+            logOut();
+          }
+          setIsSubItemNav(null);
+          setIsChangeData(false);
+        } else {
+          setValue(navigationItem);
+          setIsChangeData(false);
+          setIsAlertSaveModal(false);
+        }
+      }
+    }; */
 
+  const handleNavigate = () => {
+    setValue(navigationItem);
+    setIsChangeData(false);
+    setIsAlertSaveModal(false);
   };
 
   const handleAccept = () => {
-    console.log(navigationItem);
-    setIsAlertSave(false);
+    setIsAlertSaveModal(false);
     setIsChangeData(false);
     setValue(navigationItem);
   };
+
 
   useEffect(() => {
     value === 0 || value == 1 ? setIsProUser(false) : setIsProUser(true);
@@ -78,13 +127,17 @@ const HomeHook = () => {
     isModalAlert,
     setIsModalAlert,
     handleModalAlert,
-    isAlertSave,
-    setIsAlertSave,
+    isAlertSaveModal,
+    setIsAlertSaveModal,
     handleModalSaveAlert,
     isChangeData,
     setIsChangeData,
     handleAccept,
-    handleMyCount
+    handleNavigate,
+    isSubItemNav,
+    setIsSubItemNav,
+    isModalLogOut,
+    setIsModalLogOut
   };
 };
 

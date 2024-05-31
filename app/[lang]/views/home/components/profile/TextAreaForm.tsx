@@ -61,7 +61,22 @@ const TextAreaForm = ({
         <TextField
           ref={dataRef}
           id={`${name}-input`}
-          label={label}
+          label={label === 'name' ? 'Nombres' :
+            label === 'last_name' ? 'Apellidos' :
+              label === 'profession' ? 'Profesión' :
+                label === 'occupation' ? 'Ocupación' :
+                  label === 'address' ? 'Dirección' :
+                    label === 'company' ? 'Empresa' :
+                      label === 'position' ? 'Cargo' :
+                        label === 'professional_profile' ? 'Perfil Profesional' :
+                          label === 'other_competencies' ? 'Otras Competencias' :
+                            label === 'skills' ? 'Habilidades' :
+                              label === 'languages' ? 'Idiomas' :
+                                label === 'achievements_recognitions' ? 'Logros y reconocimientos' :
+                                  label === 'phones' ? 'Telefono' :
+                                    label === 'emails' ? 'Correo' :
+                                      label === 'urls' ? 'urls' :
+                                        ''}
           multiline
           rows={3}
           maxRows={3}

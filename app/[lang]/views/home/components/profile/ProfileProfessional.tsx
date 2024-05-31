@@ -15,8 +15,9 @@ import ProfileHook from './hooks/ProfileHook';
 import ModalAlert from './ModalAlert';
 import ProfileProfessionalHook from './hooks/ProfileProfessoinalHook';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
+import CustomModalAlertSave from '@/components/customModalAlert/CustomModalAlertSave';
 
-const ProfileProfessional = ({ dictionary, setIsChangeData }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; }) => {
+const ProfileProfessional = ({ dictionary, setIsChangeData, isAlertSaveModal, setIsAlertSaveModal, handleModalSaveAlert, handleNavigate }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; isAlertSaveModal: boolean; setIsAlertSaveModal: any; handleModalSaveAlert: () => void; handleNavigate: () => void; }) => {
   const {
     handleModal,
     handleModalAlert,
@@ -62,7 +63,9 @@ const ProfileProfessional = ({ dictionary, setIsChangeData }: { dictionary: Dict
   } = ProfileProfessionalHook({
     dictionary,
     isProUser: true,
-    setIsChangeData
+    setIsChangeData,
+    setIsAlertSaveModal,
+    handleNavigate
   });
 
   const handleDataSet = (data: ProfessionalDataForm) => {
@@ -165,14 +168,14 @@ const ProfileProfessional = ({ dictionary, setIsChangeData }: { dictionary: Dict
           description={dictionary.profileView.successDataSend}
           isClosed
         />
-         <CustomModalAlert
+        <CustomModalAlert
           isModalAlert={isAlertEmptyData}
           handleModalAlert={setIsEmptyData}
           title={dictionary?.generalTitle}
           description={dictionary.profileView.emptyData}
           isClosed
         />
-         <CustomModalAlert
+        <CustomModalAlert
           isModalAlert={isAlertEmptyDataAll}
           handleModalAlert={setIsEmptyDataAll}
           title={dictionary?.generalTitle}
@@ -185,6 +188,17 @@ const ProfileProfessional = ({ dictionary, setIsChangeData }: { dictionary: Dict
           title={dictionary?.generalTitle}
           description={labelStatus}
           isClosed
+        />
+
+        <CustomModalAlertSave
+          isModalAlert={isAlertSaveModal}
+          handleModalAlert={handleModalSaveAlert}
+          title={dictionary?.generalTitle}
+          description={dictionary?.homeView?.labelRememberSave}
+          isClosed={true}
+          isProUser={true}
+          handleAccept={handleSendProfile}
+          handleCancel={handleNavigate}
         />
       </div>
     )

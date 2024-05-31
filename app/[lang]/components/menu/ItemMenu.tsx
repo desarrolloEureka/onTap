@@ -60,53 +60,56 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-const ItemMenu = ({ isChangeData, handleMyCount }: { isChangeData: any; handleMyCount: any }) => {
+const ItemMenu = ({ isChangeData, setIsAlertSaveModal, setIsSubItemNav, isModalLogOut, setIsModalLogOut }: { isChangeData: any; setIsAlertSaveModal: any; setIsSubItemNav: any; isModalLogOut: any; setIsModalLogOut: any }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { logOut } = LogOut();
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const { data } = GetUser();
   const router = useRouter();
-  const [isModalLogOut, setIsModalLogOut] = useState(false);
+  //const [isModalLogOut, setIsModalLogOut] = useState(false);
   const { dictionary } = useDictionary({ lang: 'es' });
 
   //Validacion
-  const [isAlertSave, setIsAlertSave] = useState(false);
-  const handleModalSaveAlert = () => setIsAlertSave(false);
-  const [navigationItem, setNavigationItem] = useState(0);
-
-  const handleAccept = () => {
-    setIsAlertSave(false);
-    if (navigationItem === 1) {
-      router.replace('/views/profileRecoverPassword');
-    } else if (navigationItem === 2) {
-      setIsModalLogOut(!isModalLogOut);
-    } else {
-      logOut();
-    }
-  };
+  /*   const handleAccept = () => {
+      if (navigationItem === 1) {
+        router.replace('/views/profileRecoverPassword');
+      } else if (navigationItem === 2) {
+        setIsModalLogOut(!isModalLogOut);
+      } else {
+        logOut();
+      }
+    }; */
 
   const handleChangePassword = () => {
+    router.replace('/views/profileRecoverPassword');
+  };
+
+  /* const handleChangePassword = () => {
     if (isChangeData) {
-      setIsAlertSave(true);
-      setNavigationItem(1);
+      setIsAlertSaveModal(true);
+      setIsSubItemNav(1);
     } else {
       router.replace('/views/profileRecoverPassword');
     }
-  };
+  }; */
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleModalAux = () => {
-    if (isChangeData) {
-      setIsAlertSave(true);
-      setNavigationItem(2);
-    } else {
-      setIsModalLogOut(!isModalLogOut);
-    }
+    setIsModalLogOut(!isModalLogOut);
   };
+
+  /*   const handleModalAux = () => {
+      if (isChangeData) {
+        setIsAlertSaveModal(true);
+        setIsSubItemNav(2);
+      } else {
+        setIsModalLogOut(!isModalLogOut);
+      }
+    }; */
 
   const handleCancelDelete = () => {
     setIsModalLogOut(false);
@@ -117,13 +120,17 @@ const ItemMenu = ({ isChangeData, handleMyCount }: { isChangeData: any; handleMy
   };
 
   const handleLogOutUser = () => {
-    if (isChangeData) {
-      setIsAlertSave(true);
-      setNavigationItem(3);
-    } else {
-      logOut();
-    }
+    logOut();
   };
+
+  /*   const handleLogOutUser = () => {
+      if (isChangeData) {
+        setIsAlertSaveModal(true);
+        setIsSubItemNav(3);
+      } else {
+        logOut();
+      }
+    }; */
 
   const handleDeleteUser = async () => {
     const userId = data?.uid;
@@ -191,14 +198,14 @@ const ItemMenu = ({ isChangeData, handleMyCount }: { isChangeData: any; handleMy
         noDeleted={true}
       />
 
-      <CustomModalAlertSave
+      {/* <CustomModalAlertSave
         isModalAlert={isAlertSave}
         handleModalAlert={handleModalSaveAlert}
         title={dictionary?.generalTitle ?? ""}
         description={dictionary?.homeView?.labelRememberSave ?? ""}
         isClosed={true}
         handleAccept={handleAccept}
-      />
+      /> */}
     </div>
   );
 };

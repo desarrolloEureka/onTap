@@ -24,13 +24,17 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
     backgroundImages,
     isModalAlert,
     handleModalAlert,
-    isAlertSave,
-    setIsAlertSave,
+    isAlertSaveModal,
+    setIsAlertSaveModal,
     handleModalSaveAlert,
     isChangeData,
     setIsChangeData,
     handleAccept,
-    handleMyCount
+    handleNavigate,
+    isSubItemNav,
+    setIsSubItemNav,
+    isModalLogOut,
+    setIsModalLogOut
   } = HomeHook();
 
   return isLoading || isLoadingTemplates ? (
@@ -38,7 +42,15 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   ) : (
     dictionary && templates && backgroundImages.data && (
       <>
-        <Menu dictionary={dictionary} handleChange={handleChange} value={value} isChangeData={isChangeData} setIsAlertSave={setIsAlertSave} handleMyCount={handleMyCount}>
+        <Menu dictionary={dictionary}
+          handleChange={handleChange}
+          value={value}
+          isChangeData={isChangeData}
+          setIsAlertSaveModal={setIsAlertSaveModal}
+          setIsSubItemNav={setIsSubItemNav}
+          isModalLogOut={isModalLogOut}
+          setIsModalLogOut={setIsModalLogOut}
+        >
           <CustomTabPanel value={value} index={0}>
             <HomeContent
               dictionary={dictionary}
@@ -47,16 +59,35 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
             />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <Profile dictionary={dictionary} setIsChangeData={setIsChangeData} />
+
+            <Profile
+              dictionary={dictionary}
+              setIsChangeData={setIsChangeData}
+              isAlertSaveModal={isAlertSaveModal}
+              setIsAlertSaveModal={setIsAlertSaveModal}
+              handleModalSaveAlert={handleModalSaveAlert}
+              handleNavigate={handleNavigate}
+            />
+
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            <ProfileProfessional dictionary={dictionary} setIsChangeData={setIsChangeData} />
+
+            <ProfileProfessional
+              dictionary={dictionary}
+              setIsChangeData={setIsChangeData}
+              isAlertSaveModal={isAlertSaveModal}
+              setIsAlertSaveModal={setIsAlertSaveModal}
+              handleModalSaveAlert={handleModalSaveAlert}
+              handleNavigate={handleNavigate}
+            />
+
+
           </CustomTabPanel>
           <CustomTabPanel value={value} index={3}>
             Item Three
           </CustomTabPanel>
         </Menu>
-        
+
         <CustomModalAlert
           handleModalAlert={handleModalAlert}
           title={dictionary?.homeView?.labelDenyAccess}
@@ -64,15 +95,6 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
           isModalAlert={isModalAlert}
           isClosed={true}
         />
-        <CustomModalAlertSave
-          isModalAlert={isAlertSave}
-          handleModalAlert={handleModalSaveAlert}
-          title={dictionary?.generalTitle}
-          description={dictionary?.homeView?.labelRememberSave}
-          isClosed={true}
-          handleAccept={handleAccept}
-        />
-
       </>
     )
   );

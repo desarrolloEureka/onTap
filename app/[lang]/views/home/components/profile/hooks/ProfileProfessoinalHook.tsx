@@ -22,18 +22,18 @@ const ProfileProfessionalHook = ({
   dictionary,
   handleDataSet,
   isProUser,
-  setIsChangeData
+  setIsChangeData,
+  setIsAlertSaveModal,
+  handleNavigate
 }: {
   dictionary: Dictionary;
   handleDataSet?: (e: ProfessionalDataForm) => void;
   isProUser: boolean;
   setIsChangeData: (e: boolean) => void;
-
+  setIsAlertSaveModal: any;
+  handleNavigate: () => void;
 }) => {
   const { data, error } = GetUser();
-  // const dataProfile = (data?.profile ?? {}) as DataForm;
-  // console.log('isProUser ProfileHook', isProUser);
-  // const [dataProfile, setDataProfile] = useState<DataForm>({});
   const [dataForm, setDataForm] = useState<ProfessionalDataForm>(
     profile.professional
   );
@@ -134,17 +134,18 @@ const ProfileProfessionalHook = ({
       }
     }
     */
-
     if (userId) {
       const isSendDataProfile = await SendDataUserProfile(
         userId,
         dataForm,
         isProUser
       );
+      setIsAlertSaveModal(false);
       if (isSendDataProfile?.success) {
         setIsChangeData(false);
         setIsDataError(false);
         setIsDataSuccess(true);
+        handleNavigate();
       } else {
         setIsDataError(true);
         setIsDataSuccess(false);
@@ -373,6 +374,7 @@ const ProfileProfessionalHook = ({
 
   const handleDeleteData = () => {
     setIsDataLoad(false);
+    setIsChangeData(true);
     const index =
       itemDelete && 'index' in itemDelete ? itemDelete['index'] : undefined;
     const subindex =

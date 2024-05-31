@@ -15,7 +15,7 @@ function a11yProps(index: number) {
   };
 }
 
-const Menu = ({ dictionary, handleChange, value, children, isChangeData, setIsAlertSave, handleMyCount }: MenuProps) => {
+const Menu = ({ dictionary, handleChange, value, children, isChangeData, setIsAlertSaveModal, setIsSubItemNav, isModalLogOut, setIsModalLogOut }: MenuProps) => {
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
   const Logo = () => (
@@ -141,7 +141,9 @@ const Menu = ({ dictionary, handleChange, value, children, isChangeData, setIsAl
               {...a11yProps(2)}
             />
 
-            <ItemMenu isChangeData={isChangeData} handleMyCount={handleMyCount} />
+            <ItemMenu isChangeData={isChangeData} setIsAlertSaveModal={setIsAlertSaveModal} setIsSubItemNav={setIsSubItemNav} 
+            isModalLogOut={isModalLogOut} setIsModalLogOut={setIsModalLogOut}
+            />
 
             {/*  <Tab
               label={

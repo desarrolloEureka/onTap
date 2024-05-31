@@ -8,14 +8,18 @@ function CustomModalAlertSave({
   title,
   description,
   isClosed,
-  handleAccept
+  handleAccept,
+  handleCancel,
+  isProUser
 }: {
   isModalAlert: boolean;
   handleModalAlert: (e: boolean) => void;
-  handleAccept: () => void;
+  handleAccept: (e: boolean) => void;
+  handleCancel: () => void;
   description: string;
   title: string;
   isClosed?: boolean;
+  isProUser: boolean;
 }) {
   return (
     <Modal
@@ -58,14 +62,14 @@ function CustomModalAlertSave({
               className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom'
               type='submit'
               style={{ textTransform: 'none' }}
-              onClick={() => handleModalAlert(false)}
+              onClick={handleCancel}
             >
               Cancelar
             </Button>
           </div>
           <div className='tw-w-[50%] tw-h-[100%] tw-flex tw-justify-center tw-justify-items-center tw-p-2'>
             <Button
-              onClick={() => handleAccept()}
+              onClick={() => handleAccept(isProUser)}
               className='tw-w-[100%] tw-h-[100%] tw-text-white'
               type='submit'
               style={{ textTransform: 'none' }}
