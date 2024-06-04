@@ -333,7 +333,52 @@ const ProfileHook = ({
         setSuccessDelete(true);
       }, 500);
     } else {
-      setNoDeleted(true);
+      //setNoDeleted(true);
+      if (subindex !== undefined && subindex) {
+        if (dataAux[subindex].label === "urls") {
+          dataAux[subindex] = {
+            label: 'urls',
+            name: '',
+            url: '',
+            icon: '',
+            checked: false,
+            principal: true,
+            social: false,
+            professional: false,
+            order: 13,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "emails") {
+          dataAux[subindex] = {
+            label: 'emails',
+            text: '',
+            checked: false,
+            principal: true,
+            social: true,
+            professional: false,
+            icon: 'EmailOutlinedIcon',
+            order: 10,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "phones") {
+          dataAux[subindex] = {
+            label: 'phones',
+            text: '',
+            checked: false,
+            principal: true,
+            social: true,
+            professional: false,
+            icon: 'LocalPhoneOutlinedIcon',
+            order: 9,
+          };
+          setDataForm(dataFormClone);
+        }
+
+        setTimeout(() => {
+          setIsModalAlert(false);
+          setSuccessDelete(true);
+        }, 500);
+      }
     }
   };
 

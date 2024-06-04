@@ -396,7 +396,82 @@ const ProfileProfessionalHook = ({
         setSuccessDelete(true);
       }, 500);
     } else {
-      setNoDeleted(true);
+      //setNoDeleted(true);
+      if (subindex !== undefined && subindex) {
+        if (dataAux[subindex].label === "urls") {
+          dataAux[subindex] = {
+            label: 'urls',
+            name: '',
+            url: '',
+            icon: '',
+            checked: false,
+            principal: true,
+            social: false,
+            professional: false,
+            order: 13,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "emails") {
+          dataAux[subindex] = {
+            label: 'emails',
+            text: '',
+            checked: false,
+            principal: true,
+            social: true,
+            professional: false,
+            icon: 'EmailOutlinedIcon',
+            order: 10,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "phones") {
+          dataAux[subindex] = {
+            label: 'phones',
+            text: '',
+            checked: false,
+            principal: true,
+            social: true,
+            professional: false,
+            icon: 'LocalPhoneOutlinedIcon',
+            order: 9,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "education") {
+          dataAux[subindex] = {
+            label: 'education',
+            title: '',
+            institution: '',
+            year: '',
+            checked: false,
+            principal: true,
+            social: false,
+            professional: true,
+            icon: '',
+            order: 11,
+          };
+          setDataForm(dataFormClone);
+
+        } else if (dataAux[subindex].label === "professional_career") {
+          dataAux[subindex] = {
+            label: 'professional_career',
+            company: '',
+            position: '',
+            data_init: '',
+            data_end: '',
+            checked: false,
+            principal: true,
+            social: false,
+            professional: true,
+            icon: '',
+            order: 12,
+          };
+          setDataForm(dataFormClone);
+        }
+
+        setTimeout(() => {
+          setIsModalAlert(false);
+          setSuccessDelete(true);
+        }, 500);
+      }
     }
   };
 

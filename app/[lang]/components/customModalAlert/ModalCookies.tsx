@@ -40,25 +40,25 @@ function ModalCookies({
                 >
                     <Close className='tw-text-white' />
                 </IconButton>
-                <div className='tw-w-[90%] tw-h-[20%] tw-flex tw-justify-center tw-justify-items-center'>
+                {/*   <div className='tw-w-[90%] tw-h-[20%] tw-flex tw-justify-center tw-justify-items-center'>
                     <div className='tw-w-[100%] tw-h-[100%] tw-flex tw-justify-center tw-justify-items-center tw-pb-2 '>
                         <CookieIcon className='tw-text-white' style={{ fontSize: 41 }} />
                     </div>
-                </div>
-                <div className='tw-w-[98%] tw-h-[50%] tw-flex tw-justify-center tw-justify-items-center tw-pb-3'>
-                    <div className='tw-w-[95%] tw-h-[90%] tw-flex tw-justify-center tw-justify-items-center tw-ml-[-230px] tw-mr-[-230px]'>
-                        <span className="tw-text-center tw-text-white" style={{ fontSize: 14 }}>
+                </div> */}
+                <div className='tw-w-[98%] tw-h-[50%] tw-flex tw-justify-center tw-justify-items-center tw-pb-3 tw-pt-5'>
+                    <div className='tw-w-[98%] tw-h-[90%] tw-flex tw-justify-center tw-justify-items-center tw-ml-[-180px] tw-mr-[-180px]'>
+                        <span className="tw-text-center tw-text-white" style={{ fontSize: 12.5 }}>
                             Usamos cookies para mejorar tu experiencia de navegación de acuerdo a nuestras políticas de tratamiento de datos.
                         </span>
                     </div>
                 </div>
                 <div className='tw-w-[100%] tw-h-[30%] tw-border-t-black tw-border-t-[1px] tw-border-x-0 tw-border-b-0 tw-border-solid tw-flex tw-justify-center tw-justify-items-center'>
-                    <div className='tw-w-[100%] tw-h-[100%] tw-flex tw-justify-center tw-justify-items-center tw-p-[1.9px]'>
+                    <div className='tw-w-[100%] tw-h-[100%] tw-flex tw-justify-center tw-justify-items-center tw-p-[1.1px]'>
                         <Button
                             onClick={() => handleAceptCookies()}
                             className='tw-w-[100%] tw-h-[100%] tw-text-white'
                             type='submit'
-                            style={{ textTransform: 'none' }}
+                            style={{ textTransform: 'none', fontSize: 13 }}
                         >
                             Aceptar
                         </Button>
