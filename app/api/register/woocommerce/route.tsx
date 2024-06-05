@@ -21,7 +21,9 @@ export async function POST(request: Request) {
 
     if (email && dni && status === "processing") {
       const result = await registerUserAuth({ user: email, password: dni });
+      result.dni = dni;
       result.name = `${name} ${last_name}`;
+      result.email = email;
       result.plan = plan ?? 'premium';
       result.switch_profile = plan === "standard" ? false : true;
       result.created = dateCreatedBd;
