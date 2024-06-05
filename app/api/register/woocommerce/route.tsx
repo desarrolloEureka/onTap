@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const email = req.billing.email;
     const name = req.billing.first_name;
     const last_name = req.billing.last_name
-    const plan = req.line_items.parent_name.toLowerCase().search('premium');
+    const plan = req?.line_items?.parent_name?.toLowerCase()?.search('premium');
 
     // Crear un objeto Date y obtener su timestamp
     const dateCreated = new Date();
