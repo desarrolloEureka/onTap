@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const email = req.billing.email;
     const name = req.billing.first_name;
     const last_name = req.billing.last_name
-    const plan = req.line_items.parent_name.toLowerCase().search('premium');
+    const plan = 'standard'
 
     // Crear un objeto Date y obtener su timestamp
     const dateCreated = new Date();
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       result.plan = plan ?? 'premium';
       result.switch_profile = plan === "standard" ? false : true;
       result.created = dateCreatedBd;
-      result.isActiveByAdmin = true; //?
+      result.isActiveByAdmin = true;
 
       const registerResult = await registerUserFb({ data: result });
       response = {
