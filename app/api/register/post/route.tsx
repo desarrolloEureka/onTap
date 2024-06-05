@@ -25,6 +25,7 @@ export async function POST(request: Request) {
       result.plan = plan ?? 'premium';
       result.switch_profile = plan === "standard" ? false : true;
       result.created = dateCreatedBd;
+      result.isActiveByAdmin = true; //?
 
       const registerResult = await registerUserFb({ data: result });
       response = {
