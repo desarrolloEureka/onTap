@@ -55,12 +55,12 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <GridToolbarExport
+                    {/*  <GridToolbarExport
                         slotProps={{
                             tooltip: { title: 'Export data' },
                             button: { variant: 'outlined' },
                         }}
-                    />
+                    /> */}
                     <GridToolbarFilterButton />
                 </Box>
                 <GridToolbarQuickFilter
@@ -129,8 +129,11 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             </div>
                             <div style={{ height: 590, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-0'>
                                 <DataGrid
-                                    rows={dataDetailUser.DataMetrics ?? []}
-                                    getRowId={(row) => row.viewsTime}
+                                    //rows={dataDetailUser.DataMetrics ?? []}
+                                    rows={dataDetailUser.DataMetrics?.map((row, index) => ({
+                                        id: index,
+                                        ...row
+                                    })) ?? []}
                                     disableColumnFilter
                                     disableColumnSelector
                                     disableDensitySelector
@@ -163,7 +166,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                                             paginationModel: { page: 0, pageSize: 15 },
                                         },
                                     }}
-                                    pageSizeOptions={[15, 30, 60]}
+                                    pageSizeOptions={[15, 30, 45, 60]}
                                     rowHeight={75}
                                     checkboxSelection
                                     className="tw-rounded-2xl"
@@ -189,7 +192,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                                     paginationModel: { page: 0, pageSize: 15 },
                                 },
                             }}
-                            pageSizeOptions={[15, 30, 60]}
+                            pageSizeOptions={[15, 30, 45, 60]}
                             rowHeight={75}
                             checkboxSelection
                             className="tw-rounded-2xl"
