@@ -73,7 +73,6 @@ const CustomCheckbox = ({
     if (handleSelectBackground) {
       handleSaveTemplate(checkboxRef?.current?.id);
     } else {
-      console.log("Entreeeeeeeeeeee");
       const userId = uid;
       if (checkboxRef && userId && fakeData.length > 0) {
         const fakeDataClone = [...fakeData];

@@ -11,6 +11,7 @@ import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import ProfileProfessional from './components/profile/ProfileProfessional';
 import { useState } from 'react';
 import CustomModalAlertSave from '@/components/customModalAlert/CustomModalAlertSave';
+import ShareQr from './components/profile/ShareQr';
 
 const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -84,7 +85,9 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
           </CustomTabPanel>
           <CustomTabPanel value={value} index={3}>
-            Item Three
+            <ShareQr
+              dictionary={dictionary}
+            ></ShareQr>
           </CustomTabPanel>
         </Menu>
 

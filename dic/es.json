@@ -8,7 +8,7 @@
     "UserList": "LISTAR CLIENTES",
     "CreateUser": "CREAR CLIENTE",
     "CreateLogo": "CREAR LOGOS",
-    "TrafficReport": "REPORTE TRAFICO",
+    "TrafficReport": "ESTADÍSTICA",
     "UserRegister": "Registro de Clientes",
     "dni": "No. Identificación",
     "Nombre": "Nombres",
@@ -62,7 +62,8 @@
     "tab1": "Home",
     "tab2": "Social",
     "tab3": "Profesional",
-    "tab4": "Corporativo"
+    "tab4": "Corporativo",
+    "tabShare": "Compartir"
   },
   "loginView": {
     "username": "Usuario",

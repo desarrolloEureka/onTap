@@ -7,6 +7,7 @@ import { Box, Tab, Tabs, Typography } from '@mui/material';
 import Image from 'next/image';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ItemMenu from '@/components/menu/ItemMenu';
+import IosShareIcon from '@mui/icons-material/IosShare';
 
 function a11yProps(index: number) {
   return {
@@ -129,6 +130,7 @@ const Menu = ({ dictionary, handleChange, value, children, isChangeData, setIsAl
               }
               {...a11yProps(1)}
             />
+
             <Tab
               label={
                 <Label
@@ -141,9 +143,24 @@ const Menu = ({ dictionary, handleChange, value, children, isChangeData, setIsAl
               {...a11yProps(2)}
             />
 
-            <ItemMenu isChangeData={isChangeData} setIsAlertSaveModal={setIsAlertSaveModal} setIsSubItemNav={setIsSubItemNav} 
-            isModalLogOut={isModalLogOut} setIsModalLogOut={setIsModalLogOut}
+            <Tab
+              label={
+                <Label
+                  icon={
+                    <IosShareIcon sx={{ color: value == 3 ? 'black' : 'white' }} />
+                  }
+                  label={dictionary.mainTab.tabShare}
+                  value={value}
+                  index={3}
+                />
+              }
+              {...a11yProps(3)}
             />
+
+            <ItemMenu isChangeData={isChangeData} setIsAlertSaveModal={setIsAlertSaveModal} setIsSubItemNav={setIsSubItemNav}
+              isModalLogOut={isModalLogOut} setIsModalLogOut={setIsModalLogOut}
+            />
+
 
             {/*  <Tab
               label={

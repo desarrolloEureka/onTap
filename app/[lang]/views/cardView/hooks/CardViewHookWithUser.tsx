@@ -2,25 +2,32 @@ import { useEffect, useState } from 'react';
 import { GetUserById, SendViewUser } from '@/reactQuery/users';
 
 const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
-  const { data } = GetUserById(userUid);
+  const { data: userData } = GetUserById(userUid);
   const [type, setType] = useState<string | undefined>();
+  const [viewsIncremented, setViewsIncremented] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      const type = data?.switch_profile ? 'professional' : 'social';
-      setType(type);
-      if (data && data.switch_activateCard) {
-        const viewsNow = data.views;
+    if (userData) {
+      const newUserType = userData.switch_profile ? 'professional' : 'social';
+      setType(newUserType);
+
+      if (!viewsIncremented && userData.switch_activateCard) {
+        const userId = userData.uid;
+        const viewsNow = userData.views;
         const viewsNew = viewsNow + 1;
-        const userId = data?.uid;
-        if (userId) {
-          SendViewUser(userId, viewsNew);
-        }
+
+        SendViewUser(userId, viewsNew)
+          .then(() => {
+            setViewsIncremented(true);
+          })
+          .catch((error) => {
+            console.error('Error sending view:', error);
+          });
       }
     }
-  }, [data]);
+  }, [userData, viewsIncremented]);
 
-  return { user: data, type };
+  return { user: userData, type };
 };
 
 export default CardViewHookWithUser;

@@ -25,9 +25,30 @@ export async function POST(request: Request) {
       result.name = `${name} ${last_name}`;
       result.email = email;
       result.plan = plan ?? 'premium';
-      result.switch_profile = plan === "standard" ? false : true;
+      //result.switch_profile = plan === "standard" ? false : true;
+      result.switch_profile = false;
       result.created = dateCreatedBd;
       result.isActiveByAdmin = true;
+      result.templateData = plan === 'standard' ? [{
+        type: 'social',
+        id: 'XfhZLINMOpRTI7cakd8o',
+        background_id: '7ynTMVt3M6VFV3KykOXQ',
+        checked: true,
+      }]
+        :
+        [{
+          type: 'social',
+          id: 'XfhZLINMOpRTI7cakd8o',
+          background_id: '7ynTMVt3M6VFV3KykOXQ',
+          checked: true,
+        },
+        {
+          type: 'professional',
+          id: 'ZESiLxKZFwUOUOgLKt6P',
+          background_id: '7ynTMVt3M6VFV3KykOXQ',
+          checked: true,
+        }
+        ]
 
       const registerResult = await registerUserFb({ data: result });
       response = {

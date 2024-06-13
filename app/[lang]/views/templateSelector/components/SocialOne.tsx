@@ -45,8 +45,6 @@ const SocialOne = ({
 
   useEffect(() => {
     const cookies = localStorage.getItem('@cookies');
-    console.log('cookies ---> ', cookies);
-
     if (cookies) {
       setIsCookies(false);
     } else {

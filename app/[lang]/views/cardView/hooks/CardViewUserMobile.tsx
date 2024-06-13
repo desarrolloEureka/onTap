@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GetUserById, SendViewUser } from '@/reactQuery/users';
+import { GetUserById } from '@/reactQuery/users';
 
 const CardViewUserMobile = ({ userUid, typeParam }: { userUid: string, typeParam: string }) => {
     const { data } = GetUserById(userUid);
@@ -8,14 +8,6 @@ const CardViewUserMobile = ({ userUid, typeParam }: { userUid: string, typeParam
     useEffect(() => {
         if (data) {
             setType(typeParam);
-            if (data && data.switch_activateCard) {
-                const viewsNow = data.views;
-                const viewsNew = viewsNow;
-                const userId = data?.uid;
-                /*  if (userId) {
-                     SendViewUser(userId, viewsNew);
-                 } */
-            }
         }
     }, [data, typeParam]);
 

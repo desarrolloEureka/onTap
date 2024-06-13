@@ -8,6 +8,7 @@ import {
   updateDoc,
   addDoc,
   setDoc,
+  arrayUnion
 } from 'firebase/firestore';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { dataBase } from 'app/[lang]/firebase/firebaseConfig';
@@ -158,6 +159,13 @@ export const updateDataUser = async (userId: string, newData: any) => {
 export const updatePreView = async (userId: string, newData: any) => {
   const userDocRef = doc(dataBase, 'users', userId);
   await updateDoc(userDocRef, newData);
+};
+
+export const updateDataMetrics = async (userId: string, newData: any) => {
+  const userDocRef = doc(dataBase, 'users', userId);
+  await updateDoc(userDocRef, {
+    DataMetrics: arrayUnion(newData)
+  });
 };
 
 export const updateInactiveUser = async (

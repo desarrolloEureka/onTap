@@ -1,13 +1,36 @@
 import { getAllUsers } from '@/firebase/user';
-import { GetAllLogosImages } from '@/reactQuery/home';
 import { useEffect, useState } from 'react';
 
 const ReportTableLogic = () => {
+    type UserDataDetail = {
+        name: string;
+        dni: string;
+        email: string;
+        views: string;
+        DataMetrics?: {
+            viewsDate: string;
+            viewsTime: string;
+            ipAddress: string;
+            typeDevice: string;
+            so: string;
+            cityView: string;
+            countryView: string;
+            View_Count: number;
+        }[];
+    };
+
+
     const [query, setQuery] = useState<any>([]);
     const [flag, setFlag] = useState(false);
     const [seeDetail, setSeeDetail] = useState(false);
-    const [dataDetailUser, setDataDetailUser] = useState(null);
-    const { data } = GetAllLogosImages(flag);
+    const [dataDetailUser, setDataDetailUser] = useState<UserDataDetail | null>(null);
+
+
+    const handleSeeDetail = async (dataDetail: any) => {
+        console.log(dataDetail);
+        setSeeDetail(true);
+        setDataDetailUser(dataDetail);
+    };
 
     useEffect(() => {
         const getquery = async () => {
@@ -46,7 +69,8 @@ const ReportTableLogic = () => {
         seeDetail,
         setSeeDetail,
         dataDetailUser,
-        setDataDetailUser
+        setDataDetailUser,
+        handleSeeDetail
     };
 };
 

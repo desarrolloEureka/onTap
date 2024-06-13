@@ -42,6 +42,7 @@ const HomeHook = () => {
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log('newValue ', newValue);
     setNavigationItem(newValue);
     if (isChangeData) {
       setValue(newValue);

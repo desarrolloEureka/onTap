@@ -57,12 +57,33 @@ const UserRegisterForm = () => {
       const result = await registerUserAuth({ user: email, password: dni });
       result.name = `${name} ${lastName}`;
       result.plan = plan;
-      result.switch_profile = plan === 'standard' ? false : true;
+      //result.switch_profile = plan === 'standard' ? false : true;
+      result.switch_profile = false;// switch Modo
       result.gif = true;
       result.email = email;
       result.dni = dni;
       result.isActiveByAdmin = true;
       result.created = dateCreatedBd;
+      result.templateData = plan === 'standard' ? [{
+        type: 'social',
+        id: 'XfhZLINMOpRTI7cakd8o',
+        background_id: '7ynTMVt3M6VFV3KykOXQ',
+        checked: true,
+      }]
+        :
+        [{
+          type: 'social',
+          id: 'XfhZLINMOpRTI7cakd8o',
+          background_id: '7ynTMVt3M6VFV3KykOXQ',
+          checked: true,
+        },
+        {
+          type: 'professional',
+          id: 'ZESiLxKZFwUOUOgLKt6P',
+          background_id: '7ynTMVt3M6VFV3KykOXQ',
+          checked: true,
+        }
+        ]
 
       registerUserFb({ data: result })
         .then((res) => {

@@ -25,7 +25,13 @@ export const registerUserAuth = async ({
     email: '',
     dni: '',
     isActiveByAdmin: false,
-    created: 0
+    created: 0,
+    templateData: [{
+      type: '',
+      id: '',
+      background_id: '',
+      checked: true
+    }]
   };
   return userData;
 };

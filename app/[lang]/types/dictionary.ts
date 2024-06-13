@@ -55,7 +55,7 @@ export interface Dictionary {
   rememberPasswordTitle: string;
   rememberPasswordDescription: string;
   mainMenu: string;
-  mainTab: { tab1: string; tab2: string; tab3: string; tab4: string };
+  mainTab: { tab1: string; tab2: string; tab3: string; tab4: string; tabShare: string };
   homeView: {
     agregar: string;
     views: string;
