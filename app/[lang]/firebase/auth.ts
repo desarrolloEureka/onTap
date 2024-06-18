@@ -56,15 +56,14 @@ export const changePasswordFirebase = async (
   confirmPassword: string
 ) => {
   try {
-    const setPassword = await confirmPasswordReset(
+    const response = await confirmPasswordReset(
       auth,
       oobCode,
       confirmPassword
     );
-
-    return setPassword;
+    return response;
   } catch (error: any) {
     console.debug('error message', error.message);
-    return null;
+    return { error: true, message: error.message };
   }
 };

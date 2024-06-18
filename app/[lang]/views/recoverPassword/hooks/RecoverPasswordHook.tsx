@@ -39,19 +39,20 @@ const RecoverPasswordHook = () => {
     setAlertErrorConfirmNewPassword(null);
     setAlertErrorNotEqual(null);
     if (newPassword && confirmNewPassword && newPassword === confirmNewPassword) {
-      console.log('oobCode ', oobCode);
       if (step == 3 && oobCode && confirmNewPassword) {
         const change = await changePasswordFirebase(oobCode, confirmNewPassword);
-        console.log('change ', change);
-        if (change != null) {
+        console.log('change ', change?.message);
+
+        if (change?.message === 'Firebase: Error (auth/invalid-action-code).') {
+          setExpired(true);
+        } else {
           setExpired(false);
           handle(4);
-        } else {
-          setExpired(true);
         }
+
         setTimeout(() => {
           setExpired(false);
-        }, 3000);
+        }, 3500);
       }
     } else {
       !newPassword ? setAlertErrorPassword({
