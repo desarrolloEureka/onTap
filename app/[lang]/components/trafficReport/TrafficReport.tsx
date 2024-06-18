@@ -2,7 +2,8 @@
 import React from 'react';
 import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
-import { DataGrid, GridColDef, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport, GridToolbarFilterButton, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport } from '@mui/x-data-grid';
+import { GridToolbarQuickFilter, GridToolbarFilterButton } from '@mui/x-data-grid/components';
 import ReportTableLogic from './hooks/ReportTableLogic';
 import { Typography, Button } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -55,12 +56,12 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {/*  <GridToolbarExport
+                    <GridToolbarExport
                         slotProps={{
                             tooltip: { title: 'Export data' },
                             button: { variant: 'outlined' },
                         }}
-                    /> */}
+                    />
                     <GridToolbarFilterButton />
                 </Box>
                 <GridToolbarQuickFilter

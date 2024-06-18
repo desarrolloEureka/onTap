@@ -1,8 +1,11 @@
 import { changePasswordFirebase, resetPasswordFirebase } from '@/firebase/auth';
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { LoginError } from '@/types/login';
+import useDictionary from '@/hooks/dictionary/useDictionary';
 
 const RecoverPasswordHook = () => {
+  const dictionary = useDictionary({ lang: 'es' });
   const searchParams = useSearchParams();
   const currentStep = searchParams.get('step');
   const oobCode = searchParams.get('oobCode');
@@ -12,9 +15,12 @@ const RecoverPasswordHook = () => {
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
   const [alertEmailSend, setAlertEmailSend] = useState(false);
-  const [alertErrorPassword, setAlertErrorPassword] = useState(false);
   const [validatingPassword, setValidatingPassword] = useState(true);
   const [expired, setExpired] = useState(false);
+
+  const [alertErrorPassword, setAlertErrorPassword] = useState<LoginError | null>(null);
+  const [alertErrorConfirmNewPassword, setAlertErrorConfirmNewPassword] = useState<LoginError | null>(null);
+  const [alertErrorNotEqual, setAlertErrorNotEqual] = useState<LoginError | null>(null);
 
   const handleNext = () => {
     setStep((prevStep) => prevStep + 1);
@@ -29,37 +35,42 @@ const RecoverPasswordHook = () => {
   };
 
   const finishReset = async (handle: (e: number) => void) => {
-    if (step == 3 && oobCode && confirmNewPassword) {
-      const change = await changePasswordFirebase(oobCode, confirmNewPassword);
-      if (change != null) {
-        setExpired(false);
-        handle(4);
-      } else {
-        setExpired(true);
+    setAlertErrorPassword(null);
+    setAlertErrorConfirmNewPassword(null);
+    setAlertErrorNotEqual(null);
+    if (newPassword && confirmNewPassword && newPassword === confirmNewPassword) {
+      console.log('oobCode ', oobCode);
+      if (step == 3 && oobCode && confirmNewPassword) {
+        const change = await changePasswordFirebase(oobCode, confirmNewPassword);
+        console.log('change ', change);
+        if (change != null) {
+          setExpired(false);
+          handle(4);
+        } else {
+          setExpired(true);
+        }
+        setTimeout(() => {
+          setExpired(false);
+        }, 3000);
       }
-      setTimeout(() => {
-        setExpired(false);
-      }, 3000);
-    }
-  };
-
-  const handleSetNewPassword = (text: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(text.target.value);
-  };
-  const handleSetConfirmNewPassword = (
-    text: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (newPassword == text.target.value) {
-      setConfirmNewPassword(text.target.value);
-      setValidatingPassword(false);
-    } else if (newPassword.length === text.target.value.length) {
-      setValidatingPassword(false);
-      setAlertErrorPassword(true);
-      setTimeout(() => {
-        setAlertErrorPassword(false);
-      }, 2000);
     } else {
-      setValidatingPassword(true);
+      !newPassword ? setAlertErrorPassword({
+        errorType: 1,
+        errorMessage:
+          dictionary?.dictionary?.newPassword?.mandatoryPassword ||
+          'La contraseña es obligatorio',
+      }) : null
+      !confirmNewPassword ? setAlertErrorConfirmNewPassword({
+        errorType: 2,
+        errorMessage:
+          dictionary?.dictionary?.newPassword?.mandatoryRepeatPassword ||
+          'La contraseña de confirmación es obligatoria',
+      }) : null
+      newPassword != confirmNewPassword ? setAlertErrorNotEqual({
+        errorType: 2,
+        errorMessage:
+          'Las contraseñas no son iguales',
+      }) : null
     }
   };
 
@@ -86,12 +97,14 @@ const RecoverPasswordHook = () => {
     handleSetEmail,
     email,
     alertEmailSend,
-    handleSetNewPassword,
-    handleSetConfirmNewPassword,
     alertErrorPassword,
     validatingPassword,
     finishReset,
     expired,
+    setNewPassword,
+    setConfirmNewPassword,
+    alertErrorConfirmNewPassword,
+    alertErrorNotEqual
   };
 };
 

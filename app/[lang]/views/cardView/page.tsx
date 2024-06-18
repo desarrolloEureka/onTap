@@ -51,14 +51,14 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     }
   }, [ipAddress, city, country, currentDate, currentTime, so, typeDevice, uid]);
 
-  useEffect(() => {
+  useEffect(() => { /// hacerlo con google - geocode (google)
     // Obtener la IP Pública
     fetch('https://api.ipify.org?format=json')
       .then(response => response.json())
       .then(data => {
         setIpAddress(data.ip);
         // Obtener información de geolocalización basada en la dirección IP
-        fetch(`http://ip-api.com/json/${data.ip}`)
+        fetch(`https://ip-api.com/json/${data.ip}`)
           .then(response => response.json())
           .then(locationData => {
             setCity(locationData.city || 'No disponible');
