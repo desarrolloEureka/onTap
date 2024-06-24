@@ -38,14 +38,14 @@ const RecoverPassword = ({
             handleBack={handleBack}
             handleNext={handleNext}
           />
-          <div>
+          {/*     <div>
             <Link href='/views/homeThree'>
               {dictionary?.recoverPassword?.home3}
             </Link>
           </div>
           <div>
             <Link href='/views/crudN'>{dictionary?.recoverPassword?.CRUD}</Link>
-          </div>
+          </div> */}
         </>
       )}
     </div>

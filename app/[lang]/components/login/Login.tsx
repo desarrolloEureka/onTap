@@ -62,13 +62,23 @@ const Login = ({ dictionary }: LoginProps) => {
                 {dictionary.loginView.username}{' '}
               </Typography>
               <TextField
-                className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm  '
+                className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm'
                 required
                 id='outlined-required'
                 // label={dictionary.loginView.username}
                 defaultValue={email}
                 variant='outlined'
-                InputProps={{ className: 'tw-rounded-3xl' }}
+                InputProps={{
+                  className: 'tw-rounded-3xl',
+
+                  sx: {
+                    backgroundColor: '#E8F0FE',
+                    '&.Mui-focused': {
+                      backgroundColor: '#E8F0FE',
+                    },
+                    color: 'black',
+                  },
+                }}
                 onChange={(e) => setEmail(e.target.value)}
               />
               {errorForm?.errorType === 1 && (
@@ -107,6 +117,13 @@ const Login = ({ dictionary }: LoginProps) => {
                       </IconButton>
                     </InputAdornment>
                   ),
+                  sx: {
+                    backgroundColor: '#E8F0FE',
+                    '&.Mui-focused': {
+                      backgroundColor: '#E8F0FE',
+                    },
+                    color: 'black',
+                  },
                 }}
                 onChange={(e) => setPassword(e.target.value)}
               />

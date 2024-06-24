@@ -15,16 +15,16 @@ const RecoveryPassword = ({
   params: { lang: Locale };
 }) => {
   const { dictionary } = useDictionary({ lang });
-  const { handleSetEmail, email, handleNext, handleBack, alertEmailSend } =
+  const { handleSetEmail, email, handleNext, handleBack, alertEmailSend, recoverPasswordFireBase } =
     RecoverPasswordHook();
 
   return (
     <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      <Container className='tw-bg-[#02AF9B] tw-shadow-md tw-pt-16 tw-rounded-2xl tw-h-[475px] tw-w-[794px] tw-flex tw-flex-col tw-items-center tw-justify-center   '>
-        {alertEmailSend && (
+      <Container className='tw-bg-[#02AF9B] tw-shadow-md tw-pt-15 tw-rounded-2xl tw-h-[475px] tw-w-[794px] tw-flex tw-flex-col tw-items-center tw-justify-center   '>
+        {alertEmailSend != '' && (
           <div>
             <Alert severity='info'>
-              {dictionary?.recoverPassword.alertEmailSend}
+              {alertEmailSend}
             </Alert>
           </div>
         )}
@@ -47,7 +47,17 @@ const RecoveryPassword = ({
             //label={dictionary?.recoverPassword.mail}
             defaultValue=''
             variant='outlined'
-            InputProps={{ className: 'tw-rounded-3xl' }}
+            InputProps={{
+              className: 'tw-rounded-3xl',
+              sx: {
+                backgroundColor: '#E8F0FE',
+                '&.Mui-focused': {
+                  backgroundColor: '#E8F0FE',
+                },
+                color: 'black',
+              },
+            }}
+
             InputLabelProps={{ style: { color: 'white' }, shrink: true }}
             onChange={handleSetEmail}
           />
@@ -68,7 +78,7 @@ const RecoveryPassword = ({
         <div className='tw-flex tw-flex-row tw-justify-center tw-items-center'>
           <Button
             className='tw-w-[184px] tw-h-[45px] tw-rounded-3xl  tw-bg-white tw-mt-[65px] tw-mx-10'
-            onClick={handleNext}
+            onClick={recoverPasswordFireBase}
             disabled={email == '' ? true : false}
           >
             {dictionary?.recoverPassword.next}

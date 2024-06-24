@@ -14,7 +14,7 @@ const RecoverPasswordHook = () => {
   const [email, setEmail] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
-  const [alertEmailSend, setAlertEmailSend] = useState(false);
+  const [alertEmailSend, setAlertEmailSend] = useState('');
   const [validatingPassword, setValidatingPassword] = useState(true);
   const [expired, setExpired] = useState(false);
 
@@ -41,8 +41,6 @@ const RecoverPasswordHook = () => {
     if (newPassword && confirmNewPassword && newPassword === confirmNewPassword) {
       if (step == 3 && oobCode && confirmNewPassword) {
         const change = await changePasswordFirebase(oobCode, confirmNewPassword);
-        console.log('change ', change?.message);
-
         if (change?.message === 'Firebase: Error (auth/invalid-action-code).') {
           setExpired(true);
         } else {
@@ -75,21 +73,51 @@ const RecoverPasswordHook = () => {
     }
   };
 
-  const recoverPassword = useCallback(async () => {
-    if (step == 2 && email != '') {
-      resetPasswordFirebase(email);
-      setAlertEmailSend(true);
-      setTimeout(() => {
-        setAlertEmailSend(false);
-      }, 2000);
-    } else {
-      setAlertEmailSend(false);
-    }
-  }, [email, step]);
+  const recoverPasswordFireBase = async () => {
+    if (email != '') {
+      const res = await resetPasswordFirebase(email);
+      console.log('res ', res);
 
-  useEffect(() => {
-    recoverPassword();
-  }, [recoverPassword]);
+      if (res === 'success') {
+        setAlertEmailSend('Se ha enviado un correo para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.');
+      } else if (res === 'user_not_found') {
+        setAlertEmailSend('El correo electrónico no está registrado. Por favor, verifica y vuelve a intentarlo.');
+      } else if (res === 'send_email_failed') {
+        setAlertEmailSend('Hubo un problema al intentar enviar el correo de restablecimiento. Por favor, inténtalo de nuevo.');
+
+      }
+      setTimeout(() => {
+        setAlertEmailSend('');
+      }, 3000);
+    } else {
+      setAlertEmailSend('');
+    }
+  }
+
+  /* const recoverPassword = useCallback(async () => {
+    if (step == 2 && email != '') {
+      const res = await resetPasswordFirebase(email);
+      console.log('res ', res);
+
+      if (res === 'success') {
+        setAlertEmailSend('Se ha enviado un correo para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.');
+      } else if (res === 'user_not_found') {
+        setAlertEmailSend('El correo electrónico no está registrado. Por favor, verifica y vuelve a intentarlo.');
+      } else if (res === 'send_email_failed') {
+        setAlertEmailSend('Hubo un problema al intentar enviar el correo de restablecimiento. Por favor, inténtalo de nuevo.');
+
+      }
+      setTimeout(() => {
+        setAlertEmailSend('');
+      }, 3000);
+    } else {
+      setAlertEmailSend('');
+    }
+  }, [email, step]); */
+
+  /*   useEffect(() => {
+      recoverPassword();
+    }, [recoverPassword]); */
 
   return {
     handleBack,
@@ -105,7 +133,8 @@ const RecoverPasswordHook = () => {
     setNewPassword,
     setConfirmNewPassword,
     alertErrorConfirmNewPassword,
-    alertErrorNotEqual
+    alertErrorNotEqual,
+    recoverPasswordFireBase
   };
 };
 

@@ -32,10 +32,10 @@
     "agregarImagen": "Examinar",
     "imagenSeleccionada": "Imagen seleccionada",
     "alertTitle": "Alerta fondo",
-    "alertMessage": "El fondo ha sido cargado con exito",
+    "alertMessage": "El fondo ha sido cargado con éxito",
     "fondoPlantilla": "Fondos de PLantilla One Tap",
     "alertTitleLogo": "Alerta Logo",
-    "alertSuccessLogo": "El logo ha sido cargado con exito",
+    "alertSuccessLogo": "El logo ha sido cargado con éxito",
     "alertFailSaveLogo": "No se pudo crear el logo. Por favor, intenta de nuevo.",
     "logosTitle": "Logos Redes Sociales",
     "guardar": "Guardar",
@@ -130,7 +130,7 @@
     "repeatPassword": "Repetir contraseña",
     "nextNewPassword": "Siguiente"
   },
-  "passwordChangedSuccessfully": "Contraseña modificada con exito",
+  "passwordChangedSuccessfully": "Contraseña modificada con éxito. Por favor, vuelva a la app móvil o web.",
   "profileView": {
     "labelDeleteProfiledata": "El dato de perfil ha sido eliminado exitosamente, recuerda guardar tus cambios para que surtan efecto.",
     "labelHello": "Hola",

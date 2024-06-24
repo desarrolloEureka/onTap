@@ -52,11 +52,18 @@ const CreateNewPassword = ({
 
         <div className='tw-h-[30%] tw-w-[100%] tw-flex tw-items-center tw-justify-center'>
           <div>
+            <Typography
+              className='tw-text-white tw-mt-5 tw-mr-64'
+              variant='body2'
+              color='textSecondary'
+            >
+              {dictionary?.newPassword?.nPassword}
+            </Typography>
             <TextField
-              className='tw-h-[52px] tw-w-[386px] tw-mt-10 tw-text-sm'
+              className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm'
               required
               id='outlined-password'
-              label={dictionary?.newPassword?.nPassword}
+              //label={dictionary?.newPassword?.nPassword}
               type={showPasswordOne ? 'text' : 'password'}
               defaultValue=''
               variant='outlined'
@@ -76,16 +83,16 @@ const CreateNewPassword = ({
                     </IconButton>
                   </InputAdornment>
                 ),
+                sx: {
+                  backgroundColor: '#E8F0FE',
+                  '&.Mui-focused': {
+                    backgroundColor: '#E8F0FE',
+                  },
+                  color: 'black',
+                },
               }}
               onChange={(e) => setNewPassword(e.target.value)}
             />
-            <Typography
-              className='tw-text-white tw-mt-3 tw-mr-60'
-              variant='body2'
-              color='textSecondary'
-            >
-              {dictionary?.newPassword?.nPassword}
-            </Typography>
           </div>
         </div>
 
@@ -101,11 +108,19 @@ const CreateNewPassword = ({
 
         <div className='tw-h-[25%] tw-w-[100%] tw-flex tw-items-center tw-justify-center tw-mb-2'>
           <div>
+            <Typography
+              className='tw-text-white tw-mt-0 tw-mr-64'
+              variant='body2'
+              color='textSecondary'
+            >
+              {dictionary?.newPassword?.repeatPassword}
+            </Typography>
+
             <TextField
-              className='tw-h-[52px] tw-w-[386px] tw-mt-8 tw-text-sm'
+              className='tw-h-[52px] tw-mt-1 tw-w-[386px]  tw-text-sm'
               required
               id='outlined-password'
-              label={dictionary?.newPassword?.repeatPassword}
+              //label={dictionary?.newPassword?.repeatPassword}
               type={showPasswordTwo ? 'text' : 'password'}
               defaultValue=''
               variant='outlined'
@@ -125,16 +140,16 @@ const CreateNewPassword = ({
                     </IconButton>
                   </InputAdornment>
                 ),
+                sx: {
+                  backgroundColor: '#E8F0FE',
+                  '&.Mui-focused': {
+                    backgroundColor: '#E8F0FE',
+                  },
+                  color: 'black',
+                },
               }}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
             />
-            <Typography
-              className='tw-text-white tw-mt-3 tw-mr-60'
-              variant='body2'
-              color='textSecondary'
-            >
-              {dictionary?.newPassword?.nPassword}
-            </Typography>
           </div>
         </div>
 
