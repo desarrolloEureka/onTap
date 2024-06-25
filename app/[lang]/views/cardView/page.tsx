@@ -92,7 +92,12 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           //console.error('Error al obtener la geolocalización:', error);
           setCity('No disponible');
           setCountry('No disponible');
-        });
+        },
+          {
+            enableHighAccuracy: true,
+            maximumAge: 0, // Evita el uso de caché
+          }
+        );
       } else {
         //console.error('La geolocalización no es soportada por este navegador.');
         setCity('No disponible');
@@ -100,9 +105,9 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
       }
     };
 
-    const fetchDeviceInfo = () => {
+    const fetchDeviceInfo = async () => {
       try {
-        const platformInfo = platform.parse(navigator.userAgent);
+        const platformInfo = await platform.parse(navigator.userAgent);
         setSO(platformInfo.os?.family || 'No disponible');
         setTypeDevice(platformInfo.product || 'No disponible');
       } catch (error) {
@@ -124,10 +129,12 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
       }
     };
 
-    fetchIpAndLocation();
-    fetchDeviceInfo();
-    fetchCurrentDateTime();
-  }, []);
+    if (uid && !typeParam) {
+      fetchIpAndLocation();
+      fetchDeviceInfo();
+      fetchCurrentDateTime();
+    }
+  }, [typeParam, uid]);
 
 
   return user && type ? (
