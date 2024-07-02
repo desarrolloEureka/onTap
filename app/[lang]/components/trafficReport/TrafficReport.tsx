@@ -46,7 +46,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     const columns: GridColDef[] = [
         { field: 'date', headerName: 'Fecha Registro', width: 170, headerAlign: 'center', align: 'center' },
         { field: 'hour', headerName: 'Hora Registro', width: 130, headerAlign: 'center', align: 'center' },
-        { field: 'id', headerName: 'No. Identificació', width: 150, headerAlign: 'center', align: 'center' },
+        { field: 'id', headerName: 'No. Identificación', width: 150, headerAlign: 'center', align: 'center' },
         { field: 'name', headerName: 'Nombres', width: 170, headerAlign: 'center', align: 'center' },
         { field: 'email', headerName: 'Correo', width: 250, headerAlign: 'center', align: 'center' },
         {
@@ -74,7 +74,30 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     function CustomToolbar() {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ width: '35%', paddingBottom: 3, paddingTop: 1, paddingLeft: 2 }}>
+                    <Typography variant="inherit" style={{ paddingBottom: 9, fontSize: 14.3, color: "rgba(0, 0, 0, 0.6)" }}>
+                        Consulta General
+                    </Typography>
+                    <GridToolbarQuickFilter
+                        sx={{
+                            width: '100%',
+                            height: '40px',
+                            backgroundColor: '#f4f4f4',
+                            borderRadius: '8px',
+                            textDecoration: 'none',
+                            '& .MuiInputBase-root': {
+                                height: '40px',
+                                backgroundColor: '#f4f4f4',
+                                borderRadius: '8px',
+                                textDecoration: 'none',
+                                '&.MuiInput-underline:before': {
+                                    borderBottom: 'none',
+                                },
+                            },
+                        }}
+                    />
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', paddingRight: 4 }}>
                     <div style={{ height: '100%', width: '50%', paddingLeft: 5, paddingRight: 15 }}>
                         <div style={{ height: '100%', width: '90%' }}>
                             <TextField
@@ -127,24 +150,6 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     </Button>
 
                 </Box>
-                <GridToolbarQuickFilter
-                    sx={{
-                        width: '35%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        paddingBottom: 3,
-                        paddingTop: 2,
-                        '& .MuiInputBase-root': {
-                            height: '40px',
-                            backgroundColor: '#f4f4f4',
-                            borderRadius: '8px',
-                            textDecoration: 'none',
-                            '&.MuiInput-underline:before': {
-                                borderBottom: 'none',
-                            },
-                        },
-                    }}
-                />
             </GridToolbarContainer>
         );
     }
@@ -152,7 +157,30 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     function CustomToolbarDetail() {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ width: '35%', paddingBottom: 3, paddingTop: 1, paddingLeft: 2 }}>
+                    <Typography variant="inherit" style={{ paddingBottom: 9, fontSize: 14.3, color: "rgba(0, 0, 0, 0.6)" }}>
+                        Consulta General
+                    </Typography>
+                    <GridToolbarQuickFilter
+                        sx={{
+                            width: '100%',
+                            height: '40px',
+                            backgroundColor: '#f4f4f4',
+                            borderRadius: '8px',
+                            textDecoration: 'none',
+                            '& .MuiInputBase-root': {
+                                height: '40px',
+                                backgroundColor: '#f4f4f4',
+                                borderRadius: '8px',
+                                textDecoration: 'none',
+                                '&.MuiInput-underline:before': {
+                                    borderBottom: 'none',
+                                },
+                            },
+                        }}
+                    />
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', paddingRight: 4 }}>
                     <div style={{ height: '100%', width: '50%', paddingLeft: 5, paddingRight: 15 }}>
                         <div style={{ height: '100%', width: '90%' }}>
                             <TextField
@@ -204,24 +232,6 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     </Button>
 
                 </Box>
-                <GridToolbarQuickFilter
-                    sx={{
-                        width: '35%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        paddingBottom: 3,
-                        paddingTop: 2,
-                        '& .MuiInputBase-root': {
-                            height: '40px',
-                            backgroundColor: '#f4f4f4',
-                            borderRadius: '8px',
-                            textDecoration: 'none',
-                            '&.MuiInput-underline:before': {
-                                borderBottom: 'none',
-                            },
-                        },
-                    }}
-                />
             </GridToolbarContainer>
         );
     }

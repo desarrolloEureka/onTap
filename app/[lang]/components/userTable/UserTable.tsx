@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Typography, Button, TextField, InputAdornment, Select, MenuItem } from "@mui/material";
+import { Typography, Button, TextField, InputAdornment, Select, MenuItem, InputLabel } from "@mui/material";
 import { Modal, Box, IconButton } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarContainer } from '@mui/x-data-grid';
-import { GridToolbarQuickFilter, GridToolbarFilterButton } from '@mui/x-data-grid/components';
+import { GridToolbarQuickFilter } from '@mui/x-data-grid/components';
 import UserTableLogic from "./hooks/UserTable";
 import SwitchEdit from "./SwitchEdit";
 import ModalStateEdit from "./ModalStateEdit";
@@ -131,7 +131,30 @@ const UserTable = () => {
     function CustomToolbar() {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ width: '35%', paddingBottom: 3, paddingTop: 1, paddingLeft: 2 }}>
+                    <Typography variant="inherit" style={{ paddingBottom: 9, fontSize: 14.4, color: "rgba(0, 0, 0, 0.6)" }}>
+                        Consulta General
+                    </Typography>
+                    <GridToolbarQuickFilter
+                        sx={{
+                            width: '100%',
+                            height: '40px',
+                            backgroundColor: '#f4f4f4',
+                            borderRadius: '8px',
+                            textDecoration: 'none',
+                            '& .MuiInputBase-root': {
+                                height: '40px',
+                                backgroundColor: '#f4f4f4',
+                                borderRadius: '8px',
+                                textDecoration: 'none',
+                                '&.MuiInput-underline:before': {
+                                    borderBottom: 'none',
+                                },
+                            },
+                        }}
+                    />
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', paddingRight: 5 }}>
                     <div style={{ height: '100%', width: '50%', paddingLeft: 5, paddingRight: 15 }}>
                         <div style={{ height: '100%', width: '90%' }}>
                             <TextField
@@ -182,27 +205,7 @@ const UserTable = () => {
                     >
                         Borrar
                     </Button>
-
-
                 </Box>
-                <GridToolbarQuickFilter
-                    sx={{
-                        width: '35%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        paddingBottom: 3,
-                        paddingTop: 2,
-                        '& .MuiInputBase-root': {
-                            height: '40px',
-                            backgroundColor: '#f4f4f4',
-                            borderRadius: '8px',
-                            textDecoration: 'none',
-                            '&.MuiInput-underline:before': {
-                                borderBottom: 'none',
-                            },
-                        },
-                    }}
-                />
             </GridToolbarContainer>
         );
     }

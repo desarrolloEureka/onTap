@@ -128,9 +128,11 @@
     "createNewPass": "Crear Nueva Contraseña",
     "nPassword": "Nueva contraseña",
     "repeatPassword": "Repetir contraseña",
-    "nextNewPassword": "Siguiente"
+    "nextNewPassword": "Siguiente",
+    "nextNewFinish": "Finalizar"
   },
-  "passwordChangedSuccessfully": "Contraseña modificada con éxito. Por favor, vuelva a la app móvil o web.",
+  "passwordChangedSuccessfully": "Contraseña modificada con éxito.",
+  "passwordChangedRecommendation": "Por favor, vuelva a la app móvil o web.",
   "profileView": {
     "labelDeleteProfiledata": "El dato de perfil ha sido eliminado exitosamente, recuerda guardar tus cambios para que surtan efecto.",
     "labelHello": "Hola",

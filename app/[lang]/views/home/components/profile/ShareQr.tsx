@@ -5,20 +5,34 @@ import { GetUser } from '@/reactQuery/users';
 import Typography from '@mui/material/Typography';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ShareQr = ({ dictionary }: { dictionary: Dictionary }) => {
     const { data, error } = GetUser();
     const [copied, setCopied] = useState(false);
+    const [urlGlobal, setUrlGlobal] = useState('');
 
-    return data && (
+    const copyToClipboard = () => {
+        setCopied(true);
+        navigator.clipboard.writeText(urlGlobal || '');
+    };
+
+    useEffect(() => {
+        if (data && data.preview) {
+            const url = data?.preview;
+            const nuevaURL = url && url.replace(/localhost:3000|on-tap-tawny.vercel.app/g, 'backoffice.onetap.com.co');
+            setUrlGlobal(nuevaURL);
+        }
+    }, [data])
+
+    return data && urlGlobal && (
         <div className='tw-flex tw-flex-col tw-h-screen tw-items-center tw-justify-start tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
             <Container className='tw-bg-white tw-shadow-md tw-h-[390px] tw-w-[390px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-mt-16'>
-                <QRCodeSVG value={data?.preview} size={800} className='tw-m-5' />
+                <QRCodeSVG value={urlGlobal || data?.preview} size={800} className='tw-m-5' />
             </Container>
 
             <div className='tw-h-[150px] tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-justify-center'>
-                <Button className='tw-h-[30%] tw-w-[280px] tw-flex tw-items-center tw-justify-center tw-bg-[#02AF9B] tw-rounded-2xl' onClick={() => { setCopied(true); navigator.clipboard.writeText(data?.preview || '') }}>
+                <Button className='tw-h-[30%] tw-w-[280px] tw-flex tw-items-center tw-justify-center tw-bg-[#02AF9B] tw-rounded-2xl' onClick={() => copyToClipboard()}>
                     <ContentCopyIcon sx={{ color: 'white' }} />
                     <Typography style={{ textTransform: 'none', paddingLeft: 10 }} className='tw-text-white tw-text-[15px]'>
                         {dictionary.homeView.copyUrlButtonLabel}

@@ -172,6 +172,7 @@ export interface Dictionary {
     nPassword: string;
     repeatPassword: string;
     nextNewPassword: string;
+    nextNewFinish: string;
   };
   modalDelete: {
     labelAlert: string;
@@ -190,5 +191,6 @@ export interface Dictionary {
     labelMessage: string;
   };
   passwordChangedSuccessfully: string;
+  passwordChangedRecommendation: string;
   logOut: string;
 }

@@ -1,11 +1,12 @@
 import { changePasswordFirebase, resetPasswordFirebase } from '@/firebase/auth';
-import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { LoginError } from '@/types/login';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 
 const RecoverPasswordHook = () => {
   const dictionary = useDictionary({ lang: 'es' });
+  const router = useRouter();
   const searchParams = useSearchParams();
   const currentStep = searchParams.get('step');
   const oobCode = searchParams.get('oobCode');
@@ -80,6 +81,12 @@ const RecoverPasswordHook = () => {
 
       if (res === 'success') {
         setAlertEmailSend('Se ha enviado un correo para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.');
+
+        setTimeout(() => {
+          setAlertEmailSend('');
+          router.back();
+        }, 3000);
+
       } else if (res === 'user_not_found') {
         setAlertEmailSend('El correo electrónico no está registrado. Por favor, verifica y vuelve a intentarlo.');
       } else if (res === 'send_email_failed') {
@@ -93,31 +100,6 @@ const RecoverPasswordHook = () => {
       setAlertEmailSend('');
     }
   }
-
-  /* const recoverPassword = useCallback(async () => {
-    if (step == 2 && email != '') {
-      const res = await resetPasswordFirebase(email);
-      console.log('res ', res);
-
-      if (res === 'success') {
-        setAlertEmailSend('Se ha enviado un correo para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.');
-      } else if (res === 'user_not_found') {
-        setAlertEmailSend('El correo electrónico no está registrado. Por favor, verifica y vuelve a intentarlo.');
-      } else if (res === 'send_email_failed') {
-        setAlertEmailSend('Hubo un problema al intentar enviar el correo de restablecimiento. Por favor, inténtalo de nuevo.');
-
-      }
-      setTimeout(() => {
-        setAlertEmailSend('');
-      }, 3000);
-    } else {
-      setAlertEmailSend('');
-    }
-  }, [email, step]); */
-
-  /*   useEffect(() => {
-      recoverPassword();
-    }, [recoverPassword]); */
 
   return {
     handleBack,
