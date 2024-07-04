@@ -67,7 +67,8 @@ const LoginHook = (dictionary: Dictionary) => {
       } else {
         if (data.isActive === true && data.isActiveByAdmin === true) {
           const urlSplit = window.location.href.split('/');
-          const url = `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}`;
+          //const url = `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}`;
+          const url = `https://backoffice.onetap.com.co/es/views/cardView?uid=${data?.uid}`;
           data && SendPreView(data?.uid, url);
           router.push('/views/home');
         } else {

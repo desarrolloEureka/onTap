@@ -34,6 +34,7 @@ const CustomAvatar = ({
         alt={name}
         src={image}
         variant={rounded ? 'rounded' : 'square'}
+        imgProps={{ loading: "lazy" }}
         sx={{
           width: size,
           height: size,

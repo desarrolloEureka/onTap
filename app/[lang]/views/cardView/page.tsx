@@ -357,7 +357,6 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     }
   }, [typeParam, uid]);
 
-
   return user && type ? (
     user.switch_activateCard ? (
       <TemplateSelector user={user} type={type} lang={lang} />

@@ -234,12 +234,11 @@ const UserTableLogic = () => {
                         .padStart(2, "0")}`;
 
                 const urlFormatted = doc.data().preview && doc.data().preview.replace(/localhost:3000|on-tap-tawny.vercel.app/g, 'backoffice.onetap.com.co');
-                console.log('urlFormatted ', urlFormatted);
 
                 return {
                     id: doc.data().dni,
                     is_admin: doc.data().is_admin,
-                    url: doc.data().preview,
+                    url: urlFormatted || doc.data().preview,
                     urlQR: urlFormatted || doc.data().preview,
                     name: doc.data().name,
                     email: doc.data().email || "",

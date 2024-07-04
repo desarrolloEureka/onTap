@@ -10,12 +10,14 @@ function CustomModalAlertSave({
   isClosed,
   handleAccept,
   handleCancel,
-  isProUser
+  isProUser,
+  handleCloseXModal
 }: {
   isModalAlert: boolean;
   handleModalAlert: (e: boolean) => void;
   handleAccept: (e: boolean) => void;
   handleCancel: () => void;
+  handleCloseXModal: () => void;
   description: string;
   title: string;
   isClosed?: boolean;
@@ -46,7 +48,8 @@ function CustomModalAlertSave({
         {isClosed && (
           <IconButton
             className='tw-absolute tw-right-1 tw-top-1'
-            onClick={() => handleModalAlert(false)}
+            //onClick={() => handleModalAlert(false)}
+            onClick={() => handleCloseXModal()}
           >
             <Close className='tw-text-white' />
           </IconButton>

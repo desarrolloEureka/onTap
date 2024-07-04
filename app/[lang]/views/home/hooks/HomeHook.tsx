@@ -40,14 +40,14 @@ const HomeHook = () => {
   const [isSubItemNav, setIsSubItemNav] = useState(null);
   const [isModalLogOut, setIsModalLogOut] = useState(false);
 
-
+  /* Cambio de navegacion, menos select Mi cuenta */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setNavigationItem(newValue);
     if (isChangeData) {
-      setValue(newValue);
-      //setIsAlertSaveModal(true);
+      //setValue(newValue);
+      setIsAlertSaveModal(true);
     } else {
-      //setIsAlertSaveModal(false);
+      setIsAlertSaveModal(false);
       setIsChangeData(false);
       const plan = datUser?.data?.plan;
       if (plan === 'standard' && newValue === 2) {
@@ -58,28 +58,10 @@ const HomeHook = () => {
     }
   };
 
-  /*   const handleNavigate = () => {
-      setIsAlertSaveModal(false);
-  
-      if (isChangeData) {
-        setTimeout(() => {
-          if (isSubItemNav != null) {
-            if (isSubItemNav === 1) {
-              router.replace('/views/profileRecoverPassword');
-            } else if (isSubItemNav === 2) {
-              setIsModalLogOut(true);
-            } else {
-              logOut();
-            }
-            setIsSubItemNav(null);
-            setIsChangeData(false);
-          } else {
-            setValue(navigationItem);
-            setIsChangeData(false);
-            setIsAlertSaveModal(false);
-          }
-        }, 1200);
-      } else {
+  const handleNavigate = () => {
+    setIsAlertSaveModal(false);
+    if (isChangeData) {
+      setTimeout(() => {
         if (isSubItemNav != null) {
           if (isSubItemNav === 1) {
             router.replace('/views/profileRecoverPassword');
@@ -95,12 +77,28 @@ const HomeHook = () => {
           setIsChangeData(false);
           setIsAlertSaveModal(false);
         }
+      }, 1200);
+    } else {
+      if (isSubItemNav != null) {
+        if (isSubItemNav === 1) {
+          router.replace('/views/profileRecoverPassword');
+        } else if (isSubItemNav === 2) {
+          setIsModalLogOut(true);
+        } else {
+          logOut();
+        }
+        setIsSubItemNav(null);
+        setIsChangeData(false);
+      } else {
+        setValue(navigationItem);
+        setIsChangeData(false);
+        setIsAlertSaveModal(false);
       }
-    }; */
+    }
+  };
 
-  const handleNavigate = () => {
-    setValue(navigationItem);
-    setIsChangeData(false);
+  const handleCloseXModal = () => {
+    setIsSubItemNav(null);
     setIsAlertSaveModal(false);
   };
 
@@ -137,7 +135,8 @@ const HomeHook = () => {
     isSubItemNav,
     setIsSubItemNav,
     isModalLogOut,
-    setIsModalLogOut
+    setIsModalLogOut,
+    handleCloseXModal
   };
 };
 

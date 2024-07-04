@@ -9,8 +9,6 @@ import CustomCircularProgress from '@/components/customCircularProgress/CustomCi
 import ValidatorSession from '@/hooks/validatorSession/ValidatorSession';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import ProfileProfessional from './components/profile/ProfileProfessional';
-import { useState } from 'react';
-import CustomModalAlertSave from '@/components/customModalAlert/CustomModalAlertSave';
 import ShareQr from './components/profile/ShareQr';
 
 const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
@@ -35,7 +33,8 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
     isSubItemNav,
     setIsSubItemNav,
     isModalLogOut,
-    setIsModalLogOut
+    setIsModalLogOut,
+    handleCloseXModal
   } = HomeHook();
 
   return isLoading || isLoadingTemplates ? (
@@ -68,6 +67,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
               setIsAlertSaveModal={setIsAlertSaveModal}
               handleModalSaveAlert={handleModalSaveAlert}
               handleNavigate={handleNavigate}
+              handleCloseXModal={handleCloseXModal}
             />
 
           </CustomTabPanel>
@@ -80,6 +80,7 @@ const Home = ({ params: { lang } }: { params: { lang: Locale } }) => {
               setIsAlertSaveModal={setIsAlertSaveModal}
               handleModalSaveAlert={handleModalSaveAlert}
               handleNavigate={handleNavigate}
+              handleCloseXModal={handleCloseXModal}
             />
 
 

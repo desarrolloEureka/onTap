@@ -13,6 +13,7 @@
     "dni": "No. Identificación",
     "Nombre": "Nombres",
     "Apellido": "Apellidos",
+    "Phone": "Teléfono ",
     "Email": "Correo",
     "ValidEmail": "Ingrese un correo valido *",
     "Plan": "Plan",

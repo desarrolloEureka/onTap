@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
@@ -15,7 +15,6 @@ import { GetUser, SendInactiveUser } from '../../reactQuery/users';
 import ModalAlertLogOut from '@/views/home/components/profile/ModalAlertLogOut';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import { Dictionary } from '@/types/dictionary';
-import CustomModalAlertSave from '../customModalAlert/CustomModalAlertSave';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -81,35 +80,29 @@ const ItemMenu = ({ isChangeData, setIsAlertSaveModal, setIsSubItemNav, isModalL
       }
     }; */
 
+  /* Navegacion Cambiar Contraseña */
   const handleChangePassword = () => {
-    router.replace('/views/profileRecoverPassword');
-  };
-
-  /* const handleChangePassword = () => {
     if (isChangeData) {
       setIsAlertSaveModal(true);
       setIsSubItemNav(1);
     } else {
       router.replace('/views/profileRecoverPassword');
     }
-  }; */
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  /* Modal Eliminar cuenta */
   const handleModalAux = () => {
-    setIsModalLogOut(!isModalLogOut);
+    if (isChangeData) {
+      setIsAlertSaveModal(true);
+      setIsSubItemNav(2);
+    } else {
+      setIsModalLogOut(!isModalLogOut);
+    }
   };
-
-  /*   const handleModalAux = () => {
-      if (isChangeData) {
-        setIsAlertSaveModal(true);
-        setIsSubItemNav(2);
-      } else {
-        setIsModalLogOut(!isModalLogOut);
-      }
-    }; */
 
   const handleCancelDelete = () => {
     setIsModalLogOut(false);
@@ -119,18 +112,15 @@ const ItemMenu = ({ isChangeData, setIsAlertSaveModal, setIsSubItemNav, isModalL
     setAnchorEl(null);
   };
 
-  const handleLogOutUser = () => {
-    logOut();
-  };
 
-  /*   const handleLogOutUser = () => {
-      if (isChangeData) {
-        setIsAlertSaveModal(true);
-        setIsSubItemNav(3);
-      } else {
-        logOut();
-      }
-    }; */
+  const handleLogOutUser = () => {
+    if (isChangeData) {
+      setIsAlertSaveModal(true);
+      setIsSubItemNav(3);
+    } else {
+      logOut();
+    }
+  };
 
   const handleDeleteUser = async () => {
     const userId = data?.uid;
@@ -197,15 +187,6 @@ const ItemMenu = ({ isChangeData, setIsAlertSaveModal, setIsSubItemNav, isModalL
         handleDeleteAccount={handleDeleteUser}
         noDeleted={true}
       />
-
-      {/* <CustomModalAlertSave
-        isModalAlert={isAlertSave}
-        handleModalAlert={handleModalSaveAlert}
-        title={dictionary?.generalTitle ?? ""}
-        description={dictionary?.homeView?.labelRememberSave ?? ""}
-        isClosed={true}
-        handleAccept={handleAccept}
-      /> */}
     </div>
   );
 };

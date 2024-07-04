@@ -38,7 +38,6 @@ const SocialOne = ({
   });
 
   const handleAceptCookies = async () => {
-    console.log(JSON.stringify(true));
     await localStorage.setItem('@cookies', JSON.stringify(true));
     setIsCookies(false);
   };

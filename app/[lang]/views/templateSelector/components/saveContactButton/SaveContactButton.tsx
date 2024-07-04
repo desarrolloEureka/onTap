@@ -83,8 +83,6 @@ const SaveContactButton = ({
 
       // Cerrar la vCard
       vCardData += `END:VCARD`;
-      console.log(vCardData);
-
       downloadTxtFile(vCardData);
     }
   };

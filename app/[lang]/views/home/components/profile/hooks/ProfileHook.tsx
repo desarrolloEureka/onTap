@@ -24,7 +24,7 @@ const ProfileHook = ({
   isProUser,
   setIsChangeData,
   setIsAlertSaveModal,
-  handleNavigate
+  handleNavigate,
 }: {
   dictionary: Dictionary;
   handleDataSet?: (e: SocialDataForm) => void;
@@ -759,7 +759,7 @@ const ProfileHook = ({
     isAlertEmptyData,
     setIsEmptyData,
     isAlertEmptyDataAll,
-    setIsEmptyDataAll
+    setIsEmptyDataAll,
   };
 };
 

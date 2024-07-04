@@ -33,9 +33,7 @@ const SaveContactButtonColor = ({
       const emails = profile.emails?.map((value) => value.text ?? '');
       const phones = profile.phones?.map((value) => value.text ?? '');
       profile.urls?.forEach((value) => (urls[value.icon] = value.url ?? ''));
-      console.log('profile.urls', profile.urls);
 
-      console.log('aaaa', urls);
       generatorVCard.firstName = profile.name?.text ?? '';
       generatorVCard.lastName = profile.last_name?.text ?? '';
       generatorVCard.email = emails ?? [];
@@ -90,7 +88,6 @@ const SaveContactButtonColor = ({
 
       // Cerrar la vCard
       vCardData += `END:VCARD`;
-      console.log(vCardData);
 
       downloadTxtFile(vCardData);
     }

@@ -17,7 +17,7 @@ import ProfileProfessionalHook from './hooks/ProfileProfessoinalHook';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import CustomModalAlertSave from '@/components/customModalAlert/CustomModalAlertSave';
 
-const ProfileProfessional = ({ dictionary, setIsChangeData, isAlertSaveModal, setIsAlertSaveModal, handleModalSaveAlert, handleNavigate }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; isAlertSaveModal: boolean; setIsAlertSaveModal: any; handleModalSaveAlert: () => void; handleNavigate: () => void; }) => {
+const ProfileProfessional = ({ dictionary, setIsChangeData, isAlertSaveModal, setIsAlertSaveModal, handleModalSaveAlert, handleNavigate, handleCloseXModal }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; isAlertSaveModal: boolean; setIsAlertSaveModal: any; handleModalSaveAlert: () => void; handleNavigate: () => void; handleCloseXModal: () => void; }) => {
   const {
     handleModal,
     handleModalAlert,
@@ -71,10 +71,6 @@ const ProfileProfessional = ({ dictionary, setIsChangeData, isAlertSaveModal, se
   const handleDataSet = (data: ProfessionalDataForm) => {
     setDataForm(data);
   };
-
-  //   console.log('dataForm ____ Profile', dataForm);
-  //   console.log('data', data);
-  // data.length > 0 && console.log('profile');
 
   return (
     data &&
@@ -199,6 +195,7 @@ const ProfileProfessional = ({ dictionary, setIsChangeData, isAlertSaveModal, se
           isProUser={true}
           handleAccept={handleSendProfile}
           handleCancel={handleNavigate}
+          handleCloseXModal={handleCloseXModal}
         />
       </div>
     )

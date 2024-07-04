@@ -77,8 +77,6 @@ const RecoverPasswordHook = () => {
   const recoverPasswordFireBase = async () => {
     if (email != '') {
       const res = await resetPasswordFirebase(email);
-      console.log('res ', res);
-
       if (res === 'success') {
         setAlertEmailSend('Se ha enviado un correo para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.');
 

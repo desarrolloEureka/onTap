@@ -13,6 +13,7 @@ export interface Dictionary {
     dni: string;
     Nombre: string;
     Apellido: string;
+    Phone: string;
     Email: string;
     ValidEmail: string;
     Plan: string;

@@ -7,13 +7,12 @@ import FormAddDataUser from '@/views/home/components/profile/FormAddDataUser';
 import ModalProfile from '@/views/home/components/profile/ModalProfile';
 import ModalSuccessDelete from '@/views/home/components/profile/ModalSuccessDelete';
 import PhotoUser from '@/views/home/components/profile/PhotoUser';
-import { Container, Button } from '@mui/material';
+import { Container } from '@mui/material';
 import ModalAlert from './ModalAlert';
 import ProfileHook from './hooks/ProfileHook';
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CustomModalAlertSave from '@/components/customModalAlert/CustomModalAlertSave';
 
-const Profile = ({ dictionary, setIsChangeData, isAlertSaveModal, setIsAlertSaveModal, handleModalSaveAlert, handleNavigate }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; isAlertSaveModal: boolean; setIsAlertSaveModal: any; handleModalSaveAlert: () => void; handleNavigate: () => void; }) => {
+const Profile = ({ dictionary, setIsChangeData, isAlertSaveModal, setIsAlertSaveModal, handleModalSaveAlert, handleNavigate, handleCloseXModal }: { dictionary: Dictionary; setIsChangeData: (e: boolean) => void; isAlertSaveModal: boolean; setIsAlertSaveModal: any; handleModalSaveAlert: () => void; handleNavigate: () => void; handleCloseXModal: () => void; }) => {
   const {
     handleModal,
     handleModalAlert,
@@ -183,6 +182,7 @@ const Profile = ({ dictionary, setIsChangeData, isAlertSaveModal, setIsAlertSave
           isClosed
         />
 
+        {/*  Alerta guardar navegacion */}
         <CustomModalAlertSave
           isModalAlert={isAlertSaveModal}
           handleModalAlert={handleModalSaveAlert}
@@ -192,8 +192,9 @@ const Profile = ({ dictionary, setIsChangeData, isAlertSaveModal, setIsAlertSave
           isProUser={false}
           handleAccept={handleSendProfile}
           handleCancel={handleNavigate}
+          handleCloseXModal={handleCloseXModal}
         />
-        
+
       </div>
     )
   );

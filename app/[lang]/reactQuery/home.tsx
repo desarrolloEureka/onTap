@@ -4,10 +4,41 @@ import {
   getAllLogosImages,
   getAllSocialNetworks,
   getAllTemplates,
+  getBackgroundImage,
+  getTemplate,
   saveSocialNetworkImage,
   updateSocialNetwork,
 } from '@/firebase/generals';
 import { useQuery } from '@tanstack/react-query';
+
+const GetTemplate = ({ id, setId }: { id: string | null, setId: (e: string | null) => void }) =>
+  useQuery({
+    queryKey: ['templates'],
+    queryFn: async () => {
+      if (id) {
+        setId(null);
+        return await getTemplate({ id });
+      }
+      return null
+    },
+    refetchOnWindowFocus: false,
+    enabled: !!id
+  });
+
+const GetBackgroundImage = ({ id, setId }: { id: string | null | undefined, setId: (e: string | null) => void }) =>
+  useQuery({
+    queryKey: ['background_images'],
+    queryFn: async () => {
+      if (id) {
+        setId(null);
+        return await getBackgroundImage({ id });
+      }
+      return null
+    },
+    refetchOnWindowFocus: false,
+    enabled: !!id
+  });
+
 
 const GetAllTemplates = () =>
   useQuery({
@@ -55,4 +86,4 @@ const UpdateSocialNetwork = async (imageFile: File, oldImageName: string, newIma
   return res;
 };
 
-export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages, SaveSocialNetwork, DeleteSocialNetwork, UpdateSocialNetwork };
+export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages, SaveSocialNetwork, DeleteSocialNetwork, UpdateSocialNetwork, GetTemplate, GetBackgroundImage };

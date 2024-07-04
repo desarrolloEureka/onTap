@@ -1,10 +1,26 @@
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { BackgroundImages, LogosImages, SocialNetworks, Templates } from '@/types/home';
 import { AllRefPropsFirebase } from '@/types/userFirebase';
-import { addDoc, collection, doc, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
 import { dataBase } from './firebaseConfig';
 
 const allRef = ({ ref }: AllRefPropsFirebase) => collection(dataBase, ref);
+export const getTemplate = async ({ id }: { id: string }) => {
+  const querySnapshot = await getDoc(doc(dataBase, 'templates', id));
+  if (querySnapshot.exists()) {
+    return querySnapshot.data();
+  }
+  return null
+};
+
+export const getBackgroundImage = async ({ id }: { id: string }) => {
+  const querySnapshot = await getDoc(doc(dataBase, 'background_images', id));
+  if (querySnapshot.exists()) {
+    return querySnapshot.data();
+  }
+  return null
+};
+
 export const getAllTemplates = async () => {
   const templatesData: Templates[] = [];
   const querySnapshot = await getDocs(allRef({ ref: 'templates' }));
