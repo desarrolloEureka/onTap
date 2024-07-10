@@ -242,7 +242,7 @@ const ProfileProfessionalHook = ({
           const isEmptyUrls = index === 'urls' && (dataUrl[key]?.name?.length === 0 || dataUrl[key]?.url?.length === 0 || dataUrl[key]?.icon?.length === 0);
           const isEmptyEduca = index === 'education' && (dataEduca[key]?.title?.length === 0 || dataEduca[key]?.institution?.length === 0 || dataEduca[key]?.year?.length === 0);
           const isEmptyCareer = index === 'professional_career' && (dataCareer[key]?.company?.length === 0 || dataCareer[key]?.position?.length === 0 || dataCareer[key]?.data_init?.length === 0 || dataCareer[key]?.data_end?.length === 0);
-          const isEmptyPhone = index === 'phones' && (!dataAux[key].indicative || dataAux[key].indicative.length === 0 || !dataAux[key].text || dataAux[key].text.length === 0);
+          const isEmptyPhone = index === 'phones' && (dataAux[key]?.indicative?.length === 0 || dataAux[key]?.text?.length === 0);
 
           if (isEmptyText || isEmptyUrls || isEmptyEduca || isEmptyCareer || isEmptyPhone) {
             setIsEmptyData(true);
