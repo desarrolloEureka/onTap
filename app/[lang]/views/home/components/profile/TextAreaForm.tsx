@@ -78,7 +78,7 @@ const TextAreaForm = ({
                                       label === 'urls' ? 'urls' :
                                         ''}
           multiline
-          rows={3}
+          minRows={3}
           maxRows={3}
           variant='standard'
           InputProps={{

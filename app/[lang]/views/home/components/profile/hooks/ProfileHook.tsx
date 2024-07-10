@@ -174,7 +174,6 @@ const ProfileHook = ({
     currentDataRef?: any;
     key?: number;
   }) => {
-    //setIsAlertSave(true);
     setIsChangeData(true);
     const isChecked = value?.target?.checked;
     const dataFormClone = { ...dataForm };
@@ -204,10 +203,11 @@ const ProfileHook = ({
 
       if (dataAux && key != undefined) {
         if (isChecked === true && dataAux[key]) {
-          const isEmptyText = dataAux[key].text?.length === 0 && index !== 'urls';
+          const isEmptyText = dataAux[key].text?.length === 0 && index !== 'urls' && index !== 'phones';
+          const isEmptyPhone = index === 'phones' && (!dataAux[key].indicative || dataAux[key].indicative.length === 0 || !dataAux[key].text || dataAux[key].text.length === 0);
           const isEmptyUrls = index === 'urls' && (dataUrl[key]?.name?.length === 0 || dataUrl[key]?.url?.length === 0 || dataUrl[key]?.icon?.length === 0);
 
-          if (isEmptyText || isEmptyUrls) {
+          if (isEmptyText || isEmptyUrls || isEmptyPhone) {
             setIsEmptyData(true);
           } else {
             dataAux[key].checked = isChecked;
@@ -265,6 +265,7 @@ const ProfileHook = ({
     subindex,
     key,
     currentDataRef,
+    type
   }: handleDataProps) => {
     setIsChangeData(true);
     const dataFormClone = { ...dataForm };
@@ -276,17 +277,30 @@ const ProfileHook = ({
       index == 'occupation' ||
       index == 'address'
     ) {
-      // console.log('currentDataRef', dataFormClone);
       dataFormClone[index]!.text = text;
       currentDataRef.current.text = text;
-      // console.log('dataFormClone', dataFormClone);
 
       setDataForm(dataFormClone);
       setIsDataLoad(true);
     } else {
-      if (index == 'phones' || index == 'emails') {
+      if (index == 'phones') {
         const dataAux = dataFormClone[index];
-        // console.log('currentDataRef', currentDataRef);
+        if (dataAux && key != undefined) {
+          if (type === false) {
+            dataAux[key].indicative = text;
+            currentDataRef.current.length > 0 &&
+              (currentDataRef.current[key].indicative = text);
+            dataAux && setDataForm(dataFormClone);
+          } else {
+            dataAux[key].text = text;
+            currentDataRef.current.length > 0 &&
+              (currentDataRef.current[key].text = text);
+            dataAux && setDataForm(dataFormClone);
+          }
+        }
+        setIsDataLoad(true);
+      } else if (index == 'emails') {
+        const dataAux = dataFormClone[index];
         if (dataAux && key != undefined) {
           dataAux[key].text = text;
           currentDataRef.current.length > 0 &&

@@ -16,6 +16,7 @@ export const registerUserAuth = async ({
     name: '',
     plan: '',
     phone: '',
+    indicative: '',
     isActive: true,
     is_admin: false,
     views: 0,

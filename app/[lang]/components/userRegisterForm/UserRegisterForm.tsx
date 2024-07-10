@@ -14,6 +14,10 @@ import CustomModalAlert from '../customModalAlert/CustomModalAlert';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import ReactCountryFlag from 'react-country-flag';
+import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css'
+import { countries } from '../../globals/constants'
 
 const UserRegister = () => {
   const {
@@ -34,15 +38,20 @@ const UserRegister = () => {
     handleClickOpen,
     handleClose,
     status,
+    phone,
+    setPhone,
+    phoneCode,
+    setPhoneCode,
+    phoneChangeHandler
   } = UserRegisterForm();
 
   const dictionary = useDictionary({ lang: 'es' });
 
   return (
-    <div className='tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      <Container className='tw-bg-[#02AF9B] tw-shadow-m  tw-rounded-2xl tw-h-[650px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
+    <div className='tw-flex tw-h-screen tw-items-start tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
+      <Container className='tw-bg-[#02AF9B] tw-shadow-m tw-rounded-2xl tw-h-[675px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-20'>
         <Typography
-          className='tw-text-white  tw-mt-9 tw-w-full c tw-mb-4'
+          className='tw-text-white  tw-mt-5 tw-w-full c tw-mb-4'
           variant='h4'
           color='textPrimary'
           display={'flow'}
@@ -51,7 +60,7 @@ const UserRegister = () => {
         >
           {dictionary.dictionary?.backOffice.UserRegister}
         </Typography>
-        <Box className='tw-w-[400px] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-4 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center ' component='form'>
+        <Box className='tw-w-[400px] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-4 tw-mt-1 tw-flex tw-flex-col tw-justify-center tw-items-center ' component='form'>
           <TextField
             variant='standard'
             label={dictionary.dictionary?.backOffice.dni}
@@ -145,6 +154,92 @@ const UserRegister = () => {
               {dictionary.dictionary?.backOffice.ValidEmail}
             </span>
           )}
+
+          <div className='tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4'>
+            <div className='tw-w-[40%] tw-items-start'>
+              <Select
+                variant='outlined'
+                className='tw-w-[100%] tw-text-center'
+                value={phoneCode}
+                style={{ height: '48px' }}
+                required
+                id='outlined-required'
+                defaultValue=''
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: 150,
+                    },
+                  },
+                }}
+                onChange={(e) => setPhoneCode(e.target.value)}
+              >
+                {countries.map((country) => (
+                  <MenuItem key={country.id} value={country.id}>
+                    <ReactCountryFlag countryCode={country.flag} svg style={{ marginRight: '8px' }} />
+                    {country.code}
+                    {/*  {country.name} ({country.code}) */}
+                  </MenuItem>
+                ))}
+                {/*  {countries.map((country) => (
+                  <MenuItem key={country.code} value={country.code}>
+                    <ReactCountryFlag countryCode={country.flag} svg style={{ marginRight: '8px' }} />
+                    {country.code}
+                  </MenuItem>
+                ))} */}
+              </Select>
+            </div>
+            <div className='tw-h-[100%] tw-w-[60%] tw-items-start tw-ml-2'>
+              <TextField
+                id="standard-number"
+                value={phone}
+                variant='standard'
+                className='tw-w-full'
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{
+                  inputMode: 'numeric',
+                  maxLength: 10,
+                }}
+                label={dictionary.dictionary?.backOffice.Phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/*   <div className='tw-w-[300px]'>
+            <Typography
+              color='textSecondary'
+              display={'flow'}
+              className='tw-text-left tw-text-sm tw-mb-2'
+            >
+              {dictionary.dictionary?.backOffice.Phone}*
+            </Typography>
+          </div>
+
+          <div className='tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4'>
+            <PhoneInput
+              autoFormat={false}
+              country={"co"}
+              specialLabel=""
+              placeholder=""
+              prefix="+"
+              dropdownStyle={{
+                color: "black",
+                borderRadius: 12,
+              }}
+              inputStyle={{
+                height: "56px",
+                //borderRadius: 0,
+                //border: "none",
+                //borderBottom: "0.4px solid grey"
+              }}
+              //value={data.phone2}
+              onChange={phoneChangeHandler}
+            />
+          </div> */}
+
           <div className='tw-w-[300px]'>
             <Typography
               color='textSecondary'
@@ -175,8 +270,8 @@ const UserRegister = () => {
               <MenuItem value='standard'>{dictionary.dictionary?.backOffice.StandardPlan}</MenuItem>
               <MenuItem value='premium'>{dictionary.dictionary?.backOffice.PremiumPlan}</MenuItem>
             </Select>
-
           </div>
+
           {errorDataForm && (
             <span className='tw-text-red-500'>
               {dictionary.dictionary?.backOffice.FillAllFields}
@@ -185,7 +280,6 @@ const UserRegister = () => {
 
           <Button
             variant='contained'
-            //centrar boton
             className='tw-mx-auto tw-mt-4 tw-w-[200px] tw-bg-[#02AF9B] tw-text-white tw-shadow-m'
             onClick={dataRegisterHandle}
           >

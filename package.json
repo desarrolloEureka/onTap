@@ -37,6 +37,7 @@
     "react-dom": "^18",
     "react-material-ui-carousel": "^3.4.2",
     "react-phone-input-2": "^2.15.1",
+    "react-phone-number-input": "^3.4.3",
     "tsx-control-statements": "^5.1.0",
     "vcards-js": "^2.10.0"
   },

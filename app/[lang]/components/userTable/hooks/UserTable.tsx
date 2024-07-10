@@ -24,6 +24,8 @@ const UserTableLogic = () => {
     const [dni, setDni] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
+    const [phoneCode, setPhoneCode] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
     const [plan, setPlan] = useState<string>('');
     const [type, setType] = useState<string>('');
     const [urlQR, setUrlQR] = useState<string>('');
@@ -33,10 +35,12 @@ const UserTableLogic = () => {
 
     const handleEditData = (dataUser: any) => {
         setDataUser(dataUser);
-        setDni(dataUser?.dni);
-        setName(dataUser?.name);
-        setEmail(dataUser?.email);
-        setPlan(dataUser?.plan);
+        setDni(dataUser?.dni || "");
+        setName(dataUser?.name || "");
+        setEmail(dataUser?.email || "");
+        setPhoneCode(dataUser?.indicative || "");
+        setPhone(dataUser?.phone || "");
+        setPlan(dataUser?.plan || "");
         setType(dataUser?.gif ? dataUser?.gif === true ? "Obsequio" : "Comprador" : "Comprador");
         setIsModalEdit(true);
     }
@@ -165,7 +169,13 @@ const UserTableLogic = () => {
 
     const dataRegisterHandle = async () => {
         const res = await SendEditData("" + dataUser?.uid, {
-            dni: dni, name: name, email: email, plan: plan, gif: type === "Obsequio" ? true : false, templateData: plan === 'standard' ? [{
+            dni: dni,
+            name: name,
+            email: email,
+            indicative: phoneCode,
+            phone: phone,
+            plan: plan, gif: type === "Obsequio" ? true : false,
+            templateData: plan === 'standard' ? [{
                 type: 'social',
                 id: 'XfhZLINMOpRTI7cakd8o',
                 background_id: '7ynTMVt3M6VFV3KykOXQ',
@@ -240,7 +250,9 @@ const UserTableLogic = () => {
                     is_admin: doc.data().is_admin,
                     url: urlFormatted || doc.data().preview,
                     urlQR: urlFormatted || doc.data().preview,
-                    name: doc.data().name,
+                    name: doc.data().name || "",
+                    indicative: doc.data().indicative || "",
+                    phone: doc.data().phone || "",
                     email: doc.data().email || "",
                     lastName: doc.data().profile?.last_name?.text || "",
                     plan: doc.data().plan || "",
@@ -310,7 +322,11 @@ const UserTableLogic = () => {
         searchTerm,
         setSearchTerm,
         handleSearchChange,
-        handleDeleteFilter
+        handleDeleteFilter,
+        phoneCode,
+        setPhoneCode,
+        phone,
+        setPhone
     };
 };
 

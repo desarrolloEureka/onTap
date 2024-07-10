@@ -1,7 +1,5 @@
 
-import { Dictionary } from '@/types/dictionary';
 import { registerUserAuth, registerUserFb } from 'app/functions/register';
-import { set } from 'firebase/database';
 import { useState } from 'react';
 
 const UserRegisterForm = () => {
@@ -9,6 +7,8 @@ const UserRegisterForm = () => {
   const [email, setEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [phoneCode, setPhoneCode] = useState<string>('');
   const [plan, setPlan] = useState<string>('standard');
   const [errorMailForm, setErrorMailForm] = useState<Boolean>(false);
   const [errorDataForm, setErrorDataForm] = useState<Boolean>(false);
@@ -22,10 +22,14 @@ const UserRegisterForm = () => {
     setOpen(false);
   };
 
+  const phoneChangeHandler = (e: any) => {
+    setPhone(e);
+  };
+
   const dataRegisterHandle = async () => {
     setErrorMailForm(false);
     setErrorDataForm(false);
-    if (!dni || !email || !name || !lastName || !plan) {
+    if (!dni || !email || !name || !lastName || !plan || !phone || !phoneCode) {
       setErrorDataForm(true);
       return;
     } else {
@@ -61,6 +65,8 @@ const UserRegisterForm = () => {
       result.switch_profile = false;// switch Modo
       result.gif = true;
       result.email = email;
+      result.phone = phone;
+      result.indicative = phoneCode;
       result.dni = dni;
       result.isActiveByAdmin = true;
       result.created = dateCreatedBd;
@@ -95,8 +101,9 @@ const UserRegisterForm = () => {
           setName('');
           setLastName('');
           setPlan('standard');
-        })
-        .catch((err) => {
+          setPhone('');
+          setPhoneCode('');
+        }).catch((err) => {
           setStatus('El usuario ya se encuentra registrado');
           handleClickOpen();
         });
@@ -126,6 +133,11 @@ const UserRegisterForm = () => {
     handleClickOpen,
     handleClose,
     status,
+    phone,
+    setPhone,
+    phoneCode,
+    setPhoneCode,
+    phoneChangeHandler
   };
 };
 

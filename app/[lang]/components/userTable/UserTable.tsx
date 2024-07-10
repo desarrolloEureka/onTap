@@ -19,6 +19,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import SearchIcon from '@mui/icons-material/Search';
 //QR
 import { QRCodeSVG } from 'qrcode.react';
+import ReactCountryFlag from 'react-country-flag';
+import { countries } from '../../globals/constants'
 
 const UserTable = () => {
     const {
@@ -57,17 +59,47 @@ const UserTable = () => {
         setEndDate,
         searchTerm,
         setSearchTerm,
-        handleDeleteFilter
+        handleDeleteFilter,
+        phoneCode,
+        setPhoneCode,
+        phone,
+        setPhone
     } = UserTableLogic();
+
     const dictionary = useDictionary({ lang: 'es' });
     const dateToday = new Date().toISOString().split('T')[0];
+
+    const getCountryFlag = (item: any) => {
+        const country = countries.find(country => country.id === item);
+        return country ? country.flag : '';
+    };
+
+    const getCountryName = (item: any) => {
+        const country = countries.find(country => country.id === item);
+        return country ? country.code : '';
+    };
+
     const columns: GridColDef[] = [
         { field: 'date', headerName: 'Fecha Registro', width: 130, headerAlign: 'center', align: 'center' },
         { field: 'hour', headerName: 'Hora Registro', width: 130, headerAlign: 'center', align: 'center' },
         { field: 'id', headerName: 'No. Identificación', width: 160, headerAlign: 'center', align: 'center' },
         { field: 'name', headerName: 'Nombres y Apellidos', width: 230 },
+        {
+            field: 'indicative', headerName: 'Indicativo', width: 90, headerAlign: 'center', align: 'center',
+            renderCell: (params) => (
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    {params.value && (
+                        <ReactCountryFlag countryCode={getCountryFlag(params.value ? params.value : '')} svg style={{ marginRight: '5px', width: '29px', height: '20px' }} />
+                    )}
+                    <div>
+                        {getCountryName(params.value)}
+                    </div>
+                </div>
+            )
+        },
+        { field: 'phone', headerName: 'Teléfono ', width: 180, headerAlign: 'center', align: 'center' },
         { field: 'email', headerName: 'Correo', width: 250 },
-        { field: 'plan', headerName: 'Plan', width: 110, headerAlign: 'center', align: 'center', },
+        { field: 'plan', headerName: 'Plan', width: 110, headerAlign: 'center', align: 'center' },
         { field: 'userType', headerName: 'Tipo Usuario', width: 130, headerAlign: 'center', align: 'center' }, //Es para que se pueda identifica si es un usuario comprador o solo le reglaran la tarjeta
         {
             field: 'url', headerName: 'URL', width: 100, headerAlign: 'center', align: 'center',
@@ -96,7 +128,8 @@ const UserTable = () => {
             renderCell: (params) => (
                 <div>
                     {params.value}
-                </div>)
+                </div>
+            )
         },
         {
             field: 'edit', headerName: 'Editar', width: 110,
@@ -349,6 +382,53 @@ const UserTable = () => {
                                     }}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
+
+                                <div className='tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4 tw-mt-3'>
+                                    <div className='tw-w-[40%] tw-items-start'>
+                                        <Select
+                                            variant='outlined'
+                                            className='tw-w-[100%] tw-text-center'
+                                            value={phoneCode}
+                                            style={{ height: '48px' }}
+                                            required
+                                            id='outlined-required'
+                                            defaultValue=''
+                                            MenuProps={{
+                                                PaperProps: {
+                                                    style: {
+                                                        maxHeight: 150,
+                                                    },
+                                                },
+                                            }}
+                                            onChange={(e) => setPhoneCode(e.target.value)}
+                                        >
+                                            {countries.map((country) => (
+                                                <MenuItem key={country.id} value={country.id}>
+                                                    <ReactCountryFlag countryCode={country.flag} svg style={{ marginRight: '8px' }} />
+                                                    {country.code}
+                                                    {/*  {country.name} ({country.code}) */}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </div>
+                                    <div className='tw-h-[100%] tw-w-[60%] tw-items-start tw-ml-2'>
+                                        <TextField
+                                            id="standard-number"
+                                            value={phone}
+                                            variant='standard'
+                                            className='tw-w-full'
+                                            InputLabelProps={{
+                                                shrink: true
+                                            }}
+                                            inputProps={{
+                                                inputMode: 'numeric',
+                                                maxLength: 10,
+                                            }}
+                                            label={dictionary.dictionary?.backOffice.Phone}
+                                            onChange={(e) => setPhone(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
 
                                 <div className='tw-w-[300px]'>
                                     <Typography
