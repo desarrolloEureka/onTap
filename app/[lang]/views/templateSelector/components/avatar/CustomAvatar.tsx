@@ -1,6 +1,7 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import { Box } from '@mui/material';
+import Image from 'next/image';
 
 const CustomAvatar = ({
   name,
@@ -18,29 +19,17 @@ const CustomAvatar = ({
   square?: boolean;
 }) => {
   return (
-    <Box
-      className='tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)]'
-      sx={{
-        borderRadius: rounded ? '100%' : square ? '20%' : '10px',
-        ml: ml,
-        mt: 5,
-        padding: 1,
-        backgroundColor: '#679a88',
-        height: size,
-        width: size,
-      }}
+    <Box sx={{ borderRadius: '20%', height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
-      <Avatar
-        alt={name}
+      <Image
+        className='tw-rounded-2xl tw-absolute tw-z-0'
         src={image}
-        variant={rounded ? 'rounded' : 'square'}
-        imgProps={{ loading: "lazy" }}
-        sx={{
-          width: size,
-          height: size,
-          borderRadius: rounded ? '100%' : '12%',
-        }}
+        alt='Card'
+        width={size}
+        height={size + 19}
+        style={{ display: 'block', position: 'relative', zIndex: 0, border: '8px solid #679a88', objectFit: 'cover' }}
       />
+
     </Box>
   );
 };

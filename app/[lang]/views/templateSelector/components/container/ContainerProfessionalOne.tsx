@@ -41,25 +41,14 @@ const TemplateContainerProfessionalOne = ({
 
   return (
     profile.professional && (
-      <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center tw-mt-9'>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            position: 'relative',
-          }}
-        >
+      <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center tw-mt-1 tw-h-[55%]'>
+
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15%', width: '100%', position: 'relative'}}>
           <SaveContactButton profile={profile.professional} />
         </Box>
-        <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 tw-my-5 no-scrollbar'>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-            }}
-          >
+
+        <Container className='tw-flex tw-p-0 tw-overflow-scroll tw-z-10 no-scrollbar' style={{ height: '15%' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'start' }}>
             {principalData.map((item, key) => {
               return (
                 <ItemSlideProfessional
@@ -71,11 +60,8 @@ const TemplateContainerProfessionalOne = ({
             })}
           </Box>
         </Container>
-        <Container
-          className={`tw-z-10 tw-rounded-md tw-p-0 ${
-            isSmallScreenOne ? 'tw-h-[230px]' : 'tw-h-[360px] '
-          } tw-overflow-y-auto no-scrollbar tw- tw-pb-12`}
-        >
+
+        <Container className={`tw-z-10 tw-rounded-md tw-p-0 tw-h-[70%] tw-overflow-y-auto no-scrollbar tw- tw-pb-4`}>
           <Box flexGrow={1}>
             <Grid container spacing={1}>
               {professionalData.finalArray.map((item, key) => {

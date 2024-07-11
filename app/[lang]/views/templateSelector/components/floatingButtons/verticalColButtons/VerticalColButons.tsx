@@ -13,38 +13,18 @@ const VerticalColButtons = ({
   const reversedArray = data.slice().reverse();
 
   return (
-    <Container className='tw-mt-12 tw-h-[250px] tw-w-[220px] tw-overflow-y-scroll no-scrollbar'>
+    <Container className='tw-h-[100%] tw-w-[90%] tw-overflow-y-scroll no-scrollbar'>
       {reversedArray.map((val, key) => {
         return (
-          <Box
-            sx={{
-              display: 'flex',
-              width: '100%',
-            }}
-            key={key}
-          >
+          <div style={{ display: 'flex', width: '100%' }} key={key}>
             {val.map((value, i) => {
               return (
-                <Box
-                  sx={{
-                    width: '55%',
-                    height: 70,
-                    marginLeft: -1,
-                    paddingBottom: 2.5
-                  }}
-                  key={i}
-                >
-                  <CustomButton
-                    name={value.icon}
-                    link={value.url}
-                    nameLabel={value.name}
-                    key={key}
-                    styles={`tw-flex tw-flex-col`}
-                  />
+                <Box sx={{ width: '50%', height: 70, paddingBottom: 2, paddingX: i % 2 === 0 ? 2 : 4, marginLeft: -3,/*  backgroundColor: i % 2 === 0 ? 'black' : 'brown' */ }} key={i}>
+                  <CustomButton name={value.icon} link={value.url} nameLabel={value.name} key={key} styles={`tw-flex tw-flex-col`} />
                 </Box>
               );
             })}
-          </Box>
+          </div>
         );
       })}
     </Container>

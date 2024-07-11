@@ -38,12 +38,11 @@ const CustomButton = ({
         target='_blank'
       >
         <div className='tw-flex tw-items-center tw-flex-col'>
-          <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={icon.image} alt={name} width={isSmallScreenOne ? 47 : 57} height={isSmallScreenOne ? 47 : 57} />
-          <Typography style={{ width: '100%', textDecoration: 'none' }} className='tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-0.5 tw-pl-1' color={'white'}>
+          <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={icon.image} alt={name} width={46} height={46} />
+          <Typography style={{ width: '100%', textDecoration: 'none' }} className='tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1 tw-pl-1' color={'white'}>
             {nameLabel ? nameLabel.length > 9 ? nameLabel.substring(0, 7) + '...' : nameLabel : name}
           </Typography>
         </div>
-
       </Link>
     )
   );

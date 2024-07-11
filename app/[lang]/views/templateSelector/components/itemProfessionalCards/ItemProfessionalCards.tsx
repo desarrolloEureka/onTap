@@ -128,7 +128,22 @@ const ItemProfessionalCards = ({
               color={'white'}
               textAlign={'left'}
             >
-              {text.label}
+              {text.label === 'name' ? 'Nombres' :
+                text.label === 'last_name' ? 'Apellidos' :
+                  text.label === 'profession' ? 'Profesión' :
+                    text.label === 'occupation' ? 'Ocupación' :
+                      text.label === 'address' ? 'Dirección' :
+                        text.label === 'company' ? 'Empresa' :
+                          text.label === 'position' ? 'Cargo' :
+                            text.label === 'professional_profile' ? 'Perfil Profesional' :
+                              text.label === 'other_competencies' ? 'Otras Competencias' :
+                                text.label === 'skills' ? 'Habilidades' :
+                                  text.label === 'languages' ? 'Idiomas' :
+                                    text.label === 'achievements_recognitions' ? 'Logros y reconocimientos' :
+                                      text.label === 'phones' ? 'Telefono' :
+                                        text.label === 'emails' ? 'Correo' :
+                                          text.label === 'urls' ? 'urls' :
+                                            text.label}
             </Typography>
           </Box>
           <Typography

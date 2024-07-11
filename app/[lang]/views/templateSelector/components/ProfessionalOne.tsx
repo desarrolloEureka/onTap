@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ModalCookies from '@/components/customModalAlert/ModalCookies';
+import OneTapLogoLink from '@/components/oneTapLogo/OneTapLogoLink';
 
 const ProfessionalOne = ({
   params: { lang, background, data },
@@ -61,13 +62,11 @@ const ProfessionalOne = ({
 
   return data.profile ? (
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
-      <div className={`tw-shadow-md tw-rounded-2xl tw-pt-[0px]`} style={{ height: isSmallScreen ? windowSize.height : '700px', width: isSmallScreenWidth ? windowSize.width : '380px', overflow: 'hidden' }}>
+      <div className={`tw-shadow-md tw-rounded-2xl`} style={{ height: isSmallScreen ? windowSize.height : '700px', width: isSmallScreenWidth ? windowSize.width : '380px', overflow: 'hidden' }}>
         <BgImage background={background} />
         <HeroProfessional
           socialNetworks={data.profile.professional?.urls}
           photo={data.imagePro}
-          //name={`${data.profile.professional?.name?.text}  ${data.profile.professional?.last_name?.text}`}
-
           name={`${data.profile.professional?.name?.checked
             ? data.profile.professional?.name?.text
             : ''
@@ -83,8 +82,8 @@ const ProfessionalOne = ({
           }
         />
         <TemplateContainerProfessionalOne profile={data.profile} />
+        <OneTapLogoLink />
       </div>
-      <OneTapLogo />
 
       <ModalCookies
         isModalAlert={isCookies}
