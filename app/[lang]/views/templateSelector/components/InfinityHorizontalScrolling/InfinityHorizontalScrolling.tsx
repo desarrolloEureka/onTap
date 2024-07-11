@@ -27,7 +27,6 @@ const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
             name={val.icon}
             nameLabel={val.name}
             link={val.url}
-            //styles={'tw-mx-3'}
             styles={i === 0 ? 'tw-mr-3' : i === reversedArray.length - 1 ? 'tw-ml-3' : 'tw-mx-3'}
           />
         ))}
