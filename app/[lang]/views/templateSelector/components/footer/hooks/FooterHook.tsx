@@ -15,12 +15,12 @@ const FooterHook = ({
   if (!fullSocialIcons) {
     const social = socialNetworks?.filter(
       (val) =>
-        val.icon != 'whatsapp' &&
-        val.icon != 'twitter' &&
-        val.icon != 'instagram' &&
-        val.icon != 'facebook' &&
-        val.icon != 'tiktok' &&
-        val.icon != 'messenger' &&
+        /*         val.icon != 'whatsapp' &&
+                val.icon != 'twitter' &&
+                val.icon != 'instagram' &&
+                val.icon != 'facebook' &&
+                val.icon != 'tiktok' &&
+                val.icon != 'messenger' && */
         val.checked
     );
     arraySorted = sortedArrayObject(social ?? [], 'social').arraySorted;

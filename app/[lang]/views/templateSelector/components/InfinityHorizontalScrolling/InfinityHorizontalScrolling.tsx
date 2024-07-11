@@ -2,7 +2,6 @@ import { Box, Container } from '@mui/system';
 import React from 'react';
 import CustomButton from '../floatingButtons/customButtons/CustomButton';
 import { styled } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 const MyScrollingElement = styled(Box)(() => ({
   overflow: 'auto',
@@ -15,22 +14,23 @@ const MyScrollingElement = styled(Box)(() => ({
   },
 }));
 const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
-  const isSmallScreen = useMediaQuery('(max-height:668px)');
-  const reversedArray = finalArray.slice().reverse();
+  const reversedArray = [...finalArray].reverse();
+  console.log('reversedArray ', reversedArray);
 
   return (
-    <Container className={`${isSmallScreen ? 'tw-h-15' : 'tw-h-24'} tw-h-20 tw-flex tw-w-[310px] tw-overflow-scroll tw-relative no-scrollbar`}>
+    /*  <Container className={`tw-flex tw-h-[15%] tw-w-[85%] tw-overflow-scroll tw-relative no-scrollbar tw-items-center tw-justify-center`}> */
+    <Container className={`tw-flex tw-h-[15%] tw-w-[95%] tw-overflow-scroll tw-relative no-scrollbar tw-items-center tw-justify-start`}>
       {reversedArray.length > 0 &&
         reversedArray.map((val, i) => (
           <CustomButton
+            key={i}
             name={val.icon}
             nameLabel={val.name}
             link={val.url}
-            styles={'tw-mx-3'}
-            key={i}
+            //styles={'tw-mx-3'}
+            styles={i === 0 ? 'tw-mr-3' : i === reversedArray.length - 1 ? 'tw-ml-3' : 'tw-mx-3'}
           />
-        ))
-      }
+        ))}
     </Container>
   );
 };

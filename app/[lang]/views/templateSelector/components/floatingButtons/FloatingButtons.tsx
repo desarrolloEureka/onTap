@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Avatar, Box } from '@mui/material';
 import { UrlDataFormValues } from '@/types/profile';
 import LeftButtons from './leftButtons/LeftButtons';
 import RightButtons from './rightButtons/RightButtons';
@@ -23,13 +23,35 @@ const FloatingButtons = ({
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        //zIndex: 99999,
+        justifyContent: 'center',
+        height: '190px',
+        width: '100%',
+        alignItems: 'center'
       }}
     >
-      <LeftButtons socialNetworks={socialNetworks} />
-      <CustomAvatar image={photo} name={name} ml={0} size={isSmallScreen ? 110 : 140} rounded />
-      <RightButtons socialNetworks={socialNetworks} />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          height: '80%',
+          width: '100%',
+          alignContent: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Avatar
+          alt={name}
+          src={photo}
+          variant={'rounded'}
+          imgProps={{ loading: "lazy" }}
+          sx={{
+            width: '135px',
+            height: '135px',
+            borderRadius: '100%',
+            border: '12px solid #679a88',
+          }}
+        />
+      </Box>
     </Box>
   );
 };

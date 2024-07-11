@@ -83,7 +83,6 @@ const ItemForm = ({
         {label === 'phones' && (
           <div className='tw-w-[45%] tw-h-[100%] tw-flex tw-items-end tw-justify-end'>
             <div className='tw-w-[75%] tw-h-[100%] tw-flex tw-items-center tw-justify-end tw-pr-2'>
-
               <Select
                 value={value()?.indicative ? value()?.indicative : ''}
                 MenuProps={{

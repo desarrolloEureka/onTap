@@ -56,11 +56,9 @@ const SaveContactButtonColor = ({
       //   var imageData = reader.result.split(',')[1]; // Obtener solo los datos base64
       // };
 
-      var vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${
-        profile.name?.text ?? ''
-      } ${profile.last_name?.text ?? ''}\nN:${profile.last_name?.text ?? ''};${
-        profile.name?.text ?? ''
-      };;;\n`;
+      var vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${profile.name?.text ?? ''
+        } ${profile.last_name?.text ?? ''}\nN:${profile.last_name?.text ?? ''};${profile.name?.text ?? ''
+        };;;\n`;
       // Agregar cada dirección de correo electrónico
       profile.emails?.forEach((email) => {
         vCardData += `EMAIL;TYPE=INTERNET:${email.text}\n`;
@@ -96,9 +94,7 @@ const SaveContactButtonColor = ({
   return (
     <Box
       sx={{ position: 'relative' }}
-      className={`tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-rounded-3xl ${
-        isSmallScreen ? 'tw-mt-3' : undefined
-      }`}
+      className={`tw-flex tw-rounded-3xl tw-h-[15%] tw-w-[100%] tw-content-center tw-items-center tw-justify-center`}
     >
       {circular ? (
         <Box
@@ -134,8 +130,7 @@ const SaveContactButtonColor = ({
             <SaveOutlinedIcon
               style={{
                 color: colorButton ?? undefined,
-                fontSize: '1.4rem',
-                marginLeft: '0rem',
+                fontSize: '1.4rem'
               }}
             />
           }
