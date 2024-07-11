@@ -40,7 +40,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
         <Button
           variant='contained'
           sx={{ textTransform: 'none', backgroundColor: color }}
-          className={`tw-rounded-s-2xl tw-rounded-e-2xl tw-drop-shadow-sm tw-w-full tw-h-[1/4px] tw-px-1 tw-relative tw-my-2 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]`}
+          className={`tw-rounded-s-2xl tw-rounded-e-2xl tw-drop-shadow-sm tw-w-[90%] tw-h-[1/4px] tw-px-1 tw-relative tw-my-2 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]`}
           key={key}
           onClick={() => val.icon && val.text && clickType(val.icon, val.text)}
           startIcon={
@@ -120,7 +120,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
                 style: {
                   textAlign: 'center',
                   position: 'relative',
-                  top: '-245px',
+                  top: '-240px',
                 }
               }}
             >
@@ -131,8 +131,9 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
+                    alignItems:'center',
                     height: '100%',
-
+                    marginTop: 1
                   }}
                 >
                   <Item item={item as DataFormValues[]} />
