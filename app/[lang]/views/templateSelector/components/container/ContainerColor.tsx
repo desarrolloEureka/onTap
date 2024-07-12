@@ -10,13 +10,15 @@ import Carousel from 'react-material-ui-carousel';
 import SaveContactButtonColor from '../saveContactButton/SaveContactButtonColor';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { getPrincipalProfileOrderedByObject } from '@/globals/functionsTemplateSocialOne';
+import { countries } from '@/globals/constants';
 
 const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: string; }) => {
-  const isSmallScreenOne = useMediaQuery('(max-height:668px)');
-  const isSmallScreen = useMediaQuery('(max-height:740px)');
-  const isSmallScreenTwo = useMediaQuery('(min-height: 900px)');
-
   const { finalArray } = getPrincipalProfileOrderedByObject(profile.social as SocialDataForm, 'social');
+
+  const getCountryName = (item: any) => {
+    const country = countries.find(country => country.id === item);
+    return country ? country.code : '';
+  };
 
   const clickType = (type: string, url: string) => {
     switch (type) {
@@ -94,7 +96,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
             className={`tw-w-[90%] tw-text-center tw-truncate ${val.order != 10 && 'tw-capitalize'
               }`}
           >
-            {val.text}
+            {val.label === "phones" ? getCountryName(val.indicative) + "" + val.text : val.text}
           </Typography>
         </Button>
       ))}
@@ -105,7 +107,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
     profile.social && (
       <Container className={`tw-h-[40%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center`}>
         <SaveContactButtonColor colorButton={color} profile={profile.social} />
-        <Container className={`tw-z-10 tw-h-[85%]`}>
+        <Container className={`tw-z-10 tw-h-[88%]`}>
           {finalArray.length > 0 && finalArray[0].length > 0 && (
             <Carousel
               className='tw-flex tw-flex-col tw-h-[100%] tw-content-center tw-items-center tw-justify-center tw-mt-4'
@@ -121,6 +123,8 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
                   textAlign: 'center',
                   position: 'relative',
                   top: '-240px',
+                  paddingTop: 1,
+                  backgroundColor: 'red'
                 }
               }}
             >
@@ -131,7 +135,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    alignItems:'center',
+                    alignItems: 'center',
                     height: '100%',
                     marginTop: 1
                   }}

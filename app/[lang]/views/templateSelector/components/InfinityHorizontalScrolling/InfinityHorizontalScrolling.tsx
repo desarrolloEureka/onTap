@@ -15,7 +15,6 @@ const MyScrollingElement = styled(Box)(() => ({
 }));
 const InfinityHorizontalScrolling = ({ finalArray }: { finalArray: any[] }) => {
   const reversedArray = [...finalArray].reverse();
-  console.log('reversedArray ', reversedArray);
 
   return (
     /*  <Container className={`tw-flex tw-h-[15%] tw-w-[85%] tw-overflow-scroll tw-relative no-scrollbar tw-items-center tw-justify-center`}> */

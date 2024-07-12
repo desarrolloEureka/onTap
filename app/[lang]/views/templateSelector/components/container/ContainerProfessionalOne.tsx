@@ -23,6 +23,51 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const CustomContainer = styled(Container)`
+  padding-right: 10px; /* Ajusta el valor según lo necesites */
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+    border: 3px solid #6c6c6c;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`;
+
+const CustomHorizontalContainer = styled(Container)`
+  padding-bottom: 10px; /* Espacio entre el contenido y la barra de scroll */
+
+  &::-webkit-scrollbar {
+    height: 5px; /* Ajusta la altura del scrollbar horizontal */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+    border: 3px solid transparent;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`;
+
+
 const TemplateContainerProfessionalOne = ({
   profile,
 }: {
@@ -43,7 +88,7 @@ const TemplateContainerProfessionalOne = ({
     profile.professional && (
       <Container className='tw-z-10 tw-flex tw-flex-col tw-content-center tw-items-center tw-mt-1 tw-h-[55%]'>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15%', width: '100%', position: 'relative'}}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15%', width: '100%', position: 'relative' }}>
           <SaveContactButton profile={profile.professional} />
         </Box>
 
@@ -61,32 +106,22 @@ const TemplateContainerProfessionalOne = ({
           </Box>
         </Container>
 
-        <Container className={`tw-z-10 tw-rounded-md tw-p-0 tw-h-[70%] tw-overflow-y-auto no-scrollbar tw- tw-pb-4`}>
+        <CustomContainer className="tw-z-10 tw-rounded-md tw-p-0 tw-h-[70%] tw-overflow-y-auto tw-pb-3">
           <Box flexGrow={1}>
             <Grid container spacing={1}>
-              {professionalData.finalArray.map((item, key) => {
-                return (
-                  <Grid
-                    item
-                    xs={12}
-                    key={key}
-                    className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]'
-                  >
-                    <Item
-                      sx={{
-                        backgroundColor: '#679a88',
-                        p: 2,
-                      }}
-                    >
-                      <ItemProfessionalCards item={item} key={key} />
-                    </Item>
-                  </Grid>
-                );
-              })}
+              {professionalData.finalArray.map((item, key) => (
+                <Grid item xs={12} key={key} className='tw-pr-1 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]'>
+                  <Item sx={{ backgroundColor: '#679a88', p: 2 }}>
+                    <ItemProfessionalCards item={item} key={key} />
+                  </Item>
+                </Grid>
+              ))}
             </Grid>
           </Box>
-        </Container>
-      </Container>
+        </CustomContainer>
+
+
+      </Container >
     )
   );
 };
