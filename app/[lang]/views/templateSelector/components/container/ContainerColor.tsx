@@ -123,8 +123,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
                   textAlign: 'center',
                   position: 'relative',
                   top: '-240px',
-                  paddingTop: 1,
-                  backgroundColor: 'red'
+                  paddingTop: 1
                 }
               }}
             >
