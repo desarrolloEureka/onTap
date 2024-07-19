@@ -80,7 +80,7 @@ const ItemForm = ({
   return (
     <Box className='tw-flex tw-flex-row'>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>
-        {label === 'phones' && (
+        {(label === 'phones' || label === 'Telefono' || label === 'Teléfono') && (
           <div className='tw-w-[45%] tw-h-[100%] tw-flex tw-items-end tw-justify-end'>
             <div className='tw-w-[75%] tw-h-[100%] tw-flex tw-items-center tw-justify-end tw-pr-2'>
               <Select
@@ -103,7 +103,7 @@ const ItemForm = ({
                     });
                 }
                 }
-                style={{ height: '48px', width: '110px' }}
+                style={{ height: '48px', width: '120px' }}
 
                 displayEmpty
                 inputProps={{ 'aria-label': 'country code' }}
@@ -285,8 +285,8 @@ const ItemForm = ({
                 key: subindex,
               });
           }}
-          type={name === 'phones' ? 'tel' : name === 'emails' ? 'email' : 'text'}
-          value={label === 'phones' ? value()?.text : value()}
+          type={label === 'phones' || label === 'Telefono' || label === 'Teléfono' ? 'tel' : name === 'emails' ? 'email' : 'text'}
+          value={label === 'phones' || label === 'Telefono' || label === 'Teléfono' ? value()?.text : value()}
         />
       </Box>
       {deleteAction === true && handleModalAlert ? (

@@ -2,13 +2,14 @@
 import React from 'react';
 import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
-import { DataGrid, GridColDef, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport } from '@mui/x-data-grid';
-import { GridToolbarQuickFilter, GridToolbarFilterButton } from '@mui/x-data-grid/components';
+import { DataGrid, GridColDef, gridFilteredSortedRowIdsSelector, GridToolbarContainer, gridVisibleColumnFieldsSelector, useGridApiContext, useGridApiRef } from '@mui/x-data-grid';
+import { GridToolbarQuickFilter } from '@mui/x-data-grid/components';
 import ReportTableLogic from './hooks/ReportTableLogic';
 import { Typography, Button, TextField } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box } from '@mui/system';
+import GetAppIcon from '@mui/icons-material/GetApp';
 
 const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     const { dictionary } = useDictionary({ lang });
@@ -40,11 +41,31 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
         setFilteredDetail,
         handleBack,
         handleDeleteFilter,
-        handleDeleteFilterDetail
+        handleDeleteFilterDetail,
+        exportToExcel
     } = ReportTableLogic();
     const dateToday = new Date().toISOString().split('T')[0];
+    const apiRef = useGridApiRef();
+    const apiRefDetail = useGridApiRef();
+
+    const getFormattedDate = (date: any) => {
+        const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`;
+        return formattedDate ? formattedDate : '';
+    };
+
     const columns: GridColDef[] = [
-        { field: 'date', headerName: 'Fecha Registro', width: 170, headerAlign: 'center', align: 'center' },
+        {
+            field: 'date', headerName: 'Fecha Registro', width: 170, headerAlign: 'center', align: 'center',
+            renderCell: (params) => (
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    <div>
+                        {getFormattedDate(params.value)}
+                    </div>
+                </div>
+            )
+        },
+
+
         { field: 'hour', headerName: 'Hora Registro', width: 130, headerAlign: 'center', align: 'center' },
         { field: 'id', headerName: 'No. Identificación', width: 150, headerAlign: 'center', align: 'center' },
         { field: 'name', headerName: 'Nombres', width: 170, headerAlign: 'center', align: 'center' },
@@ -62,7 +83,17 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     ];
 
     const columnsDetail: GridColDef[] = [
-        { field: 'viewsDate', headerName: 'Fecha Visualización', width: 170, headerAlign: 'center', align: 'center' }, { field: 'viewsTime', headerName: 'Hora', width: 150, headerAlign: 'center', align: 'center' },
+        {
+            field: 'viewsDate', headerName: 'Fecha Visualización', width: 170, headerAlign: 'center', align: 'center',
+            renderCell: (params) => (
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    <div>
+                        {getFormattedDate(params.value)}
+                    </div>
+                </div>
+            )
+        },
+        { field: 'viewsTime', headerName: 'Hora', width: 150, headerAlign: 'center', align: 'center' },
         { field: 'ipAddress', headerName: 'IP', width: 115, headerAlign: 'center', align: 'center' },
         { field: 'typeDevice', headerName: 'Tipo Dispositivo', width: 125, headerAlign: 'center', align: 'center' },
         { field: 'so', headerName: 'Sistema Operativo', width: 115, headerAlign: 'center', align: 'center' },
@@ -71,9 +102,48 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
         { field: 'View_Count', headerName: 'Cantidad Veces Visualizaciones"', width: 105, headerAlign: 'center', align: 'center', valueGetter: () => 1 },
     ];
 
+    function getExcelData(apiRef: any) {
+        // Select rows and columns
+        const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
+        const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
+
+        // Format the data. Here we only keep the value
+        const data = filteredSortedRowIds.map((id) => {
+            const row: { [key: string]: any } = {};
+            visibleColumnsField.forEach((field) => {
+                row[field] = apiRef.current.getCellParams(id, field).value;
+            });
+            return row;
+        });
+
+        return data;
+    }
+
+    const handleExport = () => {
+        const data = getExcelData(apiRef);
+        exportToExcel(data, true);
+    };
+
+    const handleExportDetail = () => {
+        const data = getExcelData(apiRefDetail);
+        exportToExcel(data, false);
+    };
+
     function CustomToolbar() {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', paddingLeft: 3, paddingRight: 4, marginBottom: -2, marginTop: 1 }}>
+                    <Button
+                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
+                        type='submit'
+                        style={{ textTransform: 'none' }}
+                        onClick={() => handleExport()}
+                    >
+                        <GetAppIcon />
+                        Exportar
+                    </Button>
+                </Box>
+
                 <Box sx={{ width: '35%', paddingBottom: 3, paddingTop: 1, paddingLeft: 2 }}>
                     <Typography variant="inherit" style={{ paddingBottom: 9, fontSize: 14.3, color: "rgba(0, 0, 0, 0.6)" }}>
                         Consulta General
@@ -157,6 +227,19 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     function CustomToolbarDetail() {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
+
+                <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', paddingLeft: 3, paddingRight: 4, marginBottom: -2, marginTop: 1 }}>
+                    <Button
+                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
+                        type='submit'
+                        style={{ textTransform: 'none' }}
+                        onClick={() => handleExportDetail()}
+                    >
+                        <GetAppIcon />
+                        Exportar
+                    </Button>
+                </Box>
+
                 <Box sx={{ width: '35%', paddingBottom: 3, paddingTop: 1, paddingLeft: 2 }}>
                     <Typography variant="inherit" style={{ paddingBottom: 9, fontSize: 14.3, color: "rgba(0, 0, 0, 0.6)" }}>
                         Consulta General
@@ -280,6 +363,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             </div>
                             <div style={{ height: 590, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-0'>
                                 <DataGrid
+                                    apiRef={apiRefDetail}
                                     //rows={dataDetailUser.DataMetrics ?? []}
                                     rows={filteredDetail?.map((row: any, index: any) => ({
                                         id: index,
@@ -312,8 +396,17 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                                         pagination: {
                                             paginationModel: { page: 0, pageSize: 15 },
                                         },
+                                        columns: {
+                                            columnVisibilityModel: {
+                                                status: false,
+                                                traderName: false,
+                                            },
+                                        },
+                                        sorting: {
+                                            sortModel: [{ field: 'viewsDate', sort: 'desc' }],
+                                        },
                                     }}
-                                    pageSizeOptions={[15, 30, 45, 60]}
+                                    pageSizeOptions={[15, 30]}
                                     rowHeight={75}
                                     className="tw-rounded-2xl"
                                     disableColumnSelector
@@ -330,12 +423,22 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                 <div className='tw-bg-[#02AF9B] tw-mt-4 tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[800px] tw-w-[1000px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
                     <div style={{ height: 700, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-0'>
                         <DataGrid
+                            apiRef={apiRef}
                             rows={query ?? []}
                             columns={columns}
                             slots={{ toolbar: CustomToolbar }}
                             initialState={{
                                 pagination: {
                                     paginationModel: { page: 0, pageSize: 15 },
+                                },
+                                columns: {
+                                    columnVisibilityModel: {
+                                        status: false,
+                                        traderName: false,
+                                    },
+                                },
+                                sorting: {
+                                    sortModel: [{ field: 'date', sort: 'desc' }],
                                 },
                             }}
                             pageSizeOptions={[15, 30, 45, 60]}

@@ -17,6 +17,7 @@ const CustomButton = ({
   styles?: string;
 }) => {
   const { data } = GetAllSocialNetworks();
+  const isSmallScreen = useMediaQuery('(max-height:780px)');
   const icon = data?.find((val) => val.name === name);
   const regex = /^https?:\/\//i;
   let urlLink = '';
@@ -27,20 +28,18 @@ const CustomButton = ({
     urlLink = link;
   }
 
-  const isSmallScreenOne = useMediaQuery('(max-height:799px)');
-
   return (
     icon?.image && (
       <Link
-        className={`tw-rounded-full tw-mt-2 tw-drop-shadow-xl ${styles}`}
+        className={`tw-rounded-full tw-mt-1 tw-drop-shadow-xl ${styles}`}
         style={{ textDecoration: 'none' }}
         href={`https://${urlLink}`}
         target='_blank'
       >
-        <div className='tw-flex tw-items-center tw-flex-col'>
-          <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={icon.image} alt={name} width={54} height={54} />
-          <Typography style={{ width: '100%', textDecoration: 'none' }} className='tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1 tw-pl-1' color={'white'}>
-            {nameLabel ? nameLabel.length > 9 ? nameLabel.substring(0, 7) + '...' : nameLabel : name}
+        <div className='tw-flex tw-items-center tw-justify-center tw-flex-col tw-mx-2'>
+          <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={icon.image} alt={name} width={isSmallScreen ? 45 : 54} height={isSmallScreen ? 45 : 54} />
+          <Typography style={{ width: '100%', textDecoration: 'none' }} className='tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1' color={'white'}>
+            {nameLabel ? nameLabel.length > 9 ? nameLabel.substring(0, 6) + '...' : nameLabel : name}
           </Typography>
         </div>
       </Link>

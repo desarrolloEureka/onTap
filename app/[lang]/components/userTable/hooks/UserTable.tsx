@@ -1,6 +1,7 @@
 import { getAllUsers } from "@/firebase/user"
 import { SendEditData } from "@/reactQuery/users";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import * as XLSX from 'xlsx';
 
 const UserTableLogic = () => {
     interface UserData {
@@ -12,7 +13,7 @@ const UserTableLogic = () => {
         gif: boolean;
         uid: string
     }
-
+    const apiRef = useRef(null);
     const [query, setQuery] = useState<any>([]);
     const [filteredQuery, setFilteredQuery] = useState<any>([]);
     const [flag, setFlag] = useState(false);
@@ -112,6 +113,49 @@ const UserTableLogic = () => {
         image.src = b64Start + svg64;
     };
 
+    const exportToExcel = (filteredQuery: any) => {
+        try {
+            // Validar que filteredQuery sea un array
+            if (!Array.isArray(filteredQuery)) {
+                throw new Error("filteredQuery debe ser un array");
+            }
+
+            // Crear una copia de los datos excluyendo las columnas no deseadas
+            const filteredData = filteredQuery.map((user) => {
+                const { edit, editDelete, optionEdit, lastName, url, urlQR, ...filteredUser } = user;
+
+                // Acceder a una propiedad específica del objeto url, por ejemplo, url.link
+                const urlLink = url ? url.preview : ''; // Manejo de caso en que url podría ser undefined
+
+                // Devolver los datos con la propiedad específica incluida
+                return {
+                    ...filteredUser,
+                    url: urlLink // Reemplazar el objeto url con su propiedad específica
+                };
+            });
+
+            // Crear una hoja de cálculo a partir de los datos filtrados
+            const worksheet = XLSX.utils.json_to_sheet(filteredData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Usuarios");
+
+            // Crear un archivo Blob y descargarlo
+            const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+            const data = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+
+            // Crear un enlace de descarga y hacer clic en él
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(data);
+            downloadLink.download = 'Usuarios.xlsx';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        } catch (error) {
+            console.error('Error al exportar a Excel:', error);
+        }
+    };
+
+
     const handleDateChange = () => {
         const dateStart = startDate ? new Date(startDate) : null;
         const dateEnd = endDate ? new Date(endDate) : null;
@@ -163,10 +207,6 @@ const UserTableLogic = () => {
         setEndDate('');
     };
 
-    const handleSearchChange = (event: any) => {
-        setSearchTerm(event.target.value);
-    };
-
     const dataRegisterHandle = async () => {
         const res = await SendEditData("" + dataUser?.uid, {
             dni: dni,
@@ -216,56 +256,46 @@ const UserTableLogic = () => {
 
     useEffect(() => {
         const getquery = async () => {
-            //setQuery([]);
             const usersDataSanpShot = await getAllUsers();
             const usersData = usersDataSanpShot.docs.map((doc) => {
+                const data = doc.data(); // Obtener datos del documento
                 const timestamp = doc.data().created;
                 const date = new Date(timestamp);
-                /* const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1)
-                    .toString()
-                    .padStart(2, "0")}/${date.getFullYear()} ${date.getHours()
-                        .toString()
-                        .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds()
-                            .toString()
-                            .padStart(2, "0")}`; */
-
-                /* const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
-                    .toString()
-                    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`; */
-
-                const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1)
-                    .toString()
-                    .padStart(2, "0")}/${date.getFullYear()}`;
-
                 const formattedHour = `${date.getHours()
                     .toString()
                     .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds()
                         .toString()
                         .padStart(2, "0")}`;
 
-                const urlFormatted = doc.data().preview && doc.data().preview.replace(/localhost:3000|on-tap-tawny.vercel.app/g, 'backoffice.onetap.com.co');
+                //const updatedData = { ...data, formattedDate: date, };
 
                 return {
                     id: doc.data().dni,
                     is_admin: doc.data().is_admin,
-                    url: urlFormatted || doc.data().preview,
-                    urlQR: urlFormatted || doc.data().preview,
+                    url: doc.data(),
+                    urlQR: doc.data(),
                     name: doc.data().name || "",
                     indicative: doc.data().indicative || "",
                     phone: doc.data().phone || "",
                     email: doc.data().email || "",
                     lastName: doc.data().profile?.last_name?.text || "",
-                    plan: doc.data().plan || "",
-                    date: formattedDate,
+                    //plan: doc.data().plan || "",
+                    plan: doc.data(),
+                    date: date,
+                    //dateFormmatted: updatedData,
                     hour: formattedHour,
                     status: doc.data().isActiveByAdmin === true ? "true" : "false" || "",
                     statusDelete: doc.data().isActiveByAdmin === true ? "true" : "false" || "",
                     edit: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
                     editDelete: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
-                    userType: doc.data().gif ? doc.data().gif === true ? "Obsequio" : "Comprador" : "Comprador",
+                    userType: doc.data(),
+                    //userType: doc.data().gif ? doc.data().gif === true ? "Obsequio" : "Comprador" : "Comprador",
                     optionEdit: doc.data()
                 };
-            }).filter((user) => !user.is_admin);
+            })
+                .filter((user) => !user.is_admin)
+            /* .sort((a, b) => b.date.getTime() - a.date.getTime()); */
+
             setQuery(usersData);
             setFilteredQuery(usersData);
         };
@@ -273,17 +303,6 @@ const UserTableLogic = () => {
         getquery();
     }, [flag]);
 
-    /*  useEffect(() => {
-         const filteredData = query.filter((user: any) => {
-             return (
-                 user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                 user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                 user.userType.toLowerCase().includes(searchTerm.toLowerCase())
-             );
-         });
-         setFilteredQuery(filteredData);
-     }, [searchTerm, query]);
-  */
     return {
         query: filteredQuery,
         flag,
@@ -321,12 +340,13 @@ const UserTableLogic = () => {
         setEndDate,
         searchTerm,
         setSearchTerm,
-        handleSearchChange,
         handleDeleteFilter,
         phoneCode,
         setPhoneCode,
         phone,
-        setPhone
+        setPhone,
+        exportToExcel,
+        apiRef
     };
 };
 

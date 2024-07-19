@@ -181,3 +181,23 @@ export const updateInactiveUser = async (
     return false;
   }
 };
+
+export const checkIfUserExists = async (dni: string, email: string, phone: string) => {
+  const usersRef = collection(dataBase, 'users');
+
+  const dniQuery = query(usersRef, where('dni', '==', dni));
+  const emailQuery = query(usersRef, where('email', '==', email));
+  const phoneQuery = query(usersRef, where('phone', '==', phone));
+
+  const [dniSnapshot, emailSnapshot, phoneSnapshot] = await Promise.all([
+    getDocs(dniQuery),
+    getDocs(emailQuery),
+    getDocs(phoneQuery)
+  ]);
+
+  if (!dniSnapshot.empty) return { exists: true, field: 'dni' };
+  if (!emailSnapshot.empty) return { exists: true, field: 'email' };
+  if (!phoneSnapshot.empty) return { exists: true, field: 'phone' };
+
+  return { exists: false, field: null };
+};

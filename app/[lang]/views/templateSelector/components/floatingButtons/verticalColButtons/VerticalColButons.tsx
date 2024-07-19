@@ -16,10 +16,10 @@ const VerticalColButtons = ({
     <Container className='tw-h-[100%] tw-w-[90%] tw-overflow-y-scroll no-scrollbar'>
       {reversedArray.map((val, key) => {
         return (
-          <div style={{ display: 'flex', width: '100%' }} key={key}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '5px', marginLeft: -15 }} key={key}>
             {val.map((value, i) => {
               return (
-                <Box sx={{ width: '50%', height: 70, paddingBottom: 2, paddingX: i % 2 === 0 ? 2 : 4, marginLeft: -3,/*  backgroundColor: i % 2 === 0 ? 'black' : 'brown' */ }} key={i}>
+                <Box sx={{ width: '100%', height: 74, paddingBottom: 2 }} key={i}>
                   <CustomButton name={value.icon} link={value.url} nameLabel={value.name} key={key} styles={`tw-flex tw-flex-col`} />
                 </Box>
               );

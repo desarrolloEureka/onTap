@@ -31,7 +31,7 @@ const HeroProfessional = ({
             </div>
           </div>
           <div style={{ display: 'flex', height: '100%', width: '50%', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ height: '73%', width: '100%' }}>
+            <div style={{ display: 'flex', height: '75%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
               <VerticalColButtons socialNetworks={socialNetworks} />
             </div>
           </div>

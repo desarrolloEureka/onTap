@@ -3,6 +3,7 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import { ProfessionalDataForm } from '@/types/profile';
 import vCard from 'vcards-js';
 import { SocialUrls, VCard } from '@/types/vCard';
+import { countries } from '@/globals/constants';
 
 const SaveContactButton = ({
   circular,
@@ -12,6 +13,11 @@ const SaveContactButton = ({
   profile: ProfessionalDataForm;
 }) => {
   const generatorVCard = vCard() as VCard;
+
+  const getCountryName = (item: any) => {
+    const country = countries.find(country => country.id === item);
+    return country ? country.code : '';
+  };
 
   const downloadTxtFile = (vcfText: string) => {
     const element = document.createElement('a');
@@ -52,30 +58,45 @@ const SaveContactButton = ({
       //   var imageData = reader.result.split(',')[1]; // Obtener solo los datos base64
       // };
 
-      var vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${
-        profile.name?.text ?? ''
-      } ${profile.last_name?.text ?? ''}\nN:${profile.last_name?.text ?? ''};${
-        profile.name?.text ?? ''
-      };;;\n`;
+      var vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${profile.name?.checked && profile.name?.text ? profile.name?.text : ''} ${profile.last_name?.checked && profile.last_name?.text ? profile.last_name?.text : ''}
+      \nN:${profile.last_name?.checked && profile.last_name?.text ? profile.last_name?.text : ''};${profile.name?.checked && profile.name?.text ? profile.name?.text : ''};;;\n`;
+
       // Agregar cada dirección de correo electrónico
       profile.emails?.forEach((email) => {
-        vCardData += `EMAIL;TYPE=INTERNET:${email.text}\n`;
+        if (email.checked) {
+          vCardData += `EMAIL;TYPE=INTERNET:${email.text}\n`;
+        }
       });
 
       // Agregar cada número de teléfono
       profile.phones?.forEach((phone) => {
-        vCardData += `TEL;TYPE=CELL:${phone.text}\n`;
+        if (phone.checked) {
+          vCardData += `TEL;TYPE=CELL:${phone.indicative ? getCountryName(phone.indicative) : ''}${phone.text}\n`;
+        }
       });
 
-      vCardData += `TITLE:${profile.profession?.text ?? ''}\n`;
-      vCardData += `ORG:${profile.company?.text ?? ''}\n`;
-      vCardData += `ROLE:${profile.position?.text ?? ''}\n`;
-      vCardData += `NOTE:${profile.professional_profile?.text ?? ''}\n`;
+      if (profile.profession?.checked) {
+        vCardData += `TITLE:${profile.profession?.text ?? ''}\n`;
+      }
+
+      if (profile.company?.checked) {
+        vCardData += `ORG:${profile.company?.text ?? ''}\n`;
+      }
+
+      if (profile.position?.checked) {
+        vCardData += `ROLE:${profile.position?.text ?? ''}\n`;
+      }
+
+      if (profile.professional_profile?.checked) {
+        vCardData += `NOTE:${profile.professional_profile?.text ?? ''}\n`;
+      }
 
       // Agregar cada URL social si están disponibles
       profile.urls?.forEach((url, index) => {
-        vCardData += `item${index}.URL:${url.url}\n`;
-        vCardData += `item${index}.X-ABLabel:${url.name}\n`;
+        if (url.checked) {
+          vCardData += `item${index}.URL:${url.url}\n`;
+          vCardData += `item${index}.X-ABLabel:${url.name}\n`;
+        }
       });
 
       // Agregar la imagen en formato base64
@@ -118,19 +139,18 @@ const SaveContactButton = ({
         <Button
           onClick={saveVCard}
           sx={{ textTransform: 'none' }}
-          className='tw-drop-shadow-xl tw-rounded-2xl tw-bg-white'
+          className='tw-drop-shadow-xl tw-rounded-2xl tw-bg-white tw-h-[39px]'
           variant='contained'
           startIcon={
             <SaveOutlinedIcon
               style={{
                 color: '#02AF9B',
-                fontSize: '1.5rem',
-                marginLeft: '0rem',
+                fontSize: '1.7rem',
               }}
             />
           }
         >
-          <Typography className='tw-capitalize' color={'#679a88'}>
+          <Typography className='tw-capitalize' color={'#679a88'} style={{ fontWeight: 500, fontSize: 17.5 }}>
             guardar Contacto
           </Typography>
         </Button>

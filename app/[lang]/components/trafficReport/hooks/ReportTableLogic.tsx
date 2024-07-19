@@ -1,5 +1,6 @@
 import { getAllUsers } from '@/firebase/user';
 import { useEffect, useState } from 'react';
+import * as XLSX from 'xlsx';
 
 const ReportTableLogic = () => {
     type UserDataDetail = {
@@ -44,7 +45,36 @@ const ReportTableLogic = () => {
         setDataDetailUserTool(dataDetail);
         const dataMetrics = dataDetail?.DataMetrics ?? [];
         setDataDetailUser(dataMetrics);
-        setFilteredDetail(dataMetrics);
+
+        // Formatear viewsDate en cada elemento de dataMetrics
+        const formattedDataMetrics = dataMetrics.map((metric: any) => {
+            const [day, month, year] = metric.viewsDate.split('/');
+
+            let hours, minutes, seconds;
+            const timeParts = metric.viewsTime.split(' ');
+
+            // Extraer hora, minutos y segundos
+            if (timeParts.length === 2) { // "hh:mm:ss a.m." o "hh:mm:ss p.m."
+                const [hms, period] = timeParts;
+                [hours, minutes, seconds] = hms.split(':');
+                if (period.toLowerCase() === 'p.m.' && hours !== '12') {
+                    hours = String(Number(hours) + 12);
+                } else if (period.toLowerCase() === 'a.m.' && hours === '12') {
+                    hours = '0'; // 12 a.m. es medianoche
+                }
+            } else { // Formato "hh:mm:ss"
+                [hours, minutes, seconds] = metric.viewsTime.split(':');
+            }
+
+            const formattedDate = new Date(year, month - 1, day, hours, minutes, seconds);
+
+            return {
+                ...metric,
+                viewsDate: formattedDate // Reemplazamos el string por un objeto Date con hora
+            };
+        });
+
+        setFilteredDetail(formattedDataMetrics);
     };
 
     const handleDateChange = () => {
@@ -146,22 +176,35 @@ const ReportTableLogic = () => {
         setEndDateDetail('');
     };
 
+    const exportToExcel = (filteredQuery: any, type: boolean) => {
+        // Crear una copia de los datos excluyendo las columnas no deseadas
+        const filteredData = filteredQuery.map((user: any) => {
+            const { edit, editDelete, optionEdit, lastName, optionDetail, ...filteredUser } = user;
+            return filteredUser;
+        });
+
+        const worksheet = XLSX.utils.json_to_sheet(filteredData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Usuarios");
+
+        // Crear un archivo Blob y descargarlo
+        const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+        const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(data);
+        downloadLink.download = type ? 'Usuarios_Metricas.xlsx' : 'Metricas.xlsx';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    };
+
     useEffect(() => {
         const getquery = async () => {
             const usersDataSanpShot = await getAllUsers();
             const usersData = usersDataSanpShot.docs.map((doc) => {
                 const timestamp = doc.data().created;
                 const date = new Date(timestamp);
-                /* const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
-                    .toString()
-                    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date.getHours()
-                        .toString()
-                        .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds()
-                            .toString()
-                            .padStart(2, "0")}`; */
-                const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1)
-                    .toString()
-                    .padStart(2, "0")}/${date.getFullYear()}`;
 
                 const formattedHour = `${date.getHours()
                     .toString()
@@ -175,7 +218,7 @@ const ReportTableLogic = () => {
                     name: doc.data().name,
                     email: doc.data().email || "",
                     lastName: doc.data().profile?.last_name?.text || "",
-                    date: formattedDate,
+                    date: date,
                     hour: formattedHour,
                     optionDetail: doc.data()
                 };
@@ -214,7 +257,8 @@ const ReportTableLogic = () => {
         setFilteredDetail,
         handleBack,
         handleDeleteFilter,
-        handleDeleteFilterDetail
+        handleDeleteFilterDetail,
+        exportToExcel
     };
 };
 

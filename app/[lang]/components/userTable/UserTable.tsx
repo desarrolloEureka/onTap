@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Typography, Button, TextField, InputAdornment, Select, MenuItem, InputLabel } from "@mui/material";
+import { Typography, Button, TextField, InputAdornment, Select, MenuItem } from "@mui/material";
 import { Modal, Box, IconButton } from '@mui/material';
-import { DataGrid, GridColDef, GridToolbarContainer } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, gridFilteredSortedRowIdsSelector, GridToolbarContainer, gridVisibleColumnFieldsSelector, useGridApiContext, useGridApiRef } from '@mui/x-data-grid';
 import { GridToolbarQuickFilter } from '@mui/x-data-grid/components';
 import UserTableLogic from "./hooks/UserTable";
 import SwitchEdit from "./SwitchEdit";
@@ -16,7 +16,7 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import SearchIcon from '@mui/icons-material/Search';
+import GetAppIcon from '@mui/icons-material/GetApp';
 //QR
 import { QRCodeSVG } from 'qrcode.react';
 import ReactCountryFlag from 'react-country-flag';
@@ -63,11 +63,12 @@ const UserTable = () => {
         phoneCode,
         setPhoneCode,
         phone,
-        setPhone
+        setPhone,
+        exportToExcel,
     } = UserTableLogic();
-
     const dictionary = useDictionary({ lang: 'es' });
     const dateToday = new Date().toISOString().split('T')[0];
+    const apiRef = useGridApiRef();
 
     const getCountryFlag = (item: any) => {
         const country = countries.find(country => country.id === item);
@@ -79,8 +80,27 @@ const UserTable = () => {
         return country ? country.code : '';
     };
 
+    const getFormattedDate = (date: any) => {
+        const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`;
+        return formattedDate ? formattedDate : '';
+    };
+
+    const getUrlFormatted = (url: any) => {
+        const urlFormatted = url && url.replace(/localhost:3000|on-tap-tawny.vercel.app/g, 'backoffice.onetap.com.co');
+        return urlFormatted ? urlFormatted : '';
+    };
+
     const columns: GridColDef[] = [
-        { field: 'date', headerName: 'Fecha Registro', width: 130, headerAlign: 'center', align: 'center' },
+        {
+            field: 'date', headerName: 'Fecha Registro', width: 130, headerAlign: 'center', align: 'center',
+            renderCell: (params) => (
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    <div>
+                        {getFormattedDate(params.value)}
+                    </div>
+                </div>
+            )
+        },
         { field: 'hour', headerName: 'Hora Registro', width: 130, headerAlign: 'center', align: 'center' },
         { field: 'id', headerName: 'No. Identificación', width: 160, headerAlign: 'center', align: 'center' },
         { field: 'name', headerName: 'Nombres y Apellidos', width: 230 },
@@ -99,17 +119,44 @@ const UserTable = () => {
         },
         { field: 'phone', headerName: 'Teléfono ', width: 180, headerAlign: 'center', align: 'center' },
         { field: 'email', headerName: 'Correo', width: 250 },
-        { field: 'plan', headerName: 'Plan', width: 110, headerAlign: 'center', align: 'center' },
-        { field: 'userType', headerName: 'Tipo Usuario', width: 130, headerAlign: 'center', align: 'center' }, //Es para que se pueda identifica si es un usuario comprador o solo le reglaran la tarjeta
+        {
+            field: 'plan', headerName: 'Plan', width: 110, headerAlign: 'center', align: 'center',
+            renderCell: (params) => (
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    {params.value && (
+                        <div>
+                            {params.value.plan}
+                        </div>
+                    )}
+                </div>
+            )
+        },
+        {
+            field: 'userType', headerName: 'Tipo Usuario', width: 130, headerAlign: 'center', align: 'center',
+            renderCell: (params) => (
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    {params.value && (
+                        <div>
+                            {params.value.gif == true ? "Obsequio" : "Comprador"}
+                        </div>
+                    )}
+                </div>
+            )
+        },
         {
             field: 'url', headerName: 'URL', width: 100, headerAlign: 'center', align: 'center',
             renderCell: (params) => (
                 //mostrar los iconos de link y copy al lado del url
                 <div className='tw-flex tw-justify-center tw-items-center'>
-                    <Link className="tw-mr-5" href={`${params.value}`}><LinkIcon /> </Link>
-                    <div onClick={() => { navigator.clipboard.writeText(`${params.value}`) }}>
-                        <ContentCopyIcon />
-                    </div>
+                    {params.value && (
+                        <>
+                            <Link className="tw-mr-5" href={getUrlFormatted(params.value.preview)}><LinkIcon /> </Link>
+                            <div onClick={() => { navigator.clipboard.writeText(getUrlFormatted(params.value.preview)) }}>
+                                <ContentCopyIcon />
+                            </div>
+                        </>
+                    )}
+
                 </div>
             )
         },
@@ -118,16 +165,14 @@ const UserTable = () => {
             headerAlign: 'center',
             align: 'center',
             renderCell: (params) => (
-                <Button style={{ color: 'black' }} onClick={() => handleSeeQR(params.value)}>
-                    <VisibilityIcon />
-                </Button>
-            )
-        },
-        {
-            field: 'status', headerName: 'Estado del Cliente', width: 130, headerAlign: 'center', align: 'center',
-            renderCell: (params) => (
-                <div>
-                    {params.value}
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    {params.value && (
+                        <>
+                            <Button style={{ color: 'black' }} onClick={() => handleSeeQR(getUrlFormatted(params.value.preview))}>
+                                <VisibilityIcon />
+                            </Button>
+                        </>
+                    )}
                 </div>
             )
         },
@@ -161,83 +206,120 @@ const UserTable = () => {
         setFlag(!flag);
     };
 
+    function getExcelData(apiRef: any) {
+        // Select rows and columns
+        const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
+        const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
+
+        // Format the data. Here we only keep the value
+        const data = filteredSortedRowIds.map((id) => {
+            const row: { [key: string]: any } = {};
+            visibleColumnsField.forEach((field) => {
+                row[field] = apiRef.current.getCellParams(id, field).value;
+            });
+            return row;
+        });
+
+        return data;
+    }
+
+    const handleExport = () => {
+        const data = getExcelData(apiRef);
+        exportToExcel(data);
+    };
+
     function CustomToolbar() {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
-                <Box sx={{ width: '35%', paddingBottom: 3, paddingTop: 1, paddingLeft: 2 }}>
-                    <Typography variant="inherit" style={{ paddingBottom: 9, fontSize: 14.4, color: "rgba(0, 0, 0, 0.6)" }}>
-                        Consulta General
-                    </Typography>
-                    <GridToolbarQuickFilter
-                        sx={{
-                            width: '100%',
-                            height: '40px',
-                            backgroundColor: '#f4f4f4',
-                            borderRadius: '8px',
-                            textDecoration: 'none',
-                            '& .MuiInputBase-root': {
+                <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', paddingLeft: 2, paddingRight: 5, marginBottom: -2, marginTop: 1 }}>
+                    <Button
+                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
+                        type='submit'
+                        style={{ textTransform: 'none' }}
+                        onClick={() => handleExport()}
+                    >
+                        <GetAppIcon />
+                        Exportar
+                    </Button>
+                </Box>
+
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Box sx={{ width: '35%', paddingBottom: 3, paddingTop: 0, paddingLeft: 2 }}>
+                        <Typography variant="inherit" style={{ paddingBottom: 8, fontSize: 14.4, color: "rgba(0, 0, 0, 0.6)" }}>
+                            Consulta General
+                        </Typography>
+                        <GridToolbarQuickFilter
+                            sx={{
+                                width: '100%',
                                 height: '40px',
                                 backgroundColor: '#f4f4f4',
                                 borderRadius: '8px',
                                 textDecoration: 'none',
-                                '&.MuiInput-underline:before': {
-                                    borderBottom: 'none',
+                                '& .MuiInputBase-root': {
+                                    height: '40px',
+                                    backgroundColor: '#f4f4f4',
+                                    borderRadius: '8px',
+                                    textDecoration: 'none',
+                                    '&.MuiInput-underline:before': {
+                                        borderBottom: 'none',
+                                    },
                                 },
-                            },
-                        }}
-                    />
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', paddingRight: 5 }}>
-                    <div style={{ height: '100%', width: '50%', paddingLeft: 5, paddingRight: 15 }}>
-                        <div style={{ height: '100%', width: '90%' }}>
-                            <TextField
-                                label="Fecha Inicio"
-                                type="date"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                inputProps={{
-                                    max: dateToday,
-                                }}
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
-                            />
+                            }}
+                        />
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', paddingRight: 5 }}>
+                        <div style={{ height: '100%', width: '50%', paddingLeft: 5, paddingRight: 15 }}>
+                            <div style={{ height: '100%', width: '90%' }}>
+                                <TextField
+                                    label="Fecha Inicio"
+                                    type="date"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    inputProps={{
+                                        max: dateToday,
+                                    }}
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div style={{ height: '100%', width: '50%' }}>
-                        <div style={{ height: '100%', width: '90%' }}>
-                            <TextField
-                                label="Fecha Fin"
-                                type="date"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                inputProps={{
-                                    max: dateToday,
-                                }}
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                            />
+                        <div style={{ height: '100%', width: '50%' }}>
+                            <div style={{ height: '100%', width: '90%' }}>
+                                <TextField
+                                    label="Fecha Fin"
+                                    type="date"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    inputProps={{
+                                        max: dateToday,
+                                    }}
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <Button
-                        className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B] tw-mx-4'
-                        type='submit'
-                        style={{ textTransform: 'none' }}
-                        onClick={handleDateChange}
-                    >
-                        Filtrar
-                    </Button>
+                        <Button
+                            className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B] tw-mx-4'
+                            type='submit'
+                            style={{ textTransform: 'none' }}
+                            onClick={handleDateChange}
+                        >
+                            Filtrar
+                        </Button>
 
-                    <Button
-                        className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
-                        type='submit'
-                        style={{ textTransform: 'none' }}
-                        onClick={handleDeleteFilter}
-                    >
-                        Borrar
-                    </Button>
+                        <Button
+                            className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
+                            type='submit'
+                            style={{ textTransform: 'none' }}
+                            onClick={handleDeleteFilter}
+                        >
+                            Borrar
+                        </Button>
+                    </Box>
+
                 </Box>
             </GridToolbarContainer>
         );
@@ -245,9 +327,9 @@ const UserTable = () => {
 
     return query && (
         <div className='tw-flex tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-            <div className='tw-bg-[#02AF9B] tw-mt-4 tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[800px] tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-center '>
+            <div className='tw-bg-[#02AF9B] tw-mt-3 tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[800px] tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-center '>
                 <Typography
-                    className='tw-text-white  tw-mt-1 tw-w-full'
+                    className='tw-text-white tw-w-full'
                     variant='h6'
                     color='textPrimary'
                     display={'flow'}
@@ -257,8 +339,9 @@ const UserTable = () => {
                     {dictionary.dictionary?.backOffice.UserTable}
                 </Typography>
 
-                <div style={{ height: 600, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-10'>
+                <div style={{ height: 650, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-m-6'>
                     <DataGrid
+                        apiRef={apiRef}
                         rows={query}
                         columns={columns}
                         slots={{ toolbar: CustomToolbar }}
@@ -271,6 +354,9 @@ const UserTable = () => {
                                     status: false,
                                     traderName: false,
                                 },
+                            },
+                            sorting: {
+                                sortModel: [{ field: 'date', sort: 'desc' }],
                             },
                         }}
                         pageSizeOptions={[15, 30]}

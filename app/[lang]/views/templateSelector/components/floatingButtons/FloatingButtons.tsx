@@ -1,9 +1,6 @@
 import React from 'react';
 import { Avatar, Box } from '@mui/material';
 import { UrlDataFormValues } from '@/types/profile';
-import LeftButtons from './leftButtons/LeftButtons';
-import RightButtons from './rightButtons/RightButtons';
-import CustomAvatar from '../avatar/CustomAvatar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const FloatingButtons = ({
@@ -16,7 +13,7 @@ const FloatingButtons = ({
   name: string;
 }) => {
 
-  const isSmallScreen = useMediaQuery('(max-height:668px)');
+  const isSmallScreen = useMediaQuery('(max-height:780px)');
 
   return (
     <Box
@@ -45,8 +42,8 @@ const FloatingButtons = ({
           variant={'rounded'}
           imgProps={{ loading: "lazy" }}
           sx={{
-            width: '135px',
-            height: '135px',
+            width: isSmallScreen ? '113px' : '135px',
+            height: isSmallScreen ? '113px' : '135px',
             borderRadius: '100%',
             border: '12px solid #679a88',
           }}

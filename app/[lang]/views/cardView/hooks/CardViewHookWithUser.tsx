@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { GetUserById, SendViewUser } from '@/reactQuery/users';
+import { GetUserByIdCard, SendViewUser } from '@/reactQuery/users';
 
 const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
-  const { data: userData } = GetUserById(userUid);
+  const { data: userData, refetch } = GetUserByIdCard(userUid);
   const [type, setType] = useState<string | undefined>();
   const [viewsIncremented, setViewsIncremented] = useState(false);
 
@@ -11,21 +11,24 @@ const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
       const newUserType = userData.switch_profile ? 'professional' : 'social';
       setType(newUserType);
 
-      if (!viewsIncremented && userData.switch_activateCard) {
+      if (!viewsIncremented && userData.switch_activateCard && userData.views != null && Number.isInteger(userData.views)) {
         const userId = userData.uid;
         const viewsNow = userData.views;
         const viewsNew = viewsNow + 1;
 
         SendViewUser(userId, viewsNew)
           .then(() => {
-            setViewsIncremented(true);
+            setViewsIncremented(true); // Marcar como incrementado
+            refetch(); // Forzar la reconsulta para obtener los datos actualizados
+            //localStorage.clear(); // Limpiar el almacenamiento local para evitar datos en caché
+            localStorage.removeItem('@user');
           })
           .catch((error) => {
             console.error('Error sending view:', error);
           });
       }
     }
-  }, [userData, viewsIncremented]);
+  }, [userData, viewsIncremented, refetch]);
 
   return { user: userData, type };
 };

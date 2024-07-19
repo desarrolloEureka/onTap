@@ -15,6 +15,7 @@ import {
   updateSwitchStateByAdmin,
   updateDataUser,
   updateDataMetrics,
+  checkIfUserExists
 } from '@/firebase/user';
 import {
   DataForm,
@@ -137,6 +138,12 @@ const UpdatePassword = async (password: string) => {
   return res;
 };
 
+const checkUserExists = async (dni: string, email: string, phone: string) => {
+  const res = await checkIfUserExists(dni, email, phone)
+  return res;
+};
+
+
 const SendBackgroundSelected = async (
   userId: string,
   backgroundSelect: string,
@@ -199,23 +206,46 @@ const SendViewUser = async (userId: string, numViewsNew: number) => {
   await updateViewsUser(userId, { views: numViewsNew });
 };
 
-const GetUserById = (userUid: string) => {
+const GetUserById = (userUid: string, refetch?: boolean) => {
   return useQuery({
-    queryKey: ['user'],
+    queryKey: ['user', userUid], // Clave de consulta única para cada usuario
     queryFn: async () => {
       const updatedUser = await getUserByIdFireStore(userUid);
+      console.log('userUid ', userUid);
       if (updatedUser.exists()) {
-        const userData = updatedUser.data() as UserData;
-        const getUser = reBuildUserData(userData);
-        localStorage.setItem('@user', JSON.stringify(getUser));
+        const userData = await updatedUser.data() as UserData;
+        const getUser = await reBuildUserData(userData);
+        await localStorage.setItem('@user', JSON.stringify(getUser));
+        console.log('getUser ', getUser)
         return getUser;
       } else {
         return null;
       }
     },
     enabled: !!userUid,
+    refetchOnWindowFocus: refetch ?? false,
   });
 };
+
+const GetUserByIdCard = (userUid: string, refetch?: boolean) => {
+  return useQuery({
+    queryKey: ['user', userUid], // Clave de consulta única para cada usuario
+    queryFn: async () => {
+      const updatedUser = await getUserByIdFireStore(userUid);
+      if (updatedUser.exists()) {
+        const userData = await updatedUser.data() as UserData;
+        const getUser = await reBuildUserData(userData);
+        //console.log('getUser ', getUser)
+        return getUser;
+      } else {
+        return null;
+      }
+    },
+    enabled: !!userUid,
+    refetchOnWindowFocus: refetch ?? false,
+  });
+};
+
 
 const SendInactiveUser = async (userId: string) => {
   const res = await updateInactiveUser(userId, { isActive: false });
@@ -273,5 +303,7 @@ export {
   SendPreView,
   SendSwitchEditAdmin,
   SendEditData,
-  SendDataMetrics
+  SendDataMetrics,
+  GetUserByIdCard,
+  checkUserExists
 };

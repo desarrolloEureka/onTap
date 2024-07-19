@@ -1,4 +1,5 @@
 
+import { checkUserExists } from '@/reactQuery/users';
 import { registerUserAuth, registerUserFb } from 'app/functions/register';
 import { useState } from 'react';
 
@@ -29,6 +30,11 @@ const UserRegisterForm = () => {
   const dataRegisterHandle = async () => {
     setErrorMailForm(false);
     setErrorDataForm(false);
+
+    const trimmedDni = dni.trim();
+    const trimmedEmail = email.trim();
+    const trimmedPhone = phone.trim();
+
     if (!dni || !email || !name || !lastName || !plan || !phone || !phoneCode) {
       setErrorDataForm(true);
       return;
@@ -57,17 +63,32 @@ const UserRegisterForm = () => {
     const dateCreated = new Date();
     const dateCreatedBd = dateCreated.getTime();
 
+    const { exists, field } = await checkUserExists(trimmedDni, trimmedEmail, phone);
+    if (exists) {
+      if (field === 'dni') {
+        setStatus('El No. Identificación ya se encuentra registrado.');
+      } else if (field === 'email') {
+        setStatus('El correo ya se encuentra registrado.');
+      } else if (field === 'phone') {
+        setStatus('El teléfono  ya se encuentra registrado.');
+      } else {
+        setStatus('El usuario ya se encuentra registrado.');
+      }
+      handleClickOpen();
+      return;
+    }
+
     try {
-      const result = await registerUserAuth({ user: email, password: dni });
+      const result = await registerUserAuth({ user: trimmedEmail, password: trimmedDni });
       result.name = `${name} ${lastName}`;
       result.plan = plan;
       //result.switch_profile = plan === 'standard' ? false : true;
       result.switch_profile = false;// switch Modo
       result.gif = true;
-      result.email = email;
-      result.phone = phone;
+      result.email = trimmedEmail;
+      result.phone = trimmedPhone;
       result.indicative = phoneCode;
-      result.dni = dni;
+      result.dni = trimmedDni;
       result.isActiveByAdmin = true;
       result.created = dateCreatedBd;
       result.templateData = plan === 'standard' ? [{
