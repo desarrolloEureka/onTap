@@ -12,8 +12,6 @@ import Container from '@mui/material/Container';
 import SaveContactButton from '../saveContactButton/SaveContactButton';
 import ItemSlideProfessional from '../itemSlideProfessional/ItemSlideProfessional';
 import ItemProfessionalCards from '../itemProfessionalCards/ItemProfessionalCards';
-import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

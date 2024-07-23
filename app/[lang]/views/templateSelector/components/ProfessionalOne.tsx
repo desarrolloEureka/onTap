@@ -4,7 +4,6 @@ import { Locale } from 'i18n-config';
 import BgImage from './bgImage/BgImage';
 import TemplateContainerProfessionalOne from './container/ContainerProfessionalOne';
 import HeroProfessional from './hero/HeroProfessional';
-import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import { useEffect, useState } from 'react';
 import useDictionary from '@/hooks/dictionary/useDictionary';
@@ -82,7 +81,7 @@ const ProfessionalOne = ({
           }
         />
         <TemplateContainerProfessionalOne profile={data.profile} />
-        <OneTapLogoLink />
+        <OneTapLogoLink color={'#FFFFFF'}/>
       </div>
 
       <ModalCookies

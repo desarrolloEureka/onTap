@@ -48,10 +48,10 @@ export const getPrincipalProfileOrderedByObject = (
           val[1].find((val: any) => val.order != 13)
           ? val
           : val[1][index] &&
-              val[1].order != 1 &&
-              val[1].order != 2 &&
-              val[1].order != 3 &&
-              val;
+          val[1].order != 1 &&
+          val[1].order != 2 &&
+          val[1].order != 3 &&
+          val;
       } else {
         const result =
           val[1].length > 0 &&
@@ -108,8 +108,8 @@ export const getPrincipalProfileOrderedByObject = (
       ? index == 'social'
         ? sortedArrayObject(objectArray, index)
         : objectArray[0].length > 0
-        ? sortedArrayObject(objectArray, index)
-        : { arraySorted: [] }
+          ? sortedArrayObject(objectArray, index)
+          : { arraySorted: [] }
       : { arraySorted: [] };
 
   // console.log('profileFilter', profileFilter);
@@ -144,6 +144,114 @@ export const getPrincipalProfileOrderedByObject = (
 
   return { finalArray };
 };
+
+
+export const getPrincipalProfileOrderedSocialTwo = (
+  profile: SocialDataForm,
+  index: any
+) => {
+  const finalArray: DataFormValues[][] = [];
+  const objectArray: any[] = [];
+  let data: any = [];
+
+  const profileFilter = Object.entries(profile as DataFormSorted).filter(
+    (val) => {
+      if (index == 'social') {
+        return val[1].length > 0 &&
+          val[1][0][index] &&
+          val[1].find((val: any) => val.order != 13)
+          ? val
+          : val[1][index] &&
+              val[1].order != 1 &&
+              val[1].order != 2 &&
+              val[1].order != 3 &&
+              val;
+      } else {
+        const result =
+          val[1].length > 0 &&
+          val[1].find(
+            (val: any) => val.order != 9 && val.order != 10 && val.order != 13
+          ) &&
+          val[1][0][index] &&
+          val;
+        return result;
+      }
+    }
+  );
+
+  const profileProfessionalFilter = Object.entries(
+    profile as DataFormSorted
+  ).filter((val) => {
+    return (
+      val[1][index] &&
+      val[1].checked &&
+      val[1].order != 1 &&
+      val[1].order != 2 &&
+      val[1].order != 3 &&
+      val[1].order != 4 &&
+      val[1].order != 5 &&
+      val
+    );
+  });
+
+  profileFilter.forEach((val) => {
+    const destructuringArray = (data: any) => {
+      data.forEach((val: any) => {
+        val.checked && objectArray.push(val);
+      });
+    };
+
+    const social =
+      val[1].length > 0 ? destructuringArray(val[1]) : val[1].checked && val[1];
+
+    const profArray: any[] = [];
+    val[1].length > 0 &&
+      val[1].forEach((value: any, key: number) => {
+        value.checked && value.professional && profArray.push(value);
+      });
+
+    index == 'social'
+      ? social && objectArray.push(social)
+      : objectArray.push(profArray);
+  });
+
+  const { arraySorted } =
+    objectArray.length > 0
+      ? index == 'social'
+        ? sortedArrayObject(objectArray, index)
+        : objectArray[0].length > 0
+        ? sortedArrayObject(objectArray, index)
+        : { arraySorted: [] }
+      : { arraySorted: [] };
+
+  let count = 2;
+  let countN = 1;
+  if (index == 'social' && arraySorted.length > count) {
+    arraySorted.forEach((val, key) => {
+      data.push(val);
+      if (count == key) {
+        finalArray.push(data);
+        data = [];
+        count = count + 3;
+      } else {
+        if (countN == arraySorted.length) {
+          finalArray.push(data);
+        }
+      }
+      countN++;
+    });
+  } else if (index == 'social' && arraySorted.length <= count) {
+    finalArray.push(arraySorted);
+  } else {
+    profileProfessionalFilter.map((val, key) => {
+      finalArray.push([val[1]]);
+    });
+    finalArray.push(...arraySorted);
+  }
+
+  return { finalArray };
+};
+
 
 export const arrayOfThreeItemsForEachElement = (data: any[]) => {
   let tempArray: any[] = [];

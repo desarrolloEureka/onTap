@@ -10,8 +10,10 @@ const SaveContactButtonColor = ({
   circular,
   colorButton,
   profile,
+  second
 }: {
   circular?: boolean;
+  second?: boolean;
   colorButton?: string;
   profile: SocialDataForm | ProfessionalDataForm;
 }) => {
@@ -86,11 +88,10 @@ const SaveContactButtonColor = ({
       downloadTxtFile(vCardData);
     }
   };
-
   return (
     <Box
       sx={{ position: 'relative' }}
-      className={`tw-flex tw-rounded-3xl tw-h-[15%] tw-w-[100%] tw-content-center tw-items-end tw-justify-center ${isSmallScreen ? 'tw-pt-0' : 'tw-pt-0'}`}
+      className={`tw-flex tw-rounded-3xl ${second ? 'tw-h-[100%]' : 'tw-h-[15%]'} tw-w-[100%] tw-content-center ${second ? 'tw-items-center' : 'tw-items-end'}  tw-justify-center`}
     >
       {circular ? (
         <Box

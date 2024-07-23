@@ -20,6 +20,7 @@ const ItemProfessionalCards = ({
   return item[0].order == 11 || item[0].order == 12 ? (
     <Carousel height={80} autoPlay={false} navButtonsAlwaysInvisible>
       {item.map((value, key) => {
+        console.log('value.label ', value.label);
         const valEducation = (value.order == 11 &&
           value) as EducationDataFormValues;
         const valProfession = (value.order == 12 &&
@@ -40,7 +41,7 @@ const ItemProfessionalCards = ({
                 color={'white'}
                 textAlign={'left'}
               >
-                {value.label}
+                {value.label === 'education' ? 'Educación' : value.label === 'professional_career' ? 'Carrera Profesional' : value.label}
               </Typography>
             </Box>
             {value.order == 11 && (

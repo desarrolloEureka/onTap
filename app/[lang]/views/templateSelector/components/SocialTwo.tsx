@@ -1,139 +1,155 @@
-import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
-import useDictionary from '@/hooks/dictionary/useDictionary';
-import { BackgroundImages, Templates } from '@/types/home';
-import { UserData } from '@/types/user';
+import React, { useEffect, useState } from 'react';
 import { Locale } from 'i18n-config';
-import React, { useState, useLayoutEffect, useEffect } from 'react';
-import BgImage from './bgImage/BgImage';
-import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
-import HeroSocial from './hero/HeroSocial';
-import Footer from './footer/Footer';
-import CustomAvatar from './avatar/CustomAvatar';
-import zIndex from '@mui/material/styles/zIndex';
-import RectangularCustomAvatar from './avatar/RectangularCustomAvatar';
-import { Box } from '@mui/system';
-import SaveContactButtonColor from './saveContactButton/SaveContactButtonColor';
-import TemplateContainerColor from './container/ContainerColor';
+import useDictionary from '@/hooks/dictionary/useDictionary';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import ModalCookies from '@/components/customModalAlert/ModalCookies';
+import { BackgroundImages } from '@/types/home';
+import { UserData } from '@/types/user';
+import Container from '@mui/material/Container';
+import { Avatar, Typography } from '@mui/material';
+import OneTapLogoLink from '@/components/oneTapLogo/OneTapLogoLink';
+import BgImage from './bgImage/BgImage';
+import ContainerSocialTwo from './container/ContainerSocialTwo';
+import InfinityHorizontalScrollingTwo from './InfinityHorizontalScrolling/InfinityHorizontalScrollingTwo';
+import SaveContactButtonColor from './saveContactButton/SaveContactButtonColor';
 
 const SocialTwo = ({
-  params: { lang, background, data },
+    params: { lang, background, data },
 }: {
-  params: {
-    lang: Locale;
-    background: BackgroundImages;
-    data: UserData;
-  };
+    params: {
+        lang: Locale;
+        background: BackgroundImages;
+        data: UserData;
+    };
 }) => {
-  const { dictionary } = useDictionary({ lang });
-  const [isDataError, setIsDataError] = useState(true);
-  const [isCookies, setIsCookies] = useState(false);
-  const [isAcceptCookies, setIsAcceptCookies] = useState(false);
-
-  useLayoutEffect(() => {
-    data.profile && setIsDataError(false);
-  }, [data.profile]);
-
-  const isSmallScreen = useMediaQuery('(max-height:935px)');
-  const isSmallScreenTwo = useMediaQuery('(max-height:700px)');
-  const isSmallScreenThree = useMediaQuery('(max-height:781px)');
-  const isSmallScreenWidth = useMediaQuery('(max-width:440px)');
-
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  const handleAceptCookies = async () => {
-    await localStorage.setItem('@cookies', JSON.stringify(true));
-    setIsCookies(false);
-    setIsAcceptCookies(true);
-  };
-
-  useEffect(() => {
-    const cookies = localStorage.getItem('@cookies');
-    if (cookies) {
-      setIsCookies(false);
-      setIsAcceptCookies(true);
-    } else {
-      setIsCookies(true);
-    }
-
-    const handleResize = () => {
-      setWindowSize({
+    const { dictionary } = useDictionary({ lang });
+    const [isDataError, setIsDataError] = useState(true);
+    const [isCookies, setIsCookies] = useState(false);
+    const isSmallScreen = useMediaQuery('(max-height:935px)');
+    const isSmallScreenWidth = useMediaQuery('(max-width:440px)');
+    const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
         height: window.innerHeight,
-      });
+    });
+
+    const handleResize = () => {
+        setWindowSize({
+            width: window.innerWidth,
+            height: window.innerHeight,
+        });
     };
 
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
+    const handleAceptCookies = async () => {
+        await localStorage.setItem('@cookies', JSON.stringify(true));
+        setIsCookies(false);
     };
-  }, []);
 
-  return (
-    isCookies && isAcceptCookies === false ? (
-      <ModalCookies
-        isModalAlert={isCookies}
-        handleModalAlert={() => setIsCookies(false)}
-        handleAceptCookies={handleAceptCookies}
-      />
-    ) : data.profile && isAcceptCookies === true ? (
-      <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
-        <div className={`tw-justify-center tw-items-center tw-shadow-2xl tw-rounded-2xl tw-bg-slate-500`} style={{ height: isSmallScreen ? windowSize.height : '670px', width: isSmallScreenWidth ? windowSize.width : '380px', overflow: 'hidden' }}>
+    useEffect(() => {
+        const cookies = localStorage.getItem('@cookies');
+        setIsCookies(!cookies);
 
-          <BgImage background={background} />
-          <Box className='tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center '>
-            <RectangularCustomAvatar
-              image={data.image}
-              //name={data.profile.social?.name?.text + " " + data.profile.social?.last_name?.text || ''}
-              name={`${data.profile.social?.name?.checked
-                ? data.profile.social?.name?.text
-                : ''
-                }  ${data.profile.social?.last_name?.checked
-                  ? data.profile.social?.last_name?.text
-                  : ''
-                }`}
-              ml={0}
-              size={isSmallScreenTwo ? 100 : 140}
-              //size={140}
-              square={true}
-              profession={data.profile.social?.profession?.text}
-            />
-          </Box>
-          <div className={`tw-flex tw-flex-col tw-h-[510px] tw-rounded-3xl tw-items-center ${isSmallScreenTwo ? 'tw-mt-2' : 'tw-mt-3'}  tw-bg-white tw-bg-opacity-[50%] tw-relative tw-z-20`} style={{ width: isSmallScreenWidth ? windowSize.width : '380px' }}>
-            <div className={`tw-w-full tw-flex tw-flex-col tw-align-middle tw-items-center ${isSmallScreenThree ? 'tw-mt-5' : 'tw-mt-9'}`}>
-              <TemplateContainerColor profile={data.profile} color='#396593' />
-              <Footer socialNetworks={data.profile.social?.urls} fullSocialIcons />
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    const getFullName = () => {
+        if (data.profile) {
+            const firstName = data.profile.social?.name?.checked ? data.profile.social?.name?.text : '';
+            const lastName = data.profile.social?.last_name?.checked ? data.profile.social?.last_name?.text : '';
+            const fullName = `${firstName} ${lastName}`.trim();
+            const name = fullName.length > 22 ? fullName.substring(0, 22) + '...' : fullName
+            return name;
+        }
+        return '';
+    };
+
+    return data.profile ? (
+
+        <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
+            <div className={`tw-shadow-md tw-rounded-2xl tw-bg-slate-500`}
+                style={{
+                    height: isSmallScreen ? windowSize.height : '700px',
+                    width: isSmallScreenWidth ? windowSize.width : '380px',
+                    overflow: 'hidden',
+                }}
+            >
+                <BgImage background={background} />
+
+                <Container className={`tw-h-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center`}>
+                    <div style={{ height: '98%', width: '105%' }}>
+                        <div className={`tw-h-[25%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center `}>
+                            <div style={{ borderRadius: 12 }} className={`tw-h-[80%] tw-w-[98%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center tw-bg-[#525252] tw-drop-shadow-xl`}>
+                                <div className={`tw-h-[95%] tw-w-[90%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
+                                    <div className={`tw-h-[100%] tw-w-[37%] tw-flex tw-flex-col tw-content-center tw-items-start tw-justify-center `}>
+                                        <Avatar
+                                            alt={'name'}
+                                            src={data.image}
+                                            variant={'rounded'}
+                                            imgProps={{ loading: "lazy" }}
+                                            sx={{
+                                                width: '110px',
+                                                height: '110px',
+                                                borderRadius: '100%'
+                                            }}
+                                        />
+                                    </div>
+                                    <div className={`tw-h-[100%] tw-w-[63%] tw-flex tw-flex-col tw-content-center tw-items-end tw-justify-center`}>
+                                        <div className={`tw-h-[45%] tw-w-[100%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
+                                            <div style={{ borderRadius: 8 }} className={`tw-h-[45%] tw-w-[100%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center tw-bg-[#030124] tw-mt-4`}>
+                                                <Typography>{getFullName()}</Typography>
+                                                {/*  <Typography>{data.profile.social?.name?.checked ? data.profile.social?.name?.text : ''} {data.profile.social?.last_name?.checked ? data.profile.social?.last_name?.text : ''}</Typography> */}
+                                            </div>
+                                        </div>
+                                        <div style={{ borderTop: '1px solid white' }} className={`tw-h-[55%] tw-w-[100%] tw-flex tw-flex-row tw-items-start tw-justify-center`}>
+                                            <div className={`tw-h-[45%] tw-w-[99%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
+                                                <Typography>{data.profile.social?.profession?.checked ? data.profile.social?.profession?.text && data.profile.social?.profession?.text?.length > 22 ? data.profile.social?.profession?.text.substring(0, 22) + '...' : data.profile.social?.profession?.text : ''}</Typography>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={`tw-h-[30%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center`}>
+                            <div className={`tw-h-[98%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center`}>
+                                <ContainerSocialTwo profile={data.profile} color='#7cab9a' />
+                            </div>
+                        </div>
+
+                        <div className={`tw-h-[12%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center`}>
+                            <div style={{ borderTop: '2px solid #807f90' }} className={`tw-z-10 tw-h-[95%] tw-w-[90%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center`}>
+                                {data.profile.social && (
+                                    <SaveContactButtonColor colorButton={'#030124'} profile={data.profile.social} second={true} />
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="tw-h-[25%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center">
+                            <InfinityHorizontalScrollingTwo socialNetworks={data.profile.social?.urls} />
+                        </div>
+                        <OneTapLogoLink color={'#030124'} />
+                    </div>
+                </Container>
             </div>
-          </div>
-        </div>
-        <div className='tw-mt-4 tw-z-30 tw-relative'>
-          <OneTapLogo />
-        </div>
 
-        <ModalCookies
-          isModalAlert={isCookies}
-          handleModalAlert={() => setIsCookies(false)}
-          handleAceptCookies={handleAceptCookies}
-        />
-
-      </div>
-    ) : isAcceptCookies === false ? (
-      null
+            <ModalCookies
+                isModalAlert={isCookies}
+                handleModalAlert={() => setIsCookies(false)}
+                handleAceptCookies={handleAceptCookies}
+            />
+        </div>
     ) : (
-      <CustomModalAlert
-        isModalAlert={isDataError}
-        handleModalAlert={() => setIsDataError(false)}
-        title={dictionary?.generalTitle || ''}
-        description={dictionary?.cardView?.dataNotFound || ''}
-        isClosed={true}
-      />
-    )
-  );
+        <CustomModalAlert
+            isModalAlert={isDataError}
+            handleModalAlert={() => setIsDataError(false)}
+            title={dictionary?.generalTitle || ''}
+            description={dictionary?.cardView?.dataNotFound || ''}
+            isClosed={true}
+        />
+    );
 };
 
 export default SocialTwo;

@@ -1,6 +1,5 @@
 import { UserData } from '@/types/user';
 import SocialOne from './components/SocialOne';
-import SocialTwo from './components/SocialTwo';
 import TemplateSelectorHook from './hooks/TemplateSelectorHook';
 import ProfessionalOne from './components/ProfessionalOne';
 import CustomCircularProgress from '@/components/customCircularProgress/CustomCircularProgress';
@@ -8,6 +7,7 @@ import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import { useState } from 'react';
 import { Locale } from 'i18n-config';
+import SocialTwo from './components/SocialTwo';
 
 const TemplateSelector = ({
   user,
@@ -30,7 +30,7 @@ const TemplateSelector = ({
       switch (currentTemplate.name) {
         case 'SocialOne':
           return (
-            <SocialOne
+            <SocialTwo
               params={{
                 lang: 'es',
                 background: currentBackground,
