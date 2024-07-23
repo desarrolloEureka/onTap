@@ -30,7 +30,7 @@ const TemplateSelector = ({
       switch (currentTemplate.name) {
         case 'SocialOne':
           return (
-            <SocialTwo
+            <SocialOne
               params={{
                 lang: 'es',
                 background: currentBackground,
