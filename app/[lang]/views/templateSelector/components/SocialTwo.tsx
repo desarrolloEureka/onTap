@@ -79,7 +79,7 @@ const SocialTwo = ({
                 <BgImage background={background} />
 
                 <Container className={`tw-h-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center`}>
-                    <div style={{ height: '98%', width: '105%' }}>
+                    <div style={{ height: '98%', width: '100%' }}>
                         <div className={`tw-h-[25%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center `}>
                             <div style={{ borderRadius: 12 }} className={`tw-h-[80%] tw-w-[98%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center tw-bg-[#525252] tw-drop-shadow-xl`}>
                                 <div className={`tw-h-[95%] tw-w-[90%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
