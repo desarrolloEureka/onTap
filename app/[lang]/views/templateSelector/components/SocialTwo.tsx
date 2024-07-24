@@ -127,10 +127,10 @@ const SocialTwo = ({
                             </div>
                         </div>
 
-                        <div className="tw-h-[25%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center">
+                        <div className="tw-h-[28%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center">
                             <InfinityHorizontalScrollingTwo socialNetworks={data.profile.social?.urls} />
                         </div>
-                        <OneTapLogoLink color={'#030124'} />
+                        <OneTapLogoLink color={'#030124'} second={true} />
                     </div>
                 </Container>
             </div>
