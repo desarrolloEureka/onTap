@@ -15,7 +15,6 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import ReactCountryFlag from 'react-country-flag';
-import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import { countries } from '../../globals/constants'
 

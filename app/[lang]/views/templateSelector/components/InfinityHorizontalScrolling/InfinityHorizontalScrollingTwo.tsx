@@ -78,7 +78,7 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                                 style={{ textDecoration: 'none' }}
                                 target='_blank'
                             >
-                                <Image className="tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full" src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 45 : 54} height={isSmallScreenIcons ? 45 : 54} />
+                                <Image className="tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full" src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 47 : 58} height={isSmallScreenIcons ? 47 : 58} />
                                 <Typography style={{ textDecoration: 'none' }} className="tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1" color="white">
                                     {val.name ? (val.name.length > 9 ? `${val.name.substring(0, 6)}...` : val.name) : val.name}
                                 </Typography>
@@ -86,7 +86,7 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                         ) : null;
                     })}
                 </div>
-                <div className={`tw-flex tw-h-[50%] ${oddRowCenter ? 'tw-justify-center' : ''}`}>
+                <div className={`tw-flex tw-pt-2 tw-h-[50%] ${oddRowCenter ? 'tw-justify-center' : ''}`}>
                     {oddRowItems.map((val, i) => {
                         const imageSrc = getImageSrc(val.icon);
                         return imageSrc ? (
@@ -94,7 +94,7 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                                 key={i}
                                 className="tw-flex tw-h-[90%] tw-w-[80px] tw-px-0 tw-m-1 tw-flex-col tw-items-center tw-justify-center"
                             >
-                                <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 45 : 54} height={isSmallScreenIcons ? 45 : 54} />
+                                <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 47 : 58} height={isSmallScreenIcons ? 47 : 58} />
                                 <Typography style={{ width: '100%', textDecoration: 'none' }} className='tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1' color={'white'}>
                                     {val.name ? val.name.length > 9 ? val.name.substring(0, 6) + '...' : val.name : val.name}
                                 </Typography>

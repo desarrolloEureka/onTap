@@ -1,6 +1,4 @@
-import { QueryClient, useQuery } from '@tanstack/react-query';
-
-const queryClient = new QueryClient();
+import { useQuery } from '@tanstack/react-query';
 
 const SetLangQuery = (lang: string) => {
   const query = useQuery({

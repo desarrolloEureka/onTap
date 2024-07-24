@@ -1,9 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import UserRegister from '@/components/userRegisterForm/UserRegisterForm';
@@ -15,13 +13,9 @@ import FilterIcon from '@mui/icons-material/Filter';
 import LogoDevIcon from '@mui/icons-material/LogoDev';
 import GroupIcon from '@mui/icons-material/Group';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { QueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
-import OneTapLogo from '@/components/oneTapLogo/OneTapLogo';
 import LogOut from '@/hooks/logOut/LogOut';
 import LoadLogos from '@/components/loadLogos/LoadLogos';
 import TableRowsIcon from '@mui/icons-material/TableRows';
@@ -63,9 +57,6 @@ function a11yProps(index: number) {
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
   const [value, setValue] = React.useState(0);
-  const isSmallScreen = useMediaQuery('(max-width:600px)');
-  const queryClient = new QueryClient();
-  const router = useRouter();
   const { logOut } = LogOut();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

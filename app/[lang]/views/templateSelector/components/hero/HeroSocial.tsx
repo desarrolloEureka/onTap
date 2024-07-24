@@ -27,7 +27,7 @@ const HeroSocial = ({
           </Typography>
         </div>
         <FloatingButtons socialNetworks={socialNetworks} photo={photo} name={name} />
-        <div className={`tw-rounded-bl-2xl tw-rounded-tr-2xl tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-bg-[#679a88] tw-z-10 tw-mt-${isSmallScreen ? '1' : '3'} tw-px-3 tw-mb-1`}>
+        <div className={`tw-rounded-bl-2xl tw-rounded-tr-2xl tw-shadow-[0_0px_10px_10px_rgba(0,0,0,0.1)] tw-bg-[#679a88] tw-z-10 tw-mt-${isSmallScreen ? '1' : '3'} tw-px-3 tw-mb-0.5`}>
           <Typography className='tw-z-10 tw-text-xl' color={'white'}>
             {profession}
           </Typography>

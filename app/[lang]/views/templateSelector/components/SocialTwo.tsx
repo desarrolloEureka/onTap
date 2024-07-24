@@ -82,8 +82,8 @@ const SocialTwo = ({
                     <div style={{ height: '98%', width: '100%' }}>
                         <div className={`tw-h-[25%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center `}>
                             <div style={{ borderRadius: 12 }} className={`tw-h-[80%] tw-w-[98%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center tw-bg-[#525252] tw-drop-shadow-xl`}>
-                                <div className={`tw-h-[95%] tw-w-[90%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
-                                    <div className={`tw-h-[100%] tw-w-[37%] tw-flex tw-flex-col tw-content-center tw-items-start tw-justify-center `}>
+                                <div className={`tw-h-[95%] tw-w-[91%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
+                                    <div className={`tw-h-[100%] tw-w-[37%] tw-flex tw-flex-col tw-content-center tw-items-start tw-justify-center`}>
                                         <Avatar
                                             alt={'name'}
                                             src={data.image}
@@ -103,7 +103,7 @@ const SocialTwo = ({
                                                 {/*  <Typography>{data.profile.social?.name?.checked ? data.profile.social?.name?.text : ''} {data.profile.social?.last_name?.checked ? data.profile.social?.last_name?.text : ''}</Typography> */}
                                             </div>
                                         </div>
-                                        <div style={{ borderTop: '1px solid white' }} className={`tw-h-[55%] tw-w-[100%] tw-flex tw-flex-row tw-items-start tw-justify-center`}>
+                                        <div style={{ borderTop: '0.5px solid rgba(255, 255, 255, 0.5)' }}  className={`tw-h-[55%] tw-w-[100%] tw-flex tw-flex-row tw-items-start tw-justify-center`}>
                                             <div className={`tw-h-[45%] tw-w-[99%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
                                                 <Typography>{data.profile.social?.profession?.checked ? data.profile.social?.profession?.text && data.profile.social?.profession?.text?.length > 22 ? data.profile.social?.profession?.text.substring(0, 22) + '...' : data.profile.social?.profession?.text : ''}</Typography>
                                             </div>

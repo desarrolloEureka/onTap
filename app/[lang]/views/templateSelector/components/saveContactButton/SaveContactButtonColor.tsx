@@ -121,18 +121,18 @@ const SaveContactButtonColor = ({
         <Button
           onClick={saveVCard}
           sx={{ textTransform: 'none' }}
-          className={`tw-drop-shadow-xl tw-rounded-2xl tw-bg-white ${isSmallScreen ? 'tw-h-[33px] ' : 'tw-h-[39px] '} `}
+          className={`tw-drop-shadow-xl tw-rounded-2xl tw-bg-white ${isSmallScreen ? 'tw-h-[39px] ' : 'tw-h-[43px] '} `}
           variant='contained'
           startIcon={
             <SaveOutlinedIcon
               style={{
                 color: colorButton ?? undefined,
-                fontSize: '1.7rem'
+                fontSize: '1.89rem'
               }}
             />
           }
         >
-          <Typography className='tw-capitalize' color={colorButton} style={{ fontWeight: 500, fontSize: 17.5 }}>
+          <Typography className='tw-capitalize' color={colorButton} style={{ fontWeight: 550, fontSize: 19 }}>
             guardar Contacto
           </Typography>
         </Button>

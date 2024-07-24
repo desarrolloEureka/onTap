@@ -32,7 +32,7 @@ const UserRegisterForm = () => {
     setErrorDataForm(false);
 
     const trimmedDni = dni.trim();
-    const trimmedEmail = email.trim();
+    const trimmedEmail = email.trim().toLowerCase();
     const trimmedPhone = phone.trim();
 
     if (!dni || !email || !name || !lastName || !plan || !phone || !phoneCode) {

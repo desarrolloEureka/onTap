@@ -42,7 +42,7 @@ const ContainerSocialTwo = ({ profile, color }: { profile: DataForm; color: stri
                 <Button
                     variant='contained'
                     sx={{ textTransform: 'none', backgroundColor: '#030124' }}
-                    className={`tw-rounded-md tw-drop-shadow-sm tw-w-[100%] ${isSmallScreen ? 'tw-h-[30px]' : 'tw-h-[35px]'} tw-px-1 tw-relative tw-my-2.5 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]`}
+                    className={`tw-rounded-md tw-drop-shadow-sm tw-w-[100%] ${isSmallScreen ? 'tw-h-[35px]' : 'tw-h-[39px]'} tw-px-1 tw-relative tw-my-3 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]`}
                     key={key}
                     onClick={() => val.icon && val.text && clickType(val.icon, val.label === "phones" ? getCountryName(val.indicative) + "" + val.text : val.text)}
                     startIcon={
