@@ -64,7 +64,7 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
     };
 
     return reversedArray && (
-        <CustomHorizontalContainer className="tw-flex tw-h-[90%] tw-w-[100%] tw-p-0 tw-overflow-scroll tw-z-10 tw-overflow-y-hidden" style={{ transform: 'rotateX(180deg)', justifyContent: RowCenter ? 'center' : '' }}>
+        <CustomHorizontalContainer className="tw-flex tw-h-[90%] tw-w-[100%] tw-shadow-2xl tw-p-0 tw-overflow-scroll tw-z-10 tw-overflow-y-hidden" style={{ transform: 'rotateX(180deg)', justifyContent: RowCenter ? 'center' : '' }}>
             <div className="tw-flex tw-flex-col tw-pt-3" style={{ transform: 'rotateX(180deg)', justifyContent: 'center' }}>
                 <div className={`tw-flex tw-h-[50%] ${evenRowCenter ? 'tw-justify-center' : ''}`}>
                     {evenRowItems.map((val, i) => {

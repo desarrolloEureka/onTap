@@ -106,7 +106,7 @@ const TemplateContainerColor = ({ profile, color }: { profile: DataForm; color: 
 
   return (
     profile.social && (
-      <Container className={`tw-h-[40%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center tw-bg-red-200 ${isSmallScreen ? 'tw-mt-2' : 'tw-mt-0'}`}>
+      <Container className={`tw-h-[40%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center ${isSmallScreen ? 'tw-mt-2' : 'tw-mt-0'}`}>
         <SaveContactButtonColor colorButton={color} profile={profile.social} second={false} />
         <Container className={`tw-flex tw-flex-col tw-items-center tw-justify-center tw-z-10 tw-h-[85%]`}>
           {finalArray.length > 0 && finalArray[0].length > 0 && (

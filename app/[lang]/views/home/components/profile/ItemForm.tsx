@@ -77,6 +77,7 @@ const ItemForm = ({
     }
   }, [dataRef, myValue]);
 
+  console.log('label ', label);
   return (
     <Box className='tw-flex tw-flex-row'>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>
@@ -137,7 +138,7 @@ const ItemForm = ({
                                   label === 'phones' ? 'Telefono' :
                                     label === 'emails' ? 'Correo' :
                                       label === 'urls' ? 'urls' :
-                                        ''}
+                                        label}
           variant='standard'
           InputProps={{
             startAdornment: (

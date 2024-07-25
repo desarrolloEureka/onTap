@@ -13,6 +13,7 @@ import BgImage from './bgImage/BgImage';
 import ContainerSocialTwo from './container/ContainerSocialTwo';
 import InfinityHorizontalScrollingTwo from './InfinityHorizontalScrolling/InfinityHorizontalScrollingTwo';
 import SaveContactButtonColor from './saveContactButton/SaveContactButtonColor';
+import '../../../styles/fonts.css'
 
 const SocialTwo = ({
     params: { lang, background, data },
@@ -67,7 +68,6 @@ const SocialTwo = ({
     };
 
     return data.profile ? (
-
         <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
             <div className={`tw-shadow-md tw-rounded-2xl tw-bg-slate-500`}
                 style={{
@@ -77,7 +77,6 @@ const SocialTwo = ({
                 }}
             >
                 <BgImage background={background} />
-
                 <Container className={`tw-h-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center`}>
                     <div style={{ height: '98%', width: '100%' }}>
                         <div className={`tw-h-[25%] tw-w-[100%] tw-flex tw-flex-col tw-content-center tw-items-center tw-justify-center `}>
@@ -99,13 +98,12 @@ const SocialTwo = ({
                                     <div className={`tw-h-[100%] tw-w-[63%] tw-flex tw-flex-col tw-content-center tw-items-end tw-justify-center`}>
                                         <div className={`tw-h-[45%] tw-w-[100%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
                                             <div style={{ borderRadius: 8 }} className={`tw-h-[45%] tw-w-[100%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center tw-bg-[#030124] tw-mt-4`}>
-                                                <Typography>{getFullName()}</Typography>
-                                                {/*  <Typography>{data.profile.social?.name?.checked ? data.profile.social?.name?.text : ''} {data.profile.social?.last_name?.checked ? data.profile.social?.last_name?.text : ''}</Typography> */}
+                                                <Typography style={{ fontFamily: 'Canto', fontWeight: 300, fontSize: '17px' }}>{getFullName()}</Typography>
                                             </div>
                                         </div>
-                                        <div style={{ borderTop: '0.5px solid rgba(255, 255, 255, 0.5)' }}  className={`tw-h-[55%] tw-w-[100%] tw-flex tw-flex-row tw-items-start tw-justify-center`}>
+                                        <div style={{ borderTop: '0.5px solid rgba(255, 255, 255, 0.5)' }} className={`tw-h-[55%] tw-w-[100%] tw-flex tw-flex-row tw-items-start tw-justify-center`}>
                                             <div className={`tw-h-[45%] tw-w-[99%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
-                                                <Typography>{data.profile.social?.profession?.checked ? data.profile.social?.profession?.text && data.profile.social?.profession?.text?.length > 22 ? data.profile.social?.profession?.text.substring(0, 22) + '...' : data.profile.social?.profession?.text : ''}</Typography>
+                                                <Typography style={{ fontFamily: 'Canto', fontWeight: 300, fontSize: '17px' }}>{data.profile.social?.profession?.checked ? data.profile.social?.profession?.text && data.profile.social?.profession?.text?.length > 22 ? data.profile.social?.profession?.text.substring(0, 22) + '...' : data.profile.social?.profession?.text : ''}</Typography>
                                             </div>
                                         </div>
                                     </div>
