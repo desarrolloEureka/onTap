@@ -273,6 +273,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const [typeDevice, setTypeDevice] = useState<string | null>('');
   const [city, setCity] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);
+  const [isCookies, setIsCookies] = useState(false);
 
   const { user, type } = uid && typeParam ?
     CardViewUserMobile({ userUid: uid, typeParam: typeParam })/* Abrir desde el WebView del cel */
@@ -298,68 +299,81 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     }
   }, [ipAddress, city, country, currentDate, currentTime, so, typeDevice, uid]);
 
-  useEffect(() => {
-    const fetchIpAndLocation = async () => {
-      try {
-        const ipResponse = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipResponse.json();
-        setIpAddress(ipData.ip);
-      } catch (error) {
-        //console.error('Error al obtener la IP:', error);
-        setIpAddress('No disponible');
-      }
+  const fetchIpAndLocation = async () => {
+    try {
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      setIpAddress(ipData.ip);
+    } catch (error) {
+      setIpAddress('No disponible');
+    }
 
-      try {
-        const locationResponse = await fetch('https://ipinfo.io/ipinfo.io/http://181.53.14.189/?token=33af753b78413d');;
-        const dataLocation = await locationResponse.json();
-        //console.log('dataLocation ', dataLocation);
+    try {
+      const locationResponse = await fetch('https://ipinfo.io/ipinfo.io/http://181.53.14.189/?token=33af753b78413d');;
+      const dataLocation = await locationResponse.json();
 
-        // Convertir el código de país al nombre completo
-        const countryName = countryCodes[dataLocation?.country] || dataLocation?.country || 'No disponible';
+      // Convertir el código de país al nombre completo
+      const countryName = countryCodes[dataLocation?.country] || dataLocation?.country || 'No disponible';
 
-        setCity(dataLocation?.city || 'No disponible');
-        setCountry(countryName);
-      } catch (error) {
-        console.error('Error al obtener la geolocalización:', error);
-        setCity('No disponible');
-        setCountry('No disponible');
-      }
-    };
+      setCity(dataLocation?.city || 'No disponible');
+      setCountry(countryName);
+    } catch (error) {
+      console.error('Error al obtener la geolocalización:', error);
+      setCity('No disponible');
+      setCountry('No disponible');
+    }
+  };
 
-    const fetchDeviceInfo = async () => {
-      try {
-        const platformInfo = await platform.parse(navigator.userAgent);
-        setSO(platformInfo.os?.family || 'No disponible');
-        setTypeDevice(platformInfo.product || 'No disponible');
-      } catch (error) {
-        //console.error('Error al obtener la información del dispositivo:', error);
-        setSO('No disponible');
-        setTypeDevice('No disponible');
-      }
-    };
+  const fetchDeviceInfo = async () => {
+    try {
+      const platformInfo = await platform.parse(navigator.userAgent);
+      setSO(platformInfo.os?.family || 'No disponible');
+      setTypeDevice(platformInfo.product || 'No disponible');
+    } catch (error) {
+      setSO('No disponible');
+      setTypeDevice('No disponible');
+    }
+  };
 
-    const fetchCurrentDateTime = () => {
-      try {
-        const now = new Date();
-        setCurrentDate(now.toLocaleDateString());
-        setCurrentTime(now.toLocaleTimeString());
-      } catch (error) {
-        //console.error('Error al obtener la fecha y hora actuales:', error);
-        setCurrentDate('No disponible');
-        setCurrentTime('No disponible');
-      }
-    };
+  const fetchCurrentDateTime = () => {
+    try {
+      const now = new Date();
+      setCurrentDate(now.toLocaleDateString());
+      setCurrentTime(now.toLocaleTimeString());
+    } catch (error) {
+      setCurrentDate('No disponible');
+      setCurrentTime('No disponible');
+    }
+  };
 
+  const handleAceptCookies = async () => {
+    await localStorage.setItem('@cookies', JSON.stringify(true));
+    setIsCookies(false);
     if (uid && !typeParam) {
+      fetchIpAndLocation();
+      fetchDeviceInfo();
+      fetchCurrentDateTime();
+    }
+  };
+
+  useEffect(() => {
+    const cookies = localStorage.getItem('@cookies');
+    //console.log('cookies ', cookies);
+    if (uid && !typeParam && cookies) {
       fetchIpAndLocation();
       fetchDeviceInfo();
       fetchCurrentDateTime();
     }
   }, [typeParam, uid]);
 
+  useEffect(() => {
+    const cookies = localStorage.getItem('@cookies');
+    setIsCookies(!cookies);
+  }, []);
+
   return user && type ? (
     user.switch_activateCard ? (
-      <TemplateSelector user={user} type={type} lang={lang} />
+      <TemplateSelector user={user} type={type} lang={lang} handleAceptCookies={handleAceptCookies} isCookies={isCookies} />
     ) : (
       <CustomModalAlert
         handleModalAlert={handleModalAlert}

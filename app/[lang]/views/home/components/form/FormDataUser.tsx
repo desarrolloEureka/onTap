@@ -38,16 +38,6 @@ const FormDataUser = ({
     user: UserData;
     handleSwitch: (e: any) => void;
   }) => {
-  // console.log('isProUser FormDataUser', isProUser);
-
-  // const { handleSwitch, user } = ProfileHook({
-  //   dictionary,
-  //   isProUser,
-  // });
-
-  // console.log('dataForm', dataForm);
-  // console.log('data>>', data);
-  // console.log('isProUser', isProUser);
 
   return (
     <div className='tw-h-auto lg:tw-w-[50%] md:tw-w-[100%] tw-flex tw-flex-col tw-items-center tw-mt-6'>
@@ -59,8 +49,6 @@ const FormDataUser = ({
             </Typography>
             {data.map((value, key) => {
               const index = value[0] as keyof typeof dataForm;
-              // console.log('value', value[1]);
-
               if (
                 index == 'name' ||
                 index == 'last_name' ||
@@ -68,36 +56,11 @@ const FormDataUser = ({
                 index == 'occupation' ||
                 index == 'address'
               ) {
-                // const labelArray:
-                //   | DataFormValues[]
-                //   | EducationDataFormValues[]
-                //   | CareerDataFormValues[] =
-                //   value[0] == 'phones' ||
-                //   value[0] == 'education' ||
-                //   value[0] == 'emails' ||
-                //   value[0] == 'urls' ||
-                //   value[0] == 'professional_career'
-                //     ? value[1]
-                //     : null;
-
-                // if (!labelArray) {
-                // console.log('user FormDataUser', user);
                 const myValue = (user && user.profile
                   ? isProUser
                     ? user.profile.professional?.[index]
                     : user.profile?.social?.[index]
                   : dataForm && dataForm[index]) as unknown as DataFormValues;
-
-                // const myValue = (user && user.profile
-                //   ? isProUser
-                //     ? user.profile.professional
-                //       ? user.profile.professional?.[index]
-                //       : dataForm && dataForm[index]
-                //     : user.profile.social
-                //     ? user.profile?.social?.[index]
-                //     : dataForm && dataForm[index]
-                //   : dataForm && dataForm[index]) as unknown as DataFormValues;
-
                 return (
                   <ItemForm
                     label={value[1].label}
@@ -146,7 +109,6 @@ const FormDataUser = ({
                       index={index}
                     />
                   );
-                  // }
                 } else if (
                   value[0] == 'professional_profile' ||
                   value[0] == 'other_competencies' ||
@@ -174,7 +136,6 @@ const FormDataUser = ({
                       index={index}
                     />
                   );
-                  // }
                 }
               })}
             </Box>

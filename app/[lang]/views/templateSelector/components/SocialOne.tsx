@@ -13,17 +13,18 @@ import { BackgroundImages } from '@/types/home';
 import { UserData } from '@/types/user';
 
 const SocialOne = ({
-  params: { lang, background, data },
+  params: { lang, background, data, handleAceptCookiesPage, isCookies },
 }: {
   params: {
     lang: Locale;
     background: BackgroundImages;
     data: UserData;
+    handleAceptCookiesPage: () => Promise<void>
+    isCookies: boolean
   };
 }) => {
   const { dictionary } = useDictionary({ lang });
   const [isDataError, setIsDataError] = useState(true);
-  const [isCookies, setIsCookies] = useState(false);
   const isSmallScreen = useMediaQuery('(max-height:935px)');
   const isSmallScreenWidth = useMediaQuery('(max-width:440px)');
   const [windowSize, setWindowSize] = useState({
@@ -32,13 +33,10 @@ const SocialOne = ({
   });
 
   const handleAceptCookies = async () => {
-    await localStorage.setItem('@cookies', JSON.stringify(true));
-    setIsCookies(false);
+    handleAceptCookiesPage();
   };
 
   useEffect(() => {
-    const cookies = localStorage.getItem('@cookies');
-    setIsCookies(!cookies);
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
@@ -82,7 +80,6 @@ const SocialOne = ({
 
       <ModalCookies
         isModalAlert={isCookies}
-        handleModalAlert={() => setIsCookies(false)}
         handleAceptCookies={handleAceptCookies}
       />
     </div>

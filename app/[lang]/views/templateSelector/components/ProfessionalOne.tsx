@@ -12,18 +12,18 @@ import ModalCookies from '@/components/customModalAlert/ModalCookies';
 import OneTapLogoLink from '@/components/oneTapLogo/OneTapLogoLink';
 
 const ProfessionalOne = ({
-  params: { lang, background, data },
+  params: { lang, background, data, handleAceptCookiesPage, isCookies },
 }: {
   params: {
     lang: Locale;
     background: BackgroundImages;
     data: UserData;
+    handleAceptCookiesPage: () => Promise<void>
+    isCookies: boolean
   };
 }) => {
   const { dictionary } = useDictionary({ lang });
   const [isDataError, setIsDataError] = useState(true);
-  const [isCookies, setIsCookies] = useState(false);
-
   const isSmallScreen = useMediaQuery('(max-height:935px)');
   const isSmallScreenWidth = useMediaQuery('(max-width:440px)');
 
@@ -33,18 +33,10 @@ const ProfessionalOne = ({
   });
 
   const handleAceptCookies = async () => {
-    await localStorage.setItem('@cookies', JSON.stringify(true));
-    setIsCookies(false);
+    handleAceptCookiesPage();
   };
 
   useEffect(() => {
-    const cookies = localStorage.getItem('@cookies');
-    if (cookies) {
-      setIsCookies(false);
-    } else {
-      setIsCookies(true);
-    }
-
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
@@ -81,12 +73,12 @@ const ProfessionalOne = ({
           }
         />
         <TemplateContainerProfessionalOne profile={data.profile} />
-        <OneTapLogoLink color={'#FFFFFF'}/>
+        <OneTapLogoLink color={'#FFFFFF'} />
       </div>
 
       <ModalCookies
         isModalAlert={isCookies}
-        handleModalAlert={() => setIsCookies(false)}
+        //handleModalAlert={() => setIsCookies(false)}
         handleAceptCookies={handleAceptCookies}
       />
 

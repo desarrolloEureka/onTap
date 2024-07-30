@@ -12,11 +12,9 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { useEffect, useRef } from 'react';
-
 import SchoolIcon from '@mui/icons-material/School';
 import CreateIcon from '@mui/icons-material/Create';
 import FactoryIcon from '@mui/icons-material/Factory';
-
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
@@ -38,7 +36,6 @@ const ItemForm = ({
   subindex,
 }: ItemFormParams) => {
   const dataRef = useRef<any>(null);
-
   const value = () => {
     if (
       index !== 'phones' &&
@@ -71,13 +68,15 @@ const ItemForm = ({
   };
 
   useEffect(() => {
-    // console.log('myValue>>>>>>>', myValue);
     if (dataRef && myValue) {
       dataRef.current = myValue;
     }
   }, [dataRef, myValue]);
+/* 
+  dataRef && console.log("dataRef ", dataRef.current);
+  dataRef && console.log("label ", label);
+  dataRef && console.log("myValue ", myValue); */
 
-  console.log('label ', label);
   return (
     <Box className='tw-flex tw-flex-row'>
       <Box className='tw-flex tw-items-center tw-justify-center tw-w-[65%]'>
@@ -276,8 +275,6 @@ const ItemForm = ({
             ),
           }}
           onChange={(text: any) => {
-            // console.log('click', dataRef);
-
             dataRef &&
               handleData({
                 name: name,

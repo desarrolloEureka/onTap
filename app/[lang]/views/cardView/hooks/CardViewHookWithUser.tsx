@@ -20,7 +20,6 @@ const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
           .then(() => {
             setViewsIncremented(true); // Marcar como incrementado
             refetch(); // Forzar la reconsulta para obtener los datos actualizados
-            //localStorage.clear(); // Limpiar el almacenamiento local para evitar datos en caché
             localStorage.removeItem('@user');
           })
           .catch((error) => {

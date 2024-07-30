@@ -5,13 +5,16 @@ const useLogOut = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const logOut = () => {
+  const logOut = async () => {
     // Elimina todas las queries almacenadas
-    queryClient.clear();
+    await queryClient.clear();
+    await queryClient.invalidateQueries({ queryKey: ['user'] });
+    await queryClient.resetQueries({ queryKey: ['user'] });
 
     // Limpia localStorage y sessionStorage
-    localStorage.clear();
-    sessionStorage.clear();
+    await localStorage.removeItem('@user');
+    await localStorage.clear();
+    await sessionStorage.clear();
 
     // Limpia cookies si es necesario
     document.cookie.split(";").forEach((cookie) => {

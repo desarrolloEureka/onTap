@@ -280,6 +280,7 @@ const GetUser = (refetch?: boolean) =>
     refetchOnWindowFocus: refetch ?? false,
   });
 
+
 const SendPreView = async (userId: string, url: string) => {
   const res = await updatePreView(userId, { preview: url });
   return res;

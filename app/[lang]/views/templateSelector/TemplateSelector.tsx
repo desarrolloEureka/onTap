@@ -13,10 +13,14 @@ const TemplateSelector = ({
   user,
   type,
   lang,
+  handleAceptCookies,
+  isCookies
 }: {
   user: UserData;
   type: string;
   lang: Locale;
+  isCookies: boolean
+  handleAceptCookies: () => Promise<void>
 }) => {
   const { dictionary } = useDictionary({ lang });
   const [isDataError, setIsDataError] = useState(true);
@@ -35,6 +39,8 @@ const TemplateSelector = ({
                 lang: 'es',
                 background: currentBackground,
                 data: user,
+                handleAceptCookiesPage: handleAceptCookies,
+                isCookies: isCookies
               }}
             />
           );
@@ -45,6 +51,8 @@ const TemplateSelector = ({
                 lang: 'es',
                 background: currentBackground,
                 data: user,
+                handleAceptCookiesPage: handleAceptCookies,
+                isCookies: isCookies
               }}
             />
           );
@@ -55,6 +63,8 @@ const TemplateSelector = ({
                 lang: 'es',
                 background: currentBackground,
                 data: user,
+                handleAceptCookiesPage: handleAceptCookies,
+                isCookies: isCookies
               }}
             />
           );
@@ -65,6 +75,8 @@ const TemplateSelector = ({
                 lang: 'es',
                 background: currentBackground,
                 data: user,
+                handleAceptCookiesPage: handleAceptCookies,
+                isCookies: isCookies
               }}
             />
           );
