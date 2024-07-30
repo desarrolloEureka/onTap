@@ -56,10 +56,10 @@ const SocialTwo = ({
         };
     }, []);
 
-    const getFullName = () => {
-        if (data.profile) {
-            const firstName = data.profile.social?.name?.checked ? data.profile.social?.name?.text : '';
-            const lastName = data.profile.social?.last_name?.checked ? data.profile.social?.last_name?.text : '';
+    const getFullName = (dataProfile: any) => {
+        if (dataProfile) {
+            const firstName = dataProfile?.name?.checked ? dataProfile?.name?.text : '';
+            const lastName = dataProfile?.last_name?.checked ? dataProfile?.last_name?.text : '';
             const fullName = `${firstName} ${lastName}`.trim();
             const name = fullName.length > 22 ? fullName.substring(0, 22) + '...' : fullName
             return name;
@@ -98,7 +98,7 @@ const SocialTwo = ({
                                     <div className={`tw-h-[100%] tw-w-[63%] tw-flex tw-flex-col tw-content-center tw-items-end tw-justify-center`}>
                                         <div className={`tw-h-[45%] tw-w-[100%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
                                             <div style={{ borderRadius: 8 }} className={`tw-h-[45%] tw-w-[100%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center tw-bg-[#030124] tw-mt-4`}>
-                                                <Typography style={{ fontFamily: 'Canto', fontWeight: 300, fontSize: '17px' }}>{getFullName()}</Typography>
+                                                <Typography style={{ fontFamily: 'Canto', fontWeight: 300, fontSize: '17px' }}>{getFullName(data.profile.social)}</Typography>
                                             </div>
                                         </div>
                                         <div style={{ borderTop: '0.5px solid rgba(255, 255, 255, 0.5)' }} className={`tw-h-[55%] tw-w-[100%] tw-flex tw-flex-row tw-items-start tw-justify-center`}>
