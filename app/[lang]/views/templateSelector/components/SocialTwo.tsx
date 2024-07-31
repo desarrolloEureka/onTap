@@ -96,12 +96,12 @@ const SocialTwo = ({
                                     <div className={`tw-h-[100%] tw-w-[63%] tw-flex tw-flex-col tw-content-center tw-items-end tw-justify-center`}>
                                         <div className={`tw-h-[45%] tw-w-[100%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
                                             <div style={{ borderRadius: 8 }} className={`tw-h-[45%] tw-w-[100%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center tw-bg-[#030124] tw-mt-4`}>
-                                                <Typography style={{ fontFamily: 'Canto', fontWeight: 300, fontSize: '17px' }}>{getFullName(data.profile.social)}</Typography>
+                                                <Typography style={{ fontFamily: 'Canto', fontWeight: 300, fontSize: '17px', color: 'white' }}>{getFullName(data.profile.social)}</Typography>
                                             </div>
                                         </div>
                                         <div style={{ borderTop: '0.5px solid rgba(255, 255, 255, 0.5)' }} className={`tw-h-[55%] tw-w-[100%] tw-flex tw-flex-row tw-items-start tw-justify-center`}>
                                             <div className={`tw-h-[45%] tw-w-[99%] tw-flex tw-flex-row tw-content-center tw-items-center tw-justify-center`}>
-                                                <Typography style={{ fontFamily: 'Canto', fontWeight: 300, fontSize: '17px' }}>{data.profile.social?.profession?.checked ? data.profile.social?.profession?.text && data.profile.social?.profession?.text?.length > 22 ? data.profile.social?.profession?.text.substring(0, 22) + '...' : data.profile.social?.profession?.text : ''}</Typography>
+                                                <Typography style={{ fontFamily: 'Canto', fontWeight: 300, fontSize: '17px', color: 'white' }}>{data.profile.social?.profession?.checked ? data.profile.social?.profession?.text && data.profile.social?.profession?.text?.length > 22 ? data.profile.social?.profession?.text.substring(0, 22) + '...' : data.profile.social?.profession?.text : ''}</Typography>
                                             </div>
                                         </div>
                                     </div>
