@@ -14,7 +14,8 @@ const UserRegisterForm = () => {
   const [errorMailForm, setErrorMailForm] = useState<Boolean>(false);
   const [errorDataForm, setErrorDataForm] = useState<Boolean>(false);
   const [status, setStatus] = useState<string>('');
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,6 +29,9 @@ const UserRegisterForm = () => {
   };
 
   const dataRegisterHandle = async () => {
+    if (isSubmitting) return; // Evita que se ejecute si ya está en proceso de envío
+
+    setIsSubmitting(true);
     setErrorMailForm(false);
     setErrorDataForm(false);
 
@@ -37,13 +41,16 @@ const UserRegisterForm = () => {
 
     if (!dni || !email || !name || !lastName || !plan || !phone || !phoneCode) {
       setErrorDataForm(true);
+      setIsSubmitting(false);
       return;
     } else {
       setErrorDataForm(false);
     }
+
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if (!emailRegex.test(email || '')) {
       setErrorMailForm(true);
+      setIsSubmitting(false);
       return;
     } else {
       setErrorMailForm(false);
@@ -63,17 +70,10 @@ const UserRegisterForm = () => {
     const dateCreated = new Date();
     const dateCreatedBd = dateCreated.getTime();
 
-    const { exists, field } = await checkUserExists(trimmedDni, trimmedEmail, phone);
+    const { exists, field } = await checkUserExists(trimmedDni, trimmedEmail, trimmedPhone);
     if (exists) {
-      if (field === 'dni') {
-        setStatus('El No. Identificación ya se encuentra registrado.');
-      } else if (field === 'email') {
-        setStatus('El correo ya se encuentra registrado.');
-      } else if (field === 'phone') {
-        setStatus('El teléfono  ya se encuentra registrado.');
-      } else {
-        setStatus('El usuario ya se encuentra registrado.');
-      }
+      setStatus(field === 'dni' ? 'El No. Identificación ya se encuentra registrado.' : field === 'email' ? 'El correo ya se encuentra registrado.' : 'El teléfono ya se encuentra registrado.');
+      setIsSubmitting(false);
       handleClickOpen();
       return;
     }
@@ -131,6 +131,8 @@ const UserRegisterForm = () => {
     } catch (err) {
       setStatus('El usuario ya se encuentra registrado');
       handleClickOpen();
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -158,7 +160,8 @@ const UserRegisterForm = () => {
     setPhone,
     phoneCode,
     setPhoneCode,
-    phoneChangeHandler
+    phoneChangeHandler,
+    isSubmitting
   };
 };
 

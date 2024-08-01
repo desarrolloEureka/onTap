@@ -86,7 +86,6 @@ const PhotoUser = ({
     if (file && file instanceof File) {
       try {
         const resizedImage = await resizeImage(file, 750, 750);
-        //console.log('resizedImage --> ', resizedImage)
         const base64String = await convertFileToBase64(resizedImage);
         if (isProUser) {
           setSelectedImagePro(base64String);

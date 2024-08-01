@@ -23,7 +23,6 @@ const LogosTableLogic = () => {
 
     useEffect(() => {
         if (data) {
-            //console.log('Data ------> ', data);
             const formattedData = data.map(doc => (
                 {
                     id: doc.id,

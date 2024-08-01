@@ -41,7 +41,8 @@ const UserRegister = () => {
     setPhone,
     phoneCode,
     setPhoneCode,
-    phoneChangeHandler
+    phoneChangeHandler,
+    isSubmitting
   } = UserRegisterForm();
 
   const dictionary = useDictionary({ lang: 'es' });
@@ -177,15 +178,8 @@ const UserRegister = () => {
                   <MenuItem key={country.id} value={country.id}>
                     <ReactCountryFlag countryCode={country.flag} svg style={{ marginRight: '8px' }} />
                     {country.code}
-                    {/*  {country.name} ({country.code}) */}
                   </MenuItem>
                 ))}
-                {/*  {countries.map((country) => (
-                  <MenuItem key={country.code} value={country.code}>
-                    <ReactCountryFlag countryCode={country.flag} svg style={{ marginRight: '8px' }} />
-                    {country.code}
-                  </MenuItem>
-                ))} */}
               </Select>
             </div>
             <div className='tw-h-[100%] tw-w-[60%] tw-items-start tw-ml-2'>
@@ -206,38 +200,6 @@ const UserRegister = () => {
               />
             </div>
           </div>
-
-          {/*   <div className='tw-w-[300px]'>
-            <Typography
-              color='textSecondary'
-              display={'flow'}
-              className='tw-text-left tw-text-sm tw-mb-2'
-            >
-              {dictionary.dictionary?.backOffice.Phone}*
-            </Typography>
-          </div>
-
-          <div className='tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4'>
-            <PhoneInput
-              autoFormat={false}
-              country={"co"}
-              specialLabel=""
-              placeholder=""
-              prefix="+"
-              dropdownStyle={{
-                color: "black",
-                borderRadius: 12,
-              }}
-              inputStyle={{
-                height: "56px",
-                //borderRadius: 0,
-                //border: "none",
-                //borderBottom: "0.4px solid grey"
-              }}
-              //value={data.phone2}
-              onChange={phoneChangeHandler}
-            />
-          </div> */}
 
           <div className='tw-w-[300px]'>
             <Typography
@@ -281,6 +243,7 @@ const UserRegister = () => {
             variant='contained'
             className='tw-mx-auto tw-mt-4 tw-w-[200px] tw-bg-[#02AF9B] tw-text-white tw-shadow-m'
             onClick={dataRegisterHandle}
+            disabled={isSubmitting}
           >
             {dictionary.dictionary?.backOffice.Register}
           </Button>

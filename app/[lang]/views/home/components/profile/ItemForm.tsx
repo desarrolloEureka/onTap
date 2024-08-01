@@ -72,10 +72,6 @@ const ItemForm = ({
       dataRef.current = myValue;
     }
   }, [dataRef, myValue]);
-/* 
-  dataRef && console.log("dataRef ", dataRef.current);
-  dataRef && console.log("label ", label);
-  dataRef && console.log("myValue ", myValue); */
 
   return (
     <Box className='tw-flex tw-flex-row'>

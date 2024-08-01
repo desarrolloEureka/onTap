@@ -211,12 +211,10 @@ const GetUserById = (userUid: string, refetch?: boolean) => {
     queryKey: ['user', userUid], // Clave de consulta única para cada usuario
     queryFn: async () => {
       const updatedUser = await getUserByIdFireStore(userUid);
-      console.log('userUid ', userUid);
       if (updatedUser.exists()) {
         const userData = await updatedUser.data() as UserData;
         const getUser = await reBuildUserData(userData);
         await localStorage.setItem('@user', JSON.stringify(getUser));
-        console.log('getUser ', getUser)
         return getUser;
       } else {
         return null;

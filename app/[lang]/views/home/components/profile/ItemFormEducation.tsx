@@ -76,8 +76,6 @@ const ItemFormEducation = ({
   isModalAlertLimit: boolean;
   handleDeleteData: () => void;
 }) => {
-  // console.log('labelArray', labelArray);
-
   return (
     <div
       className={`${
@@ -98,8 +96,6 @@ const ItemFormEducation = ({
           <div className='tw-h-[100%] tw-w-[45%] tw-flex tw-flex-col tw-items-end tw-justify-center '>
             <Button
               onClick={() => {
-                // console.log('education');
-
                 handleAddData('education');
               }}
               color='secondary'

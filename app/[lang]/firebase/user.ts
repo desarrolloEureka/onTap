@@ -187,17 +187,17 @@ export const checkIfUserExists = async (dni: string, email: string, phone: strin
 
   const dniQuery = query(usersRef, where('dni', '==', dni));
   const emailQuery = query(usersRef, where('email', '==', email));
-  const phoneQuery = query(usersRef, where('phone', '==', phone));
+  //const phoneQuery = query(usersRef, where('phone', '==', phone));
 
-  const [dniSnapshot, emailSnapshot, phoneSnapshot] = await Promise.all([
+  const [dniSnapshot, emailSnapshot] = await Promise.all([
     getDocs(dniQuery),
     getDocs(emailQuery),
-    getDocs(phoneQuery)
+    //getDocs(phoneQuery)
   ]);
 
   if (!dniSnapshot.empty) return { exists: true, field: 'dni' };
   if (!emailSnapshot.empty) return { exists: true, field: 'email' };
-  if (!phoneSnapshot.empty) return { exists: true, field: 'phone' };
+  //if (!phoneSnapshot.empty) return { exists: true, field: 'phone' };
 
   return { exists: false, field: null };
 };

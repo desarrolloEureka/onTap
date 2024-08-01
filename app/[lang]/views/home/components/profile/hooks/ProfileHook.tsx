@@ -183,10 +183,10 @@ const ProfileHook = ({
       index != 'phones' &&
       index != 'emails' &&
       index != 'urls' &&
-      (dataFormClone[index]?.label != 'phones' ||
-        dataFormClone[index]?.label != 'education' ||
-        dataFormClone[index]?.label != 'emails' ||
-        dataFormClone[index]?.label != 'professional_career' ||
+      (dataFormClone[index]?.label != 'phones' &&
+        dataFormClone[index]?.label != 'education' &&
+        dataFormClone[index]?.label != 'emails' &&
+        dataFormClone[index]?.label != 'professional_career' &&
         dataFormClone[index]?.label != 'urls')
     ) {
       if (dataFormClone[index]?.text?.length === 0 && isChecked === true) {
@@ -204,7 +204,7 @@ const ProfileHook = ({
       if (dataAux && key != undefined) {
         if (isChecked === true && dataAux[key]) {
           const isEmptyText = dataAux[key].text?.length === 0 && index !== 'urls' && index !== 'phones';
-          const isEmptyPhone = index === 'phones' && (dataAux[key]?.indicative?.length === 0 || dataAux[key]?.indicative === undefined  || dataAux[key]?.text?.length === 0);
+          const isEmptyPhone = index === 'phones' && (dataAux[key]?.indicative?.length === 0 || dataAux[key]?.indicative === undefined || dataAux[key]?.text?.length === 0);
           const isEmptyUrls = index === 'urls' && (dataUrl?.[key]?.name?.length === 0 || dataUrl?.[key]?.url?.length === 0 || dataUrl?.[key]?.icon?.length === 0);
 
           if (isEmptyText || isEmptyUrls || isEmptyPhone) {
@@ -313,10 +313,6 @@ const ProfileHook = ({
         (subindex == 'name' || subindex == 'url' || subindex == 'icon') &&
         key != undefined
       ) {
-        // console.log('key', key);
-        // console.log('subindex', subindex);
-        // console.log('currentDataRef', currentDataRef);
-
         currentDataRef.current[key][subindex] = text;
         fillFields(index, key, text, subindex);
       }
@@ -400,8 +396,6 @@ const ProfileHook = ({
     const dataFormClone = { ...dataForm };
     if (index == 'phones' || index == 'emails' || index == 'urls') {
       const count = dataFormClone?.[index]?.length;
-      console.log('index ', index);
-
       if (index === 'phones') {
         if ((count != null || count != undefined) && count < 3) {
           if (count === 0) {
@@ -433,8 +427,6 @@ const ProfileHook = ({
           setIsModalAlertLimit(true);
         }
       }
-
-      // console.log('dataFormClone ', dataFormClone);
 
       if (index === 'emails') {
         if ((count != null || count != undefined) && count < 3) {
@@ -496,13 +488,7 @@ const ProfileHook = ({
             order: 13,
           });
         }
-        /*  } else {
-           setIsModalAlertLimit(true);
-         } */
       }
-
-      // console.log('dataFormClone', dataFormClone);
-
       setDataForm(dataFormClone);
     }
   };
@@ -636,13 +622,8 @@ const ProfileHook = ({
     const dataFormChecked = Object.fromEntries(newData);
     handleDataSet && handleDataSet(dataFormChecked);
     setAllChecked(true);
-    /* 
-        setTimeout(() => {
-          setIsAlertSave(false);
-        }, 5000); */
   };
 
-  // console.log('isProUser', isProUser);
   useEffect(() => {
     const data = Object.entries(dataForm as DataFormSorted).toSorted((a, b) => {
       const aa = a[1].length ? a[1][0].order : a[1].order;
@@ -729,7 +710,6 @@ const ProfileHook = ({
     }
   }, [allChecked, dataForm, handleDataSet]);
 
-  // objectDataSort && console.log('ooooo', objectDataSort);
   return {
     handleSwitch,
     handleData,
