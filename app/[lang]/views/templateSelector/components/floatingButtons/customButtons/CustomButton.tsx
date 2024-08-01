@@ -20,13 +20,16 @@ const CustomButton = ({
   const isSmallScreen = useMediaQuery('(max-height:780px)');
   const icon = data?.find((val) => val.name === name);
   const regex = /^https?:\/\//i;
+  const linkAux = link.trim();
   let urlLink = '';
 
-  if (regex.test(link)) {
-    urlLink = link.replace(regex, '');
+  if (regex.test(linkAux)) {
+    urlLink = linkAux.replace(regex, '');
   } else {
-    urlLink = link;
+    urlLink = linkAux;
   }
+
+  console.log('urlLink :: ', `https://${urlLink}`);
 
   return (
     icon?.image && (
