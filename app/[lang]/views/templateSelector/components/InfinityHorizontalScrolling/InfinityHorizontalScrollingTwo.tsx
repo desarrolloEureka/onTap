@@ -35,7 +35,6 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
     const { finalArray } = FooterHook({ socialNetworks, fullSocialIcons });
     const isSmallScreenIcons = useMediaQuery('(max-height:780px)');
     const reversedArray = [...finalArray].reverse();
-    let urlLink = '';
 
     //Separa la data, entre dos partes 
     const evenRowItems = reversedArray.filter((_, index) => index % 2 === 0);
@@ -46,6 +45,7 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
     const oddRowCenter = finalArray.filter((_: any, index: number) => index % 2 !== 0).length < 4;
     const RowCenter = finalArray.length <= 8;
     const regex = /^https?:\/\//i;
+    let urlLink = '';
 
     //Retorna la img del icono 
     const getImageSrc = (name: string) => {
@@ -69,7 +69,7 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                 <div className={`tw-flex tw-h-[50%] ${evenRowCenter ? 'tw-justify-center' : ''}`}>
                     {evenRowItems.map((val, i) => {
                         const imageSrc = getImageSrc(val.icon);
-                        const urlLink = geturl(val.url);
+                        const urlLink = geturl(val.url.trim());
                         return imageSrc && urlLink ? (
                             <Link
                                 key={i}
@@ -89,16 +89,20 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                 <div className={`tw-flex tw-pt-2 tw-h-[50%] ${oddRowCenter ? 'tw-justify-center' : ''}`}>
                     {oddRowItems.map((val, i) => {
                         const imageSrc = getImageSrc(val.icon);
-                        return imageSrc ? (
-                            <div
+                        const urlLink = geturl(val.url.trim());
+                        return imageSrc && urlLink ? (
+                            <Link
                                 key={i}
                                 className="tw-flex tw-h-[90%] tw-w-[80px] tw-px-0 tw-m-1 tw-flex-col tw-items-center tw-justify-center"
+                                href={`https://${urlLink}`}
+                                style={{ textDecoration: 'none' }}
+                                target='_blank'
                             >
                                 <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 50 : 59} height={isSmallScreenIcons ? 50 : 59} />
                                 <Typography style={{ width: '100%', textDecoration: 'none' }} className='tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1' color={'white'}>
                                     {val.name ? val.name.length > 9 ? val.name.substring(0, 6) + '...' : val.name : val.name}
                                 </Typography>
-                            </div>
+                            </Link>
                         ) : null;
                     })}
                 </div>

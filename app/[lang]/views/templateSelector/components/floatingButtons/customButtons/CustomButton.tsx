@@ -28,9 +28,6 @@ const CustomButton = ({
   } else {
     urlLink = linkAux;
   }
-
-  console.log('urlLink :: ', `https://${urlLink}`);
-
   return (
     icon?.image && (
       <Link
