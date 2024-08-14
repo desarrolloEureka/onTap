@@ -31,18 +31,19 @@ const CustomButton = ({
   const isSmallScreen = useMediaQuery('(max-height:780px)');
   const icon = data?.find((val) => val.name === name);
 
+  // Limpia el enlace y asegura que tenga el formato correcto
   const linkAux = link.trim();
   const fullUrl = /^https?:\/\//i.test(linkAux) ? linkAux : `https://${linkAux}`;
 
   // Verifica si la URL es válida
-  const finalUrl = isValidUrl(fullUrl) ? fullUrl : fullUrl;
+  const finalUrl = isValidUrl(fullUrl) ? fullUrl : '';
 
   return (
     icon?.image && (
       <Link
         className={`tw-rounded-full tw-mt-1 tw-drop-shadow-xl ${styles}`}
         style={{ textDecoration: 'none' }}
-        href={finalUrl}
+        href={finalUrl || '#'} // Usa una URL de fallback segura si es inválida
         target='_blank'
         rel='noopener noreferrer'
       >
