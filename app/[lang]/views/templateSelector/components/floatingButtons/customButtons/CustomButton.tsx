@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 
 // Función para validar si una URL tiene un formato válido
 const isValidUrl = (url: string) => {
-  const regex = /^(https?:\/\/)?(([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,})(\/[^\s]*)?$/i;
+  const regex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9#?=&._-]*)?$/i;
   return regex.test(url);
 };
 
@@ -37,8 +37,7 @@ const CustomButton = ({
   // Maneja el clic en el enlace y muestra un mensaje de error si la URL es inválida
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (!isValidUrl(fullUrl)) {
-      event.preventDefault(); // Evita la navegación si la URL es inválida
-      //console.error(`URL inválida: ${fullUrl}`);
+      event.preventDefault();
       alert('La URL proporcionada no es válida.'); // Muestra un mensaje de error al usuario
     }
   };
@@ -51,7 +50,7 @@ const CustomButton = ({
         href={finalUrl || '#'}
         target='_blank'
         rel='noopener noreferrer'
-        onClick={handleClick} // Maneja el clic en el enlace
+        onClick={handleClick}
       >
         <div className='tw-flex tw-items-center tw-justify-center tw-flex-col tw-mx-2'>
           <Image

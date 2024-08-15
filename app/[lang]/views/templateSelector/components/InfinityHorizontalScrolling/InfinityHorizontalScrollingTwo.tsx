@@ -44,23 +44,42 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
     const evenRowCenter = finalArray.filter((_: any, index: number) => index % 2 === 0).length < 4;
     const oddRowCenter = finalArray.filter((_: any, index: number) => index % 2 !== 0).length < 4;
     const RowCenter = finalArray.length <= 8;
-    const regex = /^https?:\/\//i;
-    let urlLink = '';
 
-    //Retorna la img del icono 
+    // Expresión regular para validar la URL
+    //const regex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9#?=&._-]*)?$/i;
+    const regex = /^(https?:\/\/)?(?:www\.)?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?:\/[a-zA-Z0-9\-._~:?#\[\]@!$&'()*+,;=]*)?$/;
+
+    // Función para validar si la URL es válida
+    const isValidUrl = (url: string) => regex.test(url);
+
+    // Retorna la imagen del ícono
     const getImageSrc = (name: string) => {
         const icon = data && data.find((val: any) => val.name === name);
         return icon && icon.image;
     };
 
-    //Retorna lnk url de cada red social
+    // Retorna la URL ajustada y válida
     const geturl = (link: string) => {
-        if (regex.test(link)) {
-            urlLink = link.replace(regex, '');
-        } else {
-            urlLink = link;
+        let urlLink = link.trim();
+        if (isValidUrl(urlLink)) {
+            urlLink = urlLink.replace(/^(https?:\/\/)/i, '');
         }
-        return urlLink && urlLink;
+        return urlLink;
+    };
+
+    // Manejador de clic para imprimir un error si la URL es inválida
+    const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, link: string) => {
+        if (!isValidUrl(link)) {
+            event.preventDefault();
+            alert('La URL proporcionada no es válida.');
+            //console.error(`URL inválida: ${link}`);
+        }
+    };
+
+    // Determina la URL final
+    const getFinalUrl = (link: string) => {
+        const urlLink = geturl(link);
+        return isValidUrl(urlLink) ? `https://${urlLink}` : '#';
     };
 
     return reversedArray && (
@@ -69,14 +88,17 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                 <div className={`tw-flex tw-h-[50%] ${evenRowCenter ? 'tw-justify-center' : ''}`}>
                     {evenRowItems.map((val, i) => {
                         const imageSrc = getImageSrc(val.icon);
-                        const urlLink = geturl(val.url.trim());
-                        return imageSrc && urlLink ? (
+                        const finalUrl = getFinalUrl(val.url);
+                        return imageSrc ? (
                             <Link
                                 key={i}
                                 className="tw-flex tw-h-[90%] tw-w-[80px] tw-px-0 tw-m-1 tw-flex-col tw-items-center tw-justify-center"
-                                href={`https://${urlLink}`}
                                 style={{ textDecoration: 'none' }}
+                                href={finalUrl || '#'}
                                 target='_blank'
+                                rel='noopener noreferrer'
+                                onClick={(event) => handleLinkClick(event, val.url.trim())}
+
                             >
                                 <Image className="tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full" src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 50 : 59} height={isSmallScreenIcons ? 50 : 59} />
                                 <Typography style={{ textDecoration: 'none' }} className="tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1" color="white">
@@ -89,14 +111,17 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                 <div className={`tw-flex tw-pt-2 tw-h-[50%] ${oddRowCenter ? 'tw-justify-center' : ''}`}>
                     {oddRowItems.map((val, i) => {
                         const imageSrc = getImageSrc(val.icon);
-                        const urlLink = geturl(val.url.trim());
-                        return imageSrc && urlLink ? (
+                        const finalUrl = getFinalUrl(val.url);
+
+                        return imageSrc ? (
                             <Link
                                 key={i}
                                 className="tw-flex tw-h-[90%] tw-w-[80px] tw-px-0 tw-m-1 tw-flex-col tw-items-center tw-justify-center"
-                                href={`https://${urlLink}`}
                                 style={{ textDecoration: 'none' }}
+                                href={finalUrl || '#'}
                                 target='_blank'
+                                rel='noopener noreferrer'
+                                onClick={(event) => handleLinkClick(event, val.url.trim())}
                             >
                                 <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 50 : 59} height={isSmallScreenIcons ? 50 : 59} />
                                 <Typography style={{ width: '100%', textDecoration: 'none' }} className='tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1' color={'white'}>
