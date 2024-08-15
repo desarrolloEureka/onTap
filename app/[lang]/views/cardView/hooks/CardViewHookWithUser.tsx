@@ -19,8 +19,6 @@ const CardViewHookWithUser = ({ userUid }: { userUid: string }) => {
         SendViewUser(userId, viewsNew)
           .then(() => {
             setViewsIncremented(true); // Marcar como incrementado
-            refetch(); // Forzar la reconsulta para obtener los datos actualizados
-            localStorage.removeItem('@user');
           })
           .catch((error) => {
             console.error('Error sending view:', error);

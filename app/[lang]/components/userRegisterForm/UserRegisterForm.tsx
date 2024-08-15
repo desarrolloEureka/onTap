@@ -42,14 +42,19 @@ const UserRegister = () => {
     phoneCode,
     setPhoneCode,
     phoneChangeHandler,
-    isSubmitting
+    isSubmitting,
+    confirmEmail,
+    setConfirmEmail,
+    errorConfirmEmailForm,
+    setErrorConfirmEmailForm,
+    errorEmailMismatch
   } = UserRegisterForm();
 
   const dictionary = useDictionary({ lang: 'es' });
 
   return (
     <div className='tw-flex tw-h-screen tw-items-start tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
-      <Container className='tw-bg-[#02AF9B] tw-shadow-m tw-rounded-2xl tw-h-[675px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-20'>
+      <Container className='tw-bg-[#02AF9B] tw-shadow-m tw-rounded-2xl tw-h-[720px] tw-w-[600px] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-14'>
         <Typography
           className='tw-text-white  tw-mt-5 tw-w-full c tw-mb-4'
           variant='h4'
@@ -148,6 +153,9 @@ const UserRegister = () => {
               ),
             }}
             onChange={(e) => setEmail(e.target.value)}
+            onCopy={(e) => e.preventDefault()}  // Bloquea copiar
+            onCut={(e) => e.preventDefault()}   // Bloquea cortar
+            //onPaste={(e) => e.preventDefault()} // Bloquea pegar
           />
           {errorMailForm && (
             <span className='tw-text-red-500'>
@@ -155,7 +163,44 @@ const UserRegister = () => {
             </span>
           )}
 
-          <div className='tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4'>
+          <TextField
+            required
+            id='outlined-required'
+            value={confirmEmail}
+            variant='standard'
+            className='tw-mb-4 tw-w-[300px] tw-text-sm'
+            label={dictionary.dictionary?.backOffice.ConfirmEmail}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <AlternateEmailIcon
+                    style={{
+                      color: '#02AF9B',
+                      fontSize: '1.8rem',
+                      marginRight: '1rem',
+                    }}
+                  />
+                </InputAdornment>
+              ),
+            }}
+            onChange={(e) => setConfirmEmail(e.target.value)}
+            onCopy={(e) => e.preventDefault()}  // Bloquea copiar
+            onCut={(e) => e.preventDefault()}   // Bloquea cortar
+            onPaste={(e) => e.preventDefault()} // Bloquea pegar
+          />
+          {errorConfirmEmailForm && (
+            <span className='tw-text-red-500 tw-mb-2'>
+              {dictionary.dictionary?.backOffice.ValidEmail}
+            </span>
+          )}
+
+          {errorEmailMismatch && (
+            <span className='tw-text-red-500 tw-mb-2'>
+              {dictionary.dictionary?.backOffice.EmailMismatch}
+            </span>
+          )}
+
+          <div className='tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4 tw-mt-1'>
             <div className='tw-w-[40%] tw-items-start'>
               <Select
                 variant='outlined'

@@ -51,7 +51,7 @@ const ProfessionalOne = ({
     };
   }, []);
 
-  return data.profile ? (
+  return data.profile && data.profile.professional ? (
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
       <div className={`tw-shadow-md tw-rounded-2xl`} style={{ height: isSmallScreen ? windowSize.height : '700px', width: isSmallScreenWidth ? windowSize.width : '380px', overflow: 'hidden' }}>
         <BgImage background={background} />

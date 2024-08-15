@@ -46,11 +46,23 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
     const RowCenter = finalArray.length <= 8;
 
     // Expresión regular para validar la URL
-    //const regex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9#?=&._-]*)?$/i;
-    const regex = /^(https?:\/\/)?(?:www\.)?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?:\/[a-zA-Z0-9\-._~:?#\[\]@!$&'()*+,;=]*)?$/;
+    const regex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]{1,63}\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9\-._~:?#\[\]@!$&'()*+,;=]*)?(\?[;&a-zA-Z0-9%_.~+=-]*)?(#[a-zA-Z0-9-_]*)?$/i;
 
     // Función para validar si la URL es válida
-    const isValidUrl = (url: string) => regex.test(url);
+    const isValidUrl = (url: string) => {
+        // Primero valida con regex
+        if (!regex.test(url)) {
+            return false;
+        }
+
+        try {
+            // Luego valida con el constructor URL
+            const urlObj = new URL(url);
+            return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+        } catch (error) {
+            return false;
+        }
+    };
 
     // Retorna la imagen del ícono
     const getImageSrc = (name: string) => {

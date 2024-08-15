@@ -55,7 +55,7 @@ const SocialOne = ({
     data.profile && setIsDataError(false);
   }, [data.profile]);
 
-  return data.profile ? (
+  return data.profile && data.profile.social ? (
     <div className='tw-flex tw-flex-col tw-relative tw-justify-center tw-items-center tw-h-screen'>
       <div className={`tw-shadow-md tw-rounded-2xl tw-bg-slate-500`}
         style={{

@@ -6,12 +6,15 @@ import { useState } from 'react';
 const UserRegisterForm = () => {
   const [dni, setDni] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [confirmEmail, setConfirmEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [phoneCode, setPhoneCode] = useState<string>('');
   const [plan, setPlan] = useState<string>('standard');
   const [errorMailForm, setErrorMailForm] = useState<Boolean>(false);
+  const [errorConfirmEmailForm, setErrorConfirmEmailForm] = useState<Boolean>(false);
+  const [errorEmailMismatch, setErrorEmailMismatch] = useState<Boolean>(false);
   const [errorDataForm, setErrorDataForm] = useState<Boolean>(false);
   const [status, setStatus] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
@@ -37,9 +40,10 @@ const UserRegisterForm = () => {
 
     const trimmedDni = dni.trim();
     const trimmedEmail = email.trim().toLowerCase();
+    const trimmedConfirmEmail = confirmEmail.trim().toLowerCase();
     const trimmedPhone = phone.trim();
 
-    if (!dni || !email || !name || !lastName || !plan || !phone || !phoneCode) {
+    if (!dni || !email || !confirmEmail || !name || !lastName || !plan || !phone || !phoneCode) {
       setErrorDataForm(true);
       setIsSubmitting(false);
       return;
@@ -55,6 +59,24 @@ const UserRegisterForm = () => {
     } else {
       setErrorMailForm(false);
     }
+
+    if (!emailRegex.test(confirmEmail || '')) {
+      setErrorConfirmEmailForm(true);
+      setIsSubmitting(false);
+      return;
+    } else {
+      setErrorConfirmEmailForm(false);
+    }
+
+    // Validación para comprobar que el correo y la confirmación son iguales
+    if (trimmedEmail !== trimmedConfirmEmail) {
+      setErrorEmailMismatch(true);
+      setIsSubmitting(false);
+      return;
+    } else {
+      setErrorEmailMismatch(false);
+    }
+
     const data = {
       dni,
       email,
@@ -119,6 +141,7 @@ const UserRegisterForm = () => {
           //Se limpian los campos
           setDni('');
           setEmail('');
+          setConfirmEmail('');
           setName('');
           setLastName('');
           setPlan('standard');
@@ -161,7 +184,12 @@ const UserRegisterForm = () => {
     phoneCode,
     setPhoneCode,
     phoneChangeHandler,
-    isSubmitting
+    isSubmitting,
+    confirmEmail,
+    setConfirmEmail,
+    errorConfirmEmailForm,
+    setErrorConfirmEmailForm,
+    errorEmailMismatch
   };
 };
 

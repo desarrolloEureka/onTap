@@ -15,7 +15,9 @@
     "Apellido": "Apellidos",
     "Phone": "Teléfono ",
     "Email": "Correo",
+    "ConfirmEmail": "Confirmar Correo",
     "ValidEmail": "Ingrese un correo valido *",
+    "EmailMismatch": "Los correos electrónicos no coinciden. *",
     "Plan": "Plan",
     "TypeUser": "Tipo Usuario",
     "StandardPlan": "Estándar",
@@ -53,7 +55,7 @@
   "cardView": {
     "labelErrorUser": "Error",
     "labelErrorUserDescription": "El usuario no comparte su información en estos momentos",
-    "dataNotFound": "No se ha encontrado información para mostrar el resultado esperado!"
+    "dataNotFound": "No se ha encontrado información para mostrar."
   },
   "homeTitle": "Hola titulo español",
   "rememberPasswordTitle": "Recuperar contraseña123",

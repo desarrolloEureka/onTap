@@ -232,9 +232,7 @@ const GetUserByIdCard = (userUid: string, refetch?: boolean) => {
       const updatedUser = await getUserByIdFireStore(userUid);
       if (updatedUser.exists()) {
         const userData = await updatedUser.data() as UserData;
-        const getUser = await reBuildUserData(userData);
-        //console.log('getUser ', getUser)
-        return getUser;
+        return userData;
       } else {
         return null;
       }

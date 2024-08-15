@@ -15,7 +15,9 @@ export interface Dictionary {
     Apellido: string;
     Phone: string;
     Email: string;
+    ConfirmEmail: string;
     ValidEmail: string;
+    EmailMismatch: string;
     Plan: string;
     TypeUser: string;
     StandardPlan: string;

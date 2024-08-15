@@ -5,10 +5,22 @@ import Image from 'next/image';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Typography } from '@mui/material';
 
-// Función para validar si una URL tiene un formato válido
+const regex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]{1,63}\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9\-._~:?#\[\]@!$&'()*+,;=]*)?(\?[;&a-zA-Z0-9%_.~+=-]*)?(#[a-zA-Z0-9-_]*)?$/i;
+
+// Función para validar si la URL es válida
 const isValidUrl = (url: string) => {
-  const regex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9#?=&._-]*)?$/i;
-  return regex.test(url);
+  // Primero valida con regex
+  if (!regex.test(url)) {
+    return false;
+  }
+
+  try {
+    // Luego valida con el constructor URL
+    const urlObj = new URL(url);
+    return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+  } catch (error) {
+    return false;
+  }
 };
 
 const CustomButton = ({
