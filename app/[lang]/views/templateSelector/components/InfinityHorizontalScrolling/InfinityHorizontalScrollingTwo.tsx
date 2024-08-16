@@ -45,8 +45,14 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
     const oddRowCenter = finalArray.filter((_: any, index: number) => index % 2 !== 0).length < 4;
     const RowCenter = finalArray.length <= 8;
 
-    // Expresión regular para validar la URL
-    const regex = /^(https?:\/\/)?(([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,})(\/[^\s]*)?$/i;
+    //Retorna la img del icono 
+    const getImageSrc = (name: string) => {
+        const icon = data && data.find((val: any) => val.name === name);
+        return icon && icon.image;
+    };
+
+    const regex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]{1,63}\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9\-._~:?#\[\]@!$&'()*+,;=]*)?(\?[;&a-zA-Z0-9%_.~+=-]*)?(#[a-zA-Z0-9-_]*)?$/i;
+    //const regex = /^(https?:\/\/)?(([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,})(\/[^\s]*)?$/i;
 
     // Función para validar si la URL es válida
     const isValidUrl = (url: string) => {
@@ -64,34 +70,12 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
         }
     };
 
-    // Retorna la imagen del ícono
-    const getImageSrc = (name: string) => {
-        const icon = data && data.find((val: any) => val.name === name);
-        return icon && icon.image;
-    };
-
-    // Retorna la URL ajustada y válida
-    const geturl = (link: string) => {
-        let urlLink = link.trim();
-        if (isValidUrl(urlLink)) {
-            urlLink = urlLink.replace(/^(https?:\/\/)/i, '');
-        }
-        return urlLink;
-    };
-
-    // Manejador de clic para imprimir un error si la URL es inválida
-    const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, link: string) => {
-        if (!isValidUrl(link)) {
+    // Maneja el clic en el enlace y muestra un mensaje de error si la URL es inválida
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+        if (!isValidUrl(url)) {
             event.preventDefault();
             alert('La URL proporcionada no es válida.');
-            //console.error(`URL inválida: ${link}`);
         }
-    };
-
-    // Determina la URL final
-    const getFinalUrl = (link: string) => {
-        const urlLink = geturl(link);
-        return isValidUrl(urlLink) ? `https://${urlLink}` : '#';
     };
 
     return reversedArray && (
@@ -100,7 +84,9 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                 <div className={`tw-flex tw-h-[50%] ${evenRowCenter ? 'tw-justify-center' : ''}`}>
                     {evenRowItems.map((val, i) => {
                         const imageSrc = getImageSrc(val.icon);
-                        const finalUrl = getFinalUrl(val.url);
+                        const linkAux = val.url.trim();
+                        const fullUrl = /^https?:\/\//i.test(linkAux) ? linkAux : `https://${linkAux}`;
+                        const finalUrl = isValidUrl(fullUrl) ? fullUrl : '';
                         return imageSrc ? (
                             <Link
                                 key={i}
@@ -109,8 +95,7 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                                 href={finalUrl || '#'}
                                 target='_blank'
                                 rel='noopener noreferrer'
-                                onClick={(event) => handleLinkClick(event, val.url.trim())}
-
+                                onClick={(event) => handleClick(event, fullUrl)}
                             >
                                 <Image className="tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full" src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 50 : 59} height={isSmallScreenIcons ? 50 : 59} />
                                 <Typography style={{ textDecoration: 'none' }} className="tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1" color="white">
@@ -123,8 +108,9 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                 <div className={`tw-flex tw-pt-2 tw-h-[50%] ${oddRowCenter ? 'tw-justify-center' : ''}`}>
                     {oddRowItems.map((val, i) => {
                         const imageSrc = getImageSrc(val.icon);
-                        const finalUrl = getFinalUrl(val.url);
-
+                        const linkAux = val.url.trim();
+                        const fullUrl = /^https?:\/\//i.test(linkAux) ? linkAux : `https://${linkAux}`;
+                        const finalUrl = isValidUrl(fullUrl) ? fullUrl : '';
                         return imageSrc ? (
                             <Link
                                 key={i}
@@ -133,7 +119,7 @@ const InfinityHorizontalScrollingTwo = ({ socialNetworks, fullSocialIcons }: { s
                                 href={finalUrl || '#'}
                                 target='_blank'
                                 rel='noopener noreferrer'
-                                onClick={(event) => handleLinkClick(event, val.url.trim())}
+                                onClick={(event) => handleClick(event, fullUrl)}
                             >
                                 <Image className='tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)] tw-rounded-full' src={imageSrc} alt={val.name || 'Social Icon'} width={isSmallScreenIcons ? 50 : 59} height={isSmallScreenIcons ? 50 : 59} />
                                 <Typography style={{ width: '100%', textDecoration: 'none' }} className='tw-text-white tw-z-10 tw-text-xs tw-flex tw-items-center tw-justify-center tw-capitalize tw-pt-1' color={'white'}>

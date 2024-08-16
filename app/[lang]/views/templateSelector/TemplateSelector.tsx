@@ -85,13 +85,27 @@ const TemplateSelector = ({
       return <CustomCircularProgress isOpen />;
     }
   } else {
-    <CustomModalAlert
-      isModalAlert={isDataError}
-      handleModalAlert={() => setIsDataError(false)}
-      title={dictionary?.generalTitle || ''}
-      description={dictionary?.cardView?.dataNotFound || ''}
-      isClosed={true}
-    />;
+    if (type === 'professional') {
+      return (<CustomModalAlert
+        isModalAlert={isDataError}
+        handleModalAlert={() => setIsDataError(false)}
+        title={dictionary?.generalTitle || ''}
+        description={dictionary?.cardView?.completeDataProfesional || ''}
+        isClosed={false}
+      />
+      )
+    } else {
+      return (
+        <CustomModalAlert
+          isModalAlert={isDataError}
+          handleModalAlert={() => setIsDataError(false)}
+          title={dictionary?.generalTitle || ''}
+          description={dictionary?.cardView?.completeDataSocial || ''}
+          isClosed={false}
+        />
+      );
+    }
+
   }
 };
 

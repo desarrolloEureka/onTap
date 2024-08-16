@@ -55,7 +55,9 @@
   "cardView": {
     "labelErrorUser": "Error",
     "labelErrorUserDescription": "El usuario no comparte su información en estos momentos",
-    "dataNotFound": "No se ha encontrado información para mostrar."
+    "dataNotFound": "No se ha encontrado información para mostrar.",
+    "completeDataSocial": "Completa tu perfil social para que puedas compartir tu información.",
+    "completeDataProfesional": "Completa tu perfil profesional para que puedas compartir tu información."
   },
   "homeTitle": "Hola titulo español",
   "rememberPasswordTitle": "Recuperar contraseña123",

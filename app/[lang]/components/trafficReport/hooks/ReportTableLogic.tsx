@@ -212,6 +212,9 @@ const ReportTableLogic = () => {
                         .toString()
                         .padStart(2, "0")}`;
 
+                //const socialData = doc.data().templateData?.find((item: any) => item.type === 'social');
+                //const template = socialData && socialData.id ? socialData.id === 'LB7IVjoanye1dXzhipOG' ? 'Social 2' : socialData.id === 'XfhZLINMOpRTI7cakd8o' ? 'Social 1' : null : null
+                
                 return {
                     id: doc.data().dni,
                     is_admin: doc.data().is_admin,
@@ -220,7 +223,7 @@ const ReportTableLogic = () => {
                     lastName: doc.data().profile?.last_name?.text || "",
                     date: date,
                     hour: formattedHour,
-                    optionDetail: doc.data()
+                    optionDetail: doc.data(),
                 };
             }).filter((user) => !user.is_admin);
             setQuery(usersData);

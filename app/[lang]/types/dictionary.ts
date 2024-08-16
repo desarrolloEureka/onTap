@@ -53,6 +53,8 @@ export interface Dictionary {
     labelErrorUser: string;
     labelErrorUserDescription: string;
     dataNotFound: string;
+    completeDataSocial: string;
+    completeDataProfesional: string;
   };
   homeTitle: string;
   rememberPasswordTitle: string;

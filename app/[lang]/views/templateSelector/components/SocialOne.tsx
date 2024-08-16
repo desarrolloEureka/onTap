@@ -89,7 +89,7 @@ const SocialOne = ({
       handleModalAlert={() => setIsDataError(false)}
       title={dictionary?.generalTitle || ''}
       description={dictionary?.cardView?.dataNotFound || ''}
-      isClosed={true}
+      isClosed={false}
     />
   );
 };
