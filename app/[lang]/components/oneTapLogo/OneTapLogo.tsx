@@ -1,10 +1,12 @@
 
 import Image from 'next/image';
+import Link from 'next/link';
+
 
 const OneTapLogo = () => {
     return (
         <div className={`tw-flex tw-z-30 tw-h-[8%] tw-items-center tw-justify-center`}>
-            <div className="tw-items-center tw-w-full tw-flex tw-justify-center tw-z-20">
+            <Link href='https://www.onetap.com.co' target='_blank' className="tw-items-center tw-w-full tw-flex tw-justify-center tw-z-20">
                 <Image
                     src='/images/logo_onetap.png'
                     alt="One Tap"
@@ -12,7 +14,7 @@ const OneTapLogo = () => {
                     height={40}
                     priority
                 />
-            </div>
+            </Link>
         </div>
     );
 };
