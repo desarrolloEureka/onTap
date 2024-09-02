@@ -177,7 +177,7 @@ const UserTable = () => {
             )
         },
         {
-            field: 'edit', headerName: 'Editar', width: 110,
+            field: 'edit', headerName: 'Inactivo/Activo', width: 120,
             headerAlign: 'center',
             align: 'center',
             renderCell: (params) => (

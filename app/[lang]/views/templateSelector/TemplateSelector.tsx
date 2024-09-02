@@ -8,6 +8,7 @@ import useDictionary from '@/hooks/dictionary/useDictionary';
 import { useState } from 'react';
 import { Locale } from 'i18n-config';
 import SocialTwo from './components/SocialTwo';
+import ProfessionalTwo from './components/ProfessionalTwo';
 
 const TemplateSelector = ({
   user,
@@ -58,7 +59,19 @@ const TemplateSelector = ({
           );
         case 'ProfessionalOne':
           return (
-            <ProfessionalOne
+            <ProfessionalTwo
+              params={{
+                lang: 'es',
+                background: currentBackground,
+                data: user,
+                handleAceptCookiesPage: handleAceptCookies,
+                isCookies: isCookies
+              }}
+            />
+          );
+        case 'ProfessionalTwo':
+          return (
+            <ProfessionalTwo
               params={{
                 lang: 'es',
                 background: currentBackground,

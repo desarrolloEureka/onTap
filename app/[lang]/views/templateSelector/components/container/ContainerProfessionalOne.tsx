@@ -107,7 +107,7 @@ const TemplateContainerProfessionalOne = ({
               {professionalData.finalArray.map((item, key) => (
                 <Grid item xs={12} key={key} className='tw-pr-1 tw-pt-3 tw-shadow-[0_0px_05px_05px_rgba(0,0,0,0.1)]'>
                   <Item sx={{ backgroundColor: '#679a88', p: 2 }}>
-                    <ItemProfessionalCards item={item} key={key} />
+                    <ItemProfessionalCards colorText='#ffffff' item={item} key={key} />
                   </Item>
                 </Grid>
               ))}

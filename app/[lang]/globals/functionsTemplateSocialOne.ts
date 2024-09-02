@@ -37,6 +37,11 @@ export const getPrincipalProfileOrderedByObject = (
   const finalArray: DataFormValues[][] = [];
   const objectArray: any[] = [];
   let data: any = [];
+  
+  if (!profile || typeof profile !== 'object') {
+    return { finalArray: [] }; // O cualquier valor por defecto que prefieras.
+  }
+
   const profileFilter = Object.entries(profile as DataFormSorted).filter(
     (val) => {
       //Filter by social and any other different data to name, last name and urls

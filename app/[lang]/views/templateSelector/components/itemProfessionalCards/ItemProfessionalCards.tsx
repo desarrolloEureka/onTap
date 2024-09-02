@@ -14,8 +14,9 @@ import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 
 const ItemProfessionalCards = ({
   item,
+  colorText
 }: {
-  item: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[];
+  item: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[]; colorText: string
 }) => {
   return item[0].order == 11 || item[0].order == 12 ? (
     <Carousel height={80} autoPlay={false} navButtonsAlwaysInvisible>
@@ -109,7 +110,7 @@ const ItemProfessionalCards = ({
       const text = value as DataFormValues;
       return (
         <div key={key}>
-          <Box sx={{ display: 'flex', color: 'white' }}>
+          <Box sx={{ display: 'flex', color: colorText }}>{/* white */}
             {value.order == 6 || value.order == 16 ? (
               <WorkOutlineOutlinedIcon className='tw-text-base -tw-ml-[2px] tw-mr-1' />
             ) : value.order == 15 || value.order == 8 ? (
@@ -125,7 +126,7 @@ const ItemProfessionalCards = ({
             )}
             <Typography
               className='tw-w-[170px] tw-text-xs tw-mb-3 tw-font-bold tw-capitalize tw-truncate'
-              color={'white'}
+              color={colorText}//white
               textAlign={'left'}
             >
               {text.label === 'name' ? 'Nombres' :
