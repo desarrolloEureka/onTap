@@ -59,7 +59,7 @@ const TemplateSelector = ({
           );
         case 'ProfessionalOne':
           return (
-            <ProfessionalTwo
+            <ProfessionalOne
               params={{
                 lang: 'es',
                 background: currentBackground,
