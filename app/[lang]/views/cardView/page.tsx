@@ -294,7 +294,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         cityView: city,
         countryView: country
       }
-      //console.log('dataSend ', dataSend);
+      console.log('dataSend ', dataSend);
       SendDataMetrics(uid, dataSend);
     }
   }, [ipAddress, city, country, currentDate, currentTime, so, typeDevice, uid]);
@@ -338,8 +338,16 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const fetchCurrentDateTime = () => {
     try {
       const now = new Date();
-      setCurrentDate(now.toLocaleDateString());
-      setCurrentTime(now.toLocaleTimeString());
+  
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+  
+      const formattedDate = `${day}/${month}/${year}`;
+      const formattedTime = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+      
+      setCurrentDate(formattedDate);
+      setCurrentTime(formattedTime);
     } catch (error) {
       setCurrentDate('No disponible');
       setCurrentTime('No disponible');
