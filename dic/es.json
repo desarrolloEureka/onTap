@@ -73,7 +73,7 @@
   "loginView": {
     "username": "Usuario",
     "password": "Contraseña",
-    "login": "Ingresar",
+    "login": "Ingresar-",
     "recoverPassLogin": "Recuperar Contraseña",
     "mailMandatory": "El correo es obligatorio",
     "passwordMandatory": "La contraseña es obligatoria",
