@@ -10,7 +10,6 @@ import LogosTableLogic from './hooks/LogosTableLogic';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LogosForm from './hooks/LogosForm';
-import { deleteSocialNetwork } from '@/firebase/generals';
 import ModalDelete from './hooks/ModalDelete';
 import CustomModalAlert from '../customModalAlert/CustomModalAlert';
 import ModalEditLogo from './hooks/ModalEditLogo';
@@ -63,19 +62,34 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
     };
 
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Nombre del Logo', width: 130 },
         {
-            field: 'image', headerName: 'Imagen', width: 150,
+            field: 'name',
+            headerName: 'Nombre del Logo',
             headerAlign: 'center',
             align: 'center',
+            minWidth: 130,
+            flex: 1,
+        },
+        {
+            field: 'image',
+            headerName: 'Imagen',
+            minWidth: 150,
+            headerAlign: 'center',
+            align: 'center',
+            flex: 1,
             renderCell: (params) => (
-                <Image src={`${params.value}`} alt="image" width={55} height={55} />
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    <Image src={`${params.value}`} alt="image" width={45} height={45} />
+                </div>
             )
         },
         {
-            field: 'optionEdit', headerName: 'Editar', width: 130,
+            field: 'optionEdit',
+            headerName: 'Editar',
+            minWidth: 130,
             headerAlign: 'center',
             align: 'center',
+            flex: 1,
             renderCell: (params) => (
                 <Button style={{ color: 'black' }} onClick={() => handleEditLogo(params?.value)}>
                     <EditIcon />
@@ -83,15 +97,18 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
             )
         },
         {
-            field: 'optionDelete', headerName: 'Eliminar', width: 130,
+            field: 'optionDelete',
+            headerName: 'Eliminar',
+            minWidth: 130,
             headerAlign: 'center',
             align: 'center',
+            flex: 1,
             renderCell: (params) => (
                 <Button style={{ color: 'black' }} onClick={() => handleModalLogo(params?.value)}>
                     <DeleteIcon />
                 </Button>
             )
-        },
+        }
     ];
 
     return (
@@ -113,22 +130,26 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     </Box>
                 </Container>
             </div>
-            <div className='tw-bg-[#02AF9B] tw-mt-4 tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[800px] tw-w-[630px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
-                <div style={{ height: 700, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-0'>
-                    <DataGrid
-                        rows={data ?? []}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 15 },
-                            },
-                        }}
-                        pageSizeOptions={[15, 30, 60]}
-                        rowHeight={75}
-                        checkboxSelection
-                        className="tw-rounded-2xl"
-
-                    />
+            <div className='tw-flex tw-mt-4 tw-flex-col tw-items-center tw-justify-center tw-w-full tw-h-full'>
+                <div className='tw-shadow-m tw-rounded-2xl tw-h-[600px] tw-w-[99%]  tw-flex tw-flex-col tw-justify-center tw-items-center '>
+                    <div style={{ height: 650, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-m-6'>
+                        <DataGrid
+                            rows={data ?? []}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: { page: 0, pageSize: 5 },
+                                },
+                            }}
+                            pageSizeOptions={[5, 10]}
+                            disableColumnSelector
+                            disableDensitySelector
+                            disableColumnFilter
+                            disableRowSelectionOnClick
+                            ignoreDiacritics={true}
+                            className="tw-rounded-2xl tw-mb-3"
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -189,3 +210,4 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
 };
 
 export default LoadFonts;
+

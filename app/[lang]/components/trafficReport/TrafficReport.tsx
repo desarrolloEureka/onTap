@@ -2,7 +2,7 @@
 import React from 'react';
 import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
-import { DataGrid, GridColDef, gridFilteredSortedRowIdsSelector, GridToolbarContainer, gridVisibleColumnFieldsSelector, useGridApiContext, useGridApiRef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, gridFilteredSortedRowIdsSelector, GridToolbarContainer, gridVisibleColumnFieldsSelector, useGridApiRef } from '@mui/x-data-grid';
 import { GridToolbarQuickFilter } from '@mui/x-data-grid/components';
 import ReportTableLogic from './hooks/ReportTableLogic';
 import { Typography, Button, TextField } from '@mui/material';
@@ -10,6 +10,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box } from '@mui/system';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     const { dictionary } = useDictionary({ lang });
@@ -55,7 +57,12 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
     const columns: GridColDef[] = [
         {
-            field: 'date', headerName: 'Fecha Registro', width: 170, headerAlign: 'center', align: 'center',
+            field: 'date',
+            headerName: 'Fecha Registro',
+            minWidth: 170,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             renderCell: (params) => (
                 <div className='tw-flex tw-justify-center tw-items-center'>
                     <div>
@@ -64,14 +71,43 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                 </div>
             )
         },
-
-
-        { field: 'hour', headerName: 'Hora Registro', width: 130, headerAlign: 'center', align: 'center' },
-        { field: 'id', headerName: 'No. Identificación', width: 150, headerAlign: 'center', align: 'center' },
-        { field: 'name', headerName: 'Nombres', width: 170, headerAlign: 'center', align: 'center' },
-        { field: 'email', headerName: 'Correo', width: 250, headerAlign: 'center', align: 'center' },
         {
-            field: 'optionDetail', headerName: 'Ver detalle', width: 100,
+            field: 'hour',
+            headerName: 'Hora Registro',
+            minWidth: 130,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'id',
+            headerName: 'No. Identificación',
+            minWidth: 150,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'name',
+            headerName: 'Nombres',
+            minWidth: 170,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'email',
+            headerName: 'Correo',
+            minWidth: 250,
+            flex: 2,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'optionDetail',
+            headerName: 'Ver detalle',
+            minWidth: 100,
+            flex: 1,
             headerAlign: 'center',
             align: 'center',
             renderCell: (params) => (
@@ -79,12 +115,17 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     <VisibilityIcon />
                 </Button>
             )
-        },
+        }
     ];
 
     const columnsDetail: GridColDef[] = [
         {
-            field: 'viewsDate', headerName: 'Fecha Visualización', width: 170, headerAlign: 'center', align: 'center',
+            field: 'viewsDate',
+            headerName: 'Fecha Visualización',
+            minWidth: 170,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             renderCell: (params) => (
                 <div className='tw-flex tw-justify-center tw-items-center'>
                     <div>
@@ -93,13 +134,63 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                 </div>
             )
         },
-        { field: 'viewsTime', headerName: 'Hora', width: 150, headerAlign: 'center', align: 'center' },
-        { field: 'ipAddress', headerName: 'IP', width: 115, headerAlign: 'center', align: 'center' },
-        { field: 'typeDevice', headerName: 'Tipo Dispositivo', width: 125, headerAlign: 'center', align: 'center' },
-        { field: 'so', headerName: 'Sistema Operativo', width: 115, headerAlign: 'center', align: 'center' },
-        { field: 'cityView', headerName: 'Ciudad', width: 115, headerAlign: 'center', align: 'center' },
-        { field: 'countryView', headerName: 'País', width: 115, headerAlign: 'center', align: 'center' },
-        { field: 'View_Count', headerName: 'Cantidad Veces Visualizaciones"', width: 105, headerAlign: 'center', align: 'center', valueGetter: () => 1 },
+        {
+            field: 'viewsTime',
+            headerName: 'Hora',
+            minWidth: 150,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'ipAddress',
+            headerName: 'IP',
+            minWidth: 115,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'typeDevice',
+            headerName: 'Tipo Dispositivo',
+            minWidth: 125,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'so',
+            headerName: 'Sistema Operativo',
+            minWidth: 115,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'cityView',
+            headerName: 'Ciudad',
+            minWidth: 115,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'countryView',
+            headerName: 'País',
+            minWidth: 115,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'View_Count',
+            headerName: 'Cantidad Veces Visualizaciones',
+            minWidth: 105,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+            valueGetter: () => 1
+        }
     ];
 
     function getExcelData(apiRef: any) {
@@ -134,13 +225,23 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', paddingLeft: 3, paddingRight: 4, marginBottom: -2, marginTop: 1 }}>
                     <Button
-                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
+                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom'
                         type='submit'
+                        sx={{
+                            padding: '0',
+                            minWidth: 'auto',
+                            textTransform: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
                         style={{ textTransform: 'none' }}
                         onClick={() => handleExport()}
                     >
-                        <GetAppIcon />
-                        Exportar
+                        <GetAppIcon style={{ marginBottom: 5, fontSize: 30, color: '#02AF9B' }} />
+                        <Typography style={{ color: '#02AF9B' }}>
+                            Exportar
+                        </Typography>
                     </Button>
                 </Box>
 
@@ -201,7 +302,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         </div>
                     </div>
 
-                    <Button
+                    {/*   <Button
                         className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B] tw-mx-4'
                         type='submit'
                         style={{ textTransform: 'none' }}
@@ -217,6 +318,46 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         onClick={handleDeleteFilter}
                     >
                         Borrar
+                    </Button> */}
+
+                    <Button
+                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-5'
+                        type='submit'
+                        sx={{
+                            padding: '0',
+                            minWidth: 'auto',
+                            textTransform: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
+                        style={{ textTransform: 'none' }}
+                        onClick={handleDateChange}
+                    >
+                        <FilterListIcon style={{ marginBottom: 5, fontSize: 30, color: '#02AF9B' }} />
+                        <Typography style={{ color: '#02AF9B' }}>
+                            Filtrar
+                        </Typography>
+                    </Button>
+
+                    <Button
+                        className='tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-2'
+                        type='submit'
+                        sx={{
+                            padding: '0',
+                            minWidth: 'auto',
+                            textTransform: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
+                        style={{ textTransform: 'none' }}
+                        onClick={handleDeleteFilter}
+                    >
+                        <DeleteIcon style={{ marginBottom: 5, fontSize: 30, color: '#02AF9B' }} />
+                        <Typography style={{ color: '#02AF9B' }}>
+                            Borrar
+                        </Typography>
                     </Button>
 
                 </Box>
@@ -229,7 +370,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
 
                 <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', paddingLeft: 3, paddingRight: 4, marginBottom: -2, marginTop: 1 }}>
-                    <Button
+                    {/*  <Button
                         className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
                         type='submit'
                         style={{ textTransform: 'none' }}
@@ -237,6 +378,26 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     >
                         <GetAppIcon />
                         Exportar
+                    </Button> */}
+
+                    <Button
+                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom'
+                        type='submit'
+                        sx={{
+                            padding: '0',
+                            minWidth: 'auto',
+                            textTransform: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
+                        style={{ textTransform: 'none' }}
+                        onClick={() => handleExportDetail()}
+                    >
+                        <GetAppIcon style={{ marginBottom: 5, fontSize: 30, color: '#02AF9B' }} />
+                        <Typography style={{ color: '#02AF9B' }}>
+                            Exportar
+                        </Typography>
                     </Button>
                 </Box>
 
@@ -296,7 +457,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             />
                         </div>
                     </div>
-                    <Button
+                    {/* <Button
                         className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B] tw-mx-4'
                         type='submit'
                         style={{ textTransform: 'none' }}
@@ -312,7 +473,48 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         onClick={handleDeleteFilterDetail}
                     >
                         Borrar
+                    </Button> */}
+
+                    <Button
+                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-5'
+                        type='submit'
+                        sx={{
+                            padding: '0',
+                            minWidth: 'auto',
+                            textTransform: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
+                        style={{ textTransform: 'none' }}
+                        onClick={handleDateChangeDetail}
+                    >
+                        <FilterListIcon style={{ marginBottom: 5, fontSize: 30, color: '#02AF9B' }} />
+                        <Typography style={{ color: '#02AF9B' }}>
+                            Filtrar
+                        </Typography>
                     </Button>
+
+                    <Button
+                        className='tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-2'
+                        type='submit'
+                        sx={{
+                            padding: '0',
+                            minWidth: 'auto',
+                            textTransform: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
+                        style={{ textTransform: 'none' }}
+                        onClick={handleDeleteFilterDetail}
+                    >
+                        <DeleteIcon style={{ marginBottom: 5, fontSize: 30, color: '#02AF9B' }} />
+                        <Typography style={{ color: '#02AF9B' }}>
+                            Borrar
+                        </Typography>
+                    </Button>
+
 
                 </Box>
             </GridToolbarContainer>
@@ -324,15 +526,14 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
             {seeDetail ?
                 <>
                     {dataDetailUser && dataDetailUserTool && (
-                        <div className='tw-bg-[#02AF9B] tw-mt-4 tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[800px] tw-w-[1100px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
+                        <div className=' tw-mt-4 tw-shadow-m tw-rounded-2xl tw-h-[800px] tw-w-[99%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
                             <div style={{ height: 70, width: '100%' }} className='tw-flex tw-flex-col tw-justify-center tw-items-start'>
                                 <Button style={{ height: '100%', width: '10%' }} className='tw-flex tw-justify-start tw-items-start' onClick={() => handleBack()}>
-                                    <ArrowBackIcon sx={{ color: 'white', fontSize: 35, paddingTop: 1.8 }} />
+                                    <ArrowBackIcon sx={{ color: 'black', fontSize: 39, paddingTop: 1.8 }} />
                                 </Button>
                             </div>
 
                             <div style={{ height: 100, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-0 tw-mb-5 tw-flex tw-flex-col tw-justify-center tw-items-center '>
-
                                 <div style={{ height: '33%', width: '97%' }} className='tw-flex tw-justify-start tw-items-center'>
                                     <div style={{ height: '100%', width: '35%' }} className='tw-flex tw-justify-start tw-items-end'>
                                         <Typography className=' tw-text-lg tw-font-bold tw-text-black tw-text-start'>
@@ -359,9 +560,9 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                                         </Typography>
                                     </div>
                                 </div>
-
                             </div>
-                            <div style={{ height: 590, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-0'>
+
+                            <div style={{ height: 590, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mb-10'>
                                 <DataGrid
                                     apiRef={apiRefDetail}
                                     //rows={dataDetailUser.DataMetrics ?? []}
@@ -417,11 +618,10 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             </div>
                         </div>
                     )}
-
                 </>
                 :
-                <div className='tw-bg-[#02AF9B] tw-mt-4 tw-shadow-m tw-mx-20 tw-px-10 tw-rounded-2xl tw-h-[800px] tw-w-[1000px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
-                    <div style={{ height: 700, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mt-0'>
+                <div className=' tw-mt-4 tw-shadow-m tw-rounded-2xl tw-h-[800px] tw-w-[99%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                    <div style={{ height: 700, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl'>
                         <DataGrid
                             apiRef={apiRef}
                             rows={query ?? []}

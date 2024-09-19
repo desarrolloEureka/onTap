@@ -8,8 +8,12 @@ export interface Dictionary {
     UserList: string;
     CreateUser: string;
     UserRegister: string;
+    CategoriesRegister: string;
     CreateLogo: string;
     TrafficReport: string;
+    CreateCategory: string;
+    CreateProducts: string;
+    CreatePlans: string;
     dni: string;
     Nombre: string;
     Apellido: string;
@@ -48,6 +52,43 @@ export interface Dictionary {
     labelFailDelete: string;
     labelSuccessEdit: string;
     labelFailEdit: string;
+    Loading: string;
+    CategoryName: string;
+    ProductsLabel: string;
+    //Producto
+    ProductSku: string;
+    ProductName: string;
+    ProductPrice: string;
+    ProductState: string;
+    nextButton: string;
+    backButton: string;
+    //Plan
+    PlansLabel: string;
+    PlanSku: string;
+    PlanName: string;
+    PlanPrice: string;
+    PlanState: string;
+    //Menu BackOffice
+    ServiceLabel: string,
+    CategoryLabel: string,
+    ProductsLabelMenu: string,
+    PlansLabelMenu: string,
+    MaterialsLabelMenu: string,
+    ColorsLabelMenu: string,
+    CustomizationsLabelMenu: string,
+    DistributionLabelMenu: string,
+    DistributorLabelMenu: string,
+    DistributorCustomerLabelMenu: string,
+    ReportsLabelMenu: string,
+    SubscriptionsLabelMenu: string,
+    SettingsLabelMenu: string,
+    NotificationsLabelMenu: string,
+    SubscriptionValueLabelMenu: string,
+    ClientLabelMenu: string,
+    UsersLabelMenu: string,
+    CategoriesLabel: string,
+    CategoriesDistriLabel: string,
+    TemplatesLabel: string,
   };
   cardView: {
     labelErrorUser: string;

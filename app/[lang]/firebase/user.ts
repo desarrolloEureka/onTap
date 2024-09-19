@@ -149,10 +149,10 @@ export const updateDataUser = async (userId: string, newData: any) => {
   try {
     const userDocRef = doc(dataBase, 'users', userId);
     await updateDoc(userDocRef, newData);
-    return true;
+    return { success: true, message: 'Usuario actualizado correctamente' };
   } catch (error: any) {
     console.error('Error updating user data:', error.message);
-    return false;
+    return { success: false, message: 'Error al actualizar el Usuario' };
   }
 };
 

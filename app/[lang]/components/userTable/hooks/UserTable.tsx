@@ -1,6 +1,8 @@
 import { getAllUsers } from "@/firebase/user"
-import { SendEditData } from "@/reactQuery/users";
+import { checkUserExists, SendEditData } from "@/reactQuery/users";
+import { registerUserAuth, registerUserFb } from "app/functions/register";
 import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
 
 const UserTableLogic = () => {
@@ -17,39 +19,68 @@ const UserTableLogic = () => {
     const [query, setQuery] = useState<any>([]);
     const [filteredQuery, setFilteredQuery] = useState<any>([]);
     const [flag, setFlag] = useState(false);
-    const [isModalEdit, setIsModalEdit] = useState(false);
+    const [dataUser, setDataUser] = useState<UserData | null>(null);
+    const [status, setStatus] = useState<string>('');
+
+    //Modal editar/registro
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditData, setIsEditData] = useState(false);
+
+    //
     const [isModalQR, setIsModalQR] = useState(false);
     const [isModalSuccess, setIsModalSuccess] = useState(false);
     const [isModalFail, setIsModalFail] = useState(false);
-    const [dataUser, setDataUser] = useState<UserData | null>(null);
+    //Datos
     const [dni, setDni] = useState<string>('');
     const [name, setName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
+    const [confirmEmail, setConfirmEmail] = useState<string>('');
     const [phoneCode, setPhoneCode] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [plan, setPlan] = useState<string>('');
     const [type, setType] = useState<string>('');
+    //Extra
     const [urlQR, setUrlQR] = useState<string>('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [rowId, setRowId] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    //Error
+    const [errorDniForm, setErrorDniForm] = useState<string | null>(null);
+    const [errorNameForm, setErrorNameForm] = useState<string | null>(null);
+    const [errorPlanForm, setErrorPlanForm] = useState<string | null>(null);
+    const [errorPhoneForm, setErrorPhoneForm] = useState<string | null>(null);
+    const [errorPhoneCodeForm, setErrorPhoneCodeForm] = useState<string | null>(null);
+    const [errorMailForm, setErrorMailForm] = useState<string | null>(null);
+    const [errorConfirmEmailForm, setErrorConfirmEmailForm] = useState<string | null>(null);
+    const [errorEmailMismatch, setErrorEmailMismatch] = useState<string | null>(null);
 
-    const handleEditData = (dataUser: any) => {
+    const handleOpenModal = () => {
+        setIsEditData(false);
+        setIsModalOpen(true);
+    };
+
+    const handleEditUser = (dataUser: any) => {
         setDataUser(dataUser);
+        setRowId(dataUser.uid);
         setDni(dataUser?.dni || "");
         setName(dataUser?.name || "");
         setEmail(dataUser?.email || "");
+        setConfirmEmail(dataUser?.email || "");
         setPhoneCode(dataUser?.indicative || "");
         setPhone(dataUser?.phone || "");
         setPlan(dataUser?.plan || "");
         setType(dataUser?.gif ? dataUser?.gif === true ? "Obsequio" : "Comprador" : "Comprador");
-        setIsModalEdit(true);
-    }
+        setIsEditData(true);
+        setIsModalOpen(true);
+    };
 
     const handleSeeQR = (URL: any) => {
         setUrlQR(URL);
         setIsModalQR(true);
-    }
+    };
 
     const handleDownloadQR = () => {
         // Obtener el elemento SVG del QR
@@ -155,7 +186,6 @@ const UserTableLogic = () => {
         }
     };
 
-
     const handleDateChange = () => {
         const dateStart = startDate ? new Date(startDate) : null;
         const dateEnd = endDate ? new Date(endDate) : null;
@@ -207,52 +237,252 @@ const UserTableLogic = () => {
         setEndDate('');
     };
 
+    const handleReset = () => {
+        // Restablecer todos los estados relacionados con el formulario de usuario
+        setDni('');
+        setName('');
+        setLastName('');
+        setEmail('');
+        setConfirmEmail('');
+        setPhoneCode('');
+        setPhone('');
+        setPlan('');
+        setType('');
+
+        // Restablecer los errores del formulario
+        setErrorDniForm(null);
+        setErrorNameForm(null);
+        setErrorPlanForm(null);
+        setErrorPhoneForm(null);
+        setErrorPhoneCodeForm(null);
+        setErrorMailForm(null);
+        setErrorConfirmEmailForm(null);
+        setErrorEmailMismatch(null);
+
+        // Restablecer los estados de los modales
+        setIsModalOpen(false);
+        setIsModalQR(false);
+        setIsModalSuccess(false);
+        setIsModalFail(false);
+
+        // Restablecer el estado de la fila seleccionada
+        setRowId(null);
+
+        // Restablecer cualquier estado adicional
+        setIsSubmitting(false);
+        setStatus('');
+        setDataUser(null);
+        setFlag(false);
+        setUrlQR('');
+        setStartDate('');
+        setEndDate('');
+        setSearchTerm('');
+
+        // Restablecer la consulta filtrada (opcional si aplica a tu caso)
+        setFilteredQuery(query);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        handleReset();
+    };
+
+    // Función para validar los campos del formulario
+    const validateForm = () => {
+        let valid = true;
+
+        // Validar DNI
+        if (dni.trim() === '') {
+            setErrorDniForm('El DNI es obligatorio.');
+            valid = false;
+        } else {
+            setErrorDniForm(null);
+        }
+
+        // Validar nombre
+        if (name.trim() === '') {
+            setErrorNameForm('El nombre es obligatorio.');
+            valid = false;
+        } else {
+            setErrorNameForm(null);
+        }
+
+        // Validar plan
+        if (!plan) {
+            setErrorPlanForm('El plan es obligatorio.');
+            valid = false;
+        } else {
+            setErrorPlanForm(null);
+        }
+
+        // Validar teléfono
+        if (phone.trim() === '') {
+            setErrorPhoneForm('El teléfono es obligatorio.');
+            valid = false;
+        } else {
+            setErrorPhoneForm(null);
+        }
+
+        // Validar código de teléfono
+        if (phoneCode.trim() === '') {
+            setErrorPhoneCodeForm('El código de teléfono es obligatorio.');
+            valid = false;
+        } else {
+            setErrorPhoneCodeForm(null);
+        }
+
+        // Validar correo electrónico
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        const trimmedEmail = email.trim().toLowerCase();
+        if (trimmedEmail === '') {
+            setErrorMailForm('El correo electrónico es obligatorio.');
+            valid = false;
+        } else if (!emailRegex.test(trimmedEmail)) {
+            setErrorMailForm('El correo electrónico no tiene un formato válido.');
+            valid = false;
+        } else {
+            setErrorMailForm(null);
+        }
+
+        // Validar confirmación de correo
+        const trimmedConfirmEmail = confirmEmail.trim().toLowerCase();
+        if (trimmedConfirmEmail === '') {
+            setErrorConfirmEmailForm('La confirmación del correo es obligatoria.');
+            valid = false;
+        } else if (!emailRegex.test(trimmedConfirmEmail)) {
+            setErrorConfirmEmailForm('El correo de confirmación no tiene un formato válido.');
+            valid = false;
+        } else {
+            setErrorConfirmEmailForm(null);
+        }
+
+        // Validar coincidencia de correos
+        if (trimmedEmail !== trimmedConfirmEmail) {
+            setErrorEmailMismatch('El correo electrónico y su confirmación no coinciden.');
+            valid = false;
+        } else {
+            setErrorEmailMismatch(null);
+        }
+
+        return valid;
+    };
+
+    // Función para manejar el envío del formulario
     const dataRegisterHandle = async () => {
-        const res = await SendEditData("" + dataUser?.uid, {
-            dni: dni,
-            name: name,
-            email: email,
-            indicative: phoneCode,
-            phone: phone,
-            plan: plan, gif: type === "Obsequio" ? true : false,
-            templateData: plan === 'standard' ? [{
+        console.log('Crear!!');
+        if (!validateForm()) return;
+
+        setIsSubmitting(true);
+        setStatus('');
+
+        const trimmedDni = dni.trim();
+        const trimmedEmail = email.trim().toLowerCase();
+        const trimmedPhone = phone.trim();
+
+        try {
+            // Crear un timestamp para la fecha de creación
+            const dateCreated = new Date().getTime();
+
+            // Verificar si el usuario ya existe
+            const { exists, field } = await checkUserExists(trimmedDni, trimmedEmail, trimmedPhone);
+            if (exists) {
+                setIsSubmitting(false);
+                //setError(`El usuario con ${field} ya existe.`);
+                return;
+            }
+
+            // Registrar usuario en la autenticación
+            const result = await registerUserAuth({ user: trimmedEmail, password: trimmedDni });
+            result.name = `${name} ${lastName}`;
+            result.plan = plan;
+            result.switch_profile = false; // Modo de perfil
+            result.gif = true;
+            result.email = trimmedEmail;
+            result.phone = trimmedPhone;
+            result.indicative = phoneCode;
+            result.dni = trimmedDni;
+            result.isActiveByAdmin = true;
+            result.created = dateCreated;
+            result.templateData = plan === 'standard' ? [{
                 type: 'social',
                 id: 'XfhZLINMOpRTI7cakd8o',
                 background_id: '7ynTMVt3M6VFV3KykOXQ',
                 checked: true,
-            }]
-                :
-                [{
-                    type: 'social',
-                    id: 'XfhZLINMOpRTI7cakd8o',
-                    background_id: '7ynTMVt3M6VFV3KykOXQ',
-                    checked: true,
-                },
-                {
-                    type: 'professional',
-                    id: 'ZESiLxKZFwUOUOgLKt6P',
-                    background_id: '7ynTMVt3M6VFV3KykOXQ',
-                    checked: true,
-                }
-                ]
-        });
-        if (res === true) {
-            setTimeout(() => {
-                setIsModalEdit(!isModalEdit);
-            }, 500);
-            setTimeout(() => {
-                setIsModalSuccess(true);
-            }, 500);
-        } else {
-            setTimeout(() => {
-                setIsModalEdit(!isModalEdit);
-            }, 500);
-            setTimeout(() => {
-                setIsModalFail(true);
-            }, 500);
+            }] : [{
+                type: 'social',
+                id: 'XfhZLINMOpRTI7cakd8o',
+                background_id: '7ynTMVt3M6VFV3KykOXQ',
+                checked: true,
+            }, {
+                type: 'professional',
+                id: 'ZESiLxKZFwUOUOgLKt6P',
+                background_id: '7ynTMVt3M6VFV3KykOXQ',
+                checked: true,
+            }];
+
+            // Registrar usuario en la base de datos
+            await registerUserFb({ data: result });
+
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: `Usuario registrado con éxito`,
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            setIsModalOpen(false);
+            handleReset();
+
+        } catch (err) {
+            setStatus('Error al registrar al usuario');
+        } finally {
+            setFlag(!flag);
+            setIsSubmitting(false);
         }
-        setFlag(!flag);
-    }
+    };
+
+    const handleEditData = async () => {
+        console.log('Editar!!');
+        if (!validateForm()) return;
+        setIsSubmitting(true);
+        setStatus('');
+
+        try {
+
+            const dataSend = {
+                dni,
+                name,
+                email,
+                indicative: phoneCode,
+                phone,
+                plan,
+                type
+            };
+
+            const result = await SendEditData(rowId, dataSend);
+
+            if (result.success) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Usuario actualizada con éxito`,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                setIsModalOpen(false);
+                handleReset();
+            } else {
+                setStatus(result.message);
+            }
+
+        } catch (err) {
+            setStatus('Error al registrar al usuario');
+        } finally {
+            setFlag(!flag);
+            setIsSubmitting(false);
+        }
+    };
 
     useEffect(() => {
         const getquery = async () => {
@@ -308,9 +538,9 @@ const UserTableLogic = () => {
         flag,
         setFlag,
         setQuery,
-        handleEditData,
-        isModalEdit,
-        setIsModalEdit,
+        handleOpenModal,
+        isModalOpen,
+        setIsModalOpen,
         dataUser,
         setDni,
         dni,
@@ -346,7 +576,23 @@ const UserTableLogic = () => {
         phone,
         setPhone,
         exportToExcel,
-        apiRef
+        apiRef,
+        handleCloseModal,
+        isEditData,
+        lastName,
+        setLastName,
+        confirmEmail,
+        setConfirmEmail,
+        handleEditData,
+        handleEditUser,
+        errorDniForm,
+        errorNameForm,
+        errorPlanForm,
+        errorPhoneForm,
+        errorPhoneCodeForm,
+        errorMailForm,
+        errorConfirmEmailForm,
+        errorEmailMismatch
     };
 };
 

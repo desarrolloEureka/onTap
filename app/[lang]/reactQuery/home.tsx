@@ -1,7 +1,10 @@
 import {
   deleteSocialNetwork,
   getAllBackgroundImages,
+  getAllCategories,
   getAllLogosImages,
+  getAllPlans,
+  getAllProducts,
   getAllSocialNetworks,
   getAllTemplates,
   getBackgroundImage,
@@ -63,6 +66,30 @@ const GetAllLogosImages = (flag?: boolean) => {
   });
 };
 
+const GetAllCategories = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['categories', flag],
+    queryFn: async () => await getAllCategories(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+const GetAllProducts = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['products', flag],
+    queryFn: async () => await getAllProducts(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+const GetAllPlanes = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['plans', flag],
+    queryFn: async () => await getAllPlans(),
+    refetchOnWindowFocus: false,
+  });
+};
+
 const GetAllSocialNetworks = () => {
   return useQuery({
     queryKey: ['social_networks'],
@@ -86,4 +113,4 @@ const UpdateSocialNetwork = async (imageFile: File, oldImageName: string, newIma
   return res;
 };
 
-export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages, SaveSocialNetwork, DeleteSocialNetwork, UpdateSocialNetwork, GetTemplate, GetBackgroundImage };
+export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages, SaveSocialNetwork, DeleteSocialNetwork, UpdateSocialNetwork, GetTemplate, GetBackgroundImage, GetAllCategories, GetAllProducts, GetAllPlanes };

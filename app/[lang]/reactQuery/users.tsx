@@ -59,6 +59,7 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
           const user = docSnap.data() as UserData;
           const getUser = userDataToSend(user, resultUser);
           await localStorage.setItem('@user', JSON.stringify(getUser));
+          console.log('getUser ', getUser);
           return getUser;
         } else {
           return null;
@@ -128,7 +129,7 @@ const SendSwitchEditAdmin = async (userId: string, switchState: boolean) => {
   }
 };
 
-const SendEditData = async (userId: string, userData: any) => {
+const SendEditData = async (userId: any, userData: any) => {
   const res = await updateDataUser(userId, userData);
   return res;
 };

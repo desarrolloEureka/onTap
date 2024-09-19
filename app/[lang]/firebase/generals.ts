@@ -1,5 +1,5 @@
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { BackgroundImages, LogosImages, SocialNetworks, Templates } from '@/types/home';
+import { BackgroundImages, Categories, LogosImages, Plans, Products, SocialNetworks, Templates } from '@/types/home';
 import { AllRefPropsFirebase } from '@/types/userFirebase';
 import { addDoc, collection, doc, getDocs, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
 import { dataBase } from './firebaseConfig';
@@ -56,6 +56,68 @@ export const getAllLogosImages = async () => {
   }
   return logosImages;
 };
+
+export const getAllCategories = async () => {
+  const categoriesData: Categories[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'categories' }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Categories;
+      categoriesData.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return categoriesData;
+};
+
+export const getAllProducts = async () => {
+  const categoriesData: Products[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'products' }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Products;
+      categoriesData.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return categoriesData;
+};
+
+/* export const getAllPlans = async () => {
+  const categoriesData: Plans[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'plans' }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Plans;
+      dataResult?.selectedProducts.forEach((prod: any) => {
+        categoriesData.push({ ...dataResult, id: doc.id, product: prod });
+      });
+    });
+  }
+  return categoriesData;
+}; */
+
+export const getAllPlans = async () => {
+  const categoriesData: Plans[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'plans' }));
+
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc) => {
+      const dataResult = doc.data() as Plans;
+
+      if (Array.isArray(dataResult?.selectedProducts)) {
+        dataResult.selectedProducts.forEach((prod) => {
+          categoriesData.push({ ...dataResult, id: doc.id, product: prod });
+        });
+      } else {
+        console.warn(`No 'selectedProducts' array found in document ${doc.id}`);
+      }
+    });
+  } else {
+    console.warn('No documents found in the query.');
+  }
+
+  return categoriesData;
+};
+
 
 //La imagen se recive en base 64(imagen), tambien se recive el nombre de la imagen(image)
 export const saveBackgroundImage = async (image: string, name: string) => {

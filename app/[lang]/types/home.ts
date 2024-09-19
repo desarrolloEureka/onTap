@@ -30,6 +30,38 @@ export interface LogosImages {
   delete: string;
 }
 
+export interface Categories {
+  id: string;
+  name: string;
+  created_at: string;
+  editable: any;
+  status: boolean;
+}
+
+export interface Products {
+  id: string;
+  sku: string;
+  name: string;
+  created_at: string;
+  full_price: number;
+  status: boolean;
+  editable: any;
+  prices_matrix: any;
+}
+
+export interface Plans {
+  id: string;
+  sku: string;
+  name: string;
+  created_at: string;
+  full_price: number;
+  status: boolean;
+  editable: any;
+  prices_matrix: any;
+  selectedProducts?: any;
+  product?: any;
+}
+
 export interface SocialNetworks {
   id: string;
   name: string;
