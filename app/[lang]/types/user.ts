@@ -39,7 +39,7 @@ export interface User {
   isAdmin: boolean;
   isActive: boolean;
   isActiveByAdmin: boolean;
-  accessToken: string
+  accessToken?: string
 }
 
 export interface UserDb {
