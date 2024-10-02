@@ -78,6 +78,7 @@ export interface Dictionary {
     CustomizationsLabelMenu: string,
     DistributionLabelMenu: string,
     DistributorLabelMenu: string,
+    DistributorsLabel: string,
     DistributorCustomerLabelMenu: string,
     ReportsLabelMenu: string,
     SubscriptionsLabelMenu: string,
@@ -89,6 +90,15 @@ export interface Dictionary {
     CategoriesLabel: string,
     CategoriesDistriLabel: string,
     TemplatesLabel: string,
+    CountryLabel: string,
+    DepartmentsLabel: string,
+    CitiesLabel: string,
+    MaterialSku: string,
+    MaterialName: string,
+    ColorSku: string,
+    ColorName: string,
+    PersonalizationSku: string,
+    PersonalizationName: string,
   };
   cardView: {
     labelErrorUser: string;

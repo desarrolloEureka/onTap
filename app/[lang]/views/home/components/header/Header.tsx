@@ -74,7 +74,7 @@ const Header = ({
               </div>
             </div>
           </div>
-          <div className='tw-w-[100px] tw-align-middle tw-items-center tw-flex tw-flex-col' onClick={() => copyToClipboard()}>
+          {/*   <div className='tw-w-[100px] tw-align-middle tw-items-center tw-flex tw-flex-col' onClick={() => copyToClipboard()}>
             <Typography className='tw-text-[#396593] tw-text-sm'>
               {dictionary.homeView.copyUrlButtonLabel}
             </Typography>
@@ -89,7 +89,7 @@ const Header = ({
                 {dictionary.homeView.copyUrlMessageLabel}
               </Typography>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

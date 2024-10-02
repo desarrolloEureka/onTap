@@ -41,6 +41,7 @@ const LoginHook = (dictionary: Dictionary) => {
 
   const userIsLogged = useCallback(() => {
     if (data) {
+      console.log(data);
       if (data.isAdmin) {
         if (data.isActive === true) {
           router.push('/views/backOffice');

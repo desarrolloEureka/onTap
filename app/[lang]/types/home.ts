@@ -62,6 +62,47 @@ export interface Plans {
   product?: any;
 }
 
+export interface Colors {
+  id: string;
+  sku: string;
+  name: string;
+  created_at: string;
+  editable: any;
+  selectedMaterials?: any;
+  product?: any;
+  image: any
+}
+
+export interface Customizations {
+  id: string;
+  sku: string;
+  name: string;
+  created_at: string;
+  full_price: number;
+  status: boolean;
+  editable: any;
+  prices_matrix: any;
+}
+
+export interface Distributors {
+  address: string;
+  category: string;
+  city: string;
+  country: string;
+  created_at: string;
+  documentType: string;
+  documentNumber: string;
+  email: string;
+  fullName: string;
+  dni: string;
+  id: string;
+  isActive: boolean;
+  phoneNumber: string;
+  state: string;
+  uid: string;
+  editable: any;
+}
+
 export interface SocialNetworks {
   id: string;
   name: string;

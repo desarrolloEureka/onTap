@@ -31,8 +31,6 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import BuildIcon from '@mui/icons-material/Build';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import TuneIcon from '@mui/icons-material/Tune';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import ListIcon from '@mui/icons-material/List'
 import FontDownloadIcon from '@mui/icons-material/FontDownload';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -40,6 +38,14 @@ import PeopleIcon from '@mui/icons-material/People'
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PaymentIcon from '@mui/icons-material/Payment'
+import Countries from '@/components/countries/Countries';
+import Departments from '@/components/departments/Departments';
+import Cities from '@/components/cities/Cities';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import MaterialRegisterForm from '@/components/materials/MaterialRegisterForm';
+import ColorRegisterForm from '@/components/colorsRegisterForm/ColorRegisterForm';
+import PersonalizationRegisterForm from '@/components/personalizationRegisterForm/PersonalizationRegisterForm';
+import DistributorRegisterForm from '@/components/distributorRegisterForm/DistributorRegisterForm';
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -103,15 +109,15 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       <AssignmentIcon fontSize="small" sx={{ marginRight: '4px' }} />
                       {dictionary?.backOffice.PlansLabelMenu}
                     </NavDropdown.Item>
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
+                    <NavDropdown.Item eventKey="12" style={{ fontSize: 15 }}>
                       <BuildIcon fontSize="small" sx={{ marginRight: '4px' }} />
                       {dictionary?.backOffice.MaterialsLabelMenu}
                     </NavDropdown.Item>
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
+                    <NavDropdown.Item eventKey="13" style={{ fontSize: 15 }}>
                       <ColorLensIcon fontSize="small" sx={{ marginRight: '4px' }} />
                       {dictionary?.backOffice.ColorsLabelMenu}
                     </NavDropdown.Item>
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
+                    <NavDropdown.Item eventKey="14" style={{ fontSize: 15 }}>
                       <TuneIcon fontSize="small" sx={{ marginRight: '4px' }} />
                       {dictionary?.backOffice.CustomizationsLabelMenu}
                     </NavDropdown.Item>
@@ -137,7 +143,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       <PeopleIcon fontSize="small" sx={{ marginRight: '4px' }} />
                       {dictionary?.backOffice.UserTable}
                     </NavDropdown.Item>
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
+                    <NavDropdown.Item eventKey="15" style={{ fontSize: 15 }}>
                       <LocalShippingIcon fontSize="small" sx={{ marginRight: '4px' }} />
                       {dictionary?.backOffice.DistributorLabelMenu}
                     </NavDropdown.Item>
@@ -173,26 +179,6 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     {dictionary?.backOffice.TrafficReport}
                   </Nav.Link>
 
-                  {/*  <NavDropdown
-                    title={
-                      <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
-                        <EngineeringIcon fontSize='small' sx={{ marginRight: '4px', fontSize: 32 }} />
-                        {dictionary?.backOffice.DistributionLabelMenu}
-                      </span>
-                    }
-                    id="basic-nav-dropdown"
-                    className="tw-text-white  tw-mr-4"
-                  >
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
-                      <LocalShippingIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.DistributorLabelMenu}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
-                      <PeopleIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.DistributorCustomerLabelMenu}
-                    </NavDropdown.Item>
-                  </NavDropdown> */}
-
                   <NavDropdown
                     title={
                       <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
@@ -227,6 +213,18 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       <PaymentIcon fontSize="small" sx={{ marginRight: '4px' }} />
                       {dictionary?.backOffice.SubscriptionValueLabelMenu}
                     </NavDropdown.Item>
+                    <NavDropdown.Item eventKey="9" style={{ fontSize: 15 }}>
+                      <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                      {dictionary?.backOffice.CountryLabel}
+                    </NavDropdown.Item>
+                    <NavDropdown.Item eventKey="10" style={{ fontSize: 15 }}>
+                      <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                      {dictionary?.backOffice.DepartmentsLabel}
+                    </NavDropdown.Item>
+                    <NavDropdown.Item eventKey="11" style={{ fontSize: 15 }}>
+                      <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                      {dictionary?.backOffice.CitiesLabel}
+                    </NavDropdown.Item>
                   </NavDropdown>
 
 
@@ -251,6 +249,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 6 && <CategoryRegisterForm params={{ lang }} />}
         {value === 7 && <ProductRegisterForm params={{ lang }} />}
         {value === 8 && <PlanRegisterForm params={{ lang }} />}
+        {value === 9 && <Countries params={{ lang }} />}
+        {value === 10 && <Departments params={{ lang }} />}
+        {value === 11 && <Cities params={{ lang }} />}
+        {value === 12 && <MaterialRegisterForm params={{ lang }} />}
+        {value === 13 && <ColorRegisterForm params={{ lang }} />}
+        {value === 14 && <PersonalizationRegisterForm params={{ lang }} />}
+        {value === 15 && <DistributorRegisterForm params={{ lang }} />}
       </Box>
 
       {/* Footer */}

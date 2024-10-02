@@ -30,6 +30,7 @@ export interface UserData {
   dni: string;
   preview: string;
 }
+
 export interface User {
   uid: string;
   email: string;
@@ -38,6 +39,7 @@ export interface User {
   isAdmin: boolean;
   isActive: boolean;
   isActiveByAdmin: boolean;
+  accessToken: string
 }
 
 export interface UserDb {

@@ -28,6 +28,8 @@ export const userExist = async (user: string) => {
 
 export const loginFirebase = async ({ user, password }: LoginFirebaseProps) => {
   try {
+    console.log('user ', user);
+    console.log('password ', password);
     const loginF = await signInWithEmailAndPassword(auth, user, password);
     return loginF;
   } catch (error: any) {

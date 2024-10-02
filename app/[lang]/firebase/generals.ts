@@ -1,7 +1,7 @@
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { BackgroundImages, Categories, LogosImages, Plans, Products, SocialNetworks, Templates } from '@/types/home';
+import { BackgroundImages, Categories, Colors, Customizations, Distributors, LogosImages, Plans, Products, SocialNetworks, Templates } from '@/types/home';
 import { AllRefPropsFirebase } from '@/types/userFirebase';
-import { addDoc, collection, doc, getDocs, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, deleteDoc, updateDoc, getDoc, query, where } from 'firebase/firestore';
 import { dataBase } from './firebaseConfig';
 
 const allRef = ({ ref }: AllRefPropsFirebase) => collection(dataBase, ref);
@@ -81,19 +81,17 @@ export const getAllProducts = async () => {
   return categoriesData;
 };
 
-/* export const getAllPlans = async () => {
-  const categoriesData: Plans[] = [];
-  const querySnapshot = await getDocs(allRef({ ref: 'plans' }));
+export const getAllMaterials = async () => {
+  const categoriesData: Products[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'materials' }));
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {
-      const dataResult = doc.data() as Plans;
-      dataResult?.selectedProducts.forEach((prod: any) => {
-        categoriesData.push({ ...dataResult, id: doc.id, product: prod });
-      });
+      const dataResult = doc.data() as Products;
+      categoriesData.push({ ...dataResult, id: doc.id });
     });
   }
   return categoriesData;
-}; */
+};
 
 export const getAllPlans = async () => {
   const categoriesData: Plans[] = [];
@@ -118,6 +116,57 @@ export const getAllPlans = async () => {
   return categoriesData;
 };
 
+export const getAllColors = async () => {
+  const colorsData: Colors[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'colors' }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Colors;
+      colorsData.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return colorsData;
+};
+
+export const getAllCustomizations = async () => {
+  const customizationData: Customizations[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'customizations' }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Customizations;
+      customizationData.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return customizationData;
+};
+
+export const getAllDistributors = async () => {
+  const distributorsData: Distributors[] = [];
+
+  const distributorsQuery = query(allRef({ ref: 'users' }), where('is_distributor', '==', true));
+
+  const querySnapshot = await getDocs(distributorsQuery);
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Distributors;
+      distributorsData.push({ ...dataResult, id: doc.dni });
+    });
+  }
+
+  return distributorsData;
+};
+
+/* export const getAllDistributors = async () => {
+  const distributorsData: Distributors[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'distributors' }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Distributors;
+      distributorsData.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return distributorsData;
+}; */
 
 //La imagen se recive en base 64(imagen), tambien se recive el nombre de la imagen(image)
 export const saveBackgroundImage = async (image: string, name: string) => {

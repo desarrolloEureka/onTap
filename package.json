@@ -25,6 +25,7 @@
     "@types/negotiator": "^0.6.3",
     "@types/react-select": "^5.0.1",
     "@types/vcards-js": "^2.10.5",
+    "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
     "firebase": "^10.7.0",

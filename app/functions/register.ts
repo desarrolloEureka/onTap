@@ -38,6 +38,21 @@ export const registerUserAuth = async ({
   return userData;
 };
 
+export const registerUserAuthDistributor = async ({
+  user,
+  password,
+}: {
+  user: string;
+  password: string;
+}) => {
+  const result: UserCredential = await registerFirebase(user, password);
+  const userData = {
+    uid: result.user.uid,
+    emailVerified: result.user.emailVerified,
+  };
+  return userData;
+};
+
 export const registerUserFb = async ({ data }: { data: any }) => {
   const result = await registerUserData(data);
   //console.log('result::::', result);

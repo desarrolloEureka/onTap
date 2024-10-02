@@ -59,7 +59,6 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
           const user = docSnap.data() as UserData;
           const getUser = userDataToSend(user, resultUser);
           await localStorage.setItem('@user', JSON.stringify(getUser));
-          console.log('getUser ', getUser);
           return getUser;
         } else {
           return null;

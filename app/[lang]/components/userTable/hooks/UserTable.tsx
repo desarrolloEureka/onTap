@@ -369,7 +369,6 @@ const UserTableLogic = () => {
 
     // Función para manejar el envío del formulario
     const dataRegisterHandle = async () => {
-        console.log('Crear!!');
         if (!validateForm()) return;
 
         setIsSubmitting(true);
@@ -443,7 +442,6 @@ const UserTableLogic = () => {
     };
 
     const handleEditData = async () => {
-        console.log('Editar!!');
         if (!validateForm()) return;
         setIsSubmitting(true);
         setStatus('');

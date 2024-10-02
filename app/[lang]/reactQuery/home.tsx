@@ -2,7 +2,11 @@ import {
   deleteSocialNetwork,
   getAllBackgroundImages,
   getAllCategories,
+  getAllColors,
+  getAllCustomizations,
+  getAllDistributors,
   getAllLogosImages,
+  getAllMaterials,
   getAllPlans,
   getAllProducts,
   getAllSocialNetworks,
@@ -82,6 +86,14 @@ const GetAllProducts = (flag?: boolean) => {
   });
 };
 
+const GetAllMaterials = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['materials', flag],
+    queryFn: async () => await getAllMaterials(),
+    refetchOnWindowFocus: false,
+  });
+};
+
 const GetAllPlanes = (flag?: boolean) => {
   return useQuery({
     queryKey: ['plans', flag],
@@ -94,6 +106,30 @@ const GetAllSocialNetworks = () => {
   return useQuery({
     queryKey: ['social_networks'],
     queryFn: async () => await getAllSocialNetworks(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+const GetAllColors = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['colors', flag],
+    queryFn: async () => await getAllColors(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+const GetAllCustomizations = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['customizations', flag],
+    queryFn: async () => await getAllCustomizations(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+const GetAllDistributors = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['distributors', flag],
+    queryFn: async () => await getAllDistributors(),
     refetchOnWindowFocus: false,
   });
 };
@@ -113,4 +149,4 @@ const UpdateSocialNetwork = async (imageFile: File, oldImageName: string, newIma
   return res;
 };
 
-export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages, SaveSocialNetwork, DeleteSocialNetwork, UpdateSocialNetwork, GetTemplate, GetBackgroundImage, GetAllCategories, GetAllProducts, GetAllPlanes };
+export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages, SaveSocialNetwork, DeleteSocialNetwork, UpdateSocialNetwork, GetTemplate, GetBackgroundImage, GetAllCategories, GetAllProducts, GetAllPlanes, GetAllMaterials, GetAllColors, GetAllCustomizations, GetAllDistributors };

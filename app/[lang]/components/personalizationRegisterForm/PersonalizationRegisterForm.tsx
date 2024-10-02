@@ -1,27 +1,22 @@
 import {
-  Autocomplete,
   Box,
   Button,
   FormControl,
+  Grid,
   IconButton,
   InputAdornment,
   MenuItem,
   Modal,
   Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   Typography
 } from '@mui/material';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import 'react-phone-input-2/lib/style.css'
-import PlanRegisterFormHook from './hooks/PlanRegisterFormHook';
+import PersonalizationRegisterFormHook from './hooks/PersonalizationRegisterFormHook';
 import { Locale } from 'i18n-config';
-import BadgeIcon from '@mui/icons-material/Badge';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { DataGrid, GridColDef, GridToolbarContainer } from '@mui/x-data-grid';
 import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit';
@@ -30,14 +25,13 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import { Fragment } from 'react';
 
-const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) => {
+const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const {
     data,
     dataRegisterHandle,
-    handleEditProduct,
+    handleEditCustomization,
     handleEditData,
     isModalOpen,
     handleOpenModal,
@@ -47,32 +41,23 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
     setSku,
     price,
     setPrice,
-    stateProduct,
-    setStateProduct,
+    stateCustomization,
+    setStateCustomization,
     nameError,
     skuError,
     priceError,
-    stateProductError,
+    stateCustomizationError,
     isEditData,
     handleCloseModal,
     step,
-    handleNextStepOne,
+    handleNextStep,
     dataCategories,
     handleDiscountChange,
     discounts,
     setStep,
     discountErrors,
-    status,
-    handleNextStepTwo,
-    filteredProducts,
-    handleAddProduct,
-    selectedProducts,
-    setProduct,
-    product,
-    handleRemoveProduct,
-    skuErrorToolBar,
-    selectedProductsError,
-  } = PlanRegisterFormHook();
+    status
+  } = PersonalizationRegisterFormHook();
   const dictionary = useDictionary({ lang: 'es' });
 
   const formatearFecha = (fechaISO: string): string => {
@@ -94,8 +79,8 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
     return categories.map((category: any) => ({
       field: category.name,
       headerName: category.name,
-      minWidth: 90, // Reemplazar width por minWidth
-      flex: 1, // Añadir flex para el ajuste dinámico del ancho
+      minWidth: 90,
+      flex: 1,
       headerAlign: 'center',
       align: 'center',
       type: 'number',
@@ -110,13 +95,13 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
   const columns: GridColDef[] = [
     {
       field: 'optionEdit',
-      headerName: 'Acciones',
+      headerName: 'Editar',
       minWidth: 120, // Reemplazar width por minWidth
-      flex: 1, // Añadir flex para el ajuste dinámico del ancho
+      flex: 1,
       headerAlign: 'center',
       align: 'center',
       renderCell: (params) => (
-        <Button style={{ color: 'black' }} onClick={() => handleEditProduct(params?.value)}>
+        <Button style={{ color: 'black' }} onClick={() => handleEditCustomization(params?.value)}>
           <EditIcon />
         </Button>
       )
@@ -125,7 +110,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
       field: 'created_at',
       headerName: 'Fecha Registro',
       minWidth: 220,
-      flex: 2, // Mayor flex para darle más espacio
+      flex: 2,
       headerAlign: 'center',
       align: 'center',
       renderCell: (params) => (
@@ -134,9 +119,8 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
         </div>
       )
     },
-    { field: 'sku', headerName: 'Sku Planes', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'name', headerName: 'Planes', minWidth: 230, flex: 2, headerAlign: 'center', align: 'center' },
-    { field: 'product', headerName: 'Productos que Incluye', minWidth: 230, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'sku', headerName: 'Sku', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'name', headerName: 'Personalización', minWidth: 230, flex: 2, headerAlign: 'center', align: 'left' },
     {
       field: 'price', headerName: 'Full Precio', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center',
       renderCell: (params) => (
@@ -145,7 +129,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
         </div>
       )
     },
-    ...generateDynamicColumns(dataCategories || []), // Aplicar flex y minWidth a las columnas dinámicas
+    ...generateDynamicColumns(dataCategories || []),
     {
       field: 'status',
       headerName: 'Estado',
@@ -155,10 +139,10 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
       align: 'center',
       renderCell: (params) => (
         <div className='tw-flex tw-justify-center tw-items-center'>
-          <div>{params.value === true ? "Activo" : 'Inactivo'}</div>
+          <div>{params.value === true ? 'Activo' : 'Inactivo'}</div>
         </div>
       )
-    }
+    },
   ];
 
   function CustomToolbar() {
@@ -188,7 +172,6 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
           </Box>
         </Box>
       </GridToolbarContainer>
-
     );
   }
 
@@ -203,7 +186,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
           align='center'
           fontWeight='bold'
         >
-          {dictionary.dictionary?.backOffice.PlansLabel}
+          {dictionary.dictionary?.backOffice.CustomizationsLabelMenu}
         </Typography>
         <div style={{ height: 650, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-m-6'>
           <DataGrid
@@ -212,7 +195,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
             slots={{ toolbar: CustomToolbar }}
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
+                paginationModel: { page: 0, pageSize: 15 },
               },
               sorting: {
                 sortModel: [{ field: 'created_at', sort: 'asc' }],
@@ -255,7 +238,9 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
           >
             <Close className='tw-text-white' />
           </IconButton>
+
           <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
+
             {step && step === 1 ?
               <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                 <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
@@ -264,7 +249,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
                         <TextField
                           variant='standard'
-                          label={dictionary.dictionary?.backOffice.PlanSku}
+                          label={dictionary.dictionary?.backOffice.PersonalizationSku}
                           disabled={isEditData ? true : false}
                           InputProps={{
                             startAdornment: (
@@ -272,7 +257,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                                 <MedicalInformationIcon
                                   style={{
                                     color: '#02AF9B',
-                                    fontSize: '1.8rem'
+                                    fontSize: '1.8rem',
                                   }}
                                 />
                               </InputAdornment>
@@ -280,6 +265,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                             style: {
                               paddingTop: '5px',
                               paddingBottom: '5px',
+                              paddingLeft: '0px',
                             },
                           }}
                           InputLabelProps={{
@@ -302,12 +288,13 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                           margin="normal"
                         />
                       </div>
+
                     </div>
                     <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
                         <TextField
                           variant='standard'
-                          label={dictionary.dictionary?.backOffice.PlanName}
+                          label={dictionary.dictionary?.backOffice.PersonalizationName}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
@@ -349,11 +336,11 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
                         <TextField
                           variant='standard'
-                          label={dictionary.dictionary?.backOffice.PlanPrice}
+                          label={dictionary.dictionary?.backOffice.ProductPrice}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
-                                <BadgeIcon
+                                <AttachMoneyIcon
                                   style={{
                                     color: '#02AF9B',
                                     fontSize: '1.8rem'
@@ -391,7 +378,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                       <div className='tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-3'>
                         <div className='tw-w-full -tw-mb-4'>
                           <Typography
-                            color={stateProductError ? '#d32f2f' : 'textSecondary'} display={'flow'}
+                            color={stateCustomizationError ? '#d32f2f' : 'textSecondary'} display={'flow'}
                             className='tw-text-left tw-text-sm'
                           >
                             {dictionary.dictionary?.backOffice.ProductState}
@@ -405,161 +392,118 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                             className='tw-w-full'
                             id='estado-select'
                             label="Estado"
-                            value={stateProduct ? "true" : "false"}
+                            value={stateCustomization ? "true" : "false"}
                             error={
-                              !!stateProductError
+                              !!stateCustomizationError
                             }
-                            onChange={(e) => setStateProduct(e.target.value === "true")}
+                            onChange={(e) => setStateCustomization(e.target.value === "true")}
                           >
                             <MenuItem value="true">Activo</MenuItem>
                             <MenuItem value="false">Inactivo</MenuItem>
                           </Select>
                         </div>
                         <div className='tw-w-full -tw-mt-3'>
-                          {stateProductError && <div style={{ color: 'red', fontSize: '12px', marginLeft: 5 }}>{stateProductError}</div>}
+                          {stateCustomizationError && <div style={{ color: 'red', fontSize: '12px', marginLeft: 5 }}>{stateCustomizationError}</div>}
+
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              : step && step === 2 ?
-                <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                  <div className='tw-w-[70%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-52 tw-mt-4 tw-mb-5'>
-                    <TableContainer>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell sx={{ padding: '8px', width: '30px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                              Categoría
+              :
+              <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                <div className='tw-w-[70%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-4'>
+                  {/*     <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell sx={{ padding: '8px', width: '100px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
+                            Categoría
+                          </TableCell>
+                          <TableCell sx={{ padding: '8px', width: '20px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
+                            Descuento (%)
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {dataCategories && dataCategories.map((route, index) => (
+                          <TableRow key={index}>
+                            <TableCell sx={{ padding: '8px', width: '100px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
+                              {route?.name}
                             </TableCell>
-                            <TableCell sx={{ padding: '8px', width: '30px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>Descuento (%)</TableCell>
+                            <TableCell sx={{ padding: '8px', width: '20px', border: '1px solid #DFDFDF', textAlign: 'center' }}>
+                              <FormControl variant="outlined" sx={{ width: '70%' }}>
+                                <TextField
+                                  id={`outlined-number-${route?.name}`}
+                                  label=""
+                                  type="number"
+                                  value={discounts[route?.name] || ''}
+                                  onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
+                                  inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
+                                  error={!!discountErrors[route?.name]}
+                                  helperText={discountErrors[route?.name]}
+                                  sx={{ maxWidth: '100%' }}
+                                />
+                              </FormControl>
+                            </TableCell>
                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {dataCategories && dataCategories.map((route, index) => (
-                            <TableRow key={index}>
-                              <TableCell sx={{ padding: '8px', width: '30px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>{route?.name}</TableCell>
-                              <TableCell sx={{ padding: '8px', width: '30px', border: '1px solid #DFDFDF', textAlign: 'center' }}>
-                                <FormControl variant="outlined" style={{ width: '90%' }}>
-                                  <TextField
-                                    id={`outlined-number-${route?.name}`}
-                                    label=""
-                                    type="number"
-                                    value={discounts[route?.name] || ''}
-                                    onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
-                                    inputProps={{ min: 0, max: 100, style: { padding: '6px 8px', height: '30px' } }}
-                                    error={!!discountErrors[route?.name]}
-                                    helperText={discountErrors[route?.name]}
-                                  />
-                                </FormControl>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </div>
-                  <div className='tw-w-[70%] tw-h-[10%] tw-flex tw-justify-center tw-justify-items-center'>
-                    {status && (<div style={{ color: 'red', fontSize: 14 }}>*{status}</div>)}
-                  </div>
-                </div>
-                :
-                <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-12 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                  <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-36 tw-mt-4'>
-                    <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-px-36 tw-mt-1'>
-                      <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-10 tw-mt-4 tw-mb-1'>
-                        <Autocomplete
-                          freeSolo
-                          fullWidth
-                          options={filteredProducts || []}
-                          getOptionLabel={(option) => {
-                            return typeof option === 'string' ? option : option.sku || "";
-                          }}
-                          inputValue={product}
-                          onInputChange={(event, newInputValue) => setProduct(newInputValue)}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              variant="standard"
-                              label={dictionary.dictionary?.backOffice.PlanSku}
-                              error={!!skuErrorToolBar}
-                              helperText={skuErrorToolBar}
-                              fullWidth
-                              InputProps={{
-                                ...params.InputProps,
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <BadgeIcon style={{ color: '#02AF9B', fontSize: '1.8rem' }} />
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className='tw-w-[5%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-10 tw-mt-5 tw-mb-5'>
-                        <div className='tw-w-[60%] tw-h-full tw-flex tw-justify-end tw-items-center'>
-                          <Button
-                            variant='contained'
-                            className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center tw-mr-11'
-                            onClick={handleAddProduct}
-                            sx={{ width: '45px', minWidth: '45px' }}
-                          >
-                            <AddCircleRoundedIcon style={{ padding: 2, paddingLeft: 5 }} />
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-36'>
-                    <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-28 tw-mt-0 tw-mb-10'>
-                      <Table className='tw-w-full tw-mt-6'>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Acciones</TableCell>
-                            <TableCell>SKU</TableCell>
-                            <TableCell>Nombre</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {selectedProducts.length > 0 ? (
-                            selectedProducts.map((product, index) => (
-                              <TableRow key={index}>
-                                <TableCell>
-                                  <IconButton
-                                    aria-label="delete"
-                                    onClick={() => handleRemoveProduct(product.sku)}
-                                  >
-                                    <DeleteIcon />
-                                  </IconButton>
-                                </TableCell>
-                                <TableCell>{product.sku}</TableCell>
-                                <TableCell>{product.name}</TableCell>
-                              </TableRow>
-                            ))
-                          ) : (
-                            <TableRow>
-                              <TableCell colSpan={3} align="center">No hay productos seleccionados</TableCell>
-                            </TableRow>
-                          )}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </div>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer> */}
 
-                  <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-36 -tw-mt-5 tw-mb-5'>
-                    {selectedProductsError && <div style={{ color: 'red', fontSize: '14px', marginLeft: 5 }}>*{selectedProductsError}</div>}
-                  </div>
+                  <Box sx={{ maxHeight: '500px', width: 300, overflow: 'auto' }}>
+                    <Grid container spacing={1} sx={{ padding: '8px' }}>
+                      <Grid item xs={6} style={{ paddingBottom: 12 }}>
+                        <Typography variant="h6" align="center" sx={{ color: "#000000", fontSize: 16 }}>
+                          Categoría
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} style={{ paddingBottom: 12 }}>
+                        <Typography variant="h6" align="center" sx={{ color: "#000000", fontSize: 16 }}>
+                          Descuento (%)
+                        </Typography>
+                      </Grid>
 
+                      {dataCategories && dataCategories.map((route, index) => (
+                        <Fragment key={index}>
+                          <Grid item xs={6} sx={{ padding: '8px', textAlign: 'center', color: "#000000" }}>
+                            <Typography variant="h6" align="center" sx={{ color: "#000000", fontSize: 15 }}>
+                              {route?.name}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6} className={'tw-flex tw-justify-center tw-justify-items-center'} sx={{ padding: '8px' }}>
+                            <FormControl variant="outlined" sx={{ width: '50%' }}>
+                              <TextField
+                                id={`outlined-number-${route?.name}`}
+                                label=""
+                                type="number"
+                                value={discounts[route?.name] || ''}
+                                onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
+                                inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
+                                error={!!discountErrors[route?.name]}
+                                //helperText={discountErrors[route?.name]}
+                                sx={{ maxWidth: '100%' }}
+                              />
+                            </FormControl>
+                          </Grid>
+                        </Fragment>
+                      ))}
+                    </Grid>
+                  </Box>
                 </div>
+                <div className='tw-w-[70%] tw-h-[10%] tw-flex tw-justify-center tw-justify-items-center'>
+                  {status && (<div style={{ color: 'red', fontSize: 14 }}>*{status}</div>)}
+                </div>
+              </div>
             }
 
             <div className='tw-w-[101%] tw-flex tw-justify-center tw-items-center tw-border-t-white tw-border-t-[0.5px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
               <div className='tw-w-1/2 tw-py-4 tw-flex tw-flex-col tw-justify-center tw-items-start'>
                 <div className='tw-w-40 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                   <Typography style={{ fontSize: 14, color: "white" }}>
-                    {step === 1 ? "Paso 1/3" : step === 2 ? "Paso 2/3" : "Paso 3/3"}
+                    {step === 1 ? "Paso 1/2" : "Paso 2/2"}
                   </Typography>
                 </div>
               </div>
@@ -568,19 +512,10 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                   {step === 1 ?
                     (
                       <div className='tw-w-[60%] tw-h-full tw-flex tw-justify-end tw-items-center'>
-                        {/*  <Button
-                          variant='contained'
-                          className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center tw-mr-11'
-                          onClick={handleNextStepOne}
-                          sx={{ width: '45px', minWidth: '45px' }}
-                        >
-                          <ArrowForwardIosIcon style={{ padding: 2, paddingLeft: 5 }} />
-                        </Button> */}
-
                         <Button
                           variant="text"
                           className="tw-text-black tw-mr-12"
-                          onClick={handleNextStepOne}
+                          onClick={handleNextStep}
                           sx={{
                             padding: '0',
                             minWidth: 'auto',
@@ -598,12 +533,13 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                         </Button>
                       </div>
                     )
-                    : step === 2 ?
-                      < div className='tw-w-[40%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-16'>
+                    :
+                    <div className='tw-w-full tw-h-full tw-flex tw-justify-end tw-items-center'>
+                      <div className='tw-w-[85%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-5'>
 
                         <Button
                           variant="text"
-                          className="tw-text-black tw-mr-7"
+                          className="tw-text-black tw-mr-4"
                           onClick={() => setStep(1)}
                           sx={{
                             padding: '0',
@@ -623,100 +559,24 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
 
                         <Button
                           variant="text"
-                          className="tw-text-black tw-mr-4"
-                          onClick={handleNextStepTwo}
+                          className="tw-text-black tw-ml-6"
+                          onClick={isEditData ? handleEditData : dataRegisterHandle}
                           sx={{
                             padding: '0',
                             minWidth: 'auto',
                             textTransform: 'none',
                             display: 'flex',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
-                          endIcon={
-                            <ArrowForwardIosIcon style={{ marginLeft: -5, fontSize: 25, color: 'white' }} />
-                          }
+                          startIcon={<SaveIcon style={{ marginRight: -1, fontSize: 25, color: 'white' }} />}
                         >
                           <Typography style={{ color: 'white' }}>
-                            {dictionary.dictionary?.backOffice.nextButton}
+                            {dictionary.dictionary?.backOffice.guardar}
                           </Typography>
                         </Button>
-                        {/* <Button
-                          variant='contained'
-                          className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center'
-                          onClick={() => setStep(1)}
-                          sx={{ width: '45px', minWidth: '45px' }}
-                        >
-                          <ArrowBackIosIcon style={{ padding: 2, paddingLeft: 10 }} />
-                        </Button>
-                        <Button
-                          variant='contained'
-                          className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center  tw-ml-6'
-                          onClick={handleNextStepTwo}
-                          sx={{ width: '45px', minWidth: '45px' }}
-                        >
-                          <ArrowForwardIosIcon style={{ padding: 2, paddingLeft: 5 }} />
-                        </Button> */}
+
                       </div>
-                      :
-                      <div className='tw-w-full tw-h-full tw-flex tw-justify-end tw-items-center'>
-                        <div className='tw-w-[40%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-16'>
-                          {/* <Button
-                            variant='contained'
-                            className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center'
-                            onClick={() => setStep(2)}
-                            sx={{ width: '45px', minWidth: '45px' }}
-                          >
-                            <ArrowBackIosIcon style={{ padding: 2, paddingLeft: 10 }} />
-                          </Button> */}
-
-                          <Button
-                            variant="text"
-                            className="tw-text-black tw-mr-4"
-                            onClick={() => setStep(2)}
-                            sx={{
-                              padding: '0',
-                              minWidth: 'auto',
-                              textTransform: 'none',
-                              display: 'flex',
-                              alignItems: 'center',
-                            }}
-                            startIcon={
-                              <ArrowBackIosIcon style={{ marginRight: -13, fontSize: 25, color: 'white' }} />
-                            }
-                          >
-                            <Typography style={{ color: 'white' }}>
-                              {dictionary.dictionary?.backOffice.backButton}
-                            </Typography>
-                          </Button>
-
-                          <Button
-                            variant="text"
-                            className="tw-text-black tw-ml-6"
-                            onClick={isEditData ? handleEditData : dataRegisterHandle}
-                            sx={{
-                              padding: '0',
-                              minWidth: 'auto',
-                              textTransform: 'none',
-                              display: 'flex',
-                              alignItems: 'center'
-                            }}
-                            startIcon={<SaveIcon style={{ marginRight: -1, fontSize: 25, color: 'white' }} />}
-                          >
-                            <Typography style={{ color: 'white' }}>
-                              {dictionary.dictionary?.backOffice.guardar}
-                            </Typography>
-                          </Button>
-
-                          {/*  <Button
-                            variant='contained'
-                            className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-ml-6'
-                            onClick={isEditData ? handleEditData : dataRegisterHandle}
-                            sx={{ width: '45px', minWidth: '45px' }}
-                          >
-                            <SaveIcon style={{ padding: 2, paddingLeft: 1 }} />
-                          </Button> */}
-                        </div>
-                      </div>
+                    </div>
                   }
                 </div>
               </div>
@@ -728,4 +588,4 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
   );
 };
 
-export default PlanRegisterForm;
+export default PersonalizationRegisterForm;

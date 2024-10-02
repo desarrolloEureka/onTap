@@ -11,7 +11,7 @@ import {
   arrayUnion
 } from 'firebase/firestore';
 import { getAuth, updatePassword } from 'firebase/auth';
-import { dataBase } from 'app/[lang]/firebase/firebaseConfig';
+import { dataBase, firebaseConfig } from 'app/[lang]/firebase/firebaseConfig';
 import {
   AllRefPropsFirebase,
   GetUserByLoginProps,
@@ -23,6 +23,7 @@ import {
   ProfessionalDataForm,
   SocialDataForm,
 } from '@/types/profile';
+import axios from "axios";
 
 const ref = ({ ref, collection }: RefPropsFirebase) =>
   doc(dataBase, collection, ref.document);
@@ -200,4 +201,41 @@ export const checkIfUserExists = async (dni: string, email: string, phone: strin
   //if (!phoneSnapshot.empty) return { exists: true, field: 'phone' };
 
   return { exists: false, field: null };
+};
+
+const backendClient = async (accessTokenUser: string) => {
+  return axios.create({
+    baseURL: firebaseConfig.backendBaseUrl,
+    headers: {
+      Authorization: `Bearer ${accessTokenUser}`,
+    },
+  });
+};
+
+export const addUser = async ({
+  email,
+  password,
+  accessTokenUser,
+  uid,
+}: {
+  email: string;
+  password: string;
+  accessTokenUser: string;
+  uid: string;
+}) => {
+  return new Promise((resolve, reject) => {
+    backendClient(accessTokenUser).then(async (client) => {
+      const data = await client.post(`auth/createUser`, {
+        uid,
+        email,
+        password,
+      });
+      console.log(data.status);
+      if (data.status === 200) {
+        resolve(data);
+      } else {
+        reject(data);
+      }
+    });
+  });
 };

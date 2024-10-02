@@ -70,9 +70,10 @@
     "PlansLabelMenu": "Planes",
     "MaterialsLabelMenu": "Materiales",
     "ColorsLabelMenu": "Colores",
-    "CustomizationsLabelMenu": "Personalización",
+    "CustomizationsLabelMenu": "Personalizaciónes",
     "DistributionLabelMenu": "Distribucion",
     "DistributorLabelMenu": "Distribuidor",
+    "DistributorsLabel": "Distribuidores",
     "DistributorCustomerLabelMenu": "Clientes Distribuidor",
     "ReportsLabelMenu": "Reportes",
     "SubscriptionsLabelMenu": "Suscripciones",
@@ -88,8 +89,16 @@
     "UsersLabelMenu": "Usuarios",
     "CategoriesLabel": "Categorías",
     "CategoriesDistriLabel": "Categorías Distribuidores",
-    "TemplatesLabel": "Plantilla"
-
+    "TemplatesLabel": "Plantilla",
+    "CountryLabel": "País",
+    "DepartmentsLabel": "Departamentos",
+    "CitiesLabel": "Ciudades",
+    "MaterialSku": "Sku Material",
+    "MaterialName": "Nombre Material",
+    "ColorSku": "Sku Color",
+    "ColorName": "Nombre Color",
+    "PersonalizationSku": "Sku Personalizacion",
+    "PersonalizationName": "Nombre Personalizacion"
   },
   "cardView": {
     "labelErrorUser": "Error",
@@ -112,7 +121,7 @@
   "loginView": {
     "username": "Usuario",
     "password": "Contraseña",
-    "login": "Ingresar-",
+    "login": "Ingresar",
     "recoverPassLogin": "Recuperar Contraseña",
     "mailMandatory": "El correo es obligatorio",
     "passwordMandatory": "La contraseña es obligatoria",

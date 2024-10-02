@@ -63,7 +63,7 @@ export const updateCategory = async (dataSave: any, idCategory: string) => {
     }
 };
 
-
+//Productos
 export const saveProduct = async (dataSave: any) => {
     try {
         // Obtener la referencia a la colección de productos
@@ -110,7 +110,7 @@ export const updateProduct = async (dataSave: any, idCategory: string) => {
     }
 };
 
-
+//Planes
 export const savePlans = async (dataSave: any) => {
     try {
         // Obtener la referencia a la colección de productos
@@ -154,5 +154,194 @@ export const updatePlans = async (dataSave: any, idCategory: string) => {
     } catch (error) {
         console.error('Error al actualizar la plan: ', error);
         return { success: false, message: 'Error al actualizar la plan' };
+    }
+};
+
+//Materiales
+export const saveMaterial = async (dataSave: any) => {
+    try {
+        // Obtener la referencia a la colección de materiales
+        const productCollectionRef = collection(dataBase, 'materials');
+
+        // Verificar si el SKU ya está registrado
+        const q = query(productCollectionRef, where('sku', '==', dataSave.sku));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            // Si el SKU ya existe, devolver un mensaje de error
+            return { success: false, message: 'El SKU ya está registrado' };
+        }
+
+        // Si el SKU no está registrado, crear un nuevo documento en la colección
+        const newProductRef = doc(productCollectionRef); // Crear un nuevo documento en la colección
+        await setDoc(newProductRef, {
+            ...dataSave,
+            uid: newProductRef.id,  // Usar el ID del nuevo documento
+            created_at: currentDate // Añadir la fecha de creación
+        });
+
+        return { success: true, message: 'Material creado correctamente' };
+    } catch (error) {
+        console.error('Error al crear el material: ', error);
+        return { success: false, message: 'Error al crear el material' };
+    }
+};
+
+export const updateMaterial = async (dataSave: any, idCategory: string) => {
+    try {
+        // Obtener la referencia del documento específico de la categoría
+        const categoryDocRef = doc(dataBase, 'materials', idCategory);
+
+        // Actualizar el documento con los nuevos datos
+        await updateDoc(categoryDocRef, {
+            ...dataSave,
+        });
+
+        return { success: true, message: 'Material actualizada correctamente' };
+    } catch (error) {
+        console.error('Error al actualizar la material: ', error);
+        return { success: false, message: 'Error al actualizar la material' };
+    }
+};
+
+//Planes
+export const saveColors = async (dataSave: any) => {
+    try {
+        // Obtener la referencia a la colección de productos
+        const colorsCollectionRef = collection(dataBase, 'colors');
+
+        // Verificar si el SKU ya está registrado
+        const q = query(colorsCollectionRef, where('sku', '==', dataSave.sku));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            // Si el SKU ya existe, devolver un mensaje de error
+            return { success: false, message: 'El SKU ya está registrado' };
+        }
+
+        // Si el SKU no está registrado, crear un nuevo documento en la colección
+        const newColorRef = doc(colorsCollectionRef); // Crear un nuevo documento en la colección
+        await setDoc(newColorRef, {
+            ...dataSave,
+            uid: newColorRef.id,  // Usar el ID del nuevo documento
+            created_at: currentDate // Añadir la fecha de creación
+        });
+
+        return { success: true, message: 'Color creado correctamente' };
+    } catch (error) {
+        console.error('Error al crear el color: ', error);
+        return { success: false, message: 'Error al crear el color' };
+    }
+};
+
+export const updateColors = async (dataSave: any, idCategory: string) => {
+    try {
+        // Obtener la referencia del documento específico de colores
+        const colorsDocRef = doc(dataBase, 'colors', idCategory);
+
+        // Actualizar el documento con los nuevos datos
+        await updateDoc(colorsDocRef, {
+            ...dataSave,
+        });
+
+        return { success: true, message: 'Color actualizada correctamente' };
+    } catch (error) {
+        console.error('Error al actualizar la color: ', error);
+        return { success: false, message: 'Error al actualizar la color' };
+    }
+};
+
+//Personalizaciónes
+export const saveCustomization = async (dataSave: any) => {
+    try {
+        // Obtener la referencia a la colección de personalizaciónes
+        const CustomizationCollectionRef = collection(dataBase, 'customizations');
+
+        // Verificar si el SKU ya está registrado
+        const q = query(CustomizationCollectionRef, where('sku', '==', dataSave.sku));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            // Si el SKU ya existe, devolver un mensaje de error
+            return { success: false, message: 'El SKU ya está registrado' };
+        }
+
+        // Si el SKU no está registrado, crear un nuevo documento en la colección
+        const newProductRef = doc(CustomizationCollectionRef); // Crear un nuevo documento en la colección
+        await setDoc(newProductRef, {
+            ...dataSave,
+            uid: newProductRef.id,  // Usar el ID del nuevo documento
+            created_at: currentDate // Añadir la fecha de creación
+        });
+
+        return { success: true, message: 'Personalización creado correctamente' };
+    } catch (error) {
+        console.error('Error al crear el personalización: ', error);
+        return { success: false, message: 'Error al crear el personalización' };
+    }
+};
+
+export const updateCustomization = async (dataSave: any, idCategory: string) => {
+    try {
+        // Obtener la referencia del documento específico de la personalización
+        const CustomizationDocRef = doc(dataBase, 'customizations', idCategory);
+
+        // Actualizar el documento con los nuevos datos
+        await updateDoc(CustomizationDocRef, {
+            ...dataSave,
+        });
+
+        return { success: true, message: 'Personalización actualizada correctamente' };
+    } catch (error) {
+        console.error('Error al actualizar la personalización: ', error);
+        return { success: false, message: 'Error al actualizar la personalización' };
+    }
+};
+
+//Distribuidor
+export const saveDistributor = async (dataSave: any) => {
+    try {
+        console.log('dataSave ',dataSave);
+        // Obtener la referencia a la colección de distribuidores
+    /*     const DistributorCollectionRef = collection(dataBase, 'users');
+        
+        // Verificar si el SKU ya está registrado
+        const q = query(DistributorCollectionRef, where('dni', '==', dataSave.dni));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            // Si el SKU ya existe, devolver un mensaje de error
+            return { success: false, message: 'El ID ya está registrado' };
+        }
+
+        // Si el SKU no está registrado, crear un nuevo documento en la colección
+        const newDistributorRef = doc(DistributorCollectionRef); // Crear un nuevo documento en la colección
+        await setDoc(newDistributorRef, {
+            ...dataSave,
+            uid: newDistributorRef.id,  // Usar el ID del nuevo documento
+            created_at: currentDate // Añadir la fecha de creación
+        }); */
+
+        return { success: true, message: 'Distribuidor creado correctamente' };
+    } catch (error) {
+        console.error('Error al crear el distribuidor: ', error);
+        return { success: false, message: 'Error al crear el distribuidor' };
+    }
+};
+
+export const updateDistributor = async (dataSave: any, idDistributor: string) => {
+    try {
+        // Obtener la referencia del documento específico de la distribuidor
+        const DistributorDocRef = doc(dataBase, 'users', idDistributor);
+
+        // Actualizar el documento con los nuevos datos
+        await updateDoc(DistributorDocRef, {
+            ...dataSave,
+        });
+
+        return { success: true, message: 'Distribuidor actualizada correctamente' };
+    } catch (error) {
+        console.error('Error al actualizar la distribuidor: ', error);
+        return { success: false, message: 'Error al actualizar la distribuidor' };
     }
 };

@@ -1,17 +1,13 @@
 import {
+  Autocomplete,
   Box,
   Button,
-  FormControl,
-  Grid,
   IconButton,
   InputAdornment,
-  MenuItem,
   Modal,
-  Select,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   TextField,
@@ -19,10 +15,9 @@ import {
 } from '@mui/material';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import 'react-phone-input-2/lib/style.css'
-import ProductRegisterFormHook from './hooks/ProductRegisterFormHook';
+import ColorRegisterFormHook from './hooks/ColorRegisterFormHook';
 import { Locale } from 'i18n-config';
-import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import BadgeIcon from '@mui/icons-material/Badge';
 import { DataGrid, GridColDef, GridToolbarContainer } from '@mui/x-data-grid';
 import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit';
@@ -31,9 +26,12 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Fragment } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import ClearIcon from '@mui/icons-material/Clear';
+import Image from 'next/image';
 
-const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) => {
+const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const {
     data,
     dataRegisterHandle,
@@ -45,25 +43,28 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
     setName,
     sku,
     setSku,
-    price,
-    setPrice,
-    stateProduct,
-    setStateProduct,
     nameError,
     skuError,
-    priceError,
-    stateProductError,
     isEditData,
     handleCloseModal,
     step,
-    handleNextStep,
-    dataCategories,
-    handleDiscountChange,
-    discounts,
+    handleNextStepOne,
+    dataMaterials,
     setStep,
-    discountErrors,
+    filteredMaterials,
+    handleAddMaterial,
+    selectedMaterials,
+    setMaterial,
+    material,
+    handleRemoveMaterial,
+    skuErrorToolBar,
+    selectedMaterialsError,
+    handleImageChange,
+    selectedImage,
+    isUpdateImage,
+    imageError,
     status
-  } = ProductRegisterFormHook();
+  } = ColorRegisterFormHook();
   const dictionary = useDictionary({ lang: 'es' });
 
   const formatearFecha = (fechaISO: string): string => {
@@ -81,8 +82,8 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
   };
 
   // Función para generar columnas dinámicas
-  const generateDynamicColumns = (categories: any): GridColDef[] => {
-    return categories.map((category: any) => ({
+  const generateDynamicColumns = (materials: any): GridColDef[] => {
+    return materials.map((category: any) => ({
       field: category.name,
       headerName: category.name,
       minWidth: 90,
@@ -92,7 +93,7 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
       type: 'number',
       renderCell: (params: any) => (
         <div className='tw-flex tw-justify-center tw-items-center'>
-          <div>{formatPrice(params.value)}</div>
+          {params.value ? <ClearIcon /> : ' '}
         </div>
       )
     }));
@@ -101,8 +102,8 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
   const columns: GridColDef[] = [
     {
       field: 'optionEdit',
-      headerName: 'Editar',
-      minWidth: 120, // Reemplazar width por minWidth
+      headerName: 'Acciones',
+      minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
@@ -125,30 +126,30 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
         </div>
       )
     },
-    { field: 'sku', headerName: 'Sku', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'name', headerName: 'Nombre Producto', minWidth: 230, flex: 2, headerAlign: 'center', align: 'left' },
+    { field: 'sku', headerName: 'Sku Color', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
     {
-      field: 'price', headerName: 'Full Precio', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center',
-      renderCell: (params) => (
-        <div className='tw-flex tw-justify-center tw-items-center'>
-          <div>{formatPrice(params.value)}</div>
-        </div>
-      )
-    },
-    ...generateDynamicColumns(dataCategories || []),
-    {
-      field: 'status',
-      headerName: 'Estado',
-      minWidth: 140,
-      flex: 1,
+      field: 'image',
+      headerName: 'Imagen',
+      minWidth: 230,
+      flex: 2,
       headerAlign: 'center',
       align: 'center',
       renderCell: (params) => (
-        <div className='tw-flex tw-justify-center tw-items-center'>
-          <div>{params.value === true ? 'Activo' : 'Inactivo'}</div>
+        <div style={{ width: 60, height: 60, position: 'relative' }}>
+          <Image
+            src={`${params.value}`}
+            alt="Imagen"
+            className="tw-h-[10] tw-object-cover tw-mt-3"
+            objectFit="cover"
+            layout="responsive"
+            height={90}
+            width={90}
+          />
         </div>
-      )
+      ),
     },
+    { field: 'name', headerName: 'Color', minWidth: 230, flex: 2, headerAlign: 'center', align: 'center' },
+    ...generateDynamicColumns(dataMaterials || [])
   ];
 
   function CustomToolbar() {
@@ -178,6 +179,7 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
           </Box>
         </Box>
       </GridToolbarContainer>
+
     );
   }
 
@@ -192,7 +194,7 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
           align='center'
           fontWeight='bold'
         >
-          {dictionary.dictionary?.backOffice.ProductsLabel}
+          {dictionary.dictionary?.backOffice.ColorsLabelMenu}
         </Typography>
         <div style={{ height: 650, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-m-6'>
           <DataGrid
@@ -201,7 +203,7 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
             slots={{ toolbar: CustomToolbar }}
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 15 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
               sorting: {
                 sortModel: [{ field: 'created_at', sort: 'asc' }],
@@ -244,18 +246,17 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
           >
             <Close className='tw-text-white' />
           </IconButton>
-
           <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-
             {step && step === 1 ?
               <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
-                  <div className="tw-w-full tw-grid tw-grid-cols-2 tw-grid-rows-2 tw-gap-7 tw-px-3">
+                <div className='tw-w-full tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
+
+                  <div className="tw-w-full tw-grid tw-grid-cols-2 tw-grid-rows-1 tw-gap-7 tw-px-3">
                     <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
                         <TextField
                           variant='standard'
-                          label={dictionary.dictionary?.backOffice.ProductSku}
+                          label={dictionary.dictionary?.backOffice.ColorSku}
                           disabled={isEditData ? true : false}
                           InputProps={{
                             startAdornment: (
@@ -263,7 +264,7 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                                 <MedicalInformationIcon
                                   style={{
                                     color: '#02AF9B',
-                                    fontSize: '1.8rem',
+                                    fontSize: '1.8rem'
                                   }}
                                 />
                               </InputAdornment>
@@ -271,7 +272,6 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                             style: {
                               paddingTop: '5px',
                               paddingBottom: '5px',
-                              paddingLeft: '0px',
                             },
                           }}
                           InputLabelProps={{
@@ -294,13 +294,12 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                           margin="normal"
                         />
                       </div>
-
                     </div>
                     <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
                         <TextField
                           variant='standard'
-                          label={dictionary.dictionary?.backOffice.ProductName}
+                          label={dictionary.dictionary?.backOffice.ColorName}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
@@ -338,173 +337,153 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                         />
                       </div>
                     </div>
-                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
-                      <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
-                        <TextField
-                          variant='standard'
-                          label={dictionary.dictionary?.backOffice.ProductPrice}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <AttachMoneyIcon
-                                  style={{
-                                    color: '#02AF9B',
-                                    fontSize: '1.8rem'
-                                  }}
-                                />
-                              </InputAdornment>
-                            ),
-                            style: {
-                              paddingTop: '5px',
-                              paddingBottom: '5px',
-                            },
-                          }}
-                          InputLabelProps={{
-                            style: {
-                              fontSize: 18,
-                            },
-                          }}
-                          FormHelperTextProps={{
-                            style: {
-                              fontSize: 13,
-                              color: 'red',
-                            },
-                          }}
-                          id='outlined'
-                          className='tw-w-full tw-text-sm'
-                          value={price}
-                          error={!!priceError}
-                          helperText={priceError}
-                          onChange={(e) => setPrice(e.target.value)}
-                          margin="normal"
+                  </div>
+
+                  {selectedImage && (
+                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1 tw-mb-1">
+                      <div className="tw-mt-2">
+                        <Image
+                          src={
+                            selectedImage
+                              ? selectedImage
+                              : ""
+                          }
+                          alt="Vista previa"
+                          className="tw-h-[180px] tw-object-cover tw-rounded"
+                          layout="responsive"
+                          width={150}
+                          height={150}
                         />
                       </div>
                     </div>
-                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center">
-                      <div className='tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-3'>
-                        <div className='tw-w-full -tw-mb-4'>
-                          <Typography
-                            color={stateProductError ? '#d32f2f' : 'textSecondary'} display={'flow'}
-                            className='tw-text-left tw-text-sm'
-                          >
-                            {dictionary.dictionary?.backOffice.ProductState}
+                  )}
+
+
+                  <div className={`tw-w-full tw-flex tw-justify-center tw-justify-items-center ${!selectedImage ? 'tw-mt-7' : ''}`}>
+                    <div className="tw-w-[80%] tw-flex tw-justify-center tw-justify-items-center">
+                      <label
+                        htmlFor="iconButton"
+                        className="tw-flex tw-flex-col tw-items-start tw-justify-center"
+                      >
+                        <div className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-h-10 tw-w-36 tw-rounded-3xl tw-bg-[#02AF9B] tw-mt-3 -tw-ml-2">
+                          <Typography className="tw-font-bold tw-text-sm url-label tw-text-white">
+                            Seleccionar Imagen
                           </Typography>
                         </div>
 
-                        <div className='tw-w-[98%] tw-h-[70%] tw-flex tw-items-center'>
-                          <Select
-                            labelId="estado-label"
-                            variant='standard'
-                            className='tw-w-full'
-                            id='estado-select'
-                            label="Estado"
-                            value={stateProduct ? "true" : "false"}
-                            error={
-                              !!stateProductError
-                            }
-                            onChange={(e) => setStateProduct(e.target.value === "true")}
-                          >
-                            <MenuItem value="true">Activo</MenuItem>
-                            <MenuItem value="false">Inactivo</MenuItem>
-                          </Select>
-                        </div>
-                        <div className='tw-w-full -tw-mt-3'>
-                          {stateProductError && <div style={{ color: 'red', fontSize: '12px', marginLeft: 5 }}>{stateProductError}</div>}
-
-                        </div>
+                        <input
+                          type="file"
+                          name="icon"
+                          id="iconButton"
+                          accept=".jpg, .jpeg, .png"
+                          hidden
+                          onChange={handleImageChange}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                  {imageError && (
+                    <div className="tw-w-[100%] tw-flex tw-justify-center tw-justify-items-center">
+                      <div className="tw-text-[#FF0000] tw-text-[13px] tw-mt-4 tw-font-normal">
+                        {imageError}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              :
+              <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-12 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
+                <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-36 tw-mt-4'>
+                  <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-px-36 tw-mt-1'>
+                    <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-10 tw-mt-4 tw-mb-1'>
+                      <Autocomplete
+                        freeSolo
+                        fullWidth
+                        options={filteredMaterials || []}
+                        getOptionLabel={(option) => {
+                          return typeof option === 'string' ? option : option.sku || "";
+                        }}
+                        inputValue={material}
+                        onInputChange={(event, newInputValue) => setMaterial(newInputValue)}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="standard"
+                            label={dictionary.dictionary?.backOffice.MaterialSku}
+                            error={!!skuErrorToolBar}
+                            helperText={skuErrorToolBar}
+                            fullWidth
+                            InputProps={{
+                              ...params.InputProps,
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  <BadgeIcon style={{ color: '#02AF9B', fontSize: '1.8rem' }} />
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className='tw-w-[5%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-10 tw-mt-5 tw-mb-5'>
+                      <div className='tw-w-[60%] tw-h-full tw-flex tw-justify-end tw-items-center'>
+                        <Button
+                          variant='contained'
+                          className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center tw-mr-11'
+                          onClick={handleAddMaterial}
+                          sx={{ width: '45px', minWidth: '45px' }}
+                        >
+                          <AddCircleRoundedIcon style={{ padding: 2, paddingLeft: 5 }} />
+                        </Button>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              :
-              <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                <div className='tw-w-[70%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-4'>
-                  {/*     <TableContainer>
-                    <Table>
+                <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-36'>
+                  <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-28 tw-mt-0 tw-mb-10'>
+                    <Table className='tw-w-full tw-mt-6'>
                       <TableHead>
                         <TableRow>
-                          <TableCell sx={{ padding: '8px', width: '100px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                            Categoría
-                          </TableCell>
-                          <TableCell sx={{ padding: '8px', width: '20px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                            Descuento (%)
-                          </TableCell>
+                          <TableCell>Acciones</TableCell>
+                          <TableCell>SKU</TableCell>
+                          <TableCell>Nombre</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {dataCategories && dataCategories.map((route, index) => (
-                          <TableRow key={index}>
-                            <TableCell sx={{ padding: '8px', width: '100px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                              {route?.name}
-                            </TableCell>
-                            <TableCell sx={{ padding: '8px', width: '20px', border: '1px solid #DFDFDF', textAlign: 'center' }}>
-                              <FormControl variant="outlined" sx={{ width: '70%' }}>
-                                <TextField
-                                  id={`outlined-number-${route?.name}`}
-                                  label=""
-                                  type="number"
-                                  value={discounts[route?.name] || ''}
-                                  onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
-                                  inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
-                                  error={!!discountErrors[route?.name]}
-                                  helperText={discountErrors[route?.name]}
-                                  sx={{ maxWidth: '100%' }}
-                                />
-                              </FormControl>
-                            </TableCell>
+                        {selectedMaterials.length > 0 ? (
+                          selectedMaterials.map((material, index) => (
+                            <TableRow key={index}>
+                              <TableCell>
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={() => handleRemoveMaterial(material.sku)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </TableCell>
+                              <TableCell>{material.sku}</TableCell>
+                              <TableCell>{material.name}</TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={3} align="center">No hay materiales seleccionados</TableCell>
                           </TableRow>
-                        ))}
+                        )}
                       </TableBody>
                     </Table>
-                  </TableContainer> */}
-
-                  <Box sx={{ maxHeight: '500px', width: 300, overflow: 'auto' }}>
-                    <Grid container spacing={1} sx={{ padding: '8px' }}>
-                      <Grid item xs={6} style={{ paddingBottom: 12 }}>
-                        <Typography variant="h6" align="center" sx={{ color: "#000000", fontSize: 16 }}>
-                          Categoría
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6} style={{ paddingBottom: 12 }}>
-                        <Typography variant="h6" align="center" sx={{ color: "#000000", fontSize: 16 }}>
-                          Descuento (%)
-                        </Typography>
-                      </Grid>
-
-                      {dataCategories && dataCategories.map((route, index) => (
-                        <Fragment key={index}>
-                          <Grid item xs={6} sx={{ padding: '8px', textAlign: 'center', color: "#000000" }}>
-                            <Typography variant="h6" align="center" sx={{ color: "#000000", fontSize: 15 }}>
-                              {route?.name}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={6} className={'tw-flex tw-justify-center tw-justify-items-center'} sx={{ padding: '8px' }}>
-                            <FormControl variant="outlined" sx={{ width: '50%' }}>
-                              <TextField
-                                id={`outlined-number-${route?.name}`}
-                                label=""
-                                type="number"
-                                value={discounts[route?.name] || ''}
-                                onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
-                                inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
-                                error={!!discountErrors[route?.name]}
-                                //helperText={discountErrors[route?.name]}
-                                sx={{ maxWidth: '100%' }}
-                              />
-                            </FormControl>
-                          </Grid>
-                        </Fragment>
-                      ))}
-                    </Grid>
-                  </Box>
+                  </div>
                 </div>
+                <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-36 -tw-mt-5 tw-mb-5'>
+                  {selectedMaterialsError && <div style={{ color: 'red', fontSize: '14px', marginLeft: 5 }}>*{selectedMaterialsError}</div>}
+                </div>
+
                 <div className='tw-w-[70%] tw-h-[10%] tw-flex tw-justify-center tw-justify-items-center'>
                   {status && (<div style={{ color: 'red', fontSize: 14 }}>*{status}</div>)}
                 </div>
               </div>
             }
-
             <div className='tw-w-[101%] tw-flex tw-justify-center tw-items-center tw-border-t-white tw-border-t-[0.5px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
               <div className='tw-w-1/2 tw-py-4 tw-flex tw-flex-col tw-justify-center tw-items-start'>
                 <div className='tw-w-40 tw-flex tw-flex-col tw-justify-center tw-items-center'>
@@ -521,7 +500,7 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                         <Button
                           variant="text"
                           className="tw-text-black tw-mr-12"
-                          onClick={handleNextStep}
+                          onClick={handleNextStepOne}
                           sx={{
                             padding: '0',
                             minWidth: 'auto',
@@ -541,8 +520,7 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                     )
                     :
                     <div className='tw-w-full tw-h-full tw-flex tw-justify-end tw-items-center'>
-                      <div className='tw-w-[85%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-5'>
-
+                      <div className='tw-w-[40%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-16'>
                         <Button
                           variant="text"
                           className="tw-text-black tw-mr-4"
@@ -580,7 +558,6 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                             {dictionary.dictionary?.backOffice.guardar}
                           </Typography>
                         </Button>
-
                       </div>
                     </div>
                   }
@@ -594,4 +571,4 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
   );
 };
 
-export default ProductRegisterForm;
+export default ColorRegisterForm;
