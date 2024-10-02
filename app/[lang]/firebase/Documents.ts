@@ -301,10 +301,10 @@ export const updateCustomization = async (dataSave: any, idCategory: string) => 
 //Distribuidor
 export const saveDistributor = async (dataSave: any) => {
     try {
-        console.log('dataSave ',dataSave);
+        console.log('dataSave ', dataSave);
         // Obtener la referencia a la colección de distribuidores
-    /*     const DistributorCollectionRef = collection(dataBase, 'users');
-        
+        const DistributorCollectionRef = collection(dataBase, 'users');
+
         // Verificar si el SKU ya está registrado
         const q = query(DistributorCollectionRef, where('dni', '==', dataSave.dni));
         const querySnapshot = await getDocs(q);
@@ -314,13 +314,13 @@ export const saveDistributor = async (dataSave: any) => {
             return { success: false, message: 'El ID ya está registrado' };
         }
 
-        // Si el SKU no está registrado, crear un nuevo documento en la colección
-        const newDistributorRef = doc(DistributorCollectionRef); // Crear un nuevo documento en la colección
-        await setDoc(newDistributorRef, {
+        const dataFinal = {
             ...dataSave,
-            uid: newDistributorRef.id,  // Usar el ID del nuevo documento
+            uid: dataSave.uid,  // Usar el ID del nuevo documento
             created_at: currentDate // Añadir la fecha de creación
-        }); */
+        }
+
+        const newDistributorRef = await setDoc(doc(dataBase, 'users', dataSave.uid), dataFinal);
 
         return { success: true, message: 'Distribuidor creado correctamente' };
     } catch (error) {

@@ -213,33 +213,31 @@ const DistributorRegisterFormHook = () => {
         isActiveByAdmin: true
       };
 
-      if (accessTokenUser) {
-        const emailUser = dataSend?.email?.trim().toLowerCase();
-        const password = dataSend?.dni.trim();
 
-        const resultAuth = await registerUserAuthDistributor({ user: emailUser, password: password });
+      const emailUser = dataSend?.email?.trim().toLowerCase();
+      const password = dataSend?.dni.trim();
 
-        const combinedData = {
-          ...dataSend,
-          uid: resultAuth,
-        }
+      const resultAuth = await registerUserAuthDistributor({ user: emailUser, password: password });
 
-        const result = await saveDistributorQuerie(combinedData);
-
-        if (result.success) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: `Distribuidor registrado con éxito`,
-            showConfirmButton: false,
-            timer: 2000,
-          });
-          handleReset();
-        } else {
-          setStatus(result.message);
-        }
+      const combinedData = {
+        ...dataSend,
+        uid: resultAuth.uid,
       }
 
+      const result = await saveDistributorQuerie(combinedData);
+
+      if (result.success) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `Distribuidor registrado con éxito`,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        handleReset();
+      } else {
+        setStatus(result.message);
+      }
 
     } catch (error) {
       setStatus('Error al registrar al distribuidor');
@@ -257,7 +255,7 @@ const DistributorRegisterFormHook = () => {
     try {
       const dataSend = {
         documentType,
-        documentNumber,
+        dni: documentNumber,
         fullName,
         email,
         phoneNumber,

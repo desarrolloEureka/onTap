@@ -279,7 +279,7 @@ const PlanRegisterFormHook = () => {
         setIsModalOpen(false);
         handleReset();
       } else {
-        console.log(result.message);
+        //console.log(result.message);
         setStatus(result.message);
       }
     } catch (error) {
@@ -319,7 +319,7 @@ const PlanRegisterFormHook = () => {
         });
         handleReset();
       } else {
-        console.log(result.message);
+        //console.log(result.message);
         setStatus(result.message);
       }
     } catch (error) {
