@@ -15,13 +15,14 @@ export const capitalizeFirstLetter = (text: string) => {
 
 export const sortedArrayObject = (data: any[], index: string) => {
   const arraySorted = data.sort((x, y) => {
-    const xx = x.length > 0 ? x[0].order : x.order;
-    const yy = y.length > 0 ? y[0].order : y.order;
+    
+    const xx = Array.isArray(x) && x.length > 0 ? x[0]?.order : x?.order;
+    const yy = Array.isArray(y) && y.length > 0 ? y[0]?.order : y?.order;
     //array sorted
-    if (index == 'social' ? xx > yy : x[0].order > y[0].order) {
+    if (index == 'social' ? xx > yy : x[0]?.order > y[0]?.order) {
       return 1;
     }
-    if (index == 'social' ? xx < yy : x[0].order < y[0].order) {
+    if (index == 'social' ? xx < yy : x[0]?.order < y[0].order) {
       return -1;
     }
     return 0;
@@ -37,7 +38,7 @@ export const getPrincipalProfileOrderedByObject = (
   const finalArray: DataFormValues[][] = [];
   const objectArray: any[] = [];
   let data: any = [];
-  
+
   if (!profile || typeof profile !== 'object') {
     return { finalArray: [] }; // O cualquier valor por defecto que prefieras.
   }
@@ -167,10 +168,10 @@ export const getPrincipalProfileOrderedSocialTwo = (
           val[1].find((val: any) => val.order != 13)
           ? val
           : val[1][index] &&
-              val[1].order != 1 &&
-              val[1].order != 2 &&
-              val[1].order != 3 &&
-              val;
+          val[1].order != 1 &&
+          val[1].order != 2 &&
+          val[1].order != 3 &&
+          val;
       } else {
         const result =
           val[1].length > 0 &&
@@ -225,8 +226,8 @@ export const getPrincipalProfileOrderedSocialTwo = (
       ? index == 'social'
         ? sortedArrayObject(objectArray, index)
         : objectArray[0].length > 0
-        ? sortedArrayObject(objectArray, index)
-        : { arraySorted: [] }
+          ? sortedArrayObject(objectArray, index)
+          : { arraySorted: [] }
       : { arraySorted: [] };
 
   let count = 2;

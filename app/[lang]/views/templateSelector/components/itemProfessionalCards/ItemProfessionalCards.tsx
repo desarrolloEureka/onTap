@@ -2,10 +2,6 @@ import { CareerDataFormValues, DataFormValues } from '@/types/profile';
 import { Box, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { EducationDataFormValues } from '../../../../types/profile';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import FilePresentOutlinedIcon from '@mui/icons-material/FilePresentOutlined';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
@@ -18,7 +14,7 @@ const ItemProfessionalCards = ({
 }: {
   item: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[]; colorText: string
 }) => {
-  return item[0].order == 11 || item[0].order == 12 ? (
+  return item[0]?.order == 11 || item[0]?.order == 12 ? (
     <Carousel height={80} autoPlay={false} navButtonsAlwaysInvisible>
       {item.map((value, key) => {
         const valEducation = (value.order == 11 &&
