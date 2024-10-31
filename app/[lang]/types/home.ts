@@ -1,5 +1,5 @@
-import { Locale } from 'i18n-config';
-import { Dictionary } from './dictionary';
+import { Locale } from "i18n-config";
+import { Dictionary } from "./dictionary";
 
 export type HomeProps = { dictionary: Dictionary; lang?: Locale };
 
@@ -81,7 +81,7 @@ export interface Colors {
   editable: any;
   selectedMaterials?: any;
   product?: any;
-  image: any
+  image: any;
 }
 
 export interface Customizations {
@@ -93,8 +93,8 @@ export interface Customizations {
   status: boolean;
   editable: any;
   prices_matrix: any;
-  type?: any
-  selectedArticle?: any
+  type?: any;
+  selectedArticle?: any;
 }
 
 export interface Distributors {
@@ -116,10 +116,29 @@ export interface Distributors {
   editable: any;
 }
 
+export interface Notification {
+  id: string;
+  subject: string;
+  description: string;
+  createdAt: string;
+  creator: string;
+}
+
+// Define la interfaz para la suscripción
+export interface Subscription {
+  id: string;
+  annual_fee: number;
+  description: string;
+  createdAt: string;
+  updatedAt?: string;
+  months_period?: number;
+  text_period?: string;
+}
+
 export interface SocialNetworks {
   id: string;
   name: string;
   image: string;
 }
 
-export type TemplateTypes = 'social' | 'professional' | 'corporate';
+export type TemplateTypes = "social" | "professional" | "corporate";

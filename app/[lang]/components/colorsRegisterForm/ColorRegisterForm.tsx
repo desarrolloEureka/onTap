@@ -204,6 +204,13 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
             disableColumnFilter
             disableRowSelectionOnClick
             ignoreDiacritics={true}
+            sx={{
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: "#dddddd",
+                color: "#000000",
+                fontWeight: "bold",
+              },
+            }}
           />
         </div>
       </div>
