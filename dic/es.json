@@ -106,7 +106,6 @@
     "PersonalizationName": "Nombre Personalizacion",
     "LabelCustomersDistributor": "Clientes Distribuidor",
     "LabelType": "Tipo",
-
     "documentTypeLabel": "Tipo de Documento",
     "documentNumberLabel": "Número Documento",
     "fullNameLabel": "Nombres y Apellidos",
@@ -146,7 +145,6 @@
     "cityLabel": "Ciudad",
     "stateLabel": "Departamento/Estado",
     "postalCodeLabel": "Código Postal",
-
     "SubscriptionLabel": "Valor Suscripción",
     "AccountLabelMenu": "Mi cuenta",
     "ChangePasswordLabelMenu": "Cambiar Contraseña",
@@ -234,7 +232,8 @@
     "nPassword": "Nueva contraseña",
     "repeatPassword": "Repetir contraseña",
     "nextNewPassword": "Siguiente",
-    "nextNewFinish": "Finalizar"
+    "nextNewFinish": "Finalizar",
+    "updateError": "Error de actualizacion"
   },
   "passwordChangedSuccessfully": "Contraseña modificada con éxito.",
   "passwordChangedRecommendation": "Por favor, vuelva a la app móvil o web.",

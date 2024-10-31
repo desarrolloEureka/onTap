@@ -287,6 +287,7 @@ export interface Dictionary {
     repeatPassword: string;
     nextNewPassword: string;
     nextNewFinish: string;
+    updateError: string;
   };
   modalDelete: {
     labelAlert: string;
