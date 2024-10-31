@@ -106,7 +106,6 @@ export interface Dictionary {
     PersonalizationName: string;
     LabelCustomersDistributor: string;
     LabelType: string;
-    // Registro Clientes-Distribuidor
     documentTypeLabel: string;
     documentNumberLabel: string;
     fullNameLabel: string;
@@ -146,11 +145,11 @@ export interface Dictionary {
     cityLabel: string;
     stateLabel: string;
     postalCodeLabel: string;
-    //
-    //notificaciones
     NotificationsLabel: string;
-    //valor suscripciones
     SubscriptionLabel: string;
+    ChangePasswordLabelMenu: string;
+    EditProfileLabelMenu: string;
+    AccountLabelMenu: string;
   };
   cardView: {
     labelErrorUser: string;

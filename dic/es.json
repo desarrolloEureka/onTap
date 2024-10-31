@@ -148,7 +148,8 @@
     "SubscriptionLabel": "Valor Suscripción",
     "AccountLabelMenu": "Mi cuenta",
     "ChangePasswordLabelMenu": "Cambiar Contraseña",
-    "EditProfileLabelMenu": "Editar Perfil"
+    "EditProfileLabelMenu": "Editar Perfil",
+    "NotificationsLabel": "Notificaciones"
   },
   "cardView": {
     "labelErrorUser": "Error",
