@@ -487,6 +487,7 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                         disableColumnFilter
                         disableRowSelectionOnClick
                         ignoreDiacritics={true}
+                        
                     />
                 </div>
             </div>

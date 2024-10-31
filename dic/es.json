@@ -145,8 +145,12 @@
     "countryLabel": "País",
     "cityLabel": "Ciudad",
     "stateLabel": "Departamento/Estado",
-    "postalCodeLabel": "Código Postal"
+    "postalCodeLabel": "Código Postal",
 
+    "SubscriptionLabel": "Valor Suscripción",
+    "AccountLabelMenu": "Mi cuenta",
+    "ChangePasswordLabelMenu": "Cambiar Contraseña",
+    "EditProfileLabelMenu": "Editar Perfil"
   },
   "cardView": {
     "labelErrorUser": "Error",
