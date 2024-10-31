@@ -10,6 +10,10 @@ export interface Dictionary {
     UserRegister: string;
     CategoriesRegister: string;
     CreateLogo: string;
+    PaymentsMade: string;
+    PendingPayments: string;
+    Deliveries: string;
+    NotificationHistory: string;
     TrafficReport: string;
     CreateCategory: string;
     CreateProducts: string;
@@ -83,6 +87,7 @@ export interface Dictionary {
     ReportsLabelMenu: string,
     SubscriptionsLabelMenu: string,
     SettingsLabelMenu: string,
+    LocationsLabelMenu: string,
     NotificationsLabelMenu: string,
     SubscriptionValueLabelMenu: string,
     ClientLabelMenu: string,
@@ -99,6 +104,49 @@ export interface Dictionary {
     ColorName: string,
     PersonalizationSku: string,
     PersonalizationName: string,
+    LabelCustomersDistributor: string,
+    LabelType: string,
+    // Registro Clientes-Distribuidor
+    documentTypeLabel: string,
+    documentNumberLabel: string,
+    fullNameLabel: string,
+    phoneNumberLabel: string,
+    statusActive: string,
+    statusInactive: string,
+    materialLabel: string,
+    colorLabel: string,
+    personalizationQuestion: string,
+    customizationOptionLabel: string,
+    selectProductLabel: string,
+    addButtonLabel: string,
+    addedProductsHeader: string,
+    skuHeader: string,
+    nameHeader: string,
+    quantityHeader: string,
+    actionsHeader: string,
+    priceHeader: string,
+    removeButtonLabel: string,
+    noProductsMessage: string,
+    totalLabel: string,
+    summaryHeader: string,
+    descriptionHeader: string,
+    unitPriceHeader: string,
+    selectedPlanLabel: string,
+    selectedMaterialLabel: string,
+    selectedCustomizationLabel: string,
+    creditCardHeader: string,
+    cardNumberLabel: string,
+    expiryDateLabel: string,
+    cvvLabel: string,
+    buyerHeader: string,
+    buyerNameLabel: string,
+    buyerEmailLabel: string,
+    shippingAddressHeader: string,
+    countryLabel: string,
+    cityLabel: string,
+    stateLabel: string,
+    postalCodeLabel: string,
+
   };
   cardView: {
     labelErrorUser: string;

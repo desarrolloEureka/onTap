@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import CountriesHook from './hooks/CountriesHook';
 import { Locale } from 'i18n-config';
@@ -6,26 +6,19 @@ import { DataGrid, GridColDef, GridToolbarContainer, GridToolbarQuickFilter } fr
 import { Box } from '@mui/system';
 
 const Countries = ({ params: { lang } }: { params: { lang: Locale } }) => {
-    const { countries } = CountriesHook(); // Obtén solo Colombia
+    const { countries } = CountriesHook();
     const dictionary = useDictionary({ lang: 'es' });
 
     const columns: GridColDef[] = [
         {
-            field: 'id',
-            headerName: 'Id',
-            minWidth: 160,
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center'
-        },
-        {
-            //field: 'country_name',
             field: 'label',
             headerName: 'Nombre',
             minWidth: 160,
             flex: 1,
-            headerAlign: 'center',
-            align: 'center'
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName: 'tw-pl-12',
+            headerClassName: 'tw-pl-12',
         },
     ];
 
@@ -79,7 +72,6 @@ const Countries = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         rows={countries ?? []}
                         columns={columns}
                         slots={{ toolbar: CustomToolbar }}
-                        //getRowId={(row) => row.country_short_name}
                         getRowId={(row) => row.id}
                         initialState={{
                             pagination: {

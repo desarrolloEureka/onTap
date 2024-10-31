@@ -116,6 +116,20 @@ export const getAllPlans = async () => {
   return categoriesData;
 };
 
+export const getAllPlansIndividual = async () => {
+  const categoriesData: Plans[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: 'plans' }));
+
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Plans;
+      categoriesData.push({ ...dataResult, id: doc.id });
+    });
+  }
+
+  return categoriesData;
+};
+
 export const getAllColors = async () => {
   const colorsData: Colors[] = [];
   const querySnapshot = await getDocs(allRef({ ref: 'colors' }));

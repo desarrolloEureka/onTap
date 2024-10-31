@@ -1,8 +1,18 @@
+import { useEffect, useState } from 'react';
 import { GetUser } from "@/reactQuery/users";
 
 const FirstView = () => {
+    const [isDistributor, setIsDistributor] = useState(false);
     const datUser = GetUser();
-    const userName = datUser?.data?.name;
+    const userName = isDistributor ? datUser?.data?.fullName : datUser?.data?.name;
+
+    useEffect(() => {
+        // Solo acceder a localStorage en el lado del cliente
+        if (typeof window !== 'undefined') {
+            const distributorStatus = localStorage.getItem('isDistributor') === 'true';
+            setIsDistributor(distributorStatus);
+        }
+    }, []);
 
     return (
         <div className='tw-flex tw-flex-col tw-h-screen tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>

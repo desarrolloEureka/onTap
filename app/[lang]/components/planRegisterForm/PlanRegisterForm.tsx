@@ -1,21 +1,5 @@
 import {
-  Autocomplete,
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Modal,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography
+  Autocomplete, Box, Button, FormControl, IconButton, InputAdornment, MenuItem, Modal, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography
 } from '@mui/material';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import 'react-phone-input-2/lib/style.css'
@@ -82,7 +66,6 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
   const formatPrice = (value: any) => {
     if (value == null || isNaN(value)) return '';
     const number = Number(value);
-    // Configura el formato para miles, usando el separador adecuado
     return new Intl.NumberFormat('es-CO', {
       style: 'decimal',
       minimumFractionDigits: 0
@@ -94,8 +77,8 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
     return categories.map((category: any) => ({
       field: category.name,
       headerName: category.name,
-      minWidth: 90, // Reemplazar width por minWidth
-      flex: 1, // Añadir flex para el ajuste dinámico del ancho
+      minWidth: 90,
+      flex: 1,
       headerAlign: 'center',
       align: 'center',
       type: 'number',
@@ -111,8 +94,8 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
     {
       field: 'optionEdit',
       headerName: 'Acciones',
-      minWidth: 120, // Reemplazar width por minWidth
-      flex: 1, // Añadir flex para el ajuste dinámico del ancho
+      minWidth: 120,
+      flex: 1,
       headerAlign: 'center',
       align: 'center',
       renderCell: (params) => (
@@ -125,7 +108,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
       field: 'created_at',
       headerName: 'Fecha Registro',
       minWidth: 220,
-      flex: 2, // Mayor flex para darle más espacio
+      flex: 2,
       headerAlign: 'center',
       align: 'center',
       renderCell: (params) => (
@@ -145,7 +128,7 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
         </div>
       )
     },
-    ...generateDynamicColumns(dataCategories || []), // Aplicar flex y minWidth a las columnas dinámicas
+    ...generateDynamicColumns(dataCategories || []),
     {
       field: 'status',
       headerName: 'Estado',
@@ -248,7 +231,6 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
             position: 'relative',
           }}
         >
-
           <IconButton
             className='tw-absolute tw-right-1 tw-top-1'
             onClick={() => handleCloseModal()}
@@ -474,7 +456,11 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                           fullWidth
                           options={filteredProducts || []}
                           getOptionLabel={(option) => {
-                            return typeof option === 'string' ? option : option.sku || "";
+                            if (typeof option === 'string') {
+                              return option;
+                            }
+                            //return `${option.sku} - ${option.name || ''}`;
+                            return `${option.sku}`;
                           }}
                           inputValue={product}
                           onInputChange={(event, newInputValue) => setProduct(newInputValue)}
@@ -547,11 +533,9 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                       </Table>
                     </div>
                   </div>
-
                   <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-36 -tw-mt-5 tw-mb-5'>
                     {selectedProductsError && <div style={{ color: 'red', fontSize: '14px', marginLeft: 5 }}>*{selectedProductsError}</div>}
                   </div>
-
                 </div>
             }
 
@@ -568,15 +552,6 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                   {step === 1 ?
                     (
                       <div className='tw-w-[60%] tw-h-full tw-flex tw-justify-end tw-items-center'>
-                        {/*  <Button
-                          variant='contained'
-                          className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center tw-mr-11'
-                          onClick={handleNextStepOne}
-                          sx={{ width: '45px', minWidth: '45px' }}
-                        >
-                          <ArrowForwardIosIcon style={{ padding: 2, paddingLeft: 5 }} />
-                        </Button> */}
-
                         <Button
                           variant="text"
                           className="tw-text-black tw-mr-12"
@@ -600,7 +575,6 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                     )
                     : step === 2 ?
                       < div className='tw-w-[40%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-16'>
-
                         <Button
                           variant="text"
                           className="tw-text-black tw-mr-7"
@@ -640,35 +614,10 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                             {dictionary.dictionary?.backOffice.nextButton}
                           </Typography>
                         </Button>
-                        {/* <Button
-                          variant='contained'
-                          className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center'
-                          onClick={() => setStep(1)}
-                          sx={{ width: '45px', minWidth: '45px' }}
-                        >
-                          <ArrowBackIosIcon style={{ padding: 2, paddingLeft: 10 }} />
-                        </Button>
-                        <Button
-                          variant='contained'
-                          className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center  tw-ml-6'
-                          onClick={handleNextStepTwo}
-                          sx={{ width: '45px', minWidth: '45px' }}
-                        >
-                          <ArrowForwardIosIcon style={{ padding: 2, paddingLeft: 5 }} />
-                        </Button> */}
                       </div>
                       :
                       <div className='tw-w-full tw-h-full tw-flex tw-justify-end tw-items-center'>
                         <div className='tw-w-[40%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-16'>
-                          {/* <Button
-                            variant='contained'
-                            className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-flex tw-justify-center tw-items-center'
-                            onClick={() => setStep(2)}
-                            sx={{ width: '45px', minWidth: '45px' }}
-                          >
-                            <ArrowBackIosIcon style={{ padding: 2, paddingLeft: 10 }} />
-                          </Button> */}
-
                           <Button
                             variant="text"
                             className="tw-text-black tw-mr-4"
@@ -706,15 +655,6 @@ const PlanRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =>
                               {dictionary.dictionary?.backOffice.guardar}
                             </Typography>
                           </Button>
-
-                          {/*  <Button
-                            variant='contained'
-                            className='tw-bg-white tw-text-black tw-shadow-m tw-capitalize tw-ml-6'
-                            onClick={isEditData ? handleEditData : dataRegisterHandle}
-                            sx={{ width: '45px', minWidth: '45px' }}
-                          >
-                            <SaveIcon style={{ padding: 2, paddingLeft: 1 }} />
-                          </Button> */}
                         </div>
                       </div>
                   }

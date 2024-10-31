@@ -1,7 +1,7 @@
 import { saveCustomizationQuerie, UpdateCustomizationQuerie } from '@/reactQuery/generalQueries';
 import { useEffect, useState } from 'react';
 import moment from "moment";
-import { GetAllCategories, GetAllCustomizations } from '@/reactQuery/home';
+import { GetAllCategories, GetAllCustomizations, GetAllPlanesIndividual, GetAllProducts } from '@/reactQuery/home';
 import Swal from "sweetalert2";
 
 interface DiscountMap {
@@ -18,6 +18,8 @@ const PersonalizationRegisterFormHook = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { data } = GetAllCustomizations(flag);
   const { data: dataCategories } = GetAllCategories(flag);
+  const { data: dataProducts } = GetAllProducts(flag);
+  const { data: dataPlanes } = GetAllPlanesIndividual(flag);
 
   const [status, setStatus] = useState<string>('');
   const [step, setStep] = useState(1);
@@ -27,6 +29,9 @@ const PersonalizationRegisterFormHook = () => {
   const [sku, setSku] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [stateCustomization, setStateCustomization] = useState<boolean | null>(true);
+  const [typeCustomization, setTypeCustomization] = useState<string | null>(null);
+  const [selectedArticle, setSelectedArticle] = useState<any | null>(null);
+  const [articleList, setArticleList] = useState<any | null>([]);
   const [discounts, setDiscounts] = useState<DiscountMap>({});
 
   // Estado para errores
@@ -34,6 +39,8 @@ const PersonalizationRegisterFormHook = () => {
   const [skuError, setSkuError] = useState<string | null>(null);
   const [priceError, setPriceError] = useState<string | null>(null);
   const [stateCustomizationError, setStateCustomizationError] = useState<string | null>(null);
+  const [typeCustomizationError, seTypeCustomizationError] = useState<string | null>(null);
+  const [selectedArticleError, setSelectedArticleError] = useState<string | null>(null);
   const [discountErrors, setDiscountErrors] = useState<{ [key: string]: string | null }>({});
 
   // Modal
@@ -65,11 +72,11 @@ const PersonalizationRegisterFormHook = () => {
     setStateCustomizationError(null);
     setStatus('');
 
-    // Validar el nombre
+    /* // Validar el nombre
     if (name.trim() === '') {
       setNameError('El nombre de la personalización obligatorio');
       valid = false;
-    }
+    } */
 
     // Validar el SKU
     if (sku.trim() === '') {
@@ -93,6 +100,18 @@ const PersonalizationRegisterFormHook = () => {
     // Validar el estado del personalización
     if (stateCustomization === null) {
       setStateCustomizationError('Debes seleccionar el estado de la personalización');
+      valid = false;
+    }
+
+    // Validar el tipo de la personalización
+    if (typeCustomization === null) {
+      seTypeCustomizationError('Debes seleccionar el tipo de la personalización');
+      valid = false;
+    }
+
+    // Validar el selecciono un articulo
+    if (selectedArticle === null) {
+      setSelectedArticleError('Debes seleccionar un artículo');
       valid = false;
     }
 
@@ -131,22 +150,28 @@ const PersonalizationRegisterFormHook = () => {
   };
 
   const handleReset = () => {
-    // Resetear todos los campos y estados
     setName('');
     setSku('');
     setPrice('');
     setStateCustomization(true);
-    setStatus('');
+    setTypeCustomization(null);
+    setSelectedArticle(null);
+    setArticleList([]);
+    setDiscounts({});
+
     // Limpiar los errores
     setNameError(null);
     setSkuError(null);
     setPriceError(null);
     setStateCustomizationError(null);
+    seTypeCustomizationError(null);
+    setSelectedArticleError(null);
+    setDiscountErrors({});
     setIsEditData(false);
     setRowId(null);
     setStep(1);
-    setDiscounts({});
   };
+
 
   const handleNextStep = async () => {
     if (!validateForm()) return;
@@ -162,11 +187,14 @@ const PersonalizationRegisterFormHook = () => {
     setStateCustomization(dataCustomization.status);
     setRowId(dataCustomization.uid);
     setDiscounts(dataCustomization.prices_matrix);
+    setTypeCustomization(dataCustomization.type);
+    setSelectedArticle(dataCustomization.article);
     setNameError(null);
     setSkuError(null);
     setPriceError(null);
     setStateCustomizationError(null);
-    setStateCustomizationError(null);
+    seTypeCustomizationError(null);
+    setSelectedArticleError(null);
   };
 
   const dataRegisterHandle = async () => {
@@ -178,7 +206,9 @@ const PersonalizationRegisterFormHook = () => {
       const dataSend = {
         sku: sku,
         created_at: createdAt,
-        name: name,
+        //name: name,
+        type: typeCustomization,
+        selectedArticle,
         full_price: price,
         status: stateCustomization,
         prices_matrix: discounts
@@ -242,8 +272,25 @@ const PersonalizationRegisterFormHook = () => {
     }
   };
 
+  const filterDataArticles = (e: any) => {
+    setTypeCustomization(e);
+
+    // Obtiene los selectedArticle de cada elemento
+    const selectedUids = (data || []).map((item: any) => item.selectedArticle);
+
+    if (e === 'Producto') {
+      // Filtrar dataProducts para obtener los que NO están en selectedUids
+      const filteredProducts = dataProducts && dataProducts.filter((product: any) => !selectedUids.includes(product.uid));
+      setArticleList(filteredProducts);
+    } else {
+      // Filtrar dataPlanes para obtener los que NO están en selectedUids
+      const filteredPlanes = dataPlanes && dataPlanes.filter((plan: any) => !selectedUids.includes(plan.uid));
+      setArticleList(filteredPlanes);
+    }
+  };
+
   useEffect(() => {
-    if (data) {
+    if (data && dataProducts && dataPlanes) {
       const formattedData = data.map(doc => {
         // Extrae los valores de prices_matrix o establece un valor por defecto si no existe
         const pricesMatrix = doc.prices_matrix || {};
@@ -261,6 +308,14 @@ const PersonalizationRegisterFormHook = () => {
           return acc;
         }, {} as PricesMatrix);
 
+        let foundItem = null;
+
+        if (doc.type === 'Producto') {
+          foundItem = dataProducts.find(product => product.uid === doc.selectedArticle);
+        } else if (doc.type === 'Plan') {
+          foundItem = dataPlanes.find(plan => plan.uid === doc.selectedArticle);
+        }
+
         return {
           id: doc.id,
           name: doc.name,
@@ -270,13 +325,15 @@ const PersonalizationRegisterFormHook = () => {
           sku: doc.sku,
           price: doc.full_price,
           prices_matrix: doc.prices_matrix,
+          type: doc.type,
+          article: foundItem?.name || '',
           ...dynamicPrices
         };
       });
 
       setQuery(formattedData);
     }
-  }, [data]);
+  }, [data, dataPlanes, dataProducts]);
 
   return {
     data: query,
@@ -308,7 +365,18 @@ const PersonalizationRegisterFormHook = () => {
     discounts,
     setStep,
     discountErrors,
-    status
+    status,
+    typeCustomization,
+    setTypeCustomization,
+    typeCustomizationError,
+    seTypeCustomizationError,
+    selectedArticle,
+    setSelectedArticle,
+    articleList,
+    setArticleList,
+    filterDataArticles,
+    selectedArticleError,
+    setSelectedArticleError
   };
 };
 

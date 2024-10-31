@@ -71,20 +71,8 @@ const ShareQr = ({ dictionary }: { dictionary: Dictionary }) => {
                     <Typography style={{ textTransform: 'none', paddingLeft: 10 }} className='tw-text-white tw-text-[15px]'>
                         Compartir Perfil
                     </Typography>
-
                 </Button>
-
-                <Typography
-                    className='tw-text-[#396593] tw-text-xs tw-mt-3'
-                    sx={{
-                        display: copied ? 'block' : 'none'
-                    }}
-                >
-                    {dictionary.homeView.copyUrlMessageLabel}
-                </Typography>
             </div>
-
-
         </div>
     );
 };

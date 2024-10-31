@@ -47,8 +47,13 @@ const DepartmentsHook = () => {
             setDepartments(departmentsData); */
 
             const departmentsData = await colombianCitiesData;
-            setDepartments(departmentsData);
 
+            const updatedDepartments = departmentsData.map(department => ({
+                ...department,
+                pais: "Colombia"
+            }));
+
+            setDepartments(updatedDepartments);
         };
         fetchData();
     }, []);

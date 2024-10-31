@@ -1,4 +1,4 @@
-import { getDocumentReference, saveDistributorQuerie, UpdateDistributortionQuerie } from '@/reactQuery/generalQueries';
+import { saveDistributorQuerie, UpdateDistributortionQuerie } from '@/reactQuery/generalQueries';
 import { useEffect, useState } from 'react';
 import moment from "moment";
 import { GetAllCategories, GetAllDistributors } from '@/reactQuery/home';
@@ -7,10 +7,9 @@ import { Country } from '@/components/countries/hooks/CountriesHook';
 import { countriesTable } from '@/types/formConstant';
 import { Department } from '@/components/departments/hooks/DepartmentsHook';
 import { colombianCitiesData } from '@/types/colombianCitiesData';
-import { addUser } from '@/firebase/user';
 import * as XLSX from 'xlsx';
 import { GetUser } from '@/reactQuery/users';
-import { registerUserAuth, registerUserAuthDistributor } from 'app/functions/register';
+import { registerUserAuthDistributor } from 'app/functions/register';
 
 type City = string;
 
@@ -183,6 +182,21 @@ const DistributorRegisterFormHook = () => {
     // Validar estado activo
     if (isActive === null) {
       setIsActiveError("El estado activo es obligatorio.");
+      valid = false;
+    }
+
+    // Validar número de teléfono
+    /* if (!phoneNumber) {
+      setPhoneNumberError("El número de teléfono es obligatorio.");
+      valid = false;
+    } else if (phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber)) {
+      setPhoneNumberError("El número de teléfono debe tener 10 dígitos.");
+      valid = false;
+    } */
+
+    // Validar número de teléfono (opcional)
+    if (phoneNumber && (phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber))) {
+      setPhoneNumberError("El número de teléfono debe tener 10 dígitos.");
       valid = false;
     }
 
@@ -412,32 +426,23 @@ const DistributorRegisterFormHook = () => {
       dateEnd.setHours(23, 59, 59, 999);
     }
 
+    if (dateStart && dateEnd && dateEnd < dateStart) {
+      //console.error('La fecha final debe ser mayor o igual a la fecha inicial');
+      return;
+    }
+
     if (!dateStart && !dateEnd) {
       setFilteredQuery(query);
       return;
     }
 
-    const filteredData = query.filter((user: { date: string | number | Date; }) => {
-      let userDate: Date;
+    const filteredData = query.filter((user: { created_at: string }) => {
+      const userDate = new Date(user.created_at);
 
-      if (typeof user.date === 'string') {
-        const userDateParts = user.date.split('/');
-        userDate = new Date(`${userDateParts[2]}-${userDateParts[1]}-${userDateParts[0]}`);
-      } else if (typeof user.date === 'number') {
-        userDate = new Date(user.date);
-      } else {
-        userDate = user.date;
-      }
+      // Comparar si la fecha del usuario está dentro del rango
+      if (dateStart && userDate < dateStart) return false;
+      if (dateEnd && userDate > dateEnd) return false;
 
-      userDate.setDate(userDate.getDate() + 1);
-
-      if (dateStart && dateEnd) {
-        return userDate >= dateStart && userDate <= dateEnd;
-      } else if (dateStart) {
-        return userDate >= dateStart;
-      } else if (dateEnd) {
-        return userDate <= dateEnd;
-      }
       return true;
     });
     setFilteredQuery(filteredData);
@@ -472,7 +477,11 @@ const DistributorRegisterFormHook = () => {
           name: doc.fullName,
           phoneNumber: doc.phoneNumber,
           email: doc.email,
-          status: doc.isActive
+          status: doc.isActive,
+          category: doc.category,
+          state: doc.state,
+          country: doc.country,
+          city: doc.city,
         };
       });
 

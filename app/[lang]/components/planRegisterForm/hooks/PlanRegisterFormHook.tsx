@@ -319,7 +319,6 @@ const PlanRegisterFormHook = () => {
         });
         handleReset();
       } else {
-        //console.log(result.message);
         setStatus(result.message);
       }
     } catch (error) {

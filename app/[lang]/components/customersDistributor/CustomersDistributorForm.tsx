@@ -3,8 +3,7 @@ import { Typography, Button, TextField, InputAdornment, Select, MenuItem } from 
 import { Modal, Box, IconButton } from '@mui/material';
 import { DataGrid, GridColDef, gridFilteredSortedRowIdsSelector, GridToolbarContainer, gridVisibleColumnFieldsSelector, useGridApiRef } from '@mui/x-data-grid';
 import { GridToolbarQuickFilter } from '@mui/x-data-grid/components';
-import UserTableLogic from "./hooks/UserTable";
-import SwitchEdit from "./SwitchEdit";
+
 import useDictionary from "@/hooks/dictionary/useDictionary";
 // Icons
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -25,13 +24,13 @@ import ReactCountryFlag from 'react-country-flag';
 import { countries } from '../../globals/constants'
 import SaveIcon from '@mui/icons-material/Save';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import SwitchEdit from "../userTable/SwitchEdit";
+import CustomersDistributorHook from "./hooks/CustomersDistributorHook";
 
-const UserTable = () => {
+const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any }) => {
     const {
-        query,
         setFlag,
         flag,
-        handleOpenModal,
         isModalOpen,
         setDni,
         dni,
@@ -41,8 +40,6 @@ const UserTable = () => {
         setEmail,
         plan,
         setPlan,
-        type,
-        setType,
         dataRegisterHandle,
         handleSeeQR,
         isModalQR,
@@ -71,10 +68,10 @@ const UserTable = () => {
         errorPhoneCodeForm,
         errorMailForm,
         errorConfirmEmailForm,
-        errorEmailMismatch,
         handleEditUser,
         handleEditData
-    } = UserTableLogic();
+    } = CustomersDistributorHook();
+
     const dictionary = useDictionary({ lang: 'es' });
     const dateToday = new Date().toISOString().split('T')[0];
     const apiRef = useGridApiRef();
@@ -317,13 +314,14 @@ const UserTable = () => {
                             alignItems: 'center'
                         }}
                         style={{ textTransform: 'none' }}
-                        onClick={handleOpenModal}
+                        onClick={handleCreateUser}
                     >
                         <AddCircleRoundedIcon style={{ marginBottom: 5, fontSize: 30, color: '#02AF9B' }} />
                         <Typography style={{ color: '#02AF9B' }}>
                             Crear
                         </Typography>
                     </Button>
+
                     <Button
                         className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4'
                         type='submit'
@@ -402,6 +400,7 @@ const UserTable = () => {
                                 />
                             </div>
                         </div>
+
                         <Button
                             className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mx-5 tw-mr-9'
                             type='submit'
@@ -421,6 +420,7 @@ const UserTable = () => {
                                 Filtrar
                             </Typography>
                         </Button>
+
                         <Button
                             className='tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4'
                             type='submit'
@@ -441,6 +441,7 @@ const UserTable = () => {
                             </Typography>
                         </Button>
                     </Box>
+
                 </Box>
             </GridToolbarContainer>
         );
@@ -457,12 +458,12 @@ const UserTable = () => {
                     align='center'
                     fontWeight='bold'
                 >
-                    {dictionary.dictionary?.backOffice.UserTable}
+                    {dictionary.dictionary?.backOffice?.LabelCustomersDistributor}
                 </Typography>
                 <div style={{ height: 650, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-m-6'>
                     <DataGrid
                         apiRef={apiRef}
-                        rows={query ?? []}
+                        rows={[]}
                         columns={columns}
                         slots={{ toolbar: CustomToolbar }}
                         initialState={{
@@ -516,10 +517,10 @@ const UserTable = () => {
                     >
                         <Close className='tw-text-white' />
                     </IconButton>
+
                     <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
                         <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                             <div className='tw-w-full tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-20 tw-mt-2 tw-mb-2'>
-                                {/* DNI Field with Error Handling */}
                                 <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                                     <TextField
                                         variant='standard'
@@ -545,8 +546,6 @@ const UserTable = () => {
                                         helperText={errorDniForm}
                                     />
                                 </div>
-
-                                {/* Name Field with Error Handling */}
                                 <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
                                     <TextField
                                         id='outlined-required'
@@ -573,7 +572,6 @@ const UserTable = () => {
                                     />
                                 </div>
 
-                                {/* Email Field with Error Handling */}
                                 <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
                                     <TextField
                                         id='outlined-required'
@@ -601,8 +599,6 @@ const UserTable = () => {
                                         onCut={(e) => e.preventDefault()}   // Bloquea cortar
                                     />
                                 </div>
-
-                                {/* Confirm Email Field with Error Handling */}
                                 <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
                                     <TextField
                                         id='outlined'
@@ -631,8 +627,6 @@ const UserTable = () => {
                                         onPaste={(e) => e.preventDefault()} // Bloquea pegar
                                     />
                                 </div>
-
-                                {/* Phone Field with Error Handling */}
                                 <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1 ">
                                     <div className='tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4 tw-mt-3'>
                                         <div className='tw-w-[40%] tw-items-start'>
@@ -683,8 +677,6 @@ const UserTable = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Plan Field with Error Handling */}
                                 <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-0">
                                     <div className='tw-w-[300px] tw-flex-row tw-items-start tw-justify-start tw-mb-4 tw-mt-1'>
                                         <Typography
@@ -818,4 +810,4 @@ const UserTable = () => {
     );
 }
 
-export default UserTable;
+export default CustomersDistributorForm;

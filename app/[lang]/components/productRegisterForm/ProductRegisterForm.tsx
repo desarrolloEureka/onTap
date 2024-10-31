@@ -1,22 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Modal,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Box, Button, FormControl, Grid, IconButton, InputAdornment, MenuItem, Modal, Select, TextField, Typography } from '@mui/material';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import 'react-phone-input-2/lib/style.css'
 import ProductRegisterFormHook from './hooks/ProductRegisterFormHook';
@@ -73,7 +55,6 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
   const formatPrice = (value: any) => {
     if (value == null || isNaN(value)) return '';
     const number = Number(value);
-    // Configura el formato para miles, usando el separador adecuado
     return new Intl.NumberFormat('es-CO', {
       style: 'decimal',
       minimumFractionDigits: 0
@@ -102,7 +83,7 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
     {
       field: 'optionEdit',
       headerName: 'Editar',
-      minWidth: 120, // Reemplazar width por minWidth
+      minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
@@ -237,16 +218,13 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
             position: 'relative',
           }}
         >
-
           <IconButton
             className='tw-absolute tw-right-1 tw-top-1'
             onClick={() => handleCloseModal()}
           >
             <Close className='tw-text-white' />
           </IconButton>
-
           <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-
             {step && step === 1 ?
               <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                 <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
@@ -294,7 +272,6 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                           margin="normal"
                         />
                       </div>
-
                     </div>
                     <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
@@ -390,7 +367,6 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                             {dictionary.dictionary?.backOffice.ProductState}
                           </Typography>
                         </div>
-
                         <div className='tw-w-[98%] tw-h-[70%] tw-flex tw-items-center'>
                           <Select
                             labelId="estado-label"
@@ -420,45 +396,6 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
               :
               <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                 <div className='tw-w-[70%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-4'>
-                  {/*     <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell sx={{ padding: '8px', width: '100px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                            Categoría
-                          </TableCell>
-                          <TableCell sx={{ padding: '8px', width: '20px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                            Descuento (%)
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {dataCategories && dataCategories.map((route, index) => (
-                          <TableRow key={index}>
-                            <TableCell sx={{ padding: '8px', width: '100px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                              {route?.name}
-                            </TableCell>
-                            <TableCell sx={{ padding: '8px', width: '20px', border: '1px solid #DFDFDF', textAlign: 'center' }}>
-                              <FormControl variant="outlined" sx={{ width: '70%' }}>
-                                <TextField
-                                  id={`outlined-number-${route?.name}`}
-                                  label=""
-                                  type="number"
-                                  value={discounts[route?.name] || ''}
-                                  onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
-                                  inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
-                                  error={!!discountErrors[route?.name]}
-                                  helperText={discountErrors[route?.name]}
-                                  sx={{ maxWidth: '100%' }}
-                                />
-                              </FormControl>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer> */}
-
                   <Box sx={{ maxHeight: '500px', width: 300, overflow: 'auto' }}>
                     <Grid container spacing={1} sx={{ padding: '8px' }}>
                       <Grid item xs={6} style={{ paddingBottom: 12 }}>
@@ -489,7 +426,6 @@ const ProductRegisterForm = ({ params: { lang } }: { params: { lang: Locale } })
                                 onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
                                 inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
                                 error={!!discountErrors[route?.name]}
-                                //helperText={discountErrors[route?.name]}
                                 sx={{ maxWidth: '100%' }}
                               />
                             </FormControl>

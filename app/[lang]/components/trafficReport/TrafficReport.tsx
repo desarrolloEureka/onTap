@@ -18,19 +18,13 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
     const {
         query,
-        flag,
-        setFlag,
         seeDetail,
-        setSeeDetail,
         dataDetailUser,
-        setDataDetailUser,
         handleSeeDetail,
         startDate,
         setStartDate,
         endDate,
         setEndDate,
-        searchTerm,
-        setSearchTerm,
         handleDateChange,
         startDateDetail,
         setStartDateDetail,
@@ -38,9 +32,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
         setEndDateDetail,
         handleDateChangeDetail,
         dataDetailUserTool,
-        setDataDetailUserTool,
         filteredDetail,
-        setFilteredDetail,
         handleBack,
         handleDeleteFilter,
         handleDeleteFilterDetail,
@@ -194,11 +186,8 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     ];
 
     function getExcelData(apiRef: any) {
-        // Select rows and columns
         const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
         const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
-
-        // Format the data. Here we only keep the value
         const data = filteredSortedRowIds.map((id) => {
             const row: { [key: string]: any } = {};
             visibleColumnsField.forEach((field) => {
@@ -301,25 +290,6 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             />
                         </div>
                     </div>
-
-                    {/*   <Button
-                        className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B] tw-mx-4'
-                        type='submit'
-                        style={{ textTransform: 'none' }}
-                        onClick={handleDateChange}
-                    >
-                        Filtrar
-                    </Button>
-
-                    <Button
-                        className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
-                        type='submit'
-                        style={{ textTransform: 'none' }}
-                        onClick={handleDeleteFilter}
-                    >
-                        Borrar
-                    </Button> */}
-
                     <Button
                         className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-5'
                         type='submit'
@@ -368,18 +338,7 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
     function CustomToolbarDetail() {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
-
                 <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', paddingLeft: 3, paddingRight: 4, marginBottom: -2, marginTop: 1 }}>
-                    {/*  <Button
-                        className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
-                        type='submit'
-                        style={{ textTransform: 'none' }}
-                        onClick={() => handleExportDetail()}
-                    >
-                        <GetAppIcon />
-                        Exportar
-                    </Button> */}
-
                     <Button
                         className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom'
                         type='submit'
@@ -400,7 +359,6 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         </Typography>
                     </Button>
                 </Box>
-
                 <Box sx={{ width: '35%', paddingBottom: 3, paddingTop: 1, paddingLeft: 2 }}>
                     <Typography variant="inherit" style={{ paddingBottom: 9, fontSize: 14.3, color: "rgba(0, 0, 0, 0.6)" }}>
                         Consulta General
@@ -457,24 +415,6 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             />
                         </div>
                     </div>
-                    {/* <Button
-                        className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B] tw-mx-4'
-                        type='submit'
-                        style={{ textTransform: 'none' }}
-                        onClick={handleDateChangeDetail}
-                    >
-                        Filtrar
-                    </Button>
-
-                    <Button
-                        className='tw-w-[100%] tw-h-[100%] tw-text-white tw-text-custom border tw-bg-[#02AF9B]'
-                        type='submit'
-                        style={{ textTransform: 'none' }}
-                        onClick={handleDeleteFilterDetail}
-                    >
-                        Borrar
-                    </Button> */}
-
                     <Button
                         className='tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-5'
                         type='submit'
@@ -494,7 +434,6 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             Filtrar
                         </Typography>
                     </Button>
-
                     <Button
                         className='tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-2'
                         type='submit'
@@ -514,8 +453,6 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             Borrar
                         </Typography>
                     </Button>
-
-
                 </Box>
             </GridToolbarContainer>
         );
@@ -565,7 +502,6 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
                             <div style={{ height: 590, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-mb-10'>
                                 <DataGrid
                                     apiRef={apiRefDetail}
-                                    //rows={dataDetailUser.DataMetrics ?? []}
                                     rows={filteredDetail?.map((row: any, index: any) => ({
                                         id: index,
                                         ...row

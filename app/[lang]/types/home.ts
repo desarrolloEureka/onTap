@@ -40,6 +40,7 @@ export interface Categories {
 
 export interface Products {
   id: string;
+  uid: string;
   sku: string;
   name: string;
   created_at: string;
@@ -47,10 +48,20 @@ export interface Products {
   status: boolean;
   editable: any;
   prices_matrix: any;
+  quantity?: any;
+  totalPrice?: any;
+  categoryPrice?: any;
+  hasPersonalization?: boolean;
+  customName?: string;
+  customRole?: string;
+  full_price_custom?: any;
+  full_price_Discount?: any;
+  customStatus?: any;
 }
 
 export interface Plans {
   id: string;
+  uid: string;
   sku: string;
   name: string;
   created_at: string;
@@ -82,6 +93,8 @@ export interface Customizations {
   status: boolean;
   editable: any;
   prices_matrix: any;
+  type?: any
+  selectedArticle?: any
 }
 
 export interface Distributors {

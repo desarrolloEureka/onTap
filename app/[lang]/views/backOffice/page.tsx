@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import Typography from '@mui/material/Typography';
@@ -46,16 +46,34 @@ import MaterialRegisterForm from '@/components/materials/MaterialRegisterForm';
 import ColorRegisterForm from '@/components/colorsRegisterForm/ColorRegisterForm';
 import PersonalizationRegisterForm from '@/components/personalizationRegisterForm/PersonalizationRegisterForm';
 import DistributorRegisterForm from '@/components/distributorRegisterForm/DistributorRegisterForm';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import PasswordIcon from '@mui/icons-material/Password';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CustomersDistributorForm from '@/components/customersDistributor/CustomersDistributorForm';
+import CustomersCreateForm from '@/components/customersDistributor/CustomersCreateForm';
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
   const [value, setValue] = React.useState(0);
   const { logOut } = LogOut();
+  const [isDistributor, setIsDistributor] = useState(false);
+
+  useEffect(() => {
+    // Verificar si estamos en el lado del cliente
+    if (typeof window !== 'undefined') {
+      const distributorStatus = localStorage.getItem('isDistributor') === 'true';
+      setIsDistributor(distributorStatus);
+    }
+  }, []);
 
   const handleSelect = (eventKey: string | null) => {
     if (eventKey !== null) {
       setValue(parseInt(eventKey, 10));
     }
+  };
+
+  const handleCreateUser = () => {
+    setValue(parseInt('17', 10));
   };
 
   // Función para manejar el clic en la imagen
@@ -87,42 +105,42 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="tw-text-white" onSelect={handleSelect}>
 
-                  <NavDropdown
-                    title={
-                      <span className="tw-font-bold tw-text-white tw-flex-row" style={{ fontSize: 16 }}>
-                        <FormatListBulletedIcon fontSize='small' sx={{ marginRight: '4px', fontSize: 33 }} />
-                        {dictionary?.backOffice.ServiceLabel}
-                      </span>
-                    }
-                    id="basic-nav-dropdown"
-                    className="tw-text-white tw-mr-4"
-                  >
-                    <NavDropdown.Item eventKey="6" style={{ fontSize: 15 }}>
-                      <CategoryIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.CategoryLabel}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="7" style={{ fontSize: 15 }}>
-                      <StoreIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.ProductsLabelMenu}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="8" style={{ fontSize: 15 }}>
-                      <AssignmentIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.PlansLabelMenu}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="12" style={{ fontSize: 15 }}>
-                      <BuildIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.MaterialsLabelMenu}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="13" style={{ fontSize: 15 }}>
-                      <ColorLensIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.ColorsLabelMenu}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="14" style={{ fontSize: 15 }}>
-                      <TuneIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.CustomizationsLabelMenu}
-                    </NavDropdown.Item>
-                  </NavDropdown>
-
+                  {!isDistributor && (
+                    <NavDropdown
+                      title={
+                        <span className="tw-font-bold tw-text-white tw-flex-row" style={{ fontSize: 16 }}>
+                          <FormatListBulletedIcon fontSize='small' sx={{ marginRight: '4px', fontSize: 33 }} />
+                          {dictionary?.backOffice.ServiceLabel}
+                        </span>
+                      }
+                      id="basic-nav-dropdown"
+                      className="tw-text-white tw-mr-4"
+                    >
+                      <NavDropdown.Item eventKey="6" style={{ fontSize: 15 }}>
+                        <CategoryIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.CategoryLabel}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="7" style={{ fontSize: 15 }}>
+                        <StoreIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.ProductsLabelMenu}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="8" style={{ fontSize: 15 }}>
+                        <AssignmentIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.PlansLabelMenu}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="12" style={{ fontSize: 15 }}>
+                        <BuildIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.MaterialsLabelMenu}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="13" style={{ fontSize: 15 }}>
+                        <ColorLensIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.ColorsLabelMenu}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="14" style={{ fontSize: 15 }}>
+                        <TuneIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.CustomizationsLabelMenu}
+                      </NavDropdown.Item>
+                    </NavDropdown>)}
 
                   {/* Usuarios */}
                   <NavDropdown
@@ -135,50 +153,50 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     id="basic-nav-dropdown"
                     className="tw-text-white  tw-mr-4"
                   >
-                    {/* <NavDropdown.Item eventKey="1" style={{ fontSize: 15 }}>
-                      <PersonAddIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.CreateUser}
-                    </NavDropdown.Item> */}
-                    <NavDropdown.Item eventKey="2" style={{ fontSize: 15 }}>
-                      <PeopleIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.UserTable}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="15" style={{ fontSize: 15 }}>
-                      <LocalShippingIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.DistributorLabelMenu}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
-                      <PeopleIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.DistributorCustomerLabelMenu}
-                    </NavDropdown.Item>
+                    {!isDistributor ? (
+                      <>
+                        <NavDropdown.Item eventKey="2" style={{ fontSize: 15 }}>
+                          <PeopleIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                          {dictionary?.backOffice.UserTable}
+                        </NavDropdown.Item>
+                        <NavDropdown.Item eventKey="15" style={{ fontSize: 15 }}>
+                          <LocalShippingIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                          {dictionary?.backOffice.DistributorLabelMenu}
+                        </NavDropdown.Item>
+                      </>
+                    ) :
+                      (<NavDropdown.Item eventKey="16" style={{ fontSize: 15 }}>
+                        <PeopleIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.DistributorCustomerLabelMenu}
+                      </NavDropdown.Item>
+                      )}
+
                   </NavDropdown>
 
+                  {/* Plnatillas */}
+                  {!isDistributor && (
+                    <NavDropdown
+                      title={
+                        <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
+                          <FilterIcon fontSize='large' sx={{ marginRight: '7px', fontSize: 30 }} />
+                          {dictionary?.backOffice.TemplatesLabel}
+                        </span>
+                      }
+                      id="basic-nav-dropdown"
+                      className="tw-text-white  tw-mr-4"
+                    >
+                      <NavDropdown.Item eventKey="3" style={{ fontSize: 15 }}>
+                        <FontDownloadIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.LoadFonts}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="4" style={{ fontSize: 15 }}>
+                        <AddPhotoAlternateIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.CreateLogo}
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )}
 
-                  <NavDropdown
-                    title={
-                      <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
-                        <FilterIcon fontSize='large' sx={{ marginRight: '7px', fontSize: 30 }} />
-                        {dictionary?.backOffice.TemplatesLabel}
-                      </span>
-                    }
-                    id="basic-nav-dropdown"
-                    className="tw-text-white  tw-mr-4"
-                  >
-                    <NavDropdown.Item eventKey="3" style={{ fontSize: 15 }}>
-                      <FontDownloadIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.LoadFonts}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="4" style={{ fontSize: 15 }}>
-                      <AddPhotoAlternateIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.CreateLogo}
-                    </NavDropdown.Item>
-                  </NavDropdown>
-
-                  <Nav.Link eventKey="5" className="tw-text-white tw-mr-4" style={{ fontSize: 16 }}>
-                    <TableRowsIcon fontSize='large' sx={{ marginRight: '7px', fontSize: 32 }} />
-                    {dictionary?.backOffice.TrafficReport}
-                  </Nav.Link>
-
+                  {/* Reportes */}
                   <NavDropdown
                     title={
                       <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
@@ -189,55 +207,133 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     id="basic-nav-dropdown"
                     className="tw-text-white tw-mr-4"
                   >
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
-                      <SubscriptionsIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.SubscriptionsLabelMenu}
-                    </NavDropdown.Item>
+                    {!isDistributor ? (
+                      <>
+                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                          <SubscriptionsIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                          {dictionary?.backOffice.SubscriptionsLabelMenu}
+                        </NavDropdown.Item>
+                        <NavDropdown.Item eventKey="5" style={{ fontSize: 15 }}>
+                          <TableRowsIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                          {dictionary?.backOffice.TrafficReport}
+                        </NavDropdown.Item>
+                      </>
+                    ) : (
+                      <>
+                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                          <PaymentIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                          {dictionary?.backOffice.PaymentsMade}
+                        </NavDropdown.Item>
+                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                          <PaymentIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                          {dictionary?.backOffice.PendingPayments}
+                        </NavDropdown.Item>
+                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                          <LocalShippingIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                          {dictionary?.backOffice.Deliveries}
+                        </NavDropdown.Item>
+                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                          <NotificationsIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                          {dictionary?.backOffice.NotificationHistory}
+                        </NavDropdown.Item>
+                      </>
+                    )}
+
                   </NavDropdown>
 
-                  <NavDropdown
-                    title={
-                      <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
-                        <SettingsIcon fontSize='small' sx={{ marginRight: '4px', fontSize: 30 }} />
-                        {dictionary?.backOffice.SettingsLabelMenu}
-                      </span>
-                    }
-                    id="basic-nav-dropdown"
-                    className="tw-text-white  tw-mr-4"
-                  >
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
-                      <NotificationsIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.NotificationsLabelMenu}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
-                      <PaymentIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.SubscriptionValueLabelMenu}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="9" style={{ fontSize: 15 }}>
-                      <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.CountryLabel}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="10" style={{ fontSize: 15 }}>
-                      <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.DepartmentsLabel}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="11" style={{ fontSize: 15 }}>
-                      <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
-                      {dictionary?.backOffice.CitiesLabel}
-                    </NavDropdown.Item>
-                  </NavDropdown>
+                  {/* Configuracion */}
+                  {!isDistributor && (
+                    <NavDropdown
+                      title={
+                        <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
+                          <SettingsIcon fontSize='small' sx={{ marginRight: '4px', fontSize: 30 }} />
+                          {dictionary?.backOffice.SettingsLabelMenu}
+                        </span>
+                      }
+                      id="basic-nav-dropdown"
+                      className="tw-text-white  tw-mr-4"
+                    >
+                      <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <NotificationsIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.NotificationsLabelMenu}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <PaymentIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.SubscriptionValueLabelMenu}
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )}
+
+                  {/* Locaciones */}
+                  {!isDistributor && (
+                    <NavDropdown
+                      title={
+                        <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
+                          <LocationOnIcon fontSize='small' sx={{ marginRight: '4px', fontSize: 30 }} />
+                          {dictionary?.backOffice.LocationsLabelMenu}
+                        </span>
+                      }
+                      id="basic-nav-dropdown"
+                      className="tw-text-white  tw-mr-4"
+                    >
+                      <NavDropdown.Item eventKey="9" style={{ fontSize: 15 }}>
+                        <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.CountryLabel}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="10" style={{ fontSize: 15 }}>
+                        <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.DepartmentsLabel}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="11" style={{ fontSize: 15 }}>
+                        <LocationOnIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.backOffice.CitiesLabel}
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )}
+
+                  {/* Mi cuenta */}
+                  {isDistributor && (
+                    <NavDropdown
+                      title={
+                        <span className="tw-font-bold tw-text-white" style={{ fontSize: 16 }}>
+                          <AccountCircleIcon fontSize='small' sx={{ marginRight: '4px', fontSize: 30 }} />
+                          Mi cuenta
+                        </span>
+                      }
+                      id="basic-nav-dropdown"
+                      className="tw-text-white  tw-mr-4"
+                    >
+                      <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <ManageAccountsIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        Cambiar Contraseña
+                      </NavDropdown.Item>
+                      <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <PasswordIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        Editar Perfil
+                      </NavDropdown.Item>
+                      <NavDropdown.Item onClick={logOut} style={{ fontSize: 15 }}>
+                        <LogoutIcon fontSize="small" sx={{ marginRight: '4px' }} />
+                        {dictionary?.logOut}
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )}
 
 
                 </Nav>
               </Navbar.Collapse>
             </Container>
           </Navbar>
-          <Button onClick={logOut} variant="none" className="tw-text-white tw-bg-transparent tw-border-none tw-mr-2">
-            <div className='tw-flex tw-items-center'>
-              <LogoutIcon fontSize='large' />
-              <Typography className='tw-font-bold' style={{ fontSize: 18 }}>{dictionary?.logOut}</Typography>
-            </div>
-          </Button>
+
+          <div className="tw-text-white tw-bg-transparent tw-border-none tw-mr-2">
+            {!isDistributor && (
+              <Button onClick={logOut} variant="none" className="tw-text-white tw-bg-transparent tw-border-none tw-mr-2">
+                <div className='tw-flex tw-items-center'>
+                  <LogoutIcon fontSize='large' />
+                  <Typography className='tw-font-bold' style={{ fontSize: 18 }}>{dictionary?.logOut}</Typography>
+                </div>
+              </Button>
+            )}
+          </div>
         </div>
 
         {value === 0 && <FirstView />}
@@ -256,6 +352,8 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 13 && <ColorRegisterForm params={{ lang }} />}
         {value === 14 && <PersonalizationRegisterForm params={{ lang }} />}
         {value === 15 && <DistributorRegisterForm params={{ lang }} />}
+        {value === 16 && <CustomersDistributorForm handleCreateUser={handleCreateUser} />}
+        {value === 17 && <CustomersCreateForm />}
       </Box>
 
       {/* Footer */}

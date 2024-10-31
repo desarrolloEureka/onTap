@@ -1,16 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Modal,
-  Select,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Box, Button, FormControl, Grid, IconButton, InputAdornment, MenuItem, Modal, Select, TextField, Typography } from '@mui/material';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import 'react-phone-input-2/lib/style.css'
 import PersonalizationRegisterFormHook from './hooks/PersonalizationRegisterFormHook';
@@ -56,7 +44,18 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
     discounts,
     setStep,
     discountErrors,
-    status
+    status,
+    typeCustomization,
+    setTypeCustomization,
+    typeCustomizationError,
+    seTypeCustomizationError,
+    selectedArticle,
+    setSelectedArticle,
+    articleList,
+    setArticleList,
+    filterDataArticles,
+    selectedArticleError,
+    setSelectedArticleError
   } = PersonalizationRegisterFormHook();
   const dictionary = useDictionary({ lang: 'es' });
 
@@ -67,7 +66,6 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
   const formatPrice = (value: any) => {
     if (value == null || isNaN(value)) return '';
     const number = Number(value);
-    // Configura el formato para miles, usando el separador adecuado
     return new Intl.NumberFormat('es-CO', {
       style: 'decimal',
       minimumFractionDigits: 0
@@ -96,7 +94,7 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
     {
       field: 'optionEdit',
       headerName: 'Editar',
-      minWidth: 120, // Reemplazar width por minWidth
+      minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
@@ -120,7 +118,9 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
       )
     },
     { field: 'sku', headerName: 'Sku', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'name', headerName: 'Personalización', minWidth: 230, flex: 2, headerAlign: 'center', align: 'left' },
+    { field: 'type', headerName: 'Tipo', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'article', headerName: 'Artículo', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
+    /*  { field: 'name', headerName: 'Personalización', minWidth: 230, flex: 2, headerAlign: 'center', align: 'left' }, */
     {
       field: 'price', headerName: 'Full Precio', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center',
       renderCell: (params) => (
@@ -238,13 +238,12 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
           >
             <Close className='tw-text-white' />
           </IconButton>
-
           <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-
             {step && step === 1 ?
               <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                 <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
-                  <div className="tw-w-full tw-grid tw-grid-cols-2 tw-grid-rows-2 tw-gap-7 tw-px-3">
+                  <div className="tw-w-full tw-grid tw-grid-cols-2 tw-grid-rows-3 tw-gap-6 tw-px-3">
+
                     <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
                         <TextField
@@ -288,50 +287,8 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
                           margin="normal"
                         />
                       </div>
+                    </div>
 
-                    </div>
-                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
-                      <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
-                        <TextField
-                          variant='standard'
-                          label={dictionary.dictionary?.backOffice.PersonalizationName}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <MedicalInformationIcon
-                                  style={{
-                                    color: '#02AF9B',
-                                    fontSize: '1.8rem'
-                                  }}
-                                />
-                              </InputAdornment>
-                            ),
-                            style: {
-                              paddingTop: '5px',
-                              paddingBottom: '5px',
-                            },
-                          }}
-                          InputLabelProps={{
-                            style: {
-                              fontSize: 18,
-                            },
-                          }}
-                          FormHelperTextProps={{
-                            style: {
-                              fontSize: 13,
-                              color: 'red',
-                            },
-                          }}
-                          id='outlined'
-                          className='tw-w-full tw-text-sm'
-                          value={name}
-                          error={!!nameError}
-                          helperText={nameError}
-                          onChange={(e) => setName(e.target.value)}
-                          margin="normal"
-                        />
-                      </div>
-                    </div>
                     <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
                         <TextField
@@ -374,6 +331,7 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
                         />
                       </div>
                     </div>
+
                     <div className="tw-w-full tw-flex tw-justify-center tw-items-center">
                       <div className='tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-3'>
                         <div className='tw-w-full -tw-mb-4'>
@@ -408,51 +366,88 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
                         </div>
                       </div>
                     </div>
+
+                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center">
+                      <div className='tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-3'>
+                        <div className='tw-w-full -tw-mb-4'>
+                          <Typography
+                            color={typeCustomizationError ? '#d32f2f' : 'textSecondary'} display={'flow'}
+                            className='tw-text-left tw-text-sm'
+                          >
+                            {dictionary.dictionary?.backOffice.LabelType}
+                          </Typography>
+                        </div>
+
+                        <div className='tw-w-[98%] tw-h-[70%] tw-flex tw-items-center'>
+                          <Select
+                            labelId="estado-label"
+                            variant='standard'
+                            className='tw-w-full'
+                            id='estado-select'
+                            label="Estado"
+                            value={typeCustomization}
+                            error={
+                              !!typeCustomizationError
+                            }
+                            onChange={(e) => filterDataArticles(e.target.value)}
+                          >
+                            <MenuItem value="Producto">Producto</MenuItem>
+                            <MenuItem value="Plan">Plan</MenuItem>
+                          </Select>
+                        </div>
+                        <div className='tw-w-full -tw-mt-3'>
+                          {typeCustomizationError && <div style={{ color: 'red', fontSize: '12px', marginLeft: 5 }}>{typeCustomizationError}</div>}
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2">
+                      <div className='tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0'>
+                        <div className='tw-w-full -tw-mb-4'>
+                          <Typography
+                            color={typeCustomizationError ? '#d32f2f' : 'textSecondary'} display={'flow'}
+                            className='tw-text-left tw-text-sm'
+                          >
+                            {'Artículo'}
+                          </Typography>
+                        </div>
+
+                        <div className='tw-w-[98%] tw-h-[70%] tw-flex tw-items-center'>
+                          <Select
+                            labelId="estado-label"
+                            variant='standard'
+                            className='tw-w-full'
+                            id='estado-select'
+                            label="Estado"
+                            value={selectedArticle}
+                            onChange={(e) => setSelectedArticle(e.target.value)}
+                            error={!!typeCustomizationError}
+                          >
+                            {articleList.map((item: any) => (
+                              <MenuItem key={item.id} value={item.id}>
+                                {item.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </div>
+
+                        <div className='tw-w-full -tw-mt-3'>
+                          {selectedArticleError && (
+                            <div style={{ color: 'red', fontSize: '12px', marginLeft: 5 }}>
+                              {selectedArticleError}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
               :
               <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                 <div className='tw-w-[70%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-4'>
-                  {/*     <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell sx={{ padding: '8px', width: '100px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                            Categoría
-                          </TableCell>
-                          <TableCell sx={{ padding: '8px', width: '20px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                            Descuento (%)
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {dataCategories && dataCategories.map((route, index) => (
-                          <TableRow key={index}>
-                            <TableCell sx={{ padding: '8px', width: '100px', border: '1px solid #DFDFDF', textAlign: 'center', color: "#000000" }}>
-                              {route?.name}
-                            </TableCell>
-                            <TableCell sx={{ padding: '8px', width: '20px', border: '1px solid #DFDFDF', textAlign: 'center' }}>
-                              <FormControl variant="outlined" sx={{ width: '70%' }}>
-                                <TextField
-                                  id={`outlined-number-${route?.name}`}
-                                  label=""
-                                  type="number"
-                                  value={discounts[route?.name] || ''}
-                                  onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
-                                  inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
-                                  error={!!discountErrors[route?.name]}
-                                  helperText={discountErrors[route?.name]}
-                                  sx={{ maxWidth: '100%' }}
-                                />
-                              </FormControl>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer> */}
-
                   <Box sx={{ maxHeight: '500px', width: 300, overflow: 'auto' }}>
                     <Grid container spacing={1} sx={{ padding: '8px' }}>
                       <Grid item xs={6} style={{ paddingBottom: 12 }}>
@@ -483,7 +478,6 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
                                 onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
                                 inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
                                 error={!!discountErrors[route?.name]}
-                                //helperText={discountErrors[route?.name]}
                                 sx={{ maxWidth: '100%' }}
                               />
                             </FormControl>
@@ -498,7 +492,6 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
                 </div>
               </div>
             }
-
             <div className='tw-w-[101%] tw-flex tw-justify-center tw-items-center tw-border-t-white tw-border-t-[0.5px] tw-border-x-0 tw-border-b-0 tw-border-solid'>
               <div className='tw-w-1/2 tw-py-4 tw-flex tw-flex-col tw-justify-center tw-items-start'>
                 <div className='tw-w-40 tw-flex tw-flex-col tw-justify-center tw-items-center'>
@@ -584,7 +577,7 @@ const PersonalizationRegisterForm = ({ params: { lang } }: { params: { lang: Loc
           </div>
         </Box>
       </Modal>
-    </div >
+    </div>
   );
 };
 

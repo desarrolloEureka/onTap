@@ -11,20 +11,24 @@ const Departments = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
     const columns: GridColDef[] = [
         {
-            field: 'id',
-            headerName: 'Id',
-            minWidth: 160,
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center'
-        },
-        {
             field: 'departamento',
             headerName: 'Nombre',
             minWidth: 160,
             flex: 1,
-            headerAlign: 'center',
-            align: 'center'
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName: 'tw-pl-12',
+            headerClassName: 'tw-pl-12',
+        },
+        {
+            field: 'pais',
+            headerName: 'País',
+            minWidth: 160,
+            flex: 1,
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName: 'tw-pl-12',
+            headerClassName: 'tw-pl-12',
         },
     ];
 
@@ -78,7 +82,6 @@ const Departments = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         rows={departments ?? []}
                         columns={columns}
                         slots={{ toolbar: CustomToolbar }}
-                        //getRowId={(row) => row.state_name}
                         getRowId={(row) => row.id}
                         initialState={{
                             pagination: {

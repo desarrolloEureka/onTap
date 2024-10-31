@@ -11,36 +11,34 @@ const Cities = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
     const columns: GridColDef[] = [
         {
-            field: 'id',
-            headerName: 'Id',
-            minWidth: 160,
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center'
-        },
-        {
             field: 'ciudad',
-            headerName: 'Ciudad',
+            headerName: 'Nombre',
             minWidth: 160,
             flex: 1,
-            headerAlign: 'center',
-            align: 'center'
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName: 'tw-pl-12',
+            headerClassName: 'tw-pl-12',
         },
         {
             field: 'departamento',
             headerName: 'Departamento',
             minWidth: 160,
             flex: 1,
-            headerAlign: 'center',
-            align: 'center'
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName: 'tw-pl-12',
+            headerClassName: 'tw-pl-12',
         },
         {
             field: 'pais',
             headerName: 'País',
             minWidth: 160,
             flex: 1,
-            headerAlign: 'center',
-            align: 'center'
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName: 'tw-pl-12',
+            headerClassName: 'tw-pl-12',
         },
     ];
 

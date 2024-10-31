@@ -1,16 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Modal,
-  Select,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Box, Button, FormControl, Grid, IconButton, InputAdornment, MenuItem, Modal, Select, TextField, Typography } from '@mui/material';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import 'react-phone-input-2/lib/style.css'
 import MaterialRegisterFormHook from './hooks/MaterialRegisterFormHook';
@@ -68,14 +56,13 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
   const formatPrice = (value: any) => {
     if (value == null || isNaN(value)) return '';
     const number = Number(value);
-    // Configura el formato para miles, usando el separador adecuado
     return new Intl.NumberFormat('es-CO', {
       style: 'decimal',
       minimumFractionDigits: 0
     }).format(number);
   };
 
-  // Función para generar columnas dinámicas
+  // Función para generar columnas
   const generateDynamicColumns = (categories: any): GridColDef[] => {
     return categories.map((category: any) => ({
       field: category.name,
@@ -232,7 +219,6 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
             position: 'relative',
           }}
         >
-
           <IconButton
             className='tw-absolute tw-right-1 tw-top-1'
             onClick={() => handleCloseModal()}
@@ -241,7 +227,6 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
           </IconButton>
 
           <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
-
             {step && step === 1 ?
               <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                 <div className='tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
@@ -289,7 +274,6 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
                           margin="normal"
                         />
                       </div>
-
                     </div>
                     <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                       <div className='tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center'>
@@ -385,7 +369,6 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
                             {dictionary.dictionary?.backOffice.ProductState}
                           </Typography>
                         </div>
-
                         <div className='tw-w-[98%] tw-h-[70%] tw-flex tw-items-center'>
                           <Select
                             labelId="estado-label"
@@ -405,7 +388,6 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
                         </div>
                         <div className='tw-w-full -tw-mt-3'>
                           {stateMaterialError && <div style={{ color: 'red', fontSize: '12px', marginLeft: 5 }}>{stateMaterialError}</div>}
-
                         </div>
                       </div>
                     </div>
@@ -445,7 +427,6 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
                                 onChange={(e) => handleDiscountChange(route?.name, e.target.value)}
                                 inputProps={{ style: { padding: '6px 8px', height: '30px' } }}
                                 error={!!discountErrors[route?.name]}
-                                //helperText={discountErrors[route?.name]}
                                 sx={{ maxWidth: '100%' }}
                               />
                             </FormControl>
@@ -454,7 +435,6 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
                       ))}
                     </Grid>
                   </Box>
-
                 </div>
                 <div className='tw-w-[70%] tw-h-[10%] tw-flex tw-justify-center tw-justify-items-center'>
                   {status && (<div style={{ color: 'red', fontSize: 14 }}>*{status}</div>)}
@@ -519,11 +499,10 @@ const MaterialRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }
                             {dictionary.dictionary?.backOffice.backButton}
                           </Typography>
                         </Button>
-
                         <Button
                           variant="text"
                           className="tw-text-black tw-ml-6"
-                          disabled={isSubmitting} 
+                          disabled={isSubmitting}
                           onClick={isEditData ? handleEditData : dataRegisterHandle}
                           sx={{
                             padding: '0',

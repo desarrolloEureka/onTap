@@ -61,7 +61,6 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
     selectedMaterialsError,
     handleImageChange,
     selectedImage,
-    isUpdateImage,
     imageError,
     status
   } = ColorRegisterFormHook();
@@ -71,17 +70,7 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
     return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
   };
 
-  const formatPrice = (value: any) => {
-    if (value == null || isNaN(value)) return '';
-    const number = Number(value);
-    // Configura el formato para miles, usando el separador adecuado
-    return new Intl.NumberFormat('es-CO', {
-      style: 'decimal',
-      minimumFractionDigits: 0
-    }).format(number);
-  };
-
-  // Función para generar columnas dinámicas
+  // Función para generar columnas
   const generateDynamicColumns = (materials: any): GridColDef[] => {
     return materials.map((category: any) => ({
       field: category.name,
@@ -179,7 +168,6 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
           </Box>
         </Box>
       </GridToolbarContainer>
-
     );
   }
 
@@ -402,7 +390,10 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
                         fullWidth
                         options={filteredMaterials || []}
                         getOptionLabel={(option) => {
-                          return typeof option === 'string' ? option : option.sku || "";
+                          if (typeof option === 'string') {
+                            return option;
+                          }
+                          return `${option.sku} - ${option.name || ''}`;
                         }}
                         inputValue={material}
                         onInputChange={(event, newInputValue) => setMaterial(newInputValue)}

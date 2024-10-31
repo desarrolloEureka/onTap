@@ -8,6 +8,7 @@ import {
   getAllLogosImages,
   getAllMaterials,
   getAllPlans,
+  getAllPlansIndividual,
   getAllProducts,
   getAllSocialNetworks,
   getAllTemplates,
@@ -102,6 +103,14 @@ const GetAllPlanes = (flag?: boolean) => {
   });
 };
 
+const GetAllPlanesIndividual = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ['plans', flag],
+    queryFn: async () => await getAllPlansIndividual(),
+    refetchOnWindowFocus: false,
+  });
+};
+
 const GetAllSocialNetworks = () => {
   return useQuery({
     queryKey: ['social_networks'],
@@ -149,4 +158,4 @@ const UpdateSocialNetwork = async (imageFile: File, oldImageName: string, newIma
   return res;
 };
 
-export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages, SaveSocialNetwork, DeleteSocialNetwork, UpdateSocialNetwork, GetTemplate, GetBackgroundImage, GetAllCategories, GetAllProducts, GetAllPlanes, GetAllMaterials, GetAllColors, GetAllCustomizations, GetAllDistributors };
+export { GetAllTemplates, GetAllBackgroundImages, GetAllSocialNetworks, GetAllLogosImages, SaveSocialNetwork, DeleteSocialNetwork, UpdateSocialNetwork, GetTemplate, GetBackgroundImage, GetAllCategories, GetAllProducts, GetAllPlanes, GetAllMaterials, GetAllColors, GetAllCustomizations, GetAllDistributors, GetAllPlanesIndividual };

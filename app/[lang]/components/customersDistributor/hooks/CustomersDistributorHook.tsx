@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
 
-const UserTableLogic = () => {
+const CustomersDistributorHook = () => {
     interface UserData {
         dni: string;
         name: string;
@@ -486,7 +486,7 @@ const UserTableLogic = () => {
         const getquery = async () => {
             const usersDataSanpShot = await getAllUsers();
             const usersData = usersDataSanpShot.docs.map((doc) => {
-                const data = doc.data(); // Obtener datos del documento
+                const data = doc.data();
                 const timestamp = doc.data().created;
                 const date = new Date(timestamp);
                 const formattedHour = `${date.getHours()
@@ -494,8 +494,6 @@ const UserTableLogic = () => {
                     .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds()
                         .toString()
                         .padStart(2, "0")}`;
-
-                //const updatedData = { ...data, formattedDate: date, };
 
                 return {
                     id: doc.data().dni || 1,
@@ -518,13 +516,9 @@ const UserTableLogic = () => {
                     edit: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
                     editDelete: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
                     userType: doc.data(),
-                    //userType: doc.data().gif ? doc.data().gif === true ? "Obsequio" : "Comprador" : "Comprador",
                     optionEdit: doc.data()
                 };
-            })
-                .filter((user) => (!user.is_admin && !user.is_distributor))
-            /* .sort((a, b) => b.date.getTime() - a.date.getTime()); */
-
+            }).filter((user) => (!user.is_admin && !user.is_distributor))
             setQuery(usersData);
             setFilteredQuery(usersData);
         };
@@ -595,4 +589,4 @@ const UserTableLogic = () => {
     };
 };
 
-export default UserTableLogic;
+export default CustomersDistributorHook;

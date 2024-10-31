@@ -1,16 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Box, Button, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import 'react-phone-input-2/lib/style.css'
 import DistributorRegisterFormHook from './hooks/DistributorRegisterFormHook';
@@ -121,10 +109,12 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
       )
     },
     { field: 'documentType', headerName: 'Tipo documento', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'id', headerName: 'Id', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'name', headerName: 'Nombres y Apellidos', minWidth: 230, flex: 2, headerAlign: 'center', align: 'center' },
-    { field: 'phoneNumber', headerName: 'Teléfono', minWidth: 230, flex: 2, headerAlign: 'center', align: 'center' },
-    { field: 'email', headerName: 'Correo', minWidth: 230, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'id', headerName: 'Numero Documento', minWidth: 130, flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'name', headerName: 'Nombres y Apellidos', minWidth: 200, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'phoneNumber', headerName: 'Teléfono', minWidth: 200, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'email', headerName: 'Correo', minWidth: 200, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'category', headerName: 'Categoría', minWidth: 100, flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'city', headerName: 'Ciudad', minWidth: 140, flex: 1, headerAlign: 'center', align: 'center' },
     {
       field: 'status',
       headerName: 'Estado',
@@ -140,11 +130,8 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
     },];
 
   function getExcelData(apiRef: any) {
-    // Select rows and columns
     const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
     const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
-
-    // Format the data. Here we only keep the value
     const data = filteredSortedRowIds.map((id) => {
       const row: { [key: string]: any } = {};
       visibleColumnsField.forEach((field) => {
@@ -256,6 +243,7 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                   }}
                   inputProps={{
                     max: dateToday,
+                    min: startDate || null,
                   }}
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
@@ -308,7 +296,7 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
       </GridToolbarContainer>
     );
   }
-  
+
   return data && (
     <div className='tw-flex tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
       <div className='tw-mt-3 tw-shadow-m tw-rounded-2xl tw-h-[775px] tw-w-[99%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mb-5 '>
@@ -367,7 +355,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
             position: 'relative',
           }}
         >
-
           <IconButton
             className='tw-absolute tw-right-1 tw-top-1'
             onClick={() => handleCloseModal()}
@@ -378,7 +365,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
           <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center'>
             <div className='tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center'>
               <div className='tw-w-[90%] tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
-
                 <form className='tw-w-full'>
                   <div className='tw-flex tw-justify-between tw-mb-6'>
                     <FormControl fullWidth variant='outlined' className='tw-mr-2'>
@@ -404,7 +390,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                         <MenuItem value="RC">RC</MenuItem>
                       </Select>
                     </FormControl>
-
                     <TextField
                       variant='standard'
                       label='Número Documento'
@@ -429,7 +414,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                       onChange={(e) => setDocumentNumber(e.target.value)}
                     />
                   </div>
-
                   <TextField
                     variant='standard'
                     label='Razón Social'
@@ -453,11 +437,11 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                     helperText={fullNameError}
                     onChange={(e) => setFullName(e.target.value)}
                   />
-
                   <div className='tw-flex tw-justify-between tw-mb-6'>
                     <TextField
                       variant='standard'
                       label='Correo'
+                      disabled={isEditData ? true : false}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position='start'>
@@ -480,10 +464,10 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                       onCopy={(e) => e.preventDefault()}  // Bloquea copiar
                       onCut={(e) => e.preventDefault()}   // Bloquea cortar
                     />
-
                     <TextField
                       variant='standard'
                       label='Confirmar Correo'
+                      disabled={isEditData ? true : false}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position='start'>
@@ -508,7 +492,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                       onPaste={(e) => e.preventDefault()}
                     />
                   </div>
-
                   <TextField
                     variant='standard'
                     label='Número Celular'
@@ -532,7 +515,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                     helperText={phoneNumberError}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
-
                   <TextField
                     variant='standard'
                     label='Dirección'
@@ -556,14 +538,11 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                     helperText={addressError}
                     onChange={(e) => setAddress(e.target.value)}
                   />
-
                   <div className='tw-flex tw-justify-between tw-mb-7 tw-mt-2'>
-
                     <FormControl fullWidth variant='outlined' className='tw-mr-2'>
                       <InputLabel>País</InputLabel>
                       <Select
                         label='País'
-                        //variant='standard'
                         className='tw-w-full'
                         value={country}
                         error={
@@ -579,7 +558,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
 
                       </Select>
                     </FormControl>
-
                     <FormControl fullWidth variant='outlined' className='tw-ml-2'>
                       <InputLabel>Departamento</InputLabel>
                       <Select
@@ -598,7 +576,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                         ))}
                       </Select>
                     </FormControl>
-
                     <FormControl fullWidth variant='outlined' className='tw-ml-2'>
                       <InputLabel>Ciudad</InputLabel>
                       <Select
@@ -618,8 +595,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                       </Select>
                     </FormControl>
                   </div>
-
-
                   <div className='tw-flex tw-justify-between tw-mb-2 tw-mt-2'>
                     <FormControl fullWidth variant='outlined' className='tw-mr-5'>
                       <InputLabel>Seleccionar Categoría / Descuento</InputLabel>
@@ -640,7 +615,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
 
                       </Select>
                     </FormControl>
-
                     <FormControl fullWidth variant='outlined' className='tw-mb-1'>
                       <InputLabel>Estado</InputLabel>
                       <Select
@@ -657,7 +631,6 @@ const DistributorRegisterForm = ({ params: { lang } }: { params: { lang: Locale 
                       </Select>
                     </FormControl>
                   </div>
-
                 </form>
               </div>
             </div>

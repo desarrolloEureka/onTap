@@ -51,6 +51,9 @@ const LoginHook = (dictionary: Dictionary) => {
             errorMessage: dictionary.loginView.userNotFound,
           });
         }
+      } else if (data.is_distributor === true) {
+        console.log('Soy distribuidor');
+        router.push('/views/backOffice');
       } else {
         if (data.isActive === true && data.isActiveByAdmin === true) {
           const urlSplit = window.location.href.split('/');
