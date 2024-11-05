@@ -54,6 +54,7 @@ import CustomersCreateForm from "@/components/customersDistributor/CustomersCrea
 import Notifications from "@/components/notifications/notifications";
 import Suscriptions from "@/components/subscription/subscription";
 import ChangePassword from "@/components/changePassword/changePassword";
+import EditProfile from "@/components/editProfile/editProfile";
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -423,7 +424,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       />
                       Cambiar Contraseña
                     </NavDropdown.Item>
-                    <NavDropdown.Item style={{ fontSize: 15 }}>
+                    <NavDropdown.Item eventKey={21} style={{ fontSize: 15 }}>
                       <PasswordIcon
                         fontSize="small"
                         sx={{ marginRight: "4px" }}
@@ -484,6 +485,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 18 && <Notifications params={{ lang }} />}
         {value === 19 && <Suscriptions params={{ lang }} />}
         {value === 20 && <ChangePassword params={{ lang }} />}
+        {value === 21 && <EditProfile params={{ lang }} />}
       </Box>
 
       {/* Footer */}
