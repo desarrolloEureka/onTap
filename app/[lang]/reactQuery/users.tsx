@@ -1,4 +1,4 @@
-import { loginFirebase } from '@/firebase/auth';
+import { loginFirebase } from "@/firebase/auth";
 import {
   getAllUsers,
   getUserByIdFireStore,
@@ -15,20 +15,21 @@ import {
   updateSwitchStateByAdmin,
   updateDataUser,
   updateDataMetrics,
-  checkIfUserExists
-} from '@/firebase/user';
+  checkIfUserExists,
+  updateProfileFirebase,
+} from "@/firebase/user";
 import {
   DataForm,
   ProfessionalDataForm,
   SocialDataForm,
-} from '@/types/profile';
-import { TemplateData, UserData, UserDb } from '@/types/user';
-import { GetLoginQueryProps } from '@/types/userQuery';
-import { useQuery } from '@tanstack/react-query';
+} from "@/types/profile";
+import { TemplateData, UserData, UserDb } from "@/types/user";
+import { GetLoginQueryProps } from "@/types/userQuery";
+import { useQuery } from "@tanstack/react-query";
 
 const GetAllUserQuery = () => {
   const query = useQuery({
-    queryKey: ['user'],
+    queryKey: ["user"],
     queryFn: async () => await getAllUsers(),
     refetchOnWindowFocus: false,
   });
@@ -46,7 +47,7 @@ const userDataToSend = (user: UserData, resultUser: any) => {
 
 const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
   const query = useQuery({
-    queryKey: ['user'],
+    queryKey: ["user"],
     queryFn: async () => {
       const resultUser = await loginFirebase({
         user: user!,
@@ -61,12 +62,12 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
 
           // Guarda si el usuario es distribuidor en localStorage
           if (getUser.is_distributor) {
-            await localStorage.setItem('isDistributor', 'true');
+            await localStorage.setItem("isDistributor", "true");
           } else {
-            await localStorage.setItem('isDistributor', 'false');
+            await localStorage.setItem("isDistributor", "false");
           }
 
-          await localStorage.setItem('@user', JSON.stringify(getUser));
+          await localStorage.setItem("@user", JSON.stringify(getUser));
           return getUser;
         } else {
           return null;
@@ -83,19 +84,23 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
 };
 
 /* Actualizar react query*/
-const SendDataImage = async (isProUser: boolean, userId: string, base64String: string) => {
-  let imageDataKey = isProUser ? 'imagePro' : 'image';
+const SendDataImage = async (
+  isProUser: boolean,
+  userId: string,
+  base64String: string
+) => {
+  let imageDataKey = isProUser ? "imagePro" : "image";
   await updateUserData(userId, { [imageDataKey]: base64String });
   const updatedUser = await getUserByIdFireStore(userId);
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
-    await localStorage.setItem('@user', JSON.stringify(getUser));
+    await localStorage.setItem("@user", JSON.stringify(getUser));
   }
 };
 
 const reBuildUserData = (userData: UserData) => {
-  const userStorage = localStorage.getItem('@user');
+  const userStorage = localStorage.getItem("@user");
   if (userStorage) {
     const user = JSON.parse(userStorage);
     return userDataToSend(userData, { user });
@@ -105,7 +110,7 @@ const reBuildUserData = (userData: UserData) => {
 };
 
 const SendSwitchProfile = async (userId: string, switchState: boolean) => {
-  const urlSplit = window.location.href.split('/');
+  const urlSplit = window.location.href.split("/");
   await updateSwitchProfileFirebase(userId, {
     switch_profile: switchState,
     preview: `http://${urlSplit[2]}/es/views/cardView?uid=${userId}`,
@@ -114,7 +119,7 @@ const SendSwitchProfile = async (userId: string, switchState: boolean) => {
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
-    localStorage.setItem('@user', JSON.stringify(getUser));
+    localStorage.setItem("@user", JSON.stringify(getUser));
   }
 };
 
@@ -124,13 +129,16 @@ const SendSwitchActivateCard = async (userId: string, switchState: boolean) => {
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
-    localStorage.setItem('@user', JSON.stringify(getUser));
+    localStorage.setItem("@user", JSON.stringify(getUser));
   }
 };
 
 const SendSwitchEditAdmin = async (userId: string, switchState: boolean) => {
   if (switchState === false) {
-    await updateSwitchStateByAdmin(userId, { switch_activateCard: switchState, isActiveByAdmin: switchState });
+    await updateSwitchStateByAdmin(userId, {
+      switch_activateCard: switchState,
+      isActiveByAdmin: switchState,
+    });
   } else {
     await updateSwitchStateByAdmin(userId, { isActiveByAdmin: switchState });
   }
@@ -146,11 +154,22 @@ const UpdatePassword = async (password: string) => {
   return res;
 };
 
-const checkUserExists = async (dni: string, email: string, phone: string) => {
-  const res = await checkIfUserExists(dni, email, phone)
+//para actualizar el usuario distribuidor
+const UpdateProfile = async (profileData: {
+  fullName: string;
+  address: string;
+  phoneNumber: string;
+  city: string;
+  state: string;
+}) => {
+  const res = await updateProfileFirebase(profileData);
   return res;
 };
 
+const checkUserExists = async (dni: string, email: string, phone: string) => {
+  const res = await checkIfUserExists(dni, email, phone);
+  return res;
+};
 
 const SendBackgroundSelected = async (
   userId: string,
@@ -178,8 +197,8 @@ const SendTemplateSelected = async (
   if (updatedUser.exists()) {
     const userData = updatedUser.data() as UserData;
     const getUser = reBuildUserData(userData);
-    await localStorage.setItem('@user', JSON.stringify(getUser));
-    queryClient.setQueryData(['user'], () => getUser);
+    await localStorage.setItem("@user", JSON.stringify(getUser));
+    queryClient.setQueryData(["user"], () => getUser);
   }
 };
 
@@ -200,7 +219,7 @@ const SendDataUserProfile = async (
 
         const getUser = reBuildUserData(userData);
 
-        localStorage.setItem('@user', JSON.stringify(getUser));
+        localStorage.setItem("@user", JSON.stringify(getUser));
         return { success: true, error: false };
       }
     })
@@ -216,13 +235,13 @@ const SendViewUser = async (userId: string, numViewsNew: number) => {
 
 const GetUserById = (userUid: string, refetch?: boolean) => {
   return useQuery({
-    queryKey: ['user', userUid], // Clave de consulta única para cada usuario
+    queryKey: ["user", userUid], // Clave de consulta única para cada usuario
     queryFn: async () => {
       const updatedUser = await getUserByIdFireStore(userUid);
       if (updatedUser.exists()) {
-        const userData = await updatedUser.data() as UserData;
+        const userData = (await updatedUser.data()) as UserData;
         const getUser = await reBuildUserData(userData);
-        await localStorage.setItem('@user', JSON.stringify(getUser));
+        await localStorage.setItem("@user", JSON.stringify(getUser));
         return getUser;
       } else {
         return null;
@@ -235,11 +254,11 @@ const GetUserById = (userUid: string, refetch?: boolean) => {
 
 const GetUserByIdCard = (userUid: string, refetch?: boolean) => {
   return useQuery({
-    queryKey: ['user', userUid], // Clave de consulta única para cada usuario
+    queryKey: ["user", userUid], // Clave de consulta única para cada usuario
     queryFn: async () => {
       const updatedUser = await getUserByIdFireStore(userUid);
       if (updatedUser.exists()) {
-        const userData = await updatedUser.data() as UserData;
+        const userData = (await updatedUser.data()) as UserData;
         return userData;
       } else {
         return null;
@@ -249,7 +268,6 @@ const GetUserByIdCard = (userUid: string, refetch?: boolean) => {
     refetchOnWindowFocus: refetch ?? false,
   });
 };
-
 
 const SendInactiveUser = async (userId: string) => {
   const res = await updateInactiveUser(userId, { isActive: false });
@@ -263,16 +281,16 @@ const SendDataMetrics = async (userId: string, data: any) => {
 
 const GetUser = (refetch?: boolean) =>
   useQuery({
-    queryKey: ['user'],
+    queryKey: ["user"],
     queryFn: async () => {
-      const userLogged = await localStorage.getItem('@user');
+      const userLogged = await localStorage.getItem("@user");
       if (userLogged) {
-        const user = await JSON.parse(userLogged) as UserData;
+        const user = (await JSON.parse(userLogged)) as UserData;
         const updatedUser = await getUserByIdFireStore(user.uid);
         if (updatedUser.exists()) {
-          const userData = await updatedUser.data() as UserData;
+          const userData = (await updatedUser.data()) as UserData;
           const getUser = await reBuildUserData(userData);
-          await localStorage.setItem('@user', JSON.stringify(getUser));
+          await localStorage.setItem("@user", JSON.stringify(getUser));
           return getUser;
         } else {
           return user;
@@ -283,7 +301,6 @@ const GetUser = (refetch?: boolean) =>
     },
     refetchOnWindowFocus: refetch ?? false,
   });
-
 
 const SendPreView = async (userId: string, url: string) => {
   const res = await updatePreView(userId, { preview: url });
@@ -310,5 +327,6 @@ export {
   SendEditData,
   SendDataMetrics,
   GetUserByIdCard,
-  checkUserExists
+  checkUserExists,
+  UpdateProfile,
 };

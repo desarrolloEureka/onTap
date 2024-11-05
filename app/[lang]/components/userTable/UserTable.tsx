@@ -115,10 +115,17 @@ const UserTable = () => {
   const getUrlFormatted = (url: any) => {
     const urlFormatted =
       url &&
-      url.replace(
-        /localhost:3000|on-tap-tawny.vercel.app/g,
-        "backoffice.onetap.com.co"
-      );
+      url
+        //Produccion
+        .replace(
+          /localhost:3000|on-taptawny.vercel.app/g,
+          "backoffice.onetap.com.co"
+        )
+        //Desarrollo
+        .replace(
+          /https?:\/\/backoffice\.onetap\.com\.co/g,
+          "https://on-tap-dev.vercel.app"
+        );
     return urlFormatted ? urlFormatted : "";
   };
 

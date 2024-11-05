@@ -304,6 +304,16 @@
     "labelAlert": "Alerta",
     "labelMessage": "No es posible agregar mas datos"
   },
+  "editProfile": {
+    "editProfileTitle": "Editar Perfil",
+    "fullName": "Nombre completo",
+    "address": "Dirección",
+    "state": "Departamento",
+    "city": "Ciudad",
+    "phoneNumber": "Teléfono",
+    "profileUpdated": "Perfil Actualizado",
+    "back": "Atras"
+  },
   "modalLogOut": {
     "labelMessage": "¿Está seguro de eliminar su cuenta?"
   },
