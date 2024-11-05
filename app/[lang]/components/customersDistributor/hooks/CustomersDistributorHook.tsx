@@ -1,5 +1,5 @@
 import { getAllUsers } from "@/firebase/user"
-import { checkUserExists, SendEditData } from "@/reactQuery/users";
+import { checkUserExists, GetUser, SendEditData } from "@/reactQuery/users";
 import { registerUserAuth, registerUserFb } from "app/functions/register";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
@@ -15,6 +15,7 @@ const CustomersDistributorHook = () => {
         gif: boolean;
         uid: string
     }
+    const { data, refetch } = GetUser();
     const apiRef = useRef(null);
     const [query, setQuery] = useState<any>([]);
     const [filteredQuery, setFilteredQuery] = useState<any>([]);
@@ -501,30 +502,29 @@ const CustomersDistributorHook = () => {
                     is_distributor: doc.data().is_distributor || false,
                     url: doc.data(),
                     urlQR: doc.data(),
-                    name: doc.data().name || "",
+                    name: doc.data().firstName + " " + doc.data().lastName || "",
                     indicative: doc.data().indicative || "",
                     phone: doc.data().phone || "",
                     email: doc.data().email || "",
                     lastName: doc.data().profile?.last_name?.text || "",
-                    //plan: doc.data().plan || "",
-                    plan: doc.data(),
+                    plan: doc.data()?.selectedPlan?.name,
                     date: date,
-                    //dateFormmatted: updatedData,
                     hour: formattedHour,
                     status: doc.data().isActiveByAdmin === true ? "true" : "false",
                     statusDelete: doc.data().isActiveByAdmin === true ? "true" : "false",
                     edit: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
                     editDelete: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
                     userType: doc.data(),
-                    optionEdit: doc.data()
+                    optionEdit: doc.data(),
+                    idDistributor: doc.data().idDistributor
                 };
-            }).filter((user) => (!user.is_admin && !user.is_distributor))
+                //}).filter((user) => (!user.is_admin && !user.is_distributor))
+            }).filter((user) => user?.idDistributor === data?.uid);
             setQuery(usersData);
             setFilteredQuery(usersData);
         };
-
         getquery();
-    }, [flag]);
+    }, [data?.uid, flag]);
 
     return {
         query: filteredQuery,

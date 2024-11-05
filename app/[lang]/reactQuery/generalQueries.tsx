@@ -17,6 +17,8 @@ import {
   updateSubscription,
   saveSubscription,
   saveNotification,
+  saveOrders,
+  saveInvoices,
 } from "@/firebase/Documents";
 
 //Categorias
@@ -77,6 +79,18 @@ export const UpdateColorsQuerie = async (dataSave: any, idProduct: any) => {
 //Personalizaciónes
 export const saveCustomizationQuerie = async (dataSave: any) => {
   const res = await saveCustomization(dataSave);
+  return res;
+};
+
+//Orden
+export const saveOrderQuerie = async (dataSave: any) => {
+  const res = await saveOrders(dataSave);
+  return res;
+};
+
+//Facturas
+export const saveInvoiceQuerie = async (dataSave: any) => {
+  const res = await saveInvoices(dataSave);
   return res;
 };
 

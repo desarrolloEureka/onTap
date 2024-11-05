@@ -80,6 +80,10 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     setValue(parseInt("17", 10));
   };
 
+  const handleReturnForm = () => {
+    setValue(parseInt("16", 10));
+  };
+
   // Función para manejar el clic en la imagen
   const handleImageClick = () => {
     setValue(0); // Cambia el valor a 0 para mostrar FirstView
@@ -480,7 +484,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 16 && (
           <CustomersDistributorForm handleCreateUser={handleCreateUser} />
         )}
-        {value === 17 && <CustomersCreateForm />}
+        {value === 17 && <CustomersCreateForm handleReturnForm={handleReturnForm} />}
         {value === 18 && <Notifications params={{ lang }} />}
         {value === 19 && <Suscriptions params={{ lang }} />}
         {value === 20 && <ChangePassword params={{ lang }} />}

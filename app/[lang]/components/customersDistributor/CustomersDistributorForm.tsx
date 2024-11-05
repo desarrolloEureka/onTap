@@ -29,6 +29,7 @@ import CustomersDistributorHook from "./hooks/CustomersDistributorHook";
 
 const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any }) => {
     const {
+        query,
         setFlag,
         flag,
         isModalOpen,
@@ -97,19 +98,19 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
     };
 
     const columns: GridColDef[] = [
-        {
-            field: 'optionEdit',
-            headerName: 'Editar',
-            minWidth: 110,
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center',
-            renderCell: (params) => (
-                <Button style={{ color: 'black' }} onClick={() => handleEditUser(params.value)}>
-                    <EditIcon />
-                </Button>
-            )
-        },
+        /*   {
+              field: 'optionEdit',
+              headerName: 'Editar',
+              minWidth: 110,
+              flex: 1,
+              headerAlign: 'center',
+              align: 'center',
+              renderCell: (params) => (
+                  <Button style={{ color: 'black' }} onClick={() => handleEditUser(params.value)}>
+                      <EditIcon />
+                  </Button>
+              )
+          }, */
         {
             field: 'date',
             headerName: 'Fecha Registro',
@@ -194,7 +195,7 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                 <div className='tw-flex tw-justify-center tw-items-center'>
                     {params.value && (
                         <div>
-                            {params.value.plan}
+                            {params.value}
                         </div>
                     )}
                 </div>
@@ -213,45 +214,6 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                         <div>
                             {params.value.gif === true ? "Obsequio" : "Comprador"}
                         </div>
-                    )}
-                </div>
-            )
-        },
-        {
-            field: 'url',
-            headerName: 'URL',
-            minWidth: 100,
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center',
-            renderCell: (params) => (
-                <div className='tw-flex tw-justify-center tw-items-center'>
-                    {params.value && (
-                        <>
-                            <Link className="tw-mr-5" href={getUrlFormatted(params.value.preview)}><LinkIcon /> </Link>
-                            <div onClick={() => { navigator.clipboard.writeText(getUrlFormatted(params.value.preview)) }}>
-                                <ContentCopyIcon />
-                            </div>
-                        </>
-                    )}
-                </div>
-            )
-        },
-        {
-            field: 'urlQR',
-            headerName: 'QR',
-            minWidth: 110,
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center',
-            renderCell: (params) => (
-                <div className='tw-flex tw-justify-center tw-items-center'>
-                    {params.value && (
-                        <>
-                            <Button style={{ color: 'black' }} onClick={() => handleSeeQR(getUrlFormatted(params.value.preview))}>
-                                <VisibilityIcon />
-                            </Button>
-                        </>
                     )}
                 </div>
             )
@@ -463,7 +425,7 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                 <div style={{ height: 650, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-m-6'>
                     <DataGrid
                         apiRef={apiRef}
-                        rows={[]}
+                        rows={query ?? []}
                         columns={columns}
                         slots={{ toolbar: CustomToolbar }}
                         initialState={{
@@ -486,8 +448,8 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                         disableDensitySelector
                         disableColumnFilter
                         disableRowSelectionOnClick
+                        checkboxSelection
                         ignoreDiacritics={true}
-                        
                     />
                 </div>
             </div>

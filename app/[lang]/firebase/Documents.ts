@@ -281,6 +281,41 @@ export const saveCustomization = async (dataSave: any) => {
   }
 };
 
+//Ordenes
+export const saveOrders = async (dataSave: any) => {
+  try {
+    // Obtener la referencia a la colección de ordenes
+    const collectionRef = doc(dataBase, "orders", dataSave.uid);
+
+    await setDoc(collectionRef, {
+      ...dataSave,
+    });
+
+    return { success: true, message: "Orden creado correctamente" };
+  } catch (error) {
+    console.error("Error al crear el orden: ", error);
+    return { success: false, message: "Error al crear el orden" };
+  }
+};
+
+//Facturas
+export const saveInvoices = async (dataSave: any) => {
+  try {
+    // Obtener la referencia a la colección de facturas
+    const collectionRef = doc(dataBase, "invoices", dataSave.uid);
+
+    await setDoc(collectionRef, {
+      ...dataSave,
+    });
+
+    return { success: true, message: "Factura creado correctamente" };
+  } catch (error) {
+    console.error("Error al crear la factura: ", error);
+    return { success: false, message: "Error al crear la factura" };
+  }
+};
+
+
 export const updateCustomization = async (
   dataSave: any,
   idCategory: string
