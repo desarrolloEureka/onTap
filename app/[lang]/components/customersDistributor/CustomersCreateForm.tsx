@@ -18,19 +18,19 @@ import {
     TableRow,
     TableBody,
     Paper,
-    Autocomplete
+    Autocomplete,
+    Box,
+    IconButton,
+    Modal,
+    CircularProgress
 } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CustomersCreateFormHook from "./hooks/CustomersCreateFormHook";
-import SaveIcon from '@mui/icons-material/Save';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ReactCountryFlag from "react-country-flag";
 import { countries as countriesData } from '../../globals/constants'
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -39,8 +39,10 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WorkIcon from '@mui/icons-material/Work';
 import PaymentIcon from '@mui/icons-material/Payment';
+import { Close } from "@mui/icons-material";
 
-const CustomersCreateForm = () => {
+
+const CustomersCreateForm = ({ handleReturnForm }: { handleReturnForm: () => void }) => {
     const {
         documentType,
         setDocumentType,
@@ -109,6 +111,7 @@ const CustomersCreateForm = () => {
         selectedColorError,
         customNameError,
         customRoleError,
+        errorMessages,
         //Paso 4 
         documentTypeError,
         documentNumberError,
@@ -159,10 +162,16 @@ const CustomersCreateForm = () => {
         //Errores Paso 4
         cardNumberError,
         setCardNumberError,
-        expiryDateError,
-        setExpiryDateError,
-        cvvError,
-        setCvvError,
+        cvcError,
+        setCvcError,
+        expMonthError,
+        setExpMonthError,
+        expYearError,
+        setExpYearError,
+        cardHolderError,
+        setCardHolderError,
+        termsError,
+        setTermsError,
         deliveryFirstNameError,
         setDeliveryFirstNameError,
         deliveryLastNameError,
@@ -198,33 +207,32 @@ const CustomersCreateForm = () => {
         setCountryDelivery,
         addressDelivery,
         setAddressDelivery,
-        data
-    } = CustomersCreateFormHook();
+        data,
+        addressDeliveryError,
+        handleAccept,
+        error,
+        isAccepted,
+        handleInputChange,
+        cardInfo,
+        handlePayment,
+        isModalOpen,
+        setIsModalOpen,
+        handleCloseModal,
+        handleOpenModal,
+        loading
+    } = CustomersCreateFormHook({ handleReturnForm });
     const dictionary = useDictionary({ lang: 'es' });
 
     return (
         <>
             <div className='tw-flex tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")] tw-bg-no-repeat tw-bg-center tw-bg-cover'>
                 <div className='tw-mt-3 tw-shadow-m tw-rounded-2xl tw-w-[99%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mb-5'>
-                    <Typography
-                        className='tw-text-black tw-w-full'
-                        variant='h6'
-                        color='textPrimary'
-                        display={'flow'}
-                        align='center'
-                        fontWeight='bold'
-                    >
-                        {/*  {dictionary.dictionary?.backOffice?.LabelCustomersDistributor} */}
-                    </Typography>
-
                     <div style={{ width: '100%' }} className='tw-shadow-m tw-rounded-2xl tw-m-4 tw-mt-7 tw-min-h-[68vh]'>
                         <Container className='tw-bg-[#02AF9B] tw-shadow-m tw-rounded-2xl tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-center tw-p-2'>
                             {step === 1 ?
                                 <div className='tw-w-[95%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                                     <div className='tw-w-[90%] tw-h-[90%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
-
                                         <h3 className='tw-mb-9'>Información Personal</h3>
-
                                         <form className='tw-w-full'>
                                             <div className='tw-flex tw-justify-between tw-mb-5'>
                                                 <FormControl fullWidth variant='outlined' className='tw-mr-2'>
@@ -349,8 +357,8 @@ const CustomersCreateForm = () => {
                                                     error={!!emailError}
                                                     helperText={emailError}
                                                     onChange={(e) => setEmail(e.target.value)}
-                                                    onCopy={(e) => e.preventDefault()}  // Bloquea copiar
-                                                    onCut={(e) => e.preventDefault()}   // Bloquea cortar
+                                                    onCopy={(e) => e.preventDefault()}
+                                                    onCut={(e) => e.preventDefault()}
                                                 />
 
                                                 <TextField
@@ -551,7 +559,6 @@ const CustomersCreateForm = () => {
                                                 </div>
                                             </div>
 
-
                                             <form className='tw-w-full'>
                                                 <div className="tw-flex tw-items-center tw-mb-6">
                                                     <div className="tw-flex tw-items-center tw-w-[90%]">
@@ -718,7 +725,6 @@ const CustomersCreateForm = () => {
                                     step === 3 ?
                                         <div className='tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center overflow-y-auto tw-overflow-x-hidden'>
                                             <div className='tw-w-[90%] tw-h-[90%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
-
                                                 <h3 className='tw-mb-9'>Agregar Productos</h3>
 
                                                 <form className='tw-w-full'>
@@ -824,6 +830,8 @@ const CustomersCreateForm = () => {
                                                                                                     }}
                                                                                                     fullWidth
                                                                                                     className='tw-mr-2'
+                                                                                                    error={!!errorMessages[index]?.customName}
+                                                                                                    helperText={errorMessages[index]?.customName}
                                                                                                     value={product.customName}
                                                                                                     onChange={(e) => handlePersonalizationChange(index, 'customName', e.target.value)} // Usar la función
 
@@ -847,6 +855,8 @@ const CustomersCreateForm = () => {
                                                                                                     }}
                                                                                                     fullWidth
                                                                                                     className='tw-ml-2'
+                                                                                                    error={!!errorMessages[index]?.customRole}
+                                                                                                    helperText={errorMessages[index]?.customRole}
                                                                                                     value={product.customRole}
                                                                                                     onChange={(e) => handlePersonalizationChange(index, 'customRole', e.target.value)}
                                                                                                 />
@@ -864,53 +874,6 @@ const CustomersCreateForm = () => {
                                                         )}
                                                     </div>
 
-                                                    {/* <div className='tw-mt-8 tw-mb-8'>
-                                                        <h4 className='tw-text-xl tw-font-semibold tw-mb-4'>Productos Agregados:</h4>
-                                                        {selectedProducts.length > 0 ? (
-                                                            <table className='tw-w-full tw-bg-white tw-rounded-lg tw-shadow-lg tw-table-auto tw-border-collapse'>
-                                                                <thead>
-                                                                    <tr className='tw-bg-gray-100'>
-                                                                        <th className='tw-px-4 tw-py-2 tw-border-b tw-border-l tw-border-t'>SKU</th>
-                                                                        <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Nombre</th>
-                                                                        <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Cantidad</th>
-                                                                        <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Precio Venta</th>
-                                                                        <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Precio Categoría ({data && data?.category})                                                                       </th>
-                                                                        <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t tw-border-r '>Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {selectedProducts.map((product, index) => (
-                                                                        <tr key={index} className='tw-border-b tw-border-l tw-border-r tw-border-t'>
-                                                                            <td className='tw-px-4 tw-py-2 '>{product.sku}</td>
-                                                                            <td className='tw-px-4 tw-py-2'>{product.name}</td>
-                                                                            <td className='tw-px-4 tw-py-2'>
-                                                                                <input
-                                                                                    type='number'
-                                                                                    value={product.quantity || 1}
-                                                                                    min='1'
-                                                                                    className='tw-border tw-border-gray-300 tw-rounded tw-px-2 tw-w-16'
-                                                                                    onChange={(e) => handleChangeQuantity(index, parseInt(e.target.value) || 1)}
-                                                                                />
-                                                                            </td>
-                                                                            <td className='tw-px-4 tw-py-2'>{formatPrice(product.totalPrice || product.full_price)}</td>
-                                                                            <td className='tw-px-4 tw-py-2'>{formatPrice(product.categoryPrice || product.full_price)}</td>
-                                                                            <td className='tw-py-2 tw-flex tw-justify-start tw-items-center'>
-                                                                                <DeleteIcon
-                                                                                    onClick={() => handleRemoveProduct(index)}
-                                                                                    className='tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-10'
-                                                                                    fontSize="medium"
-                                                                                />
-                                                                            </td>
-                                                                        </tr>
-                                                                    ))}
-                                                                </tbody>
-                                                            </table>
-                                                        ) : (
-                                                            <p className='tw-text-gray-500'>No hay productos agregados.</p>
-                                                        )}
-                                                    </div> */}
-
-
                                                     <div className='tw-text-right tw-mb-4 tw-pr-14'>
                                                         <span className="tw-text-lg tw-font-semibold">Total: ${formatPrice(total)}</span>
                                                     </div>
@@ -924,7 +887,6 @@ const CustomersCreateForm = () => {
                                                 <div className='tw-w-[90%] tw-h-[98%] tw-flex-row tw-justify-center tw-justify-items-center tw-mt-4'>
                                                     <h3 className='tw-mb-9'>Resumen de Planes y Productos</h3>
 
-                                                    {/* Tabla combinada para Plan, Materiales, Personalización y Productos */}
                                                     <TableContainer component={Paper} style={{ overflowY: 'auto', marginTop: '35px', marginBottom: '30px' }}>
                                                         <Table stickyHeader>
                                                             <TableHead>
@@ -1047,13 +1009,11 @@ const CustomersCreateForm = () => {
                                                     </TableContainer>
                                                 </div>
                                             </div>
-
                                             :
                                             <div className='tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-8 tw-px-10 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                                                 <div className='tw-w-full tw-mb-0'>
                                                     <h3 className='tw-mb-9'>Datos del Comprador</h3>
 
-                                                    {/* <h2 className='tw-text-xl tw-font-semibold tw-mb-7 tw-text-center tw-pt-1'></h2> */}
                                                     <div className='tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-10'>
                                                         <TextField
                                                             variant='standard'
@@ -1170,15 +1130,13 @@ const CustomersCreateForm = () => {
                                                     </div>
 
                                                     <h3 className='tw-mb-9'>Datos de la Dirección de Envío</h3>
-
-                                                    {/* <h2 className='tw-text-xl tw-font-semibold tw-mb-7 tw-text-center tw-pt-1'>Datos de la Dirección de Envío</h2> */}
                                                     <div className='tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-5'>
                                                         <FormControl fullWidth variant='outlined'>
                                                             <InputLabel>País</InputLabel>
                                                             <Select
                                                                 value={countryDelivery}
                                                                 label='País'
-                                                                error={!!countryError}
+                                                                error={!!shippingCountryError}
                                                                 onChange={(e) => handleChangeCountryDelivery(e)}
                                                             >
                                                                 {countriesDelivery && countriesDelivery.map((country: any) => (
@@ -1262,16 +1220,16 @@ const CustomersCreateForm = () => {
                                                             }}
                                                             fullWidth
                                                             value={addressDelivery}
-                                                            /* error={!!deliveryAddressError}
-                                                            helperText={deliveryAddressError} */
+                                                            error={!!addressDeliveryError}
+                                                            helperText={addressDeliveryError}
                                                             onChange={(e) => setAddressDelivery(e.target.value)}
                                                             className='md:tw-col-span-2'
                                                         />
                                                     </div>
 
-
                                                 </div>
                                             </div>
+
                             }
                             <div className='tw-w-[95%] tw-py-4 tw-mb-2 tw-flex tw-flex-col tw-justify-center tw-items-center'>
                                 <div className='tw-w-[94%] tw-h-[100%] tw-flex tw-justify-center tw-justify-items-center'>
@@ -1302,12 +1260,13 @@ const CustomersCreateForm = () => {
                                                         {dictionary.dictionary?.backOffice.backButton}
                                                     </Typography>
                                                 </Button>
-                                                <div id="wompi-button-container"></div>
 
                                                 <Button
                                                     variant="text"
                                                     className="tw-text-black tw-ml-6"
-                                                    onClick={() => dataRegisterHandle()}
+                                                    onClick={() => handleOpenModal()}
+                                                    //onClick={() => handleNextStep(step)}
+
                                                     sx={{
                                                         padding: '0',
                                                         minWidth: 'auto',
@@ -1370,10 +1329,177 @@ const CustomersCreateForm = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            <Modal
+                                open={isModalOpen}
+                                onClose={() => handleCloseModal()}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                                className="tw-flex tw-justify-center tw-items-center"
+                            >
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        bgcolor: "#02AF9B",
+                                        padding: 0.5,
+                                        borderRadius: 3,
+                                        position: "relative",
+                                    }}
+                                >
+                                    <IconButton
+                                        className="tw-absolute tw-right-1 tw-top-1"
+                                        onClick={() => handleCloseModal()}
+                                    >
+                                        <Close className="tw-text-white" />
+                                    </IconButton>
+                                    <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
+                                        <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
+                                            <div className="tw-w-full tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5 tw-bg-red tw-p-4">
+
+                                                <h3 className='tw-mb-10'>Pagar</h3>
+
+                                                <div className='tw-flex tw-justify-between tw-mb-5'>
+                                                    <TextField
+                                                        variant='outlined'
+                                                        label='Número de tarjeta'
+                                                        className='tw-mr-2'
+                                                        onChange={handleInputChange}
+                                                        name="number"
+                                                        fullWidth
+                                                        inputProps={{ maxLength: 16 }}
+                                                        disabled={loading}
+                                                        error={!!cardNumberError}
+                                                        helperText={cardNumberError}
+                                                    />
+                                                    <TextField
+                                                        variant='outlined'
+                                                        label='CVC'
+                                                        className='tw-ml-2'
+                                                        onChange={handleInputChange}
+                                                        name="cvc"
+                                                        fullWidth
+                                                        inputProps={{ maxLength: 3 }}
+                                                        disabled={loading}
+                                                        error={!!cvcError}
+                                                        helperText={cvcError}
+                                                    />
+                                                </div>
+
+                                                <div className='tw-flex tw-justify-between tw-mb-5'>
+                                                    <FormControl className='tw-mr-2' fullWidth disabled={loading}>
+                                                        <InputLabel id="month-label">Mes de expiración </InputLabel>
+                                                        <Select
+                                                            label='Mes de expiración'
+                                                            className='tw-w-full'
+                                                            onChange={handleInputChange}
+                                                            name="exp_month"
+                                                            error={!!expMonthError}
+                                                        >
+                                                            {Array.from({ length: 12 }, (_, i) => (
+                                                                <MenuItem key={i + 1} value={i + 1}>{String(i + 1).padStart(2, '0')}</MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                    </FormControl>
+
+                                                    <FormControl variant='outlined' className='tw-ml-2' fullWidth disabled={loading}>
+                                                        <InputLabel id="year-label">Año de expiración </InputLabel>
+                                                        <Select
+                                                            label='Tipo de Documento'
+                                                            className='tw-w-full'
+                                                            onChange={handleInputChange}
+                                                            name="exp_year"
+                                                            error={!!expYearError}
+                                                        >
+                                                            {Array.from({ length: 10 }, (_, i) => (
+                                                                <MenuItem key={new Date().getFullYear() + i} value={new Date().getFullYear() + i}>{(new Date().getFullYear() + i).toString().slice(-2)}</MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                    </FormControl>
+                                                </div>
+
+                                                <div className='tw-mb-6'>
+                                                    <TextField
+                                                        variant='outlined'
+                                                        label='Nombre del tarjeta'
+                                                        onChange={handleInputChange}
+                                                        name="card_holder"
+                                                        fullWidth
+                                                        disabled={loading}
+                                                        error={!!cardHolderError}
+                                                        helperText={cardHolderError}
+                                                    />
+                                                </div>
+
+                                                <div className='tw-mb-6'>
+                                                    <FormControl>
+                                                        <FormControlLabel
+                                                            control={<Checkbox onChange={handleAccept} />}
+                                                            label="Acepto los términos y condiciones"
+                                                        />
+                                                        {termsError && (
+                                                            <p
+                                                                style={{
+                                                                    boxSizing: 'border-box',
+                                                                    color: 'rgb(211, 47, 47)',
+                                                                    display: 'block',
+                                                                    fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                                                                    fontSize: '12px',
+                                                                    fontStyle: 'normal',
+                                                                    fontWeight: 400,
+                                                                    height: '19.9062px',
+                                                                    letterSpacing: '0.39996px',
+                                                                    lineHeight: '19.92px',
+                                                                    marginBlockEnd: '0px',
+                                                                    marginBlockStart: '3px',
+                                                                    marginBottom: '0px',
+                                                                    marginInlineEnd: '14px',
+                                                                    marginInlineStart: '14px',
+                                                                    marginLeft: '14px',
+                                                                    marginRight: '14px',
+                                                                    marginTop: '3px',
+                                                                    textAlign: 'left',
+                                                                    textSizeAdjust: '100%',
+                                                                    unicodeBidi: 'isolate',
+                                                                    width: '281.906px',
+                                                                    WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+                                                                }}
+                                                            >
+                                                                {termsError}
+                                                            </p>
+                                                        )}
+                                                    </FormControl>
+                                                </div>
+
+
+                                                {error && <div className="text-red-500 tw-mb-4">{error}</div>}
+
+                                                <div className="tw-flex tw-justify-center text-red-500">
+                                                    {loading ? (
+                                                        <CircularProgress />
+                                                    ) : (
+                                                        <button
+                                                            className='tw-bg-teal-500 tw-text-white tw-py-2 tw-px-4 tw-rounded'
+                                                            //disabled={!isAccepted}
+                                                            onClick={handlePayment}
+                                                        >
+                                                            Procesar Pago
+                                                        </button>
+                                                    )}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </Box>
+                            </Modal>
                         </Container>
                     </div>
                 </div >
-
             </div >
         </>
     );

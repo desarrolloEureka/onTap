@@ -8,11 +8,21 @@ import { checkUserExists, GetUser } from '@/reactQuery/users';
 import { Colors, Products } from '@/types/home';
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import { registerUserFb } from 'app/functions/register';
+import { registerUserAuth, registerUserFb } from 'app/functions/register';
+import { generatePaymentReference } from '../../../../wompi'
+import { set } from 'firebase/database';
+import axios from 'axios';
+import { getDocumentReference, saveInvoiceQuerie, saveOrderQuerie } from '@/reactQuery/generalQueries';
 
 type City = string;
 
-const CustomersCreateFormHook = () => {
+interface ErrorMessages {
+    quantity?: string;
+    customName?: string;
+    customRole?: string;
+}
+
+const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () => void }) => {
     const { data, refetch } = GetUser();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [countries, setCountries] = useState<Country[]>([]);
@@ -97,11 +107,8 @@ const CustomersCreateFormHook = () => {
     const [selectedColorError, setSelectedColorError] = useState<string | null>(null);
     const [customNameError, setCustomNameError] = useState<string | null>(null);
     const [customRoleError, setCustomRoleError] = useState<string | null>(null);
-
-    //Errores Paso 4
-    const [cardNumberError, setCardNumberError] = useState<string | null>(null);
-    const [expiryDateError, setExpiryDateError] = useState<string | null>(null);
-    const [cvvError, setCvvError] = useState<string | null>(null);
+    //Erroes paso 3
+    const [errorMessages, setErrorMessages] = useState<Record<number, ErrorMessages>>({});
     //
     const [deliveryFirstNameError, setDeliveryFirstNameError] = useState('');
     const [deliveryLastNameError, setDeliveryLastNameError] = useState('');
@@ -114,20 +121,51 @@ const CustomersCreateFormHook = () => {
     const [shippingCityError, setShippingCityError] = useState<string | null>(null);
     const [shippingStateError, setShippingStateError] = useState<string | null>(null);
     const [postalCodeError, setPostalCodeError] = useState<string | null>(null);
+    const [addressDeliveryError, setAddressDeliveryError] = useState('');
+    //Wompi
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [acceptanceToken, setAcceptanceToken] = useState('');
+    const [personalAuthToken, setPersonalAuthToken] = useState('');
+    const [isAccepted, setIsAccepted] = useState(false);
+    const [error, setError] = useState('');
+    const [cardInfo, setCardInfo] = useState({
+        number: '',
+        cvc: '',
+        exp_month: '',
+        exp_year: '',
+        card_holder: '',
+    });
+    const [loading, setLoading] = useState(false);
+
+    //Errores Modal Pagos
+    // Estados para errores de validación
+    const [cardNumberError, setCardNumberError] = useState<string | null>(null);
+    const [cvcError, setCvcError] = useState<string | null>(null);
+    const [expMonthError, setExpMonthError] = useState<string | null>(null);
+    const [expYearError, setExpYearError] = useState<string | null>(null);
+    const [cardHolderError, setCardHolderError] = useState<string | null>(null);
+    const [termsError, setTermsError] = useState<string | null>(null);
+
+    const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+        setCardInfo({ ...cardInfo, [e.target.name]: e.target.value });
+    };
 
     const handleNextStep = async (actualStep: any) => {
         if (actualStep === 1) {
-            /*   const isValid = await validateForm();
-              if (!isValid) return;
-              sendNextStepData(); */
+            const isValid = await validateForm();
+            if (!isValid) return;
+            sendNextStepData();
             setStep(2);
         } else if (actualStep === 2) {
-            //if (!validateFormStepTwo()) return;
+            if (!validateFormStepTwo()) return;
             setStep(3);
         } else if (actualStep === 3) {
+            if (!validateFormStepThird()) return;
             setStep(4);
         } else if (actualStep === 4) {
             setStep(5);
+        } else if (actualStep === 5) {
+            setStep(6);
         }
     }
 
@@ -138,9 +176,6 @@ const CustomersCreateFormHook = () => {
         setDeliveryIdNumber(documentNumber);
         setDeliveryPhoneNumber(phoneNumber);
         setDeliveryEmail(email);
-        /*         handleChangeCountryDelivery(country);
-                handleChangeDepartamentDelivery(state);
-                handleChangeCityDelivery(city); */
         setCountryDelivery(country);
         setStateDelivery(state);
         setCityDelivery(city);
@@ -286,85 +321,84 @@ const CustomersCreateFormHook = () => {
             valid = false;
         }
 
-        // Validar material seleccionado
-        if (!selectedMaterial) {
-            setSelectedMaterialError("Debes seleccionar un material.");
-            valid = false;
-        }
+        /*  // Validar material seleccionado
+         if (!selectedMaterial) {
+             setSelectedMaterialError("Debes seleccionar un material.");
+             valid = false;
+         }
+ 
+         // Validar personalización
+         if (customization) {
+             // Validación de Nombres
+             if (!customName) {
+                 setCustomNameError("El nombre personalizado es obligatorio.");
+                 valid = false;
+             }
+ 
+             // Validación de Role
+             if (!customRole) {
+                 setCustomRoleError("El cargo personalizado es obligatorio.");
+                 valid = false;
+             }
+         }
+ 
+         // Validar color seleccionado
+         if (!selectedColor) {
+             setSelectedColorError("Debes seleccionar un color.");
+             valid = false;
+         } */
 
-        // Validar personalización
-        if (customization) {
-            // Validación de Nombres
-            if (!customName) {
-                setCustomNameError("El nombre personalizado es obligatorio.");
+        return valid;
+    };
+
+    const validateFormStepThird = () => {
+        let valid = true;
+        const newErrorMessages: Record<number, ErrorMessages> = {};
+
+        selectedProducts.forEach((product, index) => {
+            if (product.quantity < 1) {
                 valid = false;
+                newErrorMessages[index] = {
+                    ...newErrorMessages[index],
+                    quantity: 'La cantidad debe ser al menos 1.',
+                };
             }
-
-            // Validación de Role
-            if (!customRole) {
-                setCustomRoleError("El cargo personalizado es obligatorio.");
-                valid = false;
+            if (product.hasPersonalization) {
+                if (!product.customName) {
+                    valid = false;
+                    newErrorMessages[index] = {
+                        ...newErrorMessages[index],
+                        customName: 'El nombre personalizado es obligatorio.',
+                    };
+                }
+                if (!product.customRole) {
+                    valid = false;
+                    newErrorMessages[index] = {
+                        ...newErrorMessages[index],
+                        customRole: 'El cargo es obligatorio.',
+                    };
+                }
             }
-        }
+        });
 
-        // Validar color seleccionado
-        if (!selectedColor) {
-            setSelectedColorError("Debes seleccionar un color.");
-            valid = false;
-        }
-
+        setErrorMessages(newErrorMessages);
         return valid;
     };
 
     const validateFormStepFour = () => {
         let valid = true;
 
-        setCardNumberError('');
-        setExpiryDateError('');
-        setCvvError('');
         setDeliveryFirstNameError('');
         setDeliveryLastNameError('');
         setDeliveryIdTypeError('');
         setDeliveryIdNumberError('');
         setDeliveryPhoneNumberError('');
-        setDeliveryEmail('');
+        setDeliveryEmailError('');
         setShippingCountryError('');
         setShippingCityError('');
         setShippingStateError('');
         setPostalCodeError('');
-
-        /*  // Validar número de tarjeta
-         if (!cardNumber) {
-             setCardNumberError("El número de tarjeta es obligatorio.");
-             valid = false;
-         } else if (!/^\d{16}$/.test(cardNumber)) {
-             setCardNumberError("El número de tarjeta debe tener 16 dígitos.");
-             valid = false;
-         }
- 
-         // Validar fecha de expiración
-         if (!expiryDate) {
-             setExpiryDateError("La fecha de expiración es obligatoria.");
-             valid = false;
-         } else {
-             const [month, year] = expiryDate.split('/').map(num => num.trim());
-             const currentDate = new Date();
-             const expiry = new Date(Number(`20${year}`), Number(month) - 1); // Conversión a número
- 
-             if (expiry < currentDate) {
-                 setExpiryDateError("La fecha de expiración no puede ser anterior a la fecha actual.");
-                 valid = false;
-             }
-         }
- 
-         // Validar CVV
-         if (!cvv) {
-             setCvvError("El CVV es obligatorio.");
-             valid = false;
-         } else if (!/^\d{3}$/.test(cvv)) {
-             setCvvError("El CVV debe tener 3 dígitos.");
-             valid = false;
-         } */
+        setAddressDeliveryError('');
 
         // Validar nombre del comprador
         if (!deliveryFirstName) {
@@ -409,23 +443,23 @@ const CustomersCreateFormHook = () => {
             valid = false;
         }
 
-        /*         // Validar país de envío
-                if (!shippingCountry) {
-                    setShippingCountryError("El país de envío es obligatorio.");
-                    valid = false;
-                }
-        
-                // Validar ciudad de envío
-                if (!shippingCity) {
-                    setShippingCityError("La ciudad de envío es obligatoria.");
-                    valid = false;
-                }
-        
-                // Validar estado de envío
-                if (!shippingState) {
-                    setShippingStateError("El estado de envío es obligatorio.");
-                    valid = false;
-                } */
+        // Validar país de envío
+        if (!countryDelivery) {
+            setShippingCountryError("El país de entrega es obligatorio.");
+            valid = false;
+        }
+
+        // Validar estado de envío
+        if (!stateDelivery) {
+            setShippingStateError("El estado de entrega es obligatorio.");
+            valid = false;
+        }
+
+        // Validar ciudad de envío
+        if (!cityDelivery) {
+            setShippingCityError("La ciudad de entrega es obligatoria.");
+            valid = false;
+        }
 
         // Validar código postal
         if (!postalCode) {
@@ -433,6 +467,68 @@ const CustomersCreateFormHook = () => {
             valid = false;
         } else if (!/^\d{5}$/.test(postalCode)) {
             setPostalCodeError("El código postal debe tener 5 dígitos.");
+            valid = false;
+        }
+
+        // Validar dirección de envío
+        if (!addressDelivery) {
+            setAddressDeliveryError("La dirección de envío es obligatoria.");
+            valid = false;
+        }
+
+        return valid;
+    };
+
+    const validateFormPayment = () => {
+        let valid = true;
+
+        // Resetear errores
+        setCardNumberError(null);
+        setCvcError(null);
+        setExpMonthError(null);
+        setExpYearError(null);
+        setCardHolderError(null);
+        setTermsError(null);
+
+        // Validar número de tarjeta
+        if (!cardInfo.number) {
+            setCardNumberError("El número de tarjeta es obligatorio.");
+            valid = false;
+        } else if (!/^\d{16}$/.test(cardInfo.number)) {
+            setCardNumberError("El número de tarjeta debe tener 16 dígitos.");
+            valid = false;
+        }
+
+        // Validar CVC
+        if (!cardInfo.cvc) {
+            setCvcError("El CVC es obligatorio.");
+            valid = false;
+        } else if (!/^\d{3}$/.test(cardInfo.cvc)) {
+            setCvcError("El CVC debe tener 3 dígitos.");
+            valid = false;
+        }
+
+        // Validar mes de expiración
+        if (!cardInfo.exp_month) {
+            setExpMonthError("El mes de expiración es obligatorio.");
+            valid = false;
+        }
+
+        // Validar año de expiración
+        if (!cardInfo.exp_year) {
+            setExpYearError("El año de expiración es obligatorio.");
+            valid = false;
+        }
+
+        // Validar nombre del titular de la tarjeta
+        if (!cardInfo.card_holder) {
+            setCardHolderError("El nombre del titular de la tarjeta es obligatorio.");
+            valid = false;
+        }
+
+        // Validar aceptación de términos
+        if (!isAccepted) {
+            setTermsError("Debe aceptar los términos y condiciones.");
             valid = false;
         }
 
@@ -467,20 +563,18 @@ const CustomersCreateFormHook = () => {
         setProduct('');
         setFilteredProducts([]);
 
-        // Resetear estados de datos paso 4
-        setCardNumber('');
-        setExpiryDate('');
-        setCvv('');
-        setDeliveryFirstNameError('');
-        setDeliveryLastNameError('');
-        setDeliveryIdTypeError('');
-        setDeliveryIdNumberError('');
-        setDeliveryPhoneNumberError('');
+        // Resetear estados de datos de entrega
+        setDeliveryFirstName('');
+        setDeliveryLastName('');
+        setDeliveryIdType('');
+        setDeliveryIdNumber('');
+        setDeliveryPhoneNumber('');
         setDeliveryEmail('');
-        /*         setShippingCountry('');
-                setShippingCity('');
-                setShippingState(''); */
+        setAddressDelivery('');
         setPostalCode('');
+        setCityDelivery('');
+        setStateDelivery('');
+        setCountryDelivery('');
 
         // Resetear estados de errores
         setDocumentTypeError(null);
@@ -502,28 +596,46 @@ const CustomersCreateFormHook = () => {
         setSelectedCustomizationError(null);
         setSelectedColorError(null);
 
-        // Resetear errores paso 4
-        setCardNumberError(null);
-        setExpiryDateError(null);
-        setCvvError(null);
+        // Resetear errores de entrega
         setDeliveryFirstNameError('');
         setDeliveryLastNameError('');
         setDeliveryIdTypeError('');
         setDeliveryIdNumberError('');
         setDeliveryPhoneNumberError('');
-        setDeliveryEmail('');
+        setDeliveryEmailError('');
+        setAddressDeliveryError('');
         setShippingCountryError(null);
         setShippingCityError(null);
         setShippingStateError(null);
         setPostalCodeError(null);
+
+        // Resetear errores de pago
+        setCardNumberError(null);
+        setCvcError(null);
+        setExpMonthError(null);
+        setExpYearError(null);
+        setCardHolderError(null);
+        setTermsError(null);
+
+        // Restablecer modal y tokens relacionados
+        setIsModalOpen(false);
+        setAcceptanceToken('');
+        setPersonalAuthToken('');
+        setIsAccepted(false);
+        setError('');
+        setCardInfo({
+            number: '',
+            cvc: '',
+            exp_month: '',
+            exp_year: '',
+            card_holder: '',
+        });
+
+        // Resetear el paso actual
         setStep(1);
     };
 
     const dataRegisterHandle = async () => {
-        /*  if (!validateForm()) return;
-         if (!validateFormStepTwo()) return;
-         if (!validateFormStepFour()) return; */
-
         try {
             const createdAt = moment().format();
             const trimmedDocumentNumber = documentNumber.trim();
@@ -531,66 +643,271 @@ const CustomersCreateFormHook = () => {
             const trimmedPhone = phoneNumber.trim();
 
             const dataSend = {
-                // Datos distribuidor paso 1
                 created_at: createdAt,
                 documentType,
-                documentNumber: trimmedDocumentNumber,
+                dni: trimmedDocumentNumber,
                 firstName,
                 lastName,
                 email: trimmedEmail,
-                phoneCode,
-                phoneNumber: trimmedPhone,
+                indicative: phoneCode,
+                phone: trimmedPhone,
                 address,
                 city,
                 state,
                 country,
                 isActive,
-
-                // Datos Paso 2
                 selectedPlan,
                 selectedMaterial,
                 selectedCustomization,
                 selectedColor,
-                total,
-                selectedProducts,
-
-                // Datos Paso 4
-                cardNumber,
-                expiryDate,
-                cvv,
-                /* buyerName,
-                buyerEmail, */
-                /*  shippingCountry,
-                 shippingCity,
-                 shippingState, */
-                postalCode,
+                idDistributor: data?.uid
             };
 
             // Verificar si el usuario ya existe
-            /* const { exists } = await checkUserExists(trimmedDocumentNumber, trimmedEmail, trimmedPhone);
+            const { exists } = await checkUserExists(trimmedDocumentNumber, trimmedEmail, trimmedPhone);
+
             if (exists) {
                 setIsSubmitting(false);
                 return;
-            } */
+            }
 
-            console.log('dataSend ', dataSend);
+            // Registrar usuario en la base de datos
+            const result = await registerUserAuth({ user: trimmedEmail, password: trimmedDocumentNumber });
 
-            //await registerUserFb({ data: dataSend });
+            const combinedData = {
+                ...result,
+                ...dataSend
+            };
 
-            Swal.fire({
+            await registerUserFb({ data: combinedData });
+
+            // Crear y guardar la orden
+            const orderData = await registerOrderData()
+            await saveOrderQuerie(orderData);
+
+            // Crear y guardar la factura
+            const invoiceData = prepareInvoiceData(orderData?.uid);
+            await saveInvoiceQuerie(invoiceData);
+
+            setIsModalOpen(false);
+            setLoading(false);
+
+            await Swal.fire({
                 position: "center",
                 icon: "success",
-                title: `Usuario registrado con éxito`,
+                title: `Transacción realizada con éxito`,
                 showConfirmButton: false,
                 timer: 2000,
             });
-            //handleReset();
+
+            handleReset();
+            handleReturnForm();
         } catch (error) {
-            console.log('Error al registrar el plan');
+            console.log('Error al registrar al cliente');
         } finally {
             setFlag(!flag);
             setIsSubmitting(false);
         }
+    };
+
+    // Función para preparar los datos de la orden
+    const registerOrderData = () => {
+        const documentRefUser: any = getDocumentReference("orders");
+        const totalAmount = total;
+        return {
+            //orderId,
+            uid: documentRefUser.id,
+            userId: documentNumber.trim(),
+            totalAmount,
+            status: 'APPROVED',
+            createdAt: moment().format(),
+            selectedProducts,
+            // Datos de envío
+            deliveryFirstName,
+            deliveryLastName,
+            deliveryIdType,
+            deliveryIdNumber,
+            deliveryPhoneNumber,
+            deliveryEmail,
+            addressDelivery,
+            cityDelivery,
+            stateDelivery,
+            countryDelivery,
+            postalCode
+        };
+    };
+
+    // Función para preparar los datos de la factura
+    const prepareInvoiceData = (orderId: any) => {
+        const documentRefUser: any = getDocumentReference("invoices");
+        return {
+            //invoiceId,
+            uid: documentRefUser.id,
+            orderId,
+            userId: documentNumber.trim(),
+            totalAmount: total,
+            status: 'PAID',
+            TicketNumber: 'Wompi',
+        };
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleOpenModal = () => {
+        if (!validateFormStepFour()) return;
+        setIsModalOpen(true);
+    };
+
+    //Consumo api para obtner los tokens de aceptacion
+    const handleAccept = async () => {
+        setIsAccepted(!isAccepted);
+        if (!isAccepted) {
+            try {
+                const response = await axios.get('https://sandbox.wompi.co/v1/merchants/pub_test_vt34CMaz8fOn55luLJjP4fCgO2g5H97H');
+                const { acceptance_token, accept_personal_auth } = response.data.data.presigned_acceptance;
+
+                setAcceptanceToken(acceptance_token);
+                setPersonalAuthToken(accept_personal_auth);
+                setError('');
+            } catch (error) {
+                console.error("Error al obtener los tokens de aceptación:", error);
+                setError('Error al obtener los tokens de aceptación. Intenta nuevamente.');
+            }
+        }
+    };
+
+    // Función para tokenizar la tarjeta
+    const tokenizeCard = async (cardDetails: any) => {
+        const tokenResponse = await axios.post('https://sandbox.wompi.co/v1/tokens/cards', cardDetails, {
+            headers: {
+                'Authorization': `Bearer pub_test_vt34CMaz8fOn55luLJjP4fCgO2g5H97H`,
+            }
+        });
+        return tokenResponse.data.data.id;
+    };
+
+    // Función para crear la transacción
+    const createTransaction = async (transactionBody: any) => {
+        const transactionResponse = await axios.post('https://sandbox.wompi.co/v1/transactions', transactionBody, {
+            headers: {
+                'Authorization': 'Bearer pub_test_vt34CMaz8fOn55luLJjP4fCgO2g5H97H',
+            }
+        });
+        return transactionResponse.data;
+    };
+
+    // Función principal para manejar el pago
+    const handlePayment = async () => {
+        if (!validateForm()) return;
+        if (!validateFormStepTwo()) return;
+        if (!validateFormStepThird()) return;
+        if (!validateFormStepFour()) return;
+        if (!validateFormPayment()) return;
+
+        setLoading(true);
+
+        try {
+            const formattedData = {
+                number: cardInfo.number,
+                cvc: cardInfo.cvc,
+                exp_month: String(cardInfo.exp_month).padStart(2, '0'),
+                exp_year: String(cardInfo.exp_year).slice(-2),
+                card_holder: cardInfo.card_holder,
+            };
+
+            const token = await tokenizeCard(formattedData);
+            const reference = generatePaymentReference(documentNumber);
+            const amout = totalSavings * 100;
+            const transactionBody = {
+                amount_in_cents: amout,
+                reference: reference,
+                currency: "COP",
+                customer_email: "cliente@example.com",
+                acceptance_token: acceptanceToken,
+                payment_method: {
+                    type: 'CARD',
+                    installments: 1,
+                    token: token,
+                }
+            };
+
+            // Crear la transacción
+            const transactionResponse = await createTransaction(transactionBody);
+            checkPaymentStatus(transactionResponse.data.id);
+
+        } catch (error) {
+            setIsModalOpen(false);
+            setLoading(false);
+            await Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error en el pago",
+                text: "Ocurrió un error al procesar el pago. Por favor, intenta de nuevo.",
+                showConfirmButton: true,
+            });
+        }
+    };
+
+    const checkPaymentStatus = async (transactionId: any) => {
+        const maxAttempts = 10; // Número máximo de intentos
+        const interval = 5000; // Tiempo entre intentos en milisegundos
+        let attempts = 0;
+
+        return new Promise<void>((resolve, reject) => {
+            const intervalId = setInterval(async () => {
+                attempts += 1;
+
+                try {
+                    const response = await fetch(`https://sandbox.wompi.co/v1/transactions/${transactionId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer pub_test_vt34CMaz8fOn55luLJjP4fCgO2g5H97H',
+                        },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error al consultar el estado del pago');
+                    }
+
+                    const result = await response.json();
+                    const status = result.data.status;
+
+                    if (status === 'APPROVED') {
+                        setIsModalOpen(false);
+                        clearInterval(intervalId);
+                        setLoading(false);
+                        /*   await Swal.fire({
+                              position: "center",
+                              icon: "success",
+                              title: `Transacción realizada con éxito`,
+                              showConfirmButton: false,
+                              timer: 2000,
+                          }); */
+                        await dataRegisterHandle();
+                        resolve();
+                    } else if (attempts >= maxAttempts) {
+                        setLoading(false);
+                        clearInterval(intervalId);
+                        await Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: "Verificación fallida",
+                            text: "No se pudo confirmar el estado del pago. Por favor, intenta más tarde.",
+                            showConfirmButton: true,
+                        });
+                        reject(new Error('No se pudo confirmar el estado del pago después de varios intentos.'));
+                    }
+                } catch (error) {
+                    clearInterval(intervalId);
+                    setLoading(false);
+                    console.error('Error en la verificación del estado del pago:', error);
+                    reject(error);
+                }
+            }, interval);
+        });
     };
 
     const handleChangeCountry = async (e: any) => {
@@ -789,7 +1106,6 @@ const CustomersCreateFormHook = () => {
             updatedProducts[index].full_price_custom = 0;
             updatedProducts[index].full_price_Discount = 0;
         }
-        console.log('updatedProducts', updatedProducts);
         setSelectedProducts(updatedProducts);
     };
 
@@ -848,29 +1164,8 @@ const CustomersCreateFormHook = () => {
         }).format(number);
     };
 
-    /*     useEffect(() => {
-            if (dataProducts && selectedPlan) {
-                // Filtrar productos
-                const filteredProducts = dataProducts.filter((product: Products) => {
-                    const isInSelectedPlan = selectedPlan.selectedProducts.some((selectedProduct: Products) =>
-                        selectedProduct.sku === product.sku
-                    );
-    
-                    // Verifica que el producto no esté seleccionado
-                    const isNotAlreadySelected = !selectedProducts.some((selectedProduct: Products) =>
-                        selectedProduct.sku === product.sku
-                    );
-    
-                    return product.status === true && isInSelectedPlan && isNotAlreadySelected;
-                });
-    
-                setFilteredProducts(filteredProducts);
-            }
-        }, [dataProducts, selectedPlan, selectedProducts]); */
-
     useEffect(() => {
         if (dataProducts) {
-            // Filtrar productos
             const filteredProducts = dataProducts.filter((product: Products) => {
                 // Verifica que el producto no esté seleccionado
                 const isNotAlreadySelected = !selectedProducts.some((selectedProduct: Products) =>
@@ -904,49 +1199,6 @@ const CustomersCreateFormHook = () => {
         };
         fetchData();
     }, [countriesDelivery]);
-
-    /*     useEffect(() => {
-            if (selectedPlan) {
-                const dataPlan = dataPlans?.find(plan => plan.sku === selectedPlan?.sku);
-                const category = data?.category;
-    
-                if (category && dataPlan?.prices_matrix && category in dataPlan.prices_matrix) {
-                    // Calcular el descuento en base al porcentaje
-                    const fullPrice = dataPlan?.full_price ?? 0;
-                    const discountPercentage = dataPlan.prices_matrix[category];
-                    const discountAmount = fullPrice * (parseFloat(discountPercentage) / 100);
-                    const finalPrice = fullPrice - discountAmount;
-    
-                    console.log('fullPrice ', fullPrice);
-    
-                    // Actualizar el total sumando el precio final del plan seleccionado
-                    setTotal(fullPrice);
-                } else {
-                    console.error('Categoría inválida o falta la matriz de precios en el plan');
-                }
-            }
-        }, [data?.category, dataPlans, selectedPlan]);
-    
-        useEffect(() => {
-            if (selectedMaterial) {
-                const dataPlan = dataMaterials?.find(plan => plan.sku === selectedMaterial.sku);
-                const category = data?.category;
-    
-                // Verificar que category exista y que prices_matrix tenga esa propiedad
-                if (category && dataPlan?.prices_matrix && category in dataPlan.prices_matrix) {
-                    const discountPercentage = dataPlan.prices_matrix[category];
-                    const fullPrice = dataPlan?.full_price ?? 0;
-                    const discountAmount = fullPrice * (parseFloat(discountPercentage) / 100);
-                    const finalPrice = fullPrice - discountAmount;
-    
-                    // Actualizar el total sumando el precio final del material seleccionado
-                    setTotal(prevTotal => prevTotal + finalPrice);
-                } else {
-                    console.error('Invalid category or prices_matrix', { category, dataPlan });
-                }
-            }
-        }, [selectedMaterial, dataMaterials, data]); */
-
 
     useEffect(() => {
         let newTotal = 0;
@@ -1109,6 +1361,7 @@ const CustomersCreateFormHook = () => {
         customRoleError,
         //Paso 3
         handleChangeQuantity,
+        errorMessages,
         //Paso4 
 
         //Errores
@@ -1160,10 +1413,16 @@ const CustomersCreateFormHook = () => {
         //Errores Paso 4
         cardNumberError,
         setCardNumberError,
-        expiryDateError,
-        setExpiryDateError,
-        cvvError,
-        setCvvError,
+        cvcError,
+        setCvcError,
+        expMonthError,
+        setExpMonthError,
+        expYearError,
+        setExpYearError,
+        cardHolderError,
+        setCardHolderError,
+        termsError,
+        setTermsError,
         deliveryFirstNameError,
         setDeliveryFirstNameError,
         deliveryLastNameError,
@@ -1199,7 +1458,19 @@ const CustomersCreateFormHook = () => {
         setCountryDelivery,
         addressDelivery,
         setAddressDelivery,
-        data
+        data,
+        addressDeliveryError,
+        handleAccept,
+        error,
+        isAccepted,
+        handleInputChange,
+        cardInfo,
+        handlePayment,
+        isModalOpen,
+        setIsModalOpen,
+        handleCloseModal,
+        handleOpenModal,
+        loading
     };
 };
 
