@@ -1,29 +1,43 @@
 import Link from "next/link";
-import { Typography, Button, TextField, InputAdornment, Select, MenuItem } from "@mui/material";
-import { Modal, Box, IconButton } from '@mui/material';
-import { DataGrid, GridColDef, gridFilteredSortedRowIdsSelector, GridToolbarContainer, gridVisibleColumnFieldsSelector, useGridApiRef } from '@mui/x-data-grid';
-import { GridToolbarQuickFilter } from '@mui/x-data-grid/components';
+import {
+  Typography,
+  Button,
+  TextField,
+  InputAdornment,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { Modal, Box, IconButton } from "@mui/material";
+import {
+  DataGrid,
+  GridColDef,
+  gridFilteredSortedRowIdsSelector,
+  GridToolbarContainer,
+  gridVisibleColumnFieldsSelector,
+  useGridApiRef,
+} from "@mui/x-data-grid";
+import { GridToolbarQuickFilter } from "@mui/x-data-grid/components";
 
 import useDictionary from "@/hooks/dictionary/useDictionary";
 // Icons
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import LinkIcon from '@mui/icons-material/Link';
-import EditIcon from '@mui/icons-material/Edit';
-import { Close } from '@mui/icons-material';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import BadgeIcon from '@mui/icons-material/Badge';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import GetAppIcon from '@mui/icons-material/GetApp';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import LinkIcon from "@mui/icons-material/Link";
+import EditIcon from "@mui/icons-material/Edit";
+import { Close } from "@mui/icons-material";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import BadgeIcon from "@mui/icons-material/Badge";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 //QR
-import { QRCodeSVG } from 'qrcode.react';
-import ReactCountryFlag from 'react-country-flag';
-import { countries } from '../../globals/constants'
-import SaveIcon from '@mui/icons-material/Save';
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import { QRCodeSVG } from "qrcode.react";
+import ReactCountryFlag from "react-country-flag";
+import { countries } from "../../globals/constants";
+import SaveIcon from "@mui/icons-material/Save";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import SwitchEdit from "../userTable/SwitchEdit";
 import CustomersDistributorHook from "./hooks/CustomersDistributorHook";
 
@@ -73,30 +87,46 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
         handleEditData
     } = CustomersDistributorHook();
 
-    const dictionary = useDictionary({ lang: 'es' });
-    const dateToday = new Date().toISOString().split('T')[0];
-    const apiRef = useGridApiRef();
+  const dictionary = useDictionary({ lang: "es" });
+  const dateToday = new Date().toISOString().split("T")[0];
+  const apiRef = useGridApiRef();
 
-    const getCountryFlag = (item: any) => {
-        const country = countries.find(country => country.id === item);
-        return country ? country.flag : '';
-    };
+  const getCountryFlag = (item: any) => {
+    const country = countries.find((country) => country.id === item);
+    return country ? country.flag : "";
+  };
 
-    const getCountryName = (item: any) => {
-        const country = countries.find(country => country.id === item);
-        return country ? country.code : '';
-    };
+  const getCountryName = (item: any) => {
+    const country = countries.find((country) => country.id === item);
+    return country ? country.code : "";
+  };
 
-    const getFormattedDate = (date: any) => {
-        const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`;
-        return formattedDate ? formattedDate : '';
-    };
+  const getFormattedDate = (date: any) => {
+    const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(
+      date.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}/${date.getFullYear()}`;
+    return formattedDate ? formattedDate : "";
+  };
 
-    const getUrlFormatted = (url: any) => {
-        const urlFormatted = url && url.replace(/localhost:3000|on-tap-tawny.vercel.app/g, 'backoffice.onetap.com.co');
-        return urlFormatted ? urlFormatted : '';
-    };
-
+  const getUrlFormatted = (url: any) => {
+    const urlFormatted =
+      url &&
+      url
+        //Produccion
+        /*.replace(
+            /localhost:3000|on-taptawny.vercel.app/g,
+            "backoffice.onetap.com.co"
+          )*/
+        //Desarrollo
+        .replace(
+          /https?:\/\/backoffice\.onetap\.com\.co/g,
+          "https://on-tap-dev.vercel.app"
+        );
+    return urlFormatted ? urlFormatted : "";
+  };
+  
     const columns: GridColDef[] = [
         /*   {
               field: 'optionEdit',
@@ -255,12 +285,218 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
         return data;
     }
 
-    const handleExport = () => {
-        const data = getExcelData(apiRef);
-        exportToExcel(data);
-    };
+  const columns: GridColDef[] = [
+    {
+      field: "optionEdit",
+      headerName: "Editar",
+      minWidth: 110,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <Button
+          style={{ color: "black" }}
+          onClick={() => handleEditUser(params.value)}
+        >
+          <EditIcon />
+        </Button>
+      ),
+    },
+    {
+      field: "date",
+      headerName: "Fecha Registro",
+      minWidth: 130,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          <div>{getFormattedDate(params.value)}</div>
+        </div>
+      ),
+    },
+    {
+      field: "hour",
+      headerName: "Hora Registro",
+      minWidth: 130,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "id",
+      headerName: "No. Identificación",
+      minWidth: 160,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "name",
+      headerName: "Nombres y Apellidos",
+      minWidth: 230,
+      flex: 2,
+    },
+    {
+      field: "indicative",
+      headerName: "Indicativo",
+      minWidth: 90,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value && (
+            <ReactCountryFlag
+              countryCode={getCountryFlag(params.value ? params.value : "")}
+              svg
+              style={{ marginRight: "5px", width: "29px", height: "20px" }}
+            />
+          )}
+          <div>{getCountryName(params.value)}</div>
+        </div>
+      ),
+    },
+    {
+      field: "phone",
+      headerName: "Teléfono",
+      minWidth: 180,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "email",
+      headerName: "Correo",
+      minWidth: 250,
+      flex: 2,
+    },
+    {
+      field: "plan",
+      headerName: "Plan",
+      minWidth: 110,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value && <div>{params.value.plan}</div>}
+        </div>
+      ),
+    },
+    {
+      field: "userType",
+      headerName: "Tipo Usuario",
+      minWidth: 130,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value && (
+            <div>{params.value.gif === true ? "Obsequio" : "Comprador"}</div>
+          )}
+        </div>
+      ),
+    },
+    {
+      field: "url",
+      headerName: "URL",
+      minWidth: 100,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value && (
+            <>
+              <Link
+                className="tw-mr-5"
+                href={getUrlFormatted(params.value.preview)}
+              >
+                <LinkIcon />{" "}
+              </Link>
+              <div
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    getUrlFormatted(params.value.preview)
+                  );
+                }}
+              >
+                <ContentCopyIcon />
+              </div>
+            </>
+          )}
+        </div>
+      ),
+    },
+    {
+      field: "urlQR",
+      headerName: "QR",
+      minWidth: 110,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value && (
+            <>
+              <Button
+                style={{ color: "black" }}
+                onClick={() =>
+                  handleSeeQR(getUrlFormatted(params.value.preview))
+                }
+              >
+                <VisibilityIcon />
+              </Button>
+            </>
+          )}
+        </div>
+      ),
+    },
+    {
+      field: "edit",
+      headerName: "Inactivo/Activo",
+      minWidth: 120,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div>
+          <SwitchEdit
+            isActive={params.value.switch}
+            uid={params.value.uid}
+            onSwitchChange={handleSwitchChange}
+          />
+        </div>
+      ),
+    },
+  ];
 
-    function CustomToolbar() {
+  const handleSwitchChange = () => {
+    setFlag(!flag);
+  };
+
+  function getExcelData(apiRef: any) {
+    const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
+    const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
+    const data = filteredSortedRowIds.map((id) => {
+      const row: { [key: string]: any } = {};
+      visibleColumnsField.forEach((field) => {
+        row[field] = apiRef.current.getCellParams(id, field).value;
+      });
+      return row;
+    });
+
+    return data;
+  }
+
+  const handleExport = () => {
+    const data = getExcelData(apiRef);
+    exportToExcel(data);
+  };
+
+  function CustomToolbar() {
         return (
             <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', paddingLeft: 2, paddingRight: 5, marginBottom: 0, marginTop: 1 }}>

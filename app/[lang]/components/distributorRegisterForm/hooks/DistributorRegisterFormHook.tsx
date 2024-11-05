@@ -1,17 +1,20 @@
-import { saveDistributorQuerie, UpdateDistributortionQuerie } from '@/reactQuery/generalQueries';
-import { useEffect, useState } from 'react';
+import {
+  saveDistributorQuerie,
+  UpdateDistributortionQuerie,
+} from "@/reactQuery/generalQueries";
+import { useEffect, useState } from "react";
 import moment from "moment";
-import { GetAllCategories, GetAllDistributors } from '@/reactQuery/home';
+import { GetAllCategories, GetAllDistributors } from "@/reactQuery/home";
 import Swal from "sweetalert2";
-import { Country } from '@/components/countries/hooks/CountriesHook';
-import { countriesTable } from '@/types/formConstant';
-import { Department } from '@/components/departments/hooks/DepartmentsHook';
-import { colombianCitiesData } from '@/types/colombianCitiesData';
-import * as XLSX from 'xlsx';
-import { GetUser } from '@/reactQuery/users';
-import { registerUserAuthDistributor } from 'app/functions/register';
-
+import { Country } from "@/components/countries/hooks/CountriesHook";
+import { countriesTable } from "@/types/formConstant";
+import { Department } from "@/components/departments/hooks/DepartmentsHook";
+import { colombianCitiesData } from "@/types/colombianCitiesData";
+import * as XLSX from "xlsx";
+import { GetUser } from "@/reactQuery/users";
+import { registerUserAuthDistributor } from "app/functions/register";
 type City = string;
+import { handleSendWelcomeEmail } from "app/lib/brevo/handlers/actions";
 
 const DistributorRegisterFormHook = () => {
   const datUser = GetUser();
@@ -25,32 +28,38 @@ const DistributorRegisterFormHook = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [cities, setCities] = useState<City[]>([]);
-  const [status, setStatus] = useState<string>('');
+  const [status, setStatus] = useState<string>("");
   const [accessTokenUser, setAccessTokenUser] = useState<string>("");
 
   //Datos distribuidor
-  const [documentType, setDocumentType] = useState<string>('');
-  const [documentNumber, setDocumentNumber] = useState<string>('');
-  const [fullName, setFullName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [confirmEmail, setConfirmEmail] = useState<string>('');
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [city, setCity] = useState<string>('');
-  const [state, setState] = useState<string>('');
-  const [country, setCountry] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
+  const [documentType, setDocumentType] = useState<string>("");
+  const [documentNumber, setDocumentNumber] = useState<string>("");
+  const [fullName, setFullName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [confirmEmail, setConfirmEmail] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
   const [isActive, setIsActive] = useState<boolean>(true);
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
   const [rowId, setRowId] = useState(null);
-  //Errores: 
-  const [documentTypeError, setDocumentTypeError] = useState<string | null>(null);
-  const [documentNumberError, setDocumentNumberError] = useState<string | null>(null);
+  //Errores:
+  const [documentTypeError, setDocumentTypeError] = useState<string | null>(
+    null
+  );
+  const [documentNumberError, setDocumentNumberError] = useState<string | null>(
+    null
+  );
   const [fullNameError, setFullNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
-  const [confirmEmailError, setConfirmEmailError] = useState<string | null>(null);
+  const [confirmEmailError, setConfirmEmailError] = useState<string | null>(
+    null
+  );
   const [phoneNumberError, setPhoneNumberError] = useState<string | null>(null);
   const [addressError, setAddressError] = useState<string | null>(null);
   const [cityError, setCityError] = useState<string | null>(null);
@@ -59,8 +68,8 @@ const DistributorRegisterFormHook = () => {
   const [categoryError, setCategoryError] = useState<string | null>(null);
   const [isActiveError, setIsActiveError] = useState<string | null>(null);
   //Filtros
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const handleOpenModal = async () => {
     setIsEditData(false);
@@ -70,20 +79,20 @@ const DistributorRegisterFormHook = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     handleReset();
-  }
+  };
 
   const handleReset = () => {
-    setDocumentType('');
-    setDocumentNumber('');
-    setFullName('');
-    setEmail('');
-    setConfirmEmail('');
-    setPhoneNumber('');
-    setAddress('');
-    setCity('');
-    setState('');
-    setCountry('');
-    setCategory('');
+    setDocumentType("");
+    setDocumentNumber("");
+    setFullName("");
+    setEmail("");
+    setConfirmEmail("");
+    setPhoneNumber("");
+    setAddress("");
+    setCity("");
+    setState("");
+    setCountry("");
+    setCategory("");
     setIsActive(true);
     setDocumentTypeError(null);
     setDocumentNumberError(null);
@@ -195,7 +204,10 @@ const DistributorRegisterFormHook = () => {
     } */
 
     // Validar número de teléfono (opcional)
-    if (phoneNumber && (phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber))) {
+    if (
+      phoneNumber &&
+      (phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber))
+    ) {
       setPhoneNumberError("El número de teléfono debe tener 10 dígitos.");
       valid = false;
     }
@@ -224,21 +236,26 @@ const DistributorRegisterFormHook = () => {
         created_at: createdAt,
         is_admin: false,
         is_distributor: true,
-        isActiveByAdmin: true
+        isActiveByAdmin: true,
       };
-
 
       const emailUser = dataSend?.email?.trim().toLowerCase();
       const password = dataSend?.dni.trim();
 
-      const resultAuth = await registerUserAuthDistributor({ user: emailUser, password: password });
+      const resultAuth = await registerUserAuthDistributor({
+        user: emailUser,
+        password: password,
+      });
 
       const combinedData = {
         ...dataSend,
         uid: resultAuth.uid,
-      }
+      };
 
       const result = await saveDistributorQuerie(combinedData);
+
+      // Enviar correo de bienvenida
+      await handleSendWelcomeEmail(combinedData);
 
       if (result.success) {
         Swal.fire({
@@ -252,15 +269,14 @@ const DistributorRegisterFormHook = () => {
       } else {
         setStatus(result.message);
       }
-
     } catch (error) {
-      setStatus('Error al registrar al distribuidor');
+      setStatus("Error al registrar al distribuidor");
     } finally {
       setFlag(!flag);
       setIsSubmitting(false);
       setIsModalOpen(false);
     }
-  }
+  };
 
   const handleEditData = async (e: React.FormEvent) => {
     if (!validateForm()) return;
@@ -296,23 +312,23 @@ const DistributorRegisterFormHook = () => {
         setStatus(result.message);
       }
     } catch (error) {
-      setStatus('Error al registrar al distribuidor');
+      setStatus("Error al registrar al distribuidor");
     } finally {
       setFlag(!flag);
       setIsSubmitting(false);
       setIsModalOpen(false);
     }
-  }
+  };
 
   const handleChangeCountry = async (e: any) => {
     try {
       const value = e.target.value;
       setCountry(value);
       const departmentsData = await colombianCitiesData;
-      setState('');
+      setState("");
       setDepartments(departmentsData);
       setCities([]);
-      setCity('');
+      setCity("");
     } catch (error) {
       console.error("Error al cambiar el país:", error);
     }
@@ -337,23 +353,25 @@ const DistributorRegisterFormHook = () => {
   const handleChangeCity = async (e: any) => {
     const value = e.target.value;
     setCity(value);
-  }
+  };
 
   const handleEditDistribuidor = async (dataDistribuidor: any) => {
     setIsModalOpen(true);
     setIsEditData(true);
-    setDocumentType(dataDistribuidor.documentType || '');
-    setDocumentNumber(dataDistribuidor.dni || '');
-    setFullName(dataDistribuidor.fullName || '');
-    setEmail(dataDistribuidor.email || '');
-    setConfirmEmail(dataDistribuidor.email || '');
-    setPhoneNumber(dataDistribuidor.phoneNumber || '');
-    setAddress(dataDistribuidor.address || '');
-    setCity(dataDistribuidor.city || '');
-    setState(dataDistribuidor.state || '');
-    setCountry(dataDistribuidor.country || '');
-    setCategory(dataDistribuidor.category || '');
-    setIsActive(dataDistribuidor.isActive !== undefined ? dataDistribuidor.isActive : true);
+    setDocumentType(dataDistribuidor.documentType || "");
+    setDocumentNumber(dataDistribuidor.dni || "");
+    setFullName(dataDistribuidor.fullName || "");
+    setEmail(dataDistribuidor.email || "");
+    setConfirmEmail(dataDistribuidor.email || "");
+    setPhoneNumber(dataDistribuidor.phoneNumber || "");
+    setAddress(dataDistribuidor.address || "");
+    setCity(dataDistribuidor.city || "");
+    setState(dataDistribuidor.state || "");
+    setCountry(dataDistribuidor.country || "");
+    setCategory(dataDistribuidor.category || "");
+    setIsActive(
+      dataDistribuidor.isActive !== undefined ? dataDistribuidor.isActive : true
+    );
     setRowId(dataDistribuidor.uid || null);
 
     try {
@@ -365,7 +383,10 @@ const DistributorRegisterFormHook = () => {
       setDepartments(departmentsData);
       setCities(cities);
     } catch (error) {
-      console.error("Error al cargar datos de departamentos y ciudades:", error);
+      console.error(
+        "Error al cargar datos de departamentos y ciudades:",
+        error
+      );
     }
   };
 
@@ -381,7 +402,7 @@ const DistributorRegisterFormHook = () => {
 
         // Devolver los datos con la propiedad específica incluida
         return {
-          ...filteredUser
+          ...filteredUser,
         };
       });
 
@@ -391,25 +412,30 @@ const DistributorRegisterFormHook = () => {
       XLSX.utils.book_append_sheet(workbook, worksheet, "Usuarios");
 
       // Crear un archivo Blob y descargarlo
-      const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-      const data = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const data = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
 
       // Crear un enlace de descarga y hacer clic en él
-      const downloadLink = document.createElement('a');
+      const downloadLink = document.createElement("a");
       downloadLink.href = URL.createObjectURL(data);
-      downloadLink.download = 'Usuarios.xlsx';
+      downloadLink.download = "Usuarios.xlsx";
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
     } catch (error) {
-      console.error('Error al exportar a Excel:', error);
+      console.error("Error al exportar a Excel:", error);
     }
   };
 
   const handleDeleteFilter = () => {
     setFilteredQuery(query);
-    setStartDate('');
-    setEndDate('');
+    setStartDate("");
+    setEndDate("");
   };
 
   const handleDateChange = () => {
@@ -460,15 +486,15 @@ const DistributorRegisterFormHook = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const tokenUser = await localStorage.getItem('@userToken');
-      setAccessTokenUser(tokenUser ? tokenUser : '');
-    }
+      const tokenUser = await localStorage.getItem("@userToken");
+      setAccessTokenUser(tokenUser ? tokenUser : "");
+    };
     fetchData();
   }, []);
 
   useEffect(() => {
     if (data) {
-      const formattedData = data.map(doc => {
+      const formattedData = data.map((doc) => {
         return {
           optionEdit: doc,
           created_at: doc.created_at,
@@ -519,7 +545,9 @@ const DistributorRegisterFormHook = () => {
     rowId,
     handleOpenModal,
     handleCloseModal,
-    dataCategories: dataCategories && dataCategories.sort((a, b) => a.name.localeCompare(b.name)),
+    dataCategories:
+      dataCategories &&
+      dataCategories.sort((a, b) => a.name.localeCompare(b.name)),
     countries,
     departments,
     cities,
@@ -548,7 +576,7 @@ const DistributorRegisterFormHook = () => {
     startDate,
     setStartDate,
     endDate,
-    setEndDate
+    setEndDate,
   };
 };
 

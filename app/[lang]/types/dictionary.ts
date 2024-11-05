@@ -294,6 +294,18 @@ export interface Dictionary {
     buttonCancel: string;
     buttonConfirm: string;
   };
+
+  editProfile: {
+    editProfileTitle: string;
+    fullName: string;
+    address: string;
+    state: string;
+    city: string;
+    phoneNumber: string;
+    profileUpdated: string;
+    back: string;
+  };
+
   modalLogOut: {
     labelMessage: string;
   };
