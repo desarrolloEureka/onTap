@@ -26,6 +26,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import SwitchEdit from "../userTable/SwitchEdit";
 import CustomersDistributorHook from "./hooks/CustomersDistributorHook";
+import moment from "moment";
 
 const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any }) => {
     const {
@@ -87,9 +88,8 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
         return country ? country.code : '';
     };
 
-    const getFormattedDate = (date: any) => {
-        const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`;
-        return formattedDate ? formattedDate : '';
+    const formatearFecha = (fechaISO: string): string => {
+        return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
     };
 
     const getUrlFormatted = (url: any) => {
@@ -124,27 +124,17 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
               )
           }, */
         {
-            field: 'date',
-            headerName: 'Fecha Registro',
-            minWidth: 130,
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center',
+            field: "created_at",
+            headerName: "Fecha Registro",
+            minWidth: 210,
+            flex: 2,
+            headerAlign: "center",
+            align: "center",
             renderCell: (params) => (
-                <div className='tw-flex tw-justify-center tw-items-center'>
-                    <div>
-                        {getFormattedDate(params.value)}
-                    </div>
+                <div className="tw-flex tw-justify-center tw-items-center">
+                    <div>{formatearFecha(params.value)}</div>
                 </div>
-            )
-        },
-        {
-            field: 'hour',
-            headerName: 'Hora Registro',
-            minWidth: 130,
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center'
+            ),
         },
         {
             field: 'id',
@@ -451,7 +441,7 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                                 },
                             },
                             sorting: {
-                                sortModel: [{ field: 'date', sort: 'desc' }],
+                                sortModel: [{ field: "created_at", sort: "asc" }],
                             },
                         }}
                         pageSizeOptions={[15, 25]}

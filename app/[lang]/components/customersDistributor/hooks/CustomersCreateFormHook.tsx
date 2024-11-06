@@ -753,6 +753,21 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setIsAccepted(false);
+        setError('');
+        setCardNumberError(null);
+        setCvcError(null);
+        setExpMonthError(null);
+        setExpYearError(null);
+        setCardHolderError(null);
+        setTermsError(null);
+        setCardInfo({
+            number: '',
+            cvc: '',
+            exp_month: '',
+            exp_year: '',
+            card_holder: '',
+        });
     };
 
     const handleOpenModal = () => {

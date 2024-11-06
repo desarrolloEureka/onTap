@@ -188,7 +188,17 @@ const PersonalizationRegisterFormHook = () => {
     setRowId(dataCustomization.uid);
     setDiscounts(dataCustomization.prices_matrix);
     setTypeCustomization(dataCustomization.type);
-    setSelectedArticle(dataCustomization.article);
+    const selectedUids = (data || []).map((item: any) => item.selectedArticle);
+    if (dataCustomization.type === 'Producto') {
+      // Filtrar dataProducts para obtener los que NO están en selectedUids
+      const filteredProducts = dataProducts && dataProducts.filter((product: any) => !selectedUids.includes(product.uid) || product.uid === dataCustomization.selectedArticle);
+      setArticleList(filteredProducts);
+    } else {
+      // Filtrar dataPlanes para obtener los que NO están en selectedUids
+      const filteredPlanes = dataPlanes && dataPlanes.filter((plan: any) => !selectedUids.includes(plan.uid) || plan.uid === dataCustomization.selectedArticle);
+      setArticleList(filteredPlanes);
+    }
+    setSelectedArticle(dataCustomization.selectedArticle);
     setNameError(null);
     setSkuError(null);
     setPriceError(null);
