@@ -152,8 +152,8 @@
     "NotificationsLabel": "Notificaciones",
     "LableCards": "Mis Tarjetas",
     "CardsLabel": "Tarjetas",
-    "labelPendingPaymentReports": "Reporte de Pagos Pendientes"
-
+    "labelPendingPaymentReports": "Reporte de Pagos Pendientes",
+    "labelMadePaymentReports": "Reporte de Pagos Realizados"
   },
   "cardView": {
     "labelErrorUser": "Error",
