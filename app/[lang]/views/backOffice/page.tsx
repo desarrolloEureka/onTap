@@ -58,6 +58,7 @@ import EditProfile from "@/components/editProfile/editProfile";
 import PaymentForm from "@/components/customersDistributor/PaymentForm";
 import CardRegisterForm from "@/components/cardRegisterForm/CardRegisterForm";
 import PendingPaymentReports from "@/components/pendingPaymentReports/PendingPaymentReports";
+import MadePaymentReports from "@/components/madePaymentReport/madePaymentReports";
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -315,7 +316,10 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           />
                           {dictionary?.backOffice.PaymentsMade}
                         </NavDropdown.Item>
-                        <NavDropdown.Item eventKey="24" style={{ fontSize: 15 }}>
+                        <NavDropdown.Item
+                          eventKey="24"
+                          style={{ fontSize: 15 }}
+                        >
                           <PaymentIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
@@ -504,16 +508,30 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 14 && <PersonalizationRegisterForm params={{ lang }} />}
         {value === 15 && <DistributorRegisterForm params={{ lang }} />}
         {value === 16 && (
-          <CustomersDistributorForm handleCreateUser={handleCreateUser} handlePayUser={handlePayUser} />
+          <CustomersDistributorForm
+            handleCreateUser={handleCreateUser}
+            handlePayUser={handlePayUser}
+          />
         )}
-        {value === 17 && <CustomersCreateForm handleReturnForm={handleReturnForm} />}
+        {value === 17 && (
+          <CustomersCreateForm handleReturnForm={handleReturnForm} />
+        )}
         {value === 18 && <Notifications params={{ lang }} />}
         {value === 19 && <Suscriptions params={{ lang }} />}
         {value === 20 && <ChangePassword params={{ lang }} />}
         {value === 21 && <EditProfile params={{ lang }} />}
-        {value === 22 && <PaymentForm userDataPay={userDataPay} isIndividualPay={isIndividualPay} handleReturnForm={handleReturnForm} />}
+        {value === 22 && (
+          <PaymentForm
+            userDataPay={userDataPay}
+            isIndividualPay={isIndividualPay}
+            handleReturnForm={handleReturnForm}
+          />
+        )}
         {value === 23 && <CardRegisterForm />}
-        {value === 24 && <PendingPaymentReports handlePayUser={handlePayUser} />}
+        {value === 24 && (
+          <PendingPaymentReports handlePayUser={handlePayUser} />
+        )}
+        {value === 25 && <MadePaymentReports handlePayUser={handlePayUser} />}
       </Box>
 
       {/* Footer */}

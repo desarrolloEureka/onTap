@@ -153,6 +153,7 @@ export interface Dictionary {
     LableCards: string;
     CardsLabel: string;
     labelPendingPaymentReports: string;
+    labelMadePaymentReports: string;
   };
   cardView: {
     labelErrorUser: string;
