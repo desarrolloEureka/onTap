@@ -62,7 +62,7 @@ const ItemForm = ({
     const i = subindex as any;
     if (index == 'phones' || index == 'emails') {
       if (dataRef.current && dataRef.current.length > 0) {
-        return dataRef.current[i].checked;
+        return dataRef.current[i]?.checked;
       }
     }
   };

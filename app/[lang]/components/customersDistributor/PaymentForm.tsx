@@ -341,6 +341,7 @@ const PaymentForm = ({ userDataPay, handleReturnForm, isIndividualPay }: { userD
                                                     onChange={handleInputChange}
                                                     error={!!idNumberError}
                                                     helperText={idNumberError}
+                                                    disabled={loading}
                                                 />
                                             </div>
                                         </div>

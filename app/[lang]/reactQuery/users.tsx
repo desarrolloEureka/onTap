@@ -262,6 +262,23 @@ const GetUserById = (userUid: string, refetch?: boolean) => {
   });
 };
 
+const GetUserByIdEdit = (userUid: string, refetch?: boolean) => {
+  return useQuery({
+    queryKey: ["user", userUid], 
+    queryFn: async () => {
+      const updatedUser = await getUserByIdFireStore(userUid);
+      if (updatedUser.exists()) {
+        const userData = (await updatedUser.data()) as UserData;
+        return userData;
+      } else {
+        return null;
+      }
+    },
+    enabled: !!userUid,
+    refetchOnWindowFocus: refetch ?? false,
+  });
+};
+
 const GetUserByIdCard = (userUid: string, refetch?: boolean) => {
   return useQuery({
     queryKey: ["user", userUid], // Clave de consulta única para cada usuario
@@ -338,4 +355,5 @@ export {
   SendDataMetrics,
   GetUserByIdCard,
   checkUserExists,
+  GetUserByIdEdit
 };

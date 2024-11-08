@@ -482,6 +482,11 @@ const UserTableLogic = () => {
         }
     };
 
+    const openEditProfile = (profileType: string, uid: string) => {
+        const url = `${window.location.origin}/es/views/profileEdit?type=${encodeURIComponent(profileType)}&uid=${encodeURIComponent(uid)}`;
+        window.open(url, '_blank', 'noopener noreferrer');
+    };
+
     useEffect(() => {
         const getquery = async () => {
             const usersDataSanpShot = await getAllUsers();
@@ -499,6 +504,7 @@ const UserTableLogic = () => {
 
                 return {
                     id: doc.data().dni || 1,
+                    uid: doc.data().uid || '',
                     is_admin: doc.data().is_admin,
                     is_distributor: doc.data().is_distributor || false,
                     url: doc.data(),
@@ -526,6 +532,7 @@ const UserTableLogic = () => {
             /* .sort((a, b) => b.date.getTime() - a.date.getTime()); */
 
             setQuery(usersData);
+            console.log('usersData ', usersData);
             setFilteredQuery(usersData);
         };
 
@@ -591,7 +598,8 @@ const UserTableLogic = () => {
         errorPhoneCodeForm,
         errorMailForm,
         errorConfirmEmailForm,
-        errorEmailMismatch
+        errorEmailMismatch,
+        openEditProfile
     };
 };
 

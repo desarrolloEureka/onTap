@@ -88,6 +88,7 @@ const UserTable = () => {
     errorEmailMismatch,
     handleEditUser,
     handleEditData,
+    openEditProfile
   } = UserTableLogic();
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
@@ -129,6 +130,8 @@ const UserTable = () => {
     return urlFormatted ? urlFormatted : "";
   };
 
+
+
   const columns: GridColDef[] = [
     {
       field: "optionEdit",
@@ -141,6 +144,22 @@ const UserTable = () => {
         <Button
           style={{ color: "black" }}
           onClick={() => handleEditUser(params.value)}
+        >
+          <EditIcon />
+        </Button>
+      ),
+    },
+    {
+      field: "uid",
+      headerName: "Editar Social",
+      minWidth: 110,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <Button
+          style={{ color: "black" }}
+          onClick={() => openEditProfile('social', params.value)}
         >
           <EditIcon />
         </Button>
