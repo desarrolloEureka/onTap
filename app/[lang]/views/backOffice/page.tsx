@@ -55,6 +55,7 @@ import Notifications from "@/components/notifications/notifications";
 import Suscriptions from "@/components/subscription/subscription";
 import ChangePassword from "@/components/changePassword/changePassword";
 import EditProfile from "@/components/editProfile/editProfile";
+import PaymetsMadeReport from "@/components/paymetsMadeReport/paymetsMadeReport";
 import PaymentForm from "@/components/customersDistributor/PaymentForm";
 import CardRegisterForm from "@/components/cardRegisterForm/CardRegisterForm";
 import PendingPaymentReports from "@/components/pendingPaymentReports/PendingPaymentReports";
@@ -305,7 +306,10 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       </>
                     ) : (
                       <>
-                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <NavDropdown.Item
+                          eventKey="25"
+                          style={{ fontSize: 15 }}
+                        >
                           <PaymentIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
@@ -511,6 +515,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 22 && <PaymentForm userDataPay={userDataPay} isIndividualPay={isIndividualPay} handleReturnForm={handleReturnForm} />}
         {value === 23 && <CardRegisterForm />}
         {value === 24 && <PendingPaymentReports handlePayUser={handlePayUser} />}
+        {value === 25 && <PaymetsMadeReport params={{ lang }} />}
       </Box>
 
       {/* Footer */}

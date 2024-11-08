@@ -17,6 +17,7 @@ import {
   updateDataMetrics,
   checkIfUserExists,
   updateProfileFirebase,
+  getCurrentProfileData,
 } from "@/firebase/user";
 import {
   DataForm,
@@ -154,16 +155,25 @@ const UpdatePassword = async (password: string) => {
   return res;
 };
 
-//para actualizar el usuario distribuidor
-const UpdateProfile = async (profileData: {
+// Definimos fetchProfileData para que acepte un argumento 'uid'
+export const fetchProfileData = async (uid: string) => {
+  const res = await getCurrentProfileData(uid); // Pasa el uid a la función de Firebase
+  return res;
+};
+
+// Función para actualizar los datos del perfil
+export const UpdateProfile = async (profileData: {
   fullName: string;
   address: string;
   phoneNumber: string;
   city: string;
   state: string;
+  documentType: string;
+  dni: string;
+  email: string;
 }) => {
-  const res = await updateProfileFirebase(profileData);
-  return res;
+  const res = await updateProfileFirebase(profileData); // Llamamos a la función que actualiza el perfil
+  return res; // Retornamos la respuesta tal cual
 };
 
 const checkUserExists = async (dni: string, email: string, phone: string) => {
@@ -328,5 +338,4 @@ export {
   SendDataMetrics,
   GetUserByIdCard,
   checkUserExists,
-  UpdateProfile,
 };

@@ -321,8 +321,8 @@ const NotificationsCRUD: React.FC<{ params: { lang: Locale } }> = ({
             disableRowSelectionOnClick
             sx={{
               "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: "#dddddd", // Fondo del header
-                color: "#000000", // Color del texto del header
+                backgroundColor: "#dddddd",
+                color: "#000000",
                 fontWeight: "bold",
               },
             }}

@@ -117,10 +117,10 @@ const UserTable = () => {
       url &&
       url
         //Produccion
-        .replace(
+        /*.replace(
           /localhost:3000|on-taptawny.vercel.app/g,
           "backoffice.onetap.com.co"
-        )
+        )*/
         //Desarrollo
         .replace(
           /https?:\/\/backoffice\.onetap\.com\.co/g,

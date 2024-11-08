@@ -557,180 +557,205 @@ const CustomersCreateForm = ({ handleReturnForm }: { handleReturnForm: () => voi
                                     <div className='tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center overflow-y-auto tw-overflow-x-hidden'>
                                         <div className='tw-w-[90%] tw-h-[90%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
 
-                                            <div className='tw-flex tw-items-center tw-mb-9'>
-                                                <div className='tw-flex tw-items-center tw-w-[50%]'>
-                                                    <h3>Agregar Plan</h3>
-                                                </div>
-                                                <div className='tw-flex tw-items-end tw-justify-end tw-w-[50%]'>
-                                                    <h6> Precio Venta</h6>
-                                                </div>
+                                            <div className="tw-w-full tw-flex tw-items-center tw-justify-center tw-mb-9">
+                                                <h3>Agregar Plan</h3>
                                             </div>
+                                            <div className="tw-w-full tw-flex tw-justify-end tw-mb-9">
+                                                <h6> Precio Venta</h6>
+                                            </div>
+                    <form className="tw-w-full">
+                      <div className="tw-flex tw-items-center tw-mb-6">
+                        <div className="tw-w-[40%]">
+                          <FormControl fullWidth variant="outlined">
+                            <InputLabel>Plan</InputLabel>
+                            <Select
+                              label="Plan"
+                              value={selectedPlan?.sku}
+                              error={!!selectedPlanError}
+                              onChange={(e) => {
+                                const planValue = e.target.value;
+                                const selectedPlan =
+                                  dataPlans &&
+                                  dataPlans.find(
+                                    (plan) => plan.sku === planValue
+                                  );
+                                updatePlan(selectedPlan);
+                              }}
+                            >
+                              {dataPlans &&
+                                dataPlans.map((cat: any) => (
+                                  <MenuItem key={cat.name} value={cat.sku}>
+                                    {cat.name}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </div>
+                        <div className="tw-flex tw-items-center tw-w-[60%] tw-justify-end">
+                          <span className="tw-text-right">
+                            ${formatPrice(selectedPlan?.full_price ?? 0)}
+                          </span>
+                        </div>
+                      </div>
 
-                                            <form className='tw-w-full'>
-                                                <div className="tw-flex tw-items-center tw-mb-6">
-                                                    <div className="tw-flex tw-items-center tw-w-[90%]">
-                                                        <FormControl fullWidth variant='outlined'>
-                                                            <InputLabel>Plan</InputLabel>
-                                                            <Select
-                                                                label='Plan'
-                                                                value={selectedPlan?.sku}
-                                                                error={!!selectedPlanError}
-                                                                onChange={(e) => {
-                                                                    const planValue = e.target.value;
-                                                                    const selectedPlan = dataPlans && dataPlans.find(plan => plan.sku === planValue);
-                                                                    updatePlan(selectedPlan);
-                                                                }}
-                                                            >
-                                                                {dataPlans && dataPlans.map((cat: any) => (
-                                                                    <MenuItem key={cat.name} value={cat.sku}>
-                                                                        {cat.name}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </div>
-                                                    <div className="tw-flex tw-items-center tw-w-[10%] tw-bg-red">
-                                                        <span className="tw-ml-10">${formatPrice(selectedPlan?.full_price ?? 0)}</span>
-                                                    </div>
-                                                </div>
+                      <div className="tw-flex tw-items-center tw-mb-6">
+                        <div className="tw-w-[40%]">
+                          <FormControl fullWidth variant="outlined">
+                            <InputLabel>Material</InputLabel>
+                            <Select
+                              label="Material"
+                              value={selectedMaterial?.sku}
+                              error={!!selectedMaterialError}
+                              onChange={(e) => {
+                                const materialValue = e.target.value;
+                                const selectedMaterial =
+                                  dataMaterials &&
+                                  dataMaterials.find(
+                                    (mat) => mat.sku === materialValue
+                                  );
+                                updateMaterial(selectedMaterial);
+                              }}
+                            >
+                              {dataMaterials &&
+                                dataMaterials.map((cat: any) => (
+                                  <MenuItem key={cat.name} value={cat.sku}>
+                                    {cat.name}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </div>
+                        <div className="tw-w-[60%] tw-flex tw-justify-end">
+                          <span className="tw-ml-10">
+                            ${formatPrice(selectedMaterial?.full_price ?? 0)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="tw-flex tw-items-center tw-mb-6">
+                        <div className="tw-w-[40%]">
+                          <FormControl
+                            fullWidth
+                            variant="outlined"
+                            className="tw-mb-6"
+                          >
+                            <InputLabel>Color</InputLabel>
+                            <Select
+                              label="Color"
+                              value={selectedColor}
+                              error={!!selectedColorError}
+                              onChange={(e) => {
+                                const colorValue = e.target.value;
+                                setSelectedColor(colorValue);
+                                updateColor(colorValue);
+                              }}
+                            >
+                              {dataColors &&
+                                dataColors.map((cat: any) => (
+                                  <MenuItem key={cat.name} value={cat.name}>
+                                    {cat.name}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </div>
+                        <div className="tw-w-[60%]">
+                          <span className="tw-ml-10"></span>
+                        </div>
+                      </div>
 
-                                                <div className="tw-flex tw-items-center tw-mb-6">
-                                                    <div className="tw-flex tw-items-center tw-w-[90%]">
-                                                        <FormControl fullWidth variant='outlined'>
-                                                            <InputLabel>Material</InputLabel>
-                                                            <Select
-                                                                label='Material'
-                                                                value={selectedMaterial?.sku}
-                                                                error={
-                                                                    !!selectedMaterialError
-                                                                }
-                                                                onChange={(e) => {
-                                                                    const materialValue = e.target.value;
-                                                                    const selectedMaterial = dataMaterials && dataMaterials.find(mat => mat.sku === materialValue);
-                                                                    updateMaterial(selectedMaterial);
-                                                                }}
-                                                            >
-                                                                {dataMaterials && dataMaterials.map((cat: any) => (
-                                                                    <MenuItem key={cat.name} value={cat.sku}>
-                                                                        {cat.name}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </div>
-                                                    <span className="tw-ml-10">${formatPrice(selectedMaterial?.full_price ?? 0)} </span>
-                                                </div>
+                      <div className="tw-flex tw-items-center tw-mb-6">
+                        <div className="tw-flex tw-items-center tw-w-[90%]">
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={customization}
+                                onChange={(e) =>
+                                  updateCustomization(e.target.checked)
+                                }
+                                disabled={!selectedPlan}
+                              />
+                            }
+                            label="¿Personalización?"
+                          />
+                        </div>
+                        <div className="tw-flex tw-items-center tw-w-[10%] tw-bg-red">
+                          <span className="tw-ml-10">
+                            $
+                            {formatPrice(
+                              selectedCustomization?.full_price ?? 0
+                            )}
+                          </span>
+                        </div>
+                      </div>
 
-                                                <div className="tw-flex tw-items-center tw-mb-6">
-                                                    <div className="tw-flex tw-items-center tw-w-[90%]">
-                                                        <FormControl fullWidth variant='outlined' className='tw-mb-6'>
-                                                            <InputLabel>Color</InputLabel>
-                                                            <Select
-                                                                label='Color'
-                                                                value={selectedColor}
-                                                                error={
-                                                                    !!selectedColorError
-                                                                }
-                                                                onChange={(e) => {
-                                                                    const colorValue = e.target.value;
-                                                                    setSelectedColor(colorValue)
-                                                                    updateColor(colorValue);
-                                                                }}
-                                                            >
-                                                                {dataColors && dataColors.map((cat: any) => (
-                                                                    <MenuItem key={cat.name} value={cat.name}>
-                                                                        {cat.name}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
+                      {customization && (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          className="tw-mb-6"
+                        >
+                          <div className="tw-flex tw-justify-between tw-mb-2 tw-mt-4">
+                            <TextField
+                              variant="standard"
+                              label="Nombres"
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <PersonIcon
+                                      style={{
+                                        color: "#02AF9B",
+                                        fontSize: "1.8rem",
+                                        marginRight: "1rem",
+                                      }}
+                                    />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              fullWidth
+                              className="tw-mr-2"
+                              value={customName}
+                              error={!!customNameError}
+                              helperText={customNameError}
+                              onChange={(e) => setCustomName(e.target.value)}
+                            />
 
-                                                    </div>
-                                                    <span className="tw-ml-10"></span>
-                                                </div>
+                            <TextField
+                              variant="standard"
+                              label="Cargo"
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <WorkIcon
+                                      style={{
+                                        color: "#02AF9B",
+                                        fontSize: "1.8rem",
+                                        marginRight: "1rem",
+                                      }}
+                                    />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              fullWidth
+                              className="tw-ml-2"
+                              value={customRole}
+                              error={!!customRoleError}
+                              helperText={customRoleError}
+                              onChange={(e) => setCustomRole(e.target.value)}
+                            />
+                          </div>
+                        </FormControl>
+                      )}
 
-                                                <div className="tw-flex tw-items-center tw-mb-6">
-                                                    <div className="tw-flex tw-items-center tw-w-[90%]">
-                                                        <FormControlLabel
-                                                            control={
-                                                                <Checkbox
-                                                                    checked={customization}
-                                                                    onChange={(e) => updateCustomization(e.target.checked)}
-                                                                    disabled={!selectedPlan}
-                                                                />
-                                                            }
-                                                            label="¿Personalización?"
-                                                        />
-                                                    </div>
-                                                    <div className="tw-flex tw-items-center tw-w-[10%] tw-bg-red">
-                                                        <span className="tw-ml-10">${formatPrice(selectedCustomization?.full_price ?? 0)}</span>
-                                                    </div>
-                                                </div>
-
-                                                {customization && (
-                                                    <FormControl fullWidth variant='outlined' className='tw-mb-6'>
-                                                        <div className='tw-flex tw-justify-between tw-mb-2 tw-mt-4'>
-                                                            <TextField
-                                                                variant='standard'
-                                                                label='Nombres'
-                                                                InputProps={{
-                                                                    startAdornment: (
-                                                                        <InputAdornment position='start'>
-                                                                            <PersonIcon
-                                                                                style={{
-                                                                                    color: '#02AF9B',
-                                                                                    fontSize: '1.8rem',
-                                                                                    marginRight: '1rem',
-                                                                                }}
-                                                                            />
-                                                                        </InputAdornment>
-                                                                    ),
-                                                                }}
-                                                                fullWidth
-                                                                className='tw-mr-2'
-                                                                value={customName}
-                                                                error={!!customNameError}
-                                                                helperText={customNameError}
-                                                                onChange={(e) => setCustomName(e.target.value)}
-                                                            />
-
-                                                            <TextField
-                                                                variant='standard'
-                                                                label='Cargo'
-                                                                InputProps={{
-                                                                    startAdornment: (
-                                                                        <InputAdornment position='start'>
-                                                                            <WorkIcon
-                                                                                style={{
-                                                                                    color: '#02AF9B',
-                                                                                    fontSize: '1.8rem',
-                                                                                    marginRight: '1rem',
-                                                                                }}
-                                                                            />
-                                                                        </InputAdornment>
-                                                                    ),
-                                                                }}
-                                                                fullWidth
-                                                                className='tw-ml-2'
-                                                                value={customRole}
-                                                                error={!!customRoleError}
-                                                                helperText={customRoleError}
-                                                                onChange={(e) => setCustomRole(e.target.value)}
-                                                            />
-                                                        </div>
-                                                    </FormControl>
-                                                )}
-
-                                                <div className='tw-text-right tw-mb-4 tw-pr-14'>
-                                                    <span className="tw-text-lg tw-font-semibold">Total: ${formatPrice(total)}</span>
-                                                </div>
-
-                                            </form>
-                                        </div>
-                                    </div>
-                                    :
-                                    step === 3 ?
-                                        <div className='tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center overflow-y-auto tw-overflow-x-hidden'>
+                      <div className="tw-text-right tw-mb-4 tw-pr-14">
+                        <span className="tw-text-lg tw-font-semibold">
+                          Total: ${formatPrice(total)}
+                        </span>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              ) : step === 3 ? (
+  <div className='tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center overflow-y-auto tw-overflow-x-hidden'>
                                             <div className='tw-w-[90%] tw-h-[90%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5'>
                                                 <h3 className='tw-mb-9'>Agregar Productos</h3>
 
@@ -776,7 +801,7 @@ const CustomersCreateForm = ({ handleReturnForm }: { handleReturnForm: () => voi
                                                                         <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Nombre</th>
                                                                         <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Cantidad</th>
                                                                         <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Precio Venta</th>
-                                                                        <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Precio Categoría ({data && data?.category})</th>
+                                                                        <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'> Precio Distribuidor</th>
                                                                         <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t'>Acciones</th>
                                                                         <th className='tw-px-4 tw-py-2 tw-border-b tw-border-t tw-border-r'>Personalización</th>
                                                                     </tr>
@@ -881,339 +906,463 @@ const CustomersCreateForm = ({ handleReturnForm }: { handleReturnForm: () => voi
                                                         )}
                                                     </div>
 
-                                                    <div className='tw-text-right tw-mb-4 tw-pr-14'>
-                                                        <span className="tw-text-lg tw-font-semibold">Total: ${formatPrice(total)}</span>
-                                                    </div>
+                                                    </div> */}
 
-                                                </form>
-                                            </div>
-                                        </div>
-                                        :
-                                        step === 4 ?
-                                            <div className='tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center overflow-y-auto tw-overflow-x-hidden'>
-                                                <div className='tw-w-[90%] tw-h-[98%] tw-flex-row tw-justify-center tw-justify-items-center tw-mt-4'>
-                                                    <h3 className='tw-mb-9'>Resumen de Planes y Productos</h3>
+                      <div className="tw-text-right tw-mb-4 tw-pr-14">
+                        <span className="tw-text-lg tw-font-semibold">
+                          Total: ${formatPrice(total)}
+                        </span>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              ) : step === 4 ? (
+                <div className="tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center overflow-y-auto tw-overflow-x-hidden">
+                  <div className="tw-w-[90%] tw-h-[98%] tw-flex-row tw-justify-center tw-justify-items-center tw-mt-4">
+                    <h3 className="tw-mb-9">Resumen de Planes y Productos</h3>
 
-                                                    <TableContainer component={Paper} style={{ overflowY: 'auto', marginTop: '35px', marginBottom: '30px' }}>
-                                                        <Table stickyHeader>
-                                                            <TableHead>
-                                                                <TableRow>
-                                                                    <TableCell>Descripción</TableCell>
-                                                                    <TableCell>Cantidad</TableCell>
-                                                                    <TableCell>Precio Venta</TableCell>
-                                                                    <TableCell>Total</TableCell>
-                                                                    <TableCell>Precio Categoría ({data && data?.category})</TableCell>
-                                                                    <TableCell>Acciones</TableCell>
-                                                                </TableRow>
-                                                            </TableHead>
-                                                            <TableBody>
-                                                                {/* Mostrar Plan Seleccionado solo si existe */}
-                                                                {selectedPlan && (
-                                                                    <TableRow>
-                                                                        <TableCell>Plan Seleccionado: {selectedPlan.name}</TableCell>
-                                                                        <TableCell>1</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedPlan.full_price)}`}</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedPlan.full_price)}`}</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedPlan.finalPrice)}`}</TableCell>
-                                                                        <TableCell className='tw-flex tw-justify-start tw-items-center'>
-                                                                            <DeleteIcon
-                                                                                onClick={() => clearSelectedPlan()}
-                                                                                className='tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5'
-                                                                                fontSize="medium"
-                                                                            />
-                                                                        </TableCell>
-                                                                    </TableRow>
-                                                                )}
+                    {/* Tabla combinada para Plan, Materiales, Personalización y Productos */}
+                    <TableContainer
+                      component={Paper}
+                      style={{
+                        overflowY: "auto",
+                        marginTop: "35px",
+                        marginBottom: "30px",
+                      }}
+                    >
+                      <Table stickyHeader>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell className="tw-bg-gray-200 tw-font-bold">
+                              Descripción
+                            </TableCell>
+                            <TableCell className="tw-bg-gray-200 tw-font-bold tw-text-center">
+                              Cantidad
+                            </TableCell>
+                            <TableCell className="tw-bg-gray-200 tw-font-bold tw-text-right">
+                              Precio Venta
+                            </TableCell>
+                            <TableCell className="tw-bg-gray-200 tw-font-bold tw-text-right">
+                              Total
+                            </TableCell>
+                            <TableCell className="tw-bg-gray-200 tw-font-bold tw-text-right">
+                              Precio Distribuidor
+                            </TableCell>
+                            <TableCell className="tw-bg-gray-200 tw-font-bold">
+                              Acciones
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {/* Mostrar Plan Seleccionado solo si existe */}
+                          {selectedPlan && (
+                            <TableRow>
+                              <TableCell>
+                                Plan Seleccionado: {selectedPlan.name}
+                              </TableCell>
+                              <TableCell className="tw-text-center">
+                                1
+                              </TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedPlan.full_price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedPlan.full_price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedPlan.finalPrice
+                              )}`}</TableCell>
+                              <TableCell className="tw-flex tw-justify-start tw-items-center">
+                                <DeleteIcon
+                                  onClick={() => clearSelectedPlan()}
+                                  className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
+                                  fontSize="medium"
+                                />
+                              </TableCell>
+                            </TableRow>
+                          )}
 
-                                                                {/* Mostrar Materiales Seleccionados solo si existe */}
-                                                                {selectedMaterial && (
-                                                                    <TableRow>
-                                                                        <TableCell>Materiales Seleccionados: {selectedMaterial.name}</TableCell>
-                                                                        <TableCell>1</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedMaterial.full_price)}`}</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedMaterial.full_price)}`}</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedMaterial.finalPrice)}`}</TableCell>
-                                                                        <TableCell className='tw-flex tw-justify-start tw-items-center'>
-                                                                            <DeleteIcon
-                                                                                onClick={() => clearSelectedMaterial()}
-                                                                                className='tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5'
-                                                                                fontSize="medium"
-                                                                            />
-                                                                        </TableCell>
-                                                                    </TableRow>
-                                                                )}
+                          {/* Mostrar Materiales Seleccionados solo si existe */}
+                          {selectedMaterial && (
+                            <TableRow>
+                              <TableCell>
+                                Materiales Seleccionados:{" "}
+                                {selectedMaterial.name}
+                              </TableCell>
+                              <TableCell className="tw-text-center">
+                                1
+                              </TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedMaterial.full_price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedMaterial.full_price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedMaterial.finalPrice
+                              )}`}</TableCell>
+                              <TableCell className="tw-flex tw-justify-start tw-items-center">
+                                <DeleteIcon
+                                  onClick={() => clearSelectedMaterial()}
+                                  className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
+                                  fontSize="medium"
+                                />
+                              </TableCell>
+                            </TableRow>
+                          )}
 
-                                                                {/* Mostrar Personalización Seleccionada solo si existe */}
-                                                                {selectedCustomization && (
-                                                                    <TableRow>
-                                                                        <TableCell>Personalización</TableCell>
-                                                                        <TableCell>1</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedCustomization.full_price)}`}</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedCustomization.full_price)}`}</TableCell>
-                                                                        <TableCell>{`$${formatPrice(selectedCustomization.finalPrice)}`}</TableCell>
-                                                                        <TableCell className='tw-flex tw-justify-start tw-items-center'>
-                                                                            <DeleteIcon
-                                                                                onClick={() => clearSelectedCustomization()}
-                                                                                className='tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5'
-                                                                                fontSize="medium"
-                                                                            />
-                                                                        </TableCell>
-                                                                    </TableRow>
-                                                                )}
+                          {/* Mostrar Personalización Seleccionada solo si existe */}
+                          {selectedCustomization && (
+                            <TableRow>
+                              <TableCell>Personalización</TableCell>
+                              <TableCell className="tw-text-center">
+                                1
+                              </TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedCustomization.full_price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedCustomization.full_price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedCustomization.finalPrice
+                              )}`}</TableCell>
+                              <TableCell className="tw-flex tw-justify-start tw-items-center">
+                                <DeleteIcon
+                                  onClick={() => clearSelectedCustomization()}
+                                  className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
+                                  fontSize="medium"
+                                />
+                              </TableCell>
+                            </TableRow>
+                          )}
 
-                                                                {/* Productos Agregados */}
-                                                                {selectedProducts.length > 0 ? (
-                                                                    selectedProducts.map((product, index) => (
-                                                                        <>
-                                                                            <TableRow key={index}>
-                                                                                <TableCell>{product.name}</TableCell>
-                                                                                <TableCell>{product.quantity}</TableCell>
-                                                                                <TableCell>${formatPrice(product.full_price)}</TableCell>
-                                                                                <TableCell>${formatPrice(product.full_price * product.quantity)}</TableCell>
-                                                                                <TableCell>${formatPrice(product.categoryPrice)}</TableCell>
-                                                                                <TableCell className='tw-flex tw-justify-start tw-items-center'>
-                                                                                    <DeleteIcon
-                                                                                        onClick={() => handleRemoveProduct(index)}
-                                                                                        className='tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5'
-                                                                                        fontSize="medium"
-                                                                                    />
-                                                                                </TableCell>
-                                                                            </TableRow>
-                                                                            {product.hasPersonalization && (
-                                                                                <TableRow>
-                                                                                    <TableCell className='tw-text-gray-600'>Personalización: {product.name} </TableCell>
-                                                                                    <TableCell className='tw-text-gray-600'>1</TableCell>
-                                                                                    <TableCell className='tw-text-gray-600'>${formatPrice(product?.full_price_custom || 0)}</TableCell>
-                                                                                    <TableCell className='tw-text-gray-600'>${formatPrice(product?.full_price_custom || 0)}</TableCell>
-                                                                                    <TableCell className='tw-text-gray-600'>${formatPrice(product?.full_price_Discount || 0)}</TableCell>
-                                                                                    <TableCell className='tw-flex tw-justify-start tw-items-center'>
-                                                                                        <DeleteIcon
-                                                                                            //onClick={() => handleRemoveProduct(index)}
-                                                                                            className='tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5'
-                                                                                            fontSize="medium"
-                                                                                        />
-                                                                                    </TableCell>
-                                                                                </TableRow>
-                                                                            )}
-                                                                        </>
-                                                                    ))
-                                                                ) : (
-                                                                    null
-                                                                )}
-                                                            </TableBody>
-                                                        </Table>
+                          {/* Productos Agregados */}
+                          {selectedProducts.length > 0
+                            ? selectedProducts.map((product, index) => (
+                                <>
+                                  <TableRow key={index}>
+                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell className="tw-text-center">
+                                      {product.quantity}
+                                    </TableCell>
+                                    <TableCell className="tw-text-right">
+                                      ${formatPrice(product.full_price)}
+                                    </TableCell>
+                                    <TableCell className="tw-text-right">
+                                      $
+                                      {formatPrice(
+                                        product.full_price * product.quantity
+                                      )}
+                                    </TableCell>
+                                    <TableCell className="tw-text-right">
+                                      ${formatPrice(product.categoryPrice)}
+                                    </TableCell>
+                                    <TableCell className="tw-flex tw-justify-start tw-items-center">
+                                      <DeleteIcon
+                                        onClick={() =>
+                                          handleRemoveProduct(index)
+                                        }
+                                        className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
+                                        fontSize="medium"
+                                      />
+                                    </TableCell>
+                                  </TableRow>
+                                  {product.hasPersonalization && (
+                                    <TableRow>
+                                      <TableCell className="tw-text-gray-600">
+                                        Personalización: {product.name}
+                                      </TableCell>
+                                      <TableCell className="tw-text-gray-600 tw-text-center">
+                                        1
+                                      </TableCell>
+                                      <TableCell className="tw-text-gray-600 tw-text-right">
+                                        $
+                                        {formatPrice(
+                                          product?.full_price_custom || 0
+                                        )}
+                                      </TableCell>
+                                      <TableCell className="tw-text-gray-600 tw-text-right">
+                                        $
+                                        {formatPrice(
+                                          product?.full_price_custom || 0
+                                        )}
+                                      </TableCell>
+                                      <TableCell className="tw-text-gray-600 tw-text-right">
+                                        $
+                                        {formatPrice(
+                                          product?.full_price_Discount || 0
+                                        )}
+                                      </TableCell>
+                                      <TableCell className="tw-flex tw-justify-start tw-items-center">
+                                        <DeleteIcon
+                                          className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
+                                          fontSize="medium"
+                                        />
+                                      </TableCell>
+                                    </TableRow>
+                                  )}
+                                </>
+                              ))
+                            : null}
+                        </TableBody>
+                      </Table>
 
-                                                        {/* Total acumulado */}
-                                                        <div className='tw-text-right tw-mt-5 tw-mb-3 tw-pr-7'>
-                                                            <span className="tw-text-lg tw-font-semibold">SubTotal: ${formatPrice(total)}</span>
-                                                        </div>
-                                                        <div className='tw-text-right tw-mt-5 tw-mb-3 tw-pr-7'>
-                                                            <span className="tw-text-lg tw-font-semibold">Ahorro: ${formatPrice(total - totalSavings)}</span>
-                                                        </div>
-                                                        <div className='tw-text-right tw-mt-5 tw-mb-6 tw-pr-7'>
-                                                            <span className="tw-text-lg tw-font-semibold">Total con descuento: ${formatPrice(totalSavings)}</span>
-                                                        </div>
-                                                    </TableContainer>
-                                                </div>
-                                            </div>
-                                            :
-                                            <div className='tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-8 tw-px-10 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                                <div className='tw-w-full tw-mb-0'>
-                                                    <h3 className='tw-mb-9'>Datos del Comprador</h3>
+                      {/* Total acumulado debajo del Precio Distribuidor */}
+                      <div className="tw-text-right tw-mt-5 tw-mb-3 tw-pr-7">
+                        <span className="tw-text-lg tw-font-semibold">
+                          SubTotal: ${formatPrice(total)}
+                        </span>
+                      </div>
+                      <div className="tw-text-right tw-mt-5 tw-mb-3 tw-pr-7">
+                        <span className="tw-text-lg tw-font-semibold">
+                          Ahorro: ${formatPrice(total - totalSavings)}
+                        </span>
+                      </div>
+                      <div className="tw-text-right tw-mt-5 tw-mb-6 tw-pr-7">
+                        <span className="tw-text-lg tw-font-semibold">
+                          Total con descuento: ${formatPrice(totalSavings)}
+                        </span>
+                      </div>
+                    </TableContainer>
+                  </div>
+                </div>
+              ) : (
+                <div className="tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-8 tw-px-10 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center">
+                  <div className="tw-w-full tw-mb-0">
+                    <h3 className="tw-mb-9">Datos del Comprador</h3>
 
-                                                    <div className='tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-10'>
-                                                        <TextField
-                                                            variant='standard'
-                                                            label='Nombre'
-                                                            InputProps={{
-                                                                startAdornment: (
-                                                                    <InputAdornment position='start'>
-                                                                        <PersonIcon style={{ color: '#02AF9B', fontSize: '1.8rem', marginRight: '1rem' }} />
-                                                                    </InputAdornment>
-                                                                ),
-                                                            }}
-                                                            fullWidth
-                                                            value={deliveryFirstName}
-                                                            error={!!deliveryFirstNameError}
-                                                            helperText={deliveryFirstNameError}
-                                                            onChange={(e) => setDeliveryFirstName(e.target.value)}
-                                                        />
+                    {/* <h2 className='tw-text-xl tw-font-semibold tw-mb-7 tw-text-center tw-pt-1'></h2> */}
+                    <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-10">
+                      <TextField
+                        variant="standard"
+                        label="Nombre"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PersonIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        fullWidth
+                        value={deliveryFirstName}
+                        error={!!deliveryFirstNameError}
+                        helperText={deliveryFirstNameError}
+                        onChange={(e) => setDeliveryFirstName(e.target.value)}
+                      />
 
-                                                        <TextField
-                                                            variant='standard'
-                                                            label='Apellido'
-                                                            InputProps={{
-                                                                startAdornment: (
-                                                                    <InputAdornment position='start'>
-                                                                        <PersonIcon style={{ color: '#02AF9B', fontSize: '1.8rem', marginRight: '1rem' }} />
-                                                                    </InputAdornment>
-                                                                ),
-                                                            }}
-                                                            fullWidth
-                                                            value={deliveryLastName}
-                                                            error={!!deliveryLastNameError}
-                                                            helperText={deliveryLastNameError}
-                                                            onChange={(e) => setDeliveryLastName(e.target.value)}
-                                                        />
+                      <TextField
+                        variant="standard"
+                        label="Apellido"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PersonIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        fullWidth
+                        value={deliveryLastName}
+                        error={!!deliveryLastNameError}
+                        helperText={deliveryLastNameError}
+                        onChange={(e) => setDeliveryLastName(e.target.value)}
+                      />
 
-                                                        <FormControl fullWidth variant='outlined'>
-                                                            <InputLabel>Tipo de Identificación</InputLabel>
-                                                            <Select
-                                                                value={deliveryIdType}
-                                                                onChange={(e) => setDeliveryIdType(e.target.value)}
-                                                                label='Tipo de Identificación'
-                                                                error={!!deliveryIdTypeError}
-                                                            >
-                                                                <MenuItem value="AS">AS</MenuItem>
-                                                                <MenuItem value="CC">CC</MenuItem>
-                                                                <MenuItem value="CD">CD</MenuItem>
-                                                                <MenuItem value="CE">CE</MenuItem>
-                                                                <MenuItem value="CN">CN</MenuItem>
-                                                                <MenuItem value="MS">MS</MenuItem>
-                                                                <MenuItem value="NIT">NIT</MenuItem>
-                                                                <MenuItem value="PA">PA</MenuItem>
-                                                                <MenuItem value="PE">PE</MenuItem>
-                                                                <MenuItem value="RC">RC</MenuItem>
-                                                            </Select>
-                                                            {deliveryIdTypeError && <p className='error-text'>{deliveryIdTypeError}</p>}
-                                                        </FormControl>
+                      <FormControl fullWidth variant="outlined">
+                        <InputLabel>Tipo de Identificación</InputLabel>
+                        <Select
+                          value={deliveryIdType}
+                          onChange={(e) => setDeliveryIdType(e.target.value)}
+                          label="Tipo de Identificación"
+                          error={!!deliveryIdTypeError}
+                        >
+                          <MenuItem value="AS">AS</MenuItem>
+                          <MenuItem value="CC">CC</MenuItem>
+                          <MenuItem value="CD">CD</MenuItem>
+                          <MenuItem value="CE">CE</MenuItem>
+                          <MenuItem value="CN">CN</MenuItem>
+                          <MenuItem value="MS">MS</MenuItem>
+                          <MenuItem value="NIT">NIT</MenuItem>
+                          <MenuItem value="PA">PA</MenuItem>
+                          <MenuItem value="PE">PE</MenuItem>
+                          <MenuItem value="RC">RC</MenuItem>
+                        </Select>
+                        {deliveryIdTypeError && (
+                          <p className="error-text">{deliveryIdTypeError}</p>
+                        )}
+                      </FormControl>
 
-                                                        <TextField
-                                                            variant='standard'
-                                                            label='Número de Documento'
-                                                            InputProps={{
-                                                                startAdornment: (
-                                                                    <InputAdornment position='start'>
-                                                                        <BadgeIcon
-                                                                            style={{
-                                                                                color: '#02AF9B',
-                                                                                fontSize: '1.8rem',
-                                                                                marginRight: '1rem',
-                                                                            }}
-                                                                        />
-                                                                    </InputAdornment>
-                                                                ),
-                                                            }}
-                                                            fullWidth
-                                                            value={deliveryIdNumber}
-                                                            error={!!deliveryIdNumberError}
-                                                            helperText={deliveryIdNumberError}
-                                                            onChange={(e) => setDeliveryIdNumber(e.target.value)}
-                                                        />
+                      <TextField
+                        variant="standard"
+                        label="Número de Documento"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <BadgeIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        fullWidth
+                        value={deliveryIdNumber}
+                        error={!!deliveryIdNumberError}
+                        helperText={deliveryIdNumberError}
+                        onChange={(e) => setDeliveryIdNumber(e.target.value)}
+                      />
 
-                                                        <TextField
-                                                            variant='standard'
-                                                            label='Teléfono'
-                                                            InputProps={{
-                                                                startAdornment: (
-                                                                    <InputAdornment position='start'>
-                                                                        <PhoneIcon style={{ color: '#02AF9B', fontSize: '1.8rem', marginRight: '1rem' }} />
-                                                                    </InputAdornment>
-                                                                ),
-                                                            }}
-                                                            fullWidth
-                                                            value={deliveryPhoneNumber}
-                                                            error={!!deliveryPhoneNumberError}
-                                                            helperText={deliveryPhoneNumberError}
-                                                            onChange={(e) => setDeliveryPhoneNumber(e.target.value)}
-                                                        />
+                      <TextField
+                        variant="standard"
+                        label="Teléfono"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PhoneIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        fullWidth
+                        value={deliveryPhoneNumber}
+                        error={!!deliveryPhoneNumberError}
+                        helperText={deliveryPhoneNumberError}
+                        onChange={(e) => setDeliveryPhoneNumber(e.target.value)}
+                      />
 
-                                                        <TextField
-                                                            variant='standard'
-                                                            label='Correo Electrónico'
-                                                            InputProps={{
-                                                                startAdornment: (
-                                                                    <InputAdornment position='start'>
-                                                                        <EmailIcon style={{ color: '#02AF9B', fontSize: '1.8rem', marginRight: '1rem' }} />
-                                                                    </InputAdornment>
-                                                                ),
-                                                            }}
-                                                            fullWidth
-                                                            value={deliveryEmail}
-                                                            error={!!deliveryEmailError}
-                                                            helperText={deliveryEmailError}
-                                                            onChange={(e) => setDeliveryEmail(e.target.value)}
-                                                        />
-                                                    </div>
+                      <TextField
+                        variant="standard"
+                        label="Correo Electrónico"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <EmailIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        fullWidth
+                        value={deliveryEmail}
+                        error={!!deliveryEmailError}
+                        helperText={deliveryEmailError}
+                        onChange={(e) => setDeliveryEmail(e.target.value)}
+                      />
+                    </div>
 
-                                                    <h3 className='tw-mb-9'>Datos de la Dirección de Envío</h3>
-                                                    <div className='tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-5'>
-                                                        <FormControl fullWidth variant='outlined'>
-                                                            <InputLabel>País</InputLabel>
-                                                            <Select
-                                                                value={countryDelivery}
-                                                                label='País'
-                                                                error={!!shippingCountryError}
-                                                                onChange={(e) => handleChangeCountryDelivery(e)}
-                                                            >
-                                                                {countriesDelivery && countriesDelivery.map((country: any) => (
-                                                                    <MenuItem key={country.label} value={country.label}>
-                                                                        {country.label}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
+                    <h3 className="tw-mb-9">Datos de la Dirección de Envío</h3>
 
-                                                        <FormControl fullWidth variant='outlined'>
-                                                            <InputLabel>Departamento/Estado</InputLabel>
-                                                            <Select
-                                                                value={stateDelivery}
-                                                                label='Departamento/Estado'
-                                                                error={!!shippingCityError}
-                                                                onChange={handleChangeDepartamentDelivery}
-                                                            >
+                    {/* <h2 className='tw-text-xl tw-font-semibold tw-mb-7 tw-text-center tw-pt-1'>Datos de la Dirección de Envío</h2> */}
+                    <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-5">
+                      <FormControl fullWidth variant="outlined">
+                        <InputLabel>País</InputLabel>
+                        <Select
+                          value={countryDelivery}
+                          label="País"
+                          error={!!countryError}
+                          onChange={(e) => handleChangeCountryDelivery(e)}
+                        >
+                          {countriesDelivery &&
+                            countriesDelivery.map((country: any) => (
+                              <MenuItem
+                                key={country.label}
+                                value={country.label}
+                              >
+                                {country.label}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
 
-                                                                {departmentsDelivery && departmentsDelivery.map((dep: any) => (
-                                                                    <MenuItem key={dep.departamento} value={dep.departamento}>
-                                                                        {dep.departamento}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </div>
+                      <FormControl fullWidth variant="outlined">
+                        <InputLabel>Departamento/Estado</InputLabel>
+                        <Select
+                          value={stateDelivery}
+                          label="Departamento/Estado"
+                          error={!!shippingCityError}
+                          onChange={handleChangeDepartamentDelivery}
+                        >
+                          {departmentsDelivery &&
+                            departmentsDelivery.map((dep: any) => (
+                              <MenuItem
+                                key={dep.departamento}
+                                value={dep.departamento}
+                              >
+                                {dep.departamento}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </div>
 
-                                                    <div className='tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-8'>
-                                                        <FormControl fullWidth variant='outlined'>
-                                                            <InputLabel>Ciudad</InputLabel>
+                                                  
 
-                                                            <Select
-                                                                value={cityDelivery}
-                                                                onChange={handleChangeCityDelivery}
-                                                                label='Departamento/Estado'
-                                                                error={!!shippingStateError}
-                                                            >
-                                                                {citiesDelivery && citiesDelivery.map((city: any) => (
-                                                                    <MenuItem key={city} value={city}>
-                                                                        {city}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
+                    <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-8">
+                      <FormControl fullWidth variant="outlined">
+                        <InputLabel>Ciudad</InputLabel>
 
-                                                        <TextField
-                                                            variant='standard'
-                                                            label='Código Postal'
-                                                            InputProps={{
-                                                                startAdornment: (
-                                                                    <InputAdornment position='start'>
-                                                                        <LocationOnIcon
-                                                                            style={{
-                                                                                color: '#02AF9B',
-                                                                                fontSize: '1.8rem',
-                                                                                marginRight: '1rem',
-                                                                            }}
-                                                                        />
-                                                                    </InputAdornment>
-                                                                ),
-                                                            }}
-                                                            fullWidth
-                                                            value={postalCode}
-                                                            error={!!postalCodeError}
-                                                            helperText={postalCodeError}
-                                                            onChange={(e) => setPostalCode(e.target.value)}
-                                                        />
-                                                    </div>
+                        <Select
+                          value={cityDelivery}
+                          onChange={handleChangeCityDelivery}
+                          label="Departamento/Estado"
+                          error={!!shippingStateError}
+                        >
+                          {citiesDelivery &&
+                            citiesDelivery.map((city: any) => (
+                              <MenuItem key={city} value={city}>
+                                {city}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
 
+                      <TextField
+                        variant="standard"
+                        label="Código Postal"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <LocationOnIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        fullWidth
+                        value={postalCode}
+                        error={!!postalCodeError}
+                        helperText={postalCodeError}
+                        onChange={(e) => setPostalCode(e.target.value)}
+                      />
+                    </div>
                                                     <div className='tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-8'>
                                                         <TextField
                                                             variant='standard'

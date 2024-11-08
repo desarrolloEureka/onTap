@@ -150,6 +150,15 @@ export interface Subscription {
   text_period?: string;
 }
 
+export interface PaymentData {
+  id: number;
+  paymentDate: string;
+  name: string;
+  document: string;
+  email: string;
+  deliveryStatus: string;
+}
+
 export interface SocialNetworks {
   id: string;
   name: string;
