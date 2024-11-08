@@ -290,6 +290,7 @@ export const saveOrders = async (dataSave: any) => {
 
     await setDoc(collectionRef, {
       ...dataSave,
+      paymentDate: ''
     });
 
     return { success: true, message: "Orden creado correctamente" };
@@ -307,6 +308,7 @@ export const saveInvoices = async (dataSave: any) => {
 
     await setDoc(collectionRef, {
       ...dataSave,
+      paymentDate: ''
     });
 
     return { success: true, message: "Factura creado correctamente" };
@@ -334,9 +336,17 @@ export const UpdateOrdersInvoices = async (idInvoice: any, idOrden: any) => {
       return { success: false, message: "La orden no existe" };
     }
 
-    // Actualización de la factura y la orden
-    await updateDoc(collectionInvoiceRef, { status: "PAID" });
-    await updateDoc(collectionOrdenRef, { status: "APPROVED" });
+    const paymentDate = moment().format();
+
+    await updateDoc(collectionInvoiceRef, {
+      status: "PAID",
+      paymentDate: paymentDate || ''
+    });
+
+    await updateDoc(collectionOrdenRef, {
+      status: "APPROVED",
+      paymentDate: paymentDate || ''
+    });
 
     return { success: true, message: "Factura actualizada correctamente" };
   } catch (error) {

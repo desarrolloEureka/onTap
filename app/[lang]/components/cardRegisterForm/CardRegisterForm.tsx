@@ -389,6 +389,7 @@ const CardRegisterForm = () => {
                                                     onChange={handleInputChange}
                                                     error={!!idNumberError}
                                                     helperText={idNumberError}
+                                                    disabled={loading}
                                                 />
                                             </div>
                                         </div>

@@ -151,6 +151,8 @@ const CardRegisterFormHook = () => {
         try {
             if (!validateFormPayment()) return;
 
+            setLoading(true);
+
             const createdAt = moment().format();
             const formattedData = {
                 number: cardInfo.number,
@@ -184,6 +186,7 @@ const CardRegisterFormHook = () => {
                 setIsModalOpen(false);
                 handleReset();
             } else {
+                setIsModalOpen(false);
                 await Swal.fire({
                     position: "center",
                     icon: "error",
@@ -194,6 +197,7 @@ const CardRegisterFormHook = () => {
             }
 
         } catch (error) {
+            setIsModalOpen(false);
             await Swal.fire({
                 position: "center",
                 icon: "error",
@@ -204,6 +208,7 @@ const CardRegisterFormHook = () => {
         } finally {
             setFlag(!flag);
             setIsSubmitting(false);
+            setIsModalOpen(false);
         }
     };
 
