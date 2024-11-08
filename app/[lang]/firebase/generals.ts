@@ -18,6 +18,7 @@ import {
   Templates,
   Notification,
   Subscription,
+  Cards,
 } from "@/types/home";
 import { AllRefPropsFirebase } from "@/types/userFirebase";
 import {
@@ -32,6 +33,7 @@ import {
   where,
 } from "firebase/firestore";
 import { dataBase } from "./firebaseConfig";
+import { GetUser } from "@/reactQuery/users";
 
 const allRef = ({ ref }: AllRefPropsFirebase) => collection(dataBase, ref);
 export const getTemplate = async ({ id }: { id: string }) => {
@@ -226,6 +228,20 @@ export const getAllDistributors = async () => {
   }
 
   return distributorsData;
+};
+
+export const getAllCards = async (idUser: any) => {
+  const colorsData: Cards[] = [];
+  const cardsQuery = query(allRef({ ref: "cards" }), where("idUser", "==", idUser));
+  const querySnapshot = await getDocs(cardsQuery);
+
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Cards;
+      colorsData.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return colorsData;
 };
 
 /* export const getAllDistributors = async () => {

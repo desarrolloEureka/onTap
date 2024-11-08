@@ -45,6 +45,46 @@ export const getUserByIdFireStore = async (user: string) =>
 
 export const getAllUsers = async () => await getDocs(allRef({ ref: "users" }));
 
+export const getAllOrders = async () => await getDocs(collection(dataBase, "orders"));
+
+// Función que mezcla los datos de los usuarios con las órdenes y las facturas
+export const getUsersWithOrdersAndInvoices = async () => {
+  const usersSnapshot = await getAllUsers();
+  const usersData = usersSnapshot.docs.map((doc) => doc.data());
+
+  const ordersSnapshot = await getAllOrders();
+  const ordersData = ordersSnapshot.docs.map((doc) => doc.data());
+
+  const invoicesSnapshot = await getDocs(collection(dataBase, "invoices"));
+  const invoicesData = invoicesSnapshot.docs.map((doc) => doc.data());
+
+  // Mezclar los usuarios con sus órdenes y facturas usando uid y userUid como clave común
+  const usersWithOrdersAndInvoices = usersData.map((user) => {
+    // Buscar una única orden que coincida con el uid del usuario
+    const userOrder = ordersData.find(
+      (order) => order.userUid === user.uid
+    );
+
+    // Buscar una única factura que coincida con el userUid del usuario
+    const userInvoice = invoicesData.find(
+      (invoice) => invoice.userUid === user.uid
+    );
+
+    if (userOrder && userInvoice) {
+      return {
+        ...user,
+        userOrder,
+        userInvoice,
+      };
+    }
+    return null;
+  }).filter(user => user !== null);
+
+  return usersWithOrdersAndInvoices;
+};
+
+
+
 export const registerUserData = async (data: any) => {
   const docRef = await setDoc(doc(dataBase, "users", data.uid), data);
   return docRef;

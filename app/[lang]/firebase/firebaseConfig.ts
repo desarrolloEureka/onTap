@@ -23,6 +23,11 @@ export const firebaseConfig = {
   backendBaseUrl: process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
 };
 
+export const wompiConfig = {
+  WOMPI_PUBLIC_KEY: process.env.NEXT_PUBLIC_WOMPI_KEY,
+  WOMPI_PRIVATE_KEY: process.env.NEXT_PUBLIC_WOMPI_PRIVATE_KEY,
+};
+
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const dataBase = getFirestore(app);

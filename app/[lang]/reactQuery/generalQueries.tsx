@@ -17,6 +17,11 @@ import {
   updateSubscription,
   saveSubscription,
   saveNotification,
+  saveOrders,
+  saveInvoices,
+  UpdateOrdersInvoices,
+  updateCards,
+  saveCards,
 } from "@/firebase/Documents";
 
 //Categorias
@@ -80,6 +85,24 @@ export const saveCustomizationQuerie = async (dataSave: any) => {
   return res;
 };
 
+//Orden
+export const saveOrderQuerie = async (dataSave: any) => {
+  const res = await saveOrders(dataSave);
+  return res;
+};
+
+//Facturas
+export const saveInvoiceQuerie = async (dataSave: any) => {
+  const res = await saveInvoices(dataSave);
+  return res;
+};
+
+//Actualizar Estado factura y orden
+export const UpdateOrdersInvoicesQuerie = async (idInvoice: any, idOrden: any) => {
+  const res = await UpdateOrdersInvoices(idInvoice, idOrden);
+  return res;
+};
+
 export const UpdateCustomizationQuerie = async (
   dataSave: any,
   idCustomization: any
@@ -125,5 +148,16 @@ export const updateSubscriptionQuery = async (
   idSubscription: any
 ) => {
   const res = await updateSubscription(dataSend, idSubscription);
+  return res;
+};
+
+//Tarjetas
+export const saveCardsQuerie = async (dataSave: any) => {
+  const res = await saveCards(dataSave);
+  return res;
+};
+
+export const UpdateCardsQuerie = async (dataSave: any, idCard: any) => {
+  const res = await updateCards(dataSave, idCard);
   return res;
 };

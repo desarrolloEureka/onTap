@@ -56,12 +56,17 @@ import Suscriptions from "@/components/subscription/subscription";
 import ChangePassword from "@/components/changePassword/changePassword";
 import EditProfile from "@/components/editProfile/editProfile";
 import PaymetsMadeReport from "@/components/paymetsMadeReport/paymetsMadeReport";
+import PaymentForm from "@/components/customersDistributor/PaymentForm";
+import CardRegisterForm from "@/components/cardRegisterForm/CardRegisterForm";
+import PendingPaymentReports from "@/components/pendingPaymentReports/PendingPaymentReports";
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
   const [value, setValue] = React.useState(0);
   const { logOut } = LogOut();
   const [isDistributor, setIsDistributor] = useState(false);
+  const [userDataPay, setUserDataPay] = useState(null);
+  const [isIndividualPay, setIsIndividualPay] = useState(false);
 
   useEffect(() => {
     // Verificar si estamos en el lado del cliente
@@ -80,6 +85,16 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
   const handleCreateUser = () => {
     setValue(parseInt("17", 10));
+  };
+
+  const handlePayUser = (userData: any, isIndividual: boolean) => {
+    setUserDataPay(userData);
+    setIsIndividualPay(isIndividual);
+    setValue(parseInt("22", 10));
+  };
+
+  const handleReturnForm = () => {
+    setValue(parseInt("16", 10));
   };
 
   // Función para manejar el clic en la imagen
@@ -292,7 +307,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     ) : (
                       <>
                         <NavDropdown.Item
-                          eventKey="22"
+                          eventKey="25"
                           style={{ fontSize: 15 }}
                         >
                           <PaymentIcon
@@ -301,7 +316,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           />
                           {dictionary?.backOffice.PaymentsMade}
                         </NavDropdown.Item>
-                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <NavDropdown.Item eventKey="24" style={{ fontSize: 15 }}>
                           <PaymentIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
@@ -435,6 +450,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       />
                       Editar Perfil
                     </NavDropdown.Item>
+                    <NavDropdown.Item eventKey="23" style={{ fontSize: 15 }}>
+                      <PaymentIcon
+                        fontSize="small"
+                        sx={{ marginRight: "4px" }}
+                      />
+                      {dictionary?.backOffice?.LableCards}
+                    </NavDropdown.Item>
                     <NavDropdown.Item onClick={logOut} style={{ fontSize: 15 }}>
                       <LogoutIcon
                         fontSize="small"
@@ -483,14 +505,17 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 14 && <PersonalizationRegisterForm params={{ lang }} />}
         {value === 15 && <DistributorRegisterForm params={{ lang }} />}
         {value === 16 && (
-          <CustomersDistributorForm handleCreateUser={handleCreateUser} />
+          <CustomersDistributorForm handleCreateUser={handleCreateUser} handlePayUser={handlePayUser} />
         )}
-        {value === 17 && <CustomersCreateForm />}
+        {value === 17 && <CustomersCreateForm handleReturnForm={handleReturnForm} />}
         {value === 18 && <Notifications params={{ lang }} />}
         {value === 19 && <Suscriptions params={{ lang }} />}
         {value === 20 && <ChangePassword params={{ lang }} />}
         {value === 21 && <EditProfile params={{ lang }} />}
-        {value === 22 && <PaymetsMadeReport params={{ lang }} />}
+        {value === 22 && <PaymentForm userDataPay={userDataPay} isIndividualPay={isIndividualPay} handleReturnForm={handleReturnForm} />}
+        {value === 23 && <CardRegisterForm />}
+        {value === 24 && <PendingPaymentReports handlePayUser={handlePayUser} />}
+        {value === 25 && <PaymetsMadeReport params={{ lang }} />}
       </Box>
 
       {/* Footer */}

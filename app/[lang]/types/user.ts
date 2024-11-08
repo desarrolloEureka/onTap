@@ -32,6 +32,7 @@ export interface UserData {
   dni: string;
   preview: string;
   category?: string;
+  idDistributor?: any;
 }
 
 export interface User {
