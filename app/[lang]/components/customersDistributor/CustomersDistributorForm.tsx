@@ -363,6 +363,46 @@ const CustomersDistributorForm = ({
           }}
         >
           <Button
+            className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mx-5 tw-mr-4"
+            type="submit"
+            sx={{
+              padding: "0",
+              minWidth: "auto",
+              textTransform: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            style={{ textTransform: "none" }}
+            onClick={handleDateChange}
+          >
+            <FilterListIcon
+              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+            />
+            <Typography style={{ color: "#02AF9B" }}>Filtrar</Typography>
+          </Button>
+
+          <Button
+            className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
+            type="submit"
+            sx={{
+              padding: "0",
+              minWidth: "auto",
+              textTransform: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            style={{ textTransform: "none" }}
+            onClick={handleDeleteFilter}
+          >
+            <DeleteIcon
+              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+            />
+            <Typography style={{ color: "#02AF9B" }}>Borrar</Typography>
+          </Button>
+
+          <Button
             className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
             type="submit"
             sx={{
@@ -448,7 +488,9 @@ const CustomersDistributorForm = ({
               }}
             />
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", paddingRight: 5 }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", paddingRight: 110 }}
+          >
             <div
               style={{
                 height: "100%",
@@ -488,46 +530,6 @@ const CustomersDistributorForm = ({
                 />
               </div>
             </div>
-
-            <Button
-              className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mx-5 tw-mr-9"
-              type="submit"
-              sx={{
-                padding: "0",
-                minWidth: "auto",
-                textTransform: "none",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              style={{ textTransform: "none" }}
-              onClick={handleDateChange}
-            >
-              <FilterListIcon
-                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-              />
-              <Typography style={{ color: "#02AF9B" }}>Filtrar</Typography>
-            </Button>
-
-            <Button
-              className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
-              type="submit"
-              sx={{
-                padding: "0",
-                minWidth: "auto",
-                textTransform: "none",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              style={{ textTransform: "none" }}
-              onClick={handleDeleteFilter}
-            >
-              <DeleteIcon
-                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-              />
-              <Typography style={{ color: "#02AF9B" }}>Borrar</Typography>
-            </Button>
           </Box>
         </Box>
       </GridToolbarContainer>
@@ -577,6 +579,13 @@ const CustomersDistributorForm = ({
             disableColumnFilter
             disableRowSelectionOnClick
             ignoreDiacritics={true}
+            sx={{
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: "#dddddd",
+                color: "#000000",
+                fontWeight: "bold",
+              },
+            }}
           />
         </div>
       </div>

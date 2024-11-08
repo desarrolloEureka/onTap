@@ -304,6 +304,13 @@ export interface Dictionary {
     phoneNumber: string;
     profileUpdated: string;
     back: string;
+    documentType: string;
+    dni: string;
+    email: string;
+  };
+
+  changePassword: {
+    updatePassword: string;
   };
 
   modalLogOut: {

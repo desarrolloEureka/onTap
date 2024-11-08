@@ -7,6 +7,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Locale } from "i18n-config";
 import ChangePasswordHook from "./hooks/changePasswordHook";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SaveIcon from "@mui/icons-material/Save";
 
 const ChangePasswordAdmin = ({
   params: { lang },
@@ -20,6 +22,8 @@ const ChangePasswordAdmin = ({
     handleChangePassword,
     setPassword,
     setPasswordConfirm,
+    password,
+    passwordConfirm,
     errorForm,
     stateUpdate,
     handleBack,
@@ -27,106 +31,143 @@ const ChangePasswordAdmin = ({
 
   return (
     <div className="tw-flex tw-h-screen tw-items-center tw-justify-center tw-bg-[url('/images/loginBackground.png')] tw-bg-no-repeat tw-bg-center tw-bg-cover">
-      <div className="tw-flex tw-items-center tw-justify-center lg:tw-h-[560px] md:tw-w-[100%]">
-        <Container className="tw-bg-[#02AF9B] tw-shadow-md tw-pt-12 tw-rounded-2xl tw-h-[465px] tw-w-[754px] tw-flex tw-flex-col tw-items-center tw-justify-center">
-          <div className="tw-h-[10%] tw-w-[100%]">
-            <h1 className="tw-text-white tw-text-[18px]">
-              {dictionary?.recoverPassword?.recoverPassword}
-            </h1>
-          </div>
+      <Container className="tw-bg-white tw-shadow-md tw-pt-12 tw-px-6 tw-rounded-2xl tw-w-[900px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-py-16">
+        <div className="tw-h-[10%] tw-w-[100%] tw-flex tw-items-center tw-justify-center">
+          <h1 className="tw-text-black tw-text-3xl tw-font-bold tw-text-center tw-mb-6">
+            {dictionary?.changePassword?.updatePassword}
+          </h1>
+        </div>
 
-          <div className="tw-h-[30%] tw-w-[100%] tw-flex tw-items-center tw-justify-center">
-            <TextField
-              className="tw-h-[52px] tw-w-[386px] tw-mt-10 tw-text-sm"
-              required
-              id="outlined-password"
-              label={dictionary?.newPassword?.nPassword}
-              type={showPasswordOne ? "text" : "password"}
-              variant="outlined"
-              InputProps={{
-                className: "tw-rounded-3xl",
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPasswordOne(!showPasswordOne)}
-                      edge="end"
-                    >
-                      {showPasswordOne ? (
-                        <VisibilityIcon />
-                      ) : (
-                        <VisibilityOffIcon />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+        {/* Contenedor combinado para ambos campos de texto */}
+        <div className="tw-w-[100%] tw-bg-gray-200 tw-rounded-xl tw-p-10 tw-flex tw-flex-col tw-items-center">
+          <TextField
+            className="tw-h-[80px] tw-w-[500px] tw-text-sm tw-mb-10"
+            required
+            id="outlined-password"
+            label={dictionary?.newPassword?.nPassword}
+            type={showPasswordOne ? "text" : "password"}
+            variant="outlined"
+            InputProps={{
+              className: "tw-rounded-3xl",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPasswordOne(!showPasswordOne)}
+                    edge="end"
+                  >
+                    {showPasswordOne ? (
+                      <VisibilityIcon />
+                    ) : (
+                      <VisibilityOffIcon />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            value={password} // Enlaza el valor al estado 'password'
+            onChange={(e) => setPassword(e.target.value)} // Controla el cambio
+          />
+          <TextField
+            className="tw-h-[80px] tw-w-[500px] tw-text-sm tw-mb-6"
+            required
+            id="outlined-password-confirm"
+            label={dictionary?.newPassword?.repeatPassword}
+            type={showPasswordTwo ? "text" : "password"}
+            variant="outlined"
+            InputProps={{
+              className: "tw-rounded-3xl",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPasswordTwo(!showPasswordTwo)}
+                    edge="end"
+                  >
+                    {showPasswordTwo ? (
+                      <VisibilityIcon />
+                    ) : (
+                      <VisibilityOffIcon />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            value={passwordConfirm} // Enlaza el valor al estado 'passwordConfirm'
+            onChange={(e) => setPasswordConfirm(e.target.value)} // Controla el cambio
+          />
+        </div>
+        {/* manejo de errores y actualizacion */}
+        {/* {errorForm?.errorType === 1 && (
+          <span className="tw-text-red-500 tw-mt-2">
+            {errorForm.errorMessage} *
+          </span>
+        )}
 
-          {errorForm?.errorType === 1 && (
-            <span className="tw-text-red-500 tw-mt-2">
-              {errorForm.errorMessage} *
-            </span>
-          )}
+        {errorForm?.errorType === 2 && (
+          <span className="tw-text-red-500 tw-underline tw-mt-2">
+            {errorForm.errorMessage}
+          </span>
+        )}
 
-          <div className="tw-h-[30%] tw-w-[100%] tw-flex tw-items-center tw-justify-center">
-            <TextField
-              className="tw-h-[52px] tw-w-[386px] tw-mt-14 tw-text-sm"
-              required
-              id="outlined-password-confirm"
-              label={dictionary?.newPassword?.repeatPassword}
-              type={showPasswordTwo ? "text" : "password"}
-              variant="outlined"
-              InputProps={{
-                className: "tw-rounded-3xl",
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPasswordTwo(!showPasswordTwo)}
-                      edge="end"
-                    >
-                      {showPasswordTwo ? (
-                        <VisibilityIcon />
-                      ) : (
-                        <VisibilityOffIcon />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
-            />
-          </div>
+        {stateUpdate === true && (
+          <span className="tw-text-blue-600 tw-mt-2">
+            {dictionary?.recoverPassword?.passwordUpdated}
+          </span>
+        )} */}
 
-          {errorForm?.errorType === 2 && (
-            <span className="tw-text-red-500 tw-underline tw-mt-2">
-              {errorForm.errorMessage}
-            </span>
-          )}
+        <div className="tw-flex tw-items-center tw-justify-center tw-flex-row tw-mt-6">
+          <Button
+            variant="text"
+            className="tw-text-black tw-mr-20" // Margen derecho entre los botones
+            onClick={handleBack}
+            sx={{
+              padding: "0",
+              minWidth: "auto",
+              textTransform: "none",
+              display: "flex",
+              alignItems: "center",
+            }}
+            startIcon={
+              <ArrowBackIcon
+                style={{
+                  paddingLeft: 1,
+                  fontSize: 25,
+                  color: "black",
+                }}
+              />
+            }
+          >
+            <Typography style={{ color: "black" }}>
+              {dictionary?.editProfile?.back}
+            </Typography>
+          </Button>
 
-          {stateUpdate === true && (
-            <span className="tw-text-blue-600 tw-mt-2">
-              {dictionary?.recoverPassword?.passwordUpdated}
-            </span>
-          )}
-
-          <div className="tw-h-[25%] tw-w-[90%] tw-flex tw-items-center tw-justify-center">
-            <Button
-              className="tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-white tw-mt-[30px]"
-              onClick={handleChangePassword}
-            >
+          <Button
+            variant="text"
+            className="tw-text-black tw-ml-20" // Agregar margen izquierdo al segundo botón
+            onClick={handleChangePassword}
+            sx={{
+              padding: "0",
+              minWidth: "auto",
+              textTransform: "none",
+              display: "flex",
+              alignItems: "center",
+            }}
+            startIcon={
+              <SaveIcon
+                style={{
+                  paddingLeft: 1,
+                  fontSize: 25,
+                  color: "black",
+                }}
+              />
+            }
+          >
+            <Typography style={{ color: "black" }}>
               {dictionary?.homeView?.saveButtonLabel}
-            </Button>
-            <Button
-              className="tw-w-[184px] tw-h-[45px] tw-rounded-3xl tw-bg-white tw-mt-[30px] tw-ml-4"
-              onClick={handleBack}
-            >
-              {dictionary?.recoverPassword?.back}
-            </Button>
-          </div>
-        </Container>
-      </div>
+            </Typography>
+          </Button>
+        </div>
+      </Container>
     </div>
   );
 };

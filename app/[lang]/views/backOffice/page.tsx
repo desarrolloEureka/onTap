@@ -55,6 +55,7 @@ import Notifications from "@/components/notifications/notifications";
 import Suscriptions from "@/components/subscription/subscription";
 import ChangePassword from "@/components/changePassword/changePassword";
 import EditProfile from "@/components/editProfile/editProfile";
+import PaymetsMadeReport from "@/components/paymetsMadeReport/paymetsMadeReport";
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -290,7 +291,10 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       </>
                     ) : (
                       <>
-                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <NavDropdown.Item
+                          eventKey="22"
+                          style={{ fontSize: 15 }}
+                        >
                           <PaymentIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
@@ -486,6 +490,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 19 && <Suscriptions params={{ lang }} />}
         {value === 20 && <ChangePassword params={{ lang }} />}
         {value === 21 && <EditProfile params={{ lang }} />}
+        {value === 22 && <PaymetsMadeReport params={{ lang }} />}
       </Box>
 
       {/* Footer */}

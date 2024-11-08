@@ -312,7 +312,13 @@
     "city": "Ciudad",
     "phoneNumber": "Teléfono",
     "profileUpdated": "Perfil Actualizado",
-    "back": "Atras"
+    "back": "Regresar",
+    "documentType": "Tipo de documento",
+    "dni": "Numero de documento",
+    "email": "Correo electronico"
+  },
+  "changePassword": {
+    "updatePassword": "Actualizar Contraseña"
   },
   "modalLogOut": {
     "labelMessage": "¿Está seguro de eliminar su cuenta?"

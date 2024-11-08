@@ -105,7 +105,7 @@ export const updatePasswordFirebase = (newPassword: string) => {
         return true;
       })
       .catch((error) => {
-        console.debug("Error al actualizar la contraseña:", error.message);
+        console.debug("Error al actualizar la contraseñaaaaaa:", error.message);
         return false;
       });
   } else {
@@ -114,48 +114,94 @@ export const updatePasswordFirebase = (newPassword: string) => {
   }
 };
 
-//funcion para editar el distribuidor
+// optener datos de usuario
+export const getCurrentProfileData = async (uid: string) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  const userUid = uid || user?.uid;
+  if (userUid) {
+    try {
+      const usersRef = collection(dataBase, "users");
+      const userQuery = query(usersRef, where("uid", "==", userUid));
+      const userSnapshot = await getDocs(userQuery);
+
+      if (!userSnapshot.empty) {
+        console.log("user: ", userSnapshot.docs[0].data());
+        return { success: true, data: userSnapshot.docs[0].data() }; // Devuelve los datos del usuario
+      } else {
+        return { success: false, message: "User not found." };
+      }
+    } catch (error: any) {
+      return { success: false, message: error.message };
+    }
+  } else {
+    return {
+      success: false,
+      message: "No UID provided and no authenticated user.",
+    };
+  }
+};
+
 export const updateProfileFirebase = async (profileData: {
   fullName: string;
   address: string;
   phoneNumber: string;
   city: string;
   state: string;
+  documentType: string;
+  dni: string;
+  email: string;
 }) => {
   const auth = getAuth();
   const user = auth.currentUser;
 
   if (user) {
     try {
-      // Actualizamos el displayName en Authentication
-      await updateProfile(user, {
-        displayName: profileData.fullName,
-      });
-
-      // Guardamos datos adicionales en Firestore
       const db = getFirestore();
-      const userRef = doc(db, "users", user.uid); // se usa el UID del usuario autenticado
-      await setDoc(
-        userRef,
-        {
-          address: profileData.address,
-          phoneNumber: profileData.phoneNumber,
-          city: profileData.city,
-          state: profileData.state,
-          fullName: profileData.fullName,
-        },
-        { merge: true }
-      );
+      const userRef = doc(db, "users", user.uid); // Usamos el UID del usuario autenticado
 
-      console.debug("Perfil actualizado correctamente");
-      return true;
+      // Primero obtenemos los datos del perfil actual
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        const currentProfileData = userDoc.data();
+        console.debug("Datos actuales del perfil:", currentProfileData);
+
+        // Aquí, puedes modificar los datos de Firestore con los nuevos datos
+        await setDoc(
+          userRef,
+          {
+            address: profileData.address,
+            phoneNumber: profileData.phoneNumber,
+            city: profileData.city,
+            state: profileData.state,
+            fullName: profileData.fullName,
+            documentType: profileData.documentType, // Nuevo campo
+            dni: profileData.dni, // Nuevo campo
+            email: profileData.email, // Nuevo campo
+          },
+          { merge: true } // Merge para no sobrescribir datos no mencionados
+        );
+
+        console.debug("Perfil actualizado correctamente");
+
+        // Retornamos los datos **actualizados** del perfil
+        const updatedUserDoc = await getDoc(userRef); // Nuevos datos después de la actualización
+        const updatedProfileData = updatedUserDoc.data();
+
+        return { success: true, data: updatedProfileData }; // Retornamos los datos actualizados
+      } else {
+        console.debug("No se encontró el perfil del usuario");
+        return { success: false, message: "Perfil no encontrado" };
+      }
     } catch (error: any) {
       console.debug("Error al actualizar el perfil:", error.message);
-      return false;
+      return { success: false, message: error.message };
     }
   } else {
     console.debug("No hay un usuario autenticado");
-    return false;
+    return { success: false, message: "No hay usuario autenticado" };
   }
 };
 
