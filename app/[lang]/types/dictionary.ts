@@ -150,6 +150,9 @@ export interface Dictionary {
     ChangePasswordLabelMenu: string;
     EditProfileLabelMenu: string;
     AccountLabelMenu: string;
+    LableCards: string;
+    CardsLabel: string;
+    labelPendingPaymentReports: string;
   };
   cardView: {
     labelErrorUser: string;

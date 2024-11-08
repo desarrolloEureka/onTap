@@ -18,6 +18,7 @@ import {
   updateSocialNetwork,
   getAllNotifications,
   getAllSubscriptions,
+  getAllCards,
 } from "@/firebase/generals";
 import { useQuery } from "@tanstack/react-query";
 
@@ -172,6 +173,14 @@ const GetAllDistributors = (flag?: boolean) => {
   });
 };
 
+const GetAllCards = (flag?: boolean, idUser?: any) => {
+  return useQuery({
+    queryKey: ["colors", flag],
+    queryFn: async () => await getAllCards(idUser),
+    refetchOnWindowFocus: false,
+  });
+};
+
 const SaveSocialNetwork = async (imageFile: File, imageName: string) => {
   const res = await saveSocialNetworkImage(imageFile, imageName);
   return res;
@@ -217,4 +226,5 @@ export {
   GetAllPlanesIndividual,
   GetAllNotifications,
   GetAllSubscriptions,
+  GetAllCards
 };

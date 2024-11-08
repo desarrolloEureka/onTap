@@ -1,38 +1,31 @@
 import Link from "next/link";
 import { Typography, Button, TextField, InputAdornment, Select, MenuItem } from "@mui/material";
 import { Modal, Box, IconButton } from '@mui/material';
-import { DataGrid, GridColDef, gridFilteredSortedRowIdsSelector, GridToolbarContainer, gridVisibleColumnFieldsSelector, useGridApiRef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbarContainer } from '@mui/x-data-grid';
 import { GridToolbarQuickFilter } from '@mui/x-data-grid/components';
 
 import useDictionary from "@/hooks/dictionary/useDictionary";
 // Icons
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import LinkIcon from '@mui/icons-material/Link';
-import EditIcon from '@mui/icons-material/Edit';
 import { Close } from '@mui/icons-material';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 //QR
-import { QRCodeSVG } from 'qrcode.react';
 import ReactCountryFlag from 'react-country-flag';
 import { countries } from '../../globals/constants'
 import SaveIcon from '@mui/icons-material/Save';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import SwitchEdit from "../userTable/SwitchEdit";
 import CustomersDistributorHook from "./hooks/CustomersDistributorHook";
-import moment from "moment";
+import PaymentIcon from '@mui/icons-material/Payment';
+import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 
-const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any }) => {
+const CustomersDistributorForm = ({ handleCreateUser, handlePayUser }: { handleCreateUser: any, handlePayUser: any }) => {
     const {
-        query,
-        setFlag,
-        flag,
+        data,
         isModalOpen,
         setDni,
         dni,
@@ -43,22 +36,15 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
         plan,
         setPlan,
         dataRegisterHandle,
-        handleSeeQR,
-        isModalQR,
-        setIsModalQR,
-        urlQR,
-        handleDownloadQR,
         handleDateChange,
         startDate,
         setStartDate,
         endDate,
         setEndDate,
-        handleDeleteFilter,
         phoneCode,
         setPhoneCode,
         phone,
         setPhone,
-        exportToExcel,
         handleCloseModal,
         isEditData,
         confirmEmail,
@@ -70,59 +56,21 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
         errorPhoneCodeForm,
         errorMailForm,
         errorConfirmEmailForm,
-        handleEditUser,
-        handleEditData
-    } = CustomersDistributorHook();
+        handleEditData,
+        apiRef,
+        formatearFecha,
+        getCountryFlag,
+        getCountryName,
+        handleGetSelectedRows,
+        handleExport,
+        selectedRows,
+        handleDeleteFilter
+    } = CustomersDistributorHook({ handlePayUser });
 
     const dictionary = useDictionary({ lang: 'es' });
     const dateToday = new Date().toISOString().split('T')[0];
-    const apiRef = useGridApiRef();
-
-    const getCountryFlag = (item: any) => {
-        const country = countries.find(country => country.id === item);
-        return country ? country.flag : '';
-    };
-
-    const getCountryName = (item: any) => {
-        const country = countries.find(country => country.id === item);
-        return country ? country.code : '';
-    };
-
-    const formatearFecha = (fechaISO: string): string => {
-        return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
-    };
-
-    const getUrlFormatted = (url: any) => {
-        const urlFormatted =
-            url &&
-            url
-                //Produccion
-                /*.replace(
-                    /localhost:3000|on-taptawny.vercel.app/g,
-                    "backoffice.onetap.com.co"
-                  )*/
-                //Desarrollo
-                .replace(
-                    /https?:\/\/backoffice\.onetap\.com\.co/g,
-                    "https://on-tap-dev.vercel.app"
-                );
-        return urlFormatted ? urlFormatted : "";
-    };
 
     const columns: GridColDef[] = [
-        /*   {
-              field: 'optionEdit',
-              headerName: 'Editar',
-              minWidth: 110,
-              flex: 1,
-              headerAlign: 'center',
-              align: 'center',
-              renderCell: (params) => (
-                  <Button style={{ color: 'black' }} onClick={() => handleEditUser(params.value)}>
-                      <EditIcon />
-                  </Button>
-              )
-          }, */
         {
             field: "created_at",
             headerName: "Fecha Registro",
@@ -221,46 +169,39 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
             )
         },
         {
-            field: 'edit',
-            headerName: 'Inactivo/Activo',
-            minWidth: 120,
+            field: 'statusPay',
+            headerName: 'Estado Pago',
+            minWidth: 110,
             flex: 1,
             headerAlign: 'center',
             align: 'center',
             renderCell: (params) => (
-                <div>
-                    <SwitchEdit
-                        isActive={params.value.switch}
-                        uid={params.value.uid}
-                        onSwitchChange={handleSwitchChange}
-                    />
+                <div className='tw-flex tw-justify-center tw-items-center'>
+                    {params.value && (
+                        <div>
+                            {params.value}
+                        </div>
+                    )}
                 </div>
+            )
+        },
+        {
+            field: 'optionPay',
+            headerName: 'Pagar',
+            minWidth: 110,
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+            renderCell: (params) => (
+                <Button style={{ color: 'black' }}
+                    onClick={() => handlePayUser(params.value, true)}
+                    disabled={params.value.userInvoice.status === 'PAID'}
+                >
+                    <PaymentIcon />
+                </Button>
             )
         }
     ];
-
-    const handleSwitchChange = () => {
-        setFlag(!flag);
-    };
-
-    function getExcelData(apiRef: any) {
-        const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
-        const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
-        const data = filteredSortedRowIds.map((id) => {
-            const row: { [key: string]: any } = {};
-            visibleColumnsField.forEach((field) => {
-                row[field] = apiRef.current.getCellParams(id, field).value;
-            });
-            return row;
-        });
-
-        return data;
-    }
-
-    const handleExport = () => {
-        const data = getExcelData(apiRef);
-        exportToExcel(data);
-    };
 
     function CustomToolbar() {
         return (
@@ -404,6 +345,25 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                                 Borrar
                             </Typography>
                         </Button>
+                        <Button
+                            className='tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4'
+                            type='submit'
+                            sx={{
+                                padding: '0',
+                                minWidth: 'auto',
+                                textTransform: 'none',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center'
+                            }}
+                            style={{ textTransform: 'none' }}
+                            onClick={handleGetSelectedRows}
+                        >
+                            <PaymentOutlinedIcon style={{ marginBottom: 5, fontSize: 30, color: '#02AF9B' }} />
+                            <Typography style={{ color: '#02AF9B' }}>
+                                Pagar
+                            </Typography>
+                        </Button>
                     </Box>
 
                 </Box>
@@ -427,7 +387,7 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                 <div style={{ height: 650, width: '100%' }} className='tw-bg-white tw-shadow-m tw-rounded-2xl tw-m-6'>
                     <DataGrid
                         apiRef={apiRef}
-                        rows={query ?? []}
+                        rows={data ?? []}
                         columns={columns}
                         slots={{ toolbar: CustomToolbar }}
                         initialState={{
@@ -452,6 +412,7 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                         disableRowSelectionOnClick
                         checkboxSelection
                         ignoreDiacritics={true}
+                        isRowSelectable={(params) => params.row.userInvoice?.status !== 'PAID'}
                     />
                 </div>
             </div>
@@ -721,56 +682,7 @@ const CustomersDistributorForm = ({ handleCreateUser }: { handleCreateUser: any 
                 </Box>
             </Modal>
 
-            <Modal
-                open={isModalQR}
-                onClose={setIsModalQR}
-                aria-labelledby='modal-modal-title'
-                aria-describedby='modal-modal-description'
-                className='tw-flex tw-justify-center tw-items-center'
-            >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        bgcolor: '#02AF9B',
-                        padding: 5,
-                        borderRadius: 3,
-                        position: 'relative',
-                    }}
-                >
 
-                    <IconButton
-                        className='tw-absolute tw-right-1 tw-top-1'
-                        onClick={() => setIsModalQR(false)}
-                    >
-                        <Close className='tw-text-white' />
-                    </IconButton>
-
-                    {urlQR && (
-                        <div className='tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-justify-items-center tw-pl-3 tw-pr-3'>
-                            <Box className='tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-10 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <div className='tw-w-[380px] tw-flex tw-justify-center tw-items-center'>
-                                    <QRCodeSVG id="qrcode-svg" value={urlQR} size={380} className='' />
-
-                                </div>
-                            </Box>
-                            <Box className='tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-10 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center'>
-                                <div className='tw-w-[350px] tw-flex tw-justify-center tw-items-center'>
-                                    <Button
-                                        variant='contained'
-                                        className='tw-mx-auto tw-mt-4 tw-w-[200px] tw-bg-[#02AF9B] tw-text-white tw-shadow-m'
-                                        onClick={() => handleDownloadQR()}
-                                    >
-                                        Descargar QR
-                                    </Button>
-                                </div>
-                            </Box>
-                        </div>
-                    )}
-                </Box>
-            </Modal>
         </div >
     );
 }

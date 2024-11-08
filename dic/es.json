@@ -149,7 +149,11 @@
     "AccountLabelMenu": "Mi cuenta",
     "ChangePasswordLabelMenu": "Cambiar Contraseña",
     "EditProfileLabelMenu": "Editar Perfil",
-    "NotificationsLabel": "Notificaciones"
+    "NotificationsLabel": "Notificaciones",
+    "LableCards": "Mis Tarjetas",
+    "CardsLabel": "Tarjetas",
+    "labelPendingPaymentReports": "Reporte de Pagos Pendientes"
+
   },
   "cardView": {
     "labelErrorUser": "Error",

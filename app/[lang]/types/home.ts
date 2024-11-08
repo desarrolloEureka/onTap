@@ -84,6 +84,21 @@ export interface Colors {
   image: any;
 }
 
+export interface Cards {
+  installments: string;
+  id: string;
+  card_holder: string;
+  created_at: string;
+  cvc: string;
+  exp_month:any,
+  exp_year:any,
+  idNumber:any,
+  idType: string;
+  number: string;
+  uid: string;
+  public_data: any;
+}
+
 export interface Customizations {
   id: string;
   sku: string;

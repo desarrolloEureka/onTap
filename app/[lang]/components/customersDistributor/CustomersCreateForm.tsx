@@ -40,6 +40,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import WorkIcon from '@mui/icons-material/Work';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { Close } from "@mui/icons-material";
+import Image from "next/image";
 
 
 const CustomersCreateForm = ({ handleReturnForm }: { handleReturnForm: () => void }) => {
@@ -219,7 +220,13 @@ const CustomersCreateForm = ({ handleReturnForm }: { handleReturnForm: () => voi
         setIsModalOpen,
         handleCloseModal,
         handleOpenModal,
-        loading
+        loading,
+        installmentsError,
+        setInstallmentsError,
+        idTypeError,
+        setIdTypeError,
+        idNumberError,
+        setIdNumberError,
     } = CustomersCreateFormHook({ handleReturnForm });
     const dictionary = useDictionary({ lang: 'es' });
 
@@ -1280,6 +1287,26 @@ const CustomersCreateForm = ({ handleReturnForm }: { handleReturnForm: () => voi
                                                         {'Pagar'}
                                                     </Typography>
                                                 </Button>
+
+                                                <Button
+                                                    variant="text"
+                                                    className="tw-text-black tw-ml-6"
+                                                    onClick={() => dataRegisterHandle(false)}
+                                                    //onClick={() => handleNextStep(step)}
+
+                                                    sx={{
+                                                        padding: '0',
+                                                        minWidth: 'auto',
+                                                        textTransform: 'none',
+                                                        display: 'flex',
+                                                        alignItems: 'center'
+                                                    }}
+                                                    startIcon={<PaymentIcon style={{ marginRight: -1, fontSize: 25, color: 'white' }} />}
+                                                >
+                                                    <Typography style={{ color: 'white' }}>
+                                                        {'Pagar Después'}
+                                                    </Typography>
+                                                </Button>
                                             </>
                                             :
                                             <>
@@ -1356,145 +1383,266 @@ const CustomersCreateForm = ({ handleReturnForm }: { handleReturnForm: () => voi
                                         <Close className="tw-text-white" />
                                     </IconButton>
                                     <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
-                                        <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
-                                            <div className="tw-w-full tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5 tw-bg-red tw-p-4">
+                                        <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-1 tw-mt-9 tw-mb-9 tw-flex tw-flex-col tw-justify-center tw-items-center">
+                                            <div className="tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-5 tw-mt-1 tw-mb-1">
 
-                                                <h3 className='tw-mb-10'>Pagar</h3>
+                                                <div className="tw-w-full tw-grid tw-grid-cols-3 tw-grid-rows-3 tw-gap-1 tw-px-1 tw-mx-3 tw-my-3">
 
-                                                <div className='tw-flex tw-justify-between tw-mb-5'>
-                                                    <TextField
-                                                        variant='outlined'
-                                                        label='Número de tarjeta'
-                                                        className='tw-mr-2'
-                                                        onChange={handleInputChange}
-                                                        name="number"
-                                                        fullWidth
-                                                        inputProps={{ maxLength: 16 }}
-                                                        disabled={loading}
-                                                        error={!!cardNumberError}
-                                                        helperText={cardNumberError}
-                                                    />
-                                                    <TextField
-                                                        variant='outlined'
-                                                        label='CVC'
-                                                        className='tw-ml-2'
-                                                        onChange={handleInputChange}
-                                                        name="cvc"
-                                                        fullWidth
-                                                        inputProps={{ maxLength: 3 }}
-                                                        disabled={loading}
-                                                        error={!!cvcError}
-                                                        helperText={cvcError}
-                                                    />
-                                                </div>
-
-                                                <div className='tw-flex tw-justify-between tw-mb-5'>
-                                                    <FormControl className='tw-mr-2' fullWidth disabled={loading}>
-                                                        <InputLabel id="month-label">Mes de expiración </InputLabel>
-                                                        <Select
-                                                            label='Mes de expiración'
-                                                            className='tw-w-full'
-                                                            onChange={handleInputChange}
-                                                            name="exp_month"
-                                                            error={!!expMonthError}
-                                                        >
-                                                            {Array.from({ length: 12 }, (_, i) => (
-                                                                <MenuItem key={i + 1} value={i + 1}>{String(i + 1).padStart(2, '0')}</MenuItem>
-                                                            ))}
-                                                        </Select>
-                                                    </FormControl>
-
-                                                    <FormControl variant='outlined' className='tw-ml-2' fullWidth disabled={loading}>
-                                                        <InputLabel id="year-label">Año de expiración </InputLabel>
-                                                        <Select
-                                                            label='Tipo de Documento'
-                                                            className='tw-w-full'
-                                                            onChange={handleInputChange}
-                                                            name="exp_year"
-                                                            error={!!expYearError}
-                                                        >
-                                                            {Array.from({ length: 10 }, (_, i) => (
-                                                                <MenuItem key={new Date().getFullYear() + i} value={new Date().getFullYear() + i}>{(new Date().getFullYear() + i).toString().slice(-2)}</MenuItem>
-                                                            ))}
-                                                        </Select>
-                                                    </FormControl>
-                                                </div>
-
-                                                <div className='tw-mb-6'>
-                                                    <TextField
-                                                        variant='outlined'
-                                                        label='Nombre del tarjeta'
-                                                        onChange={handleInputChange}
-                                                        name="card_holder"
-                                                        fullWidth
-                                                        disabled={loading}
-                                                        error={!!cardHolderError}
-                                                        helperText={cardHolderError}
-                                                    />
-                                                </div>
-
-                                                <div className='tw-mb-6'>
-                                                    <FormControl>
-                                                        <FormControlLabel
-                                                            control={<Checkbox onChange={handleAccept} />}
-                                                            label="Acepto los términos y condiciones"
+                                                    <div className="tw-w-full tw-flex tw-justify-starttw-items-center tw-col-span-3">
+                                                        <Image
+                                                            src='/images/Wompi.png'
+                                                            alt="Imagen"
+                                                            width={100}
+                                                            height={60}
                                                         />
-                                                        {termsError && (
-                                                            <p
-                                                                style={{
-                                                                    boxSizing: 'border-box',
-                                                                    color: 'rgb(211, 47, 47)',
-                                                                    display: 'block',
-                                                                    fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
-                                                                    fontSize: '12px',
-                                                                    fontStyle: 'normal',
-                                                                    fontWeight: 400,
-                                                                    height: '19.9062px',
-                                                                    letterSpacing: '0.39996px',
-                                                                    lineHeight: '19.92px',
-                                                                    marginBlockEnd: '0px',
-                                                                    marginBlockStart: '3px',
-                                                                    marginBottom: '0px',
-                                                                    marginInlineEnd: '14px',
-                                                                    marginInlineStart: '14px',
-                                                                    marginLeft: '14px',
-                                                                    marginRight: '14px',
-                                                                    marginTop: '3px',
-                                                                    textAlign: 'left',
-                                                                    textSizeAdjust: '100%',
-                                                                    unicodeBidi: 'isolate',
-                                                                    width: '281.906px',
-                                                                    WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-                                                                }}
-                                                            >
-                                                                {termsError}
-                                                            </p>
-                                                        )}
-                                                    </FormControl>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-3 -tw-mt-10">
+                                                        <h3 className='tw-mr-2'>Pago</h3>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-3 tw-mt-0">
+                                                        <div className="tw-w-[98%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center">
+                                                            <TextField
+                                                                variant='outlined'
+                                                                label='Número de tarjeta'
+                                                                className='tw-mr-0'
+                                                                onChange={handleInputChange}
+                                                                name="number"
+                                                                fullWidth
+                                                                inputProps={{ maxLength: 16 }}
+                                                                disabled={loading}
+                                                                error={!!cardNumberError}
+                                                                helperText={cardNumberError}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                                        <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                                            <TextField
+                                                                variant='outlined'
+                                                                label='CVC'
+                                                                className=''
+                                                                onChange={handleInputChange}
+                                                                name="cvc"
+                                                                fullWidth
+                                                                inputProps={{ maxLength: 3 }}
+                                                                disabled={loading}
+                                                                error={!!cvcError}
+                                                                helperText={cvcError}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                                        <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                                            <FormControl className='tw-mr-0' fullWidth disabled={loading}>
+                                                                <InputLabel id="month-label">Mes de expiración </InputLabel>
+                                                                <Select
+                                                                    label='Mes de expiración'
+                                                                    className='tw-w-full'
+                                                                    onChange={handleInputChange}
+                                                                    name="exp_month"
+                                                                    error={!!expMonthError}
+                                                                    MenuProps={{
+                                                                        PaperProps: {
+                                                                            style: {
+                                                                                maxHeight: 180,
+                                                                            },
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    {Array.from({ length: 12 }, (_, i) => (
+                                                                        <MenuItem key={i + 1} value={i + 1}>{String(i + 1).padStart(2, '0')}</MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                            </FormControl>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                                        <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                                            <FormControl className='tw-mr-0' fullWidth disabled={loading}>
+                                                                <InputLabel id="year-label">Año de expiración </InputLabel>
+                                                                <Select
+                                                                    label='Tipo de Documento'
+                                                                    className='tw-w-full'
+                                                                    onChange={handleInputChange}
+                                                                    name="exp_year"
+                                                                    error={!!expYearError}
+                                                                    MenuProps={{
+                                                                        PaperProps: {
+                                                                            style: {
+                                                                                maxHeight: 180,
+                                                                            },
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    {Array.from({ length: 10 }, (_, i) => (
+                                                                        <MenuItem key={new Date().getFullYear() + i} value={new Date().getFullYear() + i}>{(new Date().getFullYear() + i).toString().slice(-2)}</MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                            </FormControl>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2 tw-mt-4">
+                                                        <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0">
+                                                            <TextField
+                                                                variant='outlined'
+                                                                label='Nombre del titular'
+                                                                onChange={handleInputChange}
+                                                                name="card_holder"
+                                                                fullWidth
+                                                                disabled={loading}
+                                                                error={!!cardHolderError}
+                                                                helperText={cardHolderError}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                                        <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                                            <FormControl className='tw-mr-0' fullWidth disabled={loading}>
+                                                                <InputLabel id="year-label">Cuotas</InputLabel>
+                                                                <Select
+                                                                    label="Cuotas"
+                                                                    name="installments"
+                                                                    value={cardInfo.installments}
+                                                                    onChange={handleInputChange}
+                                                                    error={!!installmentsError}
+                                                                    MenuProps={{
+                                                                        PaperProps: {
+                                                                            style: {
+                                                                                maxHeight: 180,
+                                                                            },
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    {Array.from({ length: 24 }, (_, i) => (
+                                                                        <MenuItem key={i + 1} value={i + 1}>
+                                                                            {i + 1}
+                                                                        </MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                            </FormControl>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                                        <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                                            <FormControl className='tw-mr-0' fullWidth disabled={loading}>
+                                                                <InputLabel id="year-label">Tipo de Identificación</InputLabel>
+                                                                <Select
+                                                                    label='Tipo de Documento '
+                                                                    className='tw-w-full'
+                                                                    name="idType"
+                                                                    value={cardInfo.idType}
+                                                                    onChange={handleInputChange}
+                                                                    error={!!idTypeError}
+                                                                    MenuProps={{
+                                                                        PaperProps: {
+                                                                            style: {
+                                                                                maxHeight: 180,
+                                                                            },
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    <MenuItem value="AS">AS</MenuItem>
+                                                                    <MenuItem value="CC">CC</MenuItem>
+                                                                    <MenuItem value="CD">CD</MenuItem>
+                                                                    <MenuItem value="CE">CE</MenuItem>
+                                                                    <MenuItem value="CN">CN</MenuItem>
+                                                                    <MenuItem value="MS">MS</MenuItem>
+                                                                    <MenuItem value="NIT">NIT</MenuItem>
+                                                                    <MenuItem value="PA">PA</MenuItem>
+                                                                    <MenuItem value="PE">PE</MenuItem>
+                                                                    <MenuItem value="RC">RC</MenuItem>
+                                                                </Select>
+                                                            </FormControl>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2 tw-mt-4">
+                                                        <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0">
+                                                            <TextField
+                                                                variant='outlined'
+                                                                label='Número de Identificación'
+                                                                name="idNumber"
+                                                                fullWidth
+                                                                value={cardInfo.idNumber}
+                                                                onChange={handleInputChange}
+                                                                error={!!idNumberError}
+                                                                helperText={idNumberError}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2 tw-mt-4">
+                                                        <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-start tw-items-start tw-mt-0">
+                                                            <FormControl>
+                                                                <FormControlLabel
+                                                                    control={<Checkbox onChange={handleAccept} />}
+                                                                    label="Acepto los términos y condiciones"
+                                                                />
+                                                                {termsError && (
+                                                                    <p
+                                                                        style={{
+                                                                            boxSizing: 'border-box',
+                                                                            color: 'rgb(211, 47, 47)',
+                                                                            display: 'block',
+                                                                            fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                                                                            fontSize: '12px',
+                                                                            fontStyle: 'normal',
+                                                                            fontWeight: 400,
+                                                                            height: '19.9062px',
+                                                                            letterSpacing: '0.39996px',
+                                                                            lineHeight: '19.92px',
+                                                                            marginBlockEnd: '0px',
+                                                                            marginBlockStart: '3px',
+                                                                            marginBottom: '0px',
+                                                                            marginInlineEnd: '14px',
+                                                                            marginInlineStart: '14px',
+                                                                            marginLeft: '14px',
+                                                                            marginRight: '14px',
+                                                                            marginTop: '3px',
+                                                                            textAlign: 'left',
+                                                                            textSizeAdjust: '100%',
+                                                                            unicodeBidi: 'isolate',
+                                                                            width: '281.906px',
+                                                                            WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+                                                                        }}
+                                                                    >
+                                                                        {termsError}
+                                                                    </p>
+                                                                )}
+                                                            </FormControl>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-3 tw-mt-4 tw-mb-4">
+                                                        <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0">
+                                                            <div className="tw-flex tw-justify-center text-red-500">
+                                                                {loading ? (
+                                                                    <CircularProgress />
+                                                                ) : (
+                                                                    <button
+                                                                        className='tw-bg-teal-500 tw-text-white tw-py-2 tw-px-4 tw-rounded'
+                                                                        //disabled={!isAccepted}
+                                                                        onClick={handlePayment}
+                                                                    >
+                                                                        Procesar Pago
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-
-
-                                                {error && <div className="text-red-500 tw-mb-4">{error}</div>}
-
-                                                <div className="tw-flex tw-justify-center text-red-500">
-                                                    {loading ? (
-                                                        <CircularProgress />
-                                                    ) : (
-                                                        <button
-                                                            className='tw-bg-teal-500 tw-text-white tw-py-2 tw-px-4 tw-rounded'
-                                                            //disabled={!isAccepted}
-                                                            onClick={handlePayment}
-                                                        >
-                                                            Procesar Pago
-                                                        </button>
-                                                    )}
-                                                </div>
-
                                             </div>
                                         </div>
-
-
                                     </div>
+
                                 </Box>
                             </Modal>
                         </Container>

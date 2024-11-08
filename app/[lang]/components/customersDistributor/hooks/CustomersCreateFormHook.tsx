@@ -10,9 +10,9 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { registerUserAuth, registerUserFb } from 'app/functions/register';
 import { generatePaymentReference } from '../../../../wompi'
-import { set } from 'firebase/database';
 import axios from 'axios';
 import { getDocumentReference, saveInvoiceQuerie, saveOrderQuerie } from '@/reactQuery/generalQueries';
+import { wompiConfig } from '@/firebase/firebaseConfig';
 
 type City = string;
 
@@ -134,6 +134,9 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
         exp_month: '',
         exp_year: '',
         card_holder: '',
+        installments: '',
+        idType: '',
+        idNumber: '',
     });
     const [loading, setLoading] = useState(false);
 
@@ -145,6 +148,10 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
     const [expYearError, setExpYearError] = useState<string | null>(null);
     const [cardHolderError, setCardHolderError] = useState<string | null>(null);
     const [termsError, setTermsError] = useState<string | null>(null);
+    const [installmentsError, setInstallmentsError] = useState<string | null>(null);
+    const [idTypeError, setIdTypeError] = useState<string | null>(null);
+    const [idNumberError, setIdNumberError] = useState<string | null>(null);
+
 
     const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
         setCardInfo({ ...cardInfo, [e.target.name]: e.target.value });
@@ -489,6 +496,9 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
         setExpYearError(null);
         setCardHolderError(null);
         setTermsError(null);
+        setInstallmentsError(null);
+        setIdTypeError(null);
+        setIdNumberError(null);
 
         // Validar número de tarjeta
         if (!cardInfo.number) {
@@ -523,6 +533,24 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
         // Validar nombre del titular de la tarjeta
         if (!cardInfo.card_holder) {
             setCardHolderError("El nombre del titular de la tarjeta es obligatorio.");
+            valid = false;
+        }
+
+        // Validar número de cuotas (installments)
+        if (!cardInfo.installments) {
+            setInstallmentsError("El número de cuotas es obligatorio.");
+            valid = false;
+        }
+
+        // Validar tipo de identificación (idType)
+        if (!cardInfo.idType) {
+            setIdTypeError("El tipo de identificación es obligatorio.");
+            valid = false;
+        }
+
+        // Validar número de identificación (idNumber)
+        if (!cardInfo.idNumber) {
+            setIdNumberError("El número de identificación es obligatorio.");
             valid = false;
         }
 
@@ -629,14 +657,24 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
             exp_month: '',
             exp_year: '',
             card_holder: '',
+            installments: '',
+            idType: '',
+            idNumber: '',
         });
 
         // Resetear el paso actual
         setStep(1);
     };
 
-    const dataRegisterHandle = async () => {
+    const dataRegisterHandle = async (isPay: boolean) => {
         try {
+            if (isPay === false) {
+                if (!validateFormStepTwo()) return;
+                if (!validateFormStepThird()) return;
+                if (!validateFormStepFour()) return;
+                setLoading(true);
+            }
+
             const createdAt = moment().format();
             const trimmedDocumentNumber = documentNumber.trim();
             const trimmedEmail = email.trim().toLowerCase();
@@ -682,23 +720,33 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
             await registerUserFb({ data: combinedData });
 
             // Crear y guardar la orden
-            const orderData = await registerOrderData()
+            const orderData = await registerOrderData(result?.uid, isPay)
             await saveOrderQuerie(orderData);
 
             // Crear y guardar la factura
-            const invoiceData = prepareInvoiceData(orderData?.uid);
+            const invoiceData = prepareInvoiceData(orderData?.uid, result?.uid, isPay);
             await saveInvoiceQuerie(invoiceData);
 
             setIsModalOpen(false);
             setLoading(false);
 
-            await Swal.fire({
-                position: "center",
-                icon: "success",
-                title: `Transacción realizada con éxito`,
-                showConfirmButton: false,
-                timer: 2000,
-            });
+            if (isPay === true) {
+                await Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Transacción realizada con éxito`,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            } else {
+                await Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Usuario registrado con éxito`,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            }
 
             handleReset();
             handleReturnForm();
@@ -711,7 +759,7 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
     };
 
     // Función para preparar los datos de la orden
-    const registerOrderData = () => {
+    const registerOrderData = (userUid: any, isPay: boolean) => {
         const documentRefUser: any = getDocumentReference("orders");
         const totalAmount = total;
         return {
@@ -719,7 +767,7 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
             uid: documentRefUser.id,
             userId: documentNumber.trim(),
             totalAmount,
-            status: 'APPROVED',
+            status: isPay === true ? 'APPROVED' : 'PENDING',
             createdAt: moment().format(),
             selectedProducts,
             // Datos de envío
@@ -733,12 +781,13 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
             cityDelivery,
             stateDelivery,
             countryDelivery,
-            postalCode
+            postalCode,
+            userUid: userUid
         };
     };
 
     // Función para preparar los datos de la factura
-    const prepareInvoiceData = (orderId: any) => {
+    const prepareInvoiceData = (orderId: any, userUid: any, isPay: Boolean) => {
         const documentRefUser: any = getDocumentReference("invoices");
         return {
             //invoiceId,
@@ -746,8 +795,9 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
             orderId,
             userId: documentNumber.trim(),
             totalAmount: total,
-            status: 'PAID',
+            status: isPay === true ? 'PAID' : 'PENDING',
             TicketNumber: 'Wompi',
+            userUid: userUid
         };
     };
 
@@ -761,12 +811,19 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
         setExpYearError(null);
         setCardHolderError(null);
         setTermsError(null);
+        setInstallmentsError(null);
+        setIdTypeError(null);
+        setIdNumberError(null);
+        
         setCardInfo({
             number: '',
             cvc: '',
             exp_month: '',
             exp_year: '',
             card_holder: '',
+            installments: '',
+            idType: '',
+            idNumber: '',
         });
     };
 
@@ -780,7 +837,7 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
         setIsAccepted(!isAccepted);
         if (!isAccepted) {
             try {
-                const response = await axios.get('https://sandbox.wompi.co/v1/merchants/pub_test_vt34CMaz8fOn55luLJjP4fCgO2g5H97H');
+                const response = await axios.get(`https://sandbox.wompi.co/v1/merchants/${wompiConfig.WOMPI_PUBLIC_KEY}`);
                 const { acceptance_token, accept_personal_auth } = response.data.data.presigned_acceptance;
 
                 setAcceptanceToken(acceptance_token);
@@ -797,7 +854,7 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
     const tokenizeCard = async (cardDetails: any) => {
         const tokenResponse = await axios.post('https://sandbox.wompi.co/v1/tokens/cards', cardDetails, {
             headers: {
-                'Authorization': `Bearer pub_test_vt34CMaz8fOn55luLJjP4fCgO2g5H97H`,
+                'Authorization': `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`
             }
         });
         return tokenResponse.data.data.id;
@@ -807,7 +864,7 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
     const createTransaction = async (transactionBody: any) => {
         const transactionResponse = await axios.post('https://sandbox.wompi.co/v1/transactions', transactionBody, {
             headers: {
-                'Authorization': 'Bearer pub_test_vt34CMaz8fOn55luLJjP4fCgO2g5H97H',
+                'Authorization': `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`
             }
         });
         return transactionResponse.data;
@@ -815,7 +872,6 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
 
     // Función principal para manejar el pago
     const handlePayment = async () => {
-        if (!validateForm()) return;
         if (!validateFormStepTwo()) return;
         if (!validateFormStepThird()) return;
         if (!validateFormStepFour()) return;
@@ -839,11 +895,11 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
                 amount_in_cents: amout,
                 reference: reference,
                 currency: "COP",
-                customer_email: "cliente@example.com",
+                customer_email: email ?? "cliente@example.com",
                 acceptance_token: acceptanceToken,
                 payment_method: {
                     type: 'CARD',
-                    installments: 1,
+                    installments: cardInfo.installments,
                     token: token,
                 }
             };
@@ -879,7 +935,7 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer pub_test_vt34CMaz8fOn55luLJjP4fCgO2g5H97H',
+                            'Authorization': `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`
                         },
                     });
 
@@ -894,14 +950,7 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
                         setIsModalOpen(false);
                         clearInterval(intervalId);
                         setLoading(false);
-                        /*   await Swal.fire({
-                              position: "center",
-                              icon: "success",
-                              title: `Transacción realizada con éxito`,
-                              showConfirmButton: false,
-                              timer: 2000,
-                          }); */
-                        await dataRegisterHandle();
+                        await dataRegisterHandle(true);
                         resolve();
                     } else if (attempts >= maxAttempts) {
                         setLoading(false);
@@ -1485,7 +1534,13 @@ const CustomersCreateFormHook = ({ handleReturnForm }: { handleReturnForm: () =>
         setIsModalOpen,
         handleCloseModal,
         handleOpenModal,
-        loading
+        loading,
+        installmentsError,
+        setInstallmentsError,
+        idTypeError,
+        setIdTypeError,
+        idNumberError,
+        setIdNumberError,
     };
 };
 

@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
@@ -315,6 +316,70 @@ export const saveInvoices = async (dataSave: any) => {
   }
 };
 
+//Ordenes y Facturas
+export const UpdateOrdersInvoices = async (idInvoice: any, idOrden: any) => {
+  try {
+    const collectionInvoiceRef = doc(dataBase, "invoices", idInvoice);
+    const collectionOrdenRef = doc(dataBase, "orders", idOrden);
+
+    // Verificación de que la factura y la orden existen
+    const invoiceDoc = await getDoc(collectionInvoiceRef);
+    const orderDoc = await getDoc(collectionOrdenRef);
+
+    if (!invoiceDoc.exists()) {
+      return { success: false, message: "La factura no existe" };
+    }
+
+    if (!orderDoc.exists()) {
+      return { success: false, message: "La orden no existe" };
+    }
+
+    // Actualización de la factura y la orden
+    await updateDoc(collectionInvoiceRef, { status: "PAID" });
+    await updateDoc(collectionOrdenRef, { status: "APPROVED" });
+
+    return { success: true, message: "Factura actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar la factura: ", error);
+    return { success: false, message: "Error al actualizar la factura" };
+  }
+};
+
+//Tarjetas
+export const saveCards = async (dataSave: any) => {
+  try {
+    const cardsCollectionRef = collection(dataBase, "cards");
+
+    const newColorRef = doc(cardsCollectionRef);
+    await setDoc(newColorRef, {
+      ...dataSave,
+      uid: newColorRef.id,
+      created_at: currentDate,
+    });
+
+    return { success: true, message: "Tarjeta creada correctamente" };
+  } catch (error) {
+    console.error("Error al crear la tarjeta: ", error);
+    return { success: false, message: "Error al crear la tarjeta" };
+  }
+};
+
+export const updateCards = async (dataSave: any, idCategory: string) => {
+  try {
+    // Obtener la referencia del documento específico de colores
+    const cardsCollectionRef = doc(dataBase, "cards", idCategory);
+
+    // Actualizar el documento con los nuevos datos
+    await updateDoc(cardsCollectionRef, {
+      ...dataSave,
+    });
+
+    return { success: true, message: "Tarjeta actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar la tarjeta: ", error);
+    return { success: false, message: "Error al actualizar la tarjeta" };
+  }
+};
 
 export const updateCustomization = async (
   dataSave: any,

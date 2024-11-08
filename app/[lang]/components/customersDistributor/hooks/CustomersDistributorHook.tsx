@@ -1,11 +1,14 @@
-import { getAllUsers } from "@/firebase/user"
+import { getAllUsers, getUsersWithOrdersAndInvoices } from "@/firebase/user"
+import { countries } from "@/globals/constants";
 import { checkUserExists, GetUser, SendEditData } from "@/reactQuery/users";
+import { gridFilteredSortedRowIdsSelector, gridVisibleColumnFieldsSelector, useGridApiRef } from "@mui/x-data-grid";
 import { registerUserAuth, registerUserFb } from "app/functions/register";
+import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
 
-const CustomersDistributorHook = () => {
+const CustomersDistributorHook = ({ handlePayUser }: { handlePayUser: any }) => {
     interface UserData {
         dni: string;
         name: string;
@@ -16,12 +19,13 @@ const CustomersDistributorHook = () => {
         uid: string
     }
     const { data, refetch } = GetUser();
-    const apiRef = useRef(null);
+    const apiRef = useGridApiRef();
     const [query, setQuery] = useState<any>([]);
     const [filteredQuery, setFilteredQuery] = useState<any>([]);
     const [flag, setFlag] = useState(false);
     const [dataUser, setDataUser] = useState<UserData | null>(null);
     const [status, setStatus] = useState<string>('');
+    const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
     //Modal editar/registro
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,6 +61,7 @@ const CustomersDistributorHook = () => {
     const [errorMailForm, setErrorMailForm] = useState<string | null>(null);
     const [errorConfirmEmailForm, setErrorConfirmEmailForm] = useState<string | null>(null);
     const [errorEmailMismatch, setErrorEmailMismatch] = useState<string | null>(null);
+
 
     const handleOpenModal = () => {
         setIsEditData(false);
@@ -154,15 +159,11 @@ const CustomersDistributorHook = () => {
 
             // Crear una copia de los datos excluyendo las columnas no deseadas
             const filteredData = filteredQuery.map((user) => {
-                const { edit, editDelete, optionEdit, lastName, url, urlQR, ...filteredUser } = user;
-
-                // Acceder a una propiedad específica del objeto url, por ejemplo, url.link
-                const urlLink = url ? url.preview : ''; // Manejo de caso en que url podría ser undefined
+                const { edit, editDelete, optionEdit, lastName, url, userType, optionPay, __check__, ...filteredUser } = user;
 
                 // Devolver los datos con la propiedad específica incluida
                 return {
-                    ...filteredUser,
-                    url: urlLink // Reemplazar el objeto url con su propiedad específica
+                    ...filteredUser
                 };
             });
 
@@ -201,32 +202,23 @@ const CustomersDistributorHook = () => {
             dateEnd.setHours(23, 59, 59, 999);
         }
 
+        if (dateStart && dateEnd && dateEnd < dateStart) {
+            //console.error('La fecha final debe ser mayor o igual a la fecha inicial');
+            return;
+        }
+
         if (!dateStart && !dateEnd) {
             setFilteredQuery(query);
             return;
         }
 
-        const filteredData = query.filter((user: { date: string | number | Date; }) => {
-            let userDate: Date;
+        const filteredData = query.filter((user: { created_at: string }) => {
+            const userDate = new Date(user.created_at);
 
-            if (typeof user.date === 'string') {
-                const userDateParts = user.date.split('/');
-                userDate = new Date(`${userDateParts[2]}-${userDateParts[1]}-${userDateParts[0]}`);
-            } else if (typeof user.date === 'number') {
-                userDate = new Date(user.date);
-            } else {
-                userDate = user.date;
-            }
+            // Comparar si la fecha del usuario está dentro del rango
+            if (dateStart && userDate < dateStart) return false;
+            if (dateEnd && userDate > dateEnd) return false;
 
-            userDate.setDate(userDate.getDate() + 1);
-
-            if (dateStart && dateEnd) {
-                return userDate >= dateStart && userDate <= dateEnd;
-            } else if (dateStart) {
-                return userDate >= dateStart;
-            } else if (dateEnd) {
-                return userDate <= dateEnd;
-            }
             return true;
         });
         setFilteredQuery(filteredData);
@@ -239,7 +231,6 @@ const CustomersDistributorHook = () => {
     };
 
     const handleReset = () => {
-        // Restablecer todos los estados relacionados con el formulario de usuario
         setDni('');
         setName('');
         setLastName('');
@@ -249,7 +240,6 @@ const CustomersDistributorHook = () => {
         setPhone('');
         setPlan('');
         setType('');
-
         // Restablecer los errores del formulario
         setErrorDniForm(null);
         setErrorNameForm(null);
@@ -259,17 +249,11 @@ const CustomersDistributorHook = () => {
         setErrorMailForm(null);
         setErrorConfirmEmailForm(null);
         setErrorEmailMismatch(null);
-
-        // Restablecer los estados de los modales
         setIsModalOpen(false);
         setIsModalQR(false);
         setIsModalSuccess(false);
         setIsModalFail(false);
-
-        // Restablecer el estado de la fila seleccionada
         setRowId(null);
-
-        // Restablecer cualquier estado adicional
         setIsSubmitting(false);
         setStatus('');
         setDataUser(null);
@@ -278,9 +262,8 @@ const CustomersDistributorHook = () => {
         setStartDate('');
         setEndDate('');
         setSearchTerm('');
-
-        // Restablecer la consulta filtrada (opcional si aplica a tu caso)
         setFilteredQuery(query);
+        setSelectedRows([]);
     };
 
     const handleCloseModal = () => {
@@ -483,42 +466,69 @@ const CustomersDistributorHook = () => {
         }
     };
 
+    const getCountryFlag = (item: any) => {
+        const country = countries.find(country => country.id === item);
+        return country ? country.flag : '';
+    };
+
+    const getCountryName = (item: any) => {
+        const country = countries.find(country => country.id === item);
+        return country ? country.code : '';
+    };
+
+    const formatearFecha = (fechaISO: string): string => {
+        return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
+    };
+
+    const handleGetSelectedRows = () => {
+        const selectedRowIds = apiRef && apiRef.current.getSelectedRows();
+        const selectedData = query.filter((row: any) => selectedRowIds.has(row.id));
+        handlePayUser(selectedData, false)
+        setSelectedRows(selectedData);
+    };
+
+    function getExcelData(apiRef: any) {
+        const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
+        const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
+        const data = filteredSortedRowIds.map((id) => {
+            const row: { [key: string]: any } = {};
+            visibleColumnsField.forEach((field) => {
+                row[field] = apiRef.current.getCellParams(id, field).value;
+            });
+            return row;
+        });
+
+        return data;
+    }
+
+    const handleExport = () => {
+        const data = getExcelData(apiRef);
+        exportToExcel(data);
+    };
+
     useEffect(() => {
         const getquery = async () => {
-            const usersDataSanpShot = await getAllUsers();
-            const usersData = usersDataSanpShot.docs.map((doc) => {
-                const data = doc.data();
-                const timestamp = doc.data().created;
-                const date = new Date(timestamp);
-                const formattedHour = `${date.getHours()
-                    .toString()
-                    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds()
-                        .toString()
-                        .padStart(2, "0")}`;
-
+            const usersDataSanpShotAux = await getUsersWithOrdersAndInvoices();
+            const usersData = usersDataSanpShotAux.map((doc: any) => {
                 return {
-                    id: doc.data().dni || 1,
-                    is_admin: doc.data().is_admin,
-                    is_distributor: doc.data().is_distributor || false,
-                    url: doc.data(),
-                    urlQR: doc.data(),
-                    name: doc.data().firstName + " " + doc.data().lastName || "",
-                    indicative: doc.data().indicative || "",
-                    phone: doc.data().phone || "",
-                    email: doc.data().email || "",
-                    lastName: doc.data().profile?.last_name?.text || "",
-                    plan: doc.data()?.selectedPlan?.name,
-                    created_at: doc.data()?.created_at || "",
-                    status: doc.data().isActiveByAdmin === true ? "true" : "false",
-                    statusDelete: doc.data().isActiveByAdmin === true ? "true" : "false",
-                    edit: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
-                    editDelete: { switch: doc.data().isActiveByAdmin === true ? true : false || "", uid: doc.data().uid },
-                    userType: doc.data(),
-                    optionEdit: doc.data(),
-                    idDistributor: doc.data().idDistributor
+                    id: doc.dni || 1,
+                    created_at: doc?.created_at || "",
+                    name: doc.firstName + " " + doc.lastName || "",
+                    indicative: doc.indicative || "",
+                    phone: doc.phone || "",
+                    email: doc.email || "",
+                    plan: doc?.selectedPlan?.name,
+                    userType: doc,
+                    optionEdit: doc,
+                    optionPay: doc,
+                    statusPay: doc.userInvoice.status === 'PAID' ? 'Pagado' : 'Pendiente por pagar',
+                    userInvoice: doc.userInvoice,
+                    userOrder: doc.userOrder,
+                    edit: { switch: doc.isActiveByAdmin === true ? true : false || "", uid: doc.uid },
+                    idDistributor: doc.idDistributor
                 };
                 //}).filter((user) => (!user.is_admin && !user.is_distributor))
-            }).filter((user) => user?.idDistributor === data?.uid);
+            }).filter((user: any) => user?.idDistributor === data?.uid);
             setQuery(usersData);
             setFilteredQuery(usersData);
         };
@@ -526,7 +536,7 @@ const CustomersDistributorHook = () => {
     }, [data?.uid, flag]);
 
     return {
-        query: filteredQuery,
+        data: filteredQuery,
         flag,
         setFlag,
         setQuery,
@@ -584,7 +594,14 @@ const CustomersDistributorHook = () => {
         errorPhoneCodeForm,
         errorMailForm,
         errorConfirmEmailForm,
-        errorEmailMismatch
+        errorEmailMismatch,
+        formatearFecha,
+        getCountryFlag,
+        getCountryName,
+        handleGetSelectedRows,
+        handleExport,
+        selectedRows,
+        filteredQuery
     };
 };
 
