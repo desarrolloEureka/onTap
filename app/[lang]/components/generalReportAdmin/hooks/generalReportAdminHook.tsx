@@ -78,13 +78,6 @@ const PendingPaymentReportsHook = ({
     setFilteredQuery(filteredData);
   };
 
-  const handleGetSelectedRows = () => {
-    const selectedRowIds = apiRef && apiRef.current.getSelectedRows();
-    const selectedData = query.filter((row: any) => selectedRowIds.has(row.id));
-    handlePayUser(selectedData, false);
-    setSelectedRows(selectedData);
-  };
-
   const handleDeleteFilter = () => {
     setFilteredQuery(query);
     setStartDate("");
@@ -121,7 +114,7 @@ const PendingPaymentReportsHook = ({
       // Crear una hoja de cálculo a partir de los datos filtrados
       const worksheet = XLSX.utils.json_to_sheet(filteredData);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Pagos_Pendientes");
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Reporte_Entregas");
 
       // Crear un archivo Blob y descargarlo
       const excelBuffer = XLSX.write(workbook, {
@@ -135,7 +128,7 @@ const PendingPaymentReportsHook = ({
       // Crear un enlace de descarga y hacer clic en él
       const downloadLink = document.createElement("a");
       downloadLink.href = URL.createObjectURL(data);
-      downloadLink.download = "Pagos_Pendientes.xlsx";
+      downloadLink.download = "Reporte_Entregas.xlsx";
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
@@ -168,11 +161,14 @@ const PendingPaymentReportsHook = ({
       const reportData = await getUsersWithOrdersAndInvoices();
       const reportDataFinal = reportData
         .map((doc: any) => {
-          //console.log("doc", doc);
+          // Preparar el estado de pago y la fecha de entrega
+          const isPaid = doc.userInvoice.status === "PAID";
+          const isDelivered = doc.userOrder.status === "DELIVERED";
+
           return {
             id: doc.dni || 1,
             created_at: doc?.created_at || "",
-            name: doc.firstName + " " + doc.lastName || "",
+            name: `${doc.firstName} ${doc.lastName}` || "",
             indicative: doc.indicative || "",
             phone: doc.phone || "",
             email: doc.email || "",
@@ -180,10 +176,9 @@ const PendingPaymentReportsHook = ({
             userType: doc,
             optionEdit: doc,
             optionPay: doc,
-            statusPay:
-              doc.userInvoice.status === "PAID"
-                ? "Pagado"
-                : "Pendiente por pagar",
+            statusPay: isPaid ? "Pagado" : "Pendiente por pagar",
+            deliveryStatus: isDelivered ? "Entregado" : "Pendiente de entrega",
+            deliveryDate: isDelivered ? doc.userOrder.deliveryDate : "", // Mostrar fecha de entrega si está entregado
             userInvoice: doc.userInvoice,
             userOrder: doc.userOrder,
             edit: {
@@ -196,12 +191,14 @@ const PendingPaymentReportsHook = ({
         .filter(
           (user: any) =>
             user?.idDistributor === data?.uid &&
-            user.userInvoice.status != "PAID"
+            user.userInvoice.status === "PAID" && // Filtrar solo los usuarios con pago realizado
+            user.deliveryStatus === "Entregado" // Filtrar solo los pedidos entregados
         );
 
       setQuery(reportDataFinal);
       setFilteredQuery(reportDataFinal);
     };
+
     getquery();
   }, [data?.uid, flag]);
 
@@ -229,7 +226,6 @@ const PendingPaymentReportsHook = ({
     apiRef,
     getCountryFlag,
     getCountryName,
-    handleGetSelectedRows,
     handleDeleteFilter,
   };
 };

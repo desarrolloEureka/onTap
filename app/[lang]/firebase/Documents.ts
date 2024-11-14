@@ -290,7 +290,8 @@ export const saveOrders = async (dataSave: any) => {
 
     await setDoc(collectionRef, {
       ...dataSave,
-      paymentDate: ''
+      paymentDate: "",
+      deliveryDate: "",
     });
 
     return { success: true, message: "Orden creado correctamente" };
@@ -308,7 +309,7 @@ export const saveInvoices = async (dataSave: any) => {
 
     await setDoc(collectionRef, {
       ...dataSave,
-      paymentDate: ''
+      paymentDate: "",
     });
 
     return { success: true, message: "Factura creado correctamente" };
@@ -318,7 +319,7 @@ export const saveInvoices = async (dataSave: any) => {
   }
 };
 
-//Ordenes y Facturas
+// Ordenes y Facturas
 export const UpdateOrdersInvoices = async (idInvoice: any, idOrden: any) => {
   try {
     const collectionInvoiceRef = doc(dataBase, "invoices", idInvoice);
@@ -340,18 +341,62 @@ export const UpdateOrdersInvoices = async (idInvoice: any, idOrden: any) => {
 
     await updateDoc(collectionInvoiceRef, {
       status: "PAID",
-      paymentDate: paymentDate || ''
+      paymentDate: paymentDate || "",
     });
 
     await updateDoc(collectionOrdenRef, {
       status: "APPROVED",
-      paymentDate: paymentDate || ''
+      paymentDate: paymentDate || "",
     });
 
     return { success: true, message: "Factura actualizada correctamente" };
   } catch (error) {
     console.error("Error al actualizar la factura: ", error);
     return { success: false, message: "Error al actualizar la factura" };
+  }
+};
+
+// Función para actualizar el estado de la orden (APPROVED TO delivery)
+export const UpdateOrders = async (userId: string, delivery: boolean) => {
+  try {
+    console.log("userId recibido:", userId); // Verifica el userId que se pasa
+
+    // Realiza la consulta para buscar documentos donde el campo 'userId' coincida con el valor recibido
+    const ordersRef = collection(dataBase, "orders");
+    const q = query(ordersRef, where("userId", "==", userId)); // Consulta buscando por 'userId'
+
+    // Obtener los documentos que coinciden con la consulta
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.error("No se encontró la orden con el userId:", userId);
+      return {
+        success: false,
+        message: `No se encontró la orden con el userId ${userId}`,
+      };
+    }
+
+    // Suponiendo que el query solo devuelve un documento, obtén el primer resultado
+    const orderDoc = querySnapshot.docs[0];
+    console.log("Datos de la orden:", orderDoc.data());
+
+    // Definir el nuevo estado de la orden
+    const newStatus = delivery ? "DELIVERED" : "APPROVED";
+    const orderRef = orderDoc.ref; // Referencia al documento encontrado
+
+    // Actualizar el estado de la orden
+    await updateDoc(orderRef, {
+      status: newStatus,
+      deliveryDate: delivery ? moment().format() : "", // Establecer fecha de entrega si 'delivery' es true
+    });
+
+    return { success: true, message: "Orden actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar la orden: ", error);
+    return {
+      success: false,
+      message: "Error al actualizar la orden. Detalles: ",
+    };
   }
 };
 

@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { UpdatePassword } from "@/reactQuery/users"; // Importamos funcion para actualizar contraseña (firebase)
+import { UpdatePassword } from "@/reactQuery/users"; // Tu función para actualizar contraseña
 import { LoginError } from "@/types/login";
 import { useRouter } from "next/navigation";
 import useDictionary from "@/hooks/dictionary/useDictionary";
 import Swal from "sweetalert2";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase/auth"; // Asegúrate de que esta importación es correcta
 
 const ChangePasswordHook = () => {
   const [password, setPassword] = useState<string>("");
@@ -14,32 +16,25 @@ const ChangePasswordHook = () => {
   const dictionary = useDictionary({ lang: "es" });
 
   const handleResetPasswordFields = () => {
-    // Resetear los campos de las contraseñas
-    setPassword(""); // Resetea el campo de la contraseña
-    setPasswordConfirm(""); // Resetea el campo de la confirmación de la contraseña
+    setPassword("");
+    setPasswordConfirm("");
   };
 
   const handleChangePassword = async () => {
-    // Verificamos que las contraseñas sean válidas
     if (password && passwordConfirm && password === passwordConfirm) {
-      setErrorForm(null); // Resetea el error
+      setErrorForm(null);
 
       try {
-        // Llamamos a la función UpdatePassword (esta devuelve true/false)
         const resUpdate = await UpdatePassword(password);
-        setStateUpdate(resUpdate); // Actualiza el estado
+        setStateUpdate(resUpdate);
 
-        // Manejo de la respuesta
         if (!resUpdate) {
-          // Si no se pudo actualizar, mostramos un error
           setErrorForm({
             errorType: 3,
             errorMessage:
               dictionary?.dictionary?.newPassword?.updateError ||
               "Error al actualizar la contraseña",
           });
-
-          // Mostrar SweetAlert con error
           Swal.fire({
             icon: "error",
             title: "Error",
@@ -48,30 +43,45 @@ const ChangePasswordHook = () => {
               "No se pudo actualizar la contraseña. Inténtalo de nuevo.",
           });
         } else {
-          // Si la actualización fue exitosa
           console.debug("Contraseña actualizada correctamente");
 
-          // Mostrar SweetAlert con éxito
           Swal.fire({
             icon: "success",
             title: "Éxito",
             text: "Tu contraseña se ha actualizado correctamente.",
             showConfirmButton: false,
-            timer: 2000, // Se cerrará automáticamente después de 2 segundos
+            timer: 2000,
           });
 
-          // Llamamos a la función para resetear los campos
           handleResetPasswordFields();
+
+          // cierre de sesión después de la actualización de la contraseña
+          try {
+            // Cerrar sesión de Firebase
+            await signOut(auth);
+            console.debug("Sesión cerrada exitosamente");
+
+            // Limpiar localStorage y cookies
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // Redirigir a la página de inicio de sesión
+            router.replace("/views/login");
+          } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Hubo un problema al cerrar sesión. Inténtalo de nuevo.",
+            });
+          }
         }
       } catch (error) {
-        // Si ocurre algún error durante la actualización
         console.error("Error al actualizar la contraseña:", error);
         setErrorForm({
           errorType: 3,
           errorMessage: "Error al actualizar la contraseña",
         });
-
-        // Mostrar SweetAlert con error
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -79,7 +89,6 @@ const ChangePasswordHook = () => {
         });
       }
     } else {
-      // Manejo de errores de validación (las contraseñas no coinciden o no están completas)
       setErrorForm({
         errorType: !password ? 1 : 2,
         errorMessage: !password
@@ -88,8 +97,6 @@ const ChangePasswordHook = () => {
           : dictionary?.dictionary?.newPassword?.mandatoryRepeatPassword ||
             "Por favor, confirme la contraseña",
       });
-
-      // Mostrar SweetAlert con advertencia
       Swal.fire({
         icon: "warning",
         title: "Error de validación",
@@ -103,7 +110,8 @@ const ChangePasswordHook = () => {
   };
 
   const handleBack = () => {
-    router.replace("/views/home");
+    // Recarga la página completamente, como un "Ctrl + R"
+    window.location.reload();
   };
 
   return {

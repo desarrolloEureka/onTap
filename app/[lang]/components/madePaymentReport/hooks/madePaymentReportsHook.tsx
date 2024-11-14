@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetUser } from "@/reactQuery/users";
 import moment from "moment";
+import { UpdateOrdersQuerie } from "@/reactQuery/generalQueries";
 import {
   gridFilteredSortedRowIdsSelector,
   gridVisibleColumnFieldsSelector,
@@ -9,8 +10,13 @@ import {
 import * as XLSX from "xlsx";
 import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
+import Swal from "sweetalert2";
 
-const MadePaymentReportsHook = ({ handlePayUser }: { handlePayUser: any }) => {
+const MadePaymentReportsHook = ({
+  handleDeliveryUser,
+}: {
+  handleDeliveryUser: any;
+}) => {
   const { data, refetch } = GetUser();
   const apiRef = useGridApiRef();
   const [flag, setFlag] = useState(false);
@@ -72,6 +78,46 @@ const MadePaymentReportsHook = ({ handlePayUser }: { handlePayUser: any }) => {
       return true;
     });
     setFilteredQuery(filteredData);
+  };
+
+  const handleGetSelectedRows = async () => {
+    const selectedRowIds = apiRef && apiRef.current.getSelectedRows();
+    const selectedData = query.filter((row: any) => selectedRowIds.has(row.id));
+    let successCount = 0;
+
+    for (const order of selectedData) {
+      const orderId = order.id;
+
+      if (!orderId) {
+        console.error("No se encontró un ID de orden válido");
+        continue;
+      }
+
+      const result = await UpdateOrdersQuerie(orderId, true); // Actualiza el estado a "DELIVERED"
+      if (result.success) {
+        console.log(`La orden ${orderId} ha sido actualizada a "DELIVERED".`);
+        successCount++;
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Orden entregada con éxito",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: `Hubo un error al actualizar la orden ${orderId}: ${result.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+
+    if (successCount > 0) {
+      setFlag(!flag); // Cambia el valor de `flag` para forzar la actualización
+    }
   };
 
   const handleDeleteFilter = () => {
@@ -162,7 +208,6 @@ const MadePaymentReportsHook = ({ handlePayUser }: { handlePayUser: any }) => {
       const reportData = await getUsersWithOrdersAndInvoices();
       const reportDataFinal = reportData
         .map((doc: any) => {
-          // Inclui el campo paymentDate en pagos realizados
           return {
             id: doc.dni || 1,
             created_at: doc?.created_at || "",
@@ -189,17 +234,21 @@ const MadePaymentReportsHook = ({ handlePayUser }: { handlePayUser: any }) => {
               uid: doc.uid,
             },
             idDistributor: doc.idDistributor,
+            totalAmount: doc.userInvoice?.totalAmount || 0,
+            status: doc.userOrder?.status || "", // Añade el campo de estado de la orden
           };
         })
         .filter(
           (user) =>
             user?.idDistributor === data?.uid &&
-            user.userInvoice.status === "PAID"
-        ); // Filtrar solo pagos realizados
+            user.userInvoice.status === "PAID" &&
+            user.status !== "DELIVERED" // Excluir aquellos con estado "DELIVERED"
+        );
 
       setQuery(reportDataFinal);
       setFilteredQuery(reportDataFinal);
     };
+
     getquery();
   }, [data?.uid, flag]);
 
@@ -228,6 +277,7 @@ const MadePaymentReportsHook = ({ handlePayUser }: { handlePayUser: any }) => {
     getCountryFlag,
     getCountryName,
     handleDeleteFilter,
+    handleGetSelectedRows,
   };
 };
 

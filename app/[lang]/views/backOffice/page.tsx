@@ -16,6 +16,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, NavDropdown, Button, Container } from "react-bootstrap";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Image from "next/image";
+
 //
 import FilterIcon from "@mui/icons-material/Filter";
 import GroupIcon from "@mui/icons-material/Group";
@@ -59,6 +60,8 @@ import PaymentForm from "@/components/customersDistributor/PaymentForm";
 import CardRegisterForm from "@/components/cardRegisterForm/CardRegisterForm";
 import PendingPaymentReports from "@/components/pendingPaymentReports/PendingPaymentReports";
 import MadePaymentReports from "@/components/madePaymentReport/madePaymentReports";
+import DispatchedDeliveriesReports from "@/components/dispatchedDeliveriesReport/dispatchedDeliveriesReports";
+import GeneralReportAdmin from "@/components/generalReportAdmin/generalReportAdmin";
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -67,6 +70,10 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const [isDistributor, setIsDistributor] = useState(false);
   const [userDataPay, setUserDataPay] = useState(null);
   const [isIndividualPay, setIsIndividualPay] = useState(false);
+  // Estado para almacenar los datos del usuario para los reportes enviados
+  const [userDataReport, setUserDataReport] = useState<any>(null);
+  // Estado para determinar si es un reporte individual
+  const [isIndividualReport, setIsIndividualReport] = useState<boolean>(false);
 
   useEffect(() => {
     // Verificar si estamos en el lado del cliente
@@ -91,6 +98,15 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     setUserDataPay(userData);
     setIsIndividualPay(isIndividual);
     setValue(parseInt("22", 10));
+  };
+
+  const handleDeliveryUser = (userData: any, isIndividual: boolean) => {
+    // Aquí se guardan los datos que serán utilizados en la vista de "reportes enviados"
+    setUserDataReport(userData);
+    setIsIndividualReport(isIndividual);
+
+    // Se puede ajustar un valor o estado si es necesario, por ejemplo:
+    setValue(parseInt("25", 10)); // Ajustar el valor para reflejar que se está manejando un reporte enviado
   };
 
   const handleReturnForm = () => {
@@ -303,6 +319,17 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           />
                           {dictionary?.backOffice.TrafficReport}
                         </NavDropdown.Item>
+                        {/* Reporte general OC para el administrador  */}
+                        <NavDropdown.Item
+                          eventKey="27"
+                          style={{ fontSize: 15 }}
+                        >
+                          <LocalShippingIcon
+                            fontSize="small"
+                            sx={{ marginRight: "4px" }}
+                          />
+                          {dictionary?.backOffice.labelGeneralReportAdmin}
+                        </NavDropdown.Item>
                       </>
                     ) : (
                       <>
@@ -326,7 +353,10 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           />
                           {dictionary?.backOffice.PendingPayments}
                         </NavDropdown.Item>
-                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <NavDropdown.Item
+                          eventKey={"26"}
+                          style={{ fontSize: 15 }}
+                        >
                           <LocalShippingIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
@@ -422,7 +452,6 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                   )}
 
                   {/* Mi cuenta */}
-
                   <NavDropdown
                     title={
                       <span
@@ -437,8 +466,9 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       </span>
                     }
                     id="basic-nav-dropdown"
-                    className="tw-text-white  tw-mr-4"
+                    className="tw-text-white tw-mr-4"
                   >
+                    {/* Opción para cambiar contraseña */}
                     <NavDropdown.Item eventKey={20} style={{ fontSize: 15 }}>
                       <ManageAccountsIcon
                         fontSize="small"
@@ -446,13 +476,19 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       />
                       Cambiar Contraseña
                     </NavDropdown.Item>
-                    <NavDropdown.Item eventKey={21} style={{ fontSize: 15 }}>
-                      <PasswordIcon
-                        fontSize="small"
-                        sx={{ marginRight: "4px" }}
-                      />
-                      Editar Perfil
-                    </NavDropdown.Item>
+
+                    {/* Opción de editar perfil, solo visible si es distribuidor */}
+                    {isDistributor && (
+                      <NavDropdown.Item eventKey={21} style={{ fontSize: 15 }}>
+                        <PasswordIcon
+                          fontSize="small"
+                          sx={{ marginRight: "4px" }}
+                        />
+                        Editar Perfil
+                      </NavDropdown.Item>
+                    )}
+
+                    {/* Opción para las tarjetas de pago */}
                     <NavDropdown.Item eventKey="23" style={{ fontSize: 15 }}>
                       <PaymentIcon
                         fontSize="small"
@@ -460,6 +496,8 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                       />
                       {dictionary?.backOffice?.LableCards}
                     </NavDropdown.Item>
+
+                    {/* Opción para cerrar sesión */}
                     <NavDropdown.Item onClick={logOut} style={{ fontSize: 15 }}>
                       <LogoutIcon
                         fontSize="small"
@@ -531,7 +569,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         {value === 24 && (
           <PendingPaymentReports handlePayUser={handlePayUser} />
         )}
-        {value === 25 && <MadePaymentReports handlePayUser={handlePayUser} />}
+        {value === 25 && (
+          <MadePaymentReports handleDeliveryUser={handleDeliveryUser} />
+        )}
+        {value === 26 && (
+          <DispatchedDeliveriesReports handlePayUser={handlePayUser} />
+        )}
+        {value === 27 && <GeneralReportAdmin handlePayUser={handlePayUser} />}
       </Box>
 
       {/* Footer */}
