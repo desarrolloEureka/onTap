@@ -264,7 +264,7 @@ const GetUserById = (userUid: string, refetch?: boolean) => {
 
 const GetUserByIdEdit = (userUid: string, refetch?: boolean) => {
   return useQuery({
-    queryKey: ["user", userUid], 
+    queryKey: ["user", userUid],
     queryFn: async () => {
       const updatedUser = await getUserByIdFireStore(userUid);
       if (updatedUser.exists()) {
@@ -355,5 +355,5 @@ export {
   SendDataMetrics,
   GetUserByIdCard,
   checkUserExists,
-  GetUserByIdEdit
+  GetUserByIdEdit,
 };

@@ -46,7 +46,7 @@ const EditProfileHook = () => {
 
           if (result && result.success && result.data) {
             const currentProfileData = result.data;
-            console.log("Current Profile Data: ", currentProfileData); // Verificar los datos
+            //console.log("Current Profile Data: ", currentProfileData); // Verificar los datos
 
             setFullName(currentProfileData.fullName || "");
             setAddress(currentProfileData.address || "");
@@ -179,7 +179,7 @@ const EditProfileHook = () => {
   };
 
   const handleBack = () => {
-    router.replace("/views/home");
+    window.location.reload();
   };
 
   return {

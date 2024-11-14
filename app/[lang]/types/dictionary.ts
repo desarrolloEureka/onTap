@@ -154,6 +154,8 @@ export interface Dictionary {
     CardsLabel: string;
     labelPendingPaymentReports: string;
     labelMadePaymentReports: string;
+    labelDispatchedDeliveriesReports: string;
+    labelGeneralReportAdmin: string;
   };
   cardView: {
     labelErrorUser: string;

@@ -153,7 +153,9 @@
     "LableCards": "Mis Tarjetas",
     "CardsLabel": "Tarjetas",
     "labelPendingPaymentReports": "Reporte de Pagos Pendientes",
-    "labelMadePaymentReports": "Reporte de Pagos Realizados"
+    "labelMadePaymentReports": "Reporte de Pagos Realizados",
+    "labelDispatchedDeliveriesReports": "Reporte de Entregas",
+    "labelGeneralReportAdmin": "Reporte General OC"
   },
   "cardView": {
     "labelErrorUser": "Error",

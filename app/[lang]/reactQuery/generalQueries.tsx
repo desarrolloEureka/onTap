@@ -20,6 +20,7 @@ import {
   saveOrders,
   saveInvoices,
   UpdateOrdersInvoices,
+  UpdateOrders,
   updateCards,
   saveCards,
 } from "@/firebase/Documents";
@@ -98,8 +99,17 @@ export const saveInvoiceQuerie = async (dataSave: any) => {
 };
 
 //Actualizar Estado factura y orden
-export const UpdateOrdersInvoicesQuerie = async (idInvoice: any, idOrden: any) => {
+export const UpdateOrdersInvoicesQuerie = async (
+  idInvoice: any,
+  idOrden: any
+) => {
   const res = await UpdateOrdersInvoices(idInvoice, idOrden);
+  return res;
+};
+
+// Query para actualizar el estado de la orden
+export const UpdateOrdersQuerie = async (idOrden: any, delivery: boolean) => {
+  const res = await UpdateOrders(idOrden, delivery);
   return res;
 };
 

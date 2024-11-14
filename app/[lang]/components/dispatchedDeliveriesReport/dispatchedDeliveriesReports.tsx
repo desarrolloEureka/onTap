@@ -3,21 +3,16 @@ import { Typography, Button, TextField } from "@mui/material";
 import { Box } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbarContainer } from "@mui/x-data-grid";
 import { GridToolbarQuickFilter } from "@mui/x-data-grid/components";
-import MadePaymentReportsHook from "./hooks/madePaymentReportsHook";
 // Iconos
 import GetAppIcon from "@mui/icons-material/GetApp";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import DispatchedDeliveriesReportsHook from "./hooks/dispatchedDeliveriesReportsHook";
 import PaymentIcon from "@mui/icons-material/Payment";
 import ReactCountryFlag from "react-country-flag";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
 
-const PendingPaymentReports = ({
-  handleDeliveryUser,
-}: {
-  handleDeliveryUser: any;
-}) => {
+const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
   const {
     data,
     formatearFecha,
@@ -43,25 +38,23 @@ const PendingPaymentReports = ({
     getCountryFlag,
     getCountryName,
     handleDeleteFilter,
-    handleGetSelectedRows,
-  } = MadePaymentReportsHook({ handleDeliveryUser });
+  } = DispatchedDeliveriesReportsHook({ handlePayUser });
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
 
   const columns: GridColDef[] = [
     {
-      field: "paymentDate",
-      headerName: "Fecha de Pago",
+      field: "deliveryDate",
+      headerName: "Fecha de Entrega",
       minWidth: 210,
       flex: 2,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
-        // Verifica si el estado del pago es "Pagado"
-        const isPaid = params.row.statusPay === "Pagado";
+        const isDelivered = params.row.deliveryStatus === "Entregado";
         return (
           <div className="tw-flex tw-justify-center tw-items-center">
-            {isPaid && params.value ? (
+            {isDelivered && params.value ? (
               <div>{formatearFecha(params.value)}</div>
             ) : (
               <div>No aplica</div>
@@ -82,7 +75,7 @@ const PendingPaymentReports = ({
       field: "name",
       headerName: "Nombres y Apellidos",
       minWidth: 230,
-      flex: 2,
+      flex: 1,
     },
     {
       field: "indicative",
@@ -115,48 +108,14 @@ const PendingPaymentReports = ({
     {
       field: "email",
       headerName: "Correo",
-      minWidth: 250,
-      flex: 2,
-    },
-    {
-      field: "totalAmount",
-      headerName: "Valor Total Pagado",
-      minWidth: 120,
-      flex: 2,
-      headerAlign: "center",
-      align: "center",
-      renderCell: (params) => (
-        <div className="tw-flex tw-justify-center tw-items-center">
-          <div>
-            {params.value
-              ? `${params.value.toLocaleString("es-CO", {
-                  style: "currency",
-                  currency: "COP",
-                  minimumFractionDigits: 0,
-                })}`
-              : "No aplica"}
-          </div>
-        </div>
-      ),
-    },
-    {
-      field: "statusPay",
-      headerName: "Estado Pago",
-      minWidth: 110,
+      minWidth: 180,
       flex: 1,
-      headerAlign: "center",
-      align: "center",
-      renderCell: (params) => (
-        <div className="tw-flex tw-justify-center tw-items-center">
-          {params.value && <div>{params.value}</div>}
-        </div>
-      ),
     },
     {
       field: "deliveryStatus",
       headerName: "Estado de Entrega",
       minWidth: 150,
-      flex: 2,
+      flex: 1,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -235,25 +194,6 @@ const PendingPaymentReports = ({
             <Typography style={{ color: "#02AF9B" }}>Borrar</Typography>
           </Button>
 
-          <Button
-            className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={handleGetSelectedRows}
-          >
-            <LocalShippingIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Entregar</Typography>
-          </Button>
           <Button
             className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
             type="submit"
@@ -379,7 +319,7 @@ const PendingPaymentReports = ({
           align="center"
           fontWeight="bold"
         >
-          {dictionary.dictionary?.backOffice?.labelMadePaymentReports}
+          {dictionary.dictionary?.backOffice?.labelDispatchedDeliveriesReports}
         </Typography>
         <div
           style={{ height: 650, width: "100%" }}
@@ -410,7 +350,6 @@ const PendingPaymentReports = ({
             disableDensitySelector
             disableColumnFilter
             disableRowSelectionOnClick
-            checkboxSelection
             sx={{
               "& .MuiDataGrid-columnHeaders": {
                 backgroundColor: "#dddddd",
