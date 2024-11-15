@@ -1,6 +1,6 @@
 import useDictionary from "@/hooks/dictionary/useDictionary";
 import { Typography, Button, TextField } from "@mui/material";
-import { Box } from "@mui/material";
+import { Modal, Box, IconButton, InputAdornment, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbarContainer } from "@mui/x-data-grid";
 import { GridToolbarQuickFilter } from "@mui/x-data-grid/components";
 // Iconos
@@ -11,6 +11,21 @@ import PendingPaymentReportsHook from "./hooks/PendingPaymentReportsHook";
 import PaymentIcon from "@mui/icons-material/Payment";
 import ReactCountryFlag from "react-country-flag";
 import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
+import InfoIcon from "@mui/icons-material/Info";
+import SubjectIcon from "@mui/icons-material/Subject";
+import DescriptionIcon from "@mui/icons-material/Description";
+import SaveIcon from "@mui/icons-material/Save";
+import { Close } from "@mui/icons-material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
 
 const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
   const {
@@ -39,11 +54,31 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     getCountryName,
     handleGetSelectedRows,
     handleDeleteFilter,
+    isModalOpen,
+    handleCloseModal,
+    handleOpenModal,
+    mostrarDetalleCompra,
   } = PendingPaymentReportsHook({ handlePayUser });
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
 
   const columns: GridColDef[] = [
+    {
+      field: "detalleCompra",
+      headerName: "Detalle de Compra",
+      minWidth: 150,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <Tooltip title="Ver detalles de la compra" arrow>
+          <InfoIcon
+            style={{ cursor: "pointer", color: "#1976d2" }}
+            onClick={() => mostrarDetalleCompra(params.row)}
+          />
+        </Tooltip>
+      ),
+    },
     {
       field: "created_at",
       headerName: "Fecha Registro",
@@ -413,6 +448,100 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
           />
         </div>
       </div>
+      <Modal
+        open={isModalOpen}
+        onClose={() => handleCloseModal()}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="tw-flex tw-justify-center tw-items-center"
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            bgcolor: "#02AF9B",
+            padding: 0.5,
+            borderRadius: 3,
+            position: "relative",
+          }}
+        >
+          <IconButton
+            className="tw-absolute tw-right-1 tw-top-1"
+            onClick={() => handleCloseModal()}
+          >
+            <Close className="tw-text-white" />
+          </IconButton>
+          <div className="tw-w-full tw-h-4/5 tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
+            <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
+              {query?.length > 0 ? (
+                <table className="tw-w-full tw-table-auto tw-border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
+                        Nombre del Material
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
+                        Precio Final del Material
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
+                        SKU del Material
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
+                        Estado del Material
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
+                        Nombre del Plan
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
+                        Precio Final del Plan
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
+                        SKU del Plan
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {query.map((user: any) => {
+                      console.log("User full data:", user); // Verifica todo el objeto user
+
+                      // Accede de manera segura a los datos
+                      const selectedMaterial =
+                        user?.userOrder?.selectedMaterial || {};
+                      const selectedPlan =
+                        user?.userInvoice?.selectedPlan || {};
+
+                      // Verifica los datos específicos
+                      console.log("Selected Material:", selectedMaterial);
+                      console.log("Selected Plan:", selectedPlan);
+
+                      return (
+                        <tr key={user.id}>
+                          <td>{selectedMaterial?.name || "Sin nombre"}</td>
+                          <td>${selectedMaterial?.finalPrice || 0}</td>
+                          <td>{selectedMaterial?.sku || "Sin SKU"}</td>
+                          <td>
+                            {selectedMaterial?.status ? "Activo" : "Inactivo"}
+                          </td>
+                          <td>{selectedPlan?.name || "Sin plan"}</td>
+                          <td>${selectedPlan?.finalPrice || 0}</td>
+                          <td>{selectedPlan?.sku || "Sin SKU"}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              ) : (
+                <Typography variant="body1">
+                  No hay datos para mostrar
+                </Typography>
+              )}
+            </div>
+          </div>
+          ;
+        </Box>
+      </Modal>
     </div>
   );
 };
