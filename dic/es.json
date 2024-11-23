@@ -155,7 +155,8 @@
     "labelPendingPaymentReports": "Reporte de Pagos Pendientes",
     "labelMadePaymentReports": "Reporte de Pagos Realizados",
     "labelDispatchedDeliveriesReports": "Reporte de Entregas",
-    "labelGeneralReportAdmin": "Reporte General OC"
+    "labelGeneralReportAdmin": "Reporte General OC",
+    "labelReportAdmin": "Reporte de Entregas Totales"
   },
   "cardView": {
     "labelErrorUser": "Error",

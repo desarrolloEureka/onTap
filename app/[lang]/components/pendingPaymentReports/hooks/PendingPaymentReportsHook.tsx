@@ -27,6 +27,32 @@ const PendingPaymentReportsHook = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [rowId, setRowId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [detalleCompra, setDetalleCompra] = useState<any>(null);
+
+  const formatPrice = (value: any) => {
+    if (value == null || isNaN(value)) return "";
+    const number = Number(value);
+    return new Intl.NumberFormat("es-CO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+    }).format(number);
+  };
+
+  // Funciones para manejar la apertura y cierre del modal
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const mostrarDetalleCompra = (rowData: any) => {
+    //console.log("detalle de la compra", rowData);
+    setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
+    setIsModalOpen(true); // Abre el modal
+  };
 
   const getCountryFlag = (item: any) => {
     const country = countries.find((country) => country.id === item);
@@ -165,43 +191,64 @@ const PendingPaymentReportsHook = ({
 
   useEffect(() => {
     const getquery = async () => {
-      const reportData = await getUsersWithOrdersAndInvoices();
-      const reportDataFinal = reportData
-        .map((doc: any) => {
-          //console.log("doc", doc);
-          return {
-            id: doc.dni || 1,
-            created_at: doc?.created_at || "",
-            name: doc.firstName + " " + doc.lastName || "",
-            indicative: doc.indicative || "",
-            phone: doc.phone || "",
-            email: doc.email || "",
-            plan: doc?.selectedPlan?.name,
-            userType: doc,
-            optionEdit: doc,
-            optionPay: doc,
-            statusPay:
-              doc.userInvoice.status === "PAID"
-                ? "Pagado"
-                : "Pendiente por pagar",
-            userInvoice: doc.userInvoice,
-            userOrder: doc.userOrder,
-            edit: {
-              switch: doc.isActiveByAdmin === true ? true : false || "",
-              uid: doc.uid,
-            },
-            idDistributor: doc.idDistributor,
-          };
-        })
-        .filter(
-          (user: any) =>
-            user?.idDistributor === data?.uid &&
-            user.userInvoice.status != "PAID"
-        );
+      try {
+        const reportData = await getUsersWithOrdersAndInvoices();
 
-      setQuery(reportDataFinal);
-      setFilteredQuery(reportDataFinal);
+        const reportDataFinal = reportData
+          .map((doc: any) => {
+            const {
+              dni,
+              created_at,
+              firstName,
+              lastName,
+              indicative,
+              phone,
+              email,
+              selectedPlan,
+              userInvoice,
+              userOrder,
+              isActiveByAdmin,
+              uid,
+              idDistributor,
+            } = doc;
+
+            return {
+              id: dni || 1,
+              created_at: created_at || "",
+              name: `${firstName || ""} ${lastName || ""}`,
+              indicative: indicative || "",
+              phone: phone || "",
+              email: email || "",
+              plan: selectedPlan?.name || "",
+              userType: doc,
+              optionEdit: doc,
+              optionPay: doc,
+              statusPay:
+                userInvoice?.status === "PAID"
+                  ? "Pagado"
+                  : "Pendiente por pagar",
+              userInvoice: userInvoice || {},
+              userOrder: userOrder || {},
+              edit: {
+                switch: isActiveByAdmin ? true : false,
+                uid: uid || "",
+              },
+              idDistributor: idDistributor || "",
+            };
+          })
+          .filter(
+            (user: any) =>
+              user?.idDistributor === data?.uid &&
+              user.userInvoice?.status !== "PAID"
+          );
+
+        setQuery(reportDataFinal);
+        setFilteredQuery(reportDataFinal);
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+      }
     };
+
     getquery();
   }, [data?.uid, flag]);
 
@@ -231,6 +278,12 @@ const PendingPaymentReportsHook = ({
     getCountryName,
     handleGetSelectedRows,
     handleDeleteFilter,
+    handleOpenModal,
+    handleCloseModal,
+    mostrarDetalleCompra,
+    isModalOpen,
+    detalleCompra,
+    formatPrice,
   };
 };
 

@@ -1,4 +1,4 @@
-import { getAllUsers, getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 import { checkUserExists, GetUser, SendEditData } from "@/reactQuery/users";
 import {
@@ -6,11 +6,17 @@ import {
   gridVisibleColumnFieldsSelector,
   useGridApiRef,
 } from "@mui/x-data-grid";
+import { UpdateUserDataQuery } from "@/reactQuery/generalQueries";
+
 import { registerUserAuth, registerUserFb } from "app/functions/register";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
+import { Country } from "@/components/countries/hooks/CountriesHook";
+import { countriesTable } from "@/types/formConstant";
+import { Department } from "@/components/departments/hooks/DepartmentsHook";
+import { colombianCitiesData } from "@/types/colombianCitiesData";
 
 const CustomersDistributorHook = ({
   handlePayUser,
@@ -26,6 +32,7 @@ const CustomersDistributorHook = ({
     gif: boolean;
     uid: string;
   }
+  type City = string;
   const { data, refetch } = GetUser();
   const apiRef = useGridApiRef();
   const [query, setQuery] = useState<any>([]);
@@ -35,8 +42,35 @@ const CustomersDistributorHook = ({
   const [status, setStatus] = useState<string>("");
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
+  //Datos distribuidor paso 1
+  const [documentType, setDocumentType] = useState<string>("");
+  const [documentNumber, setDocumentNumber] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
+  const [isActive, setIsActive] = useState<boolean>(true);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
+  const [usuario, setUsuario] = useState({
+    uid: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+  });
+
   //Modal editar/registro
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [isModalOpen3, setIsModalOpen3] = useState(false);
+
   const [isEditData, setIsEditData] = useState(false);
 
   //
@@ -46,13 +80,14 @@ const CustomersDistributorHook = ({
   //Datos
   const [dni, setDni] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");
   const [phoneCode, setPhoneCode] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [plan, setPlan] = useState<string>("");
   const [type, setType] = useState<string>("");
+  const [detalleCompra, setDetalleCompra] = useState<any>(null);
+
   //Extra
   const [urlQR, setUrlQR] = useState<string>("");
   const [startDate, setStartDate] = useState("");
@@ -75,6 +110,42 @@ const CustomersDistributorHook = ({
   const [errorEmailMismatch, setErrorEmailMismatch] = useState<string | null>(
     null
   );
+
+  const handleChangeDepartament = async (e: any) => {
+    try {
+      const value = e.target.value;
+      setState(value);
+
+      const filteredCitiesData = colombianCitiesData.find(
+        (departamento) => departamento.departamento === value
+      );
+
+      const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
+      setCities(cities);
+    } catch (error) {
+      console.error("Error al cambiar el departamento:", error);
+    }
+  };
+
+  const handleChangeCity = async (e: any) => {
+    const value = e.target.value;
+    setCity(value);
+  };
+
+  const formatPrice = (value: any) => {
+    if (value == null || isNaN(value)) return "";
+    const number = Number(value);
+    return new Intl.NumberFormat("es-CO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+    }).format(number);
+  };
+
+  const mostrarDetalleCompra = (rowData: any) => {
+    //console.log("detalle de la compra", rowData);
+    setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
+    setIsModalOpen2(true); // Abre el modal
+  };
 
   const handleOpenModal = () => {
     setIsEditData(false);
@@ -302,6 +373,8 @@ const CustomersDistributorHook = ({
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setIsModalOpen2(false);
+    setIsModalOpen3(false);
     handleReset();
   };
 
@@ -516,6 +589,128 @@ const CustomersDistributorHook = ({
     }
   };
 
+  // Función para abrir el modal y cargar la información del usuario
+  const handleOpenModalAndLoadData = async (dataUsuario: any) => {
+    setIsModalOpen3(true);
+    try {
+      //console.log("Cargando datos del usuario:", dataUsuario);
+
+      // Configurar estados con los datos del usuario
+      setRowId(dataUsuario.uid || null); // Cambiar a uid
+      setDocumentType(dataUsuario.documentType || "");
+      setDocumentNumber(dataUsuario.dni || "");
+      setFirstName(dataUsuario.firstName || "");
+      setLastName(dataUsuario.lastName || "");
+      setEmail(dataUsuario.email || "");
+      setConfirmEmail(dataUsuario.email || "");
+      setPhoneNumber(dataUsuario.phone || "");
+      setPhoneCode(dataUsuario.indicative || "");
+      setAddress(dataUsuario.address || "");
+      setCity(dataUsuario.city || "");
+      setState(dataUsuario.state || "");
+      setCountry(dataUsuario.country || "");
+      setIsActive(dataUsuario.isActive ?? true);
+
+      //console.log("rowId asignado:", dataUsuario.uid);
+
+      // Cargar departamentos y ciudades
+      const departmentsData = await colombianCitiesData;
+
+      if (!Array.isArray(departmentsData)) {
+        throw new Error("Los datos de departamentos no son válidos.");
+      }
+
+      const filteredCitiesData = departmentsData.find(
+        (departamento) => departamento.departamento === dataUsuario.state
+      );
+
+      const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
+      setDepartments(departmentsData);
+      setCities(cities);
+    } catch (error) {
+      console.error("Error al cargar datos del usuario:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al cargar datos",
+        //text: error.message || "No se pudo cargar la información del usuario.",
+      });
+    }
+  };
+
+  // Función para guardar los cambios y actualizar el perfil
+  const handleUpdatePerfil = async () => {
+    try {
+      //console.log("Intentando actualizar perfil. rowId actual (uid):", rowId);
+
+      if (!rowId) {
+        throw new Error(
+          "El identificador del usuario (uid) es inválido o no está asignado."
+        );
+      }
+
+      // Validación básica
+      if (
+        !documentType ||
+        !documentNumber ||
+        !firstName ||
+        !lastName ||
+        !email
+      ) {
+        throw new Error("Por favor, completa todos los campos obligatorios.");
+      }
+
+      // Datos a enviar
+      const updatedData = {
+        documentType,
+        dni: documentNumber,
+        firstName,
+        lastName,
+        email,
+        phone: phoneNumber,
+        indicative: phoneCode,
+        address,
+        city,
+        state,
+        country,
+        isActive,
+      };
+
+      //console.log("Datos a actualizar:", updatedData);
+
+      const result = await UpdateUserDataQuery(updatedData, rowId);
+
+      if (result.success) {
+        await Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `Cliente actualizado con éxito`,
+          showConfirmButton: false,
+          timer: 2000,
+          // customClass: {
+          //   container: z-index: 10;
+          // }
+        });
+
+        // Restablecer el formulario
+        //setIsModalOpen(false);
+        handleReset();
+      } else {
+        setStatus(result.message);
+      }
+    } catch (error) {
+      console.error("Error al actualizar el perfil:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al actualizar",
+        //text: error.message || "Ocurrió un problema inesperado.",
+      });
+    } finally {
+      setFlag(!flag);
+      setIsSubmitting(false);
+      setIsModalOpen3(false);
+    }
+  };
+
   const getCountryFlag = (item: any) => {
     const country = countries.find((country) => country.id === item);
     return country ? country.flag : "";
@@ -639,7 +834,6 @@ const CustomersDistributorHook = ({
     apiRef,
     handleCloseModal,
     isEditData,
-    lastName,
     setLastName,
     confirmEmail,
     setConfirmEmail,
@@ -660,6 +854,43 @@ const CustomersDistributorHook = ({
     handleExport,
     selectedRows,
     filteredQuery,
+    mostrarDetalleCompra,
+    detalleCompra,
+    formatPrice,
+    query,
+    isModalOpen2,
+    handleOpenModalAndLoadData,
+    handleUpdatePerfil,
+
+    setDocumentType,
+    setDocumentNumber,
+    setFirstName,
+    setPhoneNumber,
+    setAddress,
+    setCity,
+    setCountry,
+    setIsActive,
+    setDepartments,
+    setCities,
+    setState,
+
+    documentType,
+    documentNumber,
+    firstName,
+    lastName,
+    phoneNumber,
+    address,
+    city,
+    state,
+    country,
+    isActive,
+    departments,
+    cities,
+    handleChangeDepartament,
+    handleChangeCity,
+
+    setIsModalOpen3,
+    isModalOpen3,
   };
 };
 

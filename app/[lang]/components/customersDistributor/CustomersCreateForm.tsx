@@ -932,14 +932,22 @@ const CustomersCreateForm = ({
                                       />
                                     </td>
                                     <td className="tw-px-4">
-                                      <Checkbox
-                                        checked={product?.hasPersonalization}
-                                        onClick={() =>
-                                          togglePersonalization(index)
-                                        }
-                                        disabled={!product?.customStatus}
-                                        className="tw-ml-8"
-                                      />
+                                      <div className="tw-flex tw-items-center">
+                                        <Checkbox
+                                          checked={product?.hasPersonalization}
+                                          onClick={() =>
+                                            togglePersonalization(index)
+                                          }
+                                          disabled={!product?.customStatus}
+                                          className="tw-ml-2"
+                                        />
+                                        <span className="tw-ml-4 tw-text-lg">
+                                          $
+                                          {formatPrice(
+                                            product?.full_price_custom || 0
+                                          )}
+                                        </span>
+                                      </div>
                                     </td>
                                   </tr>
                                   {product.hasPersonalization && (
@@ -1240,17 +1248,18 @@ const CustomersCreateForm = ({
                       </Table>
 
                       {/* Total acumulado debajo del Precio Distribuidor */}
-                      <div className="tw-text-right tw-mt-5 tw-mb-3 tw-pr-7">
+                      <div className="tw-flex tw-w-[25%] tw-ml-auto tw-mt-5 tw-mb-3 tw-pr-8 tw-mr-12">
                         <span className="tw-text-lg tw-font-semibold">
                           SubTotal: ${formatPrice(total)}
                         </span>
                       </div>
-                      <div className="tw-text-right tw-mt-5 tw-mb-3 tw-pr-7">
+
+                      <div className="tw-flex tw-w-[23%] tw-ml-auto tw-mt-5 tw-mb-3 tw-pr-8 tw-mr-12">
                         <span className="tw-text-lg tw-font-semibold">
                           Ahorro: ${formatPrice(total - totalSavings)}
                         </span>
                       </div>
-                      <div className="tw-text-right tw-mt-5 tw-mb-6 tw-pr-7">
+                      <div className="tw-flex tw-w-[35%] tw-ml-auto tw-mt-5 tw-mb-3 tw-pr-8 tw-mr-12">
                         <span className="tw-text-lg tw-font-semibold">
                           Total con descuento: ${formatPrice(totalSavings)}
                         </span>

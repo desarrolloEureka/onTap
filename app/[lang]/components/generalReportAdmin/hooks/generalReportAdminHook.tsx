@@ -7,7 +7,7 @@ import {
   useGridApiRef,
 } from "@mui/x-data-grid";
 import * as XLSX from "xlsx";
-import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getUsersWithOrdersAndInvoices, getUsers } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 
 const PendingPaymentReportsHook = ({
@@ -21,12 +21,15 @@ const PendingPaymentReportsHook = ({
   const [query, setQuery] = useState<any>([]);
   const [filteredQuery, setFilteredQuery] = useState<any>([]);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  //Extra
+
+  // Filtro Extra
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [rowId, setRowId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [distributorFilter, setDistributorFilter] = useState<string>(""); // Nuevo estado para el filtro de distribuidor
+  const [distributors, setDistributors] = useState<any[]>([]);
 
   const getCountryFlag = (item: any) => {
     const country = countries.find((country) => country.id === item);
@@ -82,6 +85,7 @@ const PendingPaymentReportsHook = ({
     setFilteredQuery(query);
     setStartDate("");
     setEndDate("");
+    setDistributorFilter(""); // Resetear el filtro de distribuidor
   };
 
   const exportToExcel = (filteredQuery: any) => {
@@ -159,48 +163,71 @@ const PendingPaymentReportsHook = ({
   useEffect(() => {
     const getquery = async () => {
       const reportData = await getUsersWithOrdersAndInvoices();
-      const reportDataFinal = reportData
-        .map((doc: any) => {
-          // Preparar el estado de pago y la fecha de entrega
-          const isPaid = doc.userInvoice.status === "PAID";
-          const isDelivered = doc.userOrder.status === "DELIVERED";
+      const usersData = await getUsers();
+      const allUserData = [
+        ...reportData,
+        ...usersData.filter(
+          (doc: any) => !reportData.some((doc2: any) => doc2?.uid === doc?.uid)
+        ),
+      ];
+      const reportDataFinal = allUserData.map((doc: any) => {
+        const isPaid = doc?.userInvoice?.status === "PAID";
+        const isDelivered = doc?.userOrder?.status === "DELIVERED";
 
-          return {
-            id: doc.dni || 1,
-            created_at: doc?.created_at || "",
-            name: `${doc.firstName} ${doc.lastName}` || "",
-            indicative: doc.indicative || "",
-            phone: doc.phone || "",
-            email: doc.email || "",
-            plan: doc?.selectedPlan?.name,
-            userType: doc,
-            optionEdit: doc,
-            optionPay: doc,
-            statusPay: isPaid ? "Pagado" : "Pendiente por pagar",
-            deliveryStatus: isDelivered ? "Entregado" : "Pendiente de entrega",
-            deliveryDate: isDelivered ? doc.userOrder.deliveryDate : "", // Mostrar fecha de entrega si está entregado
-            userInvoice: doc.userInvoice,
-            userOrder: doc.userOrder,
-            edit: {
-              switch: doc.isActiveByAdmin === true ? true : false || "",
-              uid: doc.uid,
-            },
-            idDistributor: doc.idDistributor,
-          };
-        })
-        .filter(
-          (user: any) =>
-            user?.idDistributor === data?.uid &&
-            user.userInvoice.status === "PAID" && // Filtrar solo los usuarios con pago realizado
-            user.deliveryStatus === "Entregado" // Filtrar solo los pedidos entregados
-        );
+        return {
+          id: doc.dni || 1,
+          created_at: doc?.created_at || "",
+          name: `${doc.firstName} ${doc.lastName}` || "",
+          indicative: doc.indicative || "",
+          phone: doc.phone || "",
+          email: doc.email || "",
+          plan: doc?.selectedPlan?.name,
+          userType: doc,
+          optionEdit: doc,
+          optionPay: doc,
+          statusPay: isPaid ? "Pagado" : "Pendiente por pagar",
+          deliveryStatus: isDelivered ? "Entregado" : "Pendiente de entrega",
+          deliveryDate: isDelivered ? doc.userOrder.deliveryDate : "",
+          userInvoice: doc.userInvoice,
+          userOrder: doc.userOrder,
+          edit: {
+            switch: doc.isActiveByAdmin === true ? true : false || "",
+            uid: doc.uid,
+          },
+          idDistributor: doc.idDistributor, // ID del distribuidor
+          fullName: doc.fullName || "",
+        };
+      });
 
-      setQuery(reportDataFinal);
-      setFilteredQuery(reportDataFinal);
+      // Filtrar por distribuidor
+      const filteredByDistributor = reportDataFinal.filter((user: any) =>
+        distributorFilter ? user.idDistributor === distributorFilter : true
+      );
+
+      setQuery(filteredByDistributor);
+      setFilteredQuery(filteredByDistributor);
+
+      // Obtener distribuidores únicos y almacenarlos como array
+      const uniqueDistributors = [
+        ...new Set(reportDataFinal.map((user: any) => user.idDistributor)),
+      ];
+
+      // Convertir el array de IDs en un array de objetos con el nombre del distribuidor
+      const distributorsArray = uniqueDistributors.map((id) => {
+        const Distribuitor = usersData.find((doc) => doc.uid === id);
+        return {
+          id,
+          name: `Distribuidor ${
+            Distribuitor ? Distribuitor.fullName : "desconcido"
+          }`,
+        };
+      });
+
+      setDistributors(distributorsArray);
     };
 
     getquery();
-  }, [data?.uid, flag]);
+  }, [data?.uid, flag, distributorFilter]);
 
   return {
     data: filteredQuery,
@@ -227,6 +254,9 @@ const PendingPaymentReportsHook = ({
     getCountryFlag,
     getCountryName,
     handleDeleteFilter,
+    distributorFilter,
+    setDistributorFilter, // Nueva función para actualizar el filtro de distribuidor
+    distributors,
   };
 };
 

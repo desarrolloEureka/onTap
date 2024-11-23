@@ -6,10 +6,16 @@ import {
   InputAdornment,
   Select,
   MenuItem,
+  FormControl,
+  InputLabel,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
-import { Modal, Box, IconButton } from "@mui/material";
+import { Modal, Box, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbarContainer } from "@mui/x-data-grid";
 import { GridToolbarQuickFilter } from "@mui/x-data-grid/components";
+// AnotherComponent.ts
+import editAndUpdateUserProfile from "./hooks/CustomersCreateFormHook"; // Subimos una carpeta
 
 import useDictionary from "@/hooks/dictionary/useDictionary";
 // Icons
@@ -20,6 +26,14 @@ import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/Delete";
+import InfoIcon from "@mui/icons-material/Info";
+import EditIcon from "@mui/icons-material/Edit";
+
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import CallIcon from "@mui/icons-material/Call";
+import EmailIcon from "@mui/icons-material/Email";
+import PersonIcon from "@mui/icons-material/Person";
+import HomeIcon from "@mui/icons-material/Home";
 
 //QR
 import ReactCountryFlag from "react-country-flag";
@@ -29,6 +43,8 @@ import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import CustomersDistributorHook from "./hooks/CustomersDistributorHook";
 import PaymentIcon from "@mui/icons-material/Payment";
 import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
+import React from "react";
+import { Department } from "../departments/hooks/DepartmentsHook";
 
 const CustomersDistributorForm = ({
   handleCreateUser,
@@ -77,13 +93,107 @@ const CustomersDistributorForm = ({
     handleGetSelectedRows,
     handleExport,
     selectedRows,
+    mostrarDetalleCompra,
+    detalleCompra,
+    formatPrice,
     handleDeleteFilter,
+    query,
+    isModalOpen2,
+    isModalOpen3,
+    setIsModalOpen3,
+    handleUpdatePerfil,
+    handleOpenModalAndLoadData,
+
+    setDocumentType,
+    setDocumentNumber,
+    setFirstName,
+    setPhoneNumber,
+    setAddress,
+    setCity,
+    setCountry,
+    setIsActive,
+    setLastName,
+    setDepartments,
+    setCities,
+    setState,
+
+    documentType,
+    documentNumber,
+    firstName,
+    lastName,
+    phoneNumber,
+    address,
+    city,
+    state,
+    country,
+    isActive,
+    departments,
+    cities,
+
+    handleChangeDepartament,
+    handleChangeCity,
   } = CustomersDistributorHook({ handlePayUser });
 
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
 
+  const calculateTotalDiscount = () => {
+    const planPrice = detalleCompra?.optionPay?.selectedPlan?.finalPrice || 0;
+    const materialPrice =
+      detalleCompra?.optionPay?.selectedMaterial?.finalPrice || 0;
+    const customizacion =
+      detalleCompra?.optionPay?.selectedCustomization?.finalPrice || 0;
+    // Calculando la cantidad de productos con precio distribuidor
+    const totalDistributorPrice =
+      detalleCompra?.userOrder?.selectedProducts?.reduce(
+        (acc: number, product: any) =>
+          acc +
+          (product.categoryPrice || 0) + // Sumar el precio de distribuidor si existe
+          (product.full_price_Discount || 0), // Sumar el precio de personalización si existe
+        0
+      ) || 0;
+
+    //console.log("Total Distributor Price:", totalDistributorPrice);
+
+    // Devolver el total sumando los precios de todos los elementos
+    return planPrice + materialPrice + totalDistributorPrice + customizacion;
+  };
+
+  const totalDiscount = calculateTotalDiscount();
+
   const columns: GridColDef[] = [
+    {
+      field: "optionEdit",
+      headerName: "Editar",
+      minWidth: 100,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <Button
+          style={{ color: "black" }}
+          onClick={() => handleOpenModalAndLoadData(params?.value)}
+        >
+          <EditIcon />
+        </Button>
+      ),
+    },
+    {
+      field: "detalleCompra",
+      headerName: "Detalle de Compra",
+      minWidth: 150,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <Tooltip title="Ver detalles de la compra" arrow>
+          <InfoIcon
+            style={{ cursor: "pointer", color: "#02AF9B" }}
+            onClick={() => mostrarDetalleCompra(params?.row)}
+          />
+        </Tooltip>
+      ),
+    },
     {
       field: "created_at",
       headerName: "Fecha Registro",
@@ -142,7 +252,7 @@ const CustomersDistributorForm = ({
     {
       field: "email",
       headerName: "Correo",
-      minWidth: 250,
+      minWidth: 200,
       flex: 2,
     },
     {
@@ -176,8 +286,8 @@ const CustomersDistributorForm = ({
     {
       field: "statusPay",
       headerName: "Estado Pago",
-      minWidth: 110,
-      flex: 1,
+      minWidth: 250,
+      flex: 2,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
@@ -476,6 +586,7 @@ const CustomersDistributorForm = ({
         </div>
       </div>
 
+      {/* Modal para crear un cliente de distribuidor */}
       <Modal
         open={isModalOpen}
         onClose={() => handleCloseModal()}
@@ -750,6 +861,499 @@ const CustomersDistributorForm = ({
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </Modal>
+
+      {/* Modal para abrir el detalle de la venta */}
+      <Modal
+        open={isModalOpen2}
+        onClose={() => handleCloseModal()}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="tw-flex tw-justify-center tw-items-center"
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            bgcolor: "#02AF9B",
+            padding: 0.5,
+            borderRadius: 3,
+            position: "relative",
+          }}
+        >
+          <IconButton
+            className="tw-absolute tw-right-1 tw-top-1"
+            onClick={() => handleCloseModal()}
+          >
+            <Close className="tw-text-white" />
+          </IconButton>
+          <div className="tw-w-full tw-h-4/5 tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
+            <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
+              {query?.length > 0 ? (
+                <table className="tw-w-full tw-table-auto tw-border-collapse">
+                  <thead className="tw-bg-gray-100">
+                    <tr>
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold tw-border-b tw-border-gray-300">
+                        Descripción
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                        Cantidad
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                        Precio Venta
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                        Total
+                      </th>
+                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                        Precio Distribuidor
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* Plan Seleccionado */}
+                    <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                      <td className="tw-px-4 tw-py-2">
+                        Plan Seleccionado:{" "}
+                        <span className="tw-font-medium">
+                          {detalleCompra?.optionPay?.selectedPlan?.name}
+                        </span>
+                      </td>
+                      <td className="tw-text-center">1</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedPlan?.full_price
+                      )}`}</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedPlan?.full_price
+                      )}`}</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedPlan?.finalPrice
+                      )}`}</td>
+                    </tr>
+
+                    {/* Materiales Seleccionados */}
+                    <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                      <td className="tw-px-4 tw-py-2">
+                        Materiales Seleccionados:{" "}
+                        <span className="tw-font-medium">
+                          {detalleCompra?.optionPay?.selectedMaterial?.name}
+                        </span>
+                      </td>
+                      <td className="tw-text-center">1</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedMaterial?.full_price
+                      )}`}</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedMaterial?.full_price
+                      )}`}</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedMaterial?.finalPrice
+                      )}`}</td>
+                    </tr>
+
+                    {/* Productos Seleccionados */}
+                    {detalleCompra?.userOrder?.selectedProducts?.map(
+                      (product: any, index: any) => (
+                        <React.Fragment key={index}>
+                          <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                            <td className="tw-px-4 tw-py-2">{product.name}</td>
+                            <td className="tw-text-center">
+                              {product.quantity}
+                            </td>
+                            <td className="tw-text-center">
+                              ${formatPrice(product.full_price)}
+                            </td>
+                            <td className="tw-text-center">
+                              $
+                              {formatPrice(
+                                product.full_price * product.quantity
+                              )}
+                            </td>
+                            <td className="tw-text-center">
+                              ${formatPrice(product.categoryPrice)}
+                            </td>
+                          </tr>
+                          {product.hasPersonalization && (
+                            <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50 tw-text-gray-600">
+                              <td className="tw-px-4 tw-py-2">
+                                Personalización: {product.name}
+                              </td>
+                              <td className="tw-text-center">1</td>
+                              <td className="tw-text-center">
+                                ${formatPrice(product?.full_price_custom || 0)}
+                              </td>
+                              <td className="tw-text-center">
+                                ${formatPrice(product?.full_price_custom || 0)}
+                              </td>
+                              <td className="tw-text-center">
+                                $
+                                {formatPrice(product?.full_price_Discount || 0)}
+                              </td>
+                            </tr>
+                          )}
+                        </React.Fragment>
+                      )
+                    )}
+
+                    {/* Customización Seleccionada */}
+                    {detalleCompra?.optionPay?.selectedCustomization ? (
+                      <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                        <td className="tw-px-4 tw-py-2">
+                          Personalización:{" "}
+                          <span className="tw-font-medium">
+                            {detalleCompra?.optionPay?.selectedCustomization
+                              ?.name || ""}
+                          </span>
+                        </td>
+                        <td className="tw-text-center">1</td>
+                        <td className="tw-text-center">{`$${formatPrice(
+                          detalleCompra?.optionPay?.selectedCustomization
+                            ?.full_price
+                        )}`}</td>
+                        <td className="tw-text-center">{`$${formatPrice(
+                          detalleCompra?.optionPay?.selectedCustomization
+                            ?.full_price
+                        )}`}</td>
+                        <td className="tw-text-center">{`$${formatPrice(
+                          detalleCompra?.optionPay?.selectedCustomization
+                            ?.finalPrice
+                        )}`}</td>
+                      </tr>
+                    ) : null}
+                  </tbody>
+                  <tfoot>
+                    <tr className="tw-bg-gray-100">
+                      <td
+                        colSpan={4}
+                        className="tw-px-4 tw-py-2 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
+                      >
+                        SubTotal:
+                      </td>
+                      <td className="tw-px-4 tw-py-2 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
+                        $
+                        {formatPrice(
+                          detalleCompra?.userOrder?.totalAmount || 0
+                        )}
+                      </td>
+                    </tr>
+                    <tr className="tw-bg-gray-100">
+                      <td
+                        colSpan={4}
+                        className="tw-px-4 tw-py-2 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
+                      >
+                        Total:
+                      </td>
+                      <td className="tw-px-4 tw-py-2 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
+                        ${formatPrice(totalDiscount || 0)}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              ) : (
+                <Typography variant="body1" className="tw-text-center tw-my-4">
+                  No hay datos para mostrar
+                </Typography>
+              )}
+            </div>
+          </div>
+          ;
+        </Box>
+      </Modal>
+
+      {/* Modal para editar perfil de cliente de distribuidor */}
+      <Modal
+        open={isModalOpen3}
+        onClose={() => handleCloseModal()}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="tw-flex tw-justify-center tw-items-center"
+        sx={{
+          zIndex: 1,
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            bgcolor: "#02AF9B",
+            padding: 0.5,
+            borderRadius: 3,
+            position: "relative",
+          }}
+        >
+          <IconButton
+            className="tw-absolute tw-right-1 tw-top-1"
+            onClick={() => handleCloseModal()}
+          >
+            <Close className="tw-text-white" />
+          </IconButton>
+
+          <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
+              <div className="tw-w-[90%] tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5">
+                <form className="tw-w-full">
+                  <h2
+                    id="modal-modal-title"
+                    className="tw-text-xl tw-font-semibold tw-text-center tw-mb-6"
+                  ></h2>
+                  <div className="tw-flex tw-flex-col">
+                    <div className="tw-flex tw-items-center tw-justify-between tw-space-x-4 tw-mb-4">
+                      {/* Selector de Tipo de Documento */}
+                      <FormControl
+                        variant="outlined"
+                        className="tw-w-1/2 tw-flex tw-items-center tw-ml-4"
+                      >
+                        <InputLabel>Tipo de Documento</InputLabel>
+                        <Select
+                          label="Tipo de Documento"
+                          value={documentType}
+                          onChange={(e) => setDocumentType(e.target.value)}
+                          className="tw-w-full"
+                        >
+                          <MenuItem value="AS">AS</MenuItem>
+                          <MenuItem value="CC">CC</MenuItem>
+                          <MenuItem value="CD">CD</MenuItem>
+                          <MenuItem value="CE">CE</MenuItem>
+                          <MenuItem value="CN">CN</MenuItem>
+                          <MenuItem value="MS">MS</MenuItem>
+                          <MenuItem value="NIT">NIT</MenuItem>
+                          <MenuItem value="PA">PA</MenuItem>
+                          <MenuItem value="PE">PE</MenuItem>
+                          <MenuItem value="RC">RC</MenuItem>
+                        </Select>
+                      </FormControl>
+
+                      {/* Campo para Número de Documento */}
+                      <TextField
+                        label="Número de Documento"
+                        variant="outlined"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <DriveFileRenameOutlineIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        className="tw-w-1/2"
+                        value={documentNumber}
+                        onChange={(e) => setDocumentNumber(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="tw-flex tw-justify-between tw-mb-2">
+                      <TextField
+                        label="Nombre"
+                        variant="outlined"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PersonIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        fullWidth
+                        className="tw-ml-2"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        margin="normal"
+                      />
+                      <TextField
+                        label="Apellido"
+                        variant="outlined"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PersonIcon
+                                style={{
+                                  color: "#02AF9B",
+                                  fontSize: "1.8rem",
+                                  marginRight: "1rem",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                        fullWidth
+                        className="tw-ml-2"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        margin="normal"
+                      />
+                    </div>
+                    <TextField
+                      label="Correo Electrónico"
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <EmailIcon
+                              style={{
+                                color: "#02AF9B",
+                                fontSize: "1.8rem",
+                                marginRight: "1rem",
+                              }}
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
+                      fullWidth
+                      className="tw-ml-2"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      margin="normal"
+                      disabled
+                    />
+                    <TextField
+                      label="Número de Teléfono"
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <CallIcon
+                              style={{
+                                color: "#02AF9B",
+                                fontSize: "1.8rem",
+                                marginRight: "1rem",
+                              }}
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
+                      fullWidth
+                      className="tw-ml-2"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      margin="normal"
+                    />
+                    <TextField
+                      label="Dirección"
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <HomeIcon
+                              style={{
+                                color: "#02AF9B",
+                                fontSize: "1.8rem",
+                                marginRight: "1rem",
+                              }}
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
+                      fullWidth
+                      className="tw-ml-2"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      margin="normal"
+                    />
+                    <div className="tw-flex tw-justify-between tw-mb-7 tw-mt-2">
+                      <FormControl
+                        fullWidth
+                        variant="outlined"
+                        className="tw-ml-2"
+                      >
+                        <InputLabel>Departamento</InputLabel>
+                        <Select
+                          label="Departamento"
+                          value={state}
+                          onChange={handleChangeDepartament}
+                        >
+                          {departments &&
+                            departments.map((dep: Department) => (
+                              <MenuItem
+                                key={dep.departamento}
+                                value={dep.departamento}
+                              >
+                                {dep.departamento}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                      <FormControl
+                        fullWidth
+                        variant="outlined"
+                        className="tw-ml-2"
+                      >
+                        <InputLabel>Ciudad</InputLabel>
+                        <Select
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          label="Ciudad"
+                        >
+                          {cities.map((city) => (
+                            <MenuItem key={city} value={city}>
+                              {city}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+
+                    <div className="tw-w-[101%] tw-flex tw-justify-center tw-items-center tw-border-t-white tw-border-t-[0.5px] tw-border-x-0 tw-border-b-0 tw-border-solid">
+                      <div className="tw-w-1/2 tw-py-4 tw-flex tw-flex-col tw-justify-center tw-items-start">
+                        <div className="tw-w-40 tw-flex tw-flex-col tw-justify-center tw-items-center">
+                          <Typography
+                            style={{ fontSize: 14, color: "white" }}
+                          ></Typography>
+                        </div>
+                      </div>
+                      <div className="tw-w-1/2 tw-py-4 tw-flex tw-justify-end tw-items-center">
+                        <div className="tw-w-[100%] tw-h-full tw-flex tw-justify-end tw-items-center">
+                          <div className="tw-w-full tw-h-full tw-flex tw-justify-end tw-items-center">
+                            <div className="tw-w-[55%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-2">
+                              <Button
+                                variant="text"
+                                className="tw-text-black tw-ml-6"
+                                onClick={handleUpdatePerfil}
+                                sx={{
+                                  padding: "0",
+                                  minWidth: "auto",
+                                  textTransform: "none",
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                                startIcon={
+                                  <SaveIcon
+                                    style={{
+                                      marginRight: -1,
+                                      fontSize: 25,
+                                      color: "black",
+                                    }}
+                                  />
+                                }
+                              >
+                                <Typography style={{ color: "black" }}>
+                                  {dictionary.dictionary?.backOffice.guardar}
+                                </Typography>
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

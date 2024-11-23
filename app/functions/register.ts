@@ -1,5 +1,5 @@
 import { registerFirebase } from "@/firebase/auth";
-import { registerUserData } from "@/firebase/user";
+import { registerUserData, updateUserData } from "@/firebase/user";
 import { UserCredential } from "firebase/auth";
 
 export const registerUserAuth = async ({

@@ -465,7 +465,7 @@ export const updateCustomization = async (
 //Distribuidor
 export const saveDistributor = async (dataSave: any) => {
   try {
-    console.log("dataSave ", dataSave);
+    //console.log("dataSave ", dataSave);
     // Obtener la referencia a la colección de distribuidores
     const DistributorCollectionRef = collection(dataBase, "users");
 
@@ -513,6 +513,27 @@ export const updateDistributor = async (
   } catch (error) {
     console.error("Error al actualizar la distribuidor: ", error);
     return { success: false, message: "Error al actualizar la distribuidor" };
+  }
+};
+
+//editar cliente/distribuidor
+export const updateUserData = async (dataSave: any, uid: string) => {
+  try {
+    // Obtener la referencia del documento específico del usuario
+    const userDocRef = doc(dataBase, "users", uid);
+
+    // Actualizar el documento con los nuevos datos
+    await updateDoc(userDocRef, {
+      ...dataSave,
+    });
+
+    return { success: true, message: "Perfil actualizado correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar el perfil del usuario: ", error);
+    return {
+      success: false,
+      message: "Error al actualizar el perfil del usuario",
+    };
   }
 };
 

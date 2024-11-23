@@ -22,13 +22,39 @@ const MadePaymentReportsHook = ({
   const [flag, setFlag] = useState(false);
   const [query, setQuery] = useState<any>([]);
   const [filteredQuery, setFilteredQuery] = useState<any>([]);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [detalleCompra, setDetalleCompra] = useState<any>(null);
+
   //Extra
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [rowId, setRowId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const formatPrice = (value: any) => {
+    if (value == null || isNaN(value)) return "";
+    const number = Number(value);
+    return new Intl.NumberFormat("es-CO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+    }).format(number);
+  };
+
+  // Funciones para manejar la apertura y cierre del modal
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const mostrarDetalleCompra = (rowData: any) => {
+    //console.log("detalle de la compra", rowData);
+    setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
+    setIsModalOpen(true); // Abre el modal
+  };
 
   const getCountryFlag = (item: any) => {
     const country = countries.find((country) => country.id === item);
@@ -95,7 +121,7 @@ const MadePaymentReportsHook = ({
 
       const result = await UpdateOrdersQuerie(orderId, true); // Actualiza el estado a "DELIVERED"
       if (result.success) {
-        console.log(`La orden ${orderId} ha sido actualizada a "DELIVERED".`);
+        //console.log(`La orden ${orderId} ha sido actualizada a "DELIVERED".`);
         successCount++;
 
         Swal.fire({
@@ -208,13 +234,19 @@ const MadePaymentReportsHook = ({
       const reportData = await getUsersWithOrdersAndInvoices();
       const reportDataFinal = reportData
         .map((doc: any) => {
+          let paymentDate = "";
+
+          // Si el estado del pago es "PAID"
+          if (doc.userInvoice.status === "PAID") {
+            paymentDate = doc.userInvoice.paymentDate || doc.created_at;
+          } else {
+            paymentDate = "No aplica"; // Si no está pagado
+          }
+
           return {
             id: doc.dni || 1,
             created_at: doc?.created_at || "",
-            paymentDate:
-              doc.userInvoice.status === "PAID"
-                ? doc.userInvoice.paymentDate || ""
-                : "", // Agregar la fecha de pago solo si el pago está hecho
+            paymentDate, // Usar la fecha calculada según la lógica
             name: doc.firstName + " " + doc.lastName || "",
             indicative: doc.indicative || "",
             phone: doc.phone || "",
@@ -278,6 +310,12 @@ const MadePaymentReportsHook = ({
     getCountryName,
     handleDeleteFilter,
     handleGetSelectedRows,
+    handleOpenModal,
+    handleCloseModal,
+    mostrarDetalleCompra,
+    isModalOpen,
+    detalleCompra,
+    formatPrice,
   };
 };
 
