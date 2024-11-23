@@ -28,7 +28,16 @@ const PendingPaymentReportsHook = ({
   const [rowId, setRowId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [detalleCompra, setDetalleCompra] = useState<any>(null); // o el tipo adecuado
+  const [detalleCompra, setDetalleCompra] = useState<any>(null);
+
+  const formatPrice = (value: any) => {
+    if (value == null || isNaN(value)) return "";
+    const number = Number(value);
+    return new Intl.NumberFormat("es-CO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+    }).format(number);
+  };
 
   // Funciones para manejar la apertura y cierre del modal
   const handleOpenModal = () => {
@@ -40,7 +49,7 @@ const PendingPaymentReportsHook = ({
   };
 
   const mostrarDetalleCompra = (rowData: any) => {
-    console.log("detalle de la compra", rowData);
+    //console.log("detalle de la compra", rowData);
     setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
     setIsModalOpen(true); // Abre el modal
   };
@@ -274,6 +283,7 @@ const PendingPaymentReportsHook = ({
     mostrarDetalleCompra,
     isModalOpen,
     detalleCompra,
+    formatPrice,
   };
 };
 

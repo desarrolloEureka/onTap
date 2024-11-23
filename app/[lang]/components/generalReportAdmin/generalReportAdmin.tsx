@@ -8,9 +8,15 @@ import GetAppIcon from "@mui/icons-material/GetApp";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/Delete";
 import GeneralReportAdmin from "./hooks/generalReportAdminHook";
-import PaymentIcon from "@mui/icons-material/Payment";
 import ReactCountryFlag from "react-country-flag";
-import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
+
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  CircularProgress,
+} from "@mui/material";
 
 const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
   const {
@@ -38,6 +44,9 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     getCountryFlag,
     getCountryName,
     handleDeleteFilter,
+    setDistributorFilter,
+    distributorFilter,
+    distributors,
   } = GeneralReportAdmin({ handlePayUser });
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
@@ -114,8 +123,8 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     {
       field: "deliveryStatus",
       headerName: "Estado de Entrega",
-      minWidth: 150,
-      flex: 1,
+      minWidth: 210,
+      flex: 2,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -261,46 +270,99 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
             />
           </Box>
           <Box
-            sx={{ display: "flex", alignItems: "center", paddingRight: 110 }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              paddingRight: 110,
+              gap: 2, // Espacio entre elementos
+            }}
           >
             <div
               style={{
-                height: "100%",
-                width: "50%",
-                paddingLeft: 5,
+                flex: 1,
+                paddingLeft: 50,
                 paddingRight: 15,
               }}
             >
-              <div style={{ height: "100%", width: "90%" }}>
-                <TextField
-                  label="Fecha Inicio"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    max: dateToday,
-                  }}
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
-              </div>
+              <TextField
+                label="Fecha Inicio"
+                type="date"
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  max: dateToday,
+                }}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
             </div>
-            <div style={{ height: "100%", width: "50%" }}>
-              <div style={{ height: "100%", width: "90%" }}>
-                <TextField
-                  label="Fecha Fin"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
+
+            <div style={{ flex: 1 }}>
+              <TextField
+                label="Fecha Fin"
+                type="date"
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  max: dateToday,
+                }}
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
+
+            <div style={{ flex: 2 }}>
+              <FormControl
+                variant="outlined"
+                sx={{
+                  width: "100%", // Asegura que ocupe el ancho completo del contenedor
+                  minWidth: 300, // Define un ancho mínimo adecuado
+                }}
+              >
+                <InputLabel id="distributorFilter-label">
+                  Distribuidor
+                </InputLabel>
+                <Select
+                  labelId="distributorFilter-label"
+                  id="distributorFilter"
+                  value={distributorFilter}
+                  onChange={(e) => setDistributorFilter(e.target.value)}
+                  label="Distribuidor"
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 300, // Limita la altura del menú
+                        width: "auto", // Ajusta el ancho al contenido del menú
+                      },
+                    },
                   }}
-                  inputProps={{
-                    max: dateToday,
+                  sx={{
+                    width: "100%", // Forzar el ancho completo del Select
                   }}
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
-              </div>
+                >
+                  {distributors.length > 0 ? (
+                    distributors.map((distributor) => (
+                      <MenuItem key={distributor.id} value={distributor.id}>
+                        {distributor.name}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <CircularProgress
+                          size={20}
+                          style={{ marginRight: "10px", color: "#02AF9B" }}
+                        />
+                        <Typography variant="body2">Cargando...</Typography>
+                      </div>
+                    </MenuItem>
+                  )}
+                </Select>
+              </FormControl>
             </div>
           </Box>
         </Box>
@@ -319,7 +381,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
           align="center"
           fontWeight="bold"
         >
-          {dictionary.dictionary?.backOffice?.labelDispatchedDeliveriesReports}
+          {dictionary.dictionary?.backOffice?.labelReportAdmin}
         </Typography>
         <div
           style={{ height: 650, width: "100%" }}

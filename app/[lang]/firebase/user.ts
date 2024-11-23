@@ -48,6 +48,13 @@ export const getAllUsers = async () => await getDocs(allRef({ ref: "users" }));
 export const getAllOrders = async () =>
   await getDocs(collection(dataBase, "orders"));
 
+//traer todos los usuarios
+export const getUsers = async () => {
+  const usersSnapshot = await getAllUsers();
+  const usersData = usersSnapshot.docs.map((doc) => doc.data());
+  return usersData;
+};
+
 // Función que mezcla los datos de los usuarios con las órdenes y las facturas
 export const getUsersWithOrdersAndInvoices = async () => {
   const usersSnapshot = await getAllUsers();
@@ -89,10 +96,36 @@ export const registerUserData = async (data: any) => {
   return docRef;
 };
 
-export const updateUserData = async (userId: string, newData: any) => {
-  const userDocRef = doc(dataBase, "users", userId);
-  await updateDoc(userDocRef, newData);
-};
+// export const updateUserData = async (uid: string, newData: any) => {
+
+//   if (!uid || typeof uid !== "string" || uid.trim() === "") {
+//     console.error("Error: El uid no es válido", uid);
+//     throw new Error("El uid proporcionado no es válido");
+//   }
+
+//   if (
+//     !newData ||
+//     typeof newData !== "object" ||
+//     Object.keys(newData).length === 0
+//   ) {
+//     console.error("Error: Los datos proporcionados son inválidos", newData);
+//     throw new Error("Los datos proporcionados no son válidos");
+//   }
+
+//   try {
+//     // Referencia al documento del usuario en Firestore usando el uid
+//     const userDocRef = doc(dataBase, "users", uid);
+
+//     // Actualización de los datos del usuario
+//     await updateDoc(userDocRef, newData);
+
+//     console.log("Perfil actualizado correctamente para el usuario:", uid);
+//     return { uid, ...newData };
+//   } catch (error) {
+//     console.error("Error al actualizar el perfil del usuario:", error);
+//     throw new Error("No se pudo actualizar el perfil del usuario");
+//   }
+// };
 
 export const updateSwitchProfileFirebase = async (
   userId: string,

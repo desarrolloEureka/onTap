@@ -12,20 +12,8 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import ReactCountryFlag from "react-country-flag";
 import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
 import InfoIcon from "@mui/icons-material/Info";
-import SubjectIcon from "@mui/icons-material/Subject";
-import DescriptionIcon from "@mui/icons-material/Description";
-import SaveIcon from "@mui/icons-material/Save";
 import { Close } from "@mui/icons-material";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  CircularProgress,
-} from "@mui/material";
+import React from "react";
 
 const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
   const {
@@ -58,9 +46,36 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     handleCloseModal,
     handleOpenModal,
     mostrarDetalleCompra,
+    detalleCompra,
+    formatPrice,
   } = PendingPaymentReportsHook({ handlePayUser });
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
+
+  const calculateTotalDiscount = () => {
+    const planPrice = detalleCompra?.optionPay?.selectedPlan?.finalPrice || 0;
+    const materialPrice =
+      detalleCompra?.optionPay?.selectedMaterial?.finalPrice || 0;
+    const customizacion =
+      detalleCompra?.optionPay?.selectedCustomization?.finalPrice || 0;
+
+    // Calculando el total de productos
+    const productsPrice =
+      detalleCompra?.userOrder?.selectedProducts?.reduce(
+        (acc: number, product: any) =>
+          acc +
+          (product.categoryPrice || 0) +
+          (product?.full_price_Discount || 0),
+        0
+      ) || 0;
+
+    // Devolver el total sumando los precios de todos los elementos
+    return planPrice + materialPrice + productsPrice + customizacion;
+  };
+
+  const totalDiscount = calculateTotalDiscount();
+
+  //console.log("Detalle compra", detalleCompra?.userOrder?.selectedProducts);
 
   const columns: GridColDef[] = [
     {
@@ -73,8 +88,8 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
       renderCell: (params) => (
         <Tooltip title="Ver detalles de la compra" arrow>
           <InfoIcon
-            style={{ cursor: "pointer", color: "#1976d2" }}
-            onClick={() => mostrarDetalleCompra(params.row)}
+            style={{ cursor: "pointer", color: "#02AF9B" }}
+            onClick={() => mostrarDetalleCompra(params?.row)}
           />
         </Tooltip>
       ),
@@ -171,8 +186,8 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     {
       field: "statusPay",
       headerName: "Estado Pago",
-      minWidth: 110,
-      flex: 1,
+      minWidth: 210,
+      flex: 2,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
@@ -477,63 +492,169 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
             <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
               {query?.length > 0 ? (
                 <table className="tw-w-full tw-table-auto tw-border-collapse">
-                  <thead>
+                  <thead className="tw-bg-gray-100">
                     <tr>
-                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
-                        Nombre del Material
+                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold tw-border-b tw-border-gray-300">
+                        Descripción
                       </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
-                        Precio Final del Material
+                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                        Cantidad
                       </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
-                        SKU del Material
+                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                        Precio Venta
                       </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
-                        Estado del Material
+                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                        Total
                       </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
-                        Nombre del Plan
-                      </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
-                        Precio Final del Plan
-                      </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold">
-                        SKU del Plan
+                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                        Precio Distribuidor
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {query.map((user: any) => {
-                      console.log("User full data:", user); // Verifica todo el objeto user
+                    {/* Plan Seleccionado */}
+                    <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                      <td className="tw-px-4 tw-py-2">
+                        Plan Seleccionado:{" "}
+                        <span className="tw-font-medium">
+                          {detalleCompra?.optionPay?.selectedPlan?.name}
+                        </span>
+                      </td>
+                      <td className="tw-text-center">1</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedPlan?.full_price
+                      )}`}</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedPlan?.full_price
+                      )}`}</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedPlan?.finalPrice
+                      )}`}</td>
+                    </tr>
 
-                      // Accede de manera segura a los datos
-                      const selectedMaterial =
-                        user?.userOrder?.selectedMaterial || {};
-                      const selectedPlan =
-                        user?.userInvoice?.selectedPlan || {};
+                    {/* Materiales Seleccionados */}
+                    <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                      <td className="tw-px-4 tw-py-2">
+                        Materiales Seleccionados:{" "}
+                        <span className="tw-font-medium">
+                          {detalleCompra?.optionPay?.selectedMaterial?.name}
+                        </span>
+                      </td>
+                      <td className="tw-text-center">1</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedMaterial?.full_price
+                      )}`}</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedMaterial?.full_price
+                      )}`}</td>
+                      <td className="tw-text-center">{`$${formatPrice(
+                        detalleCompra?.optionPay?.selectedMaterial?.finalPrice
+                      )}`}</td>
+                    </tr>
 
-                      // Verifica los datos específicos
-                      console.log("Selected Material:", selectedMaterial);
-                      console.log("Selected Plan:", selectedPlan);
+                    {/* Productos Seleccionados */}
+                    {detalleCompra?.userOrder?.selectedProducts?.map(
+                      (product: any, index: any) => (
+                        <React.Fragment key={index}>
+                          <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                            <td className="tw-px-4 tw-py-2">{product.name}</td>
+                            <td className="tw-text-center">
+                              {product.quantity}
+                            </td>
+                            <td className="tw-text-center">
+                              ${formatPrice(product.full_price)}
+                            </td>
+                            <td className="tw-text-center">
+                              $
+                              {formatPrice(
+                                product.full_price * product.quantity
+                              )}
+                            </td>
+                            <td className="tw-text-center">
+                              $
+                              {formatPrice(
+                                product.categoryPrice * product.quantity
+                              )}
+                            </td>
+                          </tr>
+                          {product.hasPersonalization && (
+                            <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50 tw-text-gray-600">
+                              <td className="tw-px-4 tw-py-2">
+                                Personalización: {product.name}
+                              </td>
+                              <td className="tw-text-center">1</td>
+                              <td className="tw-text-center">
+                                ${formatPrice(product?.full_price_custom || 0)}
+                              </td>
+                              <td className="tw-text-center">
+                                ${formatPrice(product?.full_price_custom || 0)}
+                              </td>
+                              <td className="tw-text-center">
+                                $
+                                {formatPrice(product?.full_price_Discount || 0)}
+                              </td>
+                            </tr>
+                          )}
+                        </React.Fragment>
+                      )
+                    )}
 
-                      return (
-                        <tr key={user.id}>
-                          <td>{selectedMaterial?.name || "Sin nombre"}</td>
-                          <td>${selectedMaterial?.finalPrice || 0}</td>
-                          <td>{selectedMaterial?.sku || "Sin SKU"}</td>
-                          <td>
-                            {selectedMaterial?.status ? "Activo" : "Inactivo"}
-                          </td>
-                          <td>{selectedPlan?.name || "Sin plan"}</td>
-                          <td>${selectedPlan?.finalPrice || 0}</td>
-                          <td>{selectedPlan?.sku || "Sin SKU"}</td>
-                        </tr>
-                      );
-                    })}
+                    {/* Customización Seleccionada */}
+                    {detalleCompra?.optionPay?.selectedCustomization ? (
+                      <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                        <td className="tw-px-4 tw-py-2">
+                          Personalización:{" "}
+                          <span className="tw-font-medium">
+                            {detalleCompra?.optionPay?.selectedCustomization
+                              ?.name || ""}
+                          </span>
+                        </td>
+                        <td className="tw-text-center">1</td>
+                        <td className="tw-text-center">{`$${formatPrice(
+                          detalleCompra?.optionPay?.selectedCustomization
+                            ?.full_price
+                        )}`}</td>
+                        <td className="tw-text-center">{`$${formatPrice(
+                          detalleCompra?.optionPay?.selectedCustomization
+                            ?.full_price
+                        )}`}</td>
+                        <td className="tw-text-center">{`$${formatPrice(
+                          detalleCompra?.optionPay?.selectedCustomization
+                            ?.finalPrice
+                        )}`}</td>
+                      </tr>
+                    ) : null}
                   </tbody>
+                  <tfoot>
+                    <tr className="tw-bg-gray-100">
+                      <td
+                        colSpan={4}
+                        className="tw-px-4 tw-py-2 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
+                      >
+                        SubTotal:
+                      </td>
+                      <td className="tw-px-4 tw-py-2 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
+                        $
+                        {formatPrice(
+                          detalleCompra?.userOrder?.totalAmount || 0
+                        )}
+                      </td>
+                    </tr>
+                    <tr className="tw-bg-gray-100">
+                      <td
+                        colSpan={4}
+                        className="tw-px-4 tw-py-2 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
+                      >
+                        Total:
+                      </td>
+                      <td className="tw-px-4 tw-py-2 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
+                        ${formatPrice(totalDiscount || 0)}
+                      </td>
+                    </tr>
+                  </tfoot>
                 </table>
               ) : (
-                <Typography variant="body1">
+                <Typography variant="body1" className="tw-text-center tw-my-4">
                   No hay datos para mostrar
                 </Typography>
               )}

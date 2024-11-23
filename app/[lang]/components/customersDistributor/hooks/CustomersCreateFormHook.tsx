@@ -14,7 +14,11 @@ import { checkUserExists, GetUser } from "@/reactQuery/users";
 import { Colors, Products } from "@/types/home";
 import moment from "moment";
 import Swal from "sweetalert2";
-import { registerUserAuth, registerUserFb } from "app/functions/register";
+import {
+  registerUserAuth,
+  registerUserFb,
+  updateUserFb,
+} from "app/functions/register";
 import { generatePaymentReference } from "../../../../wompi";
 import axios from "axios";
 import {
@@ -50,6 +54,7 @@ const CustomersCreateFormHook = ({
   const { data: dataColors } = GetAllColors(flag);
   const { data: dataProducts } = GetAllProducts(flag);
   const [filteredColors, setFilteredColors] = useState<Colors[]>([]);
+  const [isEditData, setIsEditData] = useState<boolean>(false);
 
   //Datos distribuidor paso 1
   const [documentType, setDocumentType] = useState<string>("");
@@ -65,6 +70,7 @@ const CustomersCreateFormHook = ({
   const [state, setState] = useState<string>("");
   const [country, setCountry] = useState<string>("");
   const [isActive, setIsActive] = useState<boolean>(true);
+  const [rowId, setRowId] = useState<string | null>(null);
 
   //Datos Paso 2
   const [selectedPlan, setSelectedPlan] = useState<string | any>("");
@@ -819,6 +825,90 @@ const CustomersCreateFormHook = ({
     }
   };
 
+  const handleEditAndUpdatePerfil = async (dataUsuario: any) => {
+    try {
+      // 1. Abrir el modal y configurar el estado de edición
+      setIsModalOpen(true); // Esto abre el modal
+      setIsEditData(true); // Indicamos que estamos editando datos de un usuario
+
+      // 2. Prellenar los campos del formulario con los datos actuales del usuario
+      setDocumentType(dataUsuario.documentType || "");
+      setDocumentNumber(dataUsuario.dni || "");
+      setFirstName(dataUsuario.firstName || "");
+      setLastName(dataUsuario.lastName || "");
+      setEmail(dataUsuario.email || "");
+      setConfirmEmail(dataUsuario.email || "");
+      setPhoneNumber(dataUsuario.phone || "");
+      setPhoneCode(dataUsuario.indicative || "");
+      setAddress(dataUsuario.address || "");
+      setCity(dataUsuario.city || "");
+      setState(dataUsuario.state || "");
+      setCountry(dataUsuario.country || "");
+      setIsActive(
+        dataUsuario.isActive !== undefined ? dataUsuario.isActive : true
+      ); // Definimos si el usuario está activo
+      setRowId(dataUsuario.userId || null); // Identificador único del usuario (corregido)
+
+      // 3. Cargar información adicional si es necesario (en este caso, departamentos y ciudades)
+      try {
+        const departmentsData = await colombianCitiesData; // Aquí se espera que obtengas los departamentos y ciudades
+        const filteredCitiesData = departmentsData.find(
+          (departamento) => departamento.departamento === dataUsuario.state
+        );
+        const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
+        setDepartments(departmentsData); // Guardamos los departamentos
+        setCities(cities); // Filtramos y guardamos las ciudades
+      } catch (error) {
+        console.error(
+          "Error al cargar datos de departamentos y ciudades:",
+          error
+        );
+      }
+
+      // 4. Actualizar los datos del usuario
+      const updatedData = {
+        documentType,
+        dni: documentNumber,
+        firstName,
+        lastName,
+        email,
+        phone: phoneNumber,
+        indicative: phoneCode,
+        address,
+        city,
+        state,
+        country,
+        isActive,
+      };
+
+      // Llamar a la función que actualiza los datos en la base de datos
+      await updateUserFb({ userId: dataUsuario.userId, data: updatedData }); // Usamos userId como identificador
+
+      // 5. Mostrar mensaje de éxito
+      await Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `Perfil actualizado con éxito`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      // 6. Cerrar el modal y resetear los estados
+      setIsModalOpen(false);
+      handleReset(); // Reseteamos los valores del formulario
+    } catch (error) {
+      console.error("Error al editar y actualizar el perfil:", error);
+
+      // Mostrar mensaje de error
+      await Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `Error al actualizar el perfil`,
+        showConfirmButton: true,
+      });
+    }
+  };
+
   // Función para preparar los datos de la orden
   const registerOrderData = (userUid: any, isPay: boolean) => {
     const documentRefUser: any = getDocumentReference("orders");
@@ -899,7 +989,7 @@ const CustomersCreateFormHook = ({
     if (!isAccepted) {
       try {
         const response = await axios.get(
-          `https://sandbox.wompi.co/v1/merchants/${wompiConfig.WOMPI_PUBLIC_KEY}`
+          `https://sandbox.wompi.co/v1/merchants/${wompiConfig?.WOMPI_PUBLIC_KEY}`
         );
         const { acceptance_token, accept_personal_auth } =
           response.data.data.presigned_acceptance;
@@ -923,7 +1013,7 @@ const CustomersCreateFormHook = ({
       cardDetails,
       {
         headers: {
-          Authorization: `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`,
+          Authorization: `Bearer ${wompiConfig?.WOMPI_PUBLIC_KEY}`,
         },
       }
     );
@@ -937,7 +1027,7 @@ const CustomersCreateFormHook = ({
       transactionBody,
       {
         headers: {
-          Authorization: `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`,
+          Authorization: `Bearer ${wompiConfig?.WOMPI_PUBLIC_KEY}`,
         },
       }
     );
@@ -1010,7 +1100,7 @@ const CustomersCreateFormHook = ({
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`,
+                Authorization: `Bearer ${wompiConfig?.WOMPI_PUBLIC_KEY}`,
               },
             }
           );
@@ -1723,6 +1813,7 @@ const CustomersCreateFormHook = ({
     setIdTypeError,
     idNumberError,
     setIdNumberError,
+    handleEditAndUpdatePerfil,
   };
 };
 

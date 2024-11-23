@@ -20,13 +20,38 @@ const PendingPaymentReportsHook = ({
   const [flag, setFlag] = useState(false);
   const [query, setQuery] = useState<any>([]);
   const [filteredQuery, setFilteredQuery] = useState<any>([]);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [detalleCompra, setDetalleCompra] = useState<any>(null);
   //Extra
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [rowId, setRowId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const formatPrice = (value: any) => {
+    if (value == null || isNaN(value)) return "";
+    const number = Number(value);
+    return new Intl.NumberFormat("es-CO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+    }).format(number);
+  };
+
+  // Funciones para manejar la apertura y cierre del modal
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const mostrarDetalleCompra = (rowData: any) => {
+    //console.log("detalle de la compra", rowData);
+    setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
+    setIsModalOpen(true); // Abre el modal
+  };
 
   const getCountryFlag = (item: any) => {
     const country = countries.find((country) => country.id === item);
@@ -227,6 +252,12 @@ const PendingPaymentReportsHook = ({
     getCountryFlag,
     getCountryName,
     handleDeleteFilter,
+    handleOpenModal,
+    handleCloseModal,
+    mostrarDetalleCompra,
+    isModalOpen,
+    detalleCompra,
+    formatPrice,
   };
 };
 

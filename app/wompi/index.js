@@ -1,19 +1,25 @@
-import crypto from 'crypto';
+import crypto from "crypto";
 import CryptoJS from "crypto-js";
-import axios from 'axios';
+import axios from "axios";
 import { config as configDotenv } from "dotenv";
-import { wompiConfig } from '@/firebase/firebaseConfig';
+import { wompiConfig } from "@/firebase/firebaseConfig";
 
 export const generatePaymentReference = (userId) => {
   const timestamp = Date.now();
   const randomString = Math.random().toString(36).substring(2, 15);
   const baseString = `${userId}-${timestamp}-${randomString}`;
-  const hash = crypto.createHash('sha256').update(baseString).digest('hex');
+  const hash = crypto.createHash("sha256").update(baseString).digest("hex");
   return `ref_${hash}`;
 };
 
 // Función para generar la firma de integridad
-export const generateIntegritySignature = (reference, amount, currency, secretKey, expirationTime) => {
+export const generateIntegritySignature = (
+  reference,
+  amount,
+  currency,
+  secretKey,
+  expirationTime
+) => {
   // Asegurarse que amount sea una cadena en el formato requerido, por ejemplo "100.00"
   const formattedAmount = parseFloat(amount).toFixed(2);
 
@@ -27,7 +33,9 @@ export const generateIntegritySignature = (reference, amount, currency, secretKe
   concatenatedString += secretKey;
 
   // Generar el hash SHA256 usando CryptoJS
-  const hashHex = CryptoJS.SHA256(concatenatedString).toString(CryptoJS.enc.Hex);
+  const hashHex = CryptoJS.SHA256(concatenatedString).toString(
+    CryptoJS.enc.Hex
+  );
 
   return hashHex;
 };
@@ -35,11 +43,11 @@ export const generateIntegritySignature = (reference, amount, currency, secretKe
 export const getCardToken = async (cardInfo) => {
   try {
     const cardData = {
-      number: cardInfo.number,          // Número de la tarjeta
-      exp_month: cardInfo.exp_month,    // Mes de expiración
-      exp_year: cardInfo.exp_year,      // Año de expiración
-      cvc: cardInfo.cvc,                // CVC
-      card_holder: cardInfo.card_holder // Titular de la tarjeta
+      number: cardInfo.number, // Número de la tarjeta
+      exp_month: cardInfo.exp_month, // Mes de expiración
+      exp_year: cardInfo.exp_year, // Año de expiración
+      cvc: cardInfo.cvc, // CVC
+      card_holder: cardInfo.card_holder, // Titular de la tarjeta
     };
 
     const response = await axios.post(
@@ -47,18 +55,18 @@ export const getCardToken = async (cardInfo) => {
       cardData,
       {
         headers: {
-          'Authorization': `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`
-        }
+          Authorization: `Bearer ${wompiConfig?.WOMPI_PUBLIC_KEY}`,
+        },
       }
     );
 
-    if (response.data.status === 'CREATED') {
+    if (response.data.status === "CREATED") {
       return { success: true, token: response.data.data.id };
     } else {
-      throw new Error('Error al generar el token');
+      throw new Error("Error al generar el token");
     }
   } catch (error) {
-    console.error('Error al obtener el token de la tarjeta:', error);
+    console.error("Error al obtener el token de la tarjeta:", error);
     return { success: false, error: error.message };
   }
 };
@@ -66,21 +74,28 @@ export const getCardToken = async (cardInfo) => {
 // Función para obtener los tokens de aceptación
 const getAcceptanceTokens = async () => {
   try {
-    const response = await axios.get(`https://sandbox.wompi.co/v1/merchants/${wompiConfig.WOMPI_PUBLIC_KEY}`);
-    const acceptance_token = response.data.data.presigned_acceptance.acceptance_token;
-    const accept_personal_auth = response.data.data.presigned_personal_data_auth.acceptance_token;
+    const response = await axios.get(
+      `https://sandbox.wompi.co/v1/merchants/${wompiConfig?.WOMPI_PUBLIC_KEY}`
+    );
+    const acceptance_token =
+      response.data.data.presigned_acceptance.acceptance_token;
+    const accept_personal_auth =
+      response.data.data.presigned_personal_data_auth.acceptance_token;
 
     return { acceptance_token, accept_personal_auth };
   } catch (error) {
     console.error("Error al obtener los tokens de aceptación:", error);
-    throw new Error('Error al obtener los tokens de aceptación. Intenta nuevamente.');
+    throw new Error(
+      "Error al obtener los tokens de aceptación. Intenta nuevamente."
+    );
   }
 };
 
 // Función para crear la fuente de pago
 export const createPaymentSource = async (token, customerEmail) => {
   try {
-    const { acceptance_token, accept_personal_auth } = await getAcceptanceTokens();
+    const { acceptance_token, accept_personal_auth } =
+      await getAcceptanceTokens();
 
     const paymentSourceData = {
       type: "CARD",
@@ -92,22 +107,22 @@ export const createPaymentSource = async (token, customerEmail) => {
 
     // Hacer la solicitud POST a la API de Wompi
     const response = await axios.post(
-      'https://sandbox.wompi.co/v1/payment_sources',
+      "https://sandbox.wompi.co/v1/payment_sources",
       paymentSourceData,
       {
         headers: {
-          'Authorization': `Bearer ${wompiConfig.WOMPI_PRIVATE_KEY}`
-        }
+          Authorization: `Bearer ${wompiConfig?.WOMPI_PRIVATE_KEY}`,
+        },
       }
     );
 
-    if (response.data && response.data.data.status === 'AVAILABLE') {
+    if (response.data && response.data.data.status === "AVAILABLE") {
       return { success: true, dataCard: response.data.data };
     } else {
-      throw new Error('Error al crear la fuente de pago');
+      throw new Error("Error al crear la fuente de pago");
     }
   } catch (error) {
-    console.error('Error al crear la fuente de pago:', error);
+    console.error("Error al crear la fuente de pago:", error);
     return { success: false, error: error.message };
   }
 };

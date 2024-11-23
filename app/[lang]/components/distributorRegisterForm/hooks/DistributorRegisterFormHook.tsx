@@ -46,6 +46,7 @@ const DistributorRegisterFormHook = () => {
   const [isActive, setIsActive] = useState<boolean>(true);
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen3, setIsModalOpen3] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
   const [rowId, setRowId] = useState(null);
   //Errores:
@@ -577,6 +578,9 @@ const DistributorRegisterFormHook = () => {
     setStartDate,
     endDate,
     setEndDate,
+
+    isModalOpen3,
+    setIsModalOpen3,
   };
 };
 

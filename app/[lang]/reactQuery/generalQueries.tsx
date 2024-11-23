@@ -23,6 +23,7 @@ import {
   UpdateOrders,
   updateCards,
   saveCards,
+  updateUserData,
 } from "@/firebase/Documents";
 
 //Categorias
@@ -132,6 +133,12 @@ export const UpdateDistributortionQuerie = async (
   idDistributor: any
 ) => {
   const res = await updateDistributor(dataSave, idDistributor);
+  return res;
+};
+
+//cliente de distribuidor
+export const UpdateUserDataQuery = async (dataSave: any, uid: string) => {
+  const res = await updateUserData(dataSave, uid);
   return res;
 };
 
