@@ -96,36 +96,35 @@ export const registerUserData = async (data: any) => {
   return docRef;
 };
 
-// export const updateUserData = async (uid: string, newData: any) => {
+export const updateUserData = async (uid: string, newData: any) => {
+  if (!uid || typeof uid !== "string" || uid.trim() === "") {
+    console.error("Error: El uid no es válido", uid);
+    throw new Error("El uid proporcionado no es válido");
+  }
 
-//   if (!uid || typeof uid !== "string" || uid.trim() === "") {
-//     console.error("Error: El uid no es válido", uid);
-//     throw new Error("El uid proporcionado no es válido");
-//   }
+  if (
+    !newData ||
+    typeof newData !== "object" ||
+    Object.keys(newData).length === 0
+  ) {
+    console.error("Error: Los datos proporcionados son inválidos", newData);
+    throw new Error("Los datos proporcionados no son válidos");
+  }
 
-//   if (
-//     !newData ||
-//     typeof newData !== "object" ||
-//     Object.keys(newData).length === 0
-//   ) {
-//     console.error("Error: Los datos proporcionados son inválidos", newData);
-//     throw new Error("Los datos proporcionados no son válidos");
-//   }
+  try {
+    // Referencia al documento del usuario en Firestore usando el uid
+    const userDocRef = doc(dataBase, "users", uid);
 
-//   try {
-//     // Referencia al documento del usuario en Firestore usando el uid
-//     const userDocRef = doc(dataBase, "users", uid);
+    // Actualización de los datos del usuario
+    await updateDoc(userDocRef, newData);
 
-//     // Actualización de los datos del usuario
-//     await updateDoc(userDocRef, newData);
-
-//     console.log("Perfil actualizado correctamente para el usuario:", uid);
-//     return { uid, ...newData };
-//   } catch (error) {
-//     console.error("Error al actualizar el perfil del usuario:", error);
-//     throw new Error("No se pudo actualizar el perfil del usuario");
-//   }
-// };
+    console.log("Perfil actualizado correctamente para el usuario:", uid);
+    return { uid, ...newData };
+  } catch (error) {
+    console.error("Error al actualizar el perfil del usuario:", error);
+    throw new Error("No se pudo actualizar el perfil del usuario");
+  }
+};
 
 export const updateSwitchProfileFirebase = async (
   userId: string,
