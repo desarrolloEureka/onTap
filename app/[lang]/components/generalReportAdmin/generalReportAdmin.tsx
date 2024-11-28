@@ -193,7 +193,8 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "end",
+            justifyContent: "space-between",
+            alignItems: "center",
             width: "100%",
             paddingLeft: 2,
             paddingRight: 5,
@@ -201,81 +202,13 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
             marginTop: 1,
           }}
         >
-          <Button
-            className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mx-5 tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={handleDateChange}
-          >
-            <FilterListIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Filtrar</Typography>
-          </Button>
-
-          <Button
-            className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={handleDeleteFilter}
-          >
-            <DeleteIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Borrar</Typography>
-          </Button>
-
-          <Button
-            className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={() => handleExport()}
-          >
-            <GetAppIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Exportar</Typography>
-          </Button>
-        </Box>
-
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+          {/* Contenedor del filtro de búsqueda */}
           <Box
             sx={{
               width: "35%",
               paddingBottom: 3,
               paddingTop: 0,
-              paddingLeft: 2,
+              paddingLeft: 4,
             }}
           >
             <Typography
@@ -284,6 +217,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                 paddingBottom: 8,
                 fontSize: 14.4,
                 color: "rgba(0, 0, 0, 0.6)",
+                paddingLeft: 10,
               }}
             >
               Consulta General
@@ -307,6 +241,84 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
               }}
             />
           </Box>
+
+          {/* Contenedor de los botones */}
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2, // Espacio entre botones
+            }}
+          >
+            <Button
+              className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mx-5 tw-mr-4"
+              type="submit"
+              sx={{
+                padding: "0",
+                minWidth: "auto",
+                textTransform: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              style={{ textTransform: "none" }}
+              onClick={handleDateChange}
+            >
+              <FilterListIcon
+                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+              />
+              <Typography style={{ color: "#02AF9B" }}>Filtrar</Typography>
+            </Button>
+
+            <Button
+              className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
+              type="submit"
+              sx={{
+                padding: "0",
+                minWidth: "auto",
+                textTransform: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              style={{ textTransform: "none" }}
+              onClick={handleDeleteFilter}
+            >
+              <DeleteIcon
+                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+              />
+              <Typography style={{ color: "#02AF9B" }}>Borrar</Typography>
+            </Button>
+
+            <Button
+              className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
+              type="submit"
+              sx={{
+                padding: "0",
+                minWidth: "auto",
+                textTransform: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              style={{ textTransform: "none" }}
+              onClick={() => handleExport()}
+            >
+              <GetAppIcon
+                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+              />
+              <Typography style={{ color: "#02AF9B" }}>Exportar</Typography>
+            </Button>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -415,9 +427,9 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
               <FormControl
                 variant="outlined"
                 sx={{
-                  flex: "1 1 200px", // Asegura que tenga el mismo ancho y se ajuste
+                  flex: "1 1 200px",
                   minWidth: 200,
-                  margin: "0 8px", // Añade márgenes a la izquierda y derecha
+                  margin: "0 8px",
                 }}
               >
                 <InputLabel id="paymentStatusFilter-label">
@@ -438,7 +450,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                     },
                   }}
                   sx={{
-                    width: "100%", // Asegura que el Select ocupe el 100% del ancho de su contenedor
+                    width: "100%", // Asegurar que el Select ocupe el 100% del ancho de su contenedor
                   }}
                 >
                   <MenuItem value="">Selecciona un estado de pago</MenuItem>
