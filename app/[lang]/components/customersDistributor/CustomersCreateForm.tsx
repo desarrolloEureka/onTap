@@ -1254,7 +1254,7 @@ const CustomersCreateForm = ({
                         </span>
                       </div>
 
-                      <div className="tw-flex tw-w-[23%] tw-ml-auto tw-mt-5 tw-mb-3 tw-pr-8 tw-mr-12">
+                      <div className="tw-flex tw-w-[22%] tw-ml-auto tw-mt-5 tw-mb-3 tw-pr-8 tw-mr-12">
                         <span className="tw-text-lg tw-font-semibold">
                           Ahorro: ${formatPrice(total - totalSavings)}
                         </span>

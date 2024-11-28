@@ -156,7 +156,7 @@
     "labelMadePaymentReports": "Reporte de Pagos Realizados",
     "labelDispatchedDeliveriesReports": "Reporte de Entregas",
     "labelGeneralReportAdmin": "Reporte General OC",
-    "labelReportAdmin": "Reporte de Entregas Totales"
+    "labelReportAdmin": "Reporte General"
   },
   "cardView": {
     "labelErrorUser": "Error",

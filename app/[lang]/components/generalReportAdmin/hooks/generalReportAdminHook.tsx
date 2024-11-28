@@ -31,6 +31,11 @@ const PendingPaymentReportsHook = ({
   const [distributorFilter, setDistributorFilter] = useState<string>(""); // Nuevo estado para el filtro de distribuidor
   const [distributors, setDistributors] = useState<any[]>([]);
 
+  const [paymentStatusFilter, setPaymentStatusFilter] = useState<string | null>(
+    null
+  );
+  const [deliveryStatusFilter, setDeliveryStatusFilter] = useState<string>(""); // "Entregado" o "Pendiente de entrega"
+
   const getCountryFlag = (item: any) => {
     const country = countries.find((country) => country.id === item);
     return country ? country.flag : "";
@@ -86,6 +91,8 @@ const PendingPaymentReportsHook = ({
     setStartDate("");
     setEndDate("");
     setDistributorFilter(""); // Resetear el filtro de distribuidor
+    setPaymentStatusFilter(""); // Resetear filtro de estado de pago
+    setDeliveryStatusFilter(""); // Resetear filtro de estado de entrega
   };
 
   const exportToExcel = (filteredQuery: any) => {
@@ -118,7 +125,11 @@ const PendingPaymentReportsHook = ({
       // Crear una hoja de cálculo a partir de los datos filtrados
       const worksheet = XLSX.utils.json_to_sheet(filteredData);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Reporte_Entregas");
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Reporte_Administrador"
+      );
 
       // Crear un archivo Blob y descargarlo
       const excelBuffer = XLSX.write(workbook, {
@@ -132,7 +143,7 @@ const PendingPaymentReportsHook = ({
       // Crear un enlace de descarga y hacer clic en él
       const downloadLink = document.createElement("a");
       downloadLink.href = URL.createObjectURL(data);
-      downloadLink.download = "Reporte_Entregas.xlsx";
+      downloadLink.download = "Reporte_Administrador.xlsx";
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
@@ -171,6 +182,14 @@ const PendingPaymentReportsHook = ({
         ),
       ];
       const reportDataFinal = allUserData.map((doc: any) => {
+        let paymentDate = "";
+
+        // Si el estado del pago es "PAID"
+        if (doc.userInvoice?.status === "PAID") {
+          paymentDate = doc.userInvoice?.paymentDate || doc.created_at;
+        } else {
+          paymentDate = "No aplica"; // Si no está pagado
+        }
         const isPaid = doc?.userInvoice?.status === "PAID";
         const isDelivered = doc?.userOrder?.status === "DELIVERED";
 
@@ -178,6 +197,7 @@ const PendingPaymentReportsHook = ({
           id: doc.dni || 1,
           created_at: doc?.created_at || "",
           name: `${doc.firstName} ${doc.lastName}` || "",
+          paymentDate, // Usar la fecha calculada según la lógica
           indicative: doc.indicative || "",
           phone: doc.phone || "",
           email: doc.email || "",
@@ -204,9 +224,25 @@ const PendingPaymentReportsHook = ({
         distributorFilter ? user.idDistributor === distributorFilter : true
       );
 
+      // Filtrar por estado de pago
+      const filteredByPaymentStatus = filteredByDistributor.filter(
+        (user: any) =>
+          paymentStatusFilter ? user.statusPay === paymentStatusFilter : true
+      );
+
+      // Filtrar por estado de entrega
+      const filteredByDeliveryStatus = filteredByPaymentStatus.filter(
+        (user: any) =>
+          deliveryStatusFilter
+            ? user.deliveryStatus === deliveryStatusFilter
+            : true
+      );
+
       setQuery(filteredByDistributor);
       setFilteredQuery(filteredByDistributor);
 
+      setFilteredQuery(filteredByDeliveryStatus);
+      setDistributors(filteredByDeliveryStatus);
       // Obtener distribuidores únicos y almacenarlos como array
       const uniqueDistributors = [
         ...new Set(reportDataFinal.map((user: any) => user.idDistributor)),
@@ -227,7 +263,13 @@ const PendingPaymentReportsHook = ({
     };
 
     getquery();
-  }, [data?.uid, flag, distributorFilter]);
+  }, [
+    data?.uid,
+    flag,
+    distributorFilter,
+    paymentStatusFilter,
+    deliveryStatusFilter,
+  ]);
 
   return {
     data: filteredQuery,
@@ -257,6 +299,10 @@ const PendingPaymentReportsHook = ({
     distributorFilter,
     setDistributorFilter, // Nueva función para actualizar el filtro de distribuidor
     distributors,
+    paymentStatusFilter,
+    setPaymentStatusFilter,
+    deliveryStatusFilter,
+    setDeliveryStatusFilter,
   };
 };
 

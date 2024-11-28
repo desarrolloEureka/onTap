@@ -89,11 +89,13 @@ const UserTableLogic = () => {
     setIsModalOpen(true);
   };
 
+  //verQR
   const handleSeeQR = (URL: any) => {
     setUrlQR(URL);
     setIsModalQR(true);
   };
 
+  //descargar qr
   const handleDownloadQR = () => {
     // Obtener el elemento SVG del QR
     const svgElement = document.getElementById("qrcode-svg");
