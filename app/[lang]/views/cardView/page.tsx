@@ -294,7 +294,6 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         cityView: city,
         countryView: country
       }
-      console.log('dataSend ', dataSend);
       SendDataMetrics(uid, dataSend);
     }
   }, [ipAddress, city, country, currentDate, currentTime, so, typeDevice, uid]);

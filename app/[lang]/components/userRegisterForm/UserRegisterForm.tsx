@@ -82,15 +82,13 @@ const UserRegister = () => {
                 </InputAdornment>
               ),
             }}
-            required
-            id='outlined-required'
+            id='outlined'
             value={dni}
             className='tw-mb-4 tw-w-[300px] tw-text-sm tw-mt-4'
             onChange={(e) => setDni(e.target.value)}
           />
           <TextField
-            required
-            id='outlined-required'
+            id='outlined'
             value={name}
             variant='standard'
             label={dictionary.dictionary?.backOffice.Nombre}
@@ -111,8 +109,7 @@ const UserRegister = () => {
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
-            required
-            id='outlined-required'
+            id='outlined'
             value={lastName}
             className='tw-mb-4 tw-w-[300px] tw-text-sm'
             variant='standard'
@@ -133,8 +130,7 @@ const UserRegister = () => {
             onChange={(e) => setLastName(e.target.value)}
           />
           <TextField
-            required
-            id='outlined-required'
+            id='outlined'
             value={email}
             variant='standard'
             className='tw-mb-4 tw-w-[300px] tw-text-sm'
@@ -155,7 +151,7 @@ const UserRegister = () => {
             onChange={(e) => setEmail(e.target.value)}
             onCopy={(e) => e.preventDefault()}  // Bloquea copiar
             onCut={(e) => e.preventDefault()}   // Bloquea cortar
-            //onPaste={(e) => e.preventDefault()} // Bloquea pegar
+          //onPaste={(e) => e.preventDefault()} // Bloquea pegar
           />
           {errorMailForm && (
             <span className='tw-text-red-500'>
@@ -164,8 +160,7 @@ const UserRegister = () => {
           )}
 
           <TextField
-            required
-            id='outlined-required'
+            id='outlined'
             value={confirmEmail}
             variant='standard'
             className='tw-mb-4 tw-w-[300px] tw-text-sm'
@@ -207,8 +202,7 @@ const UserRegister = () => {
                 className='tw-w-[100%] tw-text-center'
                 value={phoneCode}
                 style={{ height: '48px' }}
-                required
-                id='outlined-required'
+                id='outlined'
                 defaultValue=''
                 MenuProps={{
                   PaperProps: {
@@ -252,7 +246,7 @@ const UserRegister = () => {
               display={'flow'}
               className='tw-text-left tw-text-sm tw-mb-2'
             >
-              {dictionary.dictionary?.backOffice.Plan}*
+              {dictionary.dictionary?.backOffice.Plan}
             </Typography>
           </div>
           <div className='tw-relative'>
@@ -267,8 +261,7 @@ const UserRegister = () => {
             />
             <Select
               className='tw-w-[300px] tw-text-center tw-mb-4'
-              required
-              id='outlined-required'
+              id='outlined'
               value={plan}
               variant='outlined'
               onChange={(e) => setPlan(e.target.value)}

@@ -1,4 +1,3 @@
-
 import { checkUserExists } from '@/reactQuery/users';
 import { registerUserAuth, registerUserFb } from 'app/functions/register';
 import { useState } from 'react';

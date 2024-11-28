@@ -24,7 +24,7 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
     return (
         <div className='tw-flex  tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")]  tw-flex-col tw-bg-no-repeat tw-bg-center tw-bg-cover'>
             <div className='tw-flex tw-items-center tw-justify-center tw-w-full tw-h-full'>
-                <Container className='tw-bg-[#02AF9B] tw-shadow-m tw-mt-6   tw-rounded-2xl tw-h-[350px] tw-w-[580px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
+                <Container className='tw-bg-[#02AF9B] tw-shadow-m tw-mt-6 tw-rounded-2xl tw-h-[350px] tw-w-[580px] tw-flex tw-flex-col tw-justify-center tw-items-center '>
                     <Typography
                         className='tw-text-white  tw-mt-9 tw-w-full tw-mb-6'
                         variant='h4'

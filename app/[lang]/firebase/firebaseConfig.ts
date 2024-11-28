@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { config as configDotenv } from "dotenv";
 
-const firebaseConfig = {
+/* const firebaseConfig = {
   apiKey: process.env.apiKey,
   authDomain: process.env.authDomain,
   projectId: process.env.projectId,
@@ -9,6 +10,22 @@ const firebaseConfig = {
   messagingSenderId: process.env.messagingSenderId,
   appId: process.env.appId,
   measurementId: process.env.measurementId,
+}; */
+
+export const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
+  backendBaseUrl: process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
+};
+
+export const wompiConfig = {
+  WOMPI_PUBLIC_KEY: process.env.NEXT_PUBLIC_WOMPI_KEY,
+  WOMPI_PRIVATE_KEY: process.env.NEXT_PUBLIC_WOMPI_PRIVATE_KEY,
 };
 
 // Initialize Firebase

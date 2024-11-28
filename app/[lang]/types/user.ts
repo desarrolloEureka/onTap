@@ -16,7 +16,9 @@ export interface UserData {
   image: string;
   imagePro: string;
   is_admin: boolean;
+  is_distributor?: boolean;
   name: string;
+  fullName?: string;
   switch_activateCard: boolean;
   switch_profile: boolean;
   templateData: TemplateData[];
@@ -29,7 +31,10 @@ export interface UserData {
   gif: boolean;
   dni: string;
   preview: string;
+  category?: string;
+  idDistributor?: any;
 }
+
 export interface User {
   uid: string;
   email: string;
@@ -38,6 +43,7 @@ export interface User {
   isAdmin: boolean;
   isActive: boolean;
   isActiveByAdmin: boolean;
+  accessToken?: string
 }
 
 export interface UserDb {
