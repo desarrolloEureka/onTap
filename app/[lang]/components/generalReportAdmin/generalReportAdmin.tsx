@@ -9,6 +9,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/Delete";
 import GeneralReportAdmin from "./hooks/generalReportAdminHook";
 import ReactCountryFlag from "react-country-flag";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 import {
   FormControl,
@@ -51,6 +52,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     setPaymentStatusFilter,
     deliveryStatusFilter,
     setDeliveryStatusFilter,
+    handleGetSelectedRows,
   } = GeneralReportAdmin({ handlePayUser });
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
@@ -59,12 +61,11 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     {
       field: "paymentDate",
       headerName: "Fecha de Pago",
-      minWidth: 210,
-      flex: 2,
-      headerAlign: "center",
-      align: "center",
+      minWidth: 100,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
       renderCell: (params) => {
-        // Verifica si el estado del pago es "Pagado"
         const isPaid = params.row.statusPay === "Pagado";
         return (
           <div className="tw-flex tw-justify-center tw-items-center">
@@ -77,13 +78,14 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
         );
       },
     },
+
     {
       field: "deliveryDate",
       headerName: "Fecha de Entrega",
-      minWidth: 210,
-      flex: 2,
-      headerAlign: "center",
-      align: "center",
+      minWidth: 100,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
       renderCell: (params) => {
         const isDelivered = params.row.deliveryStatus === "Entregado";
         return (
@@ -100,15 +102,16 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     {
       field: "id",
       headerName: "No. Identificación",
-      minWidth: 160,
+      minWidth: 100,
       flex: 1,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
     },
     {
       field: "name",
       headerName: "Nombres y Apellidos",
-      minWidth: 230,
+      minWidth: 180,
+      align: "left",
       flex: 1,
     },
     {
@@ -144,14 +147,15 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
       headerName: "Correo",
       minWidth: 180,
       flex: 1,
+      align: "left",
     },
     {
       field: "statusPay",
       headerName: "Estado Pago",
       minWidth: 110,
       flex: 1,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           {params.value && <div>{params.value}</div>}
@@ -161,10 +165,10 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     {
       field: "deliveryStatus",
       headerName: "Estado de Entrega",
-      minWidth: 210,
-      flex: 2,
-      headerAlign: "center",
-      align: "center",
+      minWidth: 110,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
       renderCell: (params) => {
         const isDelivered = params.row.deliveryStatus === "Entregado";
         return (
@@ -177,6 +181,19 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
           </div>
         );
       },
+    },
+    {
+      field: "distributorName",
+      headerName: "Distribuidor",
+      minWidth: 100,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value || "No asignado"}
+        </div>
+      ),
     },
   ];
 
@@ -290,6 +307,26 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
             </Button>
 
             <Button
+              className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
+              type="submit"
+              sx={{
+                padding: "0",
+                minWidth: "auto",
+                textTransform: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              style={{ textTransform: "none" }}
+              onClick={handleGetSelectedRows}
+            >
+              <LocalShippingIcon
+                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+              />
+              <Typography style={{ color: "#02AF9B" }}>Entregar</Typography>
+            </Button>
+
+            <Button
               className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
               type="submit"
               sx={{
@@ -368,18 +405,18 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
             <div
               style={{
                 display: "flex",
-                gap: "16px", // Define el espacio entre los elementos
+                gap: "16px",
                 justifyContent: "flex-start",
-                flexWrap: "nowrap", // Evita que los elementos se envuelvan
+                flexWrap: "nowrap",
               }}
             >
               {/* Filtro para Distribuidor */}
               <FormControl
                 variant="outlined"
                 sx={{
-                  flex: "1 1 200px", // Asegura que los filtros tengan el mismo ancho y se ajusten
-                  minWidth: 200, // Define un ancho mínimo
-                  margin: "0 8px", // Añade márgenes a la izquierda y derecha
+                  flex: "1 1 200px",
+                  minWidth: 200,
+                  margin: "0 8px",
                 }}
               >
                 <InputLabel id="distributorFilter-label">
@@ -400,7 +437,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                     },
                   }}
                   sx={{
-                    width: "100%", // Asegura que el Select ocupe el 100% del ancho de su contenedor
+                    width: "100%",
                   }}
                 >
                   {distributors.length > 0 ? (
@@ -450,7 +487,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                     },
                   }}
                   sx={{
-                    width: "100%", // Asegurar que el Select ocupe el 100% del ancho de su contenedor
+                    width: "100%",
                   }}
                 >
                   <MenuItem value="">Selecciona un estado de pago</MenuItem>
@@ -465,9 +502,9 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
               <FormControl
                 variant="outlined"
                 sx={{
-                  flex: "1 1 200px", // Asegura que tenga el mismo ancho y se ajuste
+                  flex: "1 1 200px",
                   minWidth: 200,
-                  margin: "0 8px", // Añade márgenes a la izquierda y derecha
+                  margin: "0 8px",
                 }}
               >
                 <InputLabel id="deliveryStatusFilter-label">
@@ -488,7 +525,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                     },
                   }}
                   sx={{
-                    width: "100%", // Asegura que el Select ocupe el 100% del ancho de su contenedor
+                    width: "100%",
                   }}
                 >
                   <MenuItem value="">Selecciona un estado de entrega</MenuItem>
@@ -547,6 +584,11 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
             disableDensitySelector
             disableColumnFilter
             disableRowSelectionOnClick
+            checkboxSelection
+            isRowSelectable={(params) =>
+              params.row.deliveryStatus !== "Entregado" &&
+              params.row.statusPay !== "Pendiente por pagar"
+            }
             sx={{
               "& .MuiDataGrid-columnHeaders": {
                 backgroundColor: "#dddddd",

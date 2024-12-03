@@ -12,7 +12,6 @@ import InfoIcon from "@mui/icons-material/Info";
 
 import PaymentIcon from "@mui/icons-material/Payment";
 import ReactCountryFlag from "react-country-flag";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import React from "react";
 import { Close } from "@mui/icons-material";
 
@@ -46,7 +45,7 @@ const PendingPaymentReports = ({
     getCountryFlag,
     getCountryName,
     handleDeleteFilter,
-    handleGetSelectedRows,
+
     handleOpenModal,
     handleCloseModal,
     mostrarDetalleCompra,
@@ -284,25 +283,6 @@ const PendingPaymentReports = ({
           </Button>
 
           <Button
-            className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={handleGetSelectedRows}
-          >
-            <LocalShippingIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Entregar</Typography>
-          </Button>
-          <Button
             className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
             type="submit"
             sx={{
@@ -458,7 +438,6 @@ const PendingPaymentReports = ({
             disableDensitySelector
             disableColumnFilter
             disableRowSelectionOnClick
-            checkboxSelection
             sx={{
               "& .MuiDataGrid-columnHeaders": {
                 backgroundColor: "#dddddd",
@@ -500,6 +479,13 @@ const PendingPaymentReports = ({
           </IconButton>
           <div className="tw-w-full tw-h-screen tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
             <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
+              {/* Título del Modal */}
+              <Typography
+                variant="h5"
+                className="tw-text-center tw-font-semibold tw-text-gray-800 tw-mb-6"
+              >
+                Detalle Resumen De Compra
+              </Typography>
               {query?.length > 0 ? (
                 <table className="tw-w-full tw-table-auto tw-border-collapse">
                   <thead className="tw-bg-gray-100">

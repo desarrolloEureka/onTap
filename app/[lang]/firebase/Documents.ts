@@ -359,7 +359,7 @@ export const UpdateOrdersInvoices = async (idInvoice: any, idOrden: any) => {
 // Función para actualizar el estado de la orden (APPROVED TO delivery)
 export const UpdateOrders = async (userId: string, delivery: boolean) => {
   try {
-    console.log("userId recibido:", userId); // Verifica el userId que se pasa
+    //console.log("userId recibido:", userId);
 
     // Realiza la consulta para buscar documentos donde el campo 'userId' coincida con el valor recibido
     const ordersRef = collection(dataBase, "orders");
@@ -376,13 +376,11 @@ export const UpdateOrders = async (userId: string, delivery: boolean) => {
       };
     }
 
-    // Suponiendo que el query solo devuelve un documento, obtén el primer resultado
     const orderDoc = querySnapshot.docs[0];
-    console.log("Datos de la orden:", orderDoc.data());
+    //console.log("Datos de la orden:", orderDoc.data());
 
-    // Definir el nuevo estado de la orden
     const newStatus = delivery ? "DELIVERED" : "APPROVED";
-    const orderRef = orderDoc.ref; // Referencia al documento encontrado
+    const orderRef = orderDoc.ref;
 
     // Actualizar el estado de la orden
     await updateDoc(orderRef, {

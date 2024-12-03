@@ -494,6 +494,13 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
           </IconButton>
           <div className="tw-w-full tw-h-screen tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
             <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
+              {/* Título del Modal */}
+              <Typography
+                variant="h5"
+                className="tw-text-center tw-font-semibold tw-text-gray-800 tw-mb-6"
+              >
+                Detalle Resumen De Compra
+              </Typography>
               {query?.length > 0 ? (
                 <table className="tw-w-full tw-table-auto tw-border-collapse">
                   <thead className="tw-bg-gray-100">
