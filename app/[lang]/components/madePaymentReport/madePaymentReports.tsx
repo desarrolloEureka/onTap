@@ -12,7 +12,6 @@ import InfoIcon from "@mui/icons-material/Info";
 
 import PaymentIcon from "@mui/icons-material/Payment";
 import ReactCountryFlag from "react-country-flag";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import React from "react";
 import { Close } from "@mui/icons-material";
 
@@ -46,7 +45,7 @@ const PendingPaymentReports = ({
     getCountryFlag,
     getCountryName,
     handleDeleteFilter,
-    handleGetSelectedRows,
+
     handleOpenModal,
     handleCloseModal,
     mostrarDetalleCompra,
@@ -284,25 +283,6 @@ const PendingPaymentReports = ({
           </Button>
 
           <Button
-            className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={handleGetSelectedRows}
-          >
-            <LocalShippingIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Entregar</Typography>
-          </Button>
-          <Button
             className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
             type="submit"
             sx={{
@@ -458,7 +438,6 @@ const PendingPaymentReports = ({
             disableDensitySelector
             disableColumnFilter
             disableRowSelectionOnClick
-            checkboxSelection
             sx={{
               "& .MuiDataGrid-columnHeaders": {
                 backgroundColor: "#dddddd",
@@ -486,6 +465,10 @@ const PendingPaymentReports = ({
             padding: 0.5,
             borderRadius: 3,
             position: "relative",
+            width: "80vw", // Tamaño del modal más grande
+            maxWidth: "1200px",
+            height: "80vh", // Ajustar el alto del modal
+            overflowY: "auto", // Permitir scroll en caso de que el contenido sea muy largo
           }}
         >
           <IconButton
@@ -494,25 +477,32 @@ const PendingPaymentReports = ({
           >
             <Close className="tw-text-white" />
           </IconButton>
-          <div className="tw-w-full tw-h-4/5 tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
+          <div className="tw-w-full tw-h-screen tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
             <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
+              {/* Título del Modal */}
+              <Typography
+                variant="h5"
+                className="tw-text-center tw-font-semibold tw-text-gray-800 tw-mb-6"
+              >
+                Detalle Resumen De Compra
+              </Typography>
               {query?.length > 0 ? (
                 <table className="tw-w-full tw-table-auto tw-border-collapse">
                   <thead className="tw-bg-gray-100">
                     <tr>
-                      <th className="tw-px-4 tw-py-2 tw-text-left tw-font-semibold tw-border-b tw-border-gray-300">
+                      <th className="tw-px-6 tw-py-4 tw-text-left tw-font-semibold tw-border-b tw-border-gray-300">
                         Descripción
                       </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                      <th className="tw-px-6 tw-py-4 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
                         Cantidad
                       </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                      <th className="tw-px-6 tw-py-4 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
                         Precio Venta
                       </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                      <th className="tw-px-6 tw-py-4 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
                         Total
                       </th>
-                      <th className="tw-px-4 tw-py-2 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
+                      <th className="tw-px-6 tw-py-4 tw-text-center tw-font-semibold tw-border-b tw-border-gray-300">
                         Precio Distribuidor
                       </th>
                     </tr>
@@ -520,7 +510,7 @@ const PendingPaymentReports = ({
                   <tbody>
                     {/* Plan Seleccionado */}
                     <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
-                      <td className="tw-px-4 tw-py-2">
+                      <td className="tw-px-6 tw-py-4">
                         Plan Seleccionado:{" "}
                         <span className="tw-font-medium">
                           {detalleCompra?.optionPay?.selectedPlan?.name}
@@ -540,7 +530,7 @@ const PendingPaymentReports = ({
 
                     {/* Materiales Seleccionados */}
                     <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
-                      <td className="tw-px-4 tw-py-2">
+                      <td className="tw-px-6 tw-py-4">
                         Materiales Seleccionados:{" "}
                         <span className="tw-font-medium">
                           {detalleCompra?.optionPay?.selectedMaterial?.name}
@@ -563,7 +553,7 @@ const PendingPaymentReports = ({
                       (product: any, index: any) => (
                         <React.Fragment key={index}>
                           <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
-                            <td className="tw-px-4 tw-py-2">{product.name}</td>
+                            <td className="tw-px-6 tw-py-4">{product.name}</td>
                             <td className="tw-text-center">
                               {product.quantity}
                             </td>
@@ -582,7 +572,7 @@ const PendingPaymentReports = ({
                           </tr>
                           {product.hasPersonalization && (
                             <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50 tw-text-gray-600">
-                              <td className="tw-px-4 tw-py-2">
+                              <td className="tw-px-6 tw-py-4">
                                 Personalización: {product.name}
                               </td>
                               <td className="tw-text-center">1</td>
@@ -601,10 +591,11 @@ const PendingPaymentReports = ({
                         </React.Fragment>
                       )
                     )}
+
                     {/* Customización Seleccionada */}
                     {detalleCompra?.optionPay?.selectedCustomization ? (
                       <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
-                        <td className="tw-px-4 tw-py-2">
+                        <td className="tw-px-6 tw-py-4">
                           Personalización:{" "}
                           <span className="tw-font-medium">
                             {detalleCompra?.optionPay?.selectedCustomization
@@ -631,11 +622,11 @@ const PendingPaymentReports = ({
                     <tr className="tw-bg-gray-100">
                       <td
                         colSpan={4}
-                        className="tw-px-4 tw-py-2 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
+                        className="tw-px-6 tw-py-4 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
                       >
                         SubTotal:
                       </td>
-                      <td className="tw-px-4 tw-py-2 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
+                      <td className="tw-px-6 tw-py-4 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
                         $
                         {formatPrice(
                           detalleCompra?.userOrder?.totalAmount || 0
@@ -645,11 +636,11 @@ const PendingPaymentReports = ({
                     <tr className="tw-bg-gray-100">
                       <td
                         colSpan={4}
-                        className="tw-px-4 tw-py-2 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
+                        className="tw-px-6 tw-py-4 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
                       >
                         Total:
                       </td>
-                      <td className="tw-px-4 tw-py-2 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
+                      <td className="tw-px-6 tw-py-4 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
                         ${formatPrice(totalDiscount || 0)}
                       </td>
                     </tr>
@@ -662,7 +653,6 @@ const PendingPaymentReports = ({
               )}
             </div>
           </div>
-          ;
         </Box>
       </Modal>
     </div>

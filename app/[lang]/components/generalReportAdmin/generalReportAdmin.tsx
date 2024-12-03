@@ -9,6 +9,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/Delete";
 import GeneralReportAdmin from "./hooks/generalReportAdminHook";
 import ReactCountryFlag from "react-country-flag";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 import {
   FormControl,
@@ -47,18 +48,44 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     setDistributorFilter,
     distributorFilter,
     distributors,
+    paymentStatusFilter,
+    setPaymentStatusFilter,
+    deliveryStatusFilter,
+    setDeliveryStatusFilter,
+    handleGetSelectedRows,
   } = GeneralReportAdmin({ handlePayUser });
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
 
   const columns: GridColDef[] = [
     {
+      field: "paymentDate",
+      headerName: "Fecha de Pago",
+      minWidth: 100,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+      renderCell: (params) => {
+        const isPaid = params.row.statusPay === "Pagado";
+        return (
+          <div className="tw-flex tw-justify-center tw-items-center">
+            {isPaid && params.value ? (
+              <div>{formatearFecha(params.value)}</div>
+            ) : (
+              <div>No aplica</div>
+            )}
+          </div>
+        );
+      },
+    },
+
+    {
       field: "deliveryDate",
       headerName: "Fecha de Entrega",
-      minWidth: 210,
-      flex: 2,
-      headerAlign: "center",
-      align: "center",
+      minWidth: 100,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
       renderCell: (params) => {
         const isDelivered = params.row.deliveryStatus === "Entregado";
         return (
@@ -75,15 +102,16 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     {
       field: "id",
       headerName: "No. Identificación",
-      minWidth: 160,
+      minWidth: 100,
       flex: 1,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
     },
     {
       field: "name",
       headerName: "Nombres y Apellidos",
-      minWidth: 230,
+      minWidth: 180,
+      align: "left",
       flex: 1,
     },
     {
@@ -119,14 +147,28 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
       headerName: "Correo",
       minWidth: 180,
       flex: 1,
+      align: "left",
+    },
+    {
+      field: "statusPay",
+      headerName: "Estado Pago",
+      minWidth: 110,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value && <div>{params.value}</div>}
+        </div>
+      ),
     },
     {
       field: "deliveryStatus",
       headerName: "Estado de Entrega",
-      minWidth: 210,
-      flex: 2,
-      headerAlign: "center",
-      align: "center",
+      minWidth: 110,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
       renderCell: (params) => {
         const isDelivered = params.row.deliveryStatus === "Entregado";
         return (
@@ -139,6 +181,19 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
           </div>
         );
       },
+    },
+    {
+      field: "distributorName",
+      headerName: "Distribuidor",
+      minWidth: 100,
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value || "No asignado"}
+        </div>
+      ),
     },
   ];
 
@@ -155,7 +210,8 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "end",
+            justifyContent: "space-between",
+            alignItems: "center",
             width: "100%",
             paddingLeft: 2,
             paddingRight: 5,
@@ -163,81 +219,13 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
             marginTop: 1,
           }}
         >
-          <Button
-            className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mx-5 tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={handleDateChange}
-          >
-            <FilterListIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Filtrar</Typography>
-          </Button>
-
-          <Button
-            className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={handleDeleteFilter}
-          >
-            <DeleteIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Borrar</Typography>
-          </Button>
-
-          <Button
-            className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
-            type="submit"
-            sx={{
-              padding: "0",
-              minWidth: "auto",
-              textTransform: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            style={{ textTransform: "none" }}
-            onClick={() => handleExport()}
-          >
-            <GetAppIcon
-              style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
-            />
-            <Typography style={{ color: "#02AF9B" }}>Exportar</Typography>
-          </Button>
-        </Box>
-
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+          {/* Contenedor del filtro de búsqueda */}
           <Box
             sx={{
               width: "35%",
               paddingBottom: 3,
               paddingTop: 0,
-              paddingLeft: 2,
+              paddingLeft: 4,
             }}
           >
             <Typography
@@ -246,6 +234,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                 paddingBottom: 8,
                 fontSize: 14.4,
                 color: "rgba(0, 0, 0, 0.6)",
+                paddingLeft: 10,
               }}
             >
               Consulta General
@@ -269,6 +258,104 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
               }}
             />
           </Box>
+
+          {/* Contenedor de los botones */}
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2, // Espacio entre botones
+            }}
+          >
+            <Button
+              className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mx-5 tw-mr-4"
+              type="submit"
+              sx={{
+                padding: "0",
+                minWidth: "auto",
+                textTransform: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              style={{ textTransform: "none" }}
+              onClick={handleDateChange}
+            >
+              <FilterListIcon
+                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+              />
+              <Typography style={{ color: "#02AF9B" }}>Filtrar</Typography>
+            </Button>
+
+            <Button
+              className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
+              type="submit"
+              sx={{
+                padding: "0",
+                minWidth: "auto",
+                textTransform: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              style={{ textTransform: "none" }}
+              onClick={handleDeleteFilter}
+            >
+              <DeleteIcon
+                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+              />
+              <Typography style={{ color: "#02AF9B" }}>Borrar</Typography>
+            </Button>
+
+            <Button
+              className="tw-w-[100px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
+              type="submit"
+              sx={{
+                padding: "0",
+                minWidth: "auto",
+                textTransform: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              style={{ textTransform: "none" }}
+              onClick={handleGetSelectedRows}
+            >
+              <LocalShippingIcon
+                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+              />
+              <Typography style={{ color: "#02AF9B" }}>Entregar</Typography>
+            </Button>
+
+            <Button
+              className="tw-w-[90px] tw-h-[100%] tw-text-white tw-text-custom tw-mr-4"
+              type="submit"
+              sx={{
+                padding: "0",
+                minWidth: "auto",
+                textTransform: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              style={{ textTransform: "none" }}
+              onClick={() => handleExport()}
+            >
+              <GetAppIcon
+                style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
+              />
+              <Typography style={{ color: "#02AF9B" }}>Exportar</Typography>
+            </Button>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -315,12 +402,21 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
               />
             </div>
 
-            <div style={{ flex: 2 }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "16px",
+                justifyContent: "flex-start",
+                flexWrap: "nowrap",
+              }}
+            >
+              {/* Filtro para Distribuidor */}
               <FormControl
                 variant="outlined"
                 sx={{
-                  width: "100%", // Asegura que ocupe el ancho completo del contenedor
-                  minWidth: 300, // Define un ancho mínimo adecuado
+                  flex: "1 1 200px",
+                  minWidth: 200,
+                  margin: "0 8px",
                 }}
               >
                 <InputLabel id="distributorFilter-label">
@@ -335,13 +431,13 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                   MenuProps={{
                     PaperProps: {
                       style: {
-                        maxHeight: 300, // Limita la altura del menú
-                        width: "auto", // Ajusta el ancho al contenido del menú
+                        maxHeight: 300,
+                        width: "auto",
                       },
                     },
                   }}
                   sx={{
-                    width: "100%", // Forzar el ancho completo del Select
+                    width: "100%",
                   }}
                 >
                   {distributors.length > 0 ? (
@@ -361,6 +457,82 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                       </div>
                     </MenuItem>
                   )}
+                </Select>
+              </FormControl>
+
+              {/* Filtro para Estado de Pago */}
+              <FormControl
+                variant="outlined"
+                sx={{
+                  flex: "1 1 200px",
+                  minWidth: 200,
+                  margin: "0 8px",
+                }}
+              >
+                <InputLabel id="paymentStatusFilter-label">
+                  Estado de Pago
+                </InputLabel>
+                <Select
+                  labelId="paymentStatusFilter-label"
+                  id="paymentStatusFilter"
+                  value={paymentStatusFilter || ""}
+                  onChange={(e) => setPaymentStatusFilter(e.target.value || "")}
+                  label="Estado de Pago"
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 300,
+                        width: "auto",
+                      },
+                    },
+                  }}
+                  sx={{
+                    width: "100%",
+                  }}
+                >
+                  <MenuItem value="">Selecciona un estado de pago</MenuItem>
+                  <MenuItem value="Pagado">Pagado</MenuItem>
+                  <MenuItem value="Pendiente por pagar">
+                    Pendiente por pagar
+                  </MenuItem>
+                </Select>
+              </FormControl>
+
+              {/* Filtro para Estado de Entrega */}
+              <FormControl
+                variant="outlined"
+                sx={{
+                  flex: "1 1 200px",
+                  minWidth: 200,
+                  margin: "0 8px",
+                }}
+              >
+                <InputLabel id="deliveryStatusFilter-label">
+                  Estado de Entrega
+                </InputLabel>
+                <Select
+                  labelId="deliveryStatusFilter-label"
+                  id="deliveryStatusFilter"
+                  value={deliveryStatusFilter || ""}
+                  onChange={(e) => setDeliveryStatusFilter(e.target.value)}
+                  label="Estado de Entrega"
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 300,
+                        width: "auto",
+                      },
+                    },
+                  }}
+                  sx={{
+                    width: "100%",
+                  }}
+                >
+                  <MenuItem value="">Selecciona un estado de entrega</MenuItem>
+                  <MenuItem value="Entregado">Entregado</MenuItem>
+                  <MenuItem value="Pendiente de entrega">
+                    Pendiente de entrega
+                  </MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -412,6 +584,11 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
             disableDensitySelector
             disableColumnFilter
             disableRowSelectionOnClick
+            checkboxSelection
+            isRowSelectable={(params) =>
+              params.row.deliveryStatus !== "Entregado" &&
+              params.row.statusPay !== "Pendiente por pagar"
+            }
             sx={{
               "& .MuiDataGrid-columnHeaders": {
                 backgroundColor: "#dddddd",

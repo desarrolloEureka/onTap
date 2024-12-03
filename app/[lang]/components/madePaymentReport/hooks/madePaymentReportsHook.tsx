@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetUser } from "@/reactQuery/users";
 import moment from "moment";
-import { UpdateOrdersQuerie } from "@/reactQuery/generalQueries";
 import {
   gridFilteredSortedRowIdsSelector,
   gridVisibleColumnFieldsSelector,
@@ -10,7 +9,6 @@ import {
 import * as XLSX from "xlsx";
 import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
-import Swal from "sweetalert2";
 
 const MadePaymentReportsHook = ({
   handleDeliveryUser,
@@ -104,46 +102,6 @@ const MadePaymentReportsHook = ({
       return true;
     });
     setFilteredQuery(filteredData);
-  };
-
-  const handleGetSelectedRows = async () => {
-    const selectedRowIds = apiRef && apiRef.current.getSelectedRows();
-    const selectedData = query.filter((row: any) => selectedRowIds.has(row.id));
-    let successCount = 0;
-
-    for (const order of selectedData) {
-      const orderId = order.id;
-
-      if (!orderId) {
-        console.error("No se encontró un ID de orden válido");
-        continue;
-      }
-
-      const result = await UpdateOrdersQuerie(orderId, true); // Actualiza el estado a "DELIVERED"
-      if (result.success) {
-        //console.log(`La orden ${orderId} ha sido actualizada a "DELIVERED".`);
-        successCount++;
-
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Orden entregada con éxito",
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: `Hubo un error al actualizar la orden ${orderId}: ${result.message}`,
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      }
-    }
-
-    if (successCount > 0) {
-      setFlag(!flag); // Cambia el valor de `flag` para forzar la actualización
-    }
   };
 
   const handleDeleteFilter = () => {
@@ -309,7 +267,6 @@ const MadePaymentReportsHook = ({
     getCountryFlag,
     getCountryName,
     handleDeleteFilter,
-    handleGetSelectedRows,
     handleOpenModal,
     handleCloseModal,
     mostrarDetalleCompra,

@@ -88,7 +88,7 @@ const UserTable = () => {
     errorEmailMismatch,
     handleEditUser,
     handleEditData,
-    openEditProfile
+    openEditProfile,
   } = UserTableLogic();
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
@@ -130,8 +130,6 @@ const UserTable = () => {
     return urlFormatted ? urlFormatted : "";
   };
 
-
-
   const columns: GridColDef[] = [
     {
       field: "optionEdit",
@@ -150,8 +148,8 @@ const UserTable = () => {
       ),
     },
     {
-      field: "uid",
-      headerName: "Editar Social",
+      field: "socialEdit",
+      headerName: "Editar Social", // Título de la columna
       minWidth: 110,
       flex: 1,
       headerAlign: "center",
@@ -159,12 +157,29 @@ const UserTable = () => {
       renderCell: (params) => (
         <Button
           style={{ color: "black" }}
-          onClick={() => openEditProfile('social', params.value)}
+          onClick={() => openEditProfile("social", params.row.uid)} // Pasamos "social" al hacer clic
         >
           <EditIcon />
         </Button>
       ),
     },
+    {
+      field: "professionalEdit", // Campo único para la columna de "Editar Profesional"
+      headerName: "Editar Profesional", // Título de la columna
+      minWidth: 110,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <Button
+          style={{ color: "black" }}
+          onClick={() => openEditProfile("professional", params.row.uid)} // Pasamos "professional" al hacer clic
+        >
+          <EditIcon />
+        </Button>
+      ),
+    },
+
     {
       field: "date",
       headerName: "Fecha Registro",

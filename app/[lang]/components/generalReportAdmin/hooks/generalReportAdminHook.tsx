@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { GetUser } from "@/reactQuery/users";
 import moment from "moment";
+import { UpdateOrdersQuerie } from "@/reactQuery/generalQueries";
 import {
   gridFilteredSortedRowIdsSelector,
   gridVisibleColumnFieldsSelector,
   useGridApiRef,
 } from "@mui/x-data-grid";
+
 import * as XLSX from "xlsx";
 import { getUsersWithOrdersAndInvoices, getUsers } from "@/firebase/user";
 import { countries } from "@/globals/constants";
+import Swal from "sweetalert2";
 
 const PendingPaymentReportsHook = ({
   handlePayUser,
@@ -31,6 +34,11 @@ const PendingPaymentReportsHook = ({
   const [distributorFilter, setDistributorFilter] = useState<string>(""); // Nuevo estado para el filtro de distribuidor
   const [distributors, setDistributors] = useState<any[]>([]);
 
+  const [paymentStatusFilter, setPaymentStatusFilter] = useState<string | null>(
+    null
+  );
+  const [deliveryStatusFilter, setDeliveryStatusFilter] = useState<string>(""); // "Entregado" o "Pendiente de entrega"
+
   const getCountryFlag = (item: any) => {
     const country = countries.find((country) => country.id === item);
     return country ? country.flag : "";
@@ -49,6 +57,7 @@ const PendingPaymentReportsHook = ({
     const dateStart = startDate ? new Date(startDate) : null;
     const dateEnd = endDate ? new Date(endDate) : null;
 
+    // Asegúrate de que las fechas sean válidas
     if (dateStart) {
       dateStart.setDate(dateStart.getDate() + 1);
       dateStart.setHours(0, 0, 0, 0);
@@ -59,26 +68,74 @@ const PendingPaymentReportsHook = ({
       dateEnd.setHours(23, 59, 59, 999);
     }
 
+    // Si las fechas de inicio y fin no son válidas, salimos
     if (dateStart && dateEnd && dateEnd < dateStart) {
       //console.error('La fecha final debe ser mayor o igual a la fecha inicial');
       return;
     }
 
+    // Si no hay fechas, devolvemos los datos sin cambios
     if (!dateStart && !dateEnd) {
       setFilteredQuery(query);
       return;
     }
 
-    const filteredData = query.filter((user: { created_at: string }) => {
-      const userDate = new Date(user.created_at);
+    const filteredData = query.filter((user: { paymentDate: string }) => {
+      const userPaymentDate = user.paymentDate;
 
-      // Comparar si la fecha del usuario está dentro del rango
-      if (dateStart && userDate < dateStart) return false;
-      if (dateEnd && userDate > dateEnd) return false;
+      // Excluir los registros donde la fecha de pago es "No aplica"
+      if (userPaymentDate === "No aplica") return false; // Excluye el "No aplica"
 
-      return true;
+      // Si la fecha de pago no es "No aplica", convertimos y comparamos
+      const userDate = new Date(userPaymentDate);
+
+      if (dateStart && userDate < dateStart) return false; // Excluye si la fecha es menor que la fecha de inicio
+      if (dateEnd && userDate > dateEnd) return false; // Excluye si la fecha es mayor que la fecha de fin
+
+      return true; // Incluye si pasa las comparaciones
     });
+
     setFilteredQuery(filteredData);
+  };
+
+  const handleGetSelectedRows = async () => {
+    const selectedRowIds = apiRef && apiRef.current.getSelectedRows();
+    const selectedData = query.filter((row: any) => selectedRowIds.has(row.id));
+    let successCount = 0;
+
+    for (const order of selectedData) {
+      const orderId = order.id;
+
+      if (!orderId) {
+        console.error("No se encontró un ID de orden válido");
+        continue;
+      }
+
+      const result = await UpdateOrdersQuerie(orderId, true); // Actualiza el estado a "DELIVERED"
+      if (result.success) {
+        //console.log(`La orden ${orderId} ha sido actualizada a "DELIVERED".`);
+        successCount++;
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Orden entregada con éxito",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: `Hubo un error al actualizar la orden ${orderId}: ${result.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+
+    if (successCount > 0) {
+      setFlag(!flag); // Cambia el valor de `flag` para forzar la actualización
+    }
   };
 
   const handleDeleteFilter = () => {
@@ -86,6 +143,8 @@ const PendingPaymentReportsHook = ({
     setStartDate("");
     setEndDate("");
     setDistributorFilter(""); // Resetear el filtro de distribuidor
+    setPaymentStatusFilter(""); // Resetear filtro de estado de pago
+    setDeliveryStatusFilter(""); // Resetear filtro de estado de entrega
   };
 
   const exportToExcel = (filteredQuery: any) => {
@@ -118,7 +177,11 @@ const PendingPaymentReportsHook = ({
       // Crear una hoja de cálculo a partir de los datos filtrados
       const worksheet = XLSX.utils.json_to_sheet(filteredData);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Reporte_Entregas");
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Reporte_Administrador"
+      );
 
       // Crear un archivo Blob y descargarlo
       const excelBuffer = XLSX.write(workbook, {
@@ -132,7 +195,7 @@ const PendingPaymentReportsHook = ({
       // Crear un enlace de descarga y hacer clic en él
       const downloadLink = document.createElement("a");
       downloadLink.href = URL.createObjectURL(data);
-      downloadLink.download = "Reporte_Entregas.xlsx";
+      downloadLink.download = "Reporte_Administrador.xlsx";
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
@@ -162,22 +225,41 @@ const PendingPaymentReportsHook = ({
 
   useEffect(() => {
     const getquery = async () => {
-      const reportData = await getUsersWithOrdersAndInvoices();
-      const usersData = await getUsers();
+      const reportData = await getUsersWithOrdersAndInvoices(); // Obtiene datos con órdenes y facturas
+      const usersData = await getUsers(); // Obtiene datos de usuarios
+
+      // Combinar los datos, eliminando duplicados por uid
       const allUserData = [
         ...reportData,
         ...usersData.filter(
           (doc: any) => !reportData.some((doc2: any) => doc2?.uid === doc?.uid)
         ),
       ];
+
+      // Mapear datos con lógica del distribuidor y estado de pago
       const reportDataFinal = allUserData.map((doc: any) => {
+        let paymentDate = "";
+
+        // Determinar fecha de pago según estado
+        if (doc.userInvoice?.status === "PAID") {
+          paymentDate = doc.userInvoice?.paymentDate || doc.created_at;
+        } else {
+          paymentDate = "No aplica";
+        }
+
         const isPaid = doc?.userInvoice?.status === "PAID";
         const isDelivered = doc?.userOrder?.status === "DELIVERED";
+
+        // Buscar nombre del distribuidor usando idDistributor
+        const distributor = usersData.find(
+          (user: any) => user.uid === doc.idDistributor
+        );
 
         return {
           id: doc.dni || 1,
           created_at: doc?.created_at || "",
           name: `${doc.firstName} ${doc.lastName}` || "",
+          paymentDate, // Usar la fecha calculada
           indicative: doc.indicative || "",
           phone: doc.phone || "",
           email: doc.email || "",
@@ -195,30 +277,46 @@ const PendingPaymentReportsHook = ({
             uid: doc.uid,
           },
           idDistributor: doc.idDistributor, // ID del distribuidor
+          distributorName: distributor
+            ? distributor.fullName
+            : "Distribuidor desconocido", // Nombre del distribuidor
           fullName: doc.fullName || "",
         };
       });
 
-      // Filtrar por distribuidor
+      // Aplicar filtros
       const filteredByDistributor = reportDataFinal.filter((user: any) =>
         distributorFilter ? user.idDistributor === distributorFilter : true
       );
 
-      setQuery(filteredByDistributor);
-      setFilteredQuery(filteredByDistributor);
+      const filteredByPaymentStatus = filteredByDistributor.filter(
+        (user: any) =>
+          paymentStatusFilter ? user.statusPay === paymentStatusFilter : true
+      );
 
-      // Obtener distribuidores únicos y almacenarlos como array
+      const filteredByDeliveryStatus = filteredByPaymentStatus.filter(
+        (user: any) =>
+          deliveryStatusFilter
+            ? user.deliveryStatus === deliveryStatusFilter
+            : true
+      );
+
+      // Actualizar estados
+      setQuery(filteredByDistributor);
+      setFilteredQuery(filteredByDeliveryStatus);
+
+      // Crear lista de distribuidores únicos
       const uniqueDistributors = [
         ...new Set(reportDataFinal.map((user: any) => user.idDistributor)),
       ];
 
-      // Convertir el array de IDs en un array de objetos con el nombre del distribuidor
+      // Convertir en un array con nombre del distribuidor
       const distributorsArray = uniqueDistributors.map((id) => {
-        const Distribuitor = usersData.find((doc) => doc.uid === id);
+        const distributor = usersData.find((doc) => doc.uid === id);
         return {
           id,
           name: `Distribuidor ${
-            Distribuitor ? Distribuitor.fullName : "desconcido"
+            distributor ? distributor.fullName : "desconocido"
           }`,
         };
       });
@@ -227,7 +325,13 @@ const PendingPaymentReportsHook = ({
     };
 
     getquery();
-  }, [data?.uid, flag, distributorFilter]);
+  }, [
+    distributorFilter,
+    paymentStatusFilter,
+    deliveryStatusFilter,
+    flag,
+    data?.uid,
+  ]);
 
   return {
     data: filteredQuery,
@@ -257,6 +361,11 @@ const PendingPaymentReportsHook = ({
     distributorFilter,
     setDistributorFilter, // Nueva función para actualizar el filtro de distribuidor
     distributors,
+    paymentStatusFilter,
+    setPaymentStatusFilter,
+    deliveryStatusFilter,
+    setDeliveryStatusFilter,
+    handleGetSelectedRows,
   };
 };
 
