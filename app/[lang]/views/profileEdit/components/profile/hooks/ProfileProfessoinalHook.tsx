@@ -695,6 +695,25 @@ const ProfileProfessionalHook = ({
     }
   };
 
+  const validateOccupationSwitch = (data: typeof dataForm) => {
+    const dataFormClone = { ...data };
+  
+    if (
+      !dataFormClone.occupation ||
+      !dataFormClone.occupation.text ||
+      dataFormClone.occupation.text.trim() === ""
+    ) {
+      dataFormClone.occupation = {
+        ...dataFormClone.occupation,
+        checked: false, // Apagar el switch
+        order: dataFormClone.occupation?.order ?? 0, // Asignar valor predeterminado
+      };
+    }
+  
+    return dataFormClone;
+  };
+
+
   const checkedItems = (
     data: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[],
     value: string,
@@ -859,12 +878,22 @@ const ProfileProfessionalHook = ({
   };
 
   useEffect(() => {
-    const data = Object.entries(dataForm as DataFormSorted).toSorted((a, b) => {
+    // Validar y actualizar los datos solo si es necesario
+    const updatedDataForm = validateOccupationSwitch(dataForm);
+    
+    // Verifica si el formulario cambió antes de actualizar el estado
+    if (JSON.stringify(updatedDataForm) !== JSON.stringify(dataForm)) {
+      setDataForm(updatedDataForm); // Solo actualiza si hay cambios
+    }
+  
+    // Lógica de ordenamiento (si la validación de ocupación se realizó correctamente)
+    const data = Object.entries(updatedDataForm as DataFormSorted).toSorted((a, b) => {
       const aa = a[1].length ? a[1][0].order : a[1].order;
       const bb = b[1].length ? b[1][0].order : b[1].order;
       return aa - bb;
     });
     setObjectDataSort(data);
+  
   }, [dataForm, isProUser]);
 
   useEffect(() => {

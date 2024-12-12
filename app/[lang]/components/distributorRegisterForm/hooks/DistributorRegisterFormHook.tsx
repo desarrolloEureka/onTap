@@ -256,7 +256,7 @@ const DistributorRegisterFormHook = () => {
       const result = await saveDistributorQuerie(combinedData);
 
       // Enviar correo de bienvenida
-      await handleSendWelcomeEmail(combinedData);
+      //await handleSendWelcomeEmail(combinedData);
 
       if (result.success) {
         Swal.fire({
