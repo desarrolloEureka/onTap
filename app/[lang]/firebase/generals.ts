@@ -370,7 +370,6 @@ export const getLastOrder = async () => {
   const querySnapshot = await getDocs(
     query(allRef({ ref: "orders" }), orderBy("createdAt", "desc"), limit(1))
   );
-  
 
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {
