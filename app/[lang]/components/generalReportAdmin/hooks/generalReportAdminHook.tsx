@@ -24,6 +24,7 @@ const PendingPaymentReportsHook = ({
   const [query, setQuery] = useState<any>([]);
   const [filteredQuery, setFilteredQuery] = useState<any>([]);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Filtro Extra
   const [startDate, setStartDate] = useState("");
@@ -33,11 +34,22 @@ const PendingPaymentReportsHook = ({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [distributorFilter, setDistributorFilter] = useState<string>(""); // Nuevo estado para el filtro de distribuidor
   const [distributors, setDistributors] = useState<any[]>([]);
+  const [detalleCompra, setDetalleCompra] = useState<any>(null);
 
   const [paymentStatusFilter, setPaymentStatusFilter] = useState<string | null>(
     null
   );
   const [deliveryStatusFilter, setDeliveryStatusFilter] = useState<string>(""); // "Entregado" o "Pendiente de entrega"
+
+  const formatPrice = (value: any) => {
+    if (value == null || isNaN(value)) return "";
+    const number = Number(value);
+    return new Intl.NumberFormat("es-CO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+    }).format(number);
+  };
+
 
   const getCountryFlag = (item: any) => {
     const country = countries.find((country) => country.id === item);
@@ -57,7 +69,6 @@ const PendingPaymentReportsHook = ({
     const dateStart = startDate ? new Date(startDate) : null;
     const dateEnd = endDate ? new Date(endDate) : null;
 
-    // Asegúrate de que las fechas sean válidas
     if (dateStart) {
       dateStart.setDate(dateStart.getDate() + 1);
       dateStart.setHours(0, 0, 0, 0);
@@ -98,6 +109,15 @@ const PendingPaymentReportsHook = ({
     setFilteredQuery(filteredData);
   };
 
+    // Funciones para manejar la apertura y cierre del modal
+    const handleOpenModal = () => {
+      setIsModalOpen(true);
+    };
+  
+    const handleCloseModal = () => {
+      setIsModalOpen(false);
+    };
+
   const handleGetSelectedRows = async () => {
     const selectedRowIds = apiRef && apiRef.current.getSelectedRows();
     const selectedData = query.filter((row: any) => selectedRowIds.has(row.id));
@@ -137,6 +157,13 @@ const PendingPaymentReportsHook = ({
       setFlag(!flag); // Cambia el valor de `flag` para forzar la actualización
     }
   };
+
+  const mostrarDetalleCompra = (rowData: any) => {
+    //console.log("detalle de la compra", rowData);
+    setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
+    setIsModalOpen(true); // Abre el modal
+  };
+
 
   const handleDeleteFilter = () => {
     setFilteredQuery(query);
@@ -228,6 +255,8 @@ const PendingPaymentReportsHook = ({
       const reportData = await getUsersWithOrdersAndInvoices(); // Obtiene datos con órdenes y facturas
       const usersData = await getUsers(); // Obtiene datos de usuarios
 
+      //console.log("reportData", reportData)
+
       // Combinar los datos, eliminando duplicados por uid
       const allUserData = [
         ...reportData,
@@ -235,9 +264,11 @@ const PendingPaymentReportsHook = ({
           (doc: any) => !reportData.some((doc2: any) => doc2?.uid === doc?.uid)
         ),
       ];
-
+      console.log("allUserData", allUserData)
+      
       // Mapear datos con lógica del distribuidor y estado de pago
       const reportDataFinal = allUserData.map((doc: any) => {
+        console.log("doc", doc)
         let paymentDate = "";
 
         // Determinar fecha de pago según estado
@@ -249,6 +280,8 @@ const PendingPaymentReportsHook = ({
 
         const isPaid = doc?.userInvoice?.status === "PAID";
         const isDelivered = doc?.userOrder?.status === "DELIVERED";
+
+        //console.log("doc",doc)
 
         // Buscar nombre del distribuidor usando idDistributor
         const distributor = usersData.find(
@@ -366,6 +399,13 @@ const PendingPaymentReportsHook = ({
     deliveryStatusFilter,
     setDeliveryStatusFilter,
     handleGetSelectedRows,
+    detalleCompra,
+    setDetalleCompra,
+    isModalOpen,
+    handleCloseModal,
+    handleOpenModal,
+    formatPrice,
+    mostrarDetalleCompra
   };
 };
 
