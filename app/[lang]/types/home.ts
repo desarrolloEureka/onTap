@@ -90,9 +90,9 @@ export interface Cards {
   card_holder: string;
   created_at: string;
   cvc: string;
-  exp_month:any,
-  exp_year:any,
-  idNumber:any,
+  exp_month: any,
+  exp_year: any,
+  idNumber: any,
   idType: string;
   number: string;
   uid: string;
@@ -137,6 +137,30 @@ export interface Notification {
   description: string;
   createdAt: string;
   creator: string;
+}
+
+export interface Orders {
+  addressDelivery: string;
+  cityDelivery: string;
+  countryDelivery: string;
+  createdAt: string;
+  deliveryDate: string;
+  deliveryEmail: string;
+  deliveryFirstName: string;
+  deliveryIdNumber: string;
+  deliveryIdType: string;
+  deliveryLastName: string;
+  deliveryPhoneNumber: string;
+  paymentDate: string;
+  postalCode: string;
+  secuencialId: string;
+  stateDelivery: string;
+  status: string;
+  totalAmount: number;
+  uid: string;
+  userId: string;
+  userUid: string;
+  id: string;
 }
 
 // Define la interfaz para la suscripción

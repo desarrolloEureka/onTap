@@ -23,6 +23,7 @@ import {
   saveOrderQuerie,
 } from "@/reactQuery/generalQueries";
 import { wompiConfig } from "@/firebase/firebaseConfig";
+import { getLastOrder } from "@/firebase/generals";
 
 type City = string;
 
@@ -348,11 +349,11 @@ const CustomersCreateFormHook = ({
     if (exists) {
       field === "dni"
         ? setDocumentNumberError(
-            "El No. Identificación ya se encuentra registrado."
-          )
+          "El No. Identificación ya se encuentra registrado."
+        )
         : field === "email"
-        ? setEmailError("El correo ya se encuentra registrado.")
-        : setPhoneNumberError("El teléfono ya se encuentra registrado.");
+          ? setEmailError("El correo ya se encuentra registrado.")
+          : setPhoneNumberError("El teléfono ya se encuentra registrado.");
 
       valid = false;
     }
@@ -785,6 +786,7 @@ const CustomersCreateFormHook = ({
       // Crear y guardar la factura
       const invoiceData = prepareInvoiceData(
         orderData?.uid,
+        orderData?.secuencialId,
         result?.uid,
         isPay
       );
@@ -822,8 +824,20 @@ const CustomersCreateFormHook = ({
   };
 
   // Función para preparar los datos de la orden
-  const registerOrderData = (userUid: any, isPay: boolean) => {
+  const registerOrderData = async (userUid: any, isPay: boolean) => {
     const documentRefUser: any = getDocumentReference("orders");
+    const lastOrder: any = await getLastOrder();
+
+    let newSecuencialId = 'REF1';
+    if (lastOrder && lastOrder.secuencialId) {
+      const match = lastOrder.secuencialId.match(/^REF(\d+)$/);
+      if (match) {
+        const lastNumber = parseInt(match[1], 10);
+        const nextNumber = lastNumber + 1;
+        newSecuencialId = `REF${nextNumber}`;
+      }
+    }
+
     const totalAmount = total;
     return {
       //orderId,
@@ -846,16 +860,18 @@ const CustomersCreateFormHook = ({
       countryDelivery,
       postalCode,
       userUid: userUid,
+      secuencialId: newSecuencialId
     };
   };
 
   // Función para preparar los datos de la factura
-  const prepareInvoiceData = (orderId: any, userUid: any, isPay: Boolean) => {
+  const prepareInvoiceData = (orderId: any, secuencialId: any, userUid: any, isPay: Boolean) => {
     const documentRefUser: any = getDocumentReference("invoices");
     return {
       //invoiceId,
       uid: documentRefUser.id,
       orderId,
+      secuencialId,
       userId: documentNumber.trim(),
       totalAmount: total,
       status: isPay === true ? "PAID" : "PENDING",

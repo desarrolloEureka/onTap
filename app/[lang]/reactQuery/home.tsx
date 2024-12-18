@@ -19,6 +19,7 @@ import {
   getAllNotifications,
   getAllSubscriptions,
   getAllCards,
+  getLastOrder,
 } from "@/firebase/generals";
 import { useQuery } from "@tanstack/react-query";
 
@@ -206,6 +207,15 @@ const UpdateSocialNetwork = async (
   return res;
 };
 
+const GetLastOrder = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ["orders", flag],
+    queryFn: async () => await getLastOrder(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+
 export {
   GetAllTemplates,
   GetAllBackgroundImages,
@@ -226,5 +236,6 @@ export {
   GetAllPlanesIndividual,
   GetAllNotifications,
   GetAllSubscriptions,
-  GetAllCards
+  GetAllCards,
+  GetLastOrder
 };

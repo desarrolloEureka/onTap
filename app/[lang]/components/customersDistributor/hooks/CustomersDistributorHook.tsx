@@ -507,27 +507,27 @@ const CustomersDistributorHook = ({
       result.templateData =
         plan === "standard"
           ? [
-              {
-                type: "social",
-                id: "XfhZLINMOpRTI7cakd8o",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-            ]
+            {
+              type: "social",
+              id: "XfhZLINMOpRTI7cakd8o",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+          ]
           : [
-              {
-                type: "social",
-                id: "XfhZLINMOpRTI7cakd8o",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-              {
-                type: "professional",
-                id: "ZESiLxKZFwUOUOgLKt6P",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-            ];
+            {
+              type: "social",
+              id: "XfhZLINMOpRTI7cakd8o",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+            {
+              type: "professional",
+              id: "ZESiLxKZFwUOUOgLKt6P",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+          ];
 
       // Registrar usuario en la base de datos
       await registerUserFb({ data: result });
@@ -754,33 +754,33 @@ const CustomersDistributorHook = ({
   useEffect(() => {
     const getquery = async () => {
       const usersDataSanpShotAux = await getUsersWithOrdersAndInvoices();
-      const usersData = usersDataSanpShotAux
-        .map((doc: any) => {
-          return {
-            id: doc.dni || 1,
-            created_at: doc?.created_at || "",
-            name: doc.firstName + " " + doc.lastName || "",
-            indicative: doc.indicative || "",
-            phone: doc.phone || "",
-            email: doc.email || "",
-            plan: doc?.selectedPlan?.name,
-            userType: doc,
-            optionEdit: doc,
-            optionPay: doc,
-            statusPay:
-              doc.userInvoice.status === "PAID"
-                ? "Pagado"
-                : "Pendiente por pagar",
-            userInvoice: doc.userInvoice,
-            userOrder: doc.userOrder,
-            edit: {
-              switch: doc.isActiveByAdmin === true ? true : false || "",
-              uid: doc.uid,
-            },
-            idDistributor: doc.idDistributor,
-          };
-          //}).filter((user) => (!user.is_admin && !user.is_distributor))
-        })
+      const usersData = usersDataSanpShotAux.map((doc: any) => {
+        return {
+          id: doc.dni || 1,
+          created_at: doc?.created_at || "",
+          name: doc.firstName + " " + doc.lastName || "",
+          indicative: doc.indicative || "",
+          phone: doc.phone || "",
+          email: doc.email || "",
+          plan: doc?.selectedPlan?.name,
+          userType: doc,
+          optionEdit: doc,
+          optionPay: doc,
+          statusPay:
+            doc.userInvoice.status === "PAID"
+              ? "Pagado"
+              : "Pendiente por pagar",
+          userInvoice: doc.userInvoice,
+          userOrder: doc.userOrder,
+          edit: {
+            switch: doc.isActiveByAdmin === true ? true : false || "",
+            uid: doc.uid,
+          },
+          idDistributor: doc.idDistributor,
+          secuencialId: doc.userOrder.secuencialId || "",
+        };
+        //}).filter((user) => (!user.is_admin && !user.is_distributor))
+      })
         .filter((user: any) => user?.idDistributor === data?.uid);
       setQuery(usersData);
       setFilteredQuery(usersData);

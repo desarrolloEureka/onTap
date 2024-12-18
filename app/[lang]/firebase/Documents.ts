@@ -557,6 +557,50 @@ export const saveNotification = async (notificationData: any) => {
   }
 };
 
+export const sendNotificationsToUsers = async (tokens: string[], title: string, body: string) => {
+  try {
+    if (tokens?.length === 0) {
+      return { success: false, message: "No tokens provided" };
+    }
+
+    const image = "https://firebasestorage.googleapis.com/v0/b/onetap-development.appspot.com/o/companieIcon%2Ficon.png?alt=media&token=4d70bda2-d86e-4456-acc7-4511095aed45"
+
+    const responses = await Promise.all(
+      tokens.map(async token => {
+        try {
+          const response = await fetch("/api/notifications", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token, title, body }),
+          });
+
+          const data = await response.json();
+          console.log('Response from API:', data);
+
+          // Revisa si la respuesta fue exitosa antes de continuar
+          if (!response.ok) {
+            return { token, success: false, error: data.message || 'Unknown error' };
+          }
+
+          return { token, success: true, ...data };
+
+        } catch (error: any) {
+          console.error('Error en el envío de notificación para el token:', token, error);
+          return { token, success: false, error: error.message || 'Unknown error' };
+        }
+      })
+    );
+
+    console.log('All responses:', responses);
+    return { success: true, message: "Notification sent successfully", responses };
+  } catch (error: any) {
+    console.error("Error al enviar la notificación:", error);
+    return { success: false, message: "Error sent notification", error: error.message || 'Unknown error' };
+  }
+};
+
+
+
 // Función para guardar la suscripción
 export const saveSubscription = async (subscriptionData: any) => {
   try {
