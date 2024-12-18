@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { saveNotificationQuerie } from "@/reactQuery/generalQueries";
+import { saveNotificationQuerie, sendNotificationsToUsersQuery } from "@/reactQuery/generalQueries";
 import Swal from "sweetalert2";
 import { GetAllNotifications } from "@/reactQuery/home";
 import { GetUser } from "@/reactQuery/users";
+import { getAllUsers } from "@/firebase/user";
 
 export interface Notification {
   id: string;
@@ -152,6 +153,16 @@ const useNotifications = () => {
     try {
       const result = await saveNotificationQuerie(newNotification); // Llama a la función de guardado
       if (result.success) {
+        const usersDataSanpShot = await getAllUsers();
+        const employees = usersDataSanpShot.docs;
+
+        const tokens = employees.map((doc) => {
+          const token = doc.data().token;
+          return token;
+        }).filter(token => token !== undefined);
+
+        console.log('tokens ', tokens);
+        await sendNotificationsToUsersQuery(tokens, subject, description)
         handleCloseModal();
         Swal.fire({
           position: "center",

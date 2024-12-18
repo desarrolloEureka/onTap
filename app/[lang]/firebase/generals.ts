@@ -19,6 +19,7 @@ import {
   Notification,
   Subscription,
   Cards,
+  Orders,
 } from "@/types/home";
 import { AllRefPropsFirebase } from "@/types/userFirebase";
 import {
@@ -31,6 +32,8 @@ import {
   getDoc,
   query,
   where,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { dataBase } from "./firebaseConfig";
 import { GetUser } from "@/reactQuery/users";
@@ -358,4 +361,22 @@ export const updateSocialNetwork = async (
     console.error("Error uploading image to Storage:", uploadError);
     return false;
   }
+};
+
+export const getLastOrder = async () => {
+  const productsData: Orders[] = [];
+
+  // Asegúrate de que el campo `created_at` exista y esté indexado en Firestore
+  const querySnapshot = await getDocs(
+    query(allRef({ ref: "orders" }), orderBy("createdAt", "desc"), limit(1))
+  );
+
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as Orders;
+      productsData.push({ ...dataResult, id: doc.id });
+    });
+  }
+
+  return productsData.length > 0 ? productsData[0] : null;
 };

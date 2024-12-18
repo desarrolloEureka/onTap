@@ -1,18 +1,11 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import firebase from "firebase/compat/app";
 import { config as configDotenv } from "dotenv";
 
-/* const firebaseConfig = {
-  apiKey: process.env.apiKey,
-  authDomain: process.env.authDomain,
-  projectId: process.env.projectId,
-  storageBucket: process.env.storageBucket,
-  messagingSenderId: process.env.messagingSenderId,
-  appId: process.env.appId,
-  measurementId: process.env.measurementId,
-}; */
+// Add the Firebase products that you want to use
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
@@ -29,5 +22,8 @@ export const wompiConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const dataBase = getFirestore(app);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const dataBase = firebaseApp.firestore();
+const auth = firebase.auth();
+
+export { dataBase, auth, firebaseConfig };

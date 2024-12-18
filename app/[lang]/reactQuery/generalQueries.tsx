@@ -24,6 +24,7 @@ import {
   updateCards,
   saveCards,
   updateUserData,
+  sendNotificationsToUsers,
 } from "@/firebase/Documents";
 
 //Categorias
@@ -150,6 +151,12 @@ export const getDocumentReference = (ref: string) => {
 export const saveNotificationQuerie = async (dataSave: any) => {
   const res = await saveNotification(dataSave);
   return res;
+};
+
+//Enviar Notificacion
+export const sendNotificationsToUsersQuery = async (tokens: string[], title: string, body: string) => {
+  const result = await sendNotificationsToUsers(tokens, title, body);
+  return result;
 };
 
 //suscripciones

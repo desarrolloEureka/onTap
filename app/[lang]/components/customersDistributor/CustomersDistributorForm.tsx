@@ -195,6 +195,12 @@ const CustomersDistributorForm = ({
       ),
     },
     {
+      field: "secuencialId",
+      headerName: "Referencia",
+      minWidth: 100,
+      flex: 2,
+    },
+    {
       field: "created_at",
       headerName: "Fecha Registro",
       minWidth: 210,
