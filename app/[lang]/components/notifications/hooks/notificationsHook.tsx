@@ -161,7 +161,6 @@ const useNotifications = () => {
           return token;
         }).filter(token => token !== undefined);
 
-        console.log('tokens ', tokens);
         await sendNotificationsToUsersQuery(tokens, subject, description)
         handleCloseModal();
         Swal.fire({

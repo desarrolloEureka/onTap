@@ -28,6 +28,6 @@ export const handleSendWelcomeEmail = async (data: any) => {
       }),
     });
   } catch (error) {
-    console.log("Este fue el error: ", error);
+    //console.log("Este fue el error: ", error);
   }
 };

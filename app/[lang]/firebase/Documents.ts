@@ -575,8 +575,6 @@ export const sendNotificationsToUsers = async (tokens: string[], title: string, 
           });
 
           const data = await response.json();
-          console.log('Response from API:', data);
-
           // Revisa si la respuesta fue exitosa antes de continuar
           if (!response.ok) {
             return { token, success: false, error: data.message || 'Unknown error' };
@@ -591,7 +589,6 @@ export const sendNotificationsToUsers = async (tokens: string[], title: string, 
       })
     );
 
-    console.log('All responses:', responses);
     return { success: true, message: "Notification sent successfully", responses };
   } catch (error: any) {
     console.error("Error al enviar la notificación:", error);

@@ -338,19 +338,21 @@ const ColorRegisterFormHook = () => {
       const formattedData = dataColors.map(doc => {
 
         // Iterar sobre cada material en dataMaterials y validar si está en doc.selectedMaterials
-        dataMaterials.forEach(material => {
-          const isMaterialInSelected = doc.selectedMaterials.some((selectedMat: any) => selectedMat.sku === material.sku);
-          materialsData[material.name] = isMaterialInSelected ? true : false;
-        });
+        if (Array.isArray(doc.selectedMaterials)) {
+          dataMaterials.forEach(material => {
+            const isMaterialInSelected = doc.selectedMaterials.some((selectedMat: any) => selectedMat.sku === material.sku);
+            materialsData[material.name] = isMaterialInSelected ? true : false;
+          });
+        }
 
         return {
           id: idCounter++,
-          uid: doc.id,
+          uid: doc.id || '',
           optionEdit: doc,
-          created_at: doc.created_at,
+          created_at: doc.created_at || '',
           sku: doc.sku,
-          name: doc.name,
-          image: doc.image,
+          name: doc.name || '',
+          image: doc.image || '',
           ...materialsData
         };
       });

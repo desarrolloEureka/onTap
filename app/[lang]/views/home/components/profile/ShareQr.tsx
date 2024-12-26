@@ -29,7 +29,7 @@ const ShareQr = ({ dictionary }: { dictionary: Dictionary }) => {
         .then(() => console.log("Perfil compartido exitosamente"))
         .catch((error) => console.error("Error al compartir:", error));
     } else {
-      console.log("Web Share API no está soportada en este navegador");
+      //console.log("Web Share API no está soportada en este navegador");
     }
   };
 

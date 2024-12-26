@@ -816,7 +816,7 @@ const CustomersCreateFormHook = ({
       handleReset();
       handleReturnForm();
     } catch (error) {
-      console.log("Error al registrar al cliente");
+      //console.log("Error al registrar al cliente");
     } finally {
       setFlag(!flag);
       setIsSubmitting(false);

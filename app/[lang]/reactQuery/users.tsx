@@ -60,6 +60,7 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
         if (docSnap.exists()) {
           const user = docSnap.data() as UserData;
           const getUser = userDataToSend(user, resultUser);
+          console.log('getUser ', getUser);
 
           // Guarda si el usuario es distribuidor en localStorage
           if (getUser.is_distributor) {

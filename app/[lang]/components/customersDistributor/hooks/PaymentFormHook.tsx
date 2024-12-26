@@ -234,7 +234,7 @@ const PaymentFormHook = ({
         handleReturnForm();
       }
     } catch (error) {
-      console.log("Error al registrar al cliente");
+      //console.log("Error al registrar al cliente");
       await Swal.fire({
         position: "center",
         icon: "error",
@@ -307,7 +307,6 @@ const PaymentFormHook = ({
     const authToken = paymentSource
       ? `Bearer ${wompiConfig.WOMPI_PRIVATE_KEY}`
       : `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`;
-    console.log("authToken ", authToken);
     const transactionResponse = await axios.post(
       "https://sandbox.wompi.co/v1/transactions",
       transactionBody,

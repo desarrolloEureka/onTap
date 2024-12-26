@@ -262,6 +262,7 @@ const useLogOut = () => {
 
     // Limpia localStorage y sessionStorage
     await localStorage.removeItem('@user');
+    await localStorage.removeItem('isDistributor');
     await localStorage.clear();
     await sessionStorage.clear();
 

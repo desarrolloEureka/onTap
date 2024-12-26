@@ -117,8 +117,6 @@ export const updateUserData = async (uid: string, newData: any) => {
 
     // Actualización de los datos del usuario
     await updateDoc(userDocRef, newData);
-
-    console.log("Perfil actualizado correctamente para el usuario:", uid);
     return { uid, ...newData };
   } catch (error) {
     console.error("Error al actualizar el perfil del usuario:", error);
@@ -198,7 +196,6 @@ export const getCurrentProfileData = async (uid: string) => {
       const userSnapshot = await getDocs(userQuery);
 
       if (!userSnapshot.empty) {
-        //obtener los datos del usuario = console.log("user: ", userSnapshot.docs[0].data());
         return { success: true, data: userSnapshot.docs[0].data() }; // Devuelve los datos del usuario
       } else {
         return { success: false, message: "User not found." };
@@ -397,7 +394,6 @@ export const addUser = async ({
         email,
         password,
       });
-      console.log(data.status);
       if (data.status === 200) {
         resolve(data);
       } else {

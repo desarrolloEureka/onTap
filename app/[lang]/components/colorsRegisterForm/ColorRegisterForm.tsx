@@ -400,7 +400,8 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
                           if (typeof option === 'string') {
                             return option;
                           }
-                          return `${option.sku} - ${option.name || ''}`;
+                          //return `${option.sku} - ${option.name || ''}`;
+                          return `${option.sku}`;
                         }}
                         inputValue={material}
                         onInputChange={(event, newInputValue) => setMaterial(newInputValue)}

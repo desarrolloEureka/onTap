@@ -133,7 +133,6 @@ const PendingPaymentReportsHook = ({
 
       const result = await UpdateOrdersQuerie(orderId, true); // Actualiza el estado a "DELIVERED"
       if (result.success) {
-        //console.log(`La orden ${orderId} ha sido actualizada a "DELIVERED".`);
         successCount++;
 
         Swal.fire({
@@ -264,11 +263,9 @@ const PendingPaymentReportsHook = ({
           (doc: any) => !reportData.some((doc2: any) => doc2?.uid === doc?.uid)
         ),
       ];
-      console.log("allUserData", allUserData)
-      
+     
       // Mapear datos con lógica del distribuidor y estado de pago
       const reportDataFinal = allUserData.map((doc: any) => {
-        console.log("doc", doc)
         let paymentDate = "";
 
         // Determinar fecha de pago según estado
@@ -280,8 +277,6 @@ const PendingPaymentReportsHook = ({
 
         const isPaid = doc?.userInvoice?.status === "PAID";
         const isDelivered = doc?.userOrder?.status === "DELIVERED";
-
-        //console.log("doc",doc)
 
         // Buscar nombre del distribuidor usando idDistributor
         const distributor = usersData.find(

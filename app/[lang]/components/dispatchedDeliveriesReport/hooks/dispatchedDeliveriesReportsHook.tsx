@@ -48,7 +48,6 @@ const PendingPaymentReportsHook = ({
   };
 
   const mostrarDetalleCompra = (rowData: any) => {
-    //console.log("detalle de la compra", rowData);
     setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
     setIsModalOpen(true); // Abre el modal
   };

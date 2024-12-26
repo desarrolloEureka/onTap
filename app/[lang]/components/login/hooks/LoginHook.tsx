@@ -42,7 +42,7 @@ const LoginHook = (dictionary: Dictionary) => {
   const userIsLogged = useCallback(() => {
     if (data) {
       //console.log(data);
-      if (data.isAdmin) {
+      if (data.isAdmin === true) {
         if (data.isActive === true) {
           router.push('/views/backOffice');
         } else {
@@ -52,7 +52,7 @@ const LoginHook = (dictionary: Dictionary) => {
           });
         }
       } else if (data.is_distributor === true) {
-        console.log('Soy distribuidor');
+        //console.log('Soy distribuidor');
         router.push('/views/backOffice');
       } else {
         if (data.isActive === true && data.isActiveByAdmin === true) {
