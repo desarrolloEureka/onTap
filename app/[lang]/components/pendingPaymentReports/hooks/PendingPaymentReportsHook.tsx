@@ -234,6 +234,7 @@ const PendingPaymentReportsHook = ({
                 uid: uid || "",
               },
               idDistributor: idDistributor || "",
+              secuencialId: doc.userOrder.secuencialId || "",
             };
           })
           .filter(

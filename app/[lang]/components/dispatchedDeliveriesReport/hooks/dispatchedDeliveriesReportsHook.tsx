@@ -211,6 +211,7 @@ const PendingPaymentReportsHook = ({
               uid: doc.uid,
             },
             idDistributor: doc.idDistributor,
+            secuencialId: doc.userOrder.secuencialId || "",
           };
         })
         .filter(

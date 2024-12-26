@@ -97,6 +97,12 @@ const PendingPaymentReports = ({
       ),
     },
     {
+      field: "secuencialId",
+      headerName: "Referencia",
+      minWidth: 210,
+      flex: 2,
+    },
+    {
       field: "paymentDate",
       headerName: "Fecha de Pago",
       minWidth: 210,
@@ -480,12 +486,23 @@ const PendingPaymentReports = ({
           <div className="tw-w-full tw-h-screen tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
             <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
               {/* Título del Modal */}
-              <Typography
-                variant="h5"
-                className="tw-text-center tw-font-semibold tw-text-gray-800 tw-mb-6"
-              >
-                Detalle Resumen De Compra
-              </Typography>
+              <div className="tw-flex tw-items-center tw-justify-center tw-mb-6">
+                <Typography
+                  variant="h5"
+                  className="tw-font-semibold tw-text-gray-800"
+                >
+                  Detalle Resumen De Compra -
+                </Typography>
+                {detalleCompra ? (
+                  <Typography variant="h5" className="tw-font-semibold tw-text-gray-800 tw-ml-4">
+                    {detalleCompra.secuencialId || "No disponible"}
+                  </Typography>
+                ) : (
+                  <Typography variant="h5" className="tw-font-semibold tw-text-gray-800 tw-ml-4">
+                    No disponible
+                  </Typography>
+                )}
+              </div>
               {query?.length > 0 ? (
                 <table className="tw-w-full tw-table-auto tw-border-collapse">
                   <thead className="tw-bg-gray-100">
