@@ -60,3 +60,4 @@ export const registerUserFb = async ({ data }: { data: any }) => {
   //console.log('result::::', result);
   return result;
 };
+
