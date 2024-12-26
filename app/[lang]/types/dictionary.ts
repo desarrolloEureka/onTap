@@ -8,8 +8,16 @@ export interface Dictionary {
     UserList: string;
     CreateUser: string;
     UserRegister: string;
+    CategoriesRegister: string;
     CreateLogo: string;
+    PaymentsMade: string;
+    PendingPayments: string;
+    Deliveries: string;
+    NotificationHistory: string;
     TrafficReport: string;
+    CreateCategory: string;
+    CreateProducts: string;
+    CreatePlans: string;
     dni: string;
     Nombre: string;
     Apellido: string;
@@ -48,6 +56,107 @@ export interface Dictionary {
     labelFailDelete: string;
     labelSuccessEdit: string;
     labelFailEdit: string;
+    Loading: string;
+    CategoryName: string;
+    ProductsLabel: string;
+    //Producto
+    ProductSku: string;
+    ProductName: string;
+    ProductPrice: string;
+    ProductState: string;
+    nextButton: string;
+    backButton: string;
+    //Plan
+    PlansLabel: string;
+    PlanSku: string;
+    PlanName: string;
+    PlanPrice: string;
+    PlanState: string;
+    //Menu BackOffice
+    ServiceLabel: string;
+    CategoryLabel: string;
+    ProductsLabelMenu: string;
+    PlansLabelMenu: string;
+    MaterialsLabelMenu: string;
+    ColorsLabelMenu: string;
+    CustomizationsLabelMenu: string;
+    DistributionLabelMenu: string;
+    DistributorLabelMenu: string;
+    DistributorsLabel: string;
+    DistributorCustomerLabelMenu: string;
+    ReportsLabelMenu: string;
+    SubscriptionsLabelMenu: string;
+    SettingsLabelMenu: string;
+    LocationsLabelMenu: string;
+    NotificationsLabelMenu: string;
+    SubscriptionValueLabelMenu: string;
+    ClientLabelMenu: string;
+    UsersLabelMenu: string;
+    CategoriesLabel: string;
+    CategoriesDistriLabel: string;
+    TemplatesLabel: string;
+    CountryLabel: string;
+    DepartmentsLabel: string;
+    CitiesLabel: string;
+    MaterialSku: string;
+    MaterialName: string;
+    ColorSku: string;
+    ColorName: string;
+    PersonalizationSku: string;
+    PersonalizationName: string;
+    LabelCustomersDistributor: string;
+    LabelType: string;
+    documentTypeLabel: string;
+    documentNumberLabel: string;
+    fullNameLabel: string;
+    phoneNumberLabel: string;
+    statusActive: string;
+    statusInactive: string;
+    materialLabel: string;
+    colorLabel: string;
+    personalizationQuestion: string;
+    customizationOptionLabel: string;
+    selectProductLabel: string;
+    addButtonLabel: string;
+    addedProductsHeader: string;
+    skuHeader: string;
+    nameHeader: string;
+    quantityHeader: string;
+    actionsHeader: string;
+    priceHeader: string;
+    removeButtonLabel: string;
+    noProductsMessage: string;
+    totalLabel: string;
+    summaryHeader: string;
+    descriptionHeader: string;
+    unitPriceHeader: string;
+    selectedPlanLabel: string;
+    selectedMaterialLabel: string;
+    selectedCustomizationLabel: string;
+    creditCardHeader: string;
+    cardNumberLabel: string;
+    expiryDateLabel: string;
+    cvvLabel: string;
+    buyerHeader: string;
+    buyerNameLabel: string;
+    buyerEmailLabel: string;
+    shippingAddressHeader: string;
+    countryLabel: string;
+    cityLabel: string;
+    stateLabel: string;
+    postalCodeLabel: string;
+    NotificationsLabel: string;
+    SubscriptionLabel: string;
+    ChangePasswordLabelMenu: string;
+    EditProfileLabelMenu: string;
+    AccountLabelMenu: string;
+    LableCards: string;
+    CardsLabel: string;
+    labelPendingPaymentReports: string;
+    labelMadePaymentReports: string;
+    labelDispatchedDeliveriesReports: string;
+    labelGeneralReportAdmin: string;
+    labelReportAdmin: string;
   };
   cardView: {
     labelErrorUser: string;
@@ -60,7 +169,13 @@ export interface Dictionary {
   rememberPasswordTitle: string;
   rememberPasswordDescription: string;
   mainMenu: string;
-  mainTab: { tab1: string; tab2: string; tab3: string; tab4: string; tabShare: string };
+  mainTab: {
+    tab1: string;
+    tab2: string;
+    tab3: string;
+    tab4: string;
+    tabShare: string;
+  };
   homeView: {
     agregar: string;
     views: string;
@@ -178,6 +293,7 @@ export interface Dictionary {
     repeatPassword: string;
     nextNewPassword: string;
     nextNewFinish: string;
+    updateError: string;
   };
   modalDelete: {
     labelAlert: string;
@@ -185,6 +301,25 @@ export interface Dictionary {
     buttonCancel: string;
     buttonConfirm: string;
   };
+
+  editProfile: {
+    editProfileTitle: string;
+    fullName: string;
+    address: string;
+    state: string;
+    city: string;
+    phoneNumber: string;
+    profileUpdated: string;
+    back: string;
+    documentType: string;
+    dni: string;
+    email: string;
+  };
+
+  changePassword: {
+    updatePassword: string;
+  };
+
   modalLogOut: {
     labelMessage: string;
   };

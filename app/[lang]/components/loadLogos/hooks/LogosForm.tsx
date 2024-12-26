@@ -56,8 +56,6 @@ const LogosForm: React.FC<ItemFormProps> = ({ dictionary, flag, setFlag }) => {
             } catch (error) {
                 console.error('Error uploading image:', error);
             }
-        } else {
-            console.log('Ensure both name and image file are provided.');
         }
     };
 

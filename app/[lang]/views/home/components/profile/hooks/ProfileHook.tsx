@@ -1,5 +1,5 @@
-import { validateEmail, validatePhoneNumber } from '@/globals/validateData';
-import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
+import { validateEmail, validatePhoneNumber } from "@/globals/validateData";
+import { GetUser, SendDataUserProfile } from "@/reactQuery/users";
 import {
   CareerDataFormValues,
   DataFormSorted,
@@ -12,11 +12,11 @@ import {
   UrlDataFormValues,
   handleDataNetworksProps,
   handleDataProps,
-} from '@/types/profile';
-import { profile } from 'app/[lang]/initialData/profileInitialData';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Dictionary } from '../../../../../types/dictionary';
-import { GetAllLogosImages } from '@/reactQuery/home';
+} from "@/types/profile";
+import { profile } from "app/[lang]/initialData/profileInitialData";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { Dictionary } from "../../../../../types/dictionary";
+import { GetAllLogosImages } from "@/reactQuery/home";
 
 const ProfileHook = ({
   dictionary,
@@ -51,7 +51,6 @@ const ProfileHook = ({
   const [isAlertEmptyData, setIsEmptyData] = useState(false);
   const [isAlertEmptyDataAll, setIsEmptyDataAll] = useState(false);
 
-
   /* Delete items */
   const [itemDelete, setItemDelete] = useState<
     { index: string; subindex: string } | {}
@@ -62,7 +61,7 @@ const ProfileHook = ({
   const [isDataLoad, setIsDataLoad] = useState(false);
   const [noDeleted, setNoDeleted] = useState(false);
   const [isEmailPhoneRight, setisEmailPhoneRight] = useState(false);
-  const [status, setStatus] = useState<string>('');
+  const [status, setStatus] = useState<string>("");
   const [flag, setFlag] = useState(false);
 
   const handleSendProfile = async (isProUser: boolean) => {
@@ -137,7 +136,7 @@ const ProfileHook = ({
     if (!isModalAlert) {
       setItemDelete(itemDelete);
     } else {
-      setItemDelete('');
+      setItemDelete("");
     }
     setIsModalAlert(!isModalAlert);
   };
@@ -180,14 +179,14 @@ const ProfileHook = ({
     const index = value?.target?.name as keyof typeof dataFormClone;
 
     if (
-      index != 'phones' &&
-      index != 'emails' &&
-      index != 'urls' &&
-      (dataFormClone[index]?.label != 'phones' &&
-        dataFormClone[index]?.label != 'education' &&
-        dataFormClone[index]?.label != 'emails' &&
-        dataFormClone[index]?.label != 'professional_career' &&
-        dataFormClone[index]?.label != 'urls')
+      index != "phones" &&
+      index != "emails" &&
+      index != "urls" &&
+      dataFormClone[index]?.label != "phones" &&
+      dataFormClone[index]?.label != "education" &&
+      dataFormClone[index]?.label != "emails" &&
+      dataFormClone[index]?.label != "professional_career" &&
+      dataFormClone[index]?.label != "urls"
     ) {
       if (dataFormClone[index]?.text?.length === 0 && isChecked === true) {
         setIsEmptyData(true);
@@ -195,17 +194,26 @@ const ProfileHook = ({
         dataFormClone[index]!.checked = isChecked;
         setDataForm(dataFormClone);
       }
-
-
     } else {
       let dataAux = dataFormClone[index] as DataFormValues[];
       let dataUrl = dataFormClone[index] as UrlDataFormValues[];
 
       if (dataAux && key != undefined) {
         if (isChecked === true && dataAux[key]) {
-          const isEmptyText = dataAux[key].text?.length === 0 && index !== 'urls' && index !== 'phones';
-          const isEmptyPhone = index === 'phones' && (dataAux[key]?.indicative?.length === 0 || dataAux[key]?.indicative === undefined || dataAux[key]?.text?.length === 0);
-          const isEmptyUrls = index === 'urls' && (dataUrl?.[key]?.name?.length === 0 || dataUrl?.[key]?.url?.length === 0 || dataUrl?.[key]?.icon?.length === 0);
+          const isEmptyText =
+            dataAux[key].text?.length === 0 &&
+            index !== "urls" &&
+            index !== "phones";
+          const isEmptyPhone =
+            index === "phones" &&
+            (dataAux[key]?.indicative?.length === 0 ||
+              dataAux[key]?.indicative === undefined ||
+              dataAux[key]?.text?.length === 0);
+          const isEmptyUrls =
+            index === "urls" &&
+            (dataUrl?.[key]?.name?.length === 0 ||
+              dataUrl?.[key]?.url?.length === 0 ||
+              dataUrl?.[key]?.icon?.length === 0);
 
           if (isEmptyText || isEmptyUrls || isEmptyPhone) {
             setIsEmptyData(true);
@@ -223,10 +231,6 @@ const ProfileHook = ({
         }
       }
     }
-
-    /* setTimeout(() => {
-      setIsAlertSave(false);
-    }, 5000); */
   };
 
   const fillFields = (
@@ -237,7 +241,7 @@ const ProfileHook = ({
   ) => {
     const dataFormClone = { ...dataForm };
     dataFormClone &&
-      index == 'urls' &&
+      index == "urls" &&
       subindexUrl &&
       (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -265,17 +269,17 @@ const ProfileHook = ({
     subindex,
     key,
     currentDataRef,
-    type
+    type,
   }: handleDataProps) => {
     setIsChangeData(true);
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
     if (
-      index == 'name' ||
-      index == 'last_name' ||
-      index == 'profession' ||
-      index == 'occupation' ||
-      index == 'address'
+      index == "name" ||
+      index == "last_name" ||
+      index == "profession" ||
+      index == "occupation" ||
+      index == "address"
     ) {
       dataFormClone[index]!.text = text;
       currentDataRef.current.text = text;
@@ -283,7 +287,7 @@ const ProfileHook = ({
       setDataForm(dataFormClone);
       setIsDataLoad(true);
     } else {
-      if (index == 'phones') {
+      if (index == "phones") {
         const dataAux = dataFormClone[index];
         if (dataAux && key != undefined) {
           if (type === false) {
@@ -299,7 +303,7 @@ const ProfileHook = ({
           }
         }
         setIsDataLoad(true);
-      } else if (index == 'emails') {
+      } else if (index == "emails") {
         const dataAux = dataFormClone[index];
         if (dataAux && key != undefined) {
           dataAux[key].text = text;
@@ -309,8 +313,8 @@ const ProfileHook = ({
         }
         setIsDataLoad(true);
       } else if (
-        index == 'urls' &&
-        (subindex == 'name' || subindex == 'url' || subindex == 'icon') &&
+        index == "urls" &&
+        (subindex == "name" || subindex == "url" || subindex == "icon") &&
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
@@ -323,10 +327,10 @@ const ProfileHook = ({
     setIsDataLoad(false);
     setIsChangeData(true);
     const index =
-      itemDelete && 'index' in itemDelete ? itemDelete['index'] : undefined;
+      itemDelete && "index" in itemDelete ? itemDelete["index"] : undefined;
     const subindex =
-      itemDelete && 'subindex' in itemDelete
-        ? itemDelete['subindex']
+      itemDelete && "subindex" in itemDelete
+        ? itemDelete["subindex"]
         : undefined;
     const dataFormClone = { ...dataForm };
     const dataAux: any = dataFormClone[index as keyof typeof dataForm];
@@ -347,10 +351,10 @@ const ProfileHook = ({
       if (subindex !== undefined && subindex) {
         if (dataAux[subindex].label === "urls") {
           dataAux[subindex] = {
-            label: 'urls',
-            name: '',
-            url: '',
-            icon: '',
+            label: "urls",
+            name: "",
+            url: "",
+            icon: "",
             checked: false,
             principal: true,
             social: false,
@@ -360,25 +364,25 @@ const ProfileHook = ({
           setDataForm(dataFormClone);
         } else if (dataAux[subindex].label === "emails") {
           dataAux[subindex] = {
-            label: 'emails',
-            text: '',
+            label: "emails",
+            text: "",
             checked: false,
             principal: true,
             social: true,
             professional: false,
-            icon: 'EmailOutlinedIcon',
+            icon: "EmailOutlinedIcon",
             order: 10,
           };
           setDataForm(dataFormClone);
         } else if (dataAux[subindex].label === "phones") {
           dataAux[subindex] = {
-            label: 'phones',
-            text: '',
+            label: "phones",
+            text: "",
             checked: false,
             principal: true,
             social: true,
             professional: false,
-            icon: 'LocalPhoneOutlinedIcon',
+            icon: "LocalPhoneOutlinedIcon",
             order: 9,
           };
           setDataForm(dataFormClone);
@@ -394,32 +398,32 @@ const ProfileHook = ({
 
   const handleAddData = (index: string) => {
     const dataFormClone = { ...dataForm };
-    if (index == 'phones' || index == 'emails' || index == 'urls') {
+    if (index == "phones" || index == "emails" || index == "urls") {
       const count = dataFormClone?.[index]?.length;
-      if (index === 'phones') {
+      if (index === "phones") {
         if ((count != null || count != undefined) && count < 3) {
           if (count === 0) {
             dataFormClone.phones = [
               {
                 label: dictionary.profileView.labelPhone,
-                text: '',
+                text: "",
                 checked: false,
                 principal: false,
                 social: true,
                 professional: true,
-                icon: 'LocalPhoneOutlinedIcon',
+                icon: "LocalPhoneOutlinedIcon",
                 order: 9,
               },
             ];
           } else {
             dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
-              text: '',
+              text: "",
               checked: false,
               principal: false,
               social: true,
               professional: true,
-              icon: 'LocalPhoneOutlinedIcon',
+              icon: "LocalPhoneOutlinedIcon",
               order: 9,
             });
           }
@@ -428,30 +432,30 @@ const ProfileHook = ({
         }
       }
 
-      if (index === 'emails') {
+      if (index === "emails") {
         if ((count != null || count != undefined) && count < 3) {
           if (count === 0) {
             dataFormClone.phones = [
               {
                 label: dictionary.profileView.labelEmail,
-                text: '',
+                text: "",
                 checked: false,
                 principal: false,
                 social: true,
                 professional: true,
-                icon: 'EmailOutlinedIcon',
+                icon: "EmailOutlinedIcon",
                 order: 10,
               },
             ];
           } else {
             dataFormClone[index]?.unshift({
               label: dataFormClone[index]![0].label,
-              text: '',
+              text: "",
               checked: false,
               principal: false,
               social: true,
               professional: true,
-              icon: 'EmailOutlinedIcon',
+              icon: "EmailOutlinedIcon",
               order: 10,
             });
           }
@@ -459,15 +463,15 @@ const ProfileHook = ({
           setIsModalAlertLimit(true);
         }
       }
-      if (index === 'urls') {
+      if (index === "urls") {
         //if ((count != null || count != undefined) && count < 3) {
         if (count === 0) {
           dataFormClone.urls = [
             {
-              label: 'urls',
-              name: '',
-              url: '',
-              icon: '',
+              label: "urls",
+              name: "",
+              url: "",
+              icon: "",
               checked: false,
               principal: false,
               social: true,
@@ -478,9 +482,9 @@ const ProfileHook = ({
         } else {
           dataFormClone[index]?.unshift({
             label: dataFormClone[index]![0].label,
-            name: '',
-            url: '',
-            icon: '',
+            name: "",
+            url: "",
+            icon: "",
             checked: false,
             principal: false,
             social: true,
@@ -493,6 +497,24 @@ const ProfileHook = ({
     }
   };
 
+  const validateOccupationSwitch = (data: typeof dataForm) => {
+    const dataFormClone = { ...data };
+  
+    if (
+      !dataFormClone.occupation ||
+      !dataFormClone.occupation.text ||
+      dataFormClone.occupation.text.trim() === ""
+    ) {
+      dataFormClone.occupation = {
+        ...dataFormClone.occupation,
+        checked: false, // Apagar el switch
+        order: dataFormClone.occupation?.order ?? 0, // Asignar valor predeterminado
+      };
+    }
+  
+    return dataFormClone;
+  };
+
   const checkedItems = (
     data: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[],
     value: string,
@@ -501,16 +523,19 @@ const ProfileHook = ({
   ) => {
     data.map((el) => {
       if (checked === true) {
-        if (label === 'urls') {
+        if (label === "urls") {
           let urlData = el as UrlDataFormValues;
-          if (urlData.name !== "" && urlData.icon !== "" && urlData.url !== "") {
+          if (
+            urlData.name !== "" &&
+            urlData.icon !== "" &&
+            urlData.url !== ""
+          ) {
             el.checked = checked;
             el.label = label ?? el.label;
           } else {
             setIsEmptyDataAll(true);
           }
-
-        } else if (label === 'emails' || label === 'phones') {
+        } else if (label === "emails" || label === "phones") {
           let textData = el as DataFormValues;
           if (textData.text !== "") {
             textData.checked = checked;
@@ -534,7 +559,7 @@ const ProfileHook = ({
     label?: string
   ) => {
     if (checked === true) {
-      if (data && data.text != '') {
+      if (data && data.text != "") {
         data.checked = checked;
         data.label = label ?? data.label;
       } else {
@@ -550,42 +575,42 @@ const ProfileHook = ({
 
   const validLabel = useCallback(
     (key: string) => {
-      let label = '';
+      let label = "";
       switch (key) {
-        case 'name':
+        case "name":
           label = dictionary.profileView.labelFirstName;
           break;
-        case 'last_name':
+        case "last_name":
           label = dictionary.profileView.labelLastName;
           break;
-        case 'profession':
+        case "profession":
           label = dictionary.profileView.labelProfession;
           break;
-        case 'occupation':
+        case "occupation":
           label = dictionary.profileView.labelOccupation;
           break;
-        case 'address':
+        case "address":
           label = dictionary.profileView.labelAddress;
           break;
-        case 'company':
+        case "company":
           label = dictionary.profileView.labelCompany;
           break;
-        case 'position':
+        case "position":
           label = dictionary.profileView.labelPosition;
           break;
-        case 'professional_profile':
+        case "professional_profile":
           label = dictionary.profileView.labelProfessionalProfile;
           break;
-        case 'other_competencies':
+        case "other_competencies":
           label = dictionary.profileView.labelOtherCompetencies;
           break;
-        case 'skills':
+        case "skills":
           label = dictionary.profileView.labelSkills;
           break;
-        case 'languages':
+        case "languages":
           label = dictionary.profileView.labelLanguages;
           break;
-        case 'achievements_recognitions':
+        case "achievements_recognitions":
           label = dictionary.profileView.labelRecognitions;
           break;
       }
@@ -602,16 +627,16 @@ const ProfileHook = ({
     const items = Object.entries(dataFormClone);
 
     const newData = items.map((value) => {
-      if (value[0] == 'phones' || value[0] == 'emails') {
+      if (value[0] == "phones" || value[0] == "emails") {
         const data = value[1] as DataFormValues[];
         return checkedItems(data, value[0], isChecked, value[0]);
-      } else if (value[0] == 'education') {
+      } else if (value[0] == "education") {
         const data = value[1] as EducationDataFormValues[];
         return checkedItems(data, value[0], isChecked, value[0]);
-      } else if (value[0] == 'professional_career') {
+      } else if (value[0] == "professional_career") {
         const data = value[1] as CareerDataFormValues[];
         return checkedItems(data, value[0], isChecked, value[0]);
-      } else if (value[0] == 'urls') {
+      } else if (value[0] == "urls") {
         const data = value[1] as UrlDataFormValues[];
         return checkedItems(data, value[0], isChecked, value[0]);
       } else {
@@ -625,12 +650,22 @@ const ProfileHook = ({
   };
 
   useEffect(() => {
-    const data = Object.entries(dataForm as DataFormSorted).toSorted((a, b) => {
+    // Validar y actualizar los datos solo si es necesario
+    const updatedDataForm = validateOccupationSwitch(dataForm);
+    
+    // Verifica si el formulario cambió antes de actualizar el estado
+    if (JSON.stringify(updatedDataForm) !== JSON.stringify(dataForm)) {
+      setDataForm(updatedDataForm); // Solo actualiza si hay cambios
+    }
+  
+    // Lógica de ordenamiento (si la validación de ocupación se realizó correctamente)
+    const data = Object.entries(updatedDataForm as DataFormSorted).toSorted((a, b) => {
       const aa = a[1].length ? a[1][0].order : a[1].order;
       const bb = b[1].length ? b[1][0].order : b[1].order;
       return aa - bb;
     });
     setObjectDataSort(data);
+  
   }, [dataForm, isProUser]);
 
   useEffect(() => {
@@ -652,11 +687,11 @@ const ProfileHook = ({
   }, [data, isProUser]);
 
   useEffect(() => {
-    if (dataForm.name?.label == '') {
+    if (dataForm.name?.label == "") {
       const dataFormClone = { ...dataForm };
       const items = Object.entries(dataFormClone);
       const newData = items.map((value) => {
-        if (value[0] == 'phones') {
+        if (value[0] == "phones") {
           const data = value[1] as DataFormValues[];
           return checkedItems(
             data,
@@ -664,7 +699,7 @@ const ProfileHook = ({
             false,
             dictionary.profileView.labelPhone
           );
-        } else if (value[0] == 'emails') {
+        } else if (value[0] == "emails") {
           const data = value[1] as DataFormValues[];
           return checkedItems(
             data,
@@ -672,7 +707,7 @@ const ProfileHook = ({
             false,
             dictionary.profileView.labelEmail
           );
-        } else if (value[0] == 'education') {
+        } else if (value[0] == "education") {
           const data = value[1] as EducationDataFormValues[];
           return checkedItems(
             data,
@@ -680,7 +715,7 @@ const ProfileHook = ({
             false,
             dictionary.profileView.labelEducation
           );
-        } else if (value[0] == 'professional_career') {
+        } else if (value[0] == "professional_career") {
           const data = value[1] as CareerDataFormValues[];
           return checkedItems(
             data,
@@ -688,9 +723,9 @@ const ProfileHook = ({
             false,
             dictionary.profileView.labelProfessionalCareer
           );
-        } else if (value[0] == 'urls') {
+        } else if (value[0] == "urls") {
           const data = value[1] as UrlDataFormValues[];
-          return checkedItems(data, value[0], false, 'urls');
+          return checkedItems(data, value[0], false, "urls");
         } else {
           const data = value[1] as DataFormValues;
           const label = validLabel(value[0]);

@@ -14,10 +14,10 @@ const ValidatorSession = ({ lang }: { lang: Locale }) => {
     const path = pathname.split(lang)[1];
     if (user) {
       if (user.isActive) {
-        user.isAdmin
-          ? router.push('/views/backOffice')
-          : path !== '/views/home'
-          && router.push('/views/home')
+        //user.isAdmin ? router.push('/views/backOffice') : path !== '/views/home' && router.push('/views/home')
+        user.isAdmin ? path !== '/views/profileEdit' && router.push('/views/backOffice') // Si es admin y no está en /views/profileEdit, redirige a /views/backOffice
+          : path === '/views/profileEdit' ? router.push('/views/home') // Si no es admin y está en /views/profileEdit, redirige a /views/home
+            : path !== '/views/home' && router.push('/views/home');    // Si no es admin y no está en /views/home, redirige a /views/home
       } else {
         router.push('/views/login');
       }

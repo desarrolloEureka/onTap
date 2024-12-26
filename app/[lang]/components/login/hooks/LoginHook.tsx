@@ -39,22 +39,9 @@ const LoginHook = (dictionary: Dictionary) => {
     }
   };
 
-  /*  const userIsLogged = useCallback(() => {
-     setSendLogin(false);
-     data
-       ? data.isAdmin
-         ? router.push('/views/backOffice')
-         : router.push('/views/home')
-       : sendLogin &&
-         setErrorForm({
-           errorType: 3,
-           errorMessage: dictionary.loginView.userNotFound,
-         });
-   }, [data, dictionary.loginView.userNotFound, router, sendLogin]); */
-
   const userIsLogged = useCallback(() => {
-    // setSendLogin(false);
     if (data) {
+      //console.log(data);
       if (data.isAdmin) {
         if (data.isActive === true) {
           router.push('/views/backOffice');
@@ -64,10 +51,12 @@ const LoginHook = (dictionary: Dictionary) => {
             errorMessage: dictionary.loginView.userNotFound,
           });
         }
+      } else if (data.is_distributor === true) {
+        console.log('Soy distribuidor');
+        router.push('/views/backOffice');
       } else {
         if (data.isActive === true && data.isActiveByAdmin === true) {
           const urlSplit = window.location.href.split('/');
-          //const url = `http://${urlSplit[2]}/es/views/cardView?uid=${data?.uid}`;
           const url = `https://backoffice.onetap.com.co/es/views/cardView?uid=${data?.uid}`;
           data && SendPreView(data?.uid, url);
           router.push('/views/home');
@@ -78,16 +67,13 @@ const LoginHook = (dictionary: Dictionary) => {
           });
         }
       }
-
-
-
     } else if (sendLogin) {
       setTimeout(() => {
         setErrorForm({
           errorType: 3,
           errorMessage: dictionary.loginView.userNotFound,
         });
-      }, 3000);
+      }, 3200);
       setTimeout(() => {
         setErrorForm(null);
         setSendLogin(false);

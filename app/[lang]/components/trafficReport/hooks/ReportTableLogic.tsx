@@ -214,10 +214,11 @@ const ReportTableLogic = () => {
 
                 //const socialData = doc.data().templateData?.find((item: any) => item.type === 'social');
                 //const template = socialData && socialData.id ? socialData.id === 'LB7IVjoanye1dXzhipOG' ? 'Social 2' : socialData.id === 'XfhZLINMOpRTI7cakd8o' ? 'Social 1' : null : null
-                
+
                 return {
                     id: doc.data().dni,
                     is_admin: doc.data().is_admin,
+                    is_distributor: doc.data().is_distributor || false,
                     name: doc.data().name,
                     email: doc.data().email || "",
                     lastName: doc.data().profile?.last_name?.text || "",
@@ -225,7 +226,8 @@ const ReportTableLogic = () => {
                     hour: formattedHour,
                     optionDetail: doc.data(),
                 };
-            }).filter((user) => !user.is_admin);
+            }).filter((user) => (!user.is_admin && !user.is_distributor))
+
             setQuery(usersData);
             setFilteredQuery(usersData);
         };

@@ -10,7 +10,7 @@ const CustomCircularProgress = ({ isOpen }: { isOpen: boolean }) => {
   }, [isOpen]);
 
   return (
-    <Box className='tw-flex tw-justify-center tw-items-center tw-h-screen'>
+    <Box className='tw-flex tw-justify-center tw-items-center tw-h-screen tw-bg-black'>
       <CircularProgress />
     </Box>
   );

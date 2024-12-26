@@ -1,17 +1,17 @@
-import { LoginFirebaseProps } from '@/types/login';
-import { dataBase } from 'app/[lang]/firebase/firebaseConfig';
+import { LoginFirebaseProps } from "@/types/login";
+import { dataBase } from "app/[lang]/firebase/firebaseConfig";
 import {
   confirmPasswordReset,
   createUserWithEmailAndPassword,
   getAuth,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-const auth = getAuth();
+} from "firebase/auth";
+import { collection, getDocs, query, where } from "firebase/firestore";
+export const auth = getAuth();
 
 const userRefByUser = (ref: any) =>
-  query(collection(dataBase, 'users'), where('user_name', '==', ref.user));
+  query(collection(dataBase, "users"), where("user_name", "==", ref.user));
 
 export const userExist = async (user: string) => {
   //this function must be removed
@@ -20,7 +20,7 @@ export const userExist = async (user: string) => {
   if (querySnapshot.empty) return false;
 
   querySnapshot.forEach((doc) => {
-    localStorage.setItem('@user', JSON.stringify(doc.data()));
+    localStorage.setItem("@user", JSON.stringify(doc.data()));
     userFound = doc.data();
   });
   return userFound;
@@ -31,7 +31,7 @@ export const loginFirebase = async ({ user, password }: LoginFirebaseProps) => {
     const loginF = await signInWithEmailAndPassword(auth, user, password);
     return loginF;
   } catch (error: any) {
-    console.debug('error message', error.message);
+    console.debug("error message", error.message);
     return null;
   }
 };
@@ -41,17 +41,8 @@ export const registerFirebase = async (user: string, password: string) => {
   return registerF;
 };
 
-const userRefByEmail = (email: any) => query(collection(dataBase, 'users'), where('email', '==', email));
-
-/* export const resetPasswordFirebase = async (email: string) => {
-  try {
-    const resetF = await sendPasswordResetEmail(auth, email);
-    return resetF;
-  } catch (error: any) {
-    console.debug('error message', error.message);
-    return null;
-  }
-}; */
+const userRefByEmail = (email: any) =>
+  query(collection(dataBase, "users"), where("email", "==", email));
 
 export const resetPasswordFirebase = async (email: string) => {
   try {
@@ -61,16 +52,18 @@ export const resetPasswordFirebase = async (email: string) => {
     if (!querySnapshot.empty) {
       // Enviar correo de restablecimiento de contraseña
       await sendPasswordResetEmail(auth, email);
-      console.log('Email de restablecimiento enviado correctamente.');
-      return 'success';
+      //console.log("Email de restablecimiento enviado correctamente.");
+      return "success";
     } else {
-      console.log(`El usuario con correo electrónico ${email} no está registrado.`);
-      return 'user_not_found';
+      //console.log(`El usuario con correo electrónico ${email} no está registrado.`);
+      return "user_not_found";
     }
-
   } catch (error: any) {
-    console.error('Error al enviar el email de restablecimiento:', error.message);
-    return 'send_email_failed';
+    console.error(
+      "Error al enviar el email de restablecimiento:",
+      error.message
+    );
+    return "send_email_failed";
   }
 };
 
@@ -79,14 +72,10 @@ export const changePasswordFirebase = async (
   confirmPassword: string
 ) => {
   try {
-    const response = await confirmPasswordReset(
-      auth,
-      oobCode,
-      confirmPassword
-    );
+    const response = await confirmPasswordReset(auth, oobCode, confirmPassword);
     return response;
   } catch (error: any) {
-    console.debug('error message', error.message);
+    console.debug("error message", error.message);
     return { error: true, message: error.message };
   }
 };

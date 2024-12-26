@@ -1,5 +1,5 @@
-import { validateEmail, validatePhoneNumber } from '@/globals/validateData';
-import { GetUser, SendDataUserProfile } from '@/reactQuery/users';
+import { validateEmail, validatePhoneNumber } from "@/globals/validateData";
+import { GetUser, SendDataUserProfile } from "@/reactQuery/users";
 import {
   CareerDataFormValues,
   CareerSubIndexDataForm,
@@ -13,10 +13,10 @@ import {
   UrlDataFormValues,
   handleDataNetworksProps,
   handleDataProps,
-} from '@/types/profile';
-import { profile } from 'app/[lang]/initialData/profileInitialData';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Dictionary } from '../../../../../types/dictionary';
+} from "@/types/profile";
+import { profile } from "app/[lang]/initialData/profileInitialData";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { Dictionary } from "../../../../../types/dictionary";
 
 const ProfileProfessionalHook = ({
   dictionary,
@@ -24,7 +24,7 @@ const ProfileProfessionalHook = ({
   isProUser,
   setIsChangeData,
   setIsAlertSaveModal,
-  handleNavigate
+  handleNavigate,
 }: {
   dictionary: Dictionary;
   handleDataSet?: (e: ProfessionalDataForm) => void;
@@ -63,7 +63,7 @@ const ProfileProfessionalHook = ({
   const [isDataLoad, setIsDataLoad] = useState(false);
   const [noDeleted, setNoDeleted] = useState(false);
   const [isEmailPhoneRight, setisEmailPhoneRight] = useState(false);
-  const [labelStatus, setlabelStatus] = useState<string>('');
+  const [labelStatus, setlabelStatus] = useState<string>("");
   const [flag, setFlag] = useState(false);
 
   const handleSendProfile = async (isProUser: boolean) => {
@@ -168,7 +168,7 @@ const ProfileProfessionalHook = ({
     if (!isModalAlert) {
       setItemDelete(itemDelete);
     } else {
-      setItemDelete('');
+      setItemDelete("");
     }
     setIsModalAlert(!isModalAlert);
   };
@@ -193,6 +193,414 @@ const ProfileProfessionalHook = ({
       setItemDetail(0);
     } else {
       setItemDetail(numItem);
+    }
+  };
+
+  
+  
+
+  const fillFields = (
+    index: IndexDataForm,
+    key: number,
+    text: string,
+    subindexEducation?: EducationSubIndexDataForm,
+    subindexCareer?: CareerSubIndexDataForm,
+    subindexUrl?: NetworksSubIndexDataForm
+  ) => {
+    const dataFormClone = { ...dataForm };
+    dataFormClone && index == "education" && subindexEducation
+      ? (dataFormClone[index]![key][subindexEducation] = text)
+      : index == "professional_career"
+      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+      : index == "urls" &&
+        subindexUrl &&
+        (dataFormClone[index]![key][subindexUrl] = text);
+
+    setDataForm(dataFormClone);
+    setIsDataLoad(true);
+  };
+
+  const handleDataNetworks = ({
+    name,
+    text,
+    subindex,
+    key,
+  }: handleDataNetworksProps) => {
+    const dataFormClone = { ...dataForm };
+    const index = name as keyof typeof dataFormClone;
+    key != undefined &&
+      subindex &&
+      fillFields(index, key, text, undefined, undefined, subindex);
+
+    setTimeout(() => {
+      setModalIcons(!isModalIcons);
+    }, 500);
+  };
+
+  const handleData = ({
+    name,
+    text,
+    subindex,
+    key,
+    currentDataRef,
+    type,
+  }: handleDataProps) => {
+    setIsChangeData(true);
+    const dataFormClone = { ...dataForm };
+    const index = name as keyof typeof dataFormClone;
+    if (
+      index != "phones" &&
+      index != "emails" &&
+      index != "education" &&
+      index != "professional_career" &&
+      index != "urls"
+    ) {
+      dataFormClone[index]!.text = text;
+      currentDataRef.current.text = text;
+      setDataForm(dataFormClone);
+      setIsDataLoad(true);
+    } else {
+      if (index == "phones") {
+        const dataAux = dataFormClone[index];
+        if (dataAux && key != undefined) {
+          if (type === false) {
+            dataAux[key].indicative = text;
+            currentDataRef.current.length > 0 &&
+              (currentDataRef.current[key].indicative = text);
+            dataAux && setDataForm(dataFormClone);
+          } else {
+            dataAux[key].text = text;
+            currentDataRef.current.length > 0 &&
+              (currentDataRef.current[key].text = text);
+            dataAux && setDataForm(dataFormClone);
+          }
+        }
+        setIsDataLoad(true);
+      } else if (index == "emails") {
+        const dataAux = dataFormClone[index];
+        if (dataAux && key != undefined) {
+          dataAux[key].text = text;
+          currentDataRef.current.length > 0 &&
+            (currentDataRef.current[key].text = text);
+          dataAux && setDataForm(dataFormClone);
+        }
+        setIsDataLoad(true);
+      } else if (
+        index == "education" &&
+        (subindex == "title" ||
+          subindex == "year" ||
+          subindex == "institution") &&
+        key != undefined
+      ) {
+        currentDataRef.current[key][subindex] = text;
+        fillFields(index, key, text, subindex);
+      } else if (
+        index == "professional_career" &&
+        (subindex == "company" ||
+          subindex == "data_end" ||
+          subindex == "data_init" ||
+          subindex == "position") &&
+        key != undefined
+      ) {
+        currentDataRef.current[key][subindex] = text;
+        fillFields(index, key, text, undefined, subindex);
+      } else if (
+        index == "urls" &&
+        (subindex == "name" || subindex == "url" || subindex == "icon") &&
+        key != undefined
+      ) {
+        currentDataRef.current[key][subindex] = text;
+        fillFields(index, key, text, undefined, undefined, subindex);
+      }
+    }
+  };
+
+  const handleDeleteData = () => {
+    setIsDataLoad(false);
+    setIsChangeData(true);
+    const index =
+      itemDelete && "index" in itemDelete ? itemDelete["index"] : undefined;
+    const subindex =
+      itemDelete && "subindex" in itemDelete
+        ? itemDelete["subindex"]
+        : undefined;
+    const dataFormClone = { ...dataForm };
+    const dataAux: any = dataFormClone[index as keyof typeof dataForm];
+    if (
+      dataAux?.length > 1 &&
+      Array.isArray(dataAux) &&
+      subindex !== undefined
+    ) {
+      dataAux.splice(parseInt(subindex, 10), 1); // Elimina el elemento en la posición subindex
+      setDataForm(dataFormClone);
+
+      setTimeout(() => {
+        setIsModalAlert(false);
+        setSuccessDelete(true);
+      }, 500);
+    } else {
+      //setNoDeleted(true);
+      if (subindex !== undefined && subindex) {
+        if (dataAux[subindex].label === "urls") {
+          dataAux[subindex] = {
+            label: "urls",
+            name: "",
+            url: "",
+            icon: "",
+            checked: false,
+            principal: true,
+            social: false,
+            professional: false,
+            order: 13,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "emails") {
+          dataAux[subindex] = {
+            label: "emails",
+            text: "",
+            checked: false,
+            principal: true,
+            social: true,
+            professional: false,
+            icon: "EmailOutlinedIcon",
+            order: 10,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "phones") {
+          dataAux[subindex] = {
+            label: "phones",
+            text: "",
+            checked: false,
+            principal: true,
+            social: true,
+            professional: false,
+            icon: "LocalPhoneOutlinedIcon",
+            order: 9,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "education") {
+          dataAux[subindex] = {
+            label: "education",
+            title: "",
+            institution: "",
+            year: "",
+            checked: false,
+            principal: true,
+            social: false,
+            professional: true,
+            icon: "",
+            order: 11,
+          };
+          setDataForm(dataFormClone);
+        } else if (dataAux[subindex].label === "professional_career") {
+          dataAux[subindex] = {
+            label: "professional_career",
+            company: "",
+            position: "",
+            data_init: "",
+            data_end: "",
+            checked: false,
+            principal: true,
+            social: false,
+            professional: true,
+            icon: "",
+            order: 12,
+          };
+          setDataForm(dataFormClone);
+        }
+
+        setTimeout(() => {
+          setIsModalAlert(false);
+          setSuccessDelete(true);
+        }, 500);
+      }
+    }
+  };
+
+  const handleAddData = (index: string) => {
+    const dataFormClone = { ...dataForm };
+    if (
+      index == "phones" ||
+      index == "education" ||
+      index == "emails" ||
+      index == "urls" ||
+      index == "professional_career"
+    ) {
+      /* const countProfessional = dataFormClone[index]?.filter(
+          (item: any) => item.professional
+        ).length;
+        const countSocial = dataFormClone[index]?.filter(
+          (item: any) => item.social
+        ).length;
+        const count = social ? countSocial : countProfessional; */
+
+      const count = dataFormClone?.[index]?.length;
+      if (index === "phones") {
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.phones = [
+              {
+                label: dictionary.profileView.labelPhone,
+                text: "",
+                checked: false,
+                principal: false,
+                social: true,
+                professional: true,
+                icon: "LocalPhoneOutlinedIcon",
+                order: 9,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.unshift({
+              label: dataFormClone[index]![0].label,
+              text: "",
+              checked: false,
+              principal: false,
+              social: true,
+              professional: true,
+              icon: "LocalPhoneOutlinedIcon",
+              order: 9,
+            });
+          }
+        } else {
+          setIsModalAlertLimit(true);
+        }
+      }
+
+      if (index === "emails") {
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.phones = [
+              {
+                label: dictionary.profileView.labelEmail,
+                text: "",
+                checked: false,
+                principal: false,
+                social: true,
+                professional: true,
+                icon: "EmailOutlinedIcon",
+                order: 10,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.unshift({
+              label: dataFormClone[index]![0].label,
+              text: "",
+              checked: false,
+              principal: false,
+              social: true,
+              professional: true,
+              icon: "EmailOutlinedIcon",
+              order: 10,
+            });
+          }
+        } else {
+          setIsModalAlertLimit(true);
+        }
+      }
+      if (index === "education") {
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.education = [
+              {
+                label: dictionary.profileView.labelEducation,
+                title: "",
+                institution: "",
+                year: "",
+                checked: false,
+                principal: false,
+                social: false,
+                professional: true,
+                icon: "",
+                order: 11,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.unshift({
+              label: dataFormClone[index]![0].label,
+              title: "",
+              institution: "",
+              year: "",
+              checked: false,
+              principal: false,
+              social: false,
+              professional: true,
+              icon: "",
+              order: 11,
+            });
+          }
+        } else {
+          setIsModalAlertLimit(true);
+        }
+      }
+      if (index === "professional_career") {
+        if ((count != null || count != undefined) && count < 3) {
+          if (count === 0) {
+            dataFormClone.professional_career = [
+              {
+                label: dictionary.profileView.labelProfessionalCareer,
+                company: "",
+                position: "",
+                data_init: "",
+                data_end: "",
+                checked: false,
+                principal: false,
+                social: false,
+                professional: true,
+                icon: "",
+                order: 12,
+              },
+            ];
+          } else {
+            dataFormClone[index]?.unshift({
+              label: dataFormClone[index]![0].label,
+              company: "",
+              position: "",
+              data_init: "",
+              data_end: "",
+              checked: false,
+              principal: false,
+              social: false,
+              professional: true,
+              icon: "",
+              order: 12,
+            });
+          }
+        } else {
+          setIsModalAlertLimit(true);
+        }
+      }
+      if (index === "urls") {
+        //if ((count != null || count != undefined) && count < 3) {
+        if (count === 0) {
+          dataFormClone.urls = [
+            {
+              label: "urls",
+              name: "",
+              url: "",
+              icon: "",
+              checked: false,
+              principal: false,
+              social: false,
+              professional: true,
+              order: 13,
+            },
+          ];
+        } else {
+          dataFormClone[index]?.unshift({
+            label: dataFormClone[index]![0].label,
+            name: "",
+            url: "",
+            icon: "",
+            checked: false,
+            principal: false,
+            social: false,
+            professional: true,
+            order: 13,
+          });
+        }
+      }
+      setDataForm(dataFormClone);
     }
   };
 
@@ -266,410 +674,22 @@ const ProfileProfessionalHook = ({
     }, 5000);
   };
 
-  const fillFields = (
-    index: IndexDataForm,
-    key: number,
-    text: string,
-    subindexEducation?: EducationSubIndexDataForm,
-    subindexCareer?: CareerSubIndexDataForm,
-    subindexUrl?: NetworksSubIndexDataForm
-  ) => {
-    const dataFormClone = { ...dataForm };
-    dataFormClone && index == 'education' && subindexEducation
-      ? (dataFormClone[index]![key][subindexEducation] = text)
-      : index == 'professional_career'
-        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-        : index == 'urls' &&
-        subindexUrl &&
-        (dataFormClone[index]![key][subindexUrl] = text);
-
-    setDataForm(dataFormClone);
-    setIsDataLoad(true);
-  };
-
-  const handleDataNetworks = ({
-    name,
-    text,
-    subindex,
-    key,
-  }: handleDataNetworksProps) => {
-    const dataFormClone = { ...dataForm };
-    const index = name as keyof typeof dataFormClone;
-    key != undefined &&
-      subindex &&
-      fillFields(index, key, text, undefined, undefined, subindex);
-
-    setTimeout(() => {
-      setModalIcons(!isModalIcons);
-    }, 500);
-  };
-
-  const handleData = ({
-    name,
-    text,
-    subindex,
-    key,
-    currentDataRef,
-    type
-  }: handleDataProps) => {
-    setIsChangeData(true);
-    const dataFormClone = { ...dataForm };
-    const index = name as keyof typeof dataFormClone;
+  const validateOccupationSwitch = (data: typeof dataForm) => {
+    const dataFormClone = { ...data };
+  
     if (
-      index != 'phones' &&
-      index != 'emails' &&
-      index != 'education' &&
-      index != 'professional_career' &&
-      index != 'urls'
+      !dataFormClone.occupation ||
+      !dataFormClone.occupation.text ||
+      dataFormClone.occupation.text.trim() === ""
     ) {
-      dataFormClone[index]!.text = text;
-      currentDataRef.current.text = text;
-      setDataForm(dataFormClone);
-      setIsDataLoad(true);
-    } else {
-      if (index == 'phones') {
-        const dataAux = dataFormClone[index];
-        if (dataAux && key != undefined) {
-          if (type === false) {
-            dataAux[key].indicative = text;
-            currentDataRef.current.length > 0 &&
-              (currentDataRef.current[key].indicative = text);
-            dataAux && setDataForm(dataFormClone);
-          } else {
-            dataAux[key].text = text;
-            currentDataRef.current.length > 0 &&
-              (currentDataRef.current[key].text = text);
-            dataAux && setDataForm(dataFormClone);
-          }
-        }
-        setIsDataLoad(true);
-      } else if (index == 'emails') {
-        const dataAux = dataFormClone[index];
-        if (dataAux && key != undefined) {
-          dataAux[key].text = text;
-          currentDataRef.current.length > 0 &&
-            (currentDataRef.current[key].text = text);
-          dataAux && setDataForm(dataFormClone);
-        }
-        setIsDataLoad(true);
-      } else if (
-        index == 'education' &&
-        (subindex == 'title' ||
-          subindex == 'year' ||
-          subindex == 'institution') &&
-        key != undefined
-      ) {
-        currentDataRef.current[key][subindex] = text;
-        fillFields(index, key, text, subindex);
-      } else if (
-        index == 'professional_career' &&
-        (subindex == 'company' ||
-          subindex == 'data_end' ||
-          subindex == 'data_init' ||
-          subindex == 'position') &&
-        key != undefined
-      ) {
-        currentDataRef.current[key][subindex] = text;
-        fillFields(index, key, text, undefined, subindex);
-      } else if (
-        index == 'urls' &&
-        (subindex == 'name' || subindex == 'url' || subindex == 'icon') &&
-        key != undefined
-      ) {
-        currentDataRef.current[key][subindex] = text;
-        fillFields(index, key, text, undefined, undefined, subindex);
-      }
+      dataFormClone.occupation = {
+        ...dataFormClone.occupation,
+        checked: false, // Apagar el switch
+        order: dataFormClone.occupation?.order ?? 0, // Asignar valor predeterminado
+      };
     }
-  };
-
-  const handleDeleteData = () => {
-    setIsDataLoad(false);
-    setIsChangeData(true);
-    const index =
-      itemDelete && 'index' in itemDelete ? itemDelete['index'] : undefined;
-    const subindex =
-      itemDelete && 'subindex' in itemDelete
-        ? itemDelete['subindex']
-        : undefined;
-    const dataFormClone = { ...dataForm };
-    const dataAux: any = dataFormClone[index as keyof typeof dataForm];
-    if (
-      dataAux?.length > 1 &&
-      Array.isArray(dataAux) &&
-      subindex !== undefined
-    ) {
-      dataAux.splice(parseInt(subindex, 10), 1); // Elimina el elemento en la posición subindex
-      setDataForm(dataFormClone);
-
-      setTimeout(() => {
-        setIsModalAlert(false);
-        setSuccessDelete(true);
-      }, 500);
-    } else {
-      //setNoDeleted(true);
-      if (subindex !== undefined && subindex) {
-        if (dataAux[subindex].label === "urls") {
-          dataAux[subindex] = {
-            label: 'urls',
-            name: '',
-            url: '',
-            icon: '',
-            checked: false,
-            principal: true,
-            social: false,
-            professional: false,
-            order: 13,
-          };
-          setDataForm(dataFormClone);
-        } else if (dataAux[subindex].label === "emails") {
-          dataAux[subindex] = {
-            label: 'emails',
-            text: '',
-            checked: false,
-            principal: true,
-            social: true,
-            professional: false,
-            icon: 'EmailOutlinedIcon',
-            order: 10,
-          };
-          setDataForm(dataFormClone);
-        } else if (dataAux[subindex].label === "phones") {
-          dataAux[subindex] = {
-            label: 'phones',
-            text: '',
-            checked: false,
-            principal: true,
-            social: true,
-            professional: false,
-            icon: 'LocalPhoneOutlinedIcon',
-            order: 9,
-          };
-          setDataForm(dataFormClone);
-        } else if (dataAux[subindex].label === "education") {
-          dataAux[subindex] = {
-            label: 'education',
-            title: '',
-            institution: '',
-            year: '',
-            checked: false,
-            principal: true,
-            social: false,
-            professional: true,
-            icon: '',
-            order: 11,
-          };
-          setDataForm(dataFormClone);
-
-        } else if (dataAux[subindex].label === "professional_career") {
-          dataAux[subindex] = {
-            label: 'professional_career',
-            company: '',
-            position: '',
-            data_init: '',
-            data_end: '',
-            checked: false,
-            principal: true,
-            social: false,
-            professional: true,
-            icon: '',
-            order: 12,
-          };
-          setDataForm(dataFormClone);
-        }
-
-        setTimeout(() => {
-          setIsModalAlert(false);
-          setSuccessDelete(true);
-        }, 500);
-      }
-    }
-  };
-
-  const handleAddData = (index: string) => {
-    const dataFormClone = { ...dataForm };
-    if (
-      index == 'phones' ||
-      index == 'education' ||
-      index == 'emails' ||
-      index == 'urls' ||
-      index == 'professional_career'
-    ) {
-      /* const countProfessional = dataFormClone[index]?.filter(
-          (item: any) => item.professional
-        ).length;
-        const countSocial = dataFormClone[index]?.filter(
-          (item: any) => item.social
-        ).length;
-        const count = social ? countSocial : countProfessional; */
-
-      const count = dataFormClone?.[index]?.length;
-      if (index === 'phones') {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.phones = [
-              {
-                label: dictionary.profileView.labelPhone,
-                text: '',
-                checked: false,
-                principal: false,
-                social: true,
-                professional: true,
-                icon: 'LocalPhoneOutlinedIcon',
-                order: 9,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.unshift({
-              label: dataFormClone[index]![0].label,
-              text: '',
-              checked: false,
-              principal: false,
-              social: true,
-              professional: true,
-              icon: 'LocalPhoneOutlinedIcon',
-              order: 9,
-            });
-          }
-        } else {
-          setIsModalAlertLimit(true);
-        }
-      }
-
-      if (index === 'emails') {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.phones = [
-              {
-                label: dictionary.profileView.labelEmail,
-                text: '',
-                checked: false,
-                principal: false,
-                social: true,
-                professional: true,
-                icon: 'EmailOutlinedIcon',
-                order: 10,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.unshift({
-              label: dataFormClone[index]![0].label,
-              text: '',
-              checked: false,
-              principal: false,
-              social: true,
-              professional: true,
-              icon: 'EmailOutlinedIcon',
-              order: 10,
-            });
-          }
-        } else {
-          setIsModalAlertLimit(true);
-        }
-      }
-      if (index === 'education') {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.education = [
-              {
-                label: dictionary.profileView.labelEducation,
-                title: '',
-                institution: '',
-                year: '',
-                checked: false,
-                principal: false,
-                social: false,
-                professional: true,
-                icon: '',
-                order: 11,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.unshift({
-              label: dataFormClone[index]![0].label,
-              title: '',
-              institution: '',
-              year: '',
-              checked: false,
-              principal: false,
-              social: false,
-              professional: true,
-              icon: '',
-              order: 11,
-            });
-          }
-        } else {
-          setIsModalAlertLimit(true);
-        }
-      }
-      if (index === 'professional_career') {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.professional_career = [
-              {
-                label: dictionary.profileView.labelProfessionalCareer,
-                company: '',
-                position: '',
-                data_init: '',
-                data_end: '',
-                checked: false,
-                principal: false,
-                social: false,
-                professional: true,
-                icon: '',
-                order: 12,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.unshift({
-              label: dataFormClone[index]![0].label,
-              company: '',
-              position: '',
-              data_init: '',
-              data_end: '',
-              checked: false,
-              principal: false,
-              social: false,
-              professional: true,
-              icon: '',
-              order: 12,
-            });
-          }
-        } else {
-          setIsModalAlertLimit(true);
-        }
-      }
-      if (index === 'urls') {
-        //if ((count != null || count != undefined) && count < 3) {
-        if (count === 0) {
-          dataFormClone.urls = [
-            {
-              label: 'urls',
-              name: '',
-              url: '',
-              icon: '',
-              checked: false,
-              principal: false,
-              social: false,
-              professional: true,
-              order: 13,
-            },
-          ];
-        } else {
-          dataFormClone[index]?.unshift({
-            label: dataFormClone[index]![0].label,
-            name: '',
-            url: '',
-            icon: '',
-            checked: false,
-            principal: false,
-            social: false,
-            professional: true,
-            order: 13,
-          });
-        }
-      }
-      setDataForm(dataFormClone);
-    }
+  
+    return dataFormClone;
   };
 
   const checkedItems = (
@@ -680,15 +700,19 @@ const ProfileProfessionalHook = ({
   ) => {
     data.map((el) => {
       if (checked === true) {
-        if (label === 'urls') {
+        if (label === "urls") {
           let urlData = el as UrlDataFormValues;
-          if (urlData.name !== "" && urlData.icon !== "" && urlData.url !== "") {
+          if (
+            urlData.name !== "" &&
+            urlData.icon !== "" &&
+            urlData.url !== ""
+          ) {
             el.checked = checked;
             el.label = label ?? el.label;
           } else {
             setIsEmptyDataAll(true);
           }
-        } else if (label === 'emails' || label === 'phones') {
+        } else if (label === "emails" || label === "phones") {
           let textData = el as DataFormValues;
           if (textData.text !== "") {
             textData.checked = checked;
@@ -696,17 +720,26 @@ const ProfileProfessionalHook = ({
           } else {
             setIsEmptyDataAll(true);
           }
-        } else if (label === 'education') {
+        } else if (label === "education") {
           let textData = el as EducationDataFormValues;
-          if (textData.title !== "" && textData.institution !== "" && textData.year !== "") {
+          if (
+            textData.title !== "" &&
+            textData.institution !== "" &&
+            textData.year !== ""
+          ) {
             el.checked = checked;
             el.label = label ?? el.label;
           } else {
             setIsEmptyDataAll(true);
           }
-        } else if (label === 'professional_career') {
+        } else if (label === "professional_career") {
           let textData = el as CareerDataFormValues;
-          if (textData.company !== "" && textData.position !== "" && textData.data_init !== "" && textData.data_end !== "") {
+          if (
+            textData.company !== "" &&
+            textData.position !== "" &&
+            textData.data_init !== "" &&
+            textData.data_end !== ""
+          ) {
             el.checked = checked;
             el.label = label ?? el.label;
           } else {
@@ -728,7 +761,7 @@ const ProfileProfessionalHook = ({
     label?: string
   ) => {
     if (checked === true) {
-      if (data && data.text != '') {
+      if (data && data.text != "") {
         data.checked = checked;
         data.label = label ?? data.label;
       } else {
@@ -743,42 +776,42 @@ const ProfileProfessionalHook = ({
 
   const validLabel = useCallback(
     (key: string) => {
-      let label = '';
+      let label = "";
       switch (key) {
-        case 'name':
+        case "name":
           label = dictionary.profileView.labelFirstName;
           break;
-        case 'last_name':
+        case "last_name":
           label = dictionary.profileView.labelLastName;
           break;
-        case 'profession':
+        case "profession":
           label = dictionary.profileView.labelProfession;
           break;
-        case 'occupation':
+        case "occupation":
           label = dictionary.profileView.labelOccupation;
           break;
-        case 'address':
+        case "address":
           label = dictionary.profileView.labelAddress;
           break;
-        case 'company':
+        case "company":
           label = dictionary.profileView.labelCompany;
           break;
-        case 'position':
+        case "position":
           label = dictionary.profileView.labelPosition;
           break;
-        case 'professional_profile':
+        case "professional_profile":
           label = dictionary.profileView.labelProfessionalProfile;
           break;
-        case 'other_competencies':
+        case "other_competencies":
           label = dictionary.profileView.labelOtherCompetencies;
           break;
-        case 'skills':
+        case "skills":
           label = dictionary.profileView.labelSkills;
           break;
-        case 'languages':
+        case "languages":
           label = dictionary.profileView.labelLanguages;
           break;
-        case 'achievements_recognitions':
+        case "achievements_recognitions":
           label = dictionary.profileView.labelRecognitions;
           break;
       }
@@ -795,16 +828,16 @@ const ProfileProfessionalHook = ({
     const items = Object.entries(dataFormClone);
 
     const newData = items.map((value) => {
-      if (value[0] == 'phones' || value[0] == 'emails') {
+      if (value[0] == "phones" || value[0] == "emails") {
         const data = value[1] as DataFormValues[];
         return checkedItems(data, value[0], isChecked, value[0]);
-      } else if (value[0] == 'education') {
+      } else if (value[0] == "education") {
         const data = value[1] as EducationDataFormValues[];
         return checkedItems(data, value[0], isChecked, value[0]);
-      } else if (value[0] == 'professional_career') {
+      } else if (value[0] == "professional_career") {
         const data = value[1] as CareerDataFormValues[];
         return checkedItems(data, value[0], isChecked, value[0]);
-      } else if (value[0] == 'urls') {
+      } else if (value[0] == "urls") {
         const data = value[1] as UrlDataFormValues[];
         return checkedItems(data, value[0], isChecked, value[0]);
       } else {
@@ -823,13 +856,24 @@ const ProfileProfessionalHook = ({
   };
 
   useEffect(() => {
-    const data = Object.entries(dataForm as DataFormSorted).toSorted((a, b) => {
+    // Validar y actualizar los datos solo si es necesario
+    const updatedDataForm = validateOccupationSwitch(dataForm);
+    
+    // Verifica si el formulario cambió antes de actualizar el estado
+    if (JSON.stringify(updatedDataForm) !== JSON.stringify(dataForm)) {
+      setDataForm(updatedDataForm); // Solo actualiza si hay cambios
+    }
+  
+    // Lógica de ordenamiento (si la validación de ocupación se realizó correctamente)
+    const data = Object.entries(updatedDataForm as DataFormSorted).toSorted((a, b) => {
       const aa = a[1].length ? a[1][0].order : a[1].order;
       const bb = b[1].length ? b[1][0].order : b[1].order;
       return aa - bb;
     });
     setObjectDataSort(data);
+  
   }, [dataForm, isProUser]);
+  
 
   useEffect(() => {
     //this flag rerender the main component to show the data on fields
@@ -840,11 +884,11 @@ const ProfileProfessionalHook = ({
   }, [dataForm]);
 
   useEffect(() => {
-    if (dataForm.name?.label == '') {
+    if (dataForm.name?.label == "") {
       const dataFormClone = { ...dataForm };
       const items = Object.entries(dataFormClone);
       const newData = items.map((value) => {
-        if (value[0] == 'phones') {
+        if (value[0] == "phones") {
           const data = value[1] as DataFormValues[];
           return checkedItems(
             data,
@@ -852,7 +896,7 @@ const ProfileProfessionalHook = ({
             false,
             dictionary.profileView.labelPhone
           );
-        } else if (value[0] == 'emails') {
+        } else if (value[0] == "emails") {
           const data = value[1] as DataFormValues[];
           return checkedItems(
             data,
@@ -860,7 +904,7 @@ const ProfileProfessionalHook = ({
             false,
             dictionary.profileView.labelEmail
           );
-        } else if (value[0] == 'education') {
+        } else if (value[0] == "education") {
           const data = value[1] as EducationDataFormValues[];
           return checkedItems(
             data,
@@ -868,7 +912,7 @@ const ProfileProfessionalHook = ({
             false,
             dictionary.profileView.labelEducation
           );
-        } else if (value[0] == 'professional_career') {
+        } else if (value[0] == "professional_career") {
           const data = value[1] as CareerDataFormValues[];
           return checkedItems(
             data,
@@ -876,9 +920,9 @@ const ProfileProfessionalHook = ({
             false,
             dictionary.profileView.labelProfessionalCareer
           );
-        } else if (value[0] == 'urls') {
+        } else if (value[0] == "urls") {
           const data = value[1] as UrlDataFormValues[];
-          return checkedItems(data, value[0], false, 'urls');
+          return checkedItems(data, value[0], false, "urls");
         } else {
           const data = value[1] as DataFormValues;
           const label = validLabel(value[0]);
@@ -897,8 +941,15 @@ const ProfileProfessionalHook = ({
     } else {
       myDataForm = profile.professional;
     }
-    myDataForm && setDataForm(myDataForm);
+  
+    if (myDataForm) {
+      // Validar la ocupación antes de actualizar el formulario
+      const updatedDataForm = validateOccupationSwitch(myDataForm);
+      setDataForm(updatedDataForm);
+    }
+  
   }, [data, isProUser]);
+  
 
   useEffect(() => {
     if (allChecked && dataForm) {
@@ -907,6 +958,7 @@ const ProfileProfessionalHook = ({
       setAllChecked(false);
     }
   }, [allChecked, dataForm, handleDataSet]);
+  
 
   return {
     handleSwitch,
@@ -951,7 +1003,7 @@ const ProfileProfessionalHook = ({
     isAlertEmptyData,
     setIsEmptyData,
     isAlertEmptyDataAll,
-    setIsEmptyDataAll
+    setIsEmptyDataAll,
   };
 };
 
