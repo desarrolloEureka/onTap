@@ -7,7 +7,7 @@ const FirstView = () => {
     const userName = isDistributor ? datUser?.data?.fullName : datUser?.data?.name;
 
     useEffect(() => {
-        // Solo acceder a localStorage en el lado del cliente
+        //Solo acceder a localStorage en el lado del cliente
         if (typeof window !== 'undefined') {
             const distributorStatus = localStorage.getItem('isDistributor') === 'true';
             setIsDistributor(distributorStatus);
