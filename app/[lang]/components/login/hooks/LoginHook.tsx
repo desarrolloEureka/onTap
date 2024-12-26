@@ -42,7 +42,7 @@ const LoginHook = (dictionary: Dictionary) => {
   const userIsLogged = useCallback(() => {
     if (data) {
       //console.log(data);
-      if (data.isAdmin === true) {
+      if (data.isAdmin) {
         if (data.isActive === true) {
           router.push('/views/backOffice');
         } else {
@@ -52,7 +52,7 @@ const LoginHook = (dictionary: Dictionary) => {
           });
         }
       } else if (data.is_distributor === true) {
-        //console.log('Soy distribuidor');
+        console.log('Soy distribuidor');
         router.push('/views/backOffice');
       } else {
         if (data.isActive === true && data.isActiveByAdmin === true) {
@@ -73,7 +73,7 @@ const LoginHook = (dictionary: Dictionary) => {
           errorType: 3,
           errorMessage: dictionary.loginView.userNotFound,
         });
-      }, 3000);
+      }, 3200);
       setTimeout(() => {
         setErrorForm(null);
         setSendLogin(false);

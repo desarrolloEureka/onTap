@@ -79,7 +79,6 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     // Verificar si estamos en el lado del cliente
     if (typeof window !== "undefined") {
       const distributorStatus = localStorage.getItem("isDistributor") === "true";
-      console.log('sssssssssssssssssssssssssssssss ',distributorStatus);
       setIsDistributor(distributorStatus);
     }
   }, []);

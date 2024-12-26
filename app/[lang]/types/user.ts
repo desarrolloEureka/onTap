@@ -17,6 +17,7 @@ export interface UserData {
   imagePro: string;
   is_admin: boolean;
   is_distributor?: boolean;
+  isDistributor?: boolean;
   name: string;
   fullName?: string;
   switch_activateCard: boolean;
@@ -36,6 +37,7 @@ export interface UserData {
 }
 
 export interface User {
+  is_distributor: any;
   uid: string;
   email: string;
   emailVerified: boolean;

@@ -9,7 +9,7 @@ const LoginHookMain = () => {
   useEffect(() => {
     if (user) {
       //if (user.isActive === true) {
-      if (user.isActive === true && user.isActiveByAdmin === true) {
+      if (user.isActive === true && user.isActiveByAdmin === true && !user.is_distributor) {
         user && router.push('/views/home');
       } else {
         !isLoading;
