@@ -37,7 +37,7 @@ export interface UserData {
 }
 
 export interface User {
-  is_distributor: any;
+  is_distributor?: any;
   uid: string;
   email: string;
   emailVerified: boolean;
