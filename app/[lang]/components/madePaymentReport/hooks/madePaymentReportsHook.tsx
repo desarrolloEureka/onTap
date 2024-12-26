@@ -226,6 +226,7 @@ const MadePaymentReportsHook = ({
             idDistributor: doc.idDistributor,
             totalAmount: doc.userInvoice?.totalAmount || 0,
             status: doc.userOrder?.status || "", // Añade el campo de estado de la orden
+            secuencialId: doc.userOrder.secuencialId || "",
           };
         })
         .filter(

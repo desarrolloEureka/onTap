@@ -309,6 +309,7 @@ const PendingPaymentReportsHook = ({
             ? distributor.fullName
             : "Distribuidor desconocido", // Nombre del distribuidor
           fullName: doc.fullName || "",
+          secuencialId: doc?.userOrder?.secuencialId || "",
         };
       });
 

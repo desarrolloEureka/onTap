@@ -41,6 +41,7 @@ const CustomersDistributorHook = ({
   const [dataUser, setDataUser] = useState<UserData | null>(null);
   const [status, setStatus] = useState<string>("");
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  
 
   //Datos distribuidor paso 1
   const [documentType, setDocumentType] = useState<string>("");
