@@ -70,6 +70,7 @@ export type DataFormValues = {
 };
 
 export type EducationDataFormValues = {
+  text?: string;
   label?: string;
   title: string;
   institution: string;
@@ -83,6 +84,7 @@ export type EducationDataFormValues = {
 };
 
 export type CareerDataFormValues = {
+  text?: string;
   label?: string;
   company: string;
   position: string;

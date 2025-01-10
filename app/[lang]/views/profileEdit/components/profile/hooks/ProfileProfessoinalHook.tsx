@@ -3,6 +3,7 @@ import { GetUserByIdEdit, SendDataUserProfile } from "@/reactQuery/users";
 import {
   CareerDataFormValues,
   CareerSubIndexDataForm,
+  DataForm,
   DataFormSorted,
   DataFormValues,
   EducationDataFormValues,
@@ -17,6 +18,7 @@ import {
 import { profile } from "app/[lang]/initialData/profileInitialData";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Dictionary } from "../../../../../types/dictionary";
+
 
 const ProfileProfessionalHook = ({
   dictionary,
@@ -363,6 +365,9 @@ const ProfileProfessionalHook = ({
             dataAux[key].text = text;
             currentDataRef.current.length > 0 &&
               (currentDataRef.current[key].text = text);
+              if(currentDataRef.current[key].text.length === 0) {
+                dataAux[key].checked = false
+              }
             dataAux && setDataForm(dataFormClone);
           }
         }
@@ -373,6 +378,9 @@ const ProfileProfessionalHook = ({
           dataAux[key].text = text;
           currentDataRef.current.length > 0 &&
             (currentDataRef.current[key].text = text);
+            if(currentDataRef.current[key].text.length === 0) {
+              dataAux[key].checked = false
+            }
           dataAux && setDataForm(dataFormClone);
         }
         setIsDataLoad(true);
@@ -384,6 +392,9 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
+        if(currentDataRef.current[key][subindex].length === 0) {
+          currentDataRef.current[key].checked = false
+        }
         fillFields(index, key, text, subindex);
       } else if (
         index == "professional_career" &&
@@ -394,6 +405,9 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
+        if(currentDataRef.current[key][subindex].length === 0) {
+          currentDataRef.current[key].checked = false
+        }
         fillFields(index, key, text, undefined, subindex);
       } else if (
         index == "urls" &&
@@ -401,6 +415,9 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
+        if(currentDataRef.current[key][subindex].length === 0) {
+          currentDataRef.current[key].checked = false
+        }
         fillFields(index, key, text, undefined, undefined, subindex);
       }
     }
@@ -517,14 +534,6 @@ const ProfileProfessionalHook = ({
       index == "urls" ||
       index == "professional_career"
     ) {
-      /* const countProfessional = dataFormClone[index]?.filter(
-          (item: any) => item.professional
-        ).length;
-        const countSocial = dataFormClone[index]?.filter(
-          (item: any) => item.social
-        ).length;
-        const count = social ? countSocial : countProfessional; */
-
       const count = dataFormClone?.[index]?.length;
       if (index === "phones") {
         if ((count != null || count != undefined) && count < 3) {
@@ -695,21 +704,41 @@ const ProfileProfessionalHook = ({
     }
   };
 
-  const validateOccupationSwitch = (data: typeof dataForm) => {
+  const validateFieldsSwitch = (data: any) => {
     const dataFormClone = { ...data };
   
-    if (
-      !dataFormClone.occupation ||
-      !dataFormClone.occupation.text ||
-      dataFormClone.occupation.text.trim() === ""
-    ) {
-      dataFormClone.occupation = {
-        ...dataFormClone.occupation,
-        checked: false, // Apagar el switch
-        order: dataFormClone.occupation?.order ?? 0, // Asignar valor predeterminado
-      };
-    }
+    // Lista de campos a validar
+    const fieldsToValidate = [
+      'occupation', 'name', 'last_name', 'profession', 'address', 'company', 
+      'position', 'professional_profile', 'other_competencies', 'skills', 
+      'languages', 'achievements_recognitions', 'phones', 'emails', 'education',
+      'professional_career', 'urls'
+    ];
   
+    fieldsToValidate.forEach((field) => {
+      const fieldValue = dataFormClone[field];
+      //console.log("fieldValue", fieldValue)
+      if (Array.isArray(fieldValue)) {
+        dataFormClone[field] = fieldValue.map((item: any) => {
+          if (!item || !item.text || item.text.trim() === "") {
+            return {
+              ...item,
+              checked: false, 
+            };
+          }
+          return item;
+        });
+      } 
+      else if (fieldValue && typeof fieldValue === 'object' && 'text' in fieldValue) {
+        
+        if (!fieldValue.text || fieldValue.text.trim() === "") {
+          dataFormClone[field] = {
+            ...fieldValue,
+            checked: false, 
+          };
+        }
+      }
+    });
     return dataFormClone;
   };
 
@@ -878,22 +907,20 @@ const ProfileProfessionalHook = ({
   };
 
   useEffect(() => {
-    // Validar y actualizar los datos solo si es necesario
-    const updatedDataForm = validateOccupationSwitch(dataForm);
-    
-    // Verifica si el formulario cambió antes de actualizar el estado
+    const updatedDataForm = validateFieldsSwitch(dataForm);  
+    // Verificar si hay cambios en los datos
     if (JSON.stringify(updatedDataForm) !== JSON.stringify(dataForm)) {
-      setDataForm(updatedDataForm); // Solo actualiza si hay cambios
+      setDataForm(updatedDataForm); 
     }
   
-    // Lógica de ordenamiento (si la validación de ocupación se realizó correctamente)
+    // Ordenar los datos actualizados
     const data = Object.entries(updatedDataForm as DataFormSorted).toSorted((a, b) => {
-      const aa = a[1].length ? a[1][0].order : a[1].order;
-      const bb = b[1].length ? b[1][0].order : b[1].order;
+      const aa = Array.isArray(a[1]) ? a[1][0].order : a[1].order;
+      const bb = Array.isArray(b[1]) ? b[1][0].order : b[1].order;
       return aa - bb;
+      
     });
     setObjectDataSort(data);
-  
   }, [dataForm, isProUser]);
 
   useEffect(() => {

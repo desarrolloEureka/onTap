@@ -26,6 +26,7 @@ export const registerUserAuth = async ({
     gif: false,
     email: "",
     dni: "",
+    date_paid: "",
     isActiveByAdmin: false,
     created: 0,
     templateData: [
@@ -60,4 +61,3 @@ export const registerUserFb = async ({ data }: { data: any }) => {
   //console.log('result::::', result);
   return result;
 };
-
