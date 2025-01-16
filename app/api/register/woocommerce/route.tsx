@@ -6,15 +6,21 @@ export async function POST(request: Request) {
   let response = null;
   try {
     const req = await request.json();
-    const dniSearch: { id: number, key: string, value: string } = req.meta_data.find((value: { id: number, key: string, value: string }) => value.key === "_billing_dni")
+    const dniSearch: { id: number; key: string; value: string } =
+      req.meta_data.find(
+        (value: { id: number; key: string; value: string }) =>
+          value.key === "_billing_dni"
+      );
 
     const status = req.status;
     const dni = dniSearch.value;
     const email = req.billing.email;
     const name = req.billing.first_name;
-    const last_name = req.billing.last_name
-    const plan = req?.line_items?.parent_name?.toLowerCase()?.search('premium');
+    const last_name = req.billing.last_name;
+    const plan = req?.line_items?.parent_name?.toLowerCase()?.search("premium");
+    const date_paid = req?.date_paid;
 
+    console.log("req", req);
     // Crear un objeto Date y obtener su timestamp
     const dateCreated = new Date();
     const dateCreatedBd = dateCreated.getTime();
@@ -24,35 +30,40 @@ export async function POST(request: Request) {
       result.dni = dni;
       result.name = `${name} ${last_name}`;
       result.email = email;
-      result.plan = plan ?? 'premium';
+      result.plan = plan ?? "premium";
       //result.switch_profile = plan === "standard" ? false : true;
       result.switch_profile = false;
       result.created = dateCreatedBd;
       result.isActiveByAdmin = true;
-      result.templateData = plan === 'standard' ? [{
-        type: 'social',
-        id: 'XfhZLINMOpRTI7cakd8o',
-        background_id: '7ynTMVt3M6VFV3KykOXQ',
-        checked: true,
-      }]
-        :
-        [{
-          type: 'social',
-          id: 'XfhZLINMOpRTI7cakd8o',
-          background_id: '7ynTMVt3M6VFV3KykOXQ',
-          checked: true,
-        },
-        {
-          type: 'professional',
-          id: 'ZESiLxKZFwUOUOgLKt6P',
-          background_id: '7ynTMVt3M6VFV3KykOXQ',
-          checked: true,
-        }
-        ]
+      result.date_paid = date_paid;
+      result.templateData =
+        plan === "standard"
+          ? [
+              {
+                type: "social",
+                id: "XfhZLINMOpRTI7cakd8o",
+                background_id: "7ynTMVt3M6VFV3KykOXQ",
+                checked: true,
+              },
+            ]
+          : [
+              {
+                type: "social",
+                id: "XfhZLINMOpRTI7cakd8o",
+                background_id: "7ynTMVt3M6VFV3KykOXQ",
+                checked: true,
+              },
+              {
+                type: "professional",
+                id: "ZESiLxKZFwUOUOgLKt6P",
+                background_id: "7ynTMVt3M6VFV3KykOXQ",
+                checked: true,
+              },
+            ];
 
       const registerResult = await registerUserFb({ data: result });
       response = {
-        payload: { dni, email, name, last_name, plan: plan ?? 'premium' },
+        payload: { dni, email, name, last_name, plan: plan ?? "premium" },
         register: result,
         register_firestore: registerResult,
       };

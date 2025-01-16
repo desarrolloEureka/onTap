@@ -98,7 +98,7 @@ const PendingPaymentReports = ({
     },
     {
       field: "secuencialId",
-      headerName: "Referencia",
+      headerName: "No. OC",
       minWidth: 210,
       flex: 2,
     },

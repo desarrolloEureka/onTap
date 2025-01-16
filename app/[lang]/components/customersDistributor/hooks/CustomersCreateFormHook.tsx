@@ -828,13 +828,13 @@ const CustomersCreateFormHook = ({
     const documentRefUser: any = getDocumentReference("orders");
     const lastOrder: any = await getLastOrder();
 
-    let newSecuencialId = 'Numero De Orden 1';
+    let newSecuencialId = 'No. OC 1';
     if (lastOrder && lastOrder.secuencialId) {
-      const match = lastOrder.secuencialId.match(/^Numero De Orden (\d+)$/);
+      const match = lastOrder.secuencialId.match(/^No. OC (\d+)$/);
       if (match) {
         const lastNumber = parseInt(match[1], 10);
         const nextNumber = lastNumber + 1;
-        newSecuencialId = `Numero De Orden ${nextNumber}`;
+        newSecuencialId = `No. OC ${nextNumber}`;
       }
     }
 

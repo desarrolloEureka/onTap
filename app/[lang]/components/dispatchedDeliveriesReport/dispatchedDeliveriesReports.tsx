@@ -91,7 +91,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
     },
     {
       field: "secuencialId",
-      headerName: "Referencia",
+      headerName: "No. OC",
       minWidth: 100,
       flex: 2,
     },
