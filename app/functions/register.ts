@@ -14,6 +14,8 @@ export const registerUserAuth = async ({
     uid: result.user.uid,
     emailVerified: result.user.emailVerified,
     name: "",
+    firstName: "",
+    lastName: "",
     plan: "",
     phone: "",
     indicative: "",
@@ -28,6 +30,7 @@ export const registerUserAuth = async ({
     dni: "",
     isActiveByAdmin: false,
     created: 0,
+    subscriptionId: "",
     templateData: [
       {
         type: "",

@@ -21,6 +21,7 @@ import {
   getDocumentReference,
   saveInvoiceQuerie,
   saveOrderQuerie,
+  saveSubscriptionQuerie,
 } from "@/reactQuery/generalQueries";
 import { wompiConfig } from "@/firebase/firebaseConfig";
 import { getLastOrder } from "@/firebase/generals";
@@ -728,6 +729,7 @@ const CustomersCreateFormHook = ({
         setLoading(true);
       }
 
+      const documentRefUser: any = getDocumentReference("subscriptions");
       const createdAt = moment().format();
       const trimmedDocumentNumber = documentNumber.trim();
       const trimmedEmail = email.trim().toLowerCase();
@@ -775,9 +777,10 @@ const CustomersCreateFormHook = ({
       const combinedData = {
         ...result,
         ...dataSend,
+        subscriptionId: documentRefUser.id
       };
 
-      await registerUserFb({ data: combinedData });
+      const dataUser = await registerUserFb({ data: combinedData });
 
       // Crear y guardar la orden
       const orderData = await registerOrderData(result?.uid, isPay);

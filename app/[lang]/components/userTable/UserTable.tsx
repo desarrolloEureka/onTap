@@ -6,6 +6,8 @@ import {
   InputAdornment,
   Select,
   MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import { Modal, Box, IconButton } from "@mui/material";
 import {
@@ -39,6 +41,7 @@ import ReactCountryFlag from "react-country-flag";
 import { countries } from "../../globals/constants";
 import SaveIcon from "@mui/icons-material/Save";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import moment from "moment";
 
 const UserTable = () => {
   const {
@@ -51,6 +54,8 @@ const UserTable = () => {
     dni,
     name,
     setName,
+    lastName,
+    setLastName,
     email,
     setEmail,
     plan,
@@ -80,6 +85,7 @@ const UserTable = () => {
     setConfirmEmail,
     errorDniForm,
     errorNameForm,
+    errorLastNameForm,
     errorPlanForm,
     errorPhoneForm,
     errorPhoneCodeForm,
@@ -89,6 +95,10 @@ const UserTable = () => {
     handleEditUser,
     handleEditData,
     openEditProfile,
+    selectedDate,
+    setSelectedDate,
+    errorDateForm,
+    setErrorDateForm
   } = UserTableLogic();
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
@@ -105,12 +115,7 @@ const UserTable = () => {
   };
 
   const getFormattedDate = (date: any) => {
-    const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(
-      date.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}/${date.getFullYear()}`;
-    return formattedDate ? formattedDate : "";
+    return moment(date).format("DD/MM/YYYY HH:mm:ss");
   };
 
   const getUrlFormatted = (url: any) => {
@@ -179,11 +184,10 @@ const UserTable = () => {
         </Button>
       ),
     },
-
     {
       field: "date",
       headerName: "Fecha Registro",
-      minWidth: 130,
+      minWidth: 190,
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -192,14 +196,6 @@ const UserTable = () => {
           <div>{getFormattedDate(params.value)}</div>
         </div>
       ),
-    },
-    {
-      field: "hour",
-      headerName: "Hora Registro",
-      minWidth: 130,
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
     },
     {
       field: "id",
@@ -274,6 +270,19 @@ const UserTable = () => {
           {params.value && (
             <div>{params.value.gif === true ? "Obsequio" : "Comprador"}</div>
           )}
+        </div>
+      ),
+    },
+    {
+      field: "paymentDate",
+      headerName: "Fecha Pago",
+      minWidth: 190,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value ? getFormattedDate(params.value) : 'Pendiente'}
         </div>
       ),
     },
@@ -649,8 +658,9 @@ const UserTable = () => {
           </IconButton>
           <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
             <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
-              <div className="tw-w-full tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-20 tw-mt-2 tw-mb-2">
-                {/* DNI Field with Error Handling */}
+              <div className="tw-w-[90%] tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-5">
+
+
                 <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                   <TextField
                     variant="standard"
@@ -670,21 +680,20 @@ const UserTable = () => {
                     }}
                     id="outlined-required"
                     value={dni}
-                    className="tw-mb-4 tw-w-[300px] tw-text-sm tw-mt-4"
+                    fullWidth
+                    className="tw-mb-6"
                     onChange={(e) => setDni(e.target.value)}
                     error={Boolean(errorDniForm)}
                     helperText={errorDniForm}
                   />
                 </div>
 
-                {/* Name Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
+                <div className="tw-flex tw-justify-between tw-mb-6">
                   <TextField
                     id="outlined-required"
                     value={name}
                     variant="standard"
                     label={dictionary.dictionary?.backOffice.Nombre}
-                    className="tw-mb-4 tw-w-[300px] tw-text-sm"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -698,19 +707,46 @@ const UserTable = () => {
                         </InputAdornment>
                       ),
                     }}
+                    fullWidth
+                    className="tw-mr-2"
                     onChange={(e) => setName(e.target.value)}
                     error={Boolean(errorNameForm)}
                     helperText={errorNameForm}
                   />
+
+                  <TextField
+                    id="outlined-required"
+                    value={lastName}
+                    variant="standard"
+                    label={"Apellidos"}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonOutlinedIcon
+                            style={{
+                              color: "#02AF9B",
+                              fontSize: "1.8rem",
+                              marginRight: "1rem",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
+                    }}
+                    fullWidth
+                    className="tw-ml-2"
+                    onChange={(e) => setLastName(e.target.value)}
+                    error={Boolean(errorLastNameForm)}
+                    helperText={errorLastNameForm}
+                  />
                 </div>
 
-                {/* Email Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
+                <div className="tw-flex tw-justify-between tw-mb-6">
                   <TextField
                     id="outlined-required"
                     value={email}
                     variant="standard"
-                    className="tw-mb-4 tw-w-[300px] tw-text-sm"
+                    fullWidth
+                    className="tw-mr-2"
                     label={dictionary.dictionary?.backOffice.Email}
                     InputProps={{
                       startAdornment: (
@@ -731,15 +767,13 @@ const UserTable = () => {
                     onCopy={(e) => e.preventDefault()} // Bloquea copiar
                     onCut={(e) => e.preventDefault()} // Bloquea cortar
                   />
-                </div>
 
-                {/* Confirm Email Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
                   <TextField
                     id="outlined"
                     value={confirmEmail}
                     variant="standard"
-                    className="tw-mb-4 tw-w-[300px] tw-text-sm"
+                    fullWidth
+                    className="tw-ml-2"
                     label={dictionary.dictionary?.backOffice.ConfirmEmail}
                     InputProps={{
                       startAdornment: (
@@ -763,10 +797,9 @@ const UserTable = () => {
                   />
                 </div>
 
-                {/* Phone Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1 ">
-                  <div className="tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4 tw-mt-3">
-                    <div className="tw-w-[40%] tw-items-start">
+                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
+                  <div className="tw-w-[100%] tw-flex tw-items-start tw-justify-center tw-mb-4 tw-mt-3">
+                    <div className="tw-w-[20%] tw-items-start">
                       <Select
                         variant="outlined"
                         className="tw-w-[100%] tw-text-center"
@@ -797,7 +830,7 @@ const UserTable = () => {
                         ))}
                       </Select>
                     </div>
-                    <div className="tw-h-[100%] tw-w-[60%] tw-items-start tw-ml-2">
+                    <div className="tw-h-[100%] tw-w-[80%] tw-items-start tw-ml-2">
                       <TextField
                         id="standard-number"
                         value={phone}
@@ -819,9 +852,33 @@ const UserTable = () => {
                   </div>
                 </div>
 
-                {/* Plan Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-0">
-                  <div className="tw-w-[300px] tw-flex-row tw-items-start tw-justify-start tw-mb-4 tw-mt-1">
+                <div className="tw-flex tw-justify-between tw-mb-6">
+                  {isEditData && (
+                    <div className="tw-w-full">
+                      <Typography
+                        color="textSecondary"
+                        display={"flow"}
+                        className="tw-text-left tw-text-sm tw-mb-2"
+                      >
+                        Fecha Pago
+                      </Typography>
+                      <TextField
+                        type="date"
+                        fullWidth
+                        className="tw-mr-2"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
+                        variant="outlined"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        error={Boolean(errorDateForm)}
+                        helperText={errorDateForm}
+                      />
+                    </div>
+                  )}
+
+                  <div className="tw-w-full ">
                     <Typography
                       color="textSecondary"
                       display={"flow"}
@@ -830,17 +887,10 @@ const UserTable = () => {
                       {dictionary.dictionary?.backOffice.Plan}
                     </Typography>
                     <div className="tw-relative">
-                      <PersonOutlinedIcon
-                        style={{
-                          color: "#02AF9B",
-                          fontSize: "1.8rem",
-                          marginTop: "1rem",
-                          marginLeft: "1rem",
-                          position: "absolute",
-                        }}
-                      />
+
                       <Select
-                        className="tw-w-[300px] tw-text-center tw-mb-4"
+                        fullWidth
+                        className="tw-ml-2"
                         required
                         id="outlined-required"
                         value={plan}
@@ -864,7 +914,10 @@ const UserTable = () => {
                       </Select>
                     </div>
                   </div>
+
+
                 </div>
+
               </div>
             </div>
             <div className="tw-w-[101%] tw-flex tw-justify-center tw-items-center tw-border-t-white tw-border-t-[0.5px] tw-border-x-0 tw-border-b-0 tw-border-solid">

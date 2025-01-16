@@ -233,18 +233,26 @@ export const getAllDistributors = async () => {
   return distributorsData;
 };
 
-export const getAllCards = async (idUser: any) => {
-  const colorsData: Cards[] = [];
-  const cardsQuery = query(allRef({ ref: "cards" }), where("idUser", "==", idUser));
-  const querySnapshot = await getDocs(cardsQuery);
+// Obtener las tarjetas de un usuario específico
+export const getAllCards = async (idUser: string) => {
+  try {
+    const colorsData: any[] = []; // Puedes reemplazar `any[]` por un tipo específico como `Cards[]` si lo tienes definido.
+    const cardsRef = collection(dataBase, 'cards'); // Cambia 'cards' al nombre correcto de tu colección.
+    const cardsQuery = query(cardsRef, where('idUser', '==', idUser));
+    const querySnapshot = await getDocs(cardsQuery);
 
-  if (!querySnapshot.empty) {
-    querySnapshot.forEach((doc: any) => {
-      const dataResult = doc.data() as Cards;
-      colorsData.push({ ...dataResult, id: doc.id });
-    });
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach((doc) => {
+        const dataResult = doc.data();
+        colorsData.push({ ...dataResult, id: doc.id });
+      });
+    }
+
+    return colorsData;
+  } catch (error) {
+    console.error('Error al obtener las tarjetas del usuario:', error);
+    throw error;
   }
-  return colorsData;
 };
 
 /* export const getAllDistributors = async () => {

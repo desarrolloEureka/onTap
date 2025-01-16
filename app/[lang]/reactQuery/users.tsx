@@ -145,8 +145,8 @@ const SendSwitchEditAdmin = async (userId: string, switchState: boolean) => {
   }
 };
 
-const SendEditData = async (userId: any, userData: any) => {
-  const res = await updateDataUser(userId, userData);
+const SendEditData = async (userId: any, userData: any, selectedDate?: any) => {
+  const res = await updateDataUser(userId, userData, selectedDate);
   return res;
 };
 

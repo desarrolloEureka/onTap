@@ -66,6 +66,9 @@ export const getUsersWithOrdersAndInvoices = async () => {
   const invoicesSnapshot = await getDocs(collection(dataBase, "invoices"));
   const invoicesData = invoicesSnapshot.docs.map((doc) => doc.data());
 
+  const subscriptionsSnapshot = await getDocs(collection(dataBase, "subscriptions"));
+  const subscriptionsData = subscriptionsSnapshot.docs.map((doc) => doc.data());
+
   // Mezclar los usuarios con sus órdenes y facturas usando uid y userUid como clave común
   const usersWithOrdersAndInvoices = usersData
     .map((user) => {
@@ -77,14 +80,20 @@ export const getUsersWithOrdersAndInvoices = async () => {
         (invoice) => invoice.userUid === user.uid
       );
 
-      if (userOrder && userInvoice) {
-        return {
-          ...user,
-          userOrder,
-          userInvoice,
-        };
-      }
-      return null;
+      // Buscar una única suscripción que coincida con el uid del usuario
+      const userSubscription = subscriptionsData.find(
+        (subscription) => subscription.userId === user.uid
+      );
+
+      //if (userOrder && userInvoice) {
+      return {
+        ...user,
+        userOrder: userOrder || null,
+        userInvoice: userInvoice || null,
+        userSubscription: userSubscription || null,
+      };
+      // }
+      //return null;
     })
     .filter((user) => user !== null);
 
@@ -93,7 +102,7 @@ export const getUsersWithOrdersAndInvoices = async () => {
 
 export const registerUserData = async (data: any) => {
   const docRef = await setDoc(doc(dataBase, "users", data.uid), data);
-  return docRef;
+  return data;
 };
 
 export const updateUserData = async (uid: string, newData: any) => {
@@ -306,10 +315,27 @@ export const updateViewsUser = async (userId: string, newData: any) => {
   await updateDoc(userDocRef, newData);
 };
 
-export const updateDataUser = async (userId: string, newData: any) => {
+export const updateDataUser = async (userId: string, newData: any, selectedDate?: any) => {
   try {
     const userDocRef = doc(dataBase, "users", userId);
     await updateDoc(userDocRef, newData);
+
+    const ordersRef = collection(dataBase, "subscriptions");
+    const q = query(ordersRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+   /*  const ordersRef = collection(dataBase, "orders");
+    const q = query(ordersRef, where("userUid", "==", userId));
+    const querySnapshot = await getDocs(q); */
+
+    const updatePromises = querySnapshot.docs.map(async (orderDoc) => {
+      const orderDocRef = doc(dataBase, "subscriptions", orderDoc.id);
+      //await updateDoc(orderDocRef, { paymentDate: selectedDate });
+      await updateDoc(orderDocRef, { created_at: selectedDate });
+    });
+
+    await Promise.all(updatePromises);
+
     return { success: true, message: "Usuario actualizado correctamente" };
   } catch (error: any) {
     console.error("Error updating user data:", error.message);
