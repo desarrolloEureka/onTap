@@ -25,6 +25,7 @@ import {
   saveCards,
   updateUserData,
   sendNotificationsToUsers,
+  saveSubscriptions,
 } from "@/firebase/Documents";
 
 //Categorias
@@ -183,5 +184,11 @@ export const saveCardsQuerie = async (dataSave: any) => {
 
 export const UpdateCardsQuerie = async (dataSave: any, idCard: any) => {
   const res = await updateCards(dataSave, idCard);
+  return res;
+};
+
+//Productos
+export const saveSubscriptionQuerie = async (dataSave: any) => {
+  const res = await saveSubscriptions(dataSave);
   return res;
 };

@@ -635,3 +635,23 @@ export const updateSubscription = async (
     return { success: false, message: "Error al actualizar la suscripción" };
   }
 };
+
+export const saveSubscriptions = async (dataSave: any) => {
+  try {
+    const rSubscriptionCollectionRef = collection(dataBase, "subscriptions");
+    const newRSubscriptionRef = doc(rSubscriptionCollectionRef, dataSave.uid);
+
+    await setDoc(newRSubscriptionRef, {
+      uid: newRSubscriptionRef.id,
+      userId: dataSave.userUid,
+      nextPaymentDate: dataSave.nextPaymentDate,
+      status: dataSave.status,
+      created_at: currentDate,
+    });
+
+    return { success: true, message: "Suscripción creada correctamente" };
+  } catch (error) {
+    console.error("Error al crear la suscripción: ", error);
+    return { success: false, message: "Error al crear la suscripción" };
+  }
+};
