@@ -184,7 +184,8 @@
     "mailMandatory": "El correo es obligatorio",
     "passwordMandatory": "La contraseña es obligatoria",
     "userNotFound": "Usuario no encontrado",
-    "recoverPass": "Recuperar Contraseña"
+    "recoverPass": "Recuperar Contraseña",
+    "alertMessage": "Su suscripción ha vencido por favor realice el pago para disfrutar de los servicios de One Tap."
   },
   "homeView": {
     "agregar": "Agregar",

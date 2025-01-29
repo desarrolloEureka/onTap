@@ -195,7 +195,7 @@ const MadePaymentReportsHook = ({
           let paymentDate = "";
 
           // Si el estado del pago es "PAID"
-          if (doc.userInvoice.status === "PAID") {
+          if (doc?.userInvoice?.status === "PAID") {
             paymentDate = doc.userInvoice.paymentDate || doc.created_at;
           } else {
             paymentDate = "No aplica"; // Si no está pagado
@@ -209,24 +209,21 @@ const MadePaymentReportsHook = ({
             indicative: doc.indicative || "",
             phone: doc.phone || "",
             email: doc.email || "",
-            plan: doc?.selectedPlan?.name,
+            plan: doc?.selectedPlan?.name || "",
             userType: doc,
             optionEdit: doc,
             optionPay: doc,
-            statusPay:
-              doc.userInvoice.status === "PAID"
-                ? "Pagado"
-                : "Pendiente por pagar",
+            statusPay: doc?.userInvoice?.status === "PAID" ? "Pagado" : "Pendiente por pagar",
             userInvoice: doc.userInvoice,
             userOrder: doc.userOrder,
             edit: {
               switch: doc.isActiveByAdmin === true ? true : false || "",
               uid: doc.uid,
             },
-            idDistributor: doc.idDistributor,
+            idDistributor: doc?.idDistributor || "",
             totalAmount: doc.userInvoice?.totalAmount || 0,
             status: doc.userOrder?.status || "", // Añade el campo de estado de la orden
-            secuencialId: doc.userOrder.secuencialId || "",
+            secuencialId: doc?.userOrder?.secuencialId || "",
           };
         })
         .filter(

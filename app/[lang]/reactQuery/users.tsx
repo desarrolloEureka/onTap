@@ -18,6 +18,7 @@ import {
   checkIfUserExists,
   updateProfileFirebase,
   getCurrentProfileData,
+  getSubscriptionByUserId,
 } from "@/firebase/user";
 import {
   DataForm,
@@ -61,6 +62,12 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
         if (docSnap.exists()) {
           const user = docSnap.data() as UserData;
           const getUser = userDataToSend(user, resultUser);
+
+          const subscriptionDoc = await getSubscriptionByUserId(resultUser.user.uid);
+          if (subscriptionDoc) {
+            getUser.subscription = subscriptionDoc;
+          }
+
           // Guarda si el usuario es distribuidor en localStorage
           if (getUser.is_distributor) {
             await localStorage.setItem("isDistributor", "true");
@@ -314,9 +321,15 @@ const GetUser = (refetch?: boolean) =>
       if (userLogged) {
         const user = (await JSON.parse(userLogged)) as UserData;
         const updatedUser = await getUserByIdFireStore(user.uid);
+
         if (updatedUser.exists()) {
           const userData = (await updatedUser.data()) as UserData;
           const getUser = await reBuildUserData(userData);
+          const subscriptionDoc = await getSubscriptionByUserId(user.uid);
+          if (subscriptionDoc) {
+            getUser.subscription = subscriptionDoc;
+          }
+
           await localStorage.setItem("@user", JSON.stringify(getUser));
           return getUser;
         } else {

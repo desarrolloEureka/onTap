@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteField,
   doc,
   getDoc,
   getDocs,

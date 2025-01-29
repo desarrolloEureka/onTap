@@ -11,6 +11,7 @@ const LoginHook = (dictionary: Dictionary) => {
   const [password, setPassword] = useState<string>();
   const [errorForm, setErrorForm] = useState<LoginError | null>(null);
   const [sendLogin, setSendLogin] = useState(false);
+  const [isAlert, setIsalert] = useState(false);
 
   const { data, isLoading, isRefetching } = GetLoginQuery({
     user: email,
@@ -55,11 +56,13 @@ const LoginHook = (dictionary: Dictionary) => {
         console.log('Soy distribuidor');
         router.push('/views/backOffice');
       } else {
-        if (data.isActive === true && data.isActiveByAdmin === true) {
+        if (data.isActive === true && data.isActiveByAdmin === true && data?.subscription?.status === "Active") {
           const urlSplit = window.location.href.split('/');
           const url = `https://backoffice.onetap.com.co/es/views/cardView?uid=${data?.uid}`;
           data && SendPreView(data?.uid, url);
           router.push('/views/home');
+        } else if (data?.subscription?.status != "Active") {
+          setIsalert(true);
         } else {
           setErrorForm({
             errorType: 3,
@@ -94,6 +97,8 @@ const LoginHook = (dictionary: Dictionary) => {
     isRefetching,
     email,
     password,
+    isAlert,
+    setIsalert
   };
 };
 

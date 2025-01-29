@@ -223,6 +223,7 @@ export interface Dictionary {
     mailMandatory: string;
     passwordMandatory: string;
     userNotFound: string;
+    alertMessage: string;
   };
   profileView: {
     labelDeleteProfiledata: string;
