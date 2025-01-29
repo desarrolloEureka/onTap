@@ -736,7 +736,7 @@ const CustomersCreateFormHook = ({
       const trimmedPhone = phoneNumber.trim();
 
       const dataSend = {
-        created_at: createdAt,
+        created: createdAt,
         documentType,
         dni: trimmedDocumentNumber,
         firstName,
@@ -781,6 +781,19 @@ const CustomersCreateFormHook = ({
       };
 
       const dataUser = await registerUserFb({ data: combinedData });
+
+      const nextYearDate = moment().add(1, 'year').format();
+
+      const dataSendSubscriptions = {
+        userUid: dataUser?.uid,
+        created_at: createdAt,
+        status: 'Active',
+        nextPaymentDate: nextYearDate,
+        uid: documentRefUser.id,
+      };
+
+      // Crear y guardar la suscripción
+      await saveSubscriptionQuerie(dataSendSubscriptions);
 
       // Crear y guardar la orden
       const orderData = await registerOrderData(result?.uid, isPay);

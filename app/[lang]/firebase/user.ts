@@ -324,9 +324,9 @@ export const updateDataUser = async (userId: string, newData: any, selectedDate?
     const q = query(ordersRef, where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
 
-   /*  const ordersRef = collection(dataBase, "orders");
-    const q = query(ordersRef, where("userUid", "==", userId));
-    const querySnapshot = await getDocs(q); */
+    /*  const ordersRef = collection(dataBase, "orders");
+     const q = query(ordersRef, where("userUid", "==", userId));
+     const querySnapshot = await getDocs(q); */
 
     const updatePromises = querySnapshot.docs.map(async (orderDoc) => {
       const orderDocRef = doc(dataBase, "subscriptions", orderDoc.id);
@@ -428,3 +428,23 @@ export const addUser = async ({
     });
   });
 };
+
+// Función para obtener la suscripción de un usuario por su ID
+export const getSubscriptionByUserId = async (userId: string) => {
+  try {
+    const subscriptionsRef = collection(dataBase, "subscriptions");
+    const q = query(subscriptionsRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const subscriptionData = querySnapshot.docs[0].data();
+      return subscriptionData;
+    } else {
+      return null;
+    }
+  } catch (error: any) {
+    console.error("Error al obtener la suscripción del usuario:", error.message);
+    return { success: false, message: error.message };
+  }
+};
+

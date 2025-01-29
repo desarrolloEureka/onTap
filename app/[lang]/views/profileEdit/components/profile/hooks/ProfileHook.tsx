@@ -283,7 +283,7 @@ const ProfileHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
-        if(currentDataRef.current[key][subindex].length === 0) {
+        if(subindex != "name" && currentDataRef.current[key][subindex].length === 0) {
           currentDataRef.current[key].checked = false
         }
         fillFields(index, key, text, subindex);

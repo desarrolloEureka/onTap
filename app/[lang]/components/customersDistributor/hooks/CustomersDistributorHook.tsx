@@ -41,7 +41,7 @@ const CustomersDistributorHook = ({
   const [dataUser, setDataUser] = useState<UserData | null>(null);
   const [status, setStatus] = useState<string>("");
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  
+
 
   //Datos distribuidor paso 1
   const [documentType, setDocumentType] = useState<string>("");
@@ -767,18 +767,15 @@ const CustomersDistributorHook = ({
           userType: doc,
           optionEdit: doc,
           optionPay: doc,
-          statusPay:
-            doc.userInvoice.status === "PAID"
-              ? "Pagado"
-              : "Pendiente por pagar",
+          statusPay: doc?.userInvoice?.status === "PAID" ? "Pagado" : "Pendiente por pagar",
           userInvoice: doc.userInvoice,
           userOrder: doc.userOrder,
           edit: {
             switch: doc.isActiveByAdmin === true ? true : false || "",
             uid: doc.uid,
           },
-          idDistributor: doc.idDistributor,
-          secuencialId: doc.userOrder.secuencialId || "",
+          idDistributor: doc?.idDistributor || "",
+          secuencialId: doc?.userOrder?.secuencialId || "",
         };
         //}).filter((user) => (!user.is_admin && !user.is_distributor))
       })

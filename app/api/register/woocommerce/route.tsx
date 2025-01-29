@@ -39,27 +39,27 @@ export async function POST(request: Request) {
       result.templateData =
         plan === "standard"
           ? [
-              {
-                type: "social",
-                id: "XfhZLINMOpRTI7cakd8o",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-            ]
+            {
+              type: "social",
+              id: "XfhZLINMOpRTI7cakd8o",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+          ]
           : [
-              {
-                type: "social",
-                id: "XfhZLINMOpRTI7cakd8o",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-              {
-                type: "professional",
-                id: "ZESiLxKZFwUOUOgLKt6P",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-            ];
+            {
+              type: "social",
+              id: "XfhZLINMOpRTI7cakd8o",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+            {
+              type: "professional",
+              id: "ZESiLxKZFwUOUOgLKt6P",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+          ];
 
       const registerResult = await registerUserFb({ data: result });
       response = {

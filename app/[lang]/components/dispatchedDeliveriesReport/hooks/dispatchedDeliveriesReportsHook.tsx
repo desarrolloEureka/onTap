@@ -186,8 +186,8 @@ const PendingPaymentReportsHook = ({
       const reportDataFinal = reportData
         .map((doc: any) => {
           // Preparar el estado de pago y la fecha de entrega
-          const isPaid = doc.userInvoice.status === "PAID";
-          const isDelivered = doc.userOrder.status === "DELIVERED";
+          const isPaid = doc?.userInvoice?.status === "PAID";
+          const isDelivered = doc?.userOrder?.status === "DELIVERED";
 
           return {
             id: doc.dni || 1,
@@ -196,21 +196,21 @@ const PendingPaymentReportsHook = ({
             indicative: doc.indicative || "",
             phone: doc.phone || "",
             email: doc.email || "",
-            plan: doc?.selectedPlan?.name,
+            plan: doc?.selectedPlan?.name || "",
             userType: doc,
             optionEdit: doc,
             optionPay: doc,
             statusPay: isPaid ? "Pagado" : "Pendiente por pagar",
             deliveryStatus: isDelivered ? "Entregado" : "Pendiente de entrega",
-            deliveryDate: isDelivered ? doc.userOrder.deliveryDate : "", // Mostrar fecha de entrega si está entregado
+            deliveryDate: isDelivered ? doc?.userOrder?.deliveryDate : "", // Mostrar fecha de entrega si está entregado
             userInvoice: doc.userInvoice,
             userOrder: doc.userOrder,
             edit: {
-              switch: doc.isActiveByAdmin === true ? true : false || "",
+              switch: doc?.isActiveByAdmin === true ? true : false || "",
               uid: doc.uid,
             },
-            idDistributor: doc.idDistributor,
-            secuencialId: doc.userOrder.secuencialId || "",
+            idDistributor: doc.idDistributor || "",
+            secuencialId: doc?.userOrder?.secuencialId || "",
           };
         })
         .filter(

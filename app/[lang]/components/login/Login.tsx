@@ -16,6 +16,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import CustomModalAlert from '../customModalAlert/CustomModalAlert';
 
 const Login = ({ dictionary }: LoginProps) => {
   // const { data } = GetLangQuery();
@@ -31,6 +32,8 @@ const Login = ({ dictionary }: LoginProps) => {
     isRefetching,
     email,
     password,
+    isAlert,
+    setIsalert
   } = LoginHook(dictionary);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -161,6 +164,14 @@ const Login = ({ dictionary }: LoginProps) => {
           </>
         )}
       </Container>
+
+      <CustomModalAlert
+        isModalAlert={isAlert}
+        handleModalAlert={setIsalert}
+        title={dictionary?.generalTitle}
+        description={dictionary?.loginView?.alertMessage ? dictionary?.loginView?.alertMessage : 'Su suscripción ha vencido por favor realice el pago para disfrutar de los servicios de One Tap'}
+        isClosed
+      />
     </div>
   );
 };

@@ -7,6 +7,7 @@ export interface TemplateData {
   checked: boolean;
 }
 export interface UserData {
+  subscription?: any;
   uid: string;
   email: string;
   emailVerified: boolean;
@@ -37,6 +38,7 @@ export interface UserData {
 }
 
 export interface User {
+  subscription?: any;
   is_distributor?: any;
   uid: string;
   email: string;

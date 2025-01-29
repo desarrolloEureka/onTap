@@ -510,6 +510,17 @@ const UserTableLogic = () => {
       // Registrar usuario en la base de datos
       const dataUser = await registerUserFb({ data: result });
       const createdAt = moment().format();
+      const nextYearDate = moment().add(3, 'months').format();
+
+      const dataSend = {
+        userUid: dataUser?.uid,
+        created_at: createdAt,
+        status: 'Active',
+        nextPaymentDate: nextYearDate,
+        uid: documentRefUser.id,
+      };
+
+      await saveSubscriptionQuerie(dataSend);
 
       Swal.fire({
         position: "center",
@@ -597,7 +608,7 @@ const UserTableLogic = () => {
           email: doc.email || "",
           lastName: doc.profile?.last_name?.text || "",
           plan: doc,
-          date: doc?.created_at || "",
+          date: doc?.created || "",
           status: doc.isActiveByAdmin === true ? "true" : "false",
           statusDelete:
             doc.isActiveByAdmin === true ? "true" : "false",

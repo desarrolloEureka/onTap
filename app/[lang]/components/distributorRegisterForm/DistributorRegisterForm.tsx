@@ -101,6 +101,7 @@ const DistributorRegisterForm = ({
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
   const apiRef = useGridApiRef();
+  
   const formatearFecha = (fechaISO: string): string => {
     return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
   };
@@ -123,7 +124,7 @@ const DistributorRegisterForm = ({
       ),
     },
     {
-      field: "created_at",
+      field: "created",
       headerName: "Fecha Registro",
       minWidth: 220,
       flex: 2,

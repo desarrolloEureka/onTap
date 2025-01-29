@@ -117,7 +117,7 @@ export interface Distributors {
   category: string;
   city: string;
   country: string;
-  created_at: string;
+  created: string;
   documentType: string;
   documentNumber: string;
   email: string;
