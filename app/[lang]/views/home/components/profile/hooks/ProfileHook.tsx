@@ -200,20 +200,9 @@ const ProfileHook = ({
 
       if (dataAux && key != undefined) {
         if (isChecked === true && dataAux[key]) {
-          const isEmptyText =
-            dataAux[key].text?.length === 0 &&
-            index !== "urls" &&
-            index !== "phones";
-          const isEmptyPhone =
-            index === "phones" &&
-            (dataAux[key]?.indicative?.length === 0 ||
-              dataAux[key]?.indicative === undefined ||
-              dataAux[key]?.text?.length === 0);
-          const isEmptyUrls =
-            index === "urls" &&
-            (dataUrl?.[key]?.name?.length === 0 ||
-              dataUrl?.[key]?.url?.length === 0 ||
-              dataUrl?.[key]?.icon?.length === 0);
+          const isEmptyText = dataAux[key].text?.length === 0 && index !== "urls" && index !== "phones";
+          const isEmptyPhone = index === "phones" && (dataAux[key]?.indicative?.length === 0 || dataAux[key]?.indicative === undefined || dataAux[key]?.text?.length === 0);
+          const isEmptyUrls = index === "urls" && (/* dataUrl?.[key]?.name?.length === 0 || */ dataUrl?.[key]?.url?.length === 0 || dataUrl?.[key]?.icon?.length === 0);
 
           if (isEmptyText || isEmptyUrls || isEmptyPhone) {
             setIsEmptyData(true);

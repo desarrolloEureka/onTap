@@ -287,6 +287,19 @@ const UserTable = () => {
       ),
     },
     {
+      field: "nextPaymentDate",
+      headerName: "Fecha Vencimiento Suscripción",
+      minWidth: 230,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value ? getFormattedDate(params.value) : 'Pendiente'}
+        </div>
+      ),
+    },
+    {
       field: "url",
       headerName: "URL",
       minWidth: 100,

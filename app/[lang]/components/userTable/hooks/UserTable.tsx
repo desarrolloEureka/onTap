@@ -623,8 +623,8 @@ const UserTableLogic = () => {
           userType: doc,
           //userType: doc.gif ? doc.gif === true ? "Obsequio" : "Comprador" : "Comprador",
           optionEdit: doc,
-          paymentDate: doc.userSubscription?.created_at || ''
-          //paymentDate: doc.userOrder?.paymentDate || ''
+          paymentDate: doc.userSubscription?.created_at || '',
+          nextPaymentDate: doc.userSubscription?.nextPaymentDate || ''
         };
       })
         .filter((user) => !user.is_admin && !user.is_distributor);
