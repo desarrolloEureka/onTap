@@ -240,29 +240,11 @@ const ProfileProfessionalHook = ({
 
       if (dataAux && key != undefined) {
         if (isChecked === true && dataAux[key]) {
-          const isEmptyText =
-            dataAux[key].text?.length === 0 && index !== "urls";
-          const isEmptyUrls =
-            index === "urls" &&
-            (dataUrl[key]?.name?.length === 0 ||
-              dataUrl[key]?.url?.length === 0 ||
-              dataUrl[key]?.icon?.length === 0);
-          const isEmptyEduca =
-            index === "education" &&
-            (dataEduca[key]?.title?.length === 0 ||
-              dataEduca[key]?.institution?.length === 0 ||
-              dataEduca[key]?.year?.length === 0);
-          const isEmptyCareer =
-            index === "professional_career" &&
-            (dataCareer[key]?.company?.length === 0 ||
-              dataCareer[key]?.position?.length === 0 ||
-              dataCareer[key]?.data_init?.length === 0 ||
-              dataCareer[key]?.data_end?.length === 0);
-          const isEmptyPhone =
-            index === "phones" &&
-            (dataAux[key]?.indicative?.length === 0 ||
-              dataAux[key]?.indicative === undefined ||
-              dataAux[key]?.text?.length === 0);
+          const isEmptyText = dataAux[key].text?.length === 0 && index !== "urls";
+          const isEmptyUrls = index === "urls" && (/* dataUrl[key]?.name?.length === 0 || */ dataUrl[key]?.url?.length === 0 || dataUrl[key]?.icon?.length === 0);
+          const isEmptyEduca = index === "education" && (dataEduca[key]?.title?.length === 0 || dataEduca[key]?.institution?.length === 0 || dataEduca[key]?.year?.length === 0);
+          const isEmptyCareer = index === "professional_career" && (dataCareer[key]?.company?.length === 0 || dataCareer[key]?.position?.length === 0 || dataCareer[key]?.data_init?.length === 0 || dataCareer[key]?.data_end?.length === 0);
+          const isEmptyPhone = index === "phones" && (dataAux[key]?.indicative?.length === 0 || dataAux[key]?.indicative === undefined || dataAux[key]?.text?.length === 0);
 
           if (
             isEmptyText ||
@@ -304,8 +286,8 @@ const ProfileProfessionalHook = ({
     dataFormClone && index == "education" && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == "professional_career"
-      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-      : index == "urls" &&
+        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+        : index == "urls" &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -350,6 +332,11 @@ const ProfileProfessionalHook = ({
     ) {
       dataFormClone[index]!.text = text;
       currentDataRef.current.text = text;
+
+      if (currentDataRef.current.text.length === 0) {
+        dataFormClone[index]!.checked = false;
+      }
+
       setDataForm(dataFormClone);
       setIsDataLoad(true);
     } else {
@@ -365,9 +352,9 @@ const ProfileProfessionalHook = ({
             dataAux[key].text = text;
             currentDataRef.current.length > 0 &&
               (currentDataRef.current[key].text = text);
-              if(currentDataRef.current[key].text.length === 0) {
-                dataAux[key].checked = false
-              }
+            if (currentDataRef.current[key].text.length === 0) {
+              dataAux[key].checked = false
+            }
             dataAux && setDataForm(dataFormClone);
           }
         }
@@ -378,9 +365,9 @@ const ProfileProfessionalHook = ({
           dataAux[key].text = text;
           currentDataRef.current.length > 0 &&
             (currentDataRef.current[key].text = text);
-            if(currentDataRef.current[key].text.length === 0) {
-              dataAux[key].checked = false
-            }
+          if (currentDataRef.current[key].text.length === 0) {
+            dataAux[key].checked = false
+          }
           dataAux && setDataForm(dataFormClone);
         }
         setIsDataLoad(true);
@@ -392,7 +379,7 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
-        if(currentDataRef.current[key][subindex].length === 0) {
+        if (currentDataRef.current[key][subindex].length === 0) {
           currentDataRef.current[key].checked = false
         }
         fillFields(index, key, text, subindex);
@@ -405,7 +392,7 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
-        if(currentDataRef.current[key][subindex].length === 0) {
+        if (currentDataRef.current[key][subindex].length === 0) {
           currentDataRef.current[key].checked = false
         }
         fillFields(index, key, text, undefined, subindex);
@@ -415,7 +402,7 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
-        if(subindex != "name" && currentDataRef.current[key][subindex].length === 0) {
+        if (subindex != "name" && currentDataRef.current[key][subindex].length === 0) {
           currentDataRef.current[key].checked = false
         }
         fillFields(index, key, text, undefined, undefined, subindex);
@@ -704,45 +691,6 @@ const ProfileProfessionalHook = ({
     }
   };
 
-  const validateFieldsSwitch = (data: any) => {
-    const dataFormClone = { ...data };
-  
-    // Lista de campos a validar
-    const fieldsToValidate = [
-      'occupation', 'name', 'last_name', 'profession', 'address', 'company', 
-      'position', 'professional_profile', 'other_competencies', 'skills', 
-      'languages', 'achievements_recognitions', 'phones', 'emails', 'education',
-      'professional_career', 'urls'
-    ];
-  
-    fieldsToValidate.forEach((field) => {
-      const fieldValue = dataFormClone[field];
-      //console.log("fieldValue", fieldValue)
-      if (Array.isArray(fieldValue)) {
-        dataFormClone[field] = fieldValue.map((item: any) => {
-          if (!item || !item.text || item.text.trim() === "") {
-            return {
-              ...item,
-              checked: false, 
-            };
-          }
-          return item;
-        });
-      } 
-      else if (fieldValue && typeof fieldValue === 'object' && 'text' in fieldValue) {
-        
-        if (!fieldValue.text || fieldValue.text.trim() === "") {
-          dataFormClone[field] = {
-            ...fieldValue,
-            checked: false, 
-          };
-        }
-      }
-    });
-    return dataFormClone;
-  };
-
-
   const checkedItems = (
     data: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[],
     value: string,
@@ -754,7 +702,7 @@ const ProfileProfessionalHook = ({
         if (label === "urls") {
           let urlData = el as UrlDataFormValues;
           if (
-            urlData.name !== "" &&
+            //urlData.name !== "" &&
             urlData.icon !== "" &&
             urlData.url !== ""
           ) {
@@ -907,18 +855,10 @@ const ProfileProfessionalHook = ({
   };
 
   useEffect(() => {
-    const updatedDataForm = validateFieldsSwitch(dataForm);  
-    // Verificar si hay cambios en los datos
-    if (JSON.stringify(updatedDataForm) !== JSON.stringify(dataForm)) {
-      setDataForm(updatedDataForm); 
-    }
-  
-    // Ordenar los datos actualizados
-    const data = Object.entries(updatedDataForm as DataFormSorted).toSorted((a, b) => {
-      const aa = Array.isArray(a[1]) ? a[1][0].order : a[1].order;
-      const bb = Array.isArray(b[1]) ? b[1][0].order : b[1].order;
+    const data = Object.entries(dataForm as DataFormSorted).toSorted((a, b) => {
+      const aa = a[1].length ? a[1][0].order : a[1].order;
+      const bb = b[1].length ? b[1][0].order : b[1].order;
       return aa - bb;
-      
     });
     setObjectDataSort(data);
   }, [dataForm, isProUser]);
