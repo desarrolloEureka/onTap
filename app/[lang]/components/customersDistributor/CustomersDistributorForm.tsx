@@ -34,6 +34,8 @@ import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 //QR
 import ReactCountryFlag from "react-country-flag";
@@ -299,6 +301,31 @@ const CustomersDistributorForm = ({
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           {params.value && <div>{params.value}</div>}
+        </div>
+      ),
+    },
+    {
+      field: "autoPaymentAuthorized",
+      headerName: "Pago Automático",
+      minWidth: 130,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          <>
+            {params.value ? (
+              <div className="tw-flex tw-items-center tw-gap-1">
+                <CheckCircleIcon className="tw-text-green-500" />
+                <span>Sí</span>
+              </div>
+            ) : (
+              <div className="tw-flex tw-items-center tw-gap-1">
+                <CancelIcon className="tw-text-red-500" />
+                <span>No</span>
+              </div>
+            )}
+          </>
         </div>
       ),
     },

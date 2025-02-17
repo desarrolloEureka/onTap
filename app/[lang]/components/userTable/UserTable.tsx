@@ -34,7 +34,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 //QR
 import { QRCodeSVG } from "qrcode.react";
 import ReactCountryFlag from "react-country-flag";
@@ -352,6 +353,32 @@ const UserTable = () => {
             </>
           )}
         </div>
+      ),
+    },
+    {
+      field: "autoPaymentAuthorized",
+      headerName: "Pago Automático",
+      minWidth: 130,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          <>
+            {params.value ? (
+              <div className="tw-flex tw-items-center tw-gap-1">
+                <CheckCircleIcon className="tw-text-green-500" />
+                <span>Sí</span>
+              </div>
+            ) : (
+              <div className="tw-flex tw-items-center tw-gap-1">
+                <CancelIcon className="tw-text-red-500" />
+                <span>No</span>
+              </div>
+            )}
+          </>
+        </div>
+
       ),
     },
     {

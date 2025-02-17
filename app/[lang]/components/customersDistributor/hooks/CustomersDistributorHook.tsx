@@ -776,6 +776,7 @@ const CustomersDistributorHook = ({
           },
           idDistributor: doc?.idDistributor || "",
           secuencialId: doc?.userOrder?.secuencialId || "",
+          autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
         };
         //}).filter((user) => (!user.is_admin && !user.is_distributor))
       })

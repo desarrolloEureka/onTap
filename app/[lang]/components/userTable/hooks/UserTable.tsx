@@ -595,6 +595,7 @@ const UserTableLogic = () => {
     const getquery = async () => {
       const usersDataSanpShot = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShot.map((doc: any) => {
+       
         return {
           id: doc.dni || 1,
           uid: doc.uid || "",
@@ -624,7 +625,9 @@ const UserTableLogic = () => {
           //userType: doc.gif ? doc.gif === true ? "Obsequio" : "Comprador" : "Comprador",
           optionEdit: doc,
           paymentDate: doc.userSubscription?.created_at || '',
-          nextPaymentDate: doc.userSubscription?.nextPaymentDate || ''
+          nextPaymentDate: doc.userSubscription?.nextPaymentDate || '',
+          autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
+
         };
       })
         .filter((user) => !user.is_admin && !user.is_distributor);
