@@ -84,8 +84,8 @@ const UserTableLogic = () => {
     setPhoneCode(dataUser?.indicative || "");
     setPhone(dataUser?.phone || "");
     setPlan(dataUser?.plan || "");
-    if (dataUser?.userSubscription?.created_at) {
-      const date = new Date(dataUser?.userSubscription?.created_at);
+    if (dataUser?.userSubscription?.updatedAt) {
+      const date = new Date(dataUser?.userSubscription?.updatedAt);
       if (isNaN(date.getTime())) {
         setSelectedDate("");
       } else {
@@ -595,7 +595,8 @@ const UserTableLogic = () => {
     const getquery = async () => {
       const usersDataSanpShot = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShot.map((doc: any) => {
-       
+        console.log('doc ', doc);
+
         return {
           id: doc.dni || 1,
           uid: doc.uid || "",
@@ -624,7 +625,7 @@ const UserTableLogic = () => {
           userType: doc,
           //userType: doc.gif ? doc.gif === true ? "Obsequio" : "Comprador" : "Comprador",
           optionEdit: doc,
-          paymentDate: doc.userSubscription?.created_at || '',
+          paymentDate: doc.userSubscription?.updatedAt || '',
           nextPaymentDate: doc.userSubscription?.nextPaymentDate || '',
           autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
 

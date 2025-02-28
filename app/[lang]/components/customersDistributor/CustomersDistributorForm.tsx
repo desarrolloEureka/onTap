@@ -47,6 +47,7 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
 import React from "react";
 import { Department } from "../departments/hooks/DepartmentsHook";
+import moment from "moment";
 
 const CustomersDistributorForm = ({
   handleCreateUser,
@@ -138,6 +139,11 @@ const CustomersDistributorForm = ({
 
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
+
+
+  const getFormattedDate = (date: any) => {
+    return moment(date).format("DD/MM/YYYY HH:mm:ss");
+  };
 
   const calculateTotalDiscount = () => {
     const planPrice = detalleCompra?.optionPay?.selectedPlan?.finalPrice || 0;
@@ -288,6 +294,19 @@ const CustomersDistributorForm = ({
           {params.value && (
             <div>{params.value.gif === true ? "Obsequio" : "Comprador"}</div>
           )}
+        </div>
+      ),
+    },
+    {
+      field: "paymentDate",
+      headerName: "Fecha Pago",
+      minWidth: 190,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value ? getFormattedDate(params.value) : 'Pendiente'}
         </div>
       ),
     },
