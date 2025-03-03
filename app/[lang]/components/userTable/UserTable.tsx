@@ -262,14 +262,15 @@ const UserTable = () => {
     {
       field: "userType",
       headerName: "Tipo Usuario",
-      minWidth: 130,
+      minWidth: 200,
       flex: 1,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           {params.value && (
-            <div>{params.value.gif === true ? "Obsequio" : "Comprador"}</div>
+            /*  <div>{params.value.gif === true ? "Obsequio" : "Comprador"}</div> */
+            <div>{params.value?.idDistributor ? "Registrado por distribuidor" : params.value.gif ? "Obsequio" : "Comprador"}</div>
           )}
         </div>
       ),

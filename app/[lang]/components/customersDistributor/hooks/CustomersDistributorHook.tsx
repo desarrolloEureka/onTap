@@ -722,8 +722,8 @@ const CustomersDistributorHook = ({
     return country ? country.code : "";
   };
 
-  const formatearFecha = (fechaISO: string): string => {
-    return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
+  const formatearFecha = (date: string): string => {
+    return moment(date).format("DD/MM/YYYY HH:mm:ss");
   };
 
   const handleGetSelectedRows = () => {
@@ -758,7 +758,7 @@ const CustomersDistributorHook = ({
       const usersData = usersDataSanpShotAux.map((doc: any) => {
         return {
           id: doc.dni || 1,
-          created_at: doc?.created_at || "",
+          date: doc?.created || "",
           name: doc.firstName + " " + doc.lastName || "",
           indicative: doc.indicative || "",
           phone: doc.phone || "",
