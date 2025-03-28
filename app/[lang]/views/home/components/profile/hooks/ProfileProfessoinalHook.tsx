@@ -520,25 +520,11 @@ const ProfileProfessionalHook = ({
         }
       }
       if (index === "education") {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.education = [
-              {
-                label: dictionary.profileView.labelEducation,
-                title: "",
-                institution: "",
-                year: "",
-                checked: false,
-                principal: false,
-                social: false,
-                professional: true,
-                icon: "",
-                order: 11,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.unshift({
-              label: dataFormClone[index]![0].label,
+        // if ((count != null || count != undefined) && count < 3) {
+        if (count === 0) {
+          dataFormClone.education = [
+            {
+              label: dictionary.profileView.labelEducation,
               title: "",
               institution: "",
               year: "",
@@ -548,33 +534,32 @@ const ProfileProfessionalHook = ({
               professional: true,
               icon: "",
               order: 11,
-            });
-          }
+            },
+          ];
         } else {
-          setIsModalAlertLimit(true);
+          dataFormClone[index]?.unshift({
+            label: dataFormClone[index]![0].label,
+            title: "",
+            institution: "",
+            year: "",
+            checked: false,
+            principal: false,
+            social: false,
+            professional: true,
+            icon: "",
+            order: 11,
+          });
         }
+        /* } else {
+          setIsModalAlertLimit(true);
+        } */
       }
       if (index === "professional_career") {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.professional_career = [
-              {
-                label: dictionary.profileView.labelProfessionalCareer,
-                company: "",
-                position: "",
-                data_init: "",
-                data_end: "",
-                checked: false,
-                principal: false,
-                social: false,
-                professional: true,
-                icon: "",
-                order: 12,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.unshift({
-              label: dataFormClone[index]![0].label,
+        //if ((count != null || count != undefined) && count < 3) {
+        if (count === 0) {
+          dataFormClone.professional_career = [
+            {
+              label: dictionary.profileView.labelProfessionalCareer,
               company: "",
               position: "",
               data_init: "",
@@ -585,11 +570,26 @@ const ProfileProfessionalHook = ({
               professional: true,
               icon: "",
               order: 12,
-            });
-          }
+            },
+          ];
         } else {
-          setIsModalAlertLimit(true);
+          dataFormClone[index]?.unshift({
+            label: dataFormClone[index]![0].label,
+            company: "",
+            position: "",
+            data_init: "",
+            data_end: "",
+            checked: false,
+            principal: false,
+            social: false,
+            professional: true,
+            icon: "",
+            order: 12,
+          });
         }
+        /* } else {
+          setIsModalAlertLimit(true);
+        } */
       }
       if (index === "urls") {
         //if ((count != null || count != undefined) && count < 3) {
