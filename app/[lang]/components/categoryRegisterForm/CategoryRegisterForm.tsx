@@ -181,7 +181,7 @@ const CategoryRegisterForm = ({
                 paginationModel: { page: 0, pageSize: 15 },
               },
               sorting: {
-                sortModel: [{ field: "created_at", sort: "asc" }],
+                sortModel: [{ field: "created_at", sort: "desc" }],
               },
             }}
             pageSizeOptions={[15, 25]}

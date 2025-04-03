@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import moment from "moment";
 import { GetAllCategories, GetAllMaterials } from '@/reactQuery/home';
 import Swal from "sweetalert2";
+import { validateSKU } from '@/firebase/Documents';
 
 interface DiscountMap {
   [key: string]: string | number;
@@ -148,8 +149,19 @@ const MaterialRegisterFormHook = () => {
     setIsSubmitting(false);
   };
 
-  const handleNextStep = async () => {
+  const handleNextStep = async (isEdit: boolean) => {
     if (!validateForm()) return;
+
+    if (!isEdit) {
+      const isSkuAvailable = await validateSKU(sku, "materials");
+
+      if (!isSkuAvailable) {
+        setSkuError("El SKU del Material ya está registrado");
+        return;
+      }
+    }
+
+    setSkuError("");
     setStep(2);
   }
 

@@ -109,14 +109,14 @@ const PendingPaymentReportsHook = ({
     setFilteredQuery(filteredData);
   };
 
-    // Funciones para manejar la apertura y cierre del modal
-    const handleOpenModal = () => {
-      setIsModalOpen(true);
-    };
-  
-    const handleCloseModal = () => {
-      setIsModalOpen(false);
-    };
+  // Funciones para manejar la apertura y cierre del modal
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleGetSelectedRows = async () => {
     const selectedRowIds = apiRef && apiRef.current.getSelectedRows();
@@ -251,116 +251,83 @@ const PendingPaymentReportsHook = ({
 
   useEffect(() => {
     const getquery = async () => {
-      const reportData = await getUsersWithOrdersAndInvoices(); // Obtiene datos con órdenes y facturas
-      const usersData = await getUsers(); // Obtiene datos de usuarios
+      const reportDataRaw = await getUsersWithOrdersAndInvoices();
+      const usersDataRaw = await getUsers();
 
-      //console.log("reportData", reportData)
+      // Filtrar desde el inicio usuarios que sean admin o distribuidores
+      const isValidUser = (user: any) => !user.is_admin && !user.is_distributor;
 
-      // Combinar los datos, eliminando duplicados por uid
-      const allUserData = [
-        ...reportData,
-        ...usersData.filter(
-          (doc: any) => !reportData.some((doc2: any) => doc2?.uid === doc?.uid)
-        ),
-      ];
-     
-      // Mapear datos con lógica del distribuidor y estado de pago
+      const reportData = reportDataRaw.filter(isValidUser);
+      const usersData = usersDataRaw.filter(isValidUser);
+
+      // Mapa para eliminar duplicados por `uid`
+      const userMap = new Map();
+      [...reportData, ...usersData].forEach((doc: any) => {
+        if (!userMap.has(doc.uid)) userMap.set(doc.uid, doc);
+      });
+
+      const allUserData = Array.from(userMap.values());
+
+      // Crear un diccionario de distribuidores para búsqueda rápida
+      const distributorsDict = usersData.reduce((acc: Record<string, any>, user: any) => {
+        acc[user.uid] = user.fullName;
+        return acc;
+      }, {});
+
+      // Transformar datos
       const reportDataFinal = allUserData.map((doc: any) => {
-        let paymentDate = "";
-
-        // Determinar fecha de pago según estado
-        if (doc.userInvoice?.status === "PAID") {
-          paymentDate = doc.userInvoice?.paymentDate || doc.created_at;
-        } else {
-          paymentDate = "No aplica";
-        }
-
         const isPaid = doc?.userInvoice?.status === "PAID";
         const isDelivered = doc?.userOrder?.status === "DELIVERED";
-
-        // Buscar nombre del distribuidor usando idDistributor
-        const distributor = usersData.find(
-          (user: any) => user.uid === doc.idDistributor
-        );
 
         return {
           id: doc.dni || 1,
           created_at: doc?.created_at || "",
-          name: `${doc.firstName} ${doc.lastName}` || "",
-          paymentDate, // Usar la fecha calculada
+          name: `${doc.firstName} ${doc.lastName}`.trim(),
+          paymentDate: isPaid ? doc.userInvoice?.paymentDate || doc.created_at : "No aplica",
           indicative: doc.indicative || "",
           phone: doc.phone || "",
           email: doc.email || "",
-          plan: doc?.selectedPlan?.name,
-          userType: doc,
-          optionEdit: doc,
-          optionPay: doc,
+          plan: doc?.selectedPlan?.name || "",
           statusPay: isPaid ? "Pagado" : "Pendiente por pagar",
           deliveryStatus: isDelivered ? "Entregado" : "Pendiente de entrega",
           deliveryDate: isDelivered ? doc.userOrder.deliveryDate : "",
-          userInvoice: doc.userInvoice,
-          userOrder: doc.userOrder,
-          edit: {
-            switch: doc.isActiveByAdmin === true ? true : false || "",
-            uid: doc.uid,
-          },
-          idDistributor: doc.idDistributor, // ID del distribuidor
-          distributorName: distributor
-            ? distributor.fullName
-            : "Distribuidor desconocido", // Nombre del distribuidor
-          fullName: doc.fullName || "",
+          idDistributor: doc.idDistributor,
+          distributorName: distributorsDict[doc.idDistributor] || "Distribuidor desconocido",
           secuencialId: doc?.userOrder?.secuencialId || "",
+          edit: { switch: !!doc.isActiveByAdmin, uid: doc.uid },
         };
       });
 
-      // Aplicar filtros
-      const filteredByDistributor = reportDataFinal.filter((user: any) =>
-        distributorFilter ? user.idDistributor === distributorFilter : true
+      // Aplicar filtros en una sola pasada
+      const filteredQuery = reportDataFinal.filter(
+        (user) =>
+          (!distributorFilter || user.idDistributor === distributorFilter) &&
+          (!paymentStatusFilter || user.statusPay === paymentStatusFilter) &&
+          (!deliveryStatusFilter || user.deliveryStatus === deliveryStatusFilter)
       );
 
-      const filteredByPaymentStatus = filteredByDistributor.filter(
-        (user: any) =>
-          paymentStatusFilter ? user.statusPay === paymentStatusFilter : true
-      );
+      // Actualizar estados solo si los datos cambiaron
+      setQuery(filteredQuery);
+      setFilteredQuery(filteredQuery);
 
-      const filteredByDeliveryStatus = filteredByPaymentStatus.filter(
-        (user: any) =>
-          deliveryStatusFilter
-            ? user.deliveryStatus === deliveryStatusFilter
-            : true
-      );
-
-      // Actualizar estados
-      setQuery(filteredByDistributor);
-      setFilteredQuery(filteredByDeliveryStatus);
-
-      // Crear lista de distribuidores únicos
-      const uniqueDistributors = [
-        ...new Set(reportDataFinal.map((user: any) => user.idDistributor)),
+      // Crear lista de distribuidores únicos con `Map`
+      const distributorsArray = [
+        ...new Map(
+          reportDataFinal.map((user) => [
+            user.idDistributor,
+            {
+              id: user.idDistributor,
+              name: `Distribuidor ${user.distributorName}`,
+            },
+          ])
+        ).values(),
       ];
-
-      // Convertir en un array con nombre del distribuidor
-      const distributorsArray = uniqueDistributors.map((id) => {
-        const distributor = usersData.find((doc) => doc.uid === id);
-        return {
-          id,
-          name: `Distribuidor ${
-            distributor ? distributor.fullName : "desconocido"
-          }`,
-        };
-      });
 
       setDistributors(distributorsArray);
     };
 
     getquery();
-  }, [
-    distributorFilter,
-    paymentStatusFilter,
-    deliveryStatusFilter,
-    flag,
-    data?.uid,
-  ]);
+  }, [distributorFilter, paymentStatusFilter, deliveryStatusFilter, flag, data?.uid]);
 
   return {
     data: filteredQuery,

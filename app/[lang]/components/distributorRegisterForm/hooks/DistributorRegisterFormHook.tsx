@@ -499,7 +499,7 @@ const DistributorRegisterFormHook = () => {
       const formattedData = data.map((doc) => {
         return {
           optionEdit: doc,
-          created: doc.created,
+          created: doc.created_at,
           documentType: doc.documentType,
           id: doc.dni,
           name: doc.fullName,

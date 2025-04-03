@@ -101,7 +101,7 @@ const DistributorRegisterForm = ({
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
   const apiRef = useGridApiRef();
-  
+
   const formatearFecha = (fechaISO: string): string => {
     return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
   };
@@ -126,10 +126,11 @@ const DistributorRegisterForm = ({
     {
       field: "created",
       headerName: "Fecha Registro",
-      minWidth: 220,
+      minWidth: 170,
       flex: 2,
       headerAlign: "center",
       align: "center",
+      valueGetter: (params) => new Date(params.value),
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           <div>{formatearFecha(params.value)}</div>
@@ -449,7 +450,7 @@ const DistributorRegisterForm = ({
                   paginationModel: { page: 0, pageSize: 15 },
                 },
                 sorting: {
-                  sortModel: [{ field: "created_at", sort: "asc" }],
+                  sortModel: [{ field: "created", sort: "desc" }],
                 },
               }}
               pageSizeOptions={[10, 20, 30]}
@@ -600,34 +601,36 @@ const DistributorRegisterForm = ({
                         onCopy={(e) => e.preventDefault()} // Bloquea copiar
                         onCut={(e) => e.preventDefault()} // Bloquea cortar
                       />
-                      <TextField
-                        variant="standard"
-                        label="Confirmar Correo"
-                        disabled={isEditData ? true : false}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <BadgeIcon
-                                style={{
-                                  color: "#02AF9B",
-                                  fontSize: "1.8rem",
-                                  marginRight: "1rem",
-                                }}
-                              />
-                            </InputAdornment>
-                          ),
-                        }}
-                        fullWidth
-                        className="tw-ml-2"
-                        value={confirmEmail}
-                        error={!!confirmEmailError}
-                        helperText={confirmEmailError}
-                        onChange={(e) => setConfirmEmail(e.target.value)}
-                        onCopy={(e) => e.preventDefault()}
-                        onCut={(e) => e.preventDefault()}
-                        onPaste={(e) => e.preventDefault()}
-                      />
                     </div>
+
+                    <TextField
+                      variant="standard"
+                      label="Confirmar Correo"
+                      disabled={isEditData ? true : false}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <BadgeIcon
+                              style={{
+                                color: "#02AF9B",
+                                fontSize: "1.8rem",
+                                marginRight: "1rem",
+                              }}
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
+                      fullWidth
+                      className="tw-mb-6"
+                      value={confirmEmail}
+                      error={!!confirmEmailError}
+                      helperText={confirmEmailError}
+                      onChange={(e) => setConfirmEmail(e.target.value)}
+                      onCopy={(e) => e.preventDefault()}
+                      onCut={(e) => e.preventDefault()}
+                      onPaste={(e) => e.preventDefault()}
+                    />
+
                     <TextField
                       variant="standard"
                       label="Número Celular"

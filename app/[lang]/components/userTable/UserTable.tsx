@@ -702,7 +702,7 @@ const UserTable = () => {
               <div className="tw-w-[90%] tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-5">
 
 
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
+                <div className="tw-w-full tw-flex tw-justify-between  tw-justify-items-center">
                   <TextField
                     variant="standard"
                     label={dictionary.dictionary?.backOffice.dni}
@@ -787,7 +787,7 @@ const UserTable = () => {
                     value={email}
                     variant="standard"
                     fullWidth
-                    className="tw-mr-2"
+                    className="w-w-[100%] tw-mr-2"
                     label={dictionary.dictionary?.backOffice.Email}
                     InputProps={{
                       startAdornment: (
@@ -803,18 +803,20 @@ const UserTable = () => {
                       ),
                     }}
                     onChange={(e) => setEmail(e.target.value)}
-                    error={Boolean(errorMailForm)}
+                    error={Boolean(errorMailForm || errorEmailMismatch)}
                     helperText={errorMailForm}
                     onCopy={(e) => e.preventDefault()} // Bloquea copiar
                     onCut={(e) => e.preventDefault()} // Bloquea cortar
                   />
+                </div>
 
+                <div className="tw-flex tw-justify-between tw-mb-6">
                   <TextField
                     id="outlined"
                     value={confirmEmail}
                     variant="standard"
                     fullWidth
-                    className="tw-ml-2"
+                    className="w-w-[100%] tw-ml-2"
                     label={dictionary.dictionary?.backOffice.ConfirmEmail}
                     InputProps={{
                       startAdornment: (
@@ -830,46 +832,47 @@ const UserTable = () => {
                       ),
                     }}
                     onChange={(e) => setConfirmEmail(e.target.value)}
-                    error={Boolean(errorConfirmEmailForm)}
-                    helperText={errorConfirmEmailForm}
+                    error={Boolean(errorConfirmEmailForm || errorEmailMismatch)}
+                    helperText={errorConfirmEmailForm || errorEmailMismatch}
                     onCopy={(e) => e.preventDefault()} // Bloquea copiar
                     onCut={(e) => e.preventDefault()} // Bloquea cortar
                     onPaste={(e) => e.preventDefault()} // Bloquea pegar
                   />
                 </div>
 
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
+                <div className="tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-start">
                   <div className="tw-w-[100%] tw-flex tw-items-start tw-justify-center tw-mb-4 tw-mt-3">
                     <div className="tw-w-[20%] tw-items-start">
-                      <Select
-                        variant="outlined"
-                        className="tw-w-[100%] tw-text-center"
-                        value={phoneCode}
-                        style={{ height: "48px" }}
-                        required
-                        id="outlined-required"
-                        defaultValue=""
-                        MenuProps={{
-                          PaperProps: {
-                            style: {
-                              maxHeight: 150,
+                      <FormControl variant="outlined" className="tw-w-[100%]">
+                        <Select
+                          className="tw-text-center"
+                          value={phoneCode}
+                          style={{ height: "48px" }}
+                          required
+                          id="outlined-required"
+                          defaultValue=""
+                          MenuProps={{
+                            PaperProps: {
+                              style: {
+                                maxHeight: 150,
+                              },
                             },
-                          },
-                        }}
-                        onChange={(e) => setPhoneCode(e.target.value)}
-                        error={Boolean(errorPhoneCodeForm)}
-                      >
-                        {countries.map((country) => (
-                          <MenuItem key={country.id} value={country.id}>
-                            <ReactCountryFlag
-                              countryCode={country.flag}
-                              svg
-                              style={{ marginRight: "8px" }}
-                            />
-                            {country.code}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                          }}
+                          onChange={(e) => setPhoneCode(e.target.value)}
+                          error={Boolean(errorPhoneCodeForm)}
+                        >
+                          {countries.map((country) => (
+                            <MenuItem key={country.id} value={country.id}>
+                              <ReactCountryFlag
+                                countryCode={country.flag}
+                                svg
+                                style={{ marginRight: "8px" }}
+                              />
+                              {country.code}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </div>
                     <div className="tw-h-[100%] tw-w-[80%] tw-items-start tw-ml-2">
                       <TextField
@@ -891,6 +894,9 @@ const UserTable = () => {
                       />
                     </div>
                   </div>
+                  <InputLabel className="tw-text-xs tw-text-gray-500 tw-mt-1 tw-mb-7">
+                    Digite el número indicativo del país
+                  </InputLabel>
                 </div>
 
                 <div className="tw-flex tw-justify-between tw-mb-6">
@@ -930,12 +936,12 @@ const UserTable = () => {
                     <div className="tw-relative">
 
                       <Select
+                        variant="outlined"
+                        className="tw-w-[100%] tw-ml-2"
                         fullWidth
-                        className="tw-ml-2"
                         required
                         id="outlined-required"
                         value={plan}
-                        variant="outlined"
                         onChange={(e) => setPlan(e.target.value)}
                         error={Boolean(errorPlanForm)}
                         MenuProps={{

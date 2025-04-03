@@ -7,6 +7,8 @@ import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import { Box } from '@mui/system';
 import FontsTable from '../fontsTable/FontsTable';
+import FontsTableLogic from '../fontsTable/hooks/FontsTableLogic';
+import { GetAllBackgroundImages } from '@/reactQuery/home';
 
 type Item = {
     id: number;
@@ -17,10 +19,9 @@ type Item = {
 const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
     const { dictionary } = useDictionary({ lang });
     const [items, setItems] = useState<Array<Item>>([]);
+    const [flag, setFlag] = useState(false);
+    const { data } = GetAllBackgroundImages(flag);
 
-    const handleAddItem = (newItem: { name: string; image: string }) => {
-        setItems([...items, { id: items.length + 1, ...newItem }]);
-    };
     return (
         <div className='tw-flex  tw-items-center tw-justify-center tw-bg-[url("/images/loginBackground.png")]  tw-flex-col tw-bg-no-repeat tw-bg-center tw-bg-cover'>
             <div className='tw-flex tw-items-center tw-justify-center tw-w-full tw-h-full'>
@@ -36,12 +37,12 @@ const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         {dictionary?.backOffice.fondoPlantilla}
                     </Typography>
                     <Box className='tw-w-[400px] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-4 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center '>
-                        <ItemForm onAddItem={handleAddItem} dictionary={dictionary} />
+                        <ItemForm dictionary={dictionary} setFlag={setFlag} flag={flag} />
                     </Box>
                 </Container>
             </div>
             <div className='tw-flex tw-mt-4 tw-flex-col tw-items-center tw-justify-center tw-w-full tw-h-full'>
-                <FontsTable />
+                <FontsTable data={data} />
             </div>
         </div>
     );

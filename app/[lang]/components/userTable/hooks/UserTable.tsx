@@ -38,7 +38,7 @@ const UserTableLogic = () => {
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");
-  const [phoneCode, setPhoneCode] = useState<string>("");
+  const [phoneCode, setPhoneCode] = useState<string>("CO+57");
   const [phone, setPhone] = useState<string>("");
   const [plan, setPlan] = useState<string>("");
   const [type, setType] = useState<string>("");
@@ -299,7 +299,7 @@ const UserTableLogic = () => {
     setLastName("");
     setEmail("");
     setConfirmEmail("");
-    setPhoneCode("");
+    setPhoneCode("CO+57");
     setPhone("");
     setPlan("");
     setType("");
@@ -447,6 +447,20 @@ const UserTableLogic = () => {
     const trimmedPhone = phone.trim();
 
     try {
+      setIsModalOpen(false);
+      Swal.fire({
+        title: "Registrando usuario...",
+        text: "Por favor, espera.",
+        allowOutsideClick: false,
+        backdrop: true,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+        customClass: {
+          popup: "tw-z-[9999]"
+        }
+      });
+
       // Crear un timestamp para la fecha de creación
       const dateCreated = new Date().getTime();
 
@@ -595,8 +609,6 @@ const UserTableLogic = () => {
     const getquery = async () => {
       const usersDataSanpShot = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShot.map((doc: any) => {
-        console.log('doc ', doc);
-
         return {
           id: doc.dni || 1,
           uid: doc.uid || "",

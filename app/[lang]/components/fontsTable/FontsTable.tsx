@@ -1,8 +1,24 @@
-import FontsTableLogic from "./hooks/FontsTableLogic";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import moment from "moment";
 import Image from "next/image";
 
+const formatearFecha = (fechaISO: string): string => {
+  return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
+};
+
 const columns: GridColDef[] = [
+  {
+    field: "created_at",
+    headerName: "Fecha Registro",
+    flex: 1,
+    headerAlign: "center",
+    align: "center",
+    renderCell: (params) => (
+      <div className="tw-flex tw-justify-center tw-items-center">
+        <div>{formatearFecha(params.value)}</div>
+      </div>
+    ),
+  },
   {
     field: "name",
     headerName: "Nombre de Fondo",
@@ -26,8 +42,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const FontsTable = () => {
-  const { data } = FontsTableLogic();
+const FontsTable = ({ data }: { data: any }) => {
   return (
     <div className="tw-shadow-m tw-rounded-2xl tw-h-[600px] tw-w-[99%]  tw-flex tw-flex-col tw-justify-center tw-items-center ">
       <div
@@ -39,10 +54,13 @@ const FontsTable = () => {
           columns={columns}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 30 },
+            },
+            sorting: {
+              sortModel: [{ field: "created_at", sort: "desc" }],
             },
           }}
-          pageSizeOptions={[5, 10]}
+          pageSizeOptions={[30, 45]}
           disableColumnSelector
           disableDensitySelector
           disableColumnFilter

@@ -121,7 +121,7 @@ export const savePlans = async (dataSave: any) => {
 
     if (!querySnapshot.empty) {
       // Si el SKU ya existe, devolver un mensaje de error
-      return { success: false, message: "El SKU ya está registrado" };
+      return { success: false, message: "El SKU del plan ya está registrado" };
     }
 
     // Si el SKU no está registrado, crear un nuevo documento en la colección
@@ -310,7 +310,6 @@ export const saveInvoices = async (dataSave: any) => {
 
     await setDoc(collectionRef, {
       ...dataSave,
-      paymentDate: "",
     });
 
     return { success: true, message: "Factura creado correctamente" };
@@ -654,5 +653,19 @@ export const saveSubscriptions = async (dataSave: any) => {
   } catch (error) {
     console.error("Error al crear la suscripción: ", error);
     return { success: false, message: "Error al crear la suscripción" };
+  }
+};
+
+
+export const validateSKU = async (sku: string, collectionName: string): Promise<boolean> => {
+  try {
+    const collectionRef = collection(dataBase, collectionName);
+    const q = query(collectionRef, where("sku", "==", sku));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.empty; // true si el SKU está disponible, false si ya existe
+  } catch (error) {
+    console.error("Error al validar el SKU:", error);
+    return false;
   }
 };

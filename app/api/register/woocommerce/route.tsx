@@ -20,7 +20,6 @@ export async function POST(request: Request) {
     const plan = req?.line_items?.parent_name?.toLowerCase()?.search("premium");
     const date_paid = req?.date_paid;
 
-    console.log("req", req);
     // Crear un objeto Date y obtener su timestamp
     const dateCreated = new Date();
     const dateCreatedBd = dateCreated.getTime();

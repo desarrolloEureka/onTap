@@ -4,6 +4,7 @@ import moment from "moment";
 import { GetAllCategories, GetAllPlanes, GetAllProducts } from '@/reactQuery/home';
 import Swal from "sweetalert2";
 import { Products } from '@/types/home';
+import { validateSKU } from '@/firebase/Documents';
 
 interface DiscountMap {
   [key: string]: string | number;
@@ -21,7 +22,7 @@ const PlanRegisterFormHook = () => {
   const { data: dataPlanes } = GetAllPlanes(flag);
   const { data: dataCategories } = GetAllCategories(flag);
   const [filteredCategories, setFilteredCategories] = useState<any[]>([]);
-  const [status, setStatus] = useState<string>('');
+  const [status, setStatus] = useState<any>('');
   const [step, setStep] = useState(1);
 
   // Data Plan
@@ -223,10 +224,21 @@ const PlanRegisterFormHook = () => {
     setRowId(null);
   };
 
-  const handleNextStepOne = async () => {
+  const handleNextStepOne = async (isEdit: boolean) => {
     if (!validateForm()) return;
-    setStep(2);
-  }
+  
+    if (!isEdit) {
+      const isSkuAvailable = await validateSKU(sku, "plans");
+  
+      if (!isSkuAvailable) {
+        setSkuError("El SKU del Plan ya está registrado");
+        return;
+      }
+    }
+  
+    setSkuError(""); 
+    setStep(2); 
+  };
 
   const handleNextStepTwo = async () => {
     if (!validateDiscounts()) return;
@@ -363,14 +375,14 @@ const PlanRegisterFormHook = () => {
         return {
           id: idCounter++,
           uid: doc.id,
-          name: doc.name,
-          created_at: doc.created_at,
-          status: doc.status,
+          name: doc.name || '',
+          created_at: doc.created_at || '',
+          status: doc.status || '',
           optionEdit: doc,
-          sku: doc.sku,
-          price: doc.full_price,
-          prices_matrix: doc.prices_matrix,
-          product: doc.product.name,
+          sku: doc.sku || '',
+          price: doc.full_price || '',
+          prices_matrix: doc.prices_matrix || '',
+          product: doc.product.name || '',
           ...dynamicPrices
         };
       });

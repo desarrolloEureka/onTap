@@ -190,7 +190,10 @@ const PendingPaymentReportsHook = ({
   };
 
   useEffect(() => {
-    const getquery = async () => {
+    if (!data?.uid) {
+      return;
+    }
+    const getQuery = async () => {
       try {
         const reportData = await getUsersWithOrdersAndInvoices();
 
@@ -198,7 +201,7 @@ const PendingPaymentReportsHook = ({
           .map((doc: any) => {
             const {
               dni,
-              created_at,
+              created,
               firstName,
               lastName,
               indicative,
@@ -214,7 +217,7 @@ const PendingPaymentReportsHook = ({
 
             return {
               id: dni || 1,
-              created_at: created_at || "",
+              created_at: created || "",
               name: `${firstName || ""} ${lastName || ""}`,
               indicative: indicative || "",
               phone: phone || "",
@@ -234,7 +237,7 @@ const PendingPaymentReportsHook = ({
                 uid: uid || "",
               },
               idDistributor: idDistributor || "",
-              secuencialId: doc.userOrder.secuencialId || "",
+              secuencialId: doc.userOrder?.secuencialId || "",
             };
           })
           .filter(
@@ -242,7 +245,7 @@ const PendingPaymentReportsHook = ({
               user?.idDistributor === data?.uid &&
               user.userInvoice?.status !== "PAID"
           );
-
+          
         setQuery(reportDataFinal);
         setFilteredQuery(reportDataFinal);
       } catch (error) {
@@ -250,8 +253,8 @@ const PendingPaymentReportsHook = ({
       }
     };
 
-    getquery();
-  }, [data?.uid, flag]);
+    getQuery();
+  }, [data?.uid]);
 
   return {
     data: filteredQuery,

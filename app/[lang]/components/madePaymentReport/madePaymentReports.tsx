@@ -99,7 +99,7 @@ const PendingPaymentReports = ({
     {
       field: "secuencialId",
       headerName: "No. OC",
-      minWidth: 210,
+      minWidth: 200,
       flex: 2,
     },
     {
@@ -183,10 +183,10 @@ const PendingPaymentReports = ({
           <div>
             {params.value
               ? `${params.value.toLocaleString("es-CO", {
-                  style: "currency",
-                  currency: "COP",
-                  minimumFractionDigits: 0,
-                })}`
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 0,
+              })}`
               : "No aplica"}
           </div>
         </div>
@@ -435,7 +435,7 @@ const PendingPaymentReports = ({
                 },
               },
               sorting: {
-                sortModel: [{ field: "created_at", sort: "asc" }],
+                sortModel: [{ field: "paymentDate", sort: "desc" }],
               },
             }}
             pageSizeOptions={[15, 25]}
@@ -471,10 +471,8 @@ const PendingPaymentReports = ({
             padding: 0.5,
             borderRadius: 3,
             position: "relative",
-            width: "80vw", // Tamaño del modal más grande
-            maxWidth: "1200px",
-            height: "80vh", // Ajustar el alto del modal
-            overflowY: "auto", // Permitir scroll en caso de que el contenido sea muy largo
+            maxWidth: "1000px",
+            maxHeight: "90vh",
           }}
         >
           <IconButton
@@ -483,7 +481,7 @@ const PendingPaymentReports = ({
           >
             <Close className="tw-text-white" />
           </IconButton>
-          <div className="tw-w-full tw-h-screen tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
+          <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10 tw-my-2">
             <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
               {/* Título del Modal */}
               <div className="tw-flex tw-items-center tw-justify-center tw-mb-6">

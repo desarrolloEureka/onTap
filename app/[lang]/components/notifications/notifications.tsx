@@ -310,7 +310,7 @@ const NotificationsCRUD: React.FC<{ params: { lang: Locale } }> = ({
                 paginationModel: { page: 0, pageSize: 15 },
               },
               sorting: {
-                sortModel: [{ field: "createdAt", sort: "desc" }],
+                sortModel: [{ field: "created_at", sort: "desc" }],
               },
             }}
             pageSizeOptions={[10, 20, 30]}

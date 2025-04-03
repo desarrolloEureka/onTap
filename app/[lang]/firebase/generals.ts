@@ -37,6 +37,7 @@ import {
 } from "firebase/firestore";
 import { dataBase } from "./firebaseConfig";
 import { GetUser } from "@/reactQuery/users";
+import moment from "moment";
 
 const allRef = ({ ref }: AllRefPropsFirebase) => collection(dataBase, ref);
 export const getTemplate = async ({ id }: { id: string }) => {
@@ -269,9 +270,11 @@ export const getAllCards = async (idUser: string) => {
 
 //La imagen se recive en base 64(imagen), tambien se recive el nombre de la imagen(image)
 export const saveBackgroundImage = async (image: string, name: string) => {
+  const createdAt = moment().format();
   const docRef = await addDoc(allRef({ ref: "background_images" }), {
     image,
     name,
+    created_at: createdAt,
   });
   return docRef;
 };
@@ -378,7 +381,7 @@ export const getLastOrder = async () => {
   const querySnapshot = await getDocs(
     query(allRef({ ref: "orders" }), orderBy("createdAt", "desc"), limit(1))
   );
-  
+
 
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {

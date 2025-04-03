@@ -109,12 +109,12 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
         </Tooltip>
       ),
     },
-    
+
 
     {
       field: "paymentDate",
       headerName: "Fecha de Pago",
-      minWidth: 100,
+      minWidth: 180,
       flex: 1,
       headerAlign: "left",
       align: "left",
@@ -638,7 +638,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                 },
               },
               sorting: {
-                sortModel: [{ field: "created_at", sort: "asc" }],
+                sortModel: [{ field: "paymentDate", sort: "desc" }],
               },
             }}
             pageSizeOptions={[15, 25]}

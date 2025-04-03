@@ -613,7 +613,7 @@ const CustomersDistributorForm = ({
                 },
               },
               sorting: {
-                sortModel: [{ field: "created_at", sort: "asc" }],
+                sortModel: [{ field: "created_at", sort: "desc" }],
               },
             }}
             pageSizeOptions={[15, 25]}
@@ -933,29 +933,27 @@ const CustomersDistributorForm = ({
         aria-describedby="modal-modal-description"
         className="tw-flex tw-justify-center tw-items-center"
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            bgcolor: "#02AF9B",
-            padding: 0.5,
-            borderRadius: 3,
-            position: "relative",
-            width: "80vw", // Tamaño del modal más grande
-            maxWidth: "1200px",
-            height: "80vh", // Ajustar el alto del modal
-            overflowY: "auto", // Permitir scroll en caso de que el contenido sea muy largo
-          }}
-        >
+               <Box
+                 sx={{
+                   display: "flex",
+                   flexDirection: "column",
+                   justifyContent: "center",
+                   alignItems: "center",
+                   bgcolor: "#02AF9B",
+                   padding: 0.5,
+                   borderRadius: 3,
+                   position: "relative",
+                   maxWidth: "1000px",
+                   maxHeight: "90vh",
+                 }}
+               >
           <IconButton
             className="tw-absolute tw-right-1 tw-top-1"
             onClick={() => handleCloseModal()}
           >
             <Close className="tw-text-white" />
           </IconButton>
-          <div className="tw-w-full tw-h-screen tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10">
+          <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mx-10 tw-my-2">
             <div className="tw-w-11/12 tw-bg-white tw-shadow-lg tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6">
               {/* Título del Modal */}
               <div className="tw-flex tw-items-center tw-justify-center tw-mb-6">

@@ -32,8 +32,6 @@ const ModalDelete = ({
                     justifyContent: 'center',
                     alignItems: 'center',
                     bgcolor: '#02AF9B',
-                    paddingLeft: 4,
-                    paddingRight: 4,
                     paddingTop: 5,
                     borderRadius: 3,
                     position: 'relative',
@@ -46,9 +44,9 @@ const ModalDelete = ({
                     <Close className='tw-text-white' />
                 </IconButton>
 
-                <div className='tw-w-[100%] tw-h-[70%] tw-flex tw-justify-center tw-justify-items-center  tw-pl-7 tw-pr-7 '>
-                    <div className='tw-w-[90%] tw-h-[90%] tw-flex tw-justify-center tw-justify-items-center tw-pb-8 '>
-                        <span>
+                <div className='tw-w-[100%] tw-h-[70%] tw-flex tw-justify-center tw-justify-items-center  tw-pl-10 tw-pr-10'>
+                    <div className='tw-w-[95%] tw-h-[90%] tw-flex tw-justify-center tw-justify-items-center tw-pb-7 '>
+                        <span className='tw-text-white tw-text-center'>
                             {dictionary?.labelMessage}
                         </span>
                     </div>

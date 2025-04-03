@@ -198,7 +198,7 @@ const MadePaymentReportsHook = ({
           if (doc?.userInvoice?.status === "PAID") {
             paymentDate = doc.userInvoice.paymentDate || doc.created_at;
           } else {
-            paymentDate = "No aplica"; // Si no está pagado
+            paymentDate = ""; // Si no está pagado
           }
 
           return {

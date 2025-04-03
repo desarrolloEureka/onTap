@@ -781,7 +781,6 @@ const CustomersCreateFormHook = ({
       };
 
       const dataUser = await registerUserFb({ data: combinedData });
-
       const nextYearDate = moment().add(1, 'year').format();
 
       const dataSendSubscriptions = {
@@ -800,14 +799,17 @@ const CustomersCreateFormHook = ({
       await saveOrderQuerie(orderData);
 
       // Crear y guardar la factura
-      const invoiceData = prepareInvoiceData(
-        orderData?.uid,
-        orderData?.secuencialId,
-        result?.uid,
-        isPay
-      );
-      await saveInvoiceQuerie(invoiceData);
+      const invoiceData = {
+        ...prepareInvoiceData(
+          orderData?.uid,
+          orderData?.secuencialId,
+          result?.uid,
+          isPay
+        ),
+        paymentDate: createdAt,
+      };
 
+      await saveInvoiceQuerie(invoiceData);
       setIsModalOpen(false);
       setLoading(false);
 

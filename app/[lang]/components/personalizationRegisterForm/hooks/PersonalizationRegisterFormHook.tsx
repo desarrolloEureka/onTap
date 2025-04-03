@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import moment from "moment";
 import { GetAllCategories, GetAllCustomizations, GetAllPlanesIndividual, GetAllProducts } from '@/reactQuery/home';
 import Swal from "sweetalert2";
+import { validateSKU } from '@/firebase/Documents';
 
 interface DiscountMap {
   [key: string]: string | number;
@@ -173,8 +174,19 @@ const PersonalizationRegisterFormHook = () => {
   };
 
 
-  const handleNextStep = async () => {
+  const handleNextStep = async (isEdit: boolean) => {
     if (!validateForm()) return;
+
+    if (!isEdit) {
+      const isSkuAvailable = await validateSKU(sku, "customizations");
+
+      if (!isSkuAvailable) {
+        setSkuError("El SKU del Personalizacion ya está registrado");
+        return;
+      }
+    }
+
+    setSkuError("");
     setStep(2);
   }
 
@@ -253,7 +265,9 @@ const PersonalizationRegisterFormHook = () => {
     try {
       const dataSend = {
         sku: sku,
-        name: name,
+        //name: name,
+        type: typeCustomization,
+        selectedArticle,
         full_price: price,
         status: stateCustomization,
         prices_matrix: discounts

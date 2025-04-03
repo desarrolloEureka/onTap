@@ -53,7 +53,6 @@ const LoginHook = (dictionary: Dictionary) => {
           });
         }
       } else if (data.is_distributor === true) {
-        console.log('Soy distribuidor');
         router.push('/views/backOffice');
       } else {
         if (data.isActive === true && data.isActiveByAdmin === true && data?.subscription?.status === "Active") {

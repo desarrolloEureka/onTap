@@ -488,22 +488,28 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     )}
 
                     {/* Opción para las tarjetas de pago */}
-                    <NavDropdown.Item eventKey="23" style={{ fontSize: 15 }}>
-                      <PaymentIcon
-                        fontSize="small"
-                        sx={{ marginRight: "4px" }}
-                      />
-                      {dictionary?.backOffice?.LableCards}
-                    </NavDropdown.Item>
+                    {isDistributor && (
+                      <NavDropdown.Item eventKey="23" style={{ fontSize: 15 }}>
+                        <PaymentIcon
+                          fontSize="small"
+                          sx={{ marginRight: "4px" }}
+                        />
+                        {dictionary?.backOffice?.LableCards}
+                      </NavDropdown.Item>
+                    )}
+
 
                     {/* Opción para cerrar sesión */}
-                    <NavDropdown.Item onClick={logOut} style={{ fontSize: 15 }}>
-                      <LogoutIcon
-                        fontSize="small"
-                        sx={{ marginRight: "4px" }}
-                      />
-                      {dictionary?.logOut}
-                    </NavDropdown.Item>
+                    {isDistributor && (
+                      <NavDropdown.Item onClick={logOut} style={{ fontSize: 15 }}>
+                        <LogoutIcon
+                          fontSize="small"
+                          sx={{ marginRight: "4px" }}
+                        />
+                        {dictionary?.logOut}
+                      </NavDropdown.Item>
+                    )}
+
                   </NavDropdown>
                 </Nav>
               </Navbar.Collapse>

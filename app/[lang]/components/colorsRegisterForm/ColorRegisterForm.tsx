@@ -194,7 +194,7 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
                 paginationModel: { page: 0, pageSize: 10 },
               },
               sorting: {
-                sortModel: [{ field: 'created_at', sort: 'asc' }],
+                sortModel: [{ field: 'created_at', sort: 'desc' }],
               },
             }}
             pageSizeOptions={[10, 20, 30]}
@@ -335,7 +335,7 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
                   </div>
 
                   {selectedImage && (
-                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1 tw-mb-1">
+                    <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-2 tw-mb-1">
                       <div className="tw-mt-2">
                         <Image
                           src={
@@ -354,11 +354,11 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
                   )}
 
 
-                  <div className={`tw-w-full tw-flex tw-justify-center tw-justify-items-center ${!selectedImage ? 'tw-mt-7' : ''}`}>
-                    <div className="tw-w-[80%] tw-flex tw-justify-center tw-justify-items-center">
+                  <div className={`tw-w-full tw-flex tw-flex-col tw-items-center ${!selectedImage ? 'tw-mt-7' : ''}`}>
+                    <div className="tw-w-[80%] tw-flex tw-flex-col tw-items-center">
                       <label
                         htmlFor="iconButton"
-                        className="tw-flex tw-flex-col tw-items-start tw-justify-center"
+                        className="tw-flex tw-flex-col tw-items-center tw-justify-center"
                       >
                         <div className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-h-10 tw-w-36 tw-rounded-3xl tw-bg-[#02AF9B] tw-mt-3 -tw-ml-2">
                           <Typography className="tw-font-bold tw-text-sm url-label tw-text-white">
@@ -376,8 +376,16 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
                           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         />
                       </label>
+
+                      <Typography className="tw-text-sm tw-text-gray-500 tw-mt-5 tw-text-center">
+                        Tamaño recomendado: 750x500 px
+                      </Typography>
+                      <Typography className="tw-text-sm tw-text-gray-500 tw-text-center">
+                        Formatos permitidos: JPG, JPEG, PNG
+                      </Typography>
                     </div>
                   </div>
+
                   {imageError && (
                     <div className="tw-w-[100%] tw-flex tw-justify-center tw-justify-items-center">
                       <div className="tw-text-[#FF0000] tw-text-[13px] tw-mt-4 tw-font-normal">
@@ -499,7 +507,7 @@ const ColorRegisterForm = ({ params: { lang } }: { params: { lang: Locale } }) =
                         <Button
                           variant="text"
                           className="tw-text-black tw-mr-12"
-                          onClick={handleNextStepOne}
+                          onClick={() => handleNextStepOne(isEditData)}
                           sx={{
                             padding: '0',
                             minWidth: 'auto',
