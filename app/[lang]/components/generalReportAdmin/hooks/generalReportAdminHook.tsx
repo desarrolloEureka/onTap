@@ -253,32 +253,36 @@ const PendingPaymentReportsHook = ({
     const getquery = async () => {
       const reportDataRaw = await getUsersWithOrdersAndInvoices();
       const usersDataRaw = await getUsers();
-
-      // Filtrar desde el inicio usuarios que sean admin o distribuidores
-      const isValidUser = (user: any) => !user.is_admin && !user.is_distributor;
-
-      const reportData = reportDataRaw.filter(isValidUser);
-      const usersData = usersDataRaw.filter(isValidUser);
-
-      // Mapa para eliminar duplicados por `uid`
+  
+      // Identificar roles correctamente
+      const isAdminOrDistributor = (user: any) => user.is_admin || user.is_distributor;
+      const isOnlyDistributor = (user: any) => user.is_distributor;
+      const isRegularUser = (user: any) => !user.is_admin && !user.is_distributor;
+  
+      const reportData = reportDataRaw.filter(isRegularUser);
+      const usersData = usersDataRaw.filter(isRegularUser);
+  
+      // Crear diccionario de distribuidores
+      const distributorsDict = usersDataRaw
+        .filter(isOnlyDistributor)
+        .reduce((acc: Record<string, any>, user: any) => {
+          acc[user.uid] = user.fullName;
+          return acc;
+        }, {});
+  
+      // Mapa para eliminar duplicados
       const userMap = new Map();
       [...reportData, ...usersData].forEach((doc: any) => {
         if (!userMap.has(doc.uid)) userMap.set(doc.uid, doc);
       });
-
+  
       const allUserData = Array.from(userMap.values());
-
-      // Crear un diccionario de distribuidores para búsqueda rápida
-      const distributorsDict = usersData.reduce((acc: Record<string, any>, user: any) => {
-        acc[user.uid] = user.fullName;
-        return acc;
-      }, {});
-
+  
       // Transformar datos
       const reportDataFinal = allUserData.map((doc: any) => {
         const isPaid = doc?.userInvoice?.status === "PAID";
         const isDelivered = doc?.userOrder?.status === "DELIVERED";
-
+  
         return {
           id: doc.dni || 1,
           created_at: doc?.created_at || "",
@@ -297,20 +301,19 @@ const PendingPaymentReportsHook = ({
           edit: { switch: !!doc.isActiveByAdmin, uid: doc.uid },
         };
       });
-
-      // Aplicar filtros en una sola pasada
+  
+      // Aplicar filtros
       const filteredQuery = reportDataFinal.filter(
         (user) =>
           (!distributorFilter || user.idDistributor === distributorFilter) &&
           (!paymentStatusFilter || user.statusPay === paymentStatusFilter) &&
           (!deliveryStatusFilter || user.deliveryStatus === deliveryStatusFilter)
       );
-
-      // Actualizar estados solo si los datos cambiaron
+  
       setQuery(filteredQuery);
       setFilteredQuery(filteredQuery);
-
-      // Crear lista de distribuidores únicos con `Map`
+  
+      // Crear lista de distribuidores únicos
       const distributorsArray = [
         ...new Map(
           reportDataFinal.map((user) => [
@@ -322,12 +325,13 @@ const PendingPaymentReportsHook = ({
           ])
         ).values(),
       ];
-
+  
       setDistributors(distributorsArray);
     };
-
+  
     getquery();
   }, [distributorFilter, paymentStatusFilter, deliveryStatusFilter, flag, data?.uid]);
+  
 
   return {
     data: filteredQuery,

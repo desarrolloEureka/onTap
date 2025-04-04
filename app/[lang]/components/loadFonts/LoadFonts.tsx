@@ -1,13 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import ItemForm from './hooks/ItemForm';
-import ItemList from './hooks/ItemList';
 import { Container, Typography } from '@mui/material';
 import { Locale } from 'i18n-config';
 import useDictionary from '@/hooks/dictionary/useDictionary';
 import { Box } from '@mui/system';
 import FontsTable from '../fontsTable/FontsTable';
-import FontsTableLogic from '../fontsTable/hooks/FontsTableLogic';
 import { GetAllBackgroundImages } from '@/reactQuery/home';
 
 type Item = {
@@ -18,7 +16,6 @@ type Item = {
 
 const LoadFonts = ({ params: { lang } }: { params: { lang: Locale } }) => {
     const { dictionary } = useDictionary({ lang });
-    const [items, setItems] = useState<Array<Item>>([]);
     const [flag, setFlag] = useState(false);
     const { data } = GetAllBackgroundImages(flag);
 

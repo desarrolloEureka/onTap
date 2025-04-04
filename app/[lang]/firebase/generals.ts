@@ -270,13 +270,18 @@ export const getAllCards = async (idUser: string) => {
 
 //La imagen se recive en base 64(imagen), tambien se recive el nombre de la imagen(image)
 export const saveBackgroundImage = async (image: string, name: string) => {
-  const createdAt = moment().format();
-  const docRef = await addDoc(allRef({ ref: "background_images" }), {
-    image,
-    name,
-    created_at: createdAt,
-  });
-  return docRef;
+  try {
+    const createdAt = moment().format();
+    const docRef = await addDoc(allRef({ ref: "background_images" }), {
+      image,
+      name,
+      created_at: createdAt,
+    });
+    return docRef;
+  } catch (error) {
+    console.error("Error en saveBackgroundImage:", error);
+    throw new Error('Error al guardar la imagen. Intenta nuevamente.');
+  }
 };
 
 export const getAllSocialNetworks = async () => {

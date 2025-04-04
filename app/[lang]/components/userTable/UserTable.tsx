@@ -698,9 +698,8 @@ const UserTable = () => {
             <Close className="tw-text-white" />
           </IconButton>
           <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
-            <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-5 tw-flex tw-flex-col tw-justify-center tw-items-center">
               <div className="tw-w-[90%] tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-5">
-
 
                 <div className="tw-w-full tw-flex tw-justify-between  tw-justify-items-center">
                   <TextField
@@ -722,121 +721,95 @@ const UserTable = () => {
                     id="outlined-required"
                     value={dni}
                     fullWidth
-                    className="tw-mb-6"
+                    className="tw-mb-5"
                     onChange={(e) => setDni(e.target.value)}
                     error={Boolean(errorDniForm)}
                     helperText={errorDniForm}
                   />
                 </div>
 
-                <div className="tw-flex tw-justify-between tw-mb-6">
+                {/* Nombre y Apellido */}
+                <div className=" tw-w-full tw-flex tw-gap-4 tw-mb-5">
                   <TextField
-                    id="outlined-required"
+                    id="name"
                     value={name}
                     variant="standard"
                     label={dictionary.dictionary?.backOffice.Nombre}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PersonOutlinedIcon
-                            style={{
-                              color: "#02AF9B",
-                              fontSize: "1.8rem",
-                              marginRight: "1rem",
-                            }}
-                          />
-                        </InputAdornment>
-                      ),
-                    }}
                     fullWidth
-                    className="tw-mr-2"
                     onChange={(e) => setName(e.target.value)}
                     error={Boolean(errorNameForm)}
                     helperText={errorNameForm}
-                  />
-
-                  <TextField
-                    id="outlined-required"
-                    value={lastName}
-                    variant="standard"
-                    label={"Apellidos"}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <PersonOutlinedIcon
-                            style={{
-                              color: "#02AF9B",
-                              fontSize: "1.8rem",
-                              marginRight: "1rem",
-                            }}
-                          />
+                          <PersonOutlinedIcon style={{ color: "#02AF9B", fontSize: "1.8rem", marginRight: "1rem" }} />
                         </InputAdornment>
                       ),
                     }}
+                  />
+                  <TextField
+                    id="lastName"
+                    value={lastName}
+                    variant="standard"
+                    label="Apellidos"
                     fullWidth
-                    className="tw-ml-2"
                     onChange={(e) => setLastName(e.target.value)}
                     error={Boolean(errorLastNameForm)}
                     helperText={errorLastNameForm}
-                  />
-                </div>
-
-                <div className="tw-flex tw-justify-between tw-mb-6">
-                  <TextField
-                    id="outlined-required"
-                    value={email}
-                    variant="standard"
-                    fullWidth
-                    className="w-w-[100%] tw-mr-2"
-                    label={dictionary.dictionary?.backOffice.Email}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <AlternateEmailIcon
-                            style={{
-                              color: "#02AF9B",
-                              fontSize: "1.8rem",
-                              marginRight: "1rem",
-                            }}
-                          />
+                          <PersonOutlinedIcon style={{ color: "#02AF9B", fontSize: "1.8rem", marginRight: "1rem" }} />
                         </InputAdornment>
                       ),
                     }}
+                  />
+                </div>
+
+                {/* Email */}
+                <div className="tw-w-full tw-mb-5">
+                  <TextField
+                    id="email"
+                    value={email}
+                    variant="standard"
+                    label={dictionary.dictionary?.backOffice.Email}
+                    fullWidth
                     onChange={(e) => setEmail(e.target.value)}
                     error={Boolean(errorMailForm || errorEmailMismatch)}
                     helperText={errorMailForm}
-                    onCopy={(e) => e.preventDefault()} // Bloquea copiar
-                    onCut={(e) => e.preventDefault()} // Bloquea cortar
-                  />
-                </div>
-
-                <div className="tw-flex tw-justify-between tw-mb-6">
-                  <TextField
-                    id="outlined"
-                    value={confirmEmail}
-                    variant="standard"
-                    fullWidth
-                    className="w-w-[100%] tw-ml-2"
-                    label={dictionary.dictionary?.backOffice.ConfirmEmail}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <AlternateEmailIcon
-                            style={{
-                              color: "#02AF9B",
-                              fontSize: "1.8rem",
-                              marginRight: "1rem",
-                            }}
-                          />
+                          <AlternateEmailIcon style={{ color: "#02AF9B", fontSize: "1.8rem", marginRight: "1rem" }} />
                         </InputAdornment>
                       ),
                     }}
+                    onCopy={(e) => e.preventDefault()}
+                    onCut={(e) => e.preventDefault()}
+                  />
+                </div>
+
+                {/* Confirm Email */}
+                <div className="tw-w-full  tw-mb-5">
+                  <TextField
+                    id="confirmEmail"
+                    value={confirmEmail}
+                    variant="standard"
+                    label={dictionary.dictionary?.backOffice.ConfirmEmail}
+                    fullWidth
                     onChange={(e) => setConfirmEmail(e.target.value)}
                     error={Boolean(errorConfirmEmailForm || errorEmailMismatch)}
                     helperText={errorConfirmEmailForm || errorEmailMismatch}
-                    onCopy={(e) => e.preventDefault()} // Bloquea copiar
-                    onCut={(e) => e.preventDefault()} // Bloquea cortar
-                    onPaste={(e) => e.preventDefault()} // Bloquea pegar
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AlternateEmailIcon style={{ color: "#02AF9B", fontSize: "1.8rem", marginRight: "1rem" }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                    onCopy={(e) => e.preventDefault()}
+                    onCut={(e) => e.preventDefault()}
+                    onPaste={(e) => e.preventDefault()}
                   />
                 </div>
 
@@ -845,7 +818,7 @@ const UserTable = () => {
                     <div className="tw-w-[20%] tw-items-start">
                       <FormControl variant="outlined" className="tw-w-[100%]">
                         <Select
-                          className="tw-text-center"
+                          className="tw-text-center tw-w-full"
                           value={phoneCode}
                           style={{ height: "48px" }}
                           required
@@ -894,18 +867,18 @@ const UserTable = () => {
                       />
                     </div>
                   </div>
-                  <InputLabel className="tw-text-xs tw-text-gray-500 tw-mt-1 tw-mb-7">
+                  <InputLabel className="tw-text-xs tw-text-gray-500 tw-mt-1 tw-mb-6">
                     Digite el número indicativo del país
                   </InputLabel>
                 </div>
 
-                <div className="tw-flex tw-justify-between tw-mb-6">
+                <div className="tw-flex tw-w-full tw-justify-between tw-mb-1">
                   {isEditData && (
-                    <div className="tw-w-full">
+                    <div className="tw-w-full  tw-mr-5">
                       <Typography
                         color="textSecondary"
                         display={"flow"}
-                        className="tw-text-left tw-text-sm tw-mb-2"
+                        className="tw-text-left tw-text-sm tw-mb-1"
                       >
                         Fecha Pago
                       </Typography>
@@ -925,19 +898,19 @@ const UserTable = () => {
                     </div>
                   )}
 
-                  <div className="tw-w-full ">
+                  <div className="tw-w-full">
                     <Typography
                       color="textSecondary"
-                      display={"flow"}
-                      className="tw-text-left tw-text-sm tw-mb-2"
+                      display="flow"
+                      className="tw-text-left tw-text-sm tw-mb-1"
                     >
                       {dictionary.dictionary?.backOffice.Plan}
                     </Typography>
-                    <div className="tw-relative">
 
+                    <div className="tw-relative tw-w-full">
                       <Select
                         variant="outlined"
-                        className="tw-w-[100%] tw-ml-2"
+                        className="tw-w-full"
                         fullWidth
                         required
                         id="outlined-required"
@@ -961,8 +934,6 @@ const UserTable = () => {
                       </Select>
                     </div>
                   </div>
-
-
                 </div>
 
               </div>

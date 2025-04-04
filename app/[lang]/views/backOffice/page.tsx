@@ -304,13 +304,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                   >
                     {!isDistributor ? (
                       <>
-                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                       {/*  <NavDropdown.Item style={{ fontSize: 15 }}>
                           <SubscriptionsIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
                           />
                           {dictionary?.backOffice.SubscriptionsLabelMenu}
-                        </NavDropdown.Item>
+                        </NavDropdown.Item> */}
                         <NavDropdown.Item eventKey="5" style={{ fontSize: 15 }}>
                           <TableRowsIcon
                             fontSize="small"
@@ -362,13 +362,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           />
                           {dictionary?.backOffice.Deliveries}
                         </NavDropdown.Item>
-                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                     {/*    <NavDropdown.Item style={{ fontSize: 15 }}>
                           <NotificationsIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
                           />
                           {dictionary?.backOffice.NotificationHistory}
-                        </NavDropdown.Item>
+                        </NavDropdown.Item> */}
                       </>
                     )}
                   </NavDropdown>
