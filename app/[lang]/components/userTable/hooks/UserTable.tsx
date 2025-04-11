@@ -81,27 +81,27 @@ const UserTableLogic = () => {
     setLastName(dataUser?.lastName || "");
     setEmail(dataUser?.email || "");
     setConfirmEmail(dataUser?.email || "");
-    setPhoneCode(dataUser?.indicative || "");
+    setPhoneCode(dataUser?.indicative || "CO+57");
     setPhone(dataUser?.phone || "");
     setPlan(dataUser?.plan || "");
-    if (dataUser?.userSubscription?.updatedAt) {
-      const date = new Date(dataUser?.userSubscription?.updatedAt);
+
+    const dateSource =
+      dataUser?.gif === true
+        ? dataUser?.created
+        : dataUser?.userSubscription?.updatedAt || dataUser?.created || ''
+
+    if (dateSource) {
+      const date = new Date(dateSource);
       if (isNaN(date.getTime())) {
         setSelectedDate("");
       } else {
         const formattedDate = date.toISOString().split("T")[0];
         setSelectedDate(formattedDate);
       }
+    } else {
+      setSelectedDate("");
     }
-    /* if (dataUser?.userOrder?.paymentDate) {
-      const date = new Date(dataUser?.userOrder?.paymentDate);
-      if (isNaN(date.getTime())) {
-        setSelectedDate("");
-      } else {
-        const formattedDate = date.toISOString().split("T")[0];
-        setSelectedDate(formattedDate);
-      }
-    } */
+
     setType(
       dataUser?.gif
         ? dataUser?.gif === true
@@ -637,17 +637,32 @@ const UserTableLogic = () => {
           userType: doc,
           //userType: doc.gif ? doc.gif === true ? "Obsequio" : "Comprador" : "Comprador",
           optionEdit: doc,
-          paymentDate: doc.userSubscription?.updatedAt || '',
+          paymentDate: doc.gif === true
+            ? doc?.created || ''
+            : doc?.userSubscription?.updatedAt || doc?.created || '',
           nextPaymentDate: doc.userSubscription?.nextPaymentDate || '',
           autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
+          userInvoice: doc?.userInvoice || '',
+          gif: doc.gif,
+          idDistributor: doc.idDistributor,
 
         };
       })
-        .filter((user) => !user.is_admin && !user.is_distributor);
+        .filter((user) =>
+          !user.is_admin &&
+          !user.is_distributor
+          && (
+            user.idDistributor
+              ? user.userInvoice?.status === "PAID"
+              : true
+          )
+        );
       /* .sort((a, b) => b.date.getTime() - a.date.getTime()); */
 
       setQuery(usersData);
       setFilteredQuery(usersData);
+
+      console.log('usersData ', usersData);
     };
 
     getquery();

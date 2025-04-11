@@ -523,13 +523,17 @@ const CustomersCreateFormHook = ({
     }
 
     // Validar código postal
-    if (!postalCode) {
+    if (postalCode && !/^\d{5}$/.test(postalCode)) {
+      setPostalCodeError("El código postal debe tener 5 dígitos.");
+      valid = false;
+    }
+    /* if (!postalCode) {
       setPostalCodeError("El código postal es obligatorio.");
       valid = false;
     } else if (!/^\d{5}$/.test(postalCode)) {
       setPostalCodeError("El código postal debe tener 5 dígitos.");
       valid = false;
-    }
+    } */
 
     // Validar dirección de envío
     if (!addressDelivery) {

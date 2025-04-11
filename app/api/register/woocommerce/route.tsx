@@ -19,6 +19,7 @@ export async function POST(request: Request) {
     const last_name = req.billing.last_name;
     const plan = req?.line_items?.parent_name?.toLowerCase()?.search("premium");
     const date_paid = req?.date_paid;
+    const phone = req.billing.phone;
 
     // Crear un objeto Date y obtener su timestamp
     const dateCreated = new Date();
@@ -28,6 +29,9 @@ export async function POST(request: Request) {
       const result = await registerUserAuth({ user: email, password: dni });
       result.dni = dni;
       result.name = `${name} ${last_name}`;
+      result.firstName = `${name}`;
+      result.lastName = `${last_name}`;
+      result.phone = phone;
       result.email = email;
       result.plan = plan ?? "premium";
       //result.switch_profile = plan === "standard" ? false : true;

@@ -996,9 +996,10 @@ const UserTable = () => {
             justifyContent: "center",
             alignItems: "center",
             bgcolor: "#02AF9B",
-            padding: 5,
+            padding: 3,
             borderRadius: 3,
             position: "relative",
+            maxHeight: "100vh",
           }}
         >
           <IconButton
@@ -1010,21 +1011,21 @@ const UserTable = () => {
 
           {urlQR && (
             <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-justify-items-center tw-pl-3 tw-pr-3">
-              <Box className="tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-10 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center">
-                <div className="tw-w-[380px] tw-flex tw-justify-center tw-items-center">
+              <Box className="tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-5 tw-mt-3 tw-flex tw-flex-col tw-justify-center tw-items-center">
+                <div className="tw-w-[320px] tw-flex tw-justify-center tw-items-center">
                   <QRCodeSVG
                     id="qrcode-svg"
                     value={urlQR}
-                    size={380}
+                    size={320}
                     className=""
                   />
                 </div>
               </Box>
-              <Box className="tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-10 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center">
+              <Box className="tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-3 tw-mt-3 tw-flex tw-flex-col tw-justify-center tw-items-center">
                 <div className="tw-w-[350px] tw-flex tw-justify-center tw-items-center">
                   <Button
                     variant="contained"
-                    className="tw-mx-auto tw-mt-4 tw-w-[200px] tw-bg-[#02AF9B] tw-text-white tw-shadow-m"
+                    className="tw-mx-auto tw-mt-1 tw-w-[200px] tw-bg-[#02AF9B] tw-text-white tw-shadow-m"
                     onClick={() => handleDownloadQR()}
                   >
                     Descargar QR

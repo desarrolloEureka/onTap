@@ -767,7 +767,7 @@ const CustomersDistributorHook = ({
           userType: doc,
           optionEdit: doc,
           optionPay: doc,
-          statusPay: doc?.userInvoice?.status === "PAID" ? "Pagado" : "Pendiente por pagar",
+          statusPay: doc?.userOrder?.status === "DELIVERED" ? "Gestionado" : doc?.userInvoice?.status === "PAID" ? "Pagado" : "Pendiente por pagar",
           userInvoice: doc.userInvoice,
           userOrder: doc.userOrder,
           edit: {

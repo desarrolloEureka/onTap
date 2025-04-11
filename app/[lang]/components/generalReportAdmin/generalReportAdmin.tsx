@@ -382,7 +382,7 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
               <LocalShippingIcon
                 style={{ marginBottom: 5, fontSize: 30, color: "#02AF9B" }}
               />
-              <Typography style={{ color: "#02AF9B" }}>Entregar</Typography>
+              <Typography style={{ color: "#02AF9B" }}>Gestionada</Typography>
             </Button>
 
             <Button
