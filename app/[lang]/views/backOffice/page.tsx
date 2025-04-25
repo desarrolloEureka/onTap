@@ -62,6 +62,7 @@ import PendingPaymentReports from "@/components/pendingPaymentReports/PendingPay
 import MadePaymentReports from "@/components/madePaymentReport/madePaymentReports";
 import DispatchedDeliveriesReports from "@/components/dispatchedDeliveriesReport/dispatchedDeliveriesReports";
 import GeneralReportAdmin from "@/components/generalReportAdmin/generalReportAdmin";
+import SubscriptionReport from "@/components/subscriptionReport/SubscriptionReport";
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -304,13 +305,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                   >
                     {!isDistributor ? (
                       <>
-                       {/*  <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <NavDropdown.Item eventKey="28" style={{ fontSize: 15 }}>
                           <SubscriptionsIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
                           />
                           {dictionary?.backOffice.SubscriptionsLabelMenu}
-                        </NavDropdown.Item> */}
+                        </NavDropdown.Item>
                         <NavDropdown.Item eventKey="5" style={{ fontSize: 15 }}>
                           <TableRowsIcon
                             fontSize="small"
@@ -362,7 +363,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           />
                           {dictionary?.backOffice.Deliveries}
                         </NavDropdown.Item>
-                     {/*    <NavDropdown.Item style={{ fontSize: 15 }}>
+                        {/*    <NavDropdown.Item style={{ fontSize: 15 }}>
                           <NotificationsIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
@@ -581,6 +582,8 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <DispatchedDeliveriesReports handlePayUser={handlePayUser} />
         )}
         {value === 27 && <GeneralReportAdmin handlePayUser={handlePayUser} />}
+        {value === 28 && <SubscriptionReport params={{ lang }} />}
+
       </Box>
 
       {/* Footer */}

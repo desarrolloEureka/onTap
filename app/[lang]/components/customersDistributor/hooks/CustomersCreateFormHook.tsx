@@ -378,6 +378,16 @@ const CustomersCreateFormHook = ({
       valid = false;
     }
 
+    if (!customName.trim()) {
+      setCustomNameError("El nombre es obligatorio.");
+      valid = false;
+    }
+
+    if (!customRole.trim()) {
+      setCustomRoleError("El cargo es obligatorio.");
+      valid = false;
+    }
+
     /*  // Validar material seleccionado
          if (!selectedMaterial) {
              setSelectedMaterialError("Debes seleccionar un material.");
@@ -758,6 +768,8 @@ const CustomersCreateFormHook = ({
         selectedCustomization,
         selectedColor,
         idDistributor: data?.uid,
+        cardName: customName || '',
+        cardRole: customRole || '',
       };
 
       // Verificar si el usuario ya existe
@@ -1063,9 +1075,9 @@ const CustomersCreateFormHook = ({
           const status = result.data.status;
 
           if (status === "APPROVED") {
-            setIsModalOpen(false);
             clearInterval(intervalId);
-            setLoading(false);
+            //setIsModalOpen(false);
+            //setLoading(false);
             await dataRegisterHandle(true);
             resolve();
           } else if (attempts >= maxAttempts) {
@@ -1240,10 +1252,10 @@ const CustomersCreateFormHook = ({
       ) {
         const discountPercentage = dataPlan.prices_matrix[category];
         const fullPrice = dataPlan?.full_price ?? 0;
-        const discountAmount =
-          fullPrice * (parseFloat(discountPercentage) / 100);
+        const discountAmount = fullPrice * (parseFloat(discountPercentage) / 100);
         newTotal += fullPrice - discountAmount;
         const updatedCustomization = { ...dataPlan, finalPrice: newTotal };
+
         setCustomization(!customization);
         setSelectedCustomization(updatedCustomization);
       } else {

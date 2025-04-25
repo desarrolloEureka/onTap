@@ -17,6 +17,7 @@ export interface Templates {
 }
 
 export interface BackgroundImages {
+  created_at: any;
   id: string;
   name: string;
   image: string;

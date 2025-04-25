@@ -260,6 +260,9 @@ const UserTableLogic = () => {
       (user: { date: string | number | Date }) => {
         let userDate: Date;
 
+        console.log(' user.date  ',  user );
+        
+
         if (typeof user.date === "string") {
           const userDateParts = user.date.split("/");
           userDate = new Date(

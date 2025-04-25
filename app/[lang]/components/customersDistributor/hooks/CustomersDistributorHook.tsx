@@ -1,20 +1,13 @@
 import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 import { checkUserExists, GetUser, SendEditData } from "@/reactQuery/users";
-import {
-  gridFilteredSortedRowIdsSelector,
-  gridVisibleColumnFieldsSelector,
-  useGridApiRef,
-} from "@mui/x-data-grid";
+import { gridFilteredSortedRowIdsSelector, gridVisibleColumnFieldsSelector, useGridApiRef } from "@mui/x-data-grid";
 import { UpdateUserDataQuery } from "@/reactQuery/generalQueries";
-
 import { registerUserAuth, registerUserFb } from "app/functions/register";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import { Country } from "@/components/countries/hooks/CountriesHook";
-import { countriesTable } from "@/types/formConstant";
 import { Department } from "@/components/departments/hooks/DepartmentsHook";
 import { colombianCitiesData } from "@/types/colombianCitiesData";
 
@@ -143,7 +136,7 @@ const CustomersDistributorHook = ({
   };
 
   const mostrarDetalleCompra = (rowData: any) => {
-    //console.log("detalle de la compra", rowData);
+    console.log("detalle de la compra", rowData);
     setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
     setIsModalOpen2(true); // Abre el modal
   };
@@ -756,6 +749,7 @@ const CustomersDistributorHook = ({
     const getquery = async () => {
       const usersDataSanpShotAux = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShotAux.map((doc: any) => {
+        
         return {
           id: doc.dni || 1,
           date: doc?.created || "",
@@ -778,6 +772,8 @@ const CustomersDistributorHook = ({
           secuencialId: doc?.userOrder?.secuencialId || "",
           autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
           paymentDate: doc.userSubscription?.updatedAt || '',
+          cardName: doc?.cardName || '',
+          cardRole: doc?.cardRole || '',
         };
         //}).filter((user) => (!user.is_admin && !user.is_distributor))
       })

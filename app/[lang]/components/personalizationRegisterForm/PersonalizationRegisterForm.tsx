@@ -318,8 +318,8 @@ const PersonalizationRegisterForm = ({
             <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
               {step && step === 1 ? (
                 <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
-                  <div className="tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5">
-                    <div className="tw-w-full tw-grid tw-grid-cols-2 tw-grid-rows-3 tw-gap-6 tw-px-3">
+                  <div className="tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-8">
+                    <div className="tw-w-full tw-grid tw-grid-cols-2 tw-grid-rows-2 tw-gap-6 tw-px-3">
                       <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
                         <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
                           <TextField
@@ -462,7 +462,7 @@ const PersonalizationRegisterForm = ({
                         </div>
                       </div>
 
-                      <div className="tw-w-full tw-flex tw-justify-center tw-items-center">
+                      {/* <div className="tw-w-full tw-flex tw-justify-center tw-items-center">
                         <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-3">
                           <div className="tw-w-full -tw-mb-4">
                             <Typography
@@ -509,263 +509,264 @@ const PersonalizationRegisterForm = ({
                             )}
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
-                      <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2">
-                        <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0">
-                          <div className="tw-w-full -tw-mb-4">
-                            <Typography
-                              color={
-                                typeCustomizationError
-                                  ? "#d32f2f"
-                                  : "textSecondary"
-                              }
-                              display={"flow"}
-                              className="tw-text-left tw-text-sm"
-                            >
-                              {"Artículo"}
+                            {/*  <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2"> */}
+                            <div className="tw-w-full tw-flex tw-justify-center tw-items-center">
+                              <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-3">
+                                <div className="tw-w-full -tw-mb-4">
+                                  <Typography
+                                    color={
+                                      typeCustomizationError
+                                        ? "#d32f2f"
+                                        : "textSecondary"
+                                    }
+                                    display={"flow"}
+                                    className="tw-text-left tw-text-sm"
+                                  >
+                                    {"Artículo"}
+                                  </Typography>
+                                </div>
+
+                                <div className="tw-w-[98%] tw-h-[70%] tw-flex tw-items-center">
+                                  <Select
+                                    labelId="estado-label"
+                                    variant="standard"
+                                    className="tw-w-full"
+                                    id="estado-select"
+                                    label="Estado"
+                                    value={selectedArticle}
+                                    onChange={(e) =>
+                                      setSelectedArticle(e.target.value)
+                                    }
+                                    error={!!typeCustomizationError}
+                                  >
+                                    {articleList?.map((item: any) => (
+                                      <MenuItem key={item.id} value={item.id}>
+                                        {item.name}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </div>
+
+                                <div className="tw-w-full -tw-mt-3">
+                                  {selectedArticleError && (
+                                    <div
+                                      style={{
+                                        color: "red",
+                                        fontSize: "12px",
+                                        marginLeft: 5,
+                                      }}
+                                    >
+                                      {selectedArticleError}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      ) : (
+                      <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
+                        <div className="tw-w-[70%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-4">
+                          <Box
+                            sx={{ maxHeight: "500px", width: 300, overflow: "auto" }}
+                          >
+                            <Grid container spacing={1} sx={{ padding: "8px" }}>
+                              <Grid item xs={6} style={{ paddingBottom: 12 }}>
+                                <Typography
+                                  variant="h6"
+                                  align="center"
+                                  sx={{ color: "#000000", fontSize: 16 }}
+                                >
+                                  Categoría
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={6} style={{ paddingBottom: 12 }}>
+                                <Typography
+                                  variant="h6"
+                                  align="center"
+                                  sx={{ color: "#000000", fontSize: 16 }}
+                                >
+                                  Descuento (%)
+                                </Typography>
+                              </Grid>
+
+                              {dataCategories &&
+                                dataCategories.map((route, index) => (
+                                  <Fragment key={index}>
+                                    <Grid
+                                      item
+                                      xs={6}
+                                      sx={{
+                                        padding: "8px",
+                                        textAlign: "center",
+                                        color: "#000000",
+                                      }}
+                                    >
+                                      <Typography
+                                        variant="h6"
+                                        align="center"
+                                        sx={{ color: "#000000", fontSize: 15 }}
+                                      >
+                                        {route?.name}
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={6}
+                                      className={
+                                        "tw-flex tw-justify-center tw-justify-items-center"
+                                      }
+                                      sx={{ padding: "8px" }}
+                                    >
+                                      <FormControl
+                                        variant="outlined"
+                                        sx={{ width: "50%" }}
+                                      >
+                                        <TextField
+                                          id={`outlined-number-${route?.name}`}
+                                          label=""
+                                          type="number"
+                                          value={discounts[route?.name] || ""}
+                                          onChange={(e) =>
+                                            handleDiscountChange(
+                                              route?.name,
+                                              e.target.value
+                                            )
+                                          }
+                                          inputProps={{
+                                            style: {
+                                              padding: "6px 8px",
+                                              height: "30px",
+                                            },
+                                          }}
+                                          error={!!discountErrors[route?.name]}
+                                          sx={{ maxWidth: "100%" }}
+                                        />
+                                      </FormControl>
+                                    </Grid>
+                                  </Fragment>
+                                ))}
+                            </Grid>
+                          </Box>
+                        </div>
+                        <div className="tw-w-[70%] tw-h-[10%] tw-flex tw-justify-center tw-justify-items-center">
+                          {status && (
+                            <div style={{ color: "red", fontSize: 14 }}>
+                              *{status}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+              )}
+                      <div className="tw-w-[101%] tw-flex tw-justify-center tw-items-center tw-border-t-white tw-border-t-[0.5px] tw-border-x-0 tw-border-b-0 tw-border-solid">
+                        <div className="tw-w-1/2 tw-py-4 tw-flex tw-flex-col tw-justify-center tw-items-start">
+                          <div className="tw-w-40 tw-flex tw-flex-col tw-justify-center tw-items-center">
+                            <Typography style={{ fontSize: 14, color: "white" }}>
+                              {step === 1 ? "Paso 1/2" : "Paso 2/2"}
                             </Typography>
                           </div>
+                        </div>
+                        <div className="tw-w-1/2 tw-py-4 tw-flex tw-justify-end tw-items-center">
+                          <div className="tw-w-[100%] tw-h-full tw-flex tw-justify-end tw-items-center">
+                            {step === 1 ? (
+                              <div className="tw-w-[60%] tw-h-full tw-flex tw-justify-end tw-items-center">
+                                <Button
+                                  variant="text"
+                                  className="tw-text-black tw-mr-12"
+                                  onClick={() => handleNextStep(isEditData)}
+                                  sx={{
+                                    padding: "0",
+                                    minWidth: "auto",
+                                    textTransform: "none",
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                  endIcon={
+                                    <ArrowForwardIosIcon
+                                      style={{
+                                        marginLeft: -5,
+                                        fontSize: 25,
+                                        color: "white",
+                                      }}
+                                    />
+                                  }
+                                >
+                                  <Typography style={{ color: "white" }}>
+                                    {dictionary.dictionary?.backOffice.nextButton}
+                                  </Typography>
+                                </Button>
+                              </div>
+                            ) : (
+                              <div className="tw-w-full tw-h-full tw-flex tw-justify-end tw-items-center">
+                                <div className="tw-w-[85%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-5">
+                                  <Button
+                                    variant="text"
+                                    className="tw-text-black tw-mr-4"
+                                    onClick={() => setStep(1)}
+                                    sx={{
+                                      padding: "0",
+                                      minWidth: "auto",
+                                      textTransform: "none",
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                    startIcon={
+                                      <ArrowBackIosIcon
+                                        style={{
+                                          marginRight: -13,
+                                          fontSize: 25,
+                                          color: "white",
+                                        }}
+                                      />
+                                    }
+                                  >
+                                    <Typography style={{ color: "white" }}>
+                                      {dictionary.dictionary?.backOffice.backButton}
+                                    </Typography>
+                                  </Button>
 
-                          <div className="tw-w-[98%] tw-h-[70%] tw-flex tw-items-center">
-                            <Select
-                              labelId="estado-label"
-                              variant="standard"
-                              className="tw-w-full"
-                              id="estado-select"
-                              label="Estado"
-                              value={selectedArticle}
-                              onChange={(e) =>
-                                setSelectedArticle(e.target.value)
-                              }
-                              error={!!typeCustomizationError}
-                            >
-                              {articleList.map((item: any) => (
-                                <MenuItem key={item.id} value={item.id}>
-                                  {item.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </div>
-
-                          <div className="tw-w-full -tw-mt-3">
-                            {selectedArticleError && (
-                              <div
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  marginLeft: 5,
-                                }}
-                              >
-                                {selectedArticleError}
+                                  <Button
+                                    variant="text"
+                                    className="tw-text-black tw-ml-6"
+                                    onClick={
+                                      isEditData ? handleEditData : dataRegisterHandle
+                                    }
+                                    sx={{
+                                      padding: "0",
+                                      minWidth: "auto",
+                                      textTransform: "none",
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                    startIcon={
+                                      <SaveIcon
+                                        style={{
+                                          marginRight: -1,
+                                          fontSize: 25,
+                                          color: "white",
+                                        }}
+                                      />
+                                    }
+                                  >
+                                    <Typography style={{ color: "white" }}>
+                                      {dictionary.dictionary?.backOffice.guardar}
+                                    </Typography>
+                                  </Button>
+                                </div>
                               </div>
                             )}
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
-                  <div className="tw-w-[70%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-4">
-                    <Box
-                      sx={{ maxHeight: "500px", width: 300, overflow: "auto" }}
-                    >
-                      <Grid container spacing={1} sx={{ padding: "8px" }}>
-                        <Grid item xs={6} style={{ paddingBottom: 12 }}>
-                          <Typography
-                            variant="h6"
-                            align="center"
-                            sx={{ color: "#000000", fontSize: 16 }}
-                          >
-                            Categoría
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={6} style={{ paddingBottom: 12 }}>
-                          <Typography
-                            variant="h6"
-                            align="center"
-                            sx={{ color: "#000000", fontSize: 16 }}
-                          >
-                            Descuento (%)
-                          </Typography>
-                        </Grid>
-
-                        {dataCategories &&
-                          dataCategories.map((route, index) => (
-                            <Fragment key={index}>
-                              <Grid
-                                item
-                                xs={6}
-                                sx={{
-                                  padding: "8px",
-                                  textAlign: "center",
-                                  color: "#000000",
-                                }}
-                              >
-                                <Typography
-                                  variant="h6"
-                                  align="center"
-                                  sx={{ color: "#000000", fontSize: 15 }}
-                                >
-                                  {route?.name}
-                                </Typography>
-                              </Grid>
-                              <Grid
-                                item
-                                xs={6}
-                                className={
-                                  "tw-flex tw-justify-center tw-justify-items-center"
-                                }
-                                sx={{ padding: "8px" }}
-                              >
-                                <FormControl
-                                  variant="outlined"
-                                  sx={{ width: "50%" }}
-                                >
-                                  <TextField
-                                    id={`outlined-number-${route?.name}`}
-                                    label=""
-                                    type="number"
-                                    value={discounts[route?.name] || ""}
-                                    onChange={(e) =>
-                                      handleDiscountChange(
-                                        route?.name,
-                                        e.target.value
-                                      )
-                                    }
-                                    inputProps={{
-                                      style: {
-                                        padding: "6px 8px",
-                                        height: "30px",
-                                      },
-                                    }}
-                                    error={!!discountErrors[route?.name]}
-                                    sx={{ maxWidth: "100%" }}
-                                  />
-                                </FormControl>
-                              </Grid>
-                            </Fragment>
-                          ))}
-                      </Grid>
-                    </Box>
-                  </div>
-                  <div className="tw-w-[70%] tw-h-[10%] tw-flex tw-justify-center tw-justify-items-center">
-                    {status && (
-                      <div style={{ color: "red", fontSize: 14 }}>
-                        *{status}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-              <div className="tw-w-[101%] tw-flex tw-justify-center tw-items-center tw-border-t-white tw-border-t-[0.5px] tw-border-x-0 tw-border-b-0 tw-border-solid">
-                <div className="tw-w-1/2 tw-py-4 tw-flex tw-flex-col tw-justify-center tw-items-start">
-                  <div className="tw-w-40 tw-flex tw-flex-col tw-justify-center tw-items-center">
-                    <Typography style={{ fontSize: 14, color: "white" }}>
-                      {step === 1 ? "Paso 1/2" : "Paso 2/2"}
-                    </Typography>
-                  </div>
-                </div>
-                <div className="tw-w-1/2 tw-py-4 tw-flex tw-justify-end tw-items-center">
-                  <div className="tw-w-[100%] tw-h-full tw-flex tw-justify-end tw-items-center">
-                    {step === 1 ? (
-                      <div className="tw-w-[60%] tw-h-full tw-flex tw-justify-end tw-items-center">
-                        <Button
-                          variant="text"
-                          className="tw-text-black tw-mr-12"
-                          onClick={() => handleNextStep(isEditData)}
-                          sx={{
-                            padding: "0",
-                            minWidth: "auto",
-                            textTransform: "none",
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                          endIcon={
-                            <ArrowForwardIosIcon
-                              style={{
-                                marginLeft: -5,
-                                fontSize: 25,
-                                color: "white",
-                              }}
-                            />
-                          }
-                        >
-                          <Typography style={{ color: "white" }}>
-                            {dictionary.dictionary?.backOffice.nextButton}
-                          </Typography>
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="tw-w-full tw-h-full tw-flex tw-justify-end tw-items-center">
-                        <div className="tw-w-[85%] tw-h-full tw-flex tw-justify-center tw-items-center tw-mr-5">
-                          <Button
-                            variant="text"
-                            className="tw-text-black tw-mr-4"
-                            onClick={() => setStep(1)}
-                            sx={{
-                              padding: "0",
-                              minWidth: "auto",
-                              textTransform: "none",
-                              display: "flex",
-                              alignItems: "center",
-                            }}
-                            startIcon={
-                              <ArrowBackIosIcon
-                                style={{
-                                  marginRight: -13,
-                                  fontSize: 25,
-                                  color: "white",
-                                }}
-                              />
-                            }
-                          >
-                            <Typography style={{ color: "white" }}>
-                              {dictionary.dictionary?.backOffice.backButton}
-                            </Typography>
-                          </Button>
-
-                          <Button
-                            variant="text"
-                            className="tw-text-black tw-ml-6"
-                            onClick={
-                              isEditData ? handleEditData : dataRegisterHandle
-                            }
-                            sx={{
-                              padding: "0",
-                              minWidth: "auto",
-                              textTransform: "none",
-                              display: "flex",
-                              alignItems: "center",
-                            }}
-                            startIcon={
-                              <SaveIcon
-                                style={{
-                                  marginRight: -1,
-                                  fontSize: 25,
-                                  color: "white",
-                                }}
-                              />
-                            }
-                          >
-                            <Typography style={{ color: "white" }}>
-                              {dictionary.dictionary?.backOffice.guardar}
-                            </Typography>
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Box>
-        </Modal>
+                  </Box>
+                </Modal>
       </div>
-    )
-  );
+            )
+            );
 };
 
-export default PersonalizationRegisterForm;
+            export default PersonalizationRegisterForm;

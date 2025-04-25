@@ -35,7 +35,7 @@
     "imagenSeleccionada": "Imagen seleccionada",
     "alertTitle": "Alerta fondo",
     "alertMessage": "El fondo ha sido cargado con éxito",
-    "fondoPlantilla": "Fondos de PLantilla One Tap",
+    "fondoPlantilla": "Fondos de Plantilla One Tap",
     "alertTitleLogo": "Alerta Logo",
     "alertSuccessLogo": "El logo ha sido cargado con éxito",
     "alertFailSaveLogo": "No se pudo crear el logo. Por favor, intenta de nuevo.",
@@ -156,7 +156,8 @@
     "labelMadePaymentReports": "Reporte de Pagos Realizados",
     "labelDispatchedDeliveriesReports": "Reporte de Entregas",
     "labelGeneralReportAdmin": "Reporte General OC",
-    "labelReportAdmin": "Reporte General"
+    "labelReportAdmin": "Reporte General",
+    "labelReportSubscriptions": "Reporte Suscripciones"
   },
   "cardView": {
     "labelErrorUser": "Error",

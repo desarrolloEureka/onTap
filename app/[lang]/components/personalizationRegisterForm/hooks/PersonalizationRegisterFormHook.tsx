@@ -71,6 +71,8 @@ const PersonalizationRegisterFormHook = () => {
     setSkuError(null);
     setPriceError(null);
     setStateCustomizationError(null);
+    seTypeCustomizationError(null);
+    setSelectedArticleError(null);
     setStatus('');
 
     /* // Validar el nombre
@@ -104,11 +106,11 @@ const PersonalizationRegisterFormHook = () => {
       valid = false;
     }
 
-    // Validar el tipo de la personalización
+    /* // Validar el tipo de la personalización
     if (typeCustomization === null) {
       seTypeCustomizationError('Debes seleccionar el tipo de la personalización');
       valid = false;
-    }
+    } */
 
     // Validar el selecciono un articulo
     if (selectedArticle === null) {
@@ -200,6 +202,7 @@ const PersonalizationRegisterFormHook = () => {
     setRowId(dataCustomization.uid);
     setDiscounts(dataCustomization.prices_matrix);
     setTypeCustomization(dataCustomization.type);
+
     const selectedUids = (data || []).map((item: any) => item.selectedArticle);
     if (dataCustomization.type === 'Producto') {
       // Filtrar dataProducts para obtener los que NO están en selectedUids
@@ -229,7 +232,7 @@ const PersonalizationRegisterFormHook = () => {
         sku: sku,
         created_at: createdAt,
         //name: name,
-        type: typeCustomization,
+        type: typeCustomization || 'Plan',
         selectedArticle,
         full_price: price,
         status: stateCustomization,
@@ -312,6 +315,14 @@ const PersonalizationRegisterFormHook = () => {
       setArticleList(filteredPlanes);
     }
   };
+
+  useEffect(() => {
+    if (!isEditData) {
+      const selectedUids = (data || []).map((item: any) => item.selectedArticle);
+      const filteredPlanes = dataPlanes && dataPlanes.filter((plan: any) => !selectedUids.includes(plan.uid));
+      setArticleList(filteredPlanes);
+    }
+  }, [data, dataPlanes, isEditData, isModalOpen])
 
   useEffect(() => {
     if (data && dataProducts && dataPlanes) {

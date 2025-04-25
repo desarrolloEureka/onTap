@@ -634,6 +634,62 @@ const CustomersCreateForm = ({
                         </div>
                       </div>
 
+                      <FormControl
+                          fullWidth
+                          variant="outlined"
+                          className="tw-mb-6"
+                        >
+                          <div className="tw-flex tw-justify-between tw-mb-2 tw-mt-4">
+                            <TextField
+                              variant="standard"
+                              label="Nombres"
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <PersonIcon
+                                      style={{
+                                        color: "#02AF9B",
+                                        fontSize: "1.8rem",
+                                        marginRight: "1rem",
+                                      }}
+                                    />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              fullWidth
+                              className="tw-mr-2"
+                              value={customName}
+                              error={!!customNameError}
+                              helperText={customNameError}
+                              onChange={(e) => setCustomName(e.target.value)}
+                            />
+
+                            <TextField
+                              variant="standard"
+                              label="Cargo"
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <WorkIcon
+                                      style={{
+                                        color: "#02AF9B",
+                                        fontSize: "1.8rem",
+                                        marginRight: "1rem",
+                                      }}
+                                    />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              fullWidth
+                              className="tw-ml-2"
+                              value={customRole}
+                              error={!!customRoleError}
+                              helperText={customRoleError}
+                              onChange={(e) => setCustomRole(e.target.value)}
+                            />
+                          </div>
+                        </FormControl>
+
                       <div className="tw-flex tw-items-center tw-mb-6">
                         <div className="tw-w-[40%]">
                           <FormControl fullWidth variant="outlined">
@@ -724,7 +780,7 @@ const CustomersCreateForm = ({
                         </div>
                       </div>
 
-                      {customization && (
+                    {/*   {customization && (
                         <FormControl
                           fullWidth
                           variant="outlined"
@@ -781,8 +837,8 @@ const CustomersCreateForm = ({
                           </div>
                         </FormControl>
                       )}
-
-                      <div className="tw-flex tw-justify-end tw-mb-4 tw-mb-6">
+ */}
+                      <div className="tw-flex tw-justify-end tw-mb-6">
                         <span className="tw-text-lg tw-font-semibold">
                           Total: ${formatPrice(total)}
                         </span>
@@ -876,12 +932,12 @@ const CustomersCreateForm = ({
                                   {" "}
                                   Precio Distribuidor
                                 </th>
-                                <th className="tw-px-4 tw-py-2 tw-border-b tw-border-t">
+                                <th className="tw-px-4 tw-py-2 tw-border-b tw-border-t tw-border-r">
                                   Acciones
                                 </th>
-                                <th className="tw-px-4 tw-py-2 tw-border-b tw-border-t tw-border-r">
+                                {/* <th className="tw-px-4 tw-py-2 tw-border-b tw-border-t tw-border-r">
                                   Personalización
-                                </th>
+                                </th> */}
                               </tr>
                             </thead>
                             <tbody>
@@ -931,7 +987,7 @@ const CustomersCreateForm = ({
                                         fontSize="medium"
                                       />
                                     </td>
-                                    <td className="tw-px-4">
+                                   {/*  <td className="tw-px-4">
                                       <div className="tw-flex tw-items-center">
                                         <Checkbox
                                           checked={product?.hasPersonalization}
@@ -948,7 +1004,7 @@ const CustomersCreateForm = ({
                                           )}
                                         </span>
                                       </div>
-                                    </td>
+                                    </td> */}
                                   </tr>
                                   {product.hasPersonalization && (
                                     <tr className="tw-border-b tw-border-l tw-border-r tw-border-t">

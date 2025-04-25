@@ -157,6 +157,7 @@ export interface Dictionary {
     labelDispatchedDeliveriesReports: string;
     labelGeneralReportAdmin: string;
     labelReportAdmin: string;
+    labelReportSubscriptions: string;
   };
   cardView: {
     labelErrorUser: string;
