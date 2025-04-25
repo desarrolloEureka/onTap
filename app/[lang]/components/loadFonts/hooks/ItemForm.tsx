@@ -44,7 +44,7 @@ const ItemForm: React.FC<ItemFormProps> = ({ dictionary, flag, setFlag, }) => {
 
     try {
       const image = await convertToBase64(imageFile);
-      await saveBackgroundImage(image, name.trim());
+      await saveBackgroundImage(image);
       // Resetear estado después de la operación
       setName('');
       setImageFile(null);
