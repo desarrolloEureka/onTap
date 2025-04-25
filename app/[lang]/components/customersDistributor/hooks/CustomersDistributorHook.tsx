@@ -749,10 +749,12 @@ const CustomersDistributorHook = ({
     const getquery = async () => {
       const usersDataSanpShotAux = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShotAux.map((doc: any) => {
-        
+
+        doc?.uid === "2d3YbCM1ZChRhpWXB5d7JDlJRLx2" && console.log('doc ', doc);
+
         return {
           id: doc.dni || 1,
-          date: doc?.created || "",
+          created_at: doc?.created || "",
           name: doc.firstName + " " + doc.lastName || "",
           indicative: doc.indicative || "",
           phone: doc.phone || "",
@@ -771,7 +773,9 @@ const CustomersDistributorHook = ({
           idDistributor: doc?.idDistributor || "",
           secuencialId: doc?.userOrder?.secuencialId || "",
           autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
-          paymentDate: doc.userSubscription?.updatedAt || '',
+          paymentDate: doc.gif === true
+            ? doc?.created || ''
+            : doc?.userSubscription?.updatedAt || doc?.userSubscription?.created_at || doc?.created || '',
           cardName: doc?.cardName || '',
           cardRole: doc?.cardRole || '',
         };

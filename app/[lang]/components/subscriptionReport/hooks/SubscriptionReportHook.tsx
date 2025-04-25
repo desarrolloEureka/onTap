@@ -150,7 +150,7 @@ const SubscriptionReportHook = () => {
       const usersDataSanpShot = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShot.map((doc: any) => {
 
-        doc?.uid === "eAfrPZRLPtdveEB68643F00POU92" && console.log('doc ', doc);
+        doc?.uid === "2d3YbCM1ZChRhpWXB5d7JDlJRLx2" && console.log('doc ', doc);
 
         return {
           uid: doc.uid || "",
@@ -177,6 +177,8 @@ const SubscriptionReportHook = () => {
 
       setQuery(usersData);
       setFilteredQuery(usersData);
+      console.log('usersData ',usersData);
+      
     };
 
     getquery();

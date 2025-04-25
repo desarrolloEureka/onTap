@@ -260,8 +260,8 @@ const UserTableLogic = () => {
       (user: { date: string | number | Date }) => {
         let userDate: Date;
 
-        console.log(' user.date  ',  user );
-        
+        console.log(' user.date  ', user);
+
 
         if (typeof user.date === "string") {
           const userDateParts = user.date.split("/");
@@ -640,9 +640,7 @@ const UserTableLogic = () => {
           userType: doc,
           //userType: doc.gif ? doc.gif === true ? "Obsequio" : "Comprador" : "Comprador",
           optionEdit: doc,
-          paymentDate: doc.gif === true
-            ? doc?.created || ''
-            : doc?.userSubscription?.updatedAt || doc?.created || '',
+          paymentDate: doc.gif === true ? doc?.created || '' : doc?.userSubscription?.updatedAt || doc?.created || '',
           nextPaymentDate: doc.userSubscription?.nextPaymentDate || '',
           autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
           userInvoice: doc?.userInvoice || '',
