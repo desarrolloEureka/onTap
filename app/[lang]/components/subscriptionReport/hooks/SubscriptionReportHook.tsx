@@ -46,11 +46,16 @@ const SubscriptionReportHook = () => {
         } = user;
 
         return {
-          ...filteredUser,
-          fecha_pago: formatDate(user.fecha_pago),
-          fecha_suscripcion: formatDate(user.fecha_suscripcion),
-          fecha_vencimiento: formatDate(user.fecha_vencimiento),
-          created_at: formatDate(user.created_at),
+          "Fecha Registro": formatDate(user.created_at),
+          "Fecha Pago": formatDate(user.fecha_pago),
+          "Fecha Suscripción": formatDate(user.fecha_suscripcion),
+          "Fecha Vencimiento": formatDate(user.fecha_vencimiento),
+          "No. Identificación": user.id,
+          "Nombres y Apellidos": user.name,
+          "Indicativo": user.indicative,
+          "Teléfono": user.phone,
+          "Correo": user.email,
+          "Estado Suscripción": user.estado_suscripcion,
         };
       });
 
@@ -150,8 +155,6 @@ const SubscriptionReportHook = () => {
       const usersDataSanpShot = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShot.map((doc: any) => {
 
-        doc?.uid === "2d3YbCM1ZChRhpWXB5d7JDlJRLx2" && console.log('doc ', doc);
-
         return {
           uid: doc.uid || "",
           is_admin: doc.is_admin,
@@ -177,8 +180,6 @@ const SubscriptionReportHook = () => {
 
       setQuery(usersData);
       setFilteredQuery(usersData);
-      console.log('usersData ',usersData);
-      
     };
 
     getquery();

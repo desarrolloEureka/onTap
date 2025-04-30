@@ -1,5 +1,5 @@
 import { getAllUsers, getUsersWithOrdersAndInvoices } from "@/firebase/user";
-import { getDocumentReference, saveSubscriptionQuerie } from "@/reactQuery/generalQueries";
+import { getDocumentReference, saveSubscriptionQuerie, updateSubscriptionQuery, updateSubscriptionsQuery } from "@/reactQuery/generalQueries";
 import { checkUserExists, SendEditData } from "@/reactQuery/users";
 import { registerUserAuth, registerUserFb } from "app/functions/register";
 import moment from "moment";
@@ -41,6 +41,7 @@ const UserTableLogic = () => {
   const [phoneCode, setPhoneCode] = useState<string>("CO+57");
   const [phone, setPhone] = useState<string>("");
   const [plan, setPlan] = useState<string>("");
+  const [subscription, setSubscription] = useState<string>("");
   const [type, setType] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState("");
   //Extra
@@ -54,6 +55,7 @@ const UserTableLogic = () => {
   const [errorDniForm, setErrorDniForm] = useState<string | null>(null);
   const [errorNameForm, setErrorNameForm] = useState<string | null>(null);
   const [errorLastNameForm, setErrorLastNameForm] = useState<string | null>(null);
+  const [errorTypeForm, setErrorTypeForm] = useState<string | null>(null);
   const [errorPlanForm, setErrorPlanForm] = useState<string | null>(null);
   const [errorPhoneForm, setErrorPhoneForm] = useState<string | null>(null);
   const [errorPhoneCodeForm, setErrorPhoneCodeForm] = useState<string | null>(
@@ -84,6 +86,7 @@ const UserTableLogic = () => {
     setPhoneCode(dataUser?.indicative || "CO+57");
     setPhone(dataUser?.phone || "");
     setPlan(dataUser?.plan || "");
+    setSubscription(dataUser?.userSubscription?.uid || "");
 
     const dateSource =
       dataUser?.gif === true
@@ -260,9 +263,6 @@ const UserTableLogic = () => {
       (user: { date: string | number | Date }) => {
         let userDate: Date;
 
-        console.log(' user.date  ', user);
-
-
         if (typeof user.date === "string") {
           const userDateParts = user.date.split("/");
           userDate = new Date(
@@ -305,6 +305,7 @@ const UserTableLogic = () => {
     setPhoneCode("CO+57");
     setPhone("");
     setPlan("");
+    setSubscription("");
     setType("");
     setSelectedDate("");
 
@@ -383,6 +384,14 @@ const UserTableLogic = () => {
       setErrorPlanForm(null);
     }
 
+    // Validar tipo
+    if (!type) {
+      setErrorTypeForm("El tipo de usuario es obligatorio.");
+      valid = false;
+    } else {
+      setErrorTypeForm(null);
+    }
+
     // Validar teléfono
     if (phone.trim() === "") {
       setErrorPhoneForm("El teléfono es obligatorio.");
@@ -439,6 +448,57 @@ const UserTableLogic = () => {
     return valid;
   };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // Función para manejar el envío del formulario
   const dataRegisterHandle = async () => {
     if (!validateForm()) return;
@@ -491,8 +551,8 @@ const UserTableLogic = () => {
       result.lastName = lastName;
       result.plan = plan;
       result.switch_profile = false; // Modo de perfil
-      result.gif = true;
-      result.email = trimmedEmail;
+      result.gif = type === "Obsequio" ? true : false,
+        result.email = trimmedEmail;
       result.phone = trimmedPhone;
       result.indicative = phoneCode;
       result.dni = trimmedDni;
@@ -527,7 +587,7 @@ const UserTableLogic = () => {
       // Registrar usuario en la base de datos
       const dataUser = await registerUserFb({ data: result });
       const createdAt = moment().format();
-      const nextYearDate = moment().add(3, 'months').format();
+      const nextYearDate = type === "Obsequio" ? moment().add(3, 'months').format() : moment().add(1, 'year').format();
 
       const dataSend = {
         userUid: dataUser?.uid,
@@ -575,9 +635,21 @@ const UserTableLogic = () => {
         phone,
         plan,
         type,
+        gif: type === "Obsequio" ? true : false,
       };
 
       const result = await SendEditData(rowId, dataSend, selectedDateFormatted);
+
+      const updatedAt = moment().format();
+      const nextYearDate = type === "Obsequio" ? moment().add(3, 'months').format() : moment().add(1, 'year').format();
+
+      const dataSendSus = {
+        updatedAt,
+        status: 'Active',
+        nextPaymentDate: nextYearDate,
+      };
+
+      subscription && await updateSubscriptionsQuery(dataSendSus, subscription);
 
       if (result.success) {
         Swal.fire({
@@ -662,8 +734,6 @@ const UserTableLogic = () => {
 
       setQuery(usersData);
       setFilteredQuery(usersData);
-
-      console.log('usersData ', usersData);
     };
 
     getquery();
@@ -725,6 +795,7 @@ const UserTableLogic = () => {
     errorNameForm,
     errorLastNameForm,
     errorPlanForm,
+    errorTypeForm,
     errorPhoneForm,
     errorPhoneCodeForm,
     errorMailForm,

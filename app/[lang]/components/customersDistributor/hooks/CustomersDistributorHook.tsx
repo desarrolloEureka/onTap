@@ -136,7 +136,6 @@ const CustomersDistributorHook = ({
   };
 
   const mostrarDetalleCompra = (rowData: any) => {
-    console.log("detalle de la compra", rowData);
     setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
     setIsModalOpen2(true); // Abre el modal
   };
@@ -749,9 +748,6 @@ const CustomersDistributorHook = ({
     const getquery = async () => {
       const usersDataSanpShotAux = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShotAux.map((doc: any) => {
-
-        doc?.uid === "2d3YbCM1ZChRhpWXB5d7JDlJRLx2" && console.log('doc ', doc);
-
         return {
           id: doc.dni || 1,
           created_at: doc?.created || "",

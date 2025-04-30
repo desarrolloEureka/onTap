@@ -19,6 +19,7 @@ import {
   updateProfileFirebase,
   getCurrentProfileData,
   getSubscriptionByUserId,
+  getUserByIdFireStoreFullData,
 } from "@/firebase/user";
 import {
   DataForm,
@@ -250,25 +251,6 @@ const SendViewUser = async (userId: string, numViewsNew: number) => {
   await updateViewsUser(userId, { views: numViewsNew });
 };
 
-const GetUserById = (userUid: string, refetch?: boolean) => {
-  return useQuery({
-    queryKey: ["user", userUid], // Clave de consulta única para cada usuario
-    queryFn: async () => {
-      const updatedUser = await getUserByIdFireStore(userUid);
-      if (updatedUser.exists()) {
-        const userData = (await updatedUser.data()) as UserData;
-        const getUser = await reBuildUserData(userData);
-        await localStorage.setItem("@user", JSON.stringify(getUser));
-        return getUser;
-      } else {
-        return null;
-      }
-    },
-    enabled: !!userUid,
-    refetchOnWindowFocus: refetch ?? false,
-  });
-};
-
 const GetUserByIdEdit = (userUid: string, refetch?: boolean) => {
   return useQuery({
     queryKey: ["user", userUid],
@@ -286,14 +268,54 @@ const GetUserByIdEdit = (userUid: string, refetch?: boolean) => {
   });
 };
 
-const GetUserByIdCard = (userUid: string, refetch?: boolean) => {
+/* const GetUserById = (userUid: string, refetch?: boolean) => {
   return useQuery({
     queryKey: ["user", userUid], // Clave de consulta única para cada usuario
     queryFn: async () => {
       const updatedUser = await getUserByIdFireStore(userUid);
       if (updatedUser.exists()) {
         const userData = (await updatedUser.data()) as UserData;
-        return userData;
+        const getUser = await reBuildUserData(userData);
+        await localStorage.setItem("@user", JSON.stringify(getUser));
+        return getUser;
+      } else {
+        return null;
+      }
+    },
+    enabled: !!userUid,
+    refetchOnWindowFocus: refetch ?? false,
+  });
+}; */
+
+const GetUserById = (userUid: string, refetch?: boolean) => {
+  return useQuery({
+    queryKey: ["user", userUid],
+    queryFn: async () => {
+      const updatedUser: any = await getUserByIdFireStoreFullData(userUid);
+
+      if (updatedUser) {
+        const userData = updatedUser as UserData;
+        const getUser = await reBuildUserData(userData);
+        await localStorage.setItem("@user", JSON.stringify(getUser));
+        return getUser;
+      } else {
+        return null;
+      }
+    },
+    enabled: !!userUid,
+    refetchOnWindowFocus: refetch ?? false,
+  });
+};
+
+
+const GetUserByIdCard = (userUid: string, refetch?: boolean) => {
+  return useQuery({
+    queryKey: ["user", userUid],
+    queryFn: async () => {
+      const updatedUser: any = await getUserByIdFireStoreFullData(userUid);
+
+      if (updatedUser) {
+        return updatedUser; // Retornamos el objeto { user, subscription }
       } else {
         return null;
       }

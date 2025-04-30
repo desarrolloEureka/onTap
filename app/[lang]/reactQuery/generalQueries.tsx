@@ -26,6 +26,7 @@ import {
   updateUserData,
   sendNotificationsToUsers,
   saveSubscriptions,
+  updateSubscriptions,
 } from "@/firebase/Documents";
 
 //Categorias
@@ -173,6 +174,14 @@ export const updateSubscriptionQuery = async (
   idSubscription: any
 ) => {
   const res = await updateSubscription(dataSend, idSubscription);
+  return res;
+};
+
+export const updateSubscriptionsQuery = async (
+  dataSend: any,
+  idSubscription: any
+) => {
+  const res = await updateSubscriptions(idSubscription, dataSend);
   return res;
 };
 

@@ -176,9 +176,6 @@ const LoadFontsHook = () => {
                 image: selectedImage || '',
             }
 
-            console.log('dataSend ', dataSend);
-            console.log('rowId ', rowId);
-
             if (!rowId) { return }
 
             // Guardar la fondo en Firestore;
@@ -238,8 +235,6 @@ const LoadFontsHook = () => {
 
     useEffect(() => {
         if (data) {
-            console.log('data ', data);
-
             const formattedData = data.map(doc => (
                 {
                     id: doc.id,

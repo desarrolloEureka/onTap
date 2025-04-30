@@ -29,7 +29,7 @@ export const registerUserAuth = async ({
     email: "",
     dni: "",
     date_paid: "",
-    isActiveByAdmin: false,
+    isActiveByAdmin: true,
     created: 0,
     subscriptionId: "",
     templateData: [

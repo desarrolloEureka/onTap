@@ -41,6 +41,35 @@ const loginRef = ({ user, password }: LoginRefProps) =>
 export const getUserByIdFireStore = async (user: string) =>
   await getDoc(doc(dataBase, "users", user));
 
+export const getUserByIdFireStoreFullData = async (userId: string) => {
+  try {
+    const userDocRef = doc(dataBase, "users", userId);
+    const userSnap = await getDoc(userDocRef);
+
+    if (!userSnap.exists()) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    const userData = { id: userSnap.id, ...userSnap.data() };
+    const subscriptionsRef = collection(dataBase, "subscriptions");
+    const q = query(subscriptionsRef, where("userId", "==", userId));
+    const subscriptionsSnap = await getDocs(q);
+
+    let subscriptionData = null;
+    subscriptionsSnap.forEach((doc) => {
+      subscriptionData = { id: doc.id, ...doc.data() };
+    });
+
+    return {
+      ...userData,
+      subscription: subscriptionData,
+    };
+  } catch (error) {
+    console.error("Error obteniendo usuario y suscripción:", error);
+    throw error;
+  }
+};
+
 // ref({ ref: user, collection: 'users' });
 
 export const getAllUsers = async () => await getDocs(allRef({ ref: "users" }));

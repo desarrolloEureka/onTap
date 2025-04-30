@@ -88,6 +88,7 @@ const UserTable = () => {
     errorNameForm,
     errorLastNameForm,
     errorPlanForm,
+    errorTypeForm,
     errorPhoneForm,
     errorPhoneCodeForm,
     errorMailForm,
@@ -192,11 +193,13 @@ const UserTable = () => {
       flex: 1,
       headerAlign: "center",
       align: "center",
+      // Formatea para mostrar
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           <div>{getFormattedDate(params.value)}</div>
         </div>
       ),
+      valueGetter: (params) => new Date(params.value).toISOString(),
     },
     {
       field: "id",
@@ -897,6 +900,40 @@ const UserTable = () => {
                       />
                     </div>
                   )}
+
+                  {/* Tipo Usuario */}
+                  <div className="tw-w-full tw-mr-5">
+                    <Typography
+                      color="textSecondary"
+                      display="flow"
+                      className="tw-text-left tw-text-sm tw-mb-1"
+                    >
+                      {dictionary.dictionary?.backOffice.TypeUser}
+                    </Typography>
+
+                    <div className="tw-relative tw-w-full">
+                      <Select
+                        variant="outlined"
+                        className="tw-w-full"
+                        fullWidth
+                        required
+                        id="outlined-required"
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
+                        error={Boolean(errorTypeForm)}
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 150,
+                            },
+                          },
+                        }}
+                      >
+                        <MenuItem value='Obsequio'>{dictionary.dictionary?.backOffice.TypeGift}</MenuItem>
+                        <MenuItem value='Comprador'>{dictionary.dictionary?.backOffice.TypeBuyer}</MenuItem>
+                      </Select>
+                    </div>
+                  </div>
 
                   <div className="tw-w-full">
                     <Typography

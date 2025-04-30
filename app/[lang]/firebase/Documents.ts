@@ -669,3 +669,19 @@ export const validateSKU = async (sku: string, collectionName: string): Promise<
     return false;
   }
 };
+
+export const updateSubscriptions = async (uid: string, updatedData: any) => {
+  try {
+    const subscriptionRef = doc(dataBase, "subscriptions", uid);
+
+    await updateDoc(subscriptionRef, {
+      ...updatedData,
+    });
+
+    return { success: true, message: "Suscripción actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar la suscripción:", error);
+    return { success: false, message: "Error al actualizar la suscripción" };
+  }
+};
+
