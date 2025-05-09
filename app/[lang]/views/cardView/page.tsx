@@ -378,15 +378,22 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     setIsCookies(!cookies);
   }, []);
 
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  const nextPayment = new Date(user?.subscription?.nextPaymentDate);
+  nextPayment.setHours(0, 0, 0, 0);
+  const isSubscriptionExpired = user?.subscription?.status !== 'Active' && nextPayment <= now;
+
   return user && type ? (
     user?.isActiveByAdmin === false ? (
       <CustomModalAlert
         handleModalAlert={handleModalAlert}
         title="Acceso restringido"
-  description="Tu cuenta ha sido deshabilitada por un administrador. Si tienes dudas, contacta con el administrador."
+        description="Tu cuenta ha sido deshabilitada por un administrador. Si tienes dudas, contacta con el administrador."
         isModalAlert={isModalAlert}
       />
-    ) : user?.subscription?.status !== 'Active' ? (
+    ) : isSubscriptionExpired ? (
       <CustomModalAlert
         handleModalAlert={handleModalAlert}
         title="Suscripción expirada"
