@@ -246,7 +246,7 @@ const UserRegister = () => {
               display={'flow'}
               className='tw-text-left tw-text-sm tw-mb-2'
             >
-              {dictionary.dictionary?.backOffice.Plan}
+              {dictionary.dictionary?.backOffice.Combo}
             </Typography>
           </div>
           <div className='tw-relative'>

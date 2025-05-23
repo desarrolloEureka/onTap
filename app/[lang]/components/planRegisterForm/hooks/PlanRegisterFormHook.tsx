@@ -25,7 +25,7 @@ const PlanRegisterFormHook = () => {
   const [status, setStatus] = useState<any>('');
   const [step, setStep] = useState(1);
 
-  // Data Plan
+  // Data Combo
   const [name, setName] = useState<string>('');
   const [sku, setSku] = useState<string>('');
   const [price, setPrice] = useState<string>('');
@@ -122,20 +122,20 @@ const PlanRegisterFormHook = () => {
 
     // Validar el nombre
     if (name.trim() === '') {
-      setNameError('El nombre del plan es obligatorio');
+      setNameError('El nombre del combo es obligatorio');
       valid = false;
     }
 
     // Validar el SKU
     if (sku.trim() === '') {
-      setSkuError('El SKU del plan es obligatorio');
+      setSkuError('El SKU del combo es obligatorio');
       valid = false;
     }
 
     // Validar el precio
     const priceTrimmed = price.toString().trim();
     if (priceTrimmed === '') {
-      setPriceError('El precio del plan es obligatorio');
+      setPriceError('El precio del combo es obligatorio');
       valid = false;
     } else if (isNaN(Number(priceTrimmed))) {
       setPriceError('El precio debe ser un número válido');
@@ -145,9 +145,9 @@ const PlanRegisterFormHook = () => {
       valid = false;
     }
 
-    // Validar el estado del plan
+    // Validar el estado del combo
     if (stateProduct === null) {
-      setStateProductError('Debes seleccionar el estado del plan');
+      setStateProductError('Debes seleccionar el estado del combo');
       valid = false;
     }
 
@@ -231,7 +231,7 @@ const PlanRegisterFormHook = () => {
       const isSkuAvailable = await validateSKU(sku, "plans");
   
       if (!isSkuAvailable) {
-        setSkuError("El SKU del Plan ya está registrado");
+        setSkuError("El SKU del Combo ya está registrado");
         return;
       }
     }
@@ -284,7 +284,7 @@ const PlanRegisterFormHook = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `Plan registrado con éxito`,
+          title: `Combo registrado con éxito`,
           showConfirmButton: false,
           timer: 2000,
         });
@@ -295,7 +295,7 @@ const PlanRegisterFormHook = () => {
         setStatus(result.message);
       }
     } catch (error) {
-      setStatus('Error al registrar el plan');
+      setStatus('Error al registrar el combo');
     } finally {
       setFlag(!flag);
       setIsSubmitting(false);
@@ -325,7 +325,7 @@ const PlanRegisterFormHook = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `Plan actualizada con éxito`,
+          title: `Combo actualizada con éxito`,
           showConfirmButton: false,
           timer: 2000,
         });
@@ -334,7 +334,7 @@ const PlanRegisterFormHook = () => {
         setStatus(result.message);
       }
     } catch (error) {
-      setStatus('Error al registrar el plan');
+      setStatus('Error al registrar el combo');
     } finally {
       setFlag(!flag);
       setIsSubmitting(false);
@@ -374,15 +374,15 @@ const PlanRegisterFormHook = () => {
 
         return {
           id: idCounter++,
-          uid: doc.id,
-          name: doc.name || '',
-          created_at: doc.created_at || '',
-          status: doc.status || '',
+          uid: doc?.id,
+          name: doc?.name || '',
+          created_at: doc?.created_at || '',
+          status: doc?.status || '',
           optionEdit: doc,
-          sku: doc.sku || '',
-          price: doc.full_price || '',
-          prices_matrix: doc.prices_matrix || '',
-          product: doc.product.name || '',
+          sku: doc?.sku || '',
+          price: doc?.full_price || '',
+          prices_matrix: doc?.prices_matrix || '',
+          product: doc?.product?.name || '',
           ...dynamicPrices
         };
       });

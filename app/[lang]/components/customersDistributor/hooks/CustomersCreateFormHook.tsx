@@ -22,9 +22,12 @@ import {
   saveInvoiceQuerie,
   saveOrderQuerie,
   saveSubscriptionQuerie,
+  UpdateUserDataQuery,
 } from "@/reactQuery/generalQueries";
 import { wompiConfig } from "@/firebase/firebaseConfig";
 import { getLastOrder } from "@/firebase/generals";
+import { getUserById, getUserByIdFireStoreFullData } from "@/firebase/user";
+import { updateSubscriptionFieldByUserId } from "@/firebase/Documents";
 
 type City = string;
 
@@ -36,8 +39,10 @@ interface ErrorMessages {
 
 const CustomersCreateFormHook = ({
   handleReturnForm,
+  userId
 }: {
   handleReturnForm: () => void;
+  userId: any
 }) => {
   const { data, refetch } = GetUser();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -53,6 +58,7 @@ const CustomersCreateFormHook = ({
   const { data: dataProducts } = GetAllProducts(flag);
   const [filteredColors, setFilteredColors] = useState<Colors[]>([]);
   const [isEditData, setIsEditData] = useState<boolean>(false);
+  const [isExistingUser, setIsExistingUser] = useState<boolean>(false);
 
   //Datos distribuidor paso 1
   const [documentType, setDocumentType] = useState<string>("");
@@ -72,6 +78,7 @@ const CustomersCreateFormHook = ({
 
   //Datos Paso 2
   const [selectedPlan, setSelectedPlan] = useState<string | any>("");
+  const [selectedCombo, setSelectedCombo] = useState<string | any>("");
   const [selectedMaterial, setSelectedMaterial] = useState<string | any>("");
   const [selectedCustomization, setSelectedCustomization] = useState<any>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -129,9 +136,8 @@ const CustomersCreateFormHook = ({
   const [isActiveError, setIsActiveError] = useState<string | null>(null);
 
   // Errores Paso 2
-  const [selectedPlanError, setSelectedPlanError] = useState<string | null>(
-    null
-  );
+  const [selectedPlanError, setSelectedPlanError] = useState<string | null>(null);
+  const [selectedComboError, setSelectedComboError] = useState<string | null>(null);
   const [selectedMaterialError, setSelectedMaterialError] = useState<
     string | null
   >(null);
@@ -197,6 +203,8 @@ const CustomersCreateFormHook = ({
   );
   const [idTypeError, setIdTypeError] = useState<string | null>(null);
   const [idNumberError, setIdNumberError] = useState<string | null>(null);
+  const [isChangePlan, setIsChangePlan] = useState(false);
+  const [dataUserExist, setDataUserExist] = useState<any>(null);
 
   const handleInputChange = (e: { target: { name: any; value: any } }) => {
     setCardInfo({ ...cardInfo, [e.target.name]: e.target.value });
@@ -215,10 +223,91 @@ const CustomersCreateFormHook = ({
       if (!validateFormStepThird()) return;
       setStep(4);
     } else if (actualStep === 4) {
+      if (total === 0) {
+        return;
+      }
       setStep(5);
     } else if (actualStep === 5) {
       setStep(6);
     }
+  };
+
+  const fillUserData = async (userData: any) => {
+    setDocumentType(userData.documentType || "");
+    setDocumentNumber(userData.dni || "");
+    setFirstName(userData.firstName || "");
+    setLastName(userData.lastName || "");
+    setEmail(userData.email || "");
+    setConfirmEmail(userData.email || "");
+    setPhoneCode(userData.phoneCode || "CO+57");
+    setPhoneNumber(userData.phone || "");
+    setAddress(userData.address || "");
+    setCity(userData.city || "");
+    setState(userData.state || "");
+    setCountry(userData.country || "");
+    const departmentsData = await colombianCitiesData;
+    setDepartments(departmentsData);
+
+    const filteredCitiesData = colombianCitiesData.find(
+      (departamento) => departamento.departamento === userData.state
+    );
+
+    const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
+    setCities(cities);
+
+    setIsActive(userData.isActive !== undefined ? userData.isActive : true);
+    setRowId(userData.id || null);
+    setSelectedPlan(userData.plan || null);
+
+    setDocumentTypeError(null);
+    setDocumentNumberError(null);
+    setFirstNameError(null);
+    setLastNameError(null);
+    setEmailError(null);
+    setConfirmEmailError(null);
+    setPhoneNumberError(null);
+    setErrorPhoneCodeForm(null);
+    setAddressError(null);
+    setCityError(null);
+    setStateError(null);
+    setCountryError(null);
+    setIsActiveError(null);
+  };
+
+
+  const fillDeliveryData = async (userData: any) => {
+    setDeliveryFirstName(userData.firstName || "");
+    setDeliveryLastName(userData.lastName || "");
+    setDeliveryIdType(userData.documentType || "");
+    setDeliveryIdNumber(userData.dni || "");
+    setDeliveryPhoneNumber(userData.phone || "");
+    setDeliveryEmail(userData.email || "");
+    setCountryDelivery(userData.country || "");
+    setStateDelivery(userData.state || "");
+    setCityDelivery(userData.city || "");
+    setAddressDelivery(userData.address || "");
+
+    const departmentsData = await colombianCitiesData;
+    setDepartmentsDelivery(departmentsData);
+
+    const filteredCitiesData = colombianCitiesData.find(
+      (departamento) => departamento.departamento === userData.state
+    );
+    const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
+    setCitiesDelivery(cities);
+
+    setDeliveryFirstNameError("");
+    setDeliveryLastNameError("");
+    setDeliveryIdTypeError("");
+    setDeliveryIdNumberError("");
+    setDeliveryPhoneNumberError("");
+    setDeliveryEmailError("");
+    setAddressDeliveryError("");
+    setShippingCountryError(null);
+    setShippingCityError(null);
+    setShippingStateError(null);
+    setPostalCodeError(null);
+
   };
 
   const sendNextStepData = async () => {
@@ -347,16 +436,35 @@ const CustomersCreateFormHook = ({
       email.trim(),
       phoneNumber.trim()
     );
-    if (exists) {
-      field === "dni"
-        ? setDocumentNumberError(
-          "El No. Identificación ya se encuentra registrado."
-        )
-        : field === "email"
-          ? setEmailError("El correo ya se encuentra registrado.")
-          : setPhoneNumberError("El teléfono ya se encuentra registrado.");
 
-      valid = false;
+    if (exists) {
+      if (field === "dni" && !isExistingUser) {
+        Swal.fire({
+          title: 'Usuario ya registrado',
+          text: '¿Desea agregar o hacer una nueva compra para este usuario?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí',
+          cancelButtonText: 'No',
+          reverseButtons: true,
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const userData: any = await getUserById(documentNumber.trim());
+            setDataUserExist(userData)
+            await fillUserData(userData);
+            await fillDeliveryData(userData);
+            setIsExistingUser(true);
+            setStep(2);
+
+          }
+        });
+      } else if (field === "email" && !isExistingUser) {
+        setEmailError("El correo ya se encuentra registrado.");
+        valid = false;
+      } else if (field === "phoneNumber" && !isExistingUser) {
+        setPhoneNumberError("El teléfono ya se encuentra registrado.");
+        valid = false;
+      }
     }
 
     return valid;
@@ -366,6 +474,7 @@ const CustomersCreateFormHook = ({
     let valid = true;
 
     setSelectedPlanError(null);
+    setSelectedComboError(null);
     setSelectedMaterialError(null);
     setSelectedCustomizationError(null);
     setSelectedColorError(null);
@@ -378,12 +487,17 @@ const CustomersCreateFormHook = ({
       valid = false;
     }
 
-    if (!customName.trim()) {
+    if (!selectedCombo && !isExistingUser) {
+      setSelectedComboError("Debes seleccionar un combo.");
+      valid = false;
+    }
+
+    if (!customName.trim() && !isExistingUser) {
       setCustomNameError("El nombre es obligatorio.");
       valid = false;
     }
 
-    if (!customRole.trim()) {
+    if (!customRole.trim() && !isExistingUser) {
       setCustomRoleError("El cargo es obligatorio.");
       valid = false;
     }
@@ -648,7 +762,7 @@ const CustomersCreateFormHook = ({
     setIsActive(true);
 
     // Resetear estados de datos paso 2
-    setSelectedPlan("");
+    setSelectedCombo("");
     setSelectedMaterial("");
     setSelectedCustomization("");
     setSelectedColor("");
@@ -688,6 +802,7 @@ const CustomersCreateFormHook = ({
 
     // Resetear errores paso 2
     setSelectedPlanError(null);
+    setSelectedComboError(null);
     setSelectedMaterialError(null);
     setSelectedCustomizationError(null);
     setSelectedColorError(null);
@@ -730,6 +845,9 @@ const CustomersCreateFormHook = ({
       idNumber: "",
     });
 
+    setRowId(null);
+    setIsExistingUser(false);
+
     // Resetear el paso actual
     setStep(1);
   };
@@ -763,14 +881,16 @@ const CustomersCreateFormHook = ({
         state,
         country,
         isActive,
-        selectedPlan,
+        selectedPlan: selectedCombo,
         selectedMaterial,
         selectedCustomization,
         selectedColor,
         idDistributor: data?.uid,
-        cardName: customName || '',
-        cardRole: customRole || '',
+        //cardName: customName || '',
+        //cardRole: customRole || '',
+        plan: selectedPlan || "",
       };
+
 
       // Verificar si el usuario ya existe
       const { exists } = await checkUserExists(
@@ -779,76 +899,136 @@ const CustomersCreateFormHook = ({
         trimmedPhone
       );
 
-      if (exists) {
+      if (exists && !isExistingUser) {
         setIsSubmitting(false);
         return;
       }
 
-      // Registrar usuario en la base de datos
-      const result = await registerUserAuth({
-        user: trimmedEmail,
-        password: trimmedDocumentNumber,
-      });
 
-      const combinedData = {
-        ...result,
-        ...dataSend,
-        subscriptionId: documentRefUser.id
-      };
+      if (isExistingUser) {
+        const updatedUserData: any = { ...dataSend };
 
-      const dataUser = await registerUserFb({ data: combinedData });
-      const nextYearDate = moment().add(1, 'year').format();
+        delete updatedUserData.created;
 
-      const dataSendSubscriptions = {
-        userUid: dataUser?.uid,
-        created_at: createdAt,
-        status: 'Active',
-        nextPaymentDate: nextYearDate,
-        uid: documentRefUser.id,
-      };
+        if (dataUserExist && dataUserExist?.plan != selectedPlan) {
+          await updateSubscriptionFieldByUserId(rowId, selectedPlan)
+        }
 
-      // Crear y guardar la suscripción
-      await saveSubscriptionQuerie(dataSendSubscriptions);
+        rowId && await UpdateUserDataQuery(updatedUserData, rowId);
 
-      // Crear y guardar la orden
-      const orderData = await registerOrderData(result?.uid, isPay);
-      await saveOrderQuerie(orderData);
 
-      // Crear y guardar la factura
-      const invoiceData = {
-        ...prepareInvoiceData(
-          orderData?.uid,
-          orderData?.secuencialId,
-          result?.uid,
-          isPay
-        ),
-        paymentDate: createdAt,
-      };
+        // Crear y guardar la orden
+        const orderData = await registerOrderData(rowId, isPay);
+        await saveOrderQuerie(orderData);
 
-      await saveInvoiceQuerie(invoiceData);
-      setIsModalOpen(false);
-      setLoading(false);
+        // Crear y guardar la factura
+        const invoiceData = {
+          ...prepareInvoiceData(
+            orderData?.uid,
+            orderData?.secuencialId,
+            rowId,
+            isPay
+          ),
+          paymentDate: createdAt,
+        };
 
-      if (isPay === true) {
-        await Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `Transacción realizada con éxito`,
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        await saveInvoiceQuerie(invoiceData);
+
+        setIsModalOpen(false);
+        setLoading(false);
+
+        if (isPay === true) {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Transacción realizada con éxito`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        } else {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Usuario actualizado con éxito y orden generada`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+
+        handleReset();
+        handleReturnForm();
+
       } else {
-        await Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `Usuario registrado con éxito`,
-          showConfirmButton: false,
-          timer: 2000,
+        // Registrar usuario en la base de datos
+        const result = await registerUserAuth({
+          user: trimmedEmail,
+          password: trimmedDocumentNumber,
         });
+
+        const combinedData = {
+          ...result,
+          ...dataSend,
+          subscriptionId: documentRefUser.id,
+        };
+
+
+        const dataUser = await registerUserFb({ data: combinedData });
+        const nextYearDate = moment().add(1, 'year').format();
+
+        const dataSendSubscriptions = {
+          userUid: dataUser?.uid,
+          created_at: createdAt,
+          status: 'Active',
+          nextPaymentDate: nextYearDate,
+          uid: documentRefUser.id,
+        };
+
+        // Crear y guardar la suscripción
+        await saveSubscriptionQuerie(dataSendSubscriptions);
+
+        // Crear y guardar la orden
+        const orderData = await registerOrderData(result?.uid, isPay);
+        await saveOrderQuerie(orderData);
+
+        // Crear y guardar la factura
+        const invoiceData = {
+          ...prepareInvoiceData(
+            orderData?.uid,
+            orderData?.secuencialId,
+            result?.uid,
+            isPay
+          ),
+          paymentDate: createdAt,
+          cardName: customName || '',
+          cardRole: customRole || '',
+        };
+
+        await saveInvoiceQuerie(invoiceData);
+        setIsModalOpen(false);
+        setLoading(false);
+
+        if (isPay === true) {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Transacción realizada con éxito`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        } else {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Usuario registrado con éxito`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+
+        handleReset();
+        handleReturnForm();
       }
 
-      handleReset();
-      handleReturnForm();
     } catch (error) {
       //console.log("Error al registrar al cliente");
     } finally {
@@ -894,7 +1074,9 @@ const CustomersCreateFormHook = ({
       countryDelivery,
       postalCode,
       userUid: userUid,
-      secuencialId: newSecuencialId
+      secuencialId: newSecuencialId,
+      cardName: customName || '',
+      cardRole: customRole || '',
     };
   };
 
@@ -1192,7 +1374,7 @@ const CustomersCreateFormHook = ({
       const discountAmount = fullPrice * (parseFloat(discountPercentage) / 100);
       newTotal += fullPrice - discountAmount;
       const updatedPlan = { ...value, finalPrice: newTotal };
-      setSelectedPlan(updatedPlan);
+      setSelectedCombo(updatedPlan);
     } else {
       console.error("Invalid category or prices_matrix for material");
     }
@@ -1238,7 +1420,7 @@ const CustomersCreateFormHook = ({
   const updateCustomization = (value: any) => {
     if (value) {
       const dataPlan = dataCustomizations?.find(
-        (plan) => plan.selectedArticle === selectedPlan.uid
+        (plan) => plan.selectedArticle === selectedCombo.uid
       );
 
       const category = data?.category;
@@ -1358,7 +1540,7 @@ const CustomersCreateFormHook = ({
   };
 
   const clearSelectedPlan = () => {
-    setSelectedPlan("");
+    setSelectedCombo("");
     clearSelectedCustomization();
   };
 
@@ -1404,6 +1586,19 @@ const CustomersCreateFormHook = ({
     });
   };
 
+  const handleChangePlan = (e: any) => {
+    setSelectedPlan(e);
+    if (dataUserExist) {
+      if (dataUserExist?.plan != e) {
+        setIsChangePlan(true)
+      } else {
+        setIsChangePlan(false)
+      }
+    } else {
+      setIsChangePlan(true)
+    }
+  }
+
   const formatPrice = (value: any) => {
     if (value == null || isNaN(value)) return "";
     const number = Number(value);
@@ -1412,6 +1607,21 @@ const CustomersCreateFormHook = ({
       minimumFractionDigits: 0,
     }).format(number);
   };
+
+  const getDataUserExist = async (id: any) => {
+    setIsExistingUser(true);
+    setStep(2);
+    const userData: any = await getUserById(id.trim());
+    setDataUserExist(userData)
+    await fillUserData(userData);
+    await fillDeliveryData(userData);
+  }
+
+  useEffect(() => {
+    if (userId) {
+      getDataUserExist(userId);
+    }
+  }, [userId]);
 
   useEffect(() => {
     if (dataProducts) {
@@ -1453,8 +1663,8 @@ const CustomersCreateFormHook = ({
     let newDiscountTotal = 0;
 
     // Calcular el precio del plan seleccionado
-    if (selectedPlan) {
-      const dataPlan = dataPlans?.find((plan) => plan.sku === selectedPlan.sku);
+    if (selectedCombo) {
+      const dataPlan = dataPlans?.find((plan) => plan.sku === selectedCombo.sku);
       const category = data?.category;
 
       if (
@@ -1566,7 +1776,7 @@ const CustomersCreateFormHook = ({
     setTotal(newTotal);
     setTotalSavings(newDiscountTotal);
   }, [
-    selectedPlan,
+    selectedCombo,
     selectedMaterial,
     selectedCustomization,
     selectedProducts,
@@ -1608,6 +1818,8 @@ const CustomersCreateFormHook = ({
     //Paso 2
     selectedPlan,
     setSelectedPlan,
+    selectedCombo,
+    setSelectedCombo,
     selectedMaterial,
     setSelectedMaterial,
     selectedColor,
@@ -1642,6 +1854,8 @@ const CustomersCreateFormHook = ({
     setSelectedProducts,
     filteredProducts,
     selectedPlanError,
+    setSelectedPlanError,
+    selectedComboError,
     selectedMaterialError,
     selectedCustomizationError,
     selectedColorError,
@@ -1775,6 +1989,9 @@ const CustomersCreateFormHook = ({
     setIdTypeError,
     idNumberError,
     setIdNumberError,
+    handleChangePlan,
+    isChangePlan,
+    isExistingUser
   };
 };
 

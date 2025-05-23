@@ -27,6 +27,7 @@ import GetAppIcon from "@mui/icons-material/GetApp";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EditIcon from "@mui/icons-material/Edit";
 
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -53,9 +54,11 @@ import moment from "moment";
 const CustomersDistributorForm = ({
   handleCreateUser,
   handlePayUser,
+  setUserId
 }: {
   handleCreateUser: any;
   handlePayUser: any;
+  setUserId: any;
 }) => {
   const {
     data,
@@ -136,8 +139,8 @@ const CustomersDistributorForm = ({
 
     handleChangeDepartament,
     handleChangeCity,
-  } = CustomersDistributorHook({ handlePayUser });
-
+    handleNewBuy
+  } = CustomersDistributorHook({ handlePayUser, setUserId, handleCreateUser });
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
 
@@ -201,6 +204,20 @@ const CustomersDistributorForm = ({
             onClick={() => mostrarDetalleCompra(params?.row)}
           />
         </Tooltip>
+      ),
+    },
+    {
+      field: "Nueva Compra",
+      headerName: "Nueva Compra",
+      minWidth: 120,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <ShoppingCartIcon
+          style={{ cursor: "pointer", color: "#02AF9B" }}
+          onClick={() => handleNewBuy(params?.row)}
+        />
       ),
     },
     {
@@ -271,9 +288,9 @@ const CustomersDistributorForm = ({
       flex: 2,
     },
     {
-      field: "plan",
-      headerName: "Plan",
-      minWidth: 110,
+      field: "combo",
+      headerName: "Combo",
+      minWidth: 150,
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -1003,10 +1020,10 @@ const CustomersDistributorForm = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {/* Plan Seleccionado */}
+                      {/* Combo Seleccionado */}
                       <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
                         <td className="tw-px-6 tw-py-4">
-                          Plan Seleccionado:{" "}
+                          Combo Seleccionado:{" "}
                           <span className="tw-font-medium">
                             {detalleCompra?.optionPay?.selectedPlan?.name}
                           </span>
@@ -1156,7 +1173,7 @@ const CustomersDistributorForm = ({
                   variant="h5"
                   className="tw-font-semibold tw-text-gray-800"
                 >
-                  Datos Personalización 
+                  Datos Personalización
                 </Typography>
               </div>
 
@@ -1186,7 +1203,7 @@ const CustomersDistributorForm = ({
                       }}
                       fullWidth
                       className="tw-mr-2"
-                      value={detalleCompra?.cardName || ""}
+                      value={detalleCompra?.userOrder?.cardName || detalleCompra?.cardName || ""}
                     />
 
                     <TextField
@@ -1208,7 +1225,7 @@ const CustomersDistributorForm = ({
                       }}
                       fullWidth
                       className="tw-ml-2"
-                      value={detalleCompra?.cardRole || ""}
+                      value={detalleCompra?.userOrder?.cardRole || detalleCompra?.cardRole || ""}
                     />
                   </div>
                 </FormControl>

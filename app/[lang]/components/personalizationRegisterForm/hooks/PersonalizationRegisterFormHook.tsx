@@ -232,7 +232,8 @@ const PersonalizationRegisterFormHook = () => {
         sku: sku,
         created_at: createdAt,
         //name: name,
-        type: typeCustomization || 'Plan',
+        //type: typeCustomization || 'Combo',
+        type: 'Combo',
         selectedArticle,
         full_price: price,
         status: stateCustomization,
@@ -347,7 +348,7 @@ const PersonalizationRegisterFormHook = () => {
 
         if (doc.type === 'Producto') {
           foundItem = dataProducts.find(product => product.uid === doc.selectedArticle);
-        } else if (doc.type === 'Plan') {
+        } else if (doc.type === 'Combo') {
           foundItem = dataPlanes.find(plan => plan.uid === doc.selectedArticle);
         }
 

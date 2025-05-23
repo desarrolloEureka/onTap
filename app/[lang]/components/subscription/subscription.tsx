@@ -340,11 +340,11 @@ const SubscriptionView: React.FC<{ params: { lang: Locale } }> = ({
                       value={description}
                       error={!!descriptionError}
                       helperText={
-                        descriptionError || `${description.length}/300`
+                        descriptionError || `${description.length}/400`
                       } // Muestra la longitud actual
                       onChange={(e) => {
-                        // Limita a 300 caracteres
-                        if (e.target.value.length <= 300) {
+                        // Limita a 400 caracteres
+                        if (e.target.value.length <= 400) {
                           setDescription(e.target.value);
                         }
                       }}

@@ -162,8 +162,8 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
       flex: 2,
     },
     {
-      field: "plan",
-      headerName: "Plan",
+      field: "combo",
+      headerName: "Combo",
       minWidth: 110,
       flex: 1,
       headerAlign: "center",
@@ -538,10 +538,10 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* Plan Seleccionado */}
+                    {/* Combo Seleccionado */}
                     <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
                       <td className="tw-px-6 tw-py-4">
-                        Plan Seleccionado:{" "}
+                        Combo Seleccionado:{" "}
                         <span className="tw-font-medium">
                           {detalleCompra?.optionPay?.selectedPlan?.name}
                         </span>

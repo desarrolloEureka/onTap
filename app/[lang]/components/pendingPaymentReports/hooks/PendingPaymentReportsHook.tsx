@@ -222,7 +222,7 @@ const PendingPaymentReportsHook = ({
               indicative: indicative || "",
               phone: phone || "",
               email: email || "",
-              plan: selectedPlan?.name || "",
+              combo: selectedPlan?.name || "",
               userType: doc,
               optionEdit: doc,
               optionPay: doc,

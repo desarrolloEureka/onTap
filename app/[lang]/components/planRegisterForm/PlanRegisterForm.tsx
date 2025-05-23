@@ -142,7 +142,7 @@ const PlanRegisterForm = ({
     },
     {
       field: "sku",
-      headerName: "Sku Planes",
+      headerName: "Sku Combos",
       minWidth: 130,
       flex: 1,
       headerAlign: "center",
@@ -150,7 +150,7 @@ const PlanRegisterForm = ({
     },
     {
       field: "name",
-      headerName: "Planes",
+      headerName: "Combos",
       minWidth: 230,
       flex: 2,
       headerAlign: "center",
@@ -257,7 +257,7 @@ const PlanRegisterForm = ({
             align="center"
             fontWeight="bold"
           >
-            {dictionary.dictionary?.backOffice.PlansLabel}
+            {dictionary.dictionary?.backOffice.CombosLabel}
           </Typography>
           <div
             style={{ height: 650, width: "100%" }}
@@ -613,7 +613,7 @@ const PlanRegisterForm = ({
                             <TextField
                               {...params}
                               variant="standard"
-                              label={dictionary.dictionary?.backOffice.PlanSku}
+                              label={dictionary.dictionary?.backOffice.ProductSku}
                               error={!!skuErrorToolBar}
                               helperText={skuErrorToolBar}
                               fullWidth

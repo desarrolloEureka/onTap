@@ -109,7 +109,7 @@ export const updateProduct = async (dataSave: any, idCategory: string) => {
   }
 };
 
-//Planes
+//Combos
 export const savePlans = async (dataSave: any) => {
   try {
     // Obtener la referencia a la colección de productos
@@ -132,7 +132,7 @@ export const savePlans = async (dataSave: any) => {
       created_at: currentDate, // Añadir la fecha de creación
     });
 
-    return { success: true, message: "Plan creado correctamente" };
+    return { success: true, message: "Combo creado correctamente" };
   } catch (error) {
     console.error("Error al crear el plan: ", error);
     return { success: false, message: "Error al crear el plan" };
@@ -149,7 +149,7 @@ export const updatePlans = async (dataSave: any, idCategory: string) => {
       ...dataSave,
     });
 
-    return { success: true, message: "Plan actualizada correctamente" };
+    return { success: true, message: "Combo actualizada correctamente" };
   } catch (error) {
     console.error("Error al actualizar la plan: ", error);
     return { success: false, message: "Error al actualizar la plan" };
@@ -203,7 +203,7 @@ export const updateMaterial = async (dataSave: any, idCategory: string) => {
   }
 };
 
-//Planes
+//Combos
 export const saveColors = async (dataSave: any) => {
   try {
     // Obtener la referencia a la colección de productos
@@ -656,6 +656,45 @@ export const saveSubscriptions = async (dataSave: any) => {
   }
 };
 
+export const updateSubscriptionFieldByUserId = async (userId: any, plan: any) => {
+  try {
+    const subscriptionsRef = collection(dataBase, "subscriptions");
+    const q = query(subscriptionsRef, where("userId", "==", userId));
+    const subscriptionsSnap = await getDocs(q);
+
+    if (subscriptionsSnap.empty) {
+      throw new Error("No se encontró suscripción para este usuario");
+    }
+
+    const subscriptionDoc = subscriptionsSnap.docs[0];
+    const subscriptionData = subscriptionDoc.data();
+
+    // Obtener la fecha de creación como string ISO
+    const createdAtStr = subscriptionData.created_at;
+
+    if (!createdAtStr) {
+      throw new Error("El campo created_at no está definido");
+    }
+
+    const createdDate = new Date(createdAtStr);
+
+    // Calcular la nueva fecha de pago según el plan
+    const monthsToAdd = plan === "standard" ? 3 : 12;
+    const nextPaymentDate = new Date(createdDate);
+    nextPaymentDate.setMonth(nextPaymentDate.getMonth() + monthsToAdd);
+
+    // Actualizar la suscripción
+    await updateDoc(doc(dataBase, "subscriptions", subscriptionDoc.id), {
+      status: "Active",
+      nextPaymentDate: nextPaymentDate.toISOString(),
+    });
+
+    console.log("Suscripción actualizada correctamente");
+  } catch (error) {
+    console.error("Error al actualizar la suscripción:", error);
+    throw error;
+  }
+};
 
 export const validateSKU = async (sku: string, collectionName: string): Promise<boolean> => {
   try {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 import { checkUserExists, GetUser, SendEditData } from "@/reactQuery/users";
@@ -13,8 +14,12 @@ import { colombianCitiesData } from "@/types/colombianCitiesData";
 
 const CustomersDistributorHook = ({
   handlePayUser,
+  setUserId,
+  handleCreateUser
 }: {
   handlePayUser: any;
+  setUserId: any;
+  handleCreateUser: any;
 }) => {
   interface UserData {
     dni: string;
@@ -138,6 +143,11 @@ const CustomersDistributorHook = ({
   const mostrarDetalleCompra = (rowData: any) => {
     setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
     setIsModalOpen2(true); // Abre el modal
+  };
+
+  const handleNewBuy = (rowData: any) => {
+    setUserId(rowData?.id);
+    handleCreateUser();
   };
 
   const handleOpenModal = () => {
@@ -745,6 +755,7 @@ const CustomersDistributorHook = ({
   };
 
   useEffect(() => {
+    setUserId(null);
     const getquery = async () => {
       const usersDataSanpShotAux = await getUsersWithOrdersAndInvoices();
       const usersData = usersDataSanpShotAux.map((doc: any) => {
@@ -755,7 +766,7 @@ const CustomersDistributorHook = ({
           indicative: doc.indicative || "",
           phone: doc.phone || "",
           email: doc.email || "",
-          plan: doc?.selectedPlan?.name,
+          combo: doc?.selectedPlan?.name || '',
           userType: doc,
           optionEdit: doc,
           optionPay: doc,
@@ -887,6 +898,7 @@ const CustomersDistributorHook = ({
 
     setIsModalOpen3,
     isModalOpen3,
+    handleNewBuy
   };
 };
 

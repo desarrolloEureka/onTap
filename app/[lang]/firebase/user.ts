@@ -43,6 +43,8 @@ export const getUserByIdFireStore = async (user: string) =>
 
 export const getUserByIdFireStoreFullData = async (userId: string) => {
   try {
+    console.log('userId ', userId);
+
     const userDocRef = doc(dataBase, "users", userId);
     const userSnap = await getDoc(userDocRef);
 
@@ -83,6 +85,28 @@ export const getUsers = async () => {
   const usersData = usersSnapshot.docs.map((doc) => doc.data());
   return usersData;
 };
+
+
+export const getUserById = async (userId: string) => {
+  try {
+    const usersRef = collection(dataBase, "users");
+    const q = query(usersRef, where("dni", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    const userDoc = querySnapshot.docs[0]; // Suponiendo que el DNI es único
+    const userData = { id: userDoc.id, ...userDoc.data() };
+
+    return userData;
+  } catch (error) {
+    console.error("Error al obtener el usuario por DNI:", error);
+    throw error;
+  }
+};
+
 
 // Función que mezcla los datos de los usuarios con las órdenes y las facturas
 export const getUsersWithOrdersAndInvoices = async () => {

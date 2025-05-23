@@ -75,6 +75,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const [userDataReport, setUserDataReport] = useState<any>(null);
   // Estado para determinar si es un reporte individual
   const [isIndividualReport, setIsIndividualReport] = useState<boolean>(false);
+  const [userId, setUserId] = useState<any>(null);
 
   useEffect(() => {
     // Verificar si estamos en el lado del cliente
@@ -177,7 +178,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           fontSize="small"
                           sx={{ marginRight: "4px" }}
                         />
-                        {dictionary?.backOffice.PlansLabelMenu}
+                        {dictionary?.backOffice.CombosLabelMenu}
                       </NavDropdown.Item>
                       <NavDropdown.Item eventKey="12" style={{ fontSize: 15 }}>
                         <BuildIcon
@@ -555,10 +556,14 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <CustomersDistributorForm
             handleCreateUser={handleCreateUser}
             handlePayUser={handlePayUser}
+            setUserId={setUserId}
           />
         )}
         {value === 17 && (
-          <CustomersCreateForm handleReturnForm={handleReturnForm} />
+          <CustomersCreateForm
+            handleReturnForm={handleReturnForm}
+            userId={userId}
+          />
         )}
         {value === 18 && <Notifications params={{ lang }} />}
         {value === 19 && <Suscriptions params={{ lang }} />}

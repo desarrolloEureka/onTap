@@ -51,7 +51,7 @@ export const UpdateProductQuerie = async (dataSave: any, idProduct: any) => {
   return res;
 };
 
-//Planes
+//Combos
 export const savePlansQuerie = async (dataSave: any) => {
   const res = await savePlans(dataSave);
   return res;
