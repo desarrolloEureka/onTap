@@ -6,6 +6,7 @@ import { colombianCitiesData } from "@/types/colombianCitiesData";
 import {
   GetAllColors,
   GetAllCustomizations,
+  GetAllDefaultPlans,
   GetAllMaterials,
   GetAllPlanesIndividual,
   GetAllProducts,
@@ -52,6 +53,7 @@ const CustomersCreateFormHook = ({
   const [step, setStep] = useState(1);
   const [flag, setFlag] = useState(false);
   const { data: dataPlans } = GetAllPlanesIndividual(flag);
+  const { data: defaultPlans } = GetAllDefaultPlans(flag);
   const { data: dataMaterials } = GetAllMaterials(flag);
   const { data: dataCustomizations } = GetAllCustomizations(flag);
   const { data: dataColors } = GetAllColors(flag);
@@ -251,13 +253,13 @@ const CustomersCreateFormHook = ({
     const filteredCitiesData = colombianCitiesData.find(
       (departamento) => departamento.departamento === userData.state
     );
-
     const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
     setCities(cities);
 
     setIsActive(userData.isActive !== undefined ? userData.isActive : true);
     setRowId(userData.id || null);
-    setSelectedPlan(userData.plan || null);
+    const planObject = defaultPlans && defaultPlans.find((plan) => plan.name === userData.plan);
+    setSelectedPlan(planObject || null);
 
     setDocumentTypeError(null);
     setDocumentNumberError(null);
@@ -487,10 +489,10 @@ const CustomersCreateFormHook = ({
       valid = false;
     }
 
-    if (!selectedCombo && !isExistingUser) {
+    /* if (!selectedCombo && !isExistingUser) {
       setSelectedComboError("Debes seleccionar un combo.");
       valid = false;
-    }
+    } */
 
     if (!customName.trim() && !isExistingUser) {
       setCustomNameError("El nombre es obligatorio.");
@@ -888,9 +890,8 @@ const CustomersCreateFormHook = ({
         idDistributor: data?.uid,
         //cardName: customName || '',
         //cardRole: customRole || '',
-        plan: selectedPlan || "",
+        plan: selectedPlan?.name || "",
       };
-
 
       // Verificar si el usuario ya existe
       const { exists } = await checkUserExists(
@@ -903,7 +904,6 @@ const CustomersCreateFormHook = ({
         setIsSubmitting(false);
         return;
       }
-
 
       if (isExistingUser) {
         const updatedUserData: any = { ...dataSend };
@@ -918,7 +918,7 @@ const CustomersCreateFormHook = ({
 
 
         // Crear y guardar la orden
-        const orderData = await registerOrderData(rowId, isPay);
+        const orderData = await registerOrderData(rowId, isPay, false);
         await saveOrderQuerie(orderData);
 
         // Crear y guardar la factura
@@ -971,7 +971,6 @@ const CustomersCreateFormHook = ({
           subscriptionId: documentRefUser.id,
         };
 
-
         const dataUser = await registerUserFb({ data: combinedData });
         const nextYearDate = moment().add(1, 'year').format();
 
@@ -987,7 +986,7 @@ const CustomersCreateFormHook = ({
         await saveSubscriptionQuerie(dataSendSubscriptions);
 
         // Crear y guardar la orden
-        const orderData = await registerOrderData(result?.uid, isPay);
+        const orderData = await registerOrderData(result?.uid, isPay, true);
         await saveOrderQuerie(orderData);
 
         // Crear y guardar la factura
@@ -1038,7 +1037,7 @@ const CustomersCreateFormHook = ({
   };
 
   // Función para preparar los datos de la orden
-  const registerOrderData = async (userUid: any, isPay: boolean) => {
+  const registerOrderData = async (userUid: any, isPay: boolean, isMain: boolean) => {
     const documentRefUser: any = getDocumentReference("orders");
     const lastOrder: any = await getLastOrder();
 
@@ -1077,6 +1076,7 @@ const CustomersCreateFormHook = ({
       secuencialId: newSecuencialId,
       cardName: customName || '',
       cardRole: customRole || '',
+      isMainOrder: isMain,
     };
   };
 
@@ -1360,6 +1360,11 @@ const CustomersCreateFormHook = ({
 
   // Función para actualizar el total según el plan
   const updatePlan = (value: any) => {
+
+    if (!value) {
+      setSelectedCombo(null);
+      return;
+    }
     const dataPlan = dataPlans?.find((plan) => plan.sku === value.sku);
     const category = data?.category;
     let newTotal = 0;
@@ -1379,6 +1384,24 @@ const CustomersCreateFormHook = ({
       console.error("Invalid category or prices_matrix for material");
     }
   };
+
+  const updateDefaultPlan = (value: string) => {
+    const selectedPlanObject = defaultPlans && defaultPlans.find(plan => plan.id === value);
+    if (!selectedPlanObject) return;
+
+    if (dataUserExist) {
+      if (dataUserExist.plan !== selectedPlanObject.name) {
+        setIsChangePlan(true);
+      } else {
+        setIsChangePlan(false);
+      }
+    } else {
+      setIsChangePlan(true);
+    }
+
+    setSelectedPlan(selectedPlanObject);
+  };
+
 
   // Función para actualizar el total según el Material
   const updateMaterial = (value: any) => {
@@ -1586,19 +1609,6 @@ const CustomersCreateFormHook = ({
     });
   };
 
-  const handleChangePlan = (e: any) => {
-    setSelectedPlan(e);
-    if (dataUserExist) {
-      if (dataUserExist?.plan != e) {
-        setIsChangePlan(true)
-      } else {
-        setIsChangePlan(false)
-      }
-    } else {
-      setIsChangePlan(true)
-    }
-  }
-
   const formatPrice = (value: any) => {
     if (value == null || isNaN(value)) return "";
     const number = Number(value);
@@ -1621,7 +1631,7 @@ const CustomersCreateFormHook = ({
     if (userId) {
       getDataUserExist(userId);
     }
-  }, [userId]);
+  }, [userId, defaultPlans]);
 
   useEffect(() => {
     if (dataProducts) {
@@ -1663,6 +1673,14 @@ const CustomersCreateFormHook = ({
     let newDiscountTotal = 0;
 
     // Calcular el precio del plan seleccionado
+    if (isChangePlan && selectedPlan) {
+      const dataPlan = defaultPlans?.find((plan) => plan.id === selectedPlan.id);
+      const fullPrice = Number(dataPlan?.price) || 0;
+      newDiscountTotal += fullPrice;
+      newTotal += fullPrice;
+    }
+
+    // Calcular el precio del combo seleccionado
     if (selectedCombo) {
       const dataPlan = dataPlans?.find((plan) => plan.sku === selectedCombo.sku);
       const category = data?.category;
@@ -1775,16 +1793,7 @@ const CustomersCreateFormHook = ({
 
     setTotal(newTotal);
     setTotalSavings(newDiscountTotal);
-  }, [
-    selectedCombo,
-    selectedMaterial,
-    selectedCustomization,
-    selectedProducts,
-    dataPlans,
-    data?.category,
-    dataMaterials,
-    dataCustomizations,
-  ]);
+  }, [selectedCombo, selectedPlan, selectedMaterial, selectedCustomization, selectedProducts, dataPlans, data?.category, dataMaterials, dataCustomizations, defaultPlans]);
 
   return {
     documentType,
@@ -1989,9 +1998,10 @@ const CustomersCreateFormHook = ({
     setIdTypeError,
     idNumberError,
     setIdNumberError,
-    handleChangePlan,
     isChangePlan,
-    isExistingUser
+    isExistingUser,
+    defaultPlans,
+    updateDefaultPlan
   };
 };
 

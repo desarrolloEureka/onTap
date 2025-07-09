@@ -20,6 +20,7 @@ import {
   Subscription,
   Cards,
   Orders,
+  DefaultPlans,
 } from "@/types/home";
 import { AllRefPropsFirebase } from "@/types/userFirebase";
 import {
@@ -104,6 +105,18 @@ export const getAllCategories = async () => {
     });
   }
   return categoriesData;
+};
+
+export const getAllDefaultPlans = async () => {
+  const DefaultPlansData: DefaultPlans[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: "default_plans" }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as DefaultPlans;
+      DefaultPlansData.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return DefaultPlansData;
 };
 
 export const getAllNotifications = async () => {

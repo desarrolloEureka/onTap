@@ -53,6 +53,7 @@
     "labelFailEdit": "No se pudo actualizar el logo. Por favor, intenta de nuevo.",
     "Loading": "Cargando",
     "CategoryName": "Nombre categoría",
+    "DefaultPlanName": "Nombre plan",
     "ProductsLabel": "Productos",
     "ProductSku": "Sku Producto",
     "ProductName": "Nombre Producto",

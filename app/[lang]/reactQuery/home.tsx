@@ -20,6 +20,7 @@ import {
   getAllSubscriptions,
   getAllCards,
   getLastOrder,
+  getAllDefaultPlans,
 } from "@/firebase/generals";
 import { useQuery } from "@tanstack/react-query";
 
@@ -90,6 +91,14 @@ const GetAllCategories = (flag?: boolean) => {
   return useQuery({
     queryKey: ["categories", flag],
     queryFn: async () => await getAllCategories(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+const GetAllDefaultPlans = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ["defaultPlans", flag],
+    queryFn: async () => await getAllDefaultPlans(),
     refetchOnWindowFocus: false,
   });
 };
@@ -237,5 +246,6 @@ export {
   GetAllNotifications,
   GetAllSubscriptions,
   GetAllCards,
-  GetLastOrder
+  GetLastOrder,
+  GetAllDefaultPlans
 };

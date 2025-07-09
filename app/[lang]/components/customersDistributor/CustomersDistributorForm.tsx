@@ -1021,27 +1021,43 @@ const CustomersDistributorForm = ({
                     </thead>
                     <tbody>
                       {/* Combo Seleccionado */}
-                      <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
-                        <td className="tw-px-6 tw-py-4">
-                          Combo Seleccionado:{" "}
-                          <span className="tw-font-medium">
-                            {detalleCompra?.optionPay?.selectedPlan?.name}
-                          </span>
-                        </td>
-                        <td className="tw-text-center">1</td>
-                        <td className="tw-text-center">{`$${formatPrice(
-                          detalleCompra?.optionPay?.selectedPlan?.full_price
-                        )}`}</td>
-                        <td className="tw-text-center">{`$${formatPrice(
-                          detalleCompra?.optionPay?.selectedPlan?.full_price
-                        )}`}</td>
-                        <td className="tw-text-center">{`$${formatPrice(
-                          detalleCompra?.optionPay?.selectedPlan?.finalPrice
-                        )}`}</td>
-                      </tr>
+                      {detalleCompra?.optionPay?.selectedPlan &&
+                        <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                          <td className="tw-px-6 tw-py-4">
+                            Combo Seleccionado:{" "}
+                            <span className="tw-font-medium">
+                              {detalleCompra?.optionPay?.selectedPlan?.name}
+                            </span>
+                          </td>
+                          <td className="tw-text-center">1</td>
+                          <td className="tw-text-center">{`$${formatPrice(
+                            detalleCompra?.optionPay?.selectedPlan?.full_price
+                          )}`}</td>
+                          <td className="tw-text-center">{`$${formatPrice(
+                            detalleCompra?.optionPay?.selectedPlan?.full_price
+                          )}`}</td>
+                          <td className="tw-text-center">{`$${formatPrice(
+                            detalleCompra?.optionPay?.selectedPlan?.finalPrice
+                          )}`}</td>
+                        </tr>
+                      }
+                      {detalleCompra?.optionPay?.plan && (
+                        <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                          <td className="tw-px-6 tw-py-4">
+                            Plan Seleccionado:{" "}
+                            <span className="tw-font-medium">
+                              {detalleCompra?.optionPay?.plan}
+                            </span>
+                          </td>
+                          <td className="tw-text-center">-</td>
+                          <td className="tw-text-center">-</td>
+                          <td className="tw-text-center">-</td>
+                          <td className="tw-text-center">-</td>
+                        </tr>
+                      )}
+
 
                       {/* Materiales Seleccionados */}
-
                       {detalleCompra?.optionPay?.selectedMaterial && (
                         <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
                           <td className="tw-px-6 tw-py-4">

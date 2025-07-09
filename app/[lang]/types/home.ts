@@ -176,6 +176,14 @@ export interface Subscription {
   text_period?: string;
 }
 
+export interface DefaultPlans {
+  updated_at: string;
+  id: string;
+  price: number;
+  name: string;
+  createdAt: string;
+}
+
 export interface PaymentData {
   id: number;
   paymentDate: string;

@@ -63,6 +63,7 @@ import MadePaymentReports from "@/components/madePaymentReport/madePaymentReport
 import DispatchedDeliveriesReports from "@/components/dispatchedDeliveriesReport/dispatchedDeliveriesReports";
 import GeneralReportAdmin from "@/components/generalReportAdmin/generalReportAdmin";
 import SubscriptionReport from "@/components/subscriptionReport/SubscriptionReport";
+import PlanesRegister from "@/components/planesRegister/PlanesRegister";
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -194,13 +195,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         />
                         {dictionary?.backOffice.ColorsLabelMenu}
                       </NavDropdown.Item>
-                      <NavDropdown.Item eventKey="14" style={{ fontSize: 15 }}>
+                    {/*   <NavDropdown.Item eventKey="14" style={{ fontSize: 15 }}>
                         <TuneIcon
                           fontSize="small"
                           sx={{ marginRight: "4px" }}
                         />
                         {dictionary?.backOffice.CustomizationsLabelMenu}
-                      </NavDropdown.Item>
+                      </NavDropdown.Item> */}
                     </NavDropdown>
                   )}
 
@@ -407,6 +408,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         />
                         {dictionary?.backOffice.SubscriptionValueLabelMenu}
                       </NavDropdown.Item>
+                      <NavDropdown.Item eventKey={29} style={{ fontSize: 15 }}>
+                        <PaymentIcon
+                          fontSize="small"
+                          sx={{ marginRight: "4px" }}
+                        />
+                        {dictionary?.backOffice.PlansLabelMenu}
+                      </NavDropdown.Item>
                     </NavDropdown>
                   )}
 
@@ -588,6 +596,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
         )}
         {value === 27 && <GeneralReportAdmin handlePayUser={handlePayUser} />}
         {value === 28 && <SubscriptionReport params={{ lang }} />}
+        {value === 29 && <PlanesRegister params={{ lang }} />}
 
       </Box>
 

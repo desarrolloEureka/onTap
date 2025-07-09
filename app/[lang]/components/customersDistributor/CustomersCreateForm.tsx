@@ -95,6 +95,7 @@ const CustomersCreateForm = ({
     selectedCustomization,
     setSelectedCustomization,
     updatePlan,
+    updateDefaultPlan,
     updateMaterial,
     updateColor,
     updateCustomization,
@@ -236,9 +237,9 @@ const CustomersCreateForm = ({
     setIdTypeError,
     idNumberError,
     setIdNumberError,
-    handleChangePlan,
     isChangePlan,
-    isExistingUser
+    isExistingUser,
+    defaultPlans
   } = CustomersCreateFormHook({ handleReturnForm, userId });
   const dictionary = useDictionary({ lang: "es" });
 
@@ -455,6 +456,7 @@ const CustomersCreateForm = ({
                         </FormControl>
 
                         <TextField
+                          disabled={isExistingUser}
                           variant="standard"
                           label="Número Celular"
                           InputProps={{
@@ -480,6 +482,7 @@ const CustomersCreateForm = ({
                       </div>
 
                       <TextField
+                        disabled={isExistingUser}
                         variant="standard"
                         label="Dirección"
                         InputProps={{
@@ -619,6 +622,35 @@ const CustomersCreateForm = ({
                             <InputLabel>Plan</InputLabel>
                             <Select
                               label="Plan"
+                              value={selectedPlan?.id || ''}
+                              error={!!selectedPlanError}
+                              disabled={isExistingUser && selectedPlan?.id === 'VlkI6s5vYErO3rq3hg1D'}
+                              onChange={(e) => {
+                                updateDefaultPlan(e.target.value);
+                              }}
+                            >
+                              {defaultPlans?.map((plan: any) => (
+                                <MenuItem key={plan.id} value={plan.id}>
+                                  {plan.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+
+                          </FormControl>
+                        </div>
+                        <div className="tw-flex tw-items-center tw-w-[60%] tw-justify-end">
+                          <span className="tw-text-right">
+                            ${formatPrice(isChangePlan ? selectedPlan?.price ?? 0 : 0)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/*   <div className="tw-flex tw-items-center tw-mb-6">
+                        <div className="tw-w-[40%]">
+                          <FormControl fullWidth variant="outlined">
+                            <InputLabel>Plan</InputLabel>
+                            <Select
+                              label="Plan"
                               value={selectedPlan}
                               error={!!selectedPlanError}
                               onChange={(e) => { handleChangePlan(e.target.value) }}
@@ -635,7 +667,7 @@ const CustomersCreateForm = ({
                         <div className="tw-flex tw-items-center tw-w-[60%] tw-justify-end">
 
                         </div>
-                      </div>
+                      </div> */}
 
 
                       <div className="tw-flex tw-items-center tw-mb-6">
@@ -643,25 +675,32 @@ const CustomersCreateForm = ({
                           <FormControl fullWidth variant="outlined">
                             <InputLabel>Combo</InputLabel>
                             <Select
+                              disabled={isExistingUser}
                               label="Combo"
-                              value={selectedCombo?.sku}
+                              value={selectedCombo?.sku || ''}
                               error={!!selectedComboError}
                               onChange={(e) => {
                                 const planValue = e.target.value;
+
+                                if (!planValue) {
+                                  updatePlan(null); // Limpiar selección
+                                  return;
+                                }
+
                                 const selectedCombo =
-                                  dataPlans &&
-                                  dataPlans.find(
-                                    (combo: any) => combo.sku === planValue
-                                  );
+                                  dataPlans?.find((combo: any) => combo.sku === planValue);
                                 updatePlan(selectedCombo);
                               }}
                             >
-                              {dataPlans &&
-                                dataPlans.map((cat: any) => (
-                                  <MenuItem key={cat.name} value={cat.sku}>
-                                    {cat.name}
-                                  </MenuItem>
-                                ))}
+                              <MenuItem value="">
+                                <em>No aplica</em>
+                              </MenuItem>
+
+                              {dataPlans?.map((cat: any) => (
+                                <MenuItem key={cat.name} value={cat.sku}>
+                                  {cat.name}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                         </div>
@@ -681,7 +720,7 @@ const CustomersCreateForm = ({
                           <TextField
                             variant="standard"
                             label="Nombres"
-                            disabled={!isChangePlan}
+                            disabled={isExistingUser}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -706,7 +745,8 @@ const CustomersCreateForm = ({
                           <TextField
                             variant="standard"
                             label="Cargo"
-                            disabled={!isChangePlan}
+                            disabled={isExistingUser}
+                            //disabled={!isChangePlan}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -797,7 +837,7 @@ const CustomersCreateForm = ({
                         </div>
                       </div>
 
-                      <div className="tw-flex tw-items-center tw-mb-6">
+                      {/* <div className="tw-flex tw-items-center tw-mb-6">
                         <div className="tw-flex tw-items-center tw-w-[90%]">
                           <FormControlLabel
                             control={
@@ -820,7 +860,7 @@ const CustomersCreateForm = ({
                             )}
                           </span>
                         </div>
-                      </div>
+                      </div> */}
 
                       {/*   {customization && (
                         <FormControl
@@ -998,9 +1038,10 @@ const CustomersCreateForm = ({
                                     <td className="tw-px-4 tw-py-2">
                                       <input
                                         type="number"
-                                        value={product.quantity || 1}
+                                        value={product.id === "8Puz5Clemyh4hMIH1H2u" ? 1 : product.quantity || 1}
                                         min="1"
                                         className="tw-border tw-border-gray-300 tw-rounded tw-px-2 tw-w-16"
+                                        disabled={product.id === "8Puz5Clemyh4hMIH1H2u"}
                                         onChange={(e) =>
                                           handleChangeQuantity(
                                             index,

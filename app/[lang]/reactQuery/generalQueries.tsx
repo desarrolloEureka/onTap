@@ -27,6 +27,7 @@ import {
   sendNotificationsToUsers,
   saveSubscriptions,
   updateSubscriptions,
+  updateDefaultPlan,
 } from "@/firebase/Documents";
 
 //Categorias
@@ -37,6 +38,11 @@ export const saveCategoryQuerie = async (dataSave: any) => {
 
 export const UpdateCategoryQuerie = async (dataSave: any, idCategory: any) => {
   const res = await updateCategory(dataSave, idCategory);
+  return res;
+};
+
+export const UpdateDefaultPlanQuerie = async (dataSave: any, idPlan: any) => {
+  const res = await updateDefaultPlan(dataSave, idPlan);
   return res;
 };
 

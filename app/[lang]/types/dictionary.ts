@@ -59,6 +59,7 @@ export interface Dictionary {
     labelFailEdit: string;
     Loading: string;
     CategoryName: string;
+    DefaultPlanName: string;
     ProductsLabel: string;
     //Producto
     ProductSku: string;

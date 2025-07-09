@@ -62,6 +62,25 @@ export const updateCategory = async (dataSave: any, idCategory: string) => {
   }
 };
 
+export const updateDefaultPlan = async (dataSave: any, idPlan: string) => {
+  try {
+    // Obtener la referencia del documento específico de el plan
+    const planDocRef = doc(dataBase, "default_plans", idPlan);
+    const updatedAt = moment().format();
+
+    // Actualizar el documento con los nuevos datos
+    await updateDoc(planDocRef, {
+      ...dataSave,
+      updated_at: updatedAt
+    });
+
+    return { success: true, message: "Categoría actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar el plan: ", error);
+    return { success: false, message: "Error al actualizar el plan" };
+  }
+};
+
 //Productos
 export const saveProduct = async (dataSave: any) => {
   try {
