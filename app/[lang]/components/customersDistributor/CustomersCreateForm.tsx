@@ -624,7 +624,8 @@ const CustomersCreateForm = ({
                               label="Plan"
                               value={selectedPlan?.id || ''}
                               error={!!selectedPlanError}
-                              disabled={isExistingUser && selectedPlan?.id === 'VlkI6s5vYErO3rq3hg1D'}
+                              //isChangePlan && selectedPlan
+                              disabled={isExistingUser && !isChangePlan && selectedPlan?.id === 'VlkI6s5vYErO3rq3hg1D'}
                               onChange={(e) => {
                                 updateDefaultPlan(e.target.value);
                               }}
@@ -675,7 +676,6 @@ const CustomersCreateForm = ({
                           <FormControl fullWidth variant="outlined">
                             <InputLabel>Combo</InputLabel>
                             <Select
-                              disabled={isExistingUser}
                               label="Combo"
                               value={selectedCombo?.sku || ''}
                               error={!!selectedComboError}
@@ -720,7 +720,7 @@ const CustomersCreateForm = ({
                           <TextField
                             variant="standard"
                             label="Nombres"
-                            disabled={isExistingUser}
+                            disabled={isExistingUser && !isChangePlan}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -745,8 +745,7 @@ const CustomersCreateForm = ({
                           <TextField
                             variant="standard"
                             label="Cargo"
-                            disabled={isExistingUser}
-                            //disabled={!isChangePlan}
+                            disabled={isExistingUser && !isChangePlan}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -777,7 +776,7 @@ const CustomersCreateForm = ({
                             <Select
                               disabled={!isChangePlan}
                               label="Material"
-                              value={selectedMaterial?.sku}
+                              value={selectedMaterial?.sku || ''}
                               error={!!selectedMaterialError}
                               onChange={(e) => {
                                 const materialValue = e.target.value;

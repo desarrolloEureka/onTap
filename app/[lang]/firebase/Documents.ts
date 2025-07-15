@@ -310,7 +310,6 @@ export const saveOrders = async (dataSave: any) => {
 
     await setDoc(collectionRef, {
       ...dataSave,
-      paymentDate: "",
       deliveryDate: "",
     });
 
@@ -707,8 +706,6 @@ export const updateSubscriptionFieldByUserId = async (userId: any, plan: any) =>
       status: "Active",
       nextPaymentDate: nextPaymentDate.toISOString(),
     });
-
-    console.log("Suscripción actualizada correctamente");
   } catch (error) {
     console.error("Error al actualizar la suscripción:", error);
     throw error;

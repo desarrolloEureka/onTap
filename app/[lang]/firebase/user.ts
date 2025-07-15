@@ -43,8 +43,6 @@ export const getUserByIdFireStore = async (user: string) =>
 
 export const getUserByIdFireStoreFullData = async (userId: string) => {
   try {
-    console.log('userId ', userId);
-
     const userDocRef = doc(dataBase, "users", userId);
     const userSnap = await getDoc(userDocRef);
 
@@ -152,6 +150,51 @@ export const getUsersWithOrdersAndInvoices = async () => {
 
   return usersWithOrdersAndInvoices;
 };
+
+export const getUsersWithMultiplesInvoices = async () => {
+  const usersSnapshot = await getAllUsers();
+  const usersData = usersSnapshot.docs.map((doc) => doc.data());
+
+  const ordersSnapshot = await getAllOrders();
+  const ordersData = ordersSnapshot.docs.map((doc) => doc.data());
+
+  const invoicesSnapshot = await getDocs(collection(dataBase, "invoices"));
+  const invoicesData = invoicesSnapshot.docs.map((doc) => doc.data());
+
+  const subscriptionsSnapshot = await getDocs(collection(dataBase, "subscriptions"));
+  const subscriptionsData = subscriptionsSnapshot.docs.map((doc) => doc.data());
+
+  const result = [];
+
+  for (const user of usersData) {
+    const userOrders = ordersData.filter(order => order.userUid === user.uid);
+    const userSubscription = subscriptionsData.find(sub => sub.userId === user.uid) || null;
+
+    if (userOrders.length > 0) {
+      for (const order of userOrders) {
+        const userInvoice = invoicesData.find(invoice => invoice.orderId === order.uid) || null;
+
+        result.push({
+          ...user,
+          userOrder: order,
+          userInvoice: userInvoice,
+          userSubscription: userSubscription,
+        });
+      }
+    } else {
+      // Usuario sin órdenes
+      result.push({
+        ...user,
+        userOrder: null,
+        userInvoice: null,
+        userSubscription: userSubscription,
+      });
+    }
+  }
+
+  return result;
+};
+
 
 export const registerUserData = async (data: any) => {
   const docRef = await setDoc(doc(dataBase, "users", data.uid), data);

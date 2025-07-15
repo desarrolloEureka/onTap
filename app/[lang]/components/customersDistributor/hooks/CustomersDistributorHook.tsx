@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getUsersWithMultiplesInvoices, getUsersWithOrdersAndInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 import { checkUserExists, GetUser, SendEditData } from "@/reactQuery/users";
 import { gridFilteredSortedRowIdsSelector, gridVisibleColumnFieldsSelector, useGridApiRef } from "@mui/x-data-grid";
@@ -146,7 +146,7 @@ const CustomersDistributorHook = ({
   };
 
   const handleNewBuy = (rowData: any) => {
-    setUserId(rowData?.id);
+    setUserId(rowData?.idUser); 
     handleCreateUser();
   };
 
@@ -260,6 +260,8 @@ const CustomersDistributorHook = ({
           url,
           userType,
           optionPay,
+          detalleCompra,
+          NuevaCompra,
           __check__,
           ...filteredUser
         } = user;
@@ -757,16 +759,19 @@ const CustomersDistributorHook = ({
   useEffect(() => {
     setUserId(null);
     const getquery = async () => {
-      const usersDataSanpShotAux = await getUsersWithOrdersAndInvoices();
+      const usersDataSanpShotAux = await getUsersWithMultiplesInvoices();
       const usersData = usersDataSanpShotAux.map((doc: any) => {
+
         return {
-          id: doc.dni || 1,
+          id: doc?.userOrder?.uid || 1,
+          idUser: doc.dni || 1,
           created_at: doc?.created || "",
           name: doc.firstName + " " + doc.lastName || "",
           indicative: doc.indicative || "",
           phone: doc.phone || "",
           email: doc.email || "",
-          combo: doc?.selectedPlan?.name || '',
+          plan: doc?.plan || "",
+          combo: doc?.userOrder?.selectedCombo?.name || ' - ',
           userType: doc,
           optionEdit: doc,
           optionPay: doc,
@@ -783,6 +788,7 @@ const CustomersDistributorHook = ({
           paymentDate: doc.gif === true
             ? doc?.created || ''
             : doc?.userSubscription?.updatedAt || doc?.userSubscription?.created_at || doc?.created || '',
+          paymentDateInvoice: doc?.userOrder?.paymentDate || '',
           cardName: doc?.cardName || '',
           cardRole: doc?.cardRole || '',
         };
@@ -794,6 +800,7 @@ const CustomersDistributorHook = ({
     };
     getquery();
   }, [data?.uid, flag]);
+
 
   return {
     data: filteredQuery,

@@ -9,7 +9,7 @@ import {
 } from "@mui/x-data-grid";
 
 import * as XLSX from "xlsx";
-import { getUsersWithOrdersAndInvoices, getUsers } from "@/firebase/user";
+import { getUsersWithOrdersAndInvoices, getUsers, getUsersWithMultiplesInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 import Swal from "sweetalert2";
 
@@ -158,7 +158,6 @@ const PendingPaymentReportsHook = ({
   };
 
   const mostrarDetalleCompra = (rowData: any) => {
-    //console.log("detalle de la compra", rowData);
     setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
     setIsModalOpen(true); // Abre el modal
   };
@@ -190,6 +189,8 @@ const PendingPaymentReportsHook = ({
           url,
           userType,
           optionPay,
+          detalleCompra,
+          paymentDateInvoice,
           __check__,
           ...filteredUser
         } = user;
@@ -251,47 +252,41 @@ const PendingPaymentReportsHook = ({
 
   useEffect(() => {
     const getquery = async () => {
-      const reportDataRaw = await getUsersWithOrdersAndInvoices();
+      const reportDataRaw = await getUsersWithMultiplesInvoices();
       const usersDataRaw = await getUsers();
-  
-      // Identificar roles correctamente
+
       const isAdminOrDistributor = (user: any) => user.is_admin || user.is_distributor;
       const isOnlyDistributor = (user: any) => user.is_distributor;
       const isRegularUser = (user: any) => !user.is_admin && !user.is_distributor;
-  
+
       const reportData = reportDataRaw.filter(isRegularUser);
       const usersData = usersDataRaw.filter(isRegularUser);
-  
-      // Crear diccionario de distribuidores
+
       const distributorsDict = usersDataRaw
         .filter(isOnlyDistributor)
         .reduce((acc: Record<string, any>, user: any) => {
           acc[user.uid] = user.fullName;
           return acc;
         }, {});
-  
-      // Mapa para eliminar duplicados
-      const userMap = new Map();
-      [...reportData, ...usersData].forEach((doc: any) => {
-        if (!userMap.has(doc.uid)) userMap.set(doc.uid, doc);
-      });
-  
-      const allUserData = Array.from(userMap.values());
-  
-      // Transformar datos
-      const reportDataFinal = allUserData.map((doc: any) => {
+
+      const reportDataFinal = reportData.map((doc: any, index: number) => {
         const isPaid = doc?.userInvoice?.status === "PAID";
         const isDelivered = doc?.userOrder?.status === "DELIVERED";
-  
+
         return {
-          id: doc.dni || 1,
+          id: doc?.userOrder?.uid ? `${doc?.userOrder?.uid}-${index}` : index, // ID único
+          idUser: doc.dni || 1,
           created_at: doc?.created_at || "",
+          detalleCompra: doc || '',
           name: `${doc.firstName} ${doc.lastName}`.trim(),
-          paymentDate: isPaid ? doc.userInvoice?.paymentDate || doc.created_at : "No aplica",
+          paymentDate: doc.gif === true
+            ? doc?.created || ''
+            : doc?.userSubscription?.updatedAt || doc?.userSubscription?.created_at || doc?.created || '',
+          paymentDateInvoice: doc?.userOrder?.paymentDate || '',
           indicative: doc.indicative || "",
           phone: doc.phone || "",
           email: doc.email || "",
-          plan: doc?.selectedPlan?.name || "",
+          plan: doc?.plan || "",
           statusPay: isPaid ? "Pagado" : "Pendiente por pagar",
           deliveryStatus: isDelivered ? "Entregado" : "Pendiente de entrega",
           deliveryDate: isDelivered ? doc.userOrder.deliveryDate : "",
@@ -299,21 +294,25 @@ const PendingPaymentReportsHook = ({
           distributorName: distributorsDict[doc.idDistributor] || "Distribuidor desconocido",
           secuencialId: doc?.userOrder?.secuencialId || "",
           edit: { switch: !!doc.isActiveByAdmin, uid: doc.uid },
+          combo: doc?.userOrder?.selectedCombo?.name || ' - ',
+          userInvoice: doc.userInvoice,
+          userOrder: doc.userOrder,
+          optionPay: doc,
+          cardName: doc?.cardName || '',
+          cardRole: doc?.cardRole || '',
         };
       });
-  
-      // Aplicar filtros
+
       const filteredQuery = reportDataFinal.filter(
         (user) =>
           (!distributorFilter || user.idDistributor === distributorFilter) &&
           (!paymentStatusFilter || user.statusPay === paymentStatusFilter) &&
           (!deliveryStatusFilter || user.deliveryStatus === deliveryStatusFilter)
       );
-  
+
       setQuery(filteredQuery);
       setFilteredQuery(filteredQuery);
-  
-      // Crear lista de distribuidores únicos
+
       const distributorsArray = [
         ...new Map(
           reportDataFinal.map((user) => [
@@ -325,13 +324,12 @@ const PendingPaymentReportsHook = ({
           ])
         ).values(),
       ];
-  
+
       setDistributors(distributorsArray);
     };
-  
+
     getquery();
   }, [distributorFilter, paymentStatusFilter, deliveryStatusFilter, flag, data?.uid]);
-  
 
   return {
     data: filteredQuery,

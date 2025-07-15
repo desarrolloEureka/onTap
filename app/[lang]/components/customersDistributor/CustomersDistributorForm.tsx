@@ -207,7 +207,7 @@ const CustomersDistributorForm = ({
       ),
     },
     {
-      field: "Nueva Compra",
+      field: "NuevaCompra",
       headerName: "Nueva Compra",
       minWidth: 120,
       flex: 1,
@@ -223,8 +223,21 @@ const CustomersDistributorForm = ({
     {
       field: "secuencialId",
       headerName: "No. OC",
-      minWidth: 210,
+      minWidth: 150,
       flex: 2,
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          <div>{params.value}</div>
+        </div>
+      ),
+      sortComparator: (v1, v2) => {
+        const extractNumber = (val:any) => {
+          const match = val?.match(/\d+/);
+          return match ? parseInt(match[0], 10) : 0;
+        };
+
+        return extractNumber(v1) - extractNumber(v2);
+      },
     },
     {
       field: "created_at",
@@ -240,7 +253,7 @@ const CustomersDistributorForm = ({
       ),
     },
     {
-      field: "id",
+      field: "idUser",
       headerName: "No. Identificación",
       minWidth: 160,
       flex: 1,
@@ -290,7 +303,20 @@ const CustomersDistributorForm = ({
     {
       field: "combo",
       headerName: "Combo",
-      minWidth: 150,
+      minWidth: 170,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value && <div>{params.value}</div>}
+        </div>
+      ),
+    },
+    {
+      field: "plan",
+      headerName: "Plan",
+      minWidth: 110,
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -303,21 +329,22 @@ const CustomersDistributorForm = ({
     {
       field: "userType",
       headerName: "Tipo Usuario",
-      minWidth: 130,
+      minWidth: 210,
       flex: 1,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           {params.value && (
-            <div>{params.value.gif === true ? "Obsequio" : "Comprador"}</div>
+            <div>{params.value?.idDistributor ? "Registrado por distribuidor" : params.value.gif ? "Obsequio" : "Comprador"}</div>
+
           )}
         </div>
       ),
     },
     {
       field: "paymentDate",
-      headerName: "Fecha Pago",
+      headerName: "Fecha Pago Suscripcion",
       minWidth: 190,
       flex: 1,
       headerAlign: "center",
@@ -325,6 +352,19 @@ const CustomersDistributorForm = ({
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           {params.value ? getFormattedDate(params.value) : 'Pendiente'}
+        </div>
+      ),
+    },
+    {
+      field: "paymentDateInvoice",
+      headerName: "Fecha Pago",
+      minWidth: 190,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value ? getFormattedDate(params.value) : ' - '}
         </div>
       ),
     },
@@ -377,7 +417,7 @@ const CustomersDistributorForm = ({
         <Button
           style={{ color: "black" }}
           onClick={() => handlePayUser(params.value, true)}
-          disabled={params.value.userInvoice.status === "PAID"}
+          disabled={params?.value?.userInvoice?.status === "PAID"}
         >
           <PaymentIcon />
         </Button>
@@ -631,7 +671,8 @@ const CustomersDistributorForm = ({
                 },
               },
               sorting: {
-                sortModel: [{ field: "created_at", sort: "desc" }],
+                //sortModel: [{ field: "created_at", sort: "desc" }],
+                sortModel: [{ field: "secuencialId", sort: "desc" }],
               },
             }}
             pageSizeOptions={[15, 25]}

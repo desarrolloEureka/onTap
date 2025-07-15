@@ -883,7 +883,6 @@ const CustomersCreateFormHook = ({
         state,
         country,
         isActive,
-        selectedPlan: selectedCombo,
         selectedMaterial,
         selectedCustomization,
         selectedColor,
@@ -1059,6 +1058,7 @@ const CustomersCreateFormHook = ({
       totalAmount,
       status: isPay === true ? "APPROVED" : "PENDING",
       createdAt: moment().format(),
+      paymentDate: isPay === true ? moment().format() : "",
       selectedProducts,
       // Datos de envío
       deliveryFirstName,
@@ -1077,6 +1077,7 @@ const CustomersCreateFormHook = ({
       cardName: customName || '',
       cardRole: customRole || '',
       isMainOrder: isMain,
+      selectedCombo: selectedCombo,
     };
   };
 
@@ -1394,6 +1395,10 @@ const CustomersCreateFormHook = ({
         setIsChangePlan(true);
       } else {
         setIsChangePlan(false);
+        setSelectedMaterial('')
+        setSelectedColor('')
+        setCustomName('')
+        setCustomRole('')
       }
     } else {
       setIsChangePlan(true);
@@ -1620,7 +1625,7 @@ const CustomersCreateFormHook = ({
 
   const getDataUserExist = async (id: any) => {
     setIsExistingUser(true);
-    setStep(2);
+    setStep(1);
     const userData: any = await getUserById(id.trim());
     setDataUserExist(userData)
     await fillUserData(userData);
