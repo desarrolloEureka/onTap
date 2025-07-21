@@ -177,11 +177,13 @@ export interface Subscription {
 }
 
 export interface DefaultPlans {
+  uid: any;
   updated_at: string;
   id: string;
   price: number;
   name: string;
   createdAt: string;
+    prices_matrix: any;
 }
 
 export interface PaymentData {

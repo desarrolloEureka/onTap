@@ -150,25 +150,21 @@ const CustomersDistributorForm = ({
   };
 
   const calculateTotalDiscount = () => {
-    const planPrice = detalleCompra?.optionPay?.selectedPlan?.finalPrice || 0;
-    const materialPrice =
-      detalleCompra?.optionPay?.selectedMaterial?.finalPrice || 0;
-    const customizacion =
-      detalleCompra?.optionPay?.selectedCustomization?.finalPrice || 0;
+    const planPrice = detalleCompra?.userOrder?.selectedPlan?.finalPrice || 0;
+    const comboPrice = detalleCompra?.userOrder?.selectedCombo?.finalPrice || 0;
+    const materialPrice = detalleCompra?.userOrder?.selectedMaterial?.finalPrice || 0;
+    const customizacion = detalleCompra?.userOrder?.selectedCustomization?.finalPrice || 0;
+
     // Calculando la cantidad de productos con precio distribuidor
     const totalDistributorPrice =
       detalleCompra?.userOrder?.selectedProducts?.reduce(
         (acc: number, product: any) =>
           acc +
-          (product.categoryPrice || 0) + // Sumar el precio de distribuidor si existe
-          (product.full_price_Discount || 0), // Sumar el precio de personalización si existe
+          (product.categoryPrice || 0) +
+          (product.full_price_Discount || 0),
         0
       ) || 0;
-
-    //console.log("Total Distributor Price:", totalDistributorPrice);
-
-    // Devolver el total sumando los precios de todos los elementos
-    return planPrice + materialPrice + totalDistributorPrice + customizacion;
+    return planPrice + materialPrice + totalDistributorPrice + customizacion + comboPrice;
   };
 
   const totalDiscount = calculateTotalDiscount();
@@ -231,7 +227,7 @@ const CustomersDistributorForm = ({
         </div>
       ),
       sortComparator: (v1, v2) => {
-        const extractNumber = (val:any) => {
+        const extractNumber = (val: any) => {
           const match = val?.match(/\d+/);
           return match ? parseInt(match[0], 10) : 0;
         };
@@ -1062,23 +1058,23 @@ const CustomersDistributorForm = ({
                     </thead>
                     <tbody>
                       {/* Combo Seleccionado */}
-                      {detalleCompra?.optionPay?.selectedPlan &&
+                      {detalleCompra?.userOrder?.selectedCombo &&
                         <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
                           <td className="tw-px-6 tw-py-4">
                             Combo Seleccionado:{" "}
                             <span className="tw-font-medium">
-                              {detalleCompra?.optionPay?.selectedPlan?.name}
+                              {detalleCompra?.userOrder?.selectedCombo?.name}
                             </span>
                           </td>
                           <td className="tw-text-center">1</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedPlan?.full_price
+                            detalleCompra?.userOrder?.selectedCombo?.full_price
                           )}`}</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedPlan?.full_price
+                            detalleCompra?.userOrder?.selectedCombo?.full_price
                           )}`}</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedPlan?.finalPrice
+                            detalleCompra?.userOrder?.selectedCombo?.finalPrice
                           )}`}</td>
                         </tr>
                       }
@@ -1087,35 +1083,40 @@ const CustomersDistributorForm = ({
                           <td className="tw-px-6 tw-py-4">
                             Plan Seleccionado:{" "}
                             <span className="tw-font-medium">
-                              {detalleCompra?.optionPay?.plan}
-                            </span>
-                          </td>
-                          <td className="tw-text-center">-</td>
-                          <td className="tw-text-center">-</td>
-                          <td className="tw-text-center">-</td>
-                          <td className="tw-text-center">-</td>
-                        </tr>
-                      )}
-
-
-                      {/* Materiales Seleccionados */}
-                      {detalleCompra?.optionPay?.selectedMaterial && (
-                        <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
-                          <td className="tw-px-6 tw-py-4">
-                            Materiales Seleccionados:{" "}
-                            <span className="tw-font-medium">
-                              {detalleCompra?.optionPay?.selectedMaterial?.name}
+                              {detalleCompra?.userOrder?.selectedPlan?.name}
                             </span>
                           </td>
                           <td className="tw-text-center">1</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedMaterial?.full_price
+                            detalleCompra?.userOrder?.selectedPlan?.price
                           )}`}</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedMaterial?.full_price
+                            detalleCompra?.userOrder?.selectedPlan?.price
                           )}`}</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedMaterial?.finalPrice
+                            detalleCompra?.userOrder?.selectedPlan?.finalPrice
+                          )}`}</td>
+                        </tr>
+                      )}
+
+                      {/* Materiales Seleccionados */}
+                      {detalleCompra?.userOrder?.selectedMaterial && (
+                        <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                          <td className="tw-px-6 tw-py-4">
+                            Materiales Seleccionados:{" "}
+                            <span className="tw-font-medium">
+                              {detalleCompra?.userOrder?.selectedMaterial?.name}
+                            </span>
+                          </td>
+                          <td className="tw-text-center">1</td>
+                          <td className="tw-text-center">{`$${formatPrice(
+                            detalleCompra?.userOrder?.selectedMaterial?.full_price
+                          )}`}</td>
+                          <td className="tw-text-center">{`$${formatPrice(
+                            detalleCompra?.userOrder?.selectedMaterial?.full_price
+                          )}`}</td>
+                          <td className="tw-text-center">{`$${formatPrice(
+                            detalleCompra?.userOrder?.selectedMaterial?.finalPrice
                           )}`}</td>
                         </tr>
                       )}
@@ -1165,26 +1166,26 @@ const CustomersDistributorForm = ({
                       )}
 
                       {/* Customización Seleccionada */}
-                      {detalleCompra?.optionPay?.selectedCustomization ? (
+                      {detalleCompra?.userOrder?.selectedCustomization ? (
                         <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
                           <td className="tw-px-6 tw-py-4">
                             Personalización:{" "}
                             <span className="tw-font-medium">
-                              {detalleCompra?.optionPay?.selectedCustomization
+                              {detalleCompra?.userOrder?.selectedCustomization
                                 ?.name || ""}
                             </span>
                           </td>
                           <td className="tw-text-center">1</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedCustomization
+                            detalleCompra?.userOrder?.selectedCustomization
                               ?.full_price
                           )}`}</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedCustomization
+                            detalleCompra?.userOrder?.selectedCustomization
                               ?.full_price
                           )}`}</td>
                           <td className="tw-text-center">{`$${formatPrice(
-                            detalleCompra?.optionPay?.selectedCustomization
+                            detalleCompra?.userOrder?.selectedCustomization
                               ?.finalPrice
                           )}`}</td>
                         </tr>

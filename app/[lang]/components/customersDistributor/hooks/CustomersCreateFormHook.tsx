@@ -883,9 +883,6 @@ const CustomersCreateFormHook = ({
         state,
         country,
         isActive,
-        selectedMaterial,
-        selectedCustomization,
-        selectedColor,
         idDistributor: data?.uid,
         //cardName: customName || '',
         //cardRole: customRole || '',
@@ -1078,6 +1075,10 @@ const CustomersCreateFormHook = ({
       cardRole: customRole || '',
       isMainOrder: isMain,
       selectedCombo: selectedCombo,
+      selectedPlan: selectedPlan,
+      selectedMaterial,
+      selectedCustomization,
+      selectedColor,
     };
   };
 
@@ -1386,8 +1387,29 @@ const CustomersCreateFormHook = ({
     }
   };
 
+  /*   const updateDefaultPlan = (value: string) => {
+      const selectedPlanObject = defaultPlans && defaultPlans.find(plan => plan.id === value);
+      if (!selectedPlanObject) return;
+  
+      if (dataUserExist) {
+        if (dataUserExist.plan !== selectedPlanObject.name) {
+          setIsChangePlan(true);
+        } else {
+          setIsChangePlan(false);
+          setSelectedMaterial('')
+          setSelectedColor('')
+          setCustomName('')
+          setCustomRole('')
+        }
+      } else {
+        setIsChangePlan(true);
+      }
+  
+      setSelectedPlan(selectedPlanObject);
+    }; */
+
   const updateDefaultPlan = (value: string) => {
-    const selectedPlanObject = defaultPlans && defaultPlans.find(plan => plan.id === value);
+    const selectedPlanObject = defaultPlans?.find(plan => plan.id === value);
     if (!selectedPlanObject) return;
 
     if (dataUserExist) {
@@ -1395,18 +1417,34 @@ const CustomersCreateFormHook = ({
         setIsChangePlan(true);
       } else {
         setIsChangePlan(false);
-        setSelectedMaterial('')
-        setSelectedColor('')
-        setCustomName('')
-        setCustomRole('')
+        setSelectedMaterial('');
+        setSelectedColor('');
+        setCustomName('');
+        setCustomRole('');
       }
     } else {
       setIsChangePlan(true);
     }
 
-    setSelectedPlan(selectedPlanObject);
-  };
+    // Aplicar lógica de descuento por categoría
+    const category = data?.category;
+    let newTotal = 0;
 
+    if (
+      category &&
+      selectedPlanObject?.prices_matrix &&
+      category in selectedPlanObject.prices_matrix
+    ) {
+      const discountPercentage = selectedPlanObject.prices_matrix[category];
+      const fullPrice = selectedPlanObject?.price ?? 0;
+      const discountAmount = fullPrice * (parseFloat(discountPercentage) / 100);
+      newTotal = fullPrice - discountAmount;
+      const updatedPlan = { ...selectedPlanObject, finalPrice: newTotal };
+      setSelectedPlan(updatedPlan);
+    } else {
+      console.error("Invalid category or prices_matrix for default plan");
+    }
+  };
 
   // Función para actualizar el total según el Material
   const updateMaterial = (value: any) => {
@@ -1678,11 +1716,32 @@ const CustomersCreateFormHook = ({
     let newDiscountTotal = 0;
 
     // Calcular el precio del plan seleccionado
+    /*     if (isChangePlan && selectedPlan) {
+          const dataPlan = defaultPlans?.find((plan) => plan.id === selectedPlan.id);
+          const fullPrice = Number(dataPlan?.price) || 0;
+          newDiscountTotal += fullPrice;
+          newTotal += fullPrice;
+        } */
+
+    // Calcular el default-plan del combo seleccionado
     if (isChangePlan && selectedPlan) {
-      const dataPlan = defaultPlans?.find((plan) => plan.id === selectedPlan.id);
-      const fullPrice = Number(dataPlan?.price) || 0;
-      newDiscountTotal += fullPrice;
-      newTotal += fullPrice;
+      const dataPlan = defaultPlans?.find((plan) => plan.uid === selectedPlan.uid);
+      const category = data?.category;
+
+      if (
+        category &&
+        dataPlan?.prices_matrix &&
+        category in dataPlan.prices_matrix
+      ) {
+        const fullPrice = Number(dataPlan?.price) || 0;
+        const discountPercentage = dataPlan.prices_matrix[category];
+        const discountAmount =
+          fullPrice * (parseFloat(discountPercentage) / 100);
+        newDiscountTotal += fullPrice - discountAmount;
+        newTotal += fullPrice;
+      } else {
+        console.error("Invalid category or prices_matrix for plan");
+      }
     }
 
     // Calcular el precio del combo seleccionado
@@ -1798,7 +1857,7 @@ const CustomersCreateFormHook = ({
 
     setTotal(newTotal);
     setTotalSavings(newDiscountTotal);
-  }, [selectedCombo, selectedPlan, selectedMaterial, selectedCustomization, selectedProducts, dataPlans, data?.category, dataMaterials, dataCustomizations, defaultPlans]);
+  }, [selectedCombo, selectedPlan, selectedMaterial, selectedCustomization, selectedProducts, dataPlans, data?.category, dataMaterials, dataCustomizations, defaultPlans, isChangePlan]);
 
   return {
     documentType,

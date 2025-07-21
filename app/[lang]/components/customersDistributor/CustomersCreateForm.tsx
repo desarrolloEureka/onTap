@@ -1231,6 +1231,33 @@ const CustomersCreateForm = ({
                           </TableRow>
                         </TableHead>
                         <TableBody>
+                          {/* Mostrar Plan Seleccionado solo si existe */}
+                          {selectedPlan && (
+                            <TableRow>
+                              <TableCell>
+                                Combo Seleccionado: {selectedPlan.name}
+                              </TableCell>
+                              <TableCell className="tw-text-center">
+                                1
+                              </TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedPlan.price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedPlan.price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedPlan.finalPrice
+                              )}`}</TableCell>
+                              <TableCell className="tw-flex tw-justify-start tw-items-center">
+                                <DeleteIcon
+                                  onClick={() => clearSelectedPlan()}
+                                  className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
+                                  fontSize="medium"
+                                />
+                              </TableCell>
+                            </TableRow>
+                          )}
                           {/* Mostrar Combo Seleccionado solo si existe */}
                           {selectedCombo && (
                             <TableRow>
