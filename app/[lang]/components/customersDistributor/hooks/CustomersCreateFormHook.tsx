@@ -4,6 +4,7 @@ import { countriesTable } from "@/types/formConstant";
 import { Department } from "@/components/departments/hooks/DepartmentsHook";
 import { colombianCitiesData } from "@/types/colombianCitiesData";
 import {
+  GetAllCards,
   GetAllColors,
   GetAllCustomizations,
   GetAllDefaultPlans,
@@ -40,10 +41,10 @@ interface ErrorMessages {
 
 const CustomersCreateFormHook = ({
   handleReturnForm,
-  userId
+  userDataRow,
 }: {
   handleReturnForm: () => void;
-  userId: any
+  userDataRow: any;
 }) => {
   const { data, refetch } = GetUser();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -58,9 +59,12 @@ const CustomersCreateFormHook = ({
   const { data: dataCustomizations } = GetAllCustomizations(flag);
   const { data: dataColors } = GetAllColors(flag);
   const { data: dataProducts } = GetAllProducts(flag);
+  const { data: dataCards } = GetAllCards(flag, data?.uid);
   const [filteredColors, setFilteredColors] = useState<Colors[]>([]);
   const [isEditData, setIsEditData] = useState<boolean>(false);
   const [isExistingUser, setIsExistingUser] = useState<boolean>(false);
+  const [useExistingCard, setUseExistingCard] = useState(false);
+  const [paymentSource, setPaymentSource] = useState(null);
 
   //Datos distribuidor paso 1
   const [documentType, setDocumentType] = useState<string>("");
@@ -191,6 +195,9 @@ const CustomersCreateFormHook = ({
     idNumber: "",
   });
   const [loading, setLoading] = useState(false);
+  const [paymentSourceError, setPaymentSourceError] = useState<string | null>(
+    null
+  );
 
   //Errores Modal Pagos
   // Estados para errores de validación
@@ -1051,8 +1058,10 @@ const CustomersCreateFormHook = ({
     return {
       //orderId,
       uid: documentRefUser.id,
-      userId: documentNumber.trim(),
+      userDataRow: documentNumber.trim(),
       totalAmount,
+      totalSavings,
+      saving: (totalAmount - totalSavings) || 0,
       status: isPay === true ? "APPROVED" : "PENDING",
       createdAt: moment().format(),
       paymentDate: isPay === true ? moment().format() : "",
@@ -1075,7 +1084,8 @@ const CustomersCreateFormHook = ({
       cardRole: customRole || '',
       isMainOrder: isMain,
       selectedCombo: selectedCombo,
-      selectedPlan: selectedPlan,
+      //selectedPlan: selectedPlan,
+      selectedPlan: selectedPlan && isChangePlan ? selectedPlan : "",
       selectedMaterial,
       selectedCustomization,
       selectedColor,
@@ -1090,7 +1100,7 @@ const CustomersCreateFormHook = ({
       uid: documentRefUser.id,
       orderId,
       secuencialId,
-      userId: documentNumber.trim(),
+      userDataRow: documentNumber.trim(),
       totalAmount: total,
       status: isPay === true ? "PAID" : "PENDING",
       TicketNumber: "Wompi",
@@ -1168,53 +1178,80 @@ const CustomersCreateFormHook = ({
 
   // Función para crear la transacción
   const createTransaction = async (transactionBody: any) => {
+    const authToken = paymentSource
+      ? `Bearer ${wompiConfig.WOMPI_PRIVATE_KEY}`
+      : `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`;
+
     const transactionResponse = await axios.post(
       "https://sandbox.wompi.co/v1/transactions",
       transactionBody,
       {
-        headers: {
-          Authorization: `Bearer ${wompiConfig?.WOMPI_PUBLIC_KEY}`,
-        },
+        headers: { Authorization: authToken },
       }
     );
     return transactionResponse.data;
+  };
+
+  const handleSelectCard = (event: any) => {
+    const selectedCard = event.target.value;
+    setPaymentSource(selectedCard?.paymentSourceId);
   };
 
   // Función principal para manejar el pago
   const handlePayment = async () => {
     if (!validateFormStepTwo()) return;
     if (!validateFormStepThird()) return;
-    if (!validateFormStepFour()) return;
-    if (!validateFormPayment()) return;
+    if (!paymentSource && !validateFormPayment()) return;
+
 
     setLoading(true);
 
     try {
-      const formattedData = {
-        number: cardInfo.number,
-        cvc: cardInfo.cvc,
-        exp_month: String(cardInfo.exp_month).padStart(2, "0"),
-        exp_year: String(cardInfo.exp_year).slice(-2),
-        card_holder: cardInfo.card_holder,
-      };
-
-      const token = await tokenizeCard(formattedData);
+      const amount = totalSavings * 100;
       const reference = generatePaymentReference(documentNumber);
-      const amout = totalSavings * 100;
-      const transactionBody = {
-        amount_in_cents: amout,
+
+      const commonTransactionBody = {
+        amount_in_cents: amount,
         reference: reference,
         currency: "COP",
         customer_email: email ?? "cliente@example.com",
-        acceptance_token: acceptanceToken,
         payment_method: {
           type: "CARD",
           installments: cardInfo.installments,
-          token: token,
         },
       };
 
-      // Crear la transacción
+      let transactionBody;
+
+      if (paymentSource) {
+        //Usar una tarjeta existente
+        transactionBody = {
+          ...commonTransactionBody,
+          payment_source_id: paymentSource,
+        };
+      } else {
+        // Usar nueva tarjeta
+        const formattedData = {
+          number: cardInfo.number,
+          cvc: cardInfo.cvc,
+          exp_month: String(cardInfo.exp_month).padStart(2, "0"),
+          exp_year: String(cardInfo.exp_year).slice(-2),
+          card_holder: cardInfo.card_holder,
+        };
+
+        const token = await tokenizeCard(formattedData);
+
+        transactionBody = {
+          ...commonTransactionBody,
+          acceptance_token: acceptanceToken,
+          payment_method: {
+            ...commonTransactionBody.payment_method,
+            token: token,
+          },
+        };
+      }
+      console.log('transactionBody ', transactionBody);
+
       const transactionResponse = await createTransaction(transactionBody);
       checkPaymentStatus(transactionResponse.data.id);
     } catch (error) {
@@ -1652,6 +1689,30 @@ const CustomersCreateFormHook = ({
     });
   };
 
+  const handleUseExistingCardToggle = () => {
+    setUseExistingCard(!useExistingCard);
+    setCardInfo({
+      number: "",
+      cvc: "",
+      exp_month: "",
+      exp_year: "",
+      card_holder: "",
+      installments: "",
+      idType: "",
+      idNumber: "",
+    });
+    setPaymentSource(null);
+    setCardNumberError(null);
+    setCvcError(null);
+    setExpMonthError(null);
+    setExpYearError(null);
+    setCardHolderError(null);
+    setTermsError(null);
+    setInstallmentsError(null);
+    setIdTypeError(null);
+    setIdNumberError(null);
+  };
+
   const formatPrice = (value: any) => {
     if (value == null || isNaN(value)) return "";
     const number = Number(value);
@@ -1671,10 +1732,12 @@ const CustomersCreateFormHook = ({
   }
 
   useEffect(() => {
-    if (userId) {
-      getDataUserExist(userId);
+    if (userDataRow) {
+      getDataUserExist(userDataRow?.idUser);
+      setCustomName(userDataRow?.userOrder?.cardName || '')
+      setCustomRole(userDataRow?.userOrder?.cardRole || '')
     }
-  }, [userId, defaultPlans]);
+  }, [userDataRow, defaultPlans]);
 
   useEffect(() => {
     if (dataProducts) {
@@ -2065,7 +2128,12 @@ const CustomersCreateFormHook = ({
     isChangePlan,
     isExistingUser,
     defaultPlans,
-    updateDefaultPlan
+    updateDefaultPlan,
+    dataCards,
+    useExistingCard,
+    handleUseExistingCardToggle,
+    handleSelectCard,
+    paymentSourceError
   };
 };
 

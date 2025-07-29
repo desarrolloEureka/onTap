@@ -501,10 +501,10 @@ const PendingPaymentReports = ({ handlePayUser }: { handlePayUser: any }) => {
                       )}`}</td>
                     </tr>
 
-                    {/* Materiales Seleccionados */}
+                    {/* Material Seleccionado */}
                     <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
                       <td className="tw-px-6 tw-py-4">
-                        Materiales Seleccionados:{" "}
+                        Material Seleccionado:{" "}
                         <span className="tw-font-medium">
                           {detalleCompra?.optionPay?.selectedMaterial?.name}
                         </span>

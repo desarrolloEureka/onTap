@@ -185,7 +185,7 @@ const GetAllDistributors = (flag?: boolean) => {
 
 const GetAllCards = (flag?: boolean, idUser?: any) => {
   return useQuery({
-    queryKey: ["colors", flag],
+    queryKey: ["cards", flag],
     queryFn: async () => await getAllCards(idUser),
     refetchOnWindowFocus: false,
   });

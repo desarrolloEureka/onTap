@@ -7,6 +7,11 @@ export interface TemplateData {
   checked: boolean;
 }
 export interface UserData {
+  documentType: string;
+  state: string;
+  city: string;
+  phoneNumber: string;
+  address: string;
   subscription?: any;
   uid: string;
   email: string;

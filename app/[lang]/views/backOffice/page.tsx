@@ -76,7 +76,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const [userDataReport, setUserDataReport] = useState<any>(null);
   // Estado para determinar si es un reporte individual
   const [isIndividualReport, setIsIndividualReport] = useState<boolean>(false);
-  const [userId, setUserId] = useState<any>(null);
+  const [userDataRow, setuserDataRow] = useState<any>(null);
 
   useEffect(() => {
     // Verificar si estamos en el lado del cliente
@@ -564,13 +564,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <CustomersDistributorForm
             handleCreateUser={handleCreateUser}
             handlePayUser={handlePayUser}
-            setUserId={setUserId}
+            setuserDataRow={setuserDataRow}
           />
         )}
         {value === 17 && (
           <CustomersCreateForm
             handleReturnForm={handleReturnForm}
-            userId={userId}
+            userDataRow={userDataRow}
           />
         )}
         {value === 18 && <Notifications params={{ lang }} />}

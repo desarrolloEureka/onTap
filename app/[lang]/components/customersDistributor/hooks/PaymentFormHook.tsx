@@ -211,9 +211,9 @@ const PaymentFormHook = ({
   const totalAmountToPay = isIndividualPay
     ? userDataPay?.userOrder?.totalAmount || 0
     : userDataPay.reduce(
-        (total: any, item: any) => total + (item.userOrder?.totalAmount || 0),
-        0
-      );
+      (total: any, item: any) => total + (item.userOrder?.totalAmount || 0),
+      0
+    );
 
   const dataRegisterHandle = async () => {
     try {
@@ -249,7 +249,7 @@ const PaymentFormHook = ({
   };
 
 
-  
+
 
   const updateUserOrderInvoice = async (userData: any) => {
     try {

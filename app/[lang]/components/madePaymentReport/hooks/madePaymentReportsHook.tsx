@@ -7,7 +7,7 @@ import {
   useGridApiRef,
 } from "@mui/x-data-grid";
 import * as XLSX from "xlsx";
-import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getUsersWithMultiplesInvoices, getUsersWithOrdersAndInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 
 const MadePaymentReportsHook = ({
@@ -127,6 +127,7 @@ const MadePaymentReportsHook = ({
           url,
           userType,
           optionPay,
+          detalleCompra,
           __check__,
           ...filteredUser
         } = user;
@@ -189,7 +190,7 @@ const MadePaymentReportsHook = ({
 
   useEffect(() => {
     const getquery = async () => {
-      const reportData = await getUsersWithOrdersAndInvoices();
+      const reportData = await getUsersWithMultiplesInvoices();
       const reportDataFinal = reportData
         .map((doc: any) => {
           let paymentDate = "";
@@ -202,18 +203,19 @@ const MadePaymentReportsHook = ({
           }
 
           return {
-            id: doc.dni || 1,
-            created_at: doc?.created_at || "",
-            paymentDate, // Usar la fecha calculada según la lógica
+            id: doc?.userOrder?.uid || 1,
+            idUser: doc.dni || 1,
+            created_at: doc?.created || "",
             name: doc.firstName + " " + doc.lastName || "",
             indicative: doc.indicative || "",
             phone: doc.phone || "",
             email: doc.email || "",
-            plan: doc?.selectedPlan?.name || "",
+            plan: doc?.userOrder?.selectedPlan?.name || "",
+            combo: doc?.userOrder?.selectedCombo?.name || ' - ',
             userType: doc,
             optionEdit: doc,
             optionPay: doc,
-            statusPay: doc?.userInvoice?.status === "PAID" ? "Pagado" : "Pendiente por pagar",
+            statusPay: doc?.userOrder?.status === "DELIVERED" ? "Gestionado" : doc?.userInvoice?.status === "PAID" ? "Pagado" : "Pendiente por pagar",
             userInvoice: doc.userInvoice,
             userOrder: doc.userOrder,
             edit: {
@@ -222,15 +224,19 @@ const MadePaymentReportsHook = ({
             },
             idDistributor: doc?.idDistributor || "",
             totalAmount: doc.userInvoice?.totalAmount || 0,
-            status: doc.userOrder?.status || "", // Añade el campo de estado de la orden
+            status: doc.userOrder?.status || "",
             secuencialId: doc?.userOrder?.secuencialId || "",
+            deliveryStatus: doc?.userOrder?.status === "DELIVERED" ? "Entregado" : "Pendiente de entrega",
+            paymentDate: doc.gif === true
+              ? doc?.created || ''
+              : doc?.userSubscription?.updatedAt || doc?.userSubscription?.created_at || doc?.created || '',
           };
         })
         .filter(
           (user) =>
             user?.idDistributor === data?.uid &&
-            user.userInvoice.status === "PAID" &&
-            user.status !== "DELIVERED" // Excluir aquellos con estado "DELIVERED"
+            user?.userInvoice?.status === "PAID" &&
+            user?.status !== "DELIVERED" // Excluir aquellos con estado "DELIVERED"
         );
 
       setQuery(reportDataFinal);

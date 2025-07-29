@@ -14,11 +14,11 @@ import { colombianCitiesData } from "@/types/colombianCitiesData";
 
 const CustomersDistributorHook = ({
   handlePayUser,
-  setUserId,
+  setuserDataRow,
   handleCreateUser
 }: {
   handlePayUser: any;
-  setUserId: any;
+  setuserDataRow: any;
   handleCreateUser: any;
 }) => {
   interface UserData {
@@ -146,7 +146,7 @@ const CustomersDistributorHook = ({
   };
 
   const handleNewBuy = (rowData: any) => {
-    setUserId(rowData?.idUser); 
+    setuserDataRow(rowData);
     handleCreateUser();
   };
 
@@ -598,8 +598,6 @@ const CustomersDistributorHook = ({
   const handleOpenModalAndLoadData = async (dataUsuario: any) => {
     setIsModalOpen3(true);
     try {
-      //console.log("Cargando datos del usuario:", dataUsuario);
-
       // Configurar estados con los datos del usuario
       setRowId(dataUsuario.uid || null); // Cambiar a uid
       setDocumentType(dataUsuario.documentType || "");
@@ -615,8 +613,6 @@ const CustomersDistributorHook = ({
       setState(dataUsuario.state || "");
       setCountry(dataUsuario.country || "");
       setIsActive(dataUsuario.isActive ?? true);
-
-      //console.log("rowId asignado:", dataUsuario.uid);
 
       // Cargar departamentos y ciudades
       const departmentsData = await colombianCitiesData;
@@ -645,8 +641,6 @@ const CustomersDistributorHook = ({
   // Función para guardar los cambios y actualizar el perfil
   const handleUpdatePerfil = async () => {
     try {
-      //console.log("Intentando actualizar perfil. rowId actual (uid):", rowId);
-
       if (!rowId) {
         throw new Error(
           "El identificador del usuario (uid) es inválido o no está asignado."
@@ -680,8 +674,6 @@ const CustomersDistributorHook = ({
         isActive,
       };
 
-      //console.log("Datos a actualizar:", updatedData);
-
       const result = await UpdateUserDataQuery(updatedData, rowId);
 
       if (result.success) {
@@ -691,13 +683,9 @@ const CustomersDistributorHook = ({
           title: `Cliente actualizado con éxito`,
           showConfirmButton: false,
           timer: 2000,
-          // customClass: {
-          //   container: z-index: 10;
-          // }
         });
 
         // Restablecer el formulario
-        //setIsModalOpen(false);
         handleReset();
       } else {
         setStatus(result.message);
@@ -757,7 +745,7 @@ const CustomersDistributorHook = ({
   };
 
   useEffect(() => {
-    setUserId(null);
+    setuserDataRow(null);
     const getquery = async () => {
       const usersDataSanpShotAux = await getUsersWithMultiplesInvoices();
       const usersData = usersDataSanpShotAux.map((doc: any) => {
@@ -770,7 +758,7 @@ const CustomersDistributorHook = ({
           indicative: doc.indicative || "",
           phone: doc.phone || "",
           email: doc.email || "",
-          plan: doc?.plan || "",
+          plan: doc?.userOrder?.selectedPlan?.name || doc?.plan || "",
           combo: doc?.userOrder?.selectedCombo?.name || ' - ',
           userType: doc,
           optionEdit: doc,

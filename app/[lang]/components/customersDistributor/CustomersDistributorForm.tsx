@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   Typography,
   Button,
@@ -8,15 +7,10 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
 import { Modal, Box, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbarContainer } from "@mui/x-data-grid";
 import { GridToolbarQuickFilter } from "@mui/x-data-grid/components";
-// AnotherComponent.ts
-import editAndUpdateUserProfile from "./hooks/CustomersCreateFormHook"; // Subimos una carpeta
-
 import useDictionary from "@/hooks/dictionary/useDictionary";
 // Icons
 import { Close } from "@mui/icons-material";
@@ -54,11 +48,11 @@ import moment from "moment";
 const CustomersDistributorForm = ({
   handleCreateUser,
   handlePayUser,
-  setUserId
+  setuserDataRow,
 }: {
   handleCreateUser: any;
   handlePayUser: any;
-  setUserId: any;
+  setuserDataRow: any;
 }) => {
   const {
     data,
@@ -140,7 +134,7 @@ const CustomersDistributorForm = ({
     handleChangeDepartament,
     handleChangeCity,
     handleNewBuy
-  } = CustomersDistributorHook({ handlePayUser, setUserId, handleCreateUser });
+  } = CustomersDistributorHook({ handlePayUser, setuserDataRow, handleCreateUser });
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
 
@@ -667,7 +661,6 @@ const CustomersDistributorForm = ({
                 },
               },
               sorting: {
-                //sortModel: [{ field: "created_at", sort: "desc" }],
                 sortModel: [{ field: "secuencialId", sort: "desc" }],
               },
             }}
@@ -1078,7 +1071,7 @@ const CustomersDistributorForm = ({
                           )}`}</td>
                         </tr>
                       }
-                      {detalleCompra?.optionPay?.plan && (
+                      {detalleCompra?.userOrder?.selectedPlan && (
                         <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
                           <td className="tw-px-6 tw-py-4">
                             Plan Seleccionado:{" "}
@@ -1099,11 +1092,11 @@ const CustomersDistributorForm = ({
                         </tr>
                       )}
 
-                      {/* Materiales Seleccionados */}
+                      {/* Material Seleccionado */}
                       {detalleCompra?.userOrder?.selectedMaterial && (
                         <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
                           <td className="tw-px-6 tw-py-4">
-                            Materiales Seleccionados:{" "}
+                            Material Seleccionado:{" "}
                             <span className="tw-font-medium">
                               {detalleCompra?.userOrder?.selectedMaterial?.name}
                             </span>
@@ -1203,6 +1196,20 @@ const CustomersDistributorForm = ({
                           $
                           {formatPrice(
                             detalleCompra?.userOrder?.totalAmount || 0
+                          )}
+                        </td>
+                      </tr>
+                      <tr className="tw-bg-gray-100">
+                        <td
+                          colSpan={4}
+                          className="tw-px-6 tw-py-4 tw-text-right tw-font-bold tw-border-t tw-border-gray-300"
+                        >
+                          Ahorro:
+                        </td>
+                        <td className="tw-px-6 tw-py-4 tw-text-center tw-font-bold tw-border-t tw-border-gray-300">
+                          $
+                          {formatPrice(
+                            (detalleCompra?.userOrder?.totalAmount - totalDiscount) || 0
                           )}
                         </td>
                       </tr>
