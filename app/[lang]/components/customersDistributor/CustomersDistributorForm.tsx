@@ -1114,6 +1114,21 @@ const CustomersDistributorForm = ({
                         </tr>
                       )}
 
+                      {detalleCompra?.userOrder?.selectedColor && (
+                        <tr className="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
+                          <td className="tw-px-6 tw-py-4">
+                            Color Seleccionado:{" "}
+                            <span className="tw-font-medium">
+                              {detalleCompra?.userOrder?.selectedColor}
+                            </span>
+                          </td>
+                          <td className="tw-text-center">1</td>
+                          <td className="tw-text-center">-</td>
+                          <td className="tw-text-center">-</td>
+                          <td className="tw-text-center">-</td>
+                        </tr>
+                      )}
+
                       {/* Productos Seleccionados */}
                       {detalleCompra?.userOrder?.selectedProducts?.map(
                         (product: any, index: any) => (

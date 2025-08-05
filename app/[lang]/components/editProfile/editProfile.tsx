@@ -23,7 +23,6 @@ import CallIcon from "@mui/icons-material/Call";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import EmailIcon from "@mui/icons-material/Email";
 import SaveIcon from "@mui/icons-material/Save";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const EditProfileDistributor = ({
   params: { lang },
@@ -31,13 +30,8 @@ const EditProfileDistributor = ({
   params: { lang: Locale };
 }) => {
   const { dictionary } = useDictionary({ lang });
-
-  // Usamos el hook para manejar todo el estado
   const {
     handleEditProfile,
-    errorForm,
-    stateUpdate,
-    handleBack,
     loading,
     fullName,
     setFullName,
@@ -46,9 +40,7 @@ const EditProfileDistributor = ({
     phoneNumber,
     setPhoneNumber,
     city,
-    setCity,
     state,
-    setState,
     documentType,
     setDocumentType,
     dni,
@@ -62,7 +54,7 @@ const EditProfileDistributor = ({
   } = EditProfileHook();
 
   if (loading) {
-    return <div>Cargando...</div>; // Puedes mostrar un spinner o texto mientras se cargan los datos
+    return <div>Cargando...</div>;
   }
 
   return (
@@ -292,32 +284,6 @@ const EditProfileDistributor = ({
 
           {/* Botones */}
           <div className="tw-h-[25%] tw-w-[90%] tw-flex tw-items-center tw-justify-center tw-py-6">
-            <Button
-              variant="text"
-              className="tw-text-black tw-mr-20"
-              onClick={handleBack}
-              sx={{
-                padding: "0",
-                minWidth: "auto",
-                textTransform: "none",
-                display: "flex",
-                alignItems: "center",
-              }}
-              startIcon={
-                <ArrowBackIcon
-                  style={{
-                    paddingLeft: 1,
-                    fontSize: 25,
-                    color: "black",
-                  }}
-                />
-              }
-            >
-              <Typography style={{ color: "black" }}>
-                {dictionary?.editProfile?.back}
-              </Typography>
-            </Button>
-
             <Button
               variant="text"
               className="tw-text-black tw-ml-20"

@@ -55,8 +55,10 @@ const SubscriptionReport = ({
             headerName: "Fecha Registro",
             minWidth: 220,
             flex: 2,
+            type: "date",
             headerAlign: "center",
             align: "center",
+            valueGetter: (params) => new Date(params.value),
             renderCell: (params) => (
                 <div className="tw-flex tw-justify-center tw-items-center">
                     <div>{formatearFecha(params.value)}</div>

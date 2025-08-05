@@ -179,8 +179,8 @@ export const UpdateProfile = async (profileData: {
   documentType: string;
   dni: string;
   email: string;
-}) => {
-  const res = await updateProfileFirebase(profileData); // Llamamos a la función que actualiza el perfil
+}, uid: any) => {
+  const res = await updateProfileFirebase(profileData, uid); // Llamamos a la función que actualiza el perfil
   return res; // Retornamos la respuesta tal cual
 };
 
@@ -267,25 +267,6 @@ const GetUserByIdEdit = (userUid: string, refetch?: boolean) => {
     refetchOnWindowFocus: refetch ?? false,
   });
 };
-
-/* const GetUserById = (userUid: string, refetch?: boolean) => {
-  return useQuery({
-    queryKey: ["user", userUid], // Clave de consulta única para cada usuario
-    queryFn: async () => {
-      const updatedUser = await getUserByIdFireStore(userUid);
-      if (updatedUser.exists()) {
-        const userData = (await updatedUser.data()) as UserData;
-        const getUser = await reBuildUserData(userData);
-        await localStorage.setItem("@user", JSON.stringify(getUser));
-        return getUser;
-      } else {
-        return null;
-      }
-    },
-    enabled: !!userUid,
-    refetchOnWindowFocus: refetch ?? false,
-  });
-}; */
 
 const GetUserById = (userUid: string, refetch?: boolean) => {
   return useQuery({

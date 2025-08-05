@@ -1058,7 +1058,7 @@ const CustomersCreateFormHook = ({
     return {
       //orderId,
       uid: documentRefUser.id,
-      userDataRow: documentNumber.trim(),
+      userId: documentNumber.trim(),
       totalAmount,
       totalSavings,
       saving: (totalAmount - totalSavings) || 0,
@@ -1250,8 +1250,6 @@ const CustomersCreateFormHook = ({
           },
         };
       }
-      console.log('transactionBody ', transactionBody);
-
       const transactionResponse = await createTransaction(transactionBody);
       checkPaymentStatus(transactionResponse.data.id);
     } catch (error) {
@@ -1593,6 +1591,12 @@ const CustomersCreateFormHook = ({
       console.error(
         "Categoría inválida o falta la matriz de precios en el plan"
       );
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Este producto no tiene un precio o descuento asignado.',
+        confirmButtonText: 'Entendido',
+      });
     }
   };
 

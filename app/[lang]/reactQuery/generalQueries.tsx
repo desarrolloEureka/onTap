@@ -118,8 +118,8 @@ export const UpdateOrdersInvoicesQuerie = async (
 };
 
 // Query para actualizar el estado de la orden
-export const UpdateOrdersQuerie = async (idOrden: any, delivery: boolean) => {
-  const res = await UpdateOrders(idOrden, delivery);
+export const UpdateOrdersQuerie = async (userId: any, idOrden: any, delivery: boolean) => {
+  const res = await UpdateOrders(userId, idOrden, delivery);
   return res;
 };
 

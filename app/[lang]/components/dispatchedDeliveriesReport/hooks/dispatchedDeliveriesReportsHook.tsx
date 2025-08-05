@@ -7,7 +7,7 @@ import {
   useGridApiRef,
 } from "@mui/x-data-grid";
 import * as XLSX from "xlsx";
-import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getUsersWithMultiplesInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 
 const PendingPaymentReportsHook = ({
@@ -90,8 +90,8 @@ const PendingPaymentReportsHook = ({
       return;
     }
 
-    const filteredData = query.filter((user: { created_at: string }) => {
-      const userDate = new Date(user.created_at);
+    const filteredData = query.filter((user: { deliveryDate: string }) => {
+      const userDate = new Date(user.deliveryDate);
 
       // Comparar si la fecha del usuario está dentro del rango
       if (dateStart && userDate < dateStart) return false;
@@ -125,6 +125,7 @@ const PendingPaymentReportsHook = ({
           url,
           userType,
           optionPay,
+          detalleCompra,
           __check__,
           ...filteredUser
         } = user;
@@ -182,7 +183,7 @@ const PendingPaymentReportsHook = ({
 
   useEffect(() => {
     const getquery = async () => {
-      const reportData = await getUsersWithOrdersAndInvoices();
+      const reportData = await getUsersWithMultiplesInvoices();
       const reportDataFinal = reportData
         .map((doc: any) => {
           // Preparar el estado de pago y la fecha de entrega
@@ -190,34 +191,41 @@ const PendingPaymentReportsHook = ({
           const isDelivered = doc?.userOrder?.status === "DELIVERED";
 
           return {
-            id: doc.dni || 1,
-            created_at: doc?.created_at || "",
-            name: `${doc.firstName} ${doc.lastName}` || "",
+            id: doc?.userOrder?.uid || 1,
+            idUser: doc.dni || 1,
+            created_at: doc?.created || "",
+            name: doc.firstName + " " + doc.lastName || "",
             indicative: doc.indicative || "",
             phone: doc.phone || "",
             email: doc.email || "",
-            plan: doc?.selectedPlan?.name || "",
+            plan: doc?.userOrder?.selectedPlan?.name || "",
+            combo: doc?.userOrder?.selectedCombo?.name || ' - ',
             userType: doc,
             optionEdit: doc,
             optionPay: doc,
-            statusPay: isPaid ? "Pagado" : "Pendiente por pagar",
-            deliveryStatus: isDelivered ? "Entregado" : "Pendiente de entrega",
-            deliveryDate: isDelivered ? doc?.userOrder?.deliveryDate : "", // Mostrar fecha de entrega si está entregado
+            statusPay: doc?.userOrder?.status === "DELIVERED" ? "Gestionado" : doc?.userInvoice?.status === "PAID" ? "Pagado" : "Pendiente por pagar",
+            deliveryStatus: doc?.userOrder?.status === "DELIVERED" ? "Entregado" : "Pendiente de entrega",
+            deliveryDate: isDelivered ? doc?.userOrder?.deliveryDate : "",
             userInvoice: doc.userInvoice,
             userOrder: doc.userOrder,
             edit: {
-              switch: doc?.isActiveByAdmin === true ? true : false || "",
+              switch: doc.isActiveByAdmin === true ? true : false || "",
               uid: doc.uid,
             },
-            idDistributor: doc.idDistributor || "",
+            idDistributor: doc?.idDistributor || "",
+            totalAmount: doc.userInvoice?.totalAmount || 0,
+            status: doc.userOrder?.status || "",
             secuencialId: doc?.userOrder?.secuencialId || "",
+            paymentDate: doc.gif === true
+              ? doc?.created || ''
+              : doc?.userSubscription?.updatedAt || doc?.userSubscription?.created_at || doc?.created || '',
           };
         })
         .filter(
           (user: any) =>
             user?.idDistributor === data?.uid &&
-            user.userInvoice.status === "PAID" && // Filtrar solo los usuarios con pago realizado
-            user.deliveryStatus === "Entregado" // Filtrar solo los pedidos entregados
+            user?.userInvoice?.status === "PAID" &&
+            user?.deliveryStatus === "Entregado" // Filtrar solo los pedidos entregados
         );
 
       setQuery(reportDataFinal);

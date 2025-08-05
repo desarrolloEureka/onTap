@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { getUsersWithMultiplesInvoices, getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getUsersWithMultiplesInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 import { checkUserExists, GetUser, SendEditData } from "@/reactQuery/users";
 import { gridFilteredSortedRowIdsSelector, gridVisibleColumnFieldsSelector, useGridApiRef } from "@mui/x-data-grid";

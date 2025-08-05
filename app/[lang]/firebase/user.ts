@@ -271,7 +271,6 @@ export const updateSwitchAllFirebase = async (userId: string, newData: any) => {
 export const updatePasswordFirebase = (newPassword: string) => {
   const auth = getAuth();
   const user = auth.currentUser;
-
   if (user) {
     return updatePassword(user, newPassword)
       .then(() => {
@@ -316,68 +315,34 @@ export const getCurrentProfileData = async (uid: string) => {
   }
 };
 
-export const updateProfileFirebase = async (profileData: {
-  fullName: string;
-  address: string;
-  phoneNumber: string;
-  city: string;
-  state: string;
-  documentType: string;
-  dni: string;
-  email: string;
-}) => {
-  const auth = getAuth();
-  const user = auth.currentUser;
-
-  if (user) {
-    try {
-      const db = getFirestore();
-      const userRef = doc(db, "users", user.uid); // Usamos el UID del usuario autenticado
-
-      // Primero obtenemos los datos del perfil actual
-      const userDoc = await getDoc(userRef);
-
-      if (userDoc.exists()) {
-        const currentProfileData = userDoc.data();
-        console.debug("Datos actuales del perfil:", currentProfileData);
-
-        // Aquí, puedes modificar los datos de Firestore con los nuevos datos
-        await setDoc(
-          userRef,
-          {
-            address: profileData.address,
-            phoneNumber: profileData.phoneNumber,
-            city: profileData.city,
-            state: profileData.state,
-            fullName: profileData.fullName,
-            documentType: profileData.documentType, // Nuevo campo
-            dni: profileData.dni, // Nuevo campo
-            email: profileData.email, // Nuevo campo
-          },
-          { merge: true } // Merge para no sobrescribir datos no mencionados
-        );
-
-        console.debug("Perfil actualizado correctamente");
-
-        // Retornamos los datos **actualizados** del perfil
-        const updatedUserDoc = await getDoc(userRef); // Nuevos datos después de la actualización
-        const updatedProfileData = updatedUserDoc.data();
-
-        return { success: true, data: updatedProfileData }; // Retornamos los datos actualizados
-      } else {
-        console.debug("No se encontró el perfil del usuario");
-        return { success: false, message: "Perfil no encontrado" };
-      }
-    } catch (error: any) {
-      console.debug("Error al actualizar el perfil:", error.message);
-      return { success: false, message: error.message };
-    }
-  } else {
-    console.debug("No hay un usuario autenticado");
-    return { success: false, message: "No hay usuario autenticado" };
+export const updateProfileFirebase = async (
+  profileData: {
+    fullName: string;
+    address: string;
+    phoneNumber: string;
+    city: string;
+    state: string;
+    documentType: string;
+    dni: string;
+    email: string;
+  },
+  uid: string
+) => {
+  try {
+    const userDocRef = doc(dataBase, "users", uid);
+    await updateDoc(userDocRef, profileData);
+    return {
+      success: true,
+      message: "Perfil actualizado correctamente.",
+    };
+  } catch (error: any) {
+    console.error("Error al actualizar el perfil:", error.message);
+    return {
+      success: false,
+      message: "No se pudo actualizar el perfil del usuario.",
+    };
   }
 };
-
 export const updateSwitchActivateCard = async (
   userId: string,
   switchState: any

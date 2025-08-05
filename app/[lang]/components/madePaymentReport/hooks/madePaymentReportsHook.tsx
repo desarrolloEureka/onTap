@@ -7,7 +7,7 @@ import {
   useGridApiRef,
 } from "@mui/x-data-grid";
 import * as XLSX from "xlsx";
-import { getUsersWithMultiplesInvoices, getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getUsersWithMultiplesInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 
 const MadePaymentReportsHook = ({

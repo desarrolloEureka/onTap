@@ -1,5 +1,5 @@
-import { getAllUsers, getUsersWithOrdersAndInvoices } from "@/firebase/user";
-import { getDocumentReference, saveSubscriptionQuerie, updateSubscriptionQuery, updateSubscriptionsQuery } from "@/reactQuery/generalQueries";
+import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getDocumentReference, saveSubscriptionQuerie, updateSubscriptionsQuery } from "@/reactQuery/generalQueries";
 import { checkUserExists, SendEditData } from "@/reactQuery/users";
 import { registerUserAuth, registerUserFb } from "app/functions/register";
 import moment from "moment";
@@ -447,57 +447,6 @@ const UserTableLogic = () => {
 
     return valid;
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // Función para manejar el envío del formulario
   const dataRegisterHandle = async () => {

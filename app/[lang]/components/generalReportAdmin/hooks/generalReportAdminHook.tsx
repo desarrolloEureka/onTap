@@ -9,7 +9,7 @@ import {
 } from "@mui/x-data-grid";
 
 import * as XLSX from "xlsx";
-import { getUsersWithOrdersAndInvoices, getUsers, getUsersWithMultiplesInvoices } from "@/firebase/user";
+import { getUsers, getUsersWithMultiplesInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 import Swal from "sweetalert2";
 
@@ -124,14 +124,14 @@ const PendingPaymentReportsHook = ({
     let successCount = 0;
 
     for (const order of selectedData) {
-      const orderId = order.id;
-
+      const userId = order?.idUser;
+      const orderId = order?.userOrder?.uid;
       if (!orderId) {
         console.error("No se encontró un ID de orden válido");
         continue;
       }
 
-      const result = await UpdateOrdersQuerie(orderId, true); // Actualiza el estado a "DELIVERED"
+      const result = await UpdateOrdersQuerie(userId, orderId, true);
       if (result.success) {
         successCount++;
 

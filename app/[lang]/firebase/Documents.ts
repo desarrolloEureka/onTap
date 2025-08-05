@@ -375,35 +375,35 @@ export const UpdateOrdersInvoices = async (idInvoice: any, idOrden: any) => {
 };
 
 // Función para actualizar el estado de la orden (APPROVED TO delivery)
-export const UpdateOrders = async (userId: string, delivery: boolean) => {
+export const UpdateOrders = async (userId: any, idOrden: any, delivery: boolean) => {
   try {
-    //console.log("userId recibido:", userId);
+    // Accede directamente al documento por su ID
+    const orderRef = doc(dataBase, "orders", idOrden);
+    const orderSnap = await getDoc(orderRef);
 
-    // Realiza la consulta para buscar documentos donde el campo 'userId' coincida con el valor recibido
-    const ordersRef = collection(dataBase, "orders");
-    const q = query(ordersRef, where("userId", "==", userId)); // Consulta buscando por 'userId'
-
-    // Obtener los documentos que coinciden con la consulta
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      console.error("No se encontró la orden con el userId:", userId);
+    if (!orderSnap.exists()) {
       return {
         success: false,
-        message: `No se encontró la orden con el userId ${userId}`,
+        message: `No se encontró la orden con id ${idOrden}`,
       };
     }
 
-    const orderDoc = querySnapshot.docs[0];
-    //console.log("Datos de la orden:", orderDoc.data());
+    const orderData = orderSnap.data();
+
+    // Validar que el userId coincida con el dueño de la orden
+    if (orderData.userId !== userId) {
+      return {
+        success: false,
+        message: "El userId no coincide con el de la orden",
+      };
+    }
 
     const newStatus = delivery ? "DELIVERED" : "APPROVED";
-    const orderRef = orderDoc.ref;
 
-    // Actualizar el estado de la orden
+    // Actualizar la orden
     await updateDoc(orderRef, {
       status: newStatus,
-      deliveryDate: delivery ? moment().format() : "", // Establecer fecha de entrega si 'delivery' es true
+      deliveryDate: delivery ? moment().format() : "",
     });
 
     return { success: true, message: "Orden actualizada correctamente" };
@@ -411,7 +411,7 @@ export const UpdateOrders = async (userId: string, delivery: boolean) => {
     console.error("Error al actualizar la orden: ", error);
     return {
       success: false,
-      message: "Error al actualizar la orden. Detalles: ",
+      message: "Error al actualizar la orden. Detalles: " + error,
     };
   }
 };
