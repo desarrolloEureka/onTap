@@ -101,6 +101,7 @@ const DistributorRegisterForm = ({
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
   const apiRef = useGridApiRef();
+
   const formatearFecha = (fechaISO: string): string => {
     return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
   };
@@ -123,12 +124,13 @@ const DistributorRegisterForm = ({
       ),
     },
     {
-      field: "created_at",
+      field: "created",
       headerName: "Fecha Registro",
-      minWidth: 220,
+      minWidth: 170,
       flex: 2,
       headerAlign: "center",
       align: "center",
+      valueGetter: (params) => new Date(params.value),
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           <div>{formatearFecha(params.value)}</div>
@@ -448,7 +450,7 @@ const DistributorRegisterForm = ({
                   paginationModel: { page: 0, pageSize: 15 },
                 },
                 sorting: {
-                  sortModel: [{ field: "created_at", sort: "asc" }],
+                  sortModel: [{ field: "created", sort: "desc" }],
                 },
               }}
               pageSizeOptions={[10, 20, 30]}
@@ -496,10 +498,10 @@ const DistributorRegisterForm = ({
             </IconButton>
 
             <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
-              <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
+              <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-5 tw-flex tw-flex-col tw-justify-center tw-items-center">
                 <div className="tw-w-[90%] tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5">
                   <form className="tw-w-full">
-                    <div className="tw-flex tw-justify-between tw-mb-6">
+                    <div className="tw-flex tw-justify-between tw-mb-5">
                       <FormControl
                         fullWidth
                         variant="outlined"
@@ -566,13 +568,13 @@ const DistributorRegisterForm = ({
                         ),
                       }}
                       fullWidth
-                      className="tw-mb-6"
+                      className="tw-mb-5"
                       value={fullName}
                       error={!!fullNameError}
                       helperText={fullNameError}
                       onChange={(e) => setFullName(e.target.value)}
                     />
-                    <div className="tw-flex tw-justify-between tw-mb-6">
+                    <div className="tw-flex tw-justify-between tw-mb-5">
                       <TextField
                         variant="standard"
                         label="Correo"
@@ -599,37 +601,12 @@ const DistributorRegisterForm = ({
                         onCopy={(e) => e.preventDefault()} // Bloquea copiar
                         onCut={(e) => e.preventDefault()} // Bloquea cortar
                       />
-                      <TextField
-                        variant="standard"
-                        label="Confirmar Correo"
-                        disabled={isEditData ? true : false}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <BadgeIcon
-                                style={{
-                                  color: "#02AF9B",
-                                  fontSize: "1.8rem",
-                                  marginRight: "1rem",
-                                }}
-                              />
-                            </InputAdornment>
-                          ),
-                        }}
-                        fullWidth
-                        className="tw-ml-2"
-                        value={confirmEmail}
-                        error={!!confirmEmailError}
-                        helperText={confirmEmailError}
-                        onChange={(e) => setConfirmEmail(e.target.value)}
-                        onCopy={(e) => e.preventDefault()}
-                        onCut={(e) => e.preventDefault()}
-                        onPaste={(e) => e.preventDefault()}
-                      />
                     </div>
+
                     <TextField
                       variant="standard"
-                      label="Número Celular"
+                      label="Confirmar Correo"
+                      disabled={isEditData ? true : false}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -644,35 +621,68 @@ const DistributorRegisterForm = ({
                         ),
                       }}
                       fullWidth
-                      className="tw-mb-6"
-                      value={phoneNumber}
-                      error={!!phoneNumberError}
-                      helperText={phoneNumberError}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="tw-mb-5"
+                      value={confirmEmail}
+                      error={!!confirmEmailError}
+                      helperText={confirmEmailError}
+                      onChange={(e) => setConfirmEmail(e.target.value)}
+                      onCopy={(e) => e.preventDefault()}
+                      onCut={(e) => e.preventDefault()}
+                      onPaste={(e) => e.preventDefault()}
                     />
-                    <TextField
-                      variant="standard"
-                      label="Dirección"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <BadgeIcon
-                              style={{
-                                color: "#02AF9B",
-                                fontSize: "1.8rem",
-                                marginRight: "1rem",
-                              }}
-                            />
-                          </InputAdornment>
-                        ),
-                      }}
-                      fullWidth
-                      className="tw-mb-6"
-                      value={address}
-                      error={!!addressError}
-                      helperText={addressError}
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
+
+                    <div className="tw-flex tw-justify-between tw-mb-6">
+                      <div className="tw-w-2/5 tw-mr-2">
+                        <TextField
+                          variant="standard"
+                          label="Número Celular"
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <BadgeIcon
+                                  style={{
+                                    color: "#02AF9B",
+                                    fontSize: "1.8rem",
+                                    marginRight: "1rem",
+                                  }}
+                                />
+                              </InputAdornment>
+                            ),
+                          }}
+                          fullWidth
+                          value={phoneNumber}
+                          error={!!phoneNumberError}
+                          helperText={phoneNumberError}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="tw-w-3/5 tw-ml-2">
+                        <TextField
+                          variant="standard"
+                          label="Dirección"
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <BadgeIcon
+                                  style={{
+                                    color: "#02AF9B",
+                                    fontSize: "1.8rem",
+                                    marginRight: "1rem",
+                                  }}
+                                />
+                              </InputAdornment>
+                            ),
+                          }}
+                          fullWidth
+                          value={address}
+                          error={!!addressError}
+                          helperText={addressError}
+                          onChange={(e) => setAddress(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
                     <div className="tw-flex tw-justify-between tw-mb-7 tw-mt-2">
                       <FormControl
                         fullWidth

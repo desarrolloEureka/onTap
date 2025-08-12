@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteField,
   doc,
   getDoc,
   getDocs,
@@ -61,6 +62,25 @@ export const updateCategory = async (dataSave: any, idCategory: string) => {
   }
 };
 
+export const updateDefaultPlan = async (dataSave: any, idPlan: string) => {
+  try {
+    // Obtener la referencia del documento específico de el plan
+    const planDocRef = doc(dataBase, "default_plans", idPlan);
+    const updatedAt = moment().format();
+
+    // Actualizar el documento con los nuevos datos
+    await updateDoc(planDocRef, {
+      ...dataSave,
+      updated_at: updatedAt
+    });
+
+    return { success: true, message: "Categoría actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar el plan: ", error);
+    return { success: false, message: "Error al actualizar el plan" };
+  }
+};
+
 //Productos
 export const saveProduct = async (dataSave: any) => {
   try {
@@ -108,7 +128,7 @@ export const updateProduct = async (dataSave: any, idCategory: string) => {
   }
 };
 
-//Planes
+//Combos
 export const savePlans = async (dataSave: any) => {
   try {
     // Obtener la referencia a la colección de productos
@@ -120,7 +140,7 @@ export const savePlans = async (dataSave: any) => {
 
     if (!querySnapshot.empty) {
       // Si el SKU ya existe, devolver un mensaje de error
-      return { success: false, message: "El SKU ya está registrado" };
+      return { success: false, message: "El SKU del plan ya está registrado" };
     }
 
     // Si el SKU no está registrado, crear un nuevo documento en la colección
@@ -131,7 +151,7 @@ export const savePlans = async (dataSave: any) => {
       created_at: currentDate, // Añadir la fecha de creación
     });
 
-    return { success: true, message: "Plan creado correctamente" };
+    return { success: true, message: "Combo creado correctamente" };
   } catch (error) {
     console.error("Error al crear el plan: ", error);
     return { success: false, message: "Error al crear el plan" };
@@ -148,7 +168,7 @@ export const updatePlans = async (dataSave: any, idCategory: string) => {
       ...dataSave,
     });
 
-    return { success: true, message: "Plan actualizada correctamente" };
+    return { success: true, message: "Combo actualizada correctamente" };
   } catch (error) {
     console.error("Error al actualizar la plan: ", error);
     return { success: false, message: "Error al actualizar la plan" };
@@ -202,7 +222,7 @@ export const updateMaterial = async (dataSave: any, idCategory: string) => {
   }
 };
 
-//Planes
+//Combos
 export const saveColors = async (dataSave: any) => {
   try {
     // Obtener la referencia a la colección de productos
@@ -290,7 +310,6 @@ export const saveOrders = async (dataSave: any) => {
 
     await setDoc(collectionRef, {
       ...dataSave,
-      paymentDate: "",
       deliveryDate: "",
     });
 
@@ -309,7 +328,6 @@ export const saveInvoices = async (dataSave: any) => {
 
     await setDoc(collectionRef, {
       ...dataSave,
-      paymentDate: "",
     });
 
     return { success: true, message: "Factura creado correctamente" };
@@ -357,35 +375,35 @@ export const UpdateOrdersInvoices = async (idInvoice: any, idOrden: any) => {
 };
 
 // Función para actualizar el estado de la orden (APPROVED TO delivery)
-export const UpdateOrders = async (userId: string, delivery: boolean) => {
+export const UpdateOrders = async (userId: any, idOrden: any, delivery: boolean) => {
   try {
-    //console.log("userId recibido:", userId);
+    // Accede directamente al documento por su ID
+    const orderRef = doc(dataBase, "orders", idOrden);
+    const orderSnap = await getDoc(orderRef);
 
-    // Realiza la consulta para buscar documentos donde el campo 'userId' coincida con el valor recibido
-    const ordersRef = collection(dataBase, "orders");
-    const q = query(ordersRef, where("userId", "==", userId)); // Consulta buscando por 'userId'
-
-    // Obtener los documentos que coinciden con la consulta
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      console.error("No se encontró la orden con el userId:", userId);
+    if (!orderSnap.exists()) {
       return {
         success: false,
-        message: `No se encontró la orden con el userId ${userId}`,
+        message: `No se encontró la orden con id ${idOrden}`,
       };
     }
 
-    const orderDoc = querySnapshot.docs[0];
-    //console.log("Datos de la orden:", orderDoc.data());
+    const orderData = orderSnap.data();
+
+    // Validar que el userId coincida con el dueño de la orden
+    if (orderData.userId !== userId) {
+      return {
+        success: false,
+        message: "El userId no coincide con el de la orden",
+      };
+    }
 
     const newStatus = delivery ? "DELIVERED" : "APPROVED";
-    const orderRef = orderDoc.ref;
 
-    // Actualizar el estado de la orden
+    // Actualizar la orden
     await updateDoc(orderRef, {
       status: newStatus,
-      deliveryDate: delivery ? moment().format() : "", // Establecer fecha de entrega si 'delivery' es true
+      deliveryDate: delivery ? moment().format() : "",
     });
 
     return { success: true, message: "Orden actualizada correctamente" };
@@ -393,7 +411,7 @@ export const UpdateOrders = async (userId: string, delivery: boolean) => {
     console.error("Error al actualizar la orden: ", error);
     return {
       success: false,
-      message: "Error al actualizar la orden. Detalles: ",
+      message: "Error al actualizar la orden. Detalles: " + error,
     };
   }
 };
@@ -635,3 +653,90 @@ export const updateSubscription = async (
     return { success: false, message: "Error al actualizar la suscripción" };
   }
 };
+
+export const saveSubscriptions = async (dataSave: any) => {
+  try {
+    const rSubscriptionCollectionRef = collection(dataBase, "subscriptions");
+    const newRSubscriptionRef = doc(rSubscriptionCollectionRef, dataSave.uid);
+
+    await setDoc(newRSubscriptionRef, {
+      uid: newRSubscriptionRef.id,
+      userId: dataSave.userUid,
+      nextPaymentDate: dataSave.nextPaymentDate,
+      status: dataSave.status,
+      created_at: currentDate,
+    });
+
+    return { success: true, message: "Suscripción creada correctamente" };
+  } catch (error) {
+    console.error("Error al crear la suscripción: ", error);
+    return { success: false, message: "Error al crear la suscripción" };
+  }
+};
+
+export const updateSubscriptionFieldByUserId = async (userId: any, plan: any) => {
+  try {
+    const subscriptionsRef = collection(dataBase, "subscriptions");
+    const q = query(subscriptionsRef, where("userId", "==", userId));
+    const subscriptionsSnap = await getDocs(q);
+
+    if (subscriptionsSnap.empty) {
+      throw new Error("No se encontró suscripción para este usuario");
+    }
+
+    const subscriptionDoc = subscriptionsSnap.docs[0];
+    const subscriptionData = subscriptionDoc.data();
+
+    // Obtener la fecha de creación como string ISO
+    const createdAtStr = subscriptionData.created_at;
+
+    if (!createdAtStr) {
+      throw new Error("El campo created_at no está definido");
+    }
+
+    const createdDate = new Date(createdAtStr);
+
+    // Calcular la nueva fecha de pago según el plan
+    const monthsToAdd = plan === "standard" ? 3 : 12;
+    const nextPaymentDate = new Date(createdDate);
+    nextPaymentDate.setMonth(nextPaymentDate.getMonth() + monthsToAdd);
+
+    // Actualizar la suscripción
+    await updateDoc(doc(dataBase, "subscriptions", subscriptionDoc.id), {
+      status: "Active",
+      nextPaymentDate: nextPaymentDate.toISOString(),
+    });
+  } catch (error) {
+    console.error("Error al actualizar la suscripción:", error);
+    throw error;
+  }
+};
+
+export const validateSKU = async (sku: string, collectionName: string): Promise<boolean> => {
+  try {
+    const collectionRef = collection(dataBase, collectionName);
+    const q = query(collectionRef, where("sku", "==", sku));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.empty; // true si el SKU está disponible, false si ya existe
+  } catch (error) {
+    console.error("Error al validar el SKU:", error);
+    return false;
+  }
+};
+
+export const updateSubscriptions = async (uid: string, updatedData: any) => {
+  try {
+    const subscriptionRef = doc(dataBase, "subscriptions", uid);
+
+    await updateDoc(subscriptionRef, {
+      ...updatedData,
+    });
+
+    return { success: true, message: "Suscripción actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar la suscripción:", error);
+    return { success: false, message: "Error al actualizar la suscripción" };
+  }
+};
+

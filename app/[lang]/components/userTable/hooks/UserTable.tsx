@@ -1,6 +1,8 @@
-import { getAllUsers } from "@/firebase/user";
+import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
+import { getDocumentReference, saveSubscriptionQuerie, updateSubscriptionsQuery } from "@/reactQuery/generalQueries";
 import { checkUserExists, SendEditData } from "@/reactQuery/users";
 import { registerUserAuth, registerUserFb } from "app/functions/register";
+import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
@@ -36,10 +38,12 @@ const UserTableLogic = () => {
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");
-  const [phoneCode, setPhoneCode] = useState<string>("");
+  const [phoneCode, setPhoneCode] = useState<string>("CO+57");
   const [phone, setPhone] = useState<string>("");
   const [plan, setPlan] = useState<string>("");
+  const [subscription, setSubscription] = useState<string>("");
   const [type, setType] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState("");
   //Extra
   const [urlQR, setUrlQR] = useState<string>("");
   const [startDate, setStartDate] = useState("");
@@ -50,6 +54,8 @@ const UserTableLogic = () => {
   //Error
   const [errorDniForm, setErrorDniForm] = useState<string | null>(null);
   const [errorNameForm, setErrorNameForm] = useState<string | null>(null);
+  const [errorLastNameForm, setErrorLastNameForm] = useState<string | null>(null);
+  const [errorTypeForm, setErrorTypeForm] = useState<string | null>(null);
   const [errorPlanForm, setErrorPlanForm] = useState<string | null>(null);
   const [errorPhoneForm, setErrorPhoneForm] = useState<string | null>(null);
   const [errorPhoneCodeForm, setErrorPhoneCodeForm] = useState<string | null>(
@@ -62,6 +68,7 @@ const UserTableLogic = () => {
   const [errorEmailMismatch, setErrorEmailMismatch] = useState<string | null>(
     null
   );
+  const [errorDateForm, setErrorDateForm] = useState("");
 
   const handleOpenModal = () => {
     setIsEditData(false);
@@ -72,12 +79,32 @@ const UserTableLogic = () => {
     setDataUser(dataUser);
     setRowId(dataUser.uid);
     setDni(dataUser?.dni || "");
-    setName(dataUser?.name || "");
+    setName(dataUser?.firstName || "");
+    setLastName(dataUser?.lastName || "");
     setEmail(dataUser?.email || "");
     setConfirmEmail(dataUser?.email || "");
-    setPhoneCode(dataUser?.indicative || "");
+    setPhoneCode(dataUser?.indicative || "CO+57");
     setPhone(dataUser?.phone || "");
     setPlan(dataUser?.plan || "");
+    setSubscription(dataUser?.userSubscription?.uid || "");
+
+    const dateSource =
+      dataUser?.gif === true
+        ? dataUser?.created
+        : dataUser?.userSubscription?.updatedAt || dataUser?.created || ''
+
+    if (dateSource) {
+      const date = new Date(dateSource);
+      if (isNaN(date.getTime())) {
+        setSelectedDate("");
+      } else {
+        const formattedDate = date.toISOString().split("T")[0];
+        setSelectedDate(formattedDate);
+      }
+    } else {
+      setSelectedDate("");
+    }
+
     setType(
       dataUser?.gif
         ? dataUser?.gif === true
@@ -275,14 +302,17 @@ const UserTableLogic = () => {
     setLastName("");
     setEmail("");
     setConfirmEmail("");
-    setPhoneCode("");
+    setPhoneCode("CO+57");
     setPhone("");
     setPlan("");
+    setSubscription("");
     setType("");
+    setSelectedDate("");
 
     // Restablecer los errores del formulario
     setErrorDniForm(null);
     setErrorNameForm(null);
+    setErrorLastNameForm(null);
     setErrorPlanForm(null);
     setErrorPhoneForm(null);
     setErrorPhoneCodeForm(null);
@@ -338,12 +368,28 @@ const UserTableLogic = () => {
       setErrorNameForm(null);
     }
 
+    // Validar Apellido
+    if (lastName.trim() === "") {
+      setErrorLastNameForm("El apellido es obligatorio.");
+      valid = false;
+    } else {
+      setErrorLastNameForm(null);
+    }
+
     // Validar plan
     if (!plan) {
       setErrorPlanForm("El plan es obligatorio.");
       valid = false;
     } else {
       setErrorPlanForm(null);
+    }
+
+    // Validar tipo
+    if (!type) {
+      setErrorTypeForm("El tipo de usuario es obligatorio.");
+      valid = false;
+    } else {
+      setErrorTypeForm(null);
     }
 
     // Validar teléfono
@@ -405,7 +451,6 @@ const UserTableLogic = () => {
   // Función para manejar el envío del formulario
   const dataRegisterHandle = async () => {
     if (!validateForm()) return;
-
     setIsSubmitting(true);
     setStatus("");
 
@@ -414,6 +459,20 @@ const UserTableLogic = () => {
     const trimmedPhone = phone.trim();
 
     try {
+      setIsModalOpen(false);
+      Swal.fire({
+        title: "Registrando usuario...",
+        text: "Por favor, espera.",
+        allowOutsideClick: false,
+        backdrop: true,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+        customClass: {
+          popup: "tw-z-[9999]"
+        }
+      });
+
       // Crear un timestamp para la fecha de creación
       const dateCreated = new Date().getTime();
 
@@ -429,48 +488,65 @@ const UserTableLogic = () => {
         return;
       }
 
+      const documentRefUser: any = getDocumentReference("subscriptions");
+
       // Registrar usuario en la autenticación
       const result = await registerUserAuth({
         user: trimmedEmail,
         password: trimmedDni,
       });
       result.name = `${name} ${lastName}`;
+      result.firstName = name;
+      result.lastName = lastName;
       result.plan = plan;
       result.switch_profile = false; // Modo de perfil
-      result.gif = true;
-      result.email = trimmedEmail;
+      result.gif = type === "Obsequio" ? true : false,
+        result.email = trimmedEmail;
       result.phone = trimmedPhone;
       result.indicative = phoneCode;
       result.dni = trimmedDni;
       result.isActiveByAdmin = true;
       result.created = dateCreated;
+      result.subscriptionId = documentRefUser.id;
       result.templateData =
         plan === "standard"
           ? [
-              {
-                type: "social",
-                id: "XfhZLINMOpRTI7cakd8o",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-            ]
+            {
+              type: "social",
+              id: "XfhZLINMOpRTI7cakd8o",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+          ]
           : [
-              {
-                type: "social",
-                id: "XfhZLINMOpRTI7cakd8o",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-              {
-                type: "professional",
-                id: "ZESiLxKZFwUOUOgLKt6P",
-                background_id: "7ynTMVt3M6VFV3KykOXQ",
-                checked: true,
-              },
-            ];
+            {
+              type: "social",
+              id: "XfhZLINMOpRTI7cakd8o",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+            {
+              type: "professional",
+              id: "ZESiLxKZFwUOUOgLKt6P",
+              background_id: "7ynTMVt3M6VFV3KykOXQ",
+              checked: true,
+            },
+          ];
 
       // Registrar usuario en la base de datos
-      await registerUserFb({ data: result });
+      const dataUser = await registerUserFb({ data: result });
+      const createdAt = moment().format();
+      const nextYearDate = type === "Obsequio" ? moment().add(3, 'months').format() : moment().add(1, 'year').format();
+
+      const dataSend = {
+        userUid: dataUser?.uid,
+        created_at: createdAt,
+        status: 'Active',
+        nextPaymentDate: nextYearDate,
+        uid: documentRefUser.id,
+      };
+
+      await saveSubscriptionQuerie(dataSend);
 
       Swal.fire({
         position: "center",
@@ -496,17 +572,33 @@ const UserTableLogic = () => {
     setStatus("");
 
     try {
+      const selectedDateFormatted = moment(selectedDate).toISOString();
+
       const dataSend = {
         dni,
         name,
+        firstName: name,
+        lastName: lastName,
         email,
         indicative: phoneCode,
         phone,
         plan,
         type,
+        gif: type === "Obsequio" ? true : false,
       };
 
-      const result = await SendEditData(rowId, dataSend);
+      const result = await SendEditData(rowId, dataSend, selectedDateFormatted);
+
+      const updatedAt = moment().format();
+      const nextYearDate = type === "Obsequio" ? moment().add(3, 'months').format() : moment().add(1, 'year').format();
+
+      const dataSendSus = {
+        updatedAt,
+        status: 'Active',
+        nextPaymentDate: nextYearDate,
+      };
+
+      subscription && await updateSubscriptionsQuery(dataSendSus, subscription);
 
       if (result.success) {
         Swal.fire({
@@ -530,73 +622,66 @@ const UserTableLogic = () => {
   };
 
   const openEditProfile = (profileType: string, uid: string) => {
-    const url = `${
-      window.location.origin
-    }/es/views/profileEdit?type=${encodeURIComponent(
-      profileType
-    )}&uid=${encodeURIComponent(uid)}`;
+    const url = `${window.location.origin
+      }/es/views/profileEdit?type=${encodeURIComponent(
+        profileType
+      )}&uid=${encodeURIComponent(uid)}`;
     window.open(url, "_blank", "noopener noreferrer");
   };
 
   useEffect(() => {
     const getquery = async () => {
-      const usersDataSanpShot = await getAllUsers();
-      const usersData = usersDataSanpShot.docs
-        .map((doc) => {
-          const data = doc.data(); // Obtener datos del documento
-          const timestamp = doc.data().created;
-          const date = new Date(timestamp);
-          const formattedHour = `${date
-            .getHours()
-            .toString()
-            .padStart(2, "0")}:${date
-            .getMinutes()
-            .toString()
-            .padStart(2, "0")}:${date
-            .getSeconds()
-            .toString()
-            .padStart(2, "0")}`;
+      const usersDataSanpShot = await getUsersWithOrdersAndInvoices();
+      const usersData = usersDataSanpShot.map((doc: any) => {
+        return {
+          id: doc.dni || 1,
+          uid: doc.uid || "",
+          is_admin: doc.is_admin,
+          is_distributor: doc.is_distributor || false,
+          url: doc,
+          urlQR: doc,
+          name: doc.firstName + " " + doc.lastName || "",
+          indicative: doc.indicative || "",
+          phone: doc.phone || "",
+          email: doc.email || "",
+          lastName: doc.profile?.last_name?.text || "",
+          plan: doc,
+          date: doc?.created || "",
+          status: doc.isActiveByAdmin === true ? "true" : "false",
+          statusDelete:
+            doc.isActiveByAdmin === true ? "true" : "false",
+          edit: {
+            switch: doc.isActiveByAdmin === true ? true : false || "",
+            uid: doc.uid,
+          },
+          editDelete: {
+            switch: doc.isActiveByAdmin === true ? true : false || "",
+            uid: doc.uid,
+          },
+          userType: doc,
+          //userType: doc.gif ? doc.gif === true ? "Obsequio" : "Comprador" : "Comprador",
+          optionEdit: doc,
+          paymentDate: doc.gif === true ? doc?.created || '' : doc?.userSubscription?.updatedAt || doc?.created || '',
+          nextPaymentDate: doc.userSubscription?.nextPaymentDate || '',
+          autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
+          userInvoice: doc?.userInvoice || '',
+          gif: doc.gif,
+          idDistributor: doc.idDistributor,
 
-          //const updatedData = { ...data, formattedDate: date, };
-
-          return {
-            id: doc.data().dni || 1,
-            uid: doc.data().uid || "",
-            is_admin: doc.data().is_admin,
-            is_distributor: doc.data().is_distributor || false,
-            url: doc.data(),
-            urlQR: doc.data(),
-            name: doc.data().name || "",
-            indicative: doc.data().indicative || "",
-            phone: doc.data().phone || "",
-            email: doc.data().email || "",
-            lastName: doc.data().profile?.last_name?.text || "",
-            //plan: doc.data().plan || "",
-            plan: doc.data(),
-            date: date,
-            //dateFormmatted: updatedData,
-            hour: formattedHour,
-            status: doc.data().isActiveByAdmin === true ? "true" : "false",
-            statusDelete:
-              doc.data().isActiveByAdmin === true ? "true" : "false",
-            edit: {
-              switch: doc.data().isActiveByAdmin === true ? true : false || "",
-              uid: doc.data().uid,
-            },
-            editDelete: {
-              switch: doc.data().isActiveByAdmin === true ? true : false || "",
-              uid: doc.data().uid,
-            },
-            userType: doc.data(),
-            //userType: doc.data().gif ? doc.data().gif === true ? "Obsequio" : "Comprador" : "Comprador",
-            optionEdit: doc.data(),
-          };
-        })
-        .filter((user) => !user.is_admin && !user.is_distributor);
+        };
+      })
+        .filter((user) =>
+          !user.is_admin &&
+          !user.is_distributor
+          && (
+            user.idDistributor
+              ? user.userInvoice?.status === "PAID"
+              : true
+          )
+        );
       /* .sort((a, b) => b.date.getTime() - a.date.getTime()); */
 
       setQuery(usersData);
-      //console.log('usersData ', usersData);
       setFilteredQuery(usersData);
     };
 
@@ -657,13 +742,19 @@ const UserTableLogic = () => {
     handleEditUser,
     errorDniForm,
     errorNameForm,
+    errorLastNameForm,
     errorPlanForm,
+    errorTypeForm,
     errorPhoneForm,
     errorPhoneCodeForm,
     errorMailForm,
     errorConfirmEmailForm,
     errorEmailMismatch,
     openEditProfile,
+    selectedDate,
+    setSelectedDate,
+    errorDateForm,
+    setErrorDateForm
   };
 };
 

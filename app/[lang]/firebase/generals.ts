@@ -20,6 +20,7 @@ import {
   Subscription,
   Cards,
   Orders,
+  DefaultPlans,
 } from "@/types/home";
 import { AllRefPropsFirebase } from "@/types/userFirebase";
 import {
@@ -34,9 +35,12 @@ import {
   where,
   orderBy,
   limit,
+  setDoc,
 } from "firebase/firestore";
 import { dataBase } from "./firebaseConfig";
 import { GetUser } from "@/reactQuery/users";
+import moment from "moment";
+import { getReference } from "./Documents";
 
 const allRef = ({ ref }: AllRefPropsFirebase) => collection(dataBase, ref);
 export const getTemplate = async ({ id }: { id: string }) => {
@@ -101,6 +105,18 @@ export const getAllCategories = async () => {
     });
   }
   return categoriesData;
+};
+
+export const getAllDefaultPlans = async () => {
+  const DefaultPlansData: DefaultPlans[] = [];
+  const querySnapshot = await getDocs(allRef({ ref: "default_plans" }));
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc: any) => {
+      const dataResult = doc.data() as DefaultPlans;
+      DefaultPlansData.push({ ...dataResult, id: doc.id });
+    });
+  }
+  return DefaultPlansData;
 };
 
 export const getAllNotifications = async () => {
@@ -233,39 +249,71 @@ export const getAllDistributors = async () => {
   return distributorsData;
 };
 
-export const getAllCards = async (idUser: any) => {
-  const colorsData: Cards[] = [];
-  const cardsQuery = query(allRef({ ref: "cards" }), where("idUser", "==", idUser));
-  const querySnapshot = await getDocs(cardsQuery);
+// Obtener las tarjetas de un usuario específico
+export const getAllCards = async (idUser: string) => {
+  try {
+    const colorsData: any[] = []; // Puedes reemplazar `any[]` por un tipo específico como `Cards[]` si lo tienes definido.
+    const cardsRef = collection(dataBase, 'cards'); // Cambia 'cards' al nombre correcto de tu colección.
+    const cardsQuery = query(cardsRef, where('idUser', '==', idUser));
+    const querySnapshot = await getDocs(cardsQuery);
 
-  if (!querySnapshot.empty) {
-    querySnapshot.forEach((doc: any) => {
-      const dataResult = doc.data() as Cards;
-      colorsData.push({ ...dataResult, id: doc.id });
-    });
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach((doc) => {
+        const dataResult = doc.data();
+        colorsData.push({ ...dataResult, id: doc.id });
+      });
+    }
+
+    return colorsData;
+  } catch (error) {
+    console.error('Error al obtener las tarjetas del usuario:', error);
+    throw error;
   }
-  return colorsData;
 };
 
-/* export const getAllDistributors = async () => {
-  const distributorsData: Distributors[] = [];
-  const querySnapshot = await getDocs(allRef({ ref: 'distributors' }));
-  if (!querySnapshot.empty) {
-    querySnapshot.forEach((doc: any) => {
-      const dataResult = doc.data() as Distributors;
-      distributorsData.push({ ...dataResult, id: doc.id });
-    });
-  }
-  return distributorsData;
-}; */
+export const saveBackgroundImage = async (dataSave: any) => {
+  try {
+    // Obtener la referencia de la colección
+    const categoryCollectionRef = getReference("background_images");
 
-//La imagen se recive en base 64(imagen), tambien se recive el nombre de la imagen(image)
-export const saveBackgroundImage = async (image: string, name: string) => {
-  const docRef = await addDoc(allRef({ ref: "background_images" }), {
-    image,
-    name,
-  });
-  return docRef;
+    // Agregar un nuevo documento con el nombre, uid y fecha de creación
+    await setDoc(categoryCollectionRef, { ...dataSave });
+
+    return { success: true, message: "Fondo creado correctamente" };
+  } catch (error) {
+    console.error("Error al crear el fondo: ", error);
+    return { success: false, message: "Error al crear la fondo" };
+  }
+};
+
+export const updateBackground = async (dataSave: any, idBackground: string) => {
+  try {
+    // Obtener la referencia del documento específico
+    const backgroundDocRef = doc(dataBase, "background_images", idBackground);
+
+    // Actualizar el documento con los nuevos datos
+    await updateDoc(backgroundDocRef, { ...dataSave, });
+
+    return { success: true, message: "Fondo actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al actualizar la fondo: ", error);
+    return { success: false, message: "Error al actualizar la fondo" };
+  }
+};
+
+export const deleteBackground = async (idBackground: string) => {
+  try {
+    // Obtener la referencia del documento específico
+    const backgroundDocRef = doc(dataBase, "background_images", idBackground);
+
+    // Eliminar el documento
+    await deleteDoc(backgroundDocRef);
+
+    return { success: true, message: "Fondo eliminado correctamente" };
+  } catch (error) {
+    console.error("Error al eliminar el fondo: ", error);
+    return { success: false, message: "Error al eliminar el fondo" };
+  }
 };
 
 export const getAllSocialNetworks = async () => {
@@ -370,7 +418,7 @@ export const getLastOrder = async () => {
   const querySnapshot = await getDocs(
     query(allRef({ ref: "orders" }), orderBy("createdAt", "desc"), limit(1))
   );
-  
+
 
   if (!querySnapshot.empty) {
     querySnapshot.forEach((doc: any) => {

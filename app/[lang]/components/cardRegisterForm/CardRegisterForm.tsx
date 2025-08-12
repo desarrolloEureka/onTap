@@ -55,21 +55,6 @@ const CardRegisterForm = () => {
     };
 
     const columns: GridColDef[] = [
-/*         {
-            field: "optionEdit",
-            headerName: "Editar",
-            flex: 1,
-            headerAlign: "center",
-            align: "center",
-            renderCell: (params) => (
-                <Button
-                    style={{ color: "black" }}
-                //onClick={() => handleEditCategory(params?.value)}
-                >
-                    <EditIcon />
-                </Button>
-            ),
-        }, */
         {
             field: "created_at",
             headerName: "Fecha Registro",
@@ -84,7 +69,7 @@ const CardRegisterForm = () => {
         },
         {
             field: "number",
-            headerName: "Numero",
+            headerName: "Número",
             flex: 1,
             headerAlign: "center",
             align: "center",
@@ -94,7 +79,26 @@ const CardRegisterForm = () => {
                 </div>
             ),
         },
-    ];
+        {
+            field: "card_holder",
+            headerName: "Titular",
+            flex: 1,
+            headerAlign: "center",
+            align: "center",
+        },
+        {
+            field: "exp_date",
+            headerName: "Vence",
+            flex: 1,
+            headerAlign: "center",
+            align: "center",
+            renderCell: (params) => (
+                <div className="tw-flex tw-justify-center tw-items-center">
+                    <div>{`${params.row.exp_month}/${params.row.exp_year}`}</div>
+                </div>
+            ),
+        }
+    ];  
 
     function CustomToolbar() {
         return (
@@ -176,7 +180,7 @@ const CardRegisterForm = () => {
                                     paginationModel: { page: 0, pageSize: 10 },
                                 },
                                 sorting: {
-                                    sortModel: [{ field: "created_at", sort: "asc" }],
+                                    sortModel: [{ field: "created_at", sort: "desc" }],
                                 },
                             }}
                             pageSizeOptions={[10, 20, 30]}

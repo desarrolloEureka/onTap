@@ -89,15 +89,25 @@ const SubscriptionView: React.FC<{ params: { lang: Locale } }> = ({
         </div>
       ),
     },
-
     {
       field: "description",
       headerName: "Descripción",
       flex: 3,
       headerAlign: "left",
       align: "left",
-      cellClassName: "tw-pl-12",
-      headerClassName: "tw-pl-12",
+      renderCell: (params) => (
+        <div
+          style={{
+            whiteSpace: "normal",
+            wordBreak: "break-word",
+            lineHeight: "1.8",
+            paddingTop: "2px", 
+            paddingBottom: "8px",
+          }}
+        >
+          {params.value}
+        </div>
+      )
     },
   ];
 
@@ -219,6 +229,7 @@ const SubscriptionView: React.FC<{ params: { lang: Locale } }> = ({
             columns={columns}
             //slots={{ toolbar: CustomToolbar }}
             autoHeight
+            getRowHeight={() => "auto"}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 15 },
@@ -340,11 +351,11 @@ const SubscriptionView: React.FC<{ params: { lang: Locale } }> = ({
                       value={description}
                       error={!!descriptionError}
                       helperText={
-                        descriptionError || `${description.length}/120`
+                        descriptionError || `${description.length}/400`
                       } // Muestra la longitud actual
                       onChange={(e) => {
-                        // Limita a 120 caracteres
-                        if (e.target.value.length <= 120) {
+                        // Limita a 400 caracteres
+                        if (e.target.value.length <= 400) {
                           setDescription(e.target.value);
                         }
                       }}

@@ -41,6 +41,35 @@ const loginRef = ({ user, password }: LoginRefProps) =>
 export const getUserByIdFireStore = async (user: string) =>
   await getDoc(doc(dataBase, "users", user));
 
+export const getUserByIdFireStoreFullData = async (userId: string) => {
+  try {
+    const userDocRef = doc(dataBase, "users", userId);
+    const userSnap = await getDoc(userDocRef);
+
+    if (!userSnap.exists()) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    const userData = { id: userSnap.id, ...userSnap.data() };
+    const subscriptionsRef = collection(dataBase, "subscriptions");
+    const q = query(subscriptionsRef, where("userId", "==", userId));
+    const subscriptionsSnap = await getDocs(q);
+
+    let subscriptionData = null;
+    subscriptionsSnap.forEach((doc) => {
+      subscriptionData = { id: doc.id, ...doc.data() };
+    });
+
+    return {
+      ...userData,
+      subscription: subscriptionData,
+    };
+  } catch (error) {
+    console.error("Error obteniendo usuario y suscripción:", error);
+    throw error;
+  }
+};
+
 // ref({ ref: user, collection: 'users' });
 
 export const getAllUsers = async () => await getDocs(allRef({ ref: "users" }));
@@ -55,6 +84,28 @@ export const getUsers = async () => {
   return usersData;
 };
 
+
+export const getUserById = async (userId: string) => {
+  try {
+    const usersRef = collection(dataBase, "users");
+    const q = query(usersRef, where("dni", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    const userDoc = querySnapshot.docs[0]; // Suponiendo que el DNI es único
+    const userData = { id: userDoc.id, ...userDoc.data() };
+
+    return userData;
+  } catch (error) {
+    console.error("Error al obtener el usuario por DNI:", error);
+    throw error;
+  }
+};
+
+
 // Función que mezcla los datos de los usuarios con las órdenes y las facturas
 export const getUsersWithOrdersAndInvoices = async () => {
   const usersSnapshot = await getAllUsers();
@@ -65,6 +116,9 @@ export const getUsersWithOrdersAndInvoices = async () => {
 
   const invoicesSnapshot = await getDocs(collection(dataBase, "invoices"));
   const invoicesData = invoicesSnapshot.docs.map((doc) => doc.data());
+
+  const subscriptionsSnapshot = await getDocs(collection(dataBase, "subscriptions"));
+  const subscriptionsData = subscriptionsSnapshot.docs.map((doc) => doc.data());
 
   // Mezclar los usuarios con sus órdenes y facturas usando uid y userUid como clave común
   const usersWithOrdersAndInvoices = usersData
@@ -77,23 +131,74 @@ export const getUsersWithOrdersAndInvoices = async () => {
         (invoice) => invoice.userUid === user.uid
       );
 
-      if (userOrder && userInvoice) {
-        return {
-          ...user,
-          userOrder,
-          userInvoice,
-        };
-      }
-      return null;
+      // Buscar una única suscripción que coincida con el uid del usuario
+      const userSubscription = subscriptionsData.find(
+        (subscription) => subscription.userId === user.uid
+      );
+
+      //if (userOrder && userInvoice) {
+      return {
+        ...user,
+        userOrder: userOrder || null,
+        userInvoice: userInvoice || null,
+        userSubscription: userSubscription || null,
+      };
+      // }
+      //return null;
     })
     .filter((user) => user !== null);
 
   return usersWithOrdersAndInvoices;
 };
 
+export const getUsersWithMultiplesInvoices = async () => {
+  const usersSnapshot = await getAllUsers();
+  const usersData = usersSnapshot.docs.map((doc) => doc.data());
+
+  const ordersSnapshot = await getAllOrders();
+  const ordersData = ordersSnapshot.docs.map((doc) => doc.data());
+
+  const invoicesSnapshot = await getDocs(collection(dataBase, "invoices"));
+  const invoicesData = invoicesSnapshot.docs.map((doc) => doc.data());
+
+  const subscriptionsSnapshot = await getDocs(collection(dataBase, "subscriptions"));
+  const subscriptionsData = subscriptionsSnapshot.docs.map((doc) => doc.data());
+
+  const result = [];
+
+  for (const user of usersData) {
+    const userOrders = ordersData.filter(order => order.userUid === user.uid);
+    const userSubscription = subscriptionsData.find(sub => sub.userId === user.uid) || null;
+
+    if (userOrders.length > 0) {
+      for (const order of userOrders) {
+        const userInvoice = invoicesData.find(invoice => invoice.orderId === order.uid) || null;
+
+        result.push({
+          ...user,
+          userOrder: order,
+          userInvoice: userInvoice,
+          userSubscription: userSubscription,
+        });
+      }
+    } else {
+      // Usuario sin órdenes
+      result.push({
+        ...user,
+        userOrder: null,
+        userInvoice: null,
+        userSubscription: userSubscription,
+      });
+    }
+  }
+
+  return result;
+};
+
+
 export const registerUserData = async (data: any) => {
   const docRef = await setDoc(doc(dataBase, "users", data.uid), data);
-  return docRef;
+  return data;
 };
 
 export const updateUserData = async (uid: string, newData: any) => {
@@ -166,7 +271,6 @@ export const updateSwitchAllFirebase = async (userId: string, newData: any) => {
 export const updatePasswordFirebase = (newPassword: string) => {
   const auth = getAuth();
   const user = auth.currentUser;
-
   if (user) {
     return updatePassword(user, newPassword)
       .then(() => {
@@ -211,68 +315,34 @@ export const getCurrentProfileData = async (uid: string) => {
   }
 };
 
-export const updateProfileFirebase = async (profileData: {
-  fullName: string;
-  address: string;
-  phoneNumber: string;
-  city: string;
-  state: string;
-  documentType: string;
-  dni: string;
-  email: string;
-}) => {
-  const auth = getAuth();
-  const user = auth.currentUser;
-
-  if (user) {
-    try {
-      const db = getFirestore();
-      const userRef = doc(db, "users", user.uid); // Usamos el UID del usuario autenticado
-
-      // Primero obtenemos los datos del perfil actual
-      const userDoc = await getDoc(userRef);
-
-      if (userDoc.exists()) {
-        const currentProfileData = userDoc.data();
-        console.debug("Datos actuales del perfil:", currentProfileData);
-
-        // Aquí, puedes modificar los datos de Firestore con los nuevos datos
-        await setDoc(
-          userRef,
-          {
-            address: profileData.address,
-            phoneNumber: profileData.phoneNumber,
-            city: profileData.city,
-            state: profileData.state,
-            fullName: profileData.fullName,
-            documentType: profileData.documentType, // Nuevo campo
-            dni: profileData.dni, // Nuevo campo
-            email: profileData.email, // Nuevo campo
-          },
-          { merge: true } // Merge para no sobrescribir datos no mencionados
-        );
-
-        console.debug("Perfil actualizado correctamente");
-
-        // Retornamos los datos **actualizados** del perfil
-        const updatedUserDoc = await getDoc(userRef); // Nuevos datos después de la actualización
-        const updatedProfileData = updatedUserDoc.data();
-
-        return { success: true, data: updatedProfileData }; // Retornamos los datos actualizados
-      } else {
-        console.debug("No se encontró el perfil del usuario");
-        return { success: false, message: "Perfil no encontrado" };
-      }
-    } catch (error: any) {
-      console.debug("Error al actualizar el perfil:", error.message);
-      return { success: false, message: error.message };
-    }
-  } else {
-    console.debug("No hay un usuario autenticado");
-    return { success: false, message: "No hay usuario autenticado" };
+export const updateProfileFirebase = async (
+  profileData: {
+    fullName: string;
+    address: string;
+    phoneNumber: string;
+    city: string;
+    state: string;
+    documentType: string;
+    dni: string;
+    email: string;
+  },
+  uid: string
+) => {
+  try {
+    const userDocRef = doc(dataBase, "users", uid);
+    await updateDoc(userDocRef, profileData);
+    return {
+      success: true,
+      message: "Perfil actualizado correctamente.",
+    };
+  } catch (error: any) {
+    console.error("Error al actualizar el perfil:", error.message);
+    return {
+      success: false,
+      message: "No se pudo actualizar el perfil del usuario.",
+    };
   }
 };
-
 export const updateSwitchActivateCard = async (
   userId: string,
   switchState: any
@@ -306,10 +376,27 @@ export const updateViewsUser = async (userId: string, newData: any) => {
   await updateDoc(userDocRef, newData);
 };
 
-export const updateDataUser = async (userId: string, newData: any) => {
+export const updateDataUser = async (userId: string, newData: any, selectedDate?: any) => {
   try {
     const userDocRef = doc(dataBase, "users", userId);
     await updateDoc(userDocRef, newData);
+
+    const ordersRef = collection(dataBase, "subscriptions");
+    const q = query(ordersRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    /*  const ordersRef = collection(dataBase, "orders");
+     const q = query(ordersRef, where("userUid", "==", userId));
+     const querySnapshot = await getDocs(q); */
+
+    const updatePromises = querySnapshot.docs.map(async (orderDoc) => {
+      const orderDocRef = doc(dataBase, "subscriptions", orderDoc.id);
+      //await updateDoc(orderDocRef, { paymentDate: selectedDate });
+      await updateDoc(orderDocRef, { created_at: selectedDate });
+    });
+
+    await Promise.all(updatePromises);
+
     return { success: true, message: "Usuario actualizado correctamente" };
   } catch (error: any) {
     console.error("Error updating user data:", error.message);
@@ -402,3 +489,23 @@ export const addUser = async ({
     });
   });
 };
+
+// Función para obtener la suscripción de un usuario por su ID
+export const getSubscriptionByUserId = async (userId: string) => {
+  try {
+    const subscriptionsRef = collection(dataBase, "subscriptions");
+    const q = query(subscriptionsRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const subscriptionData = querySnapshot.docs[0].data();
+      return subscriptionData;
+    } else {
+      return null;
+    }
+  } catch (error: any) {
+    console.error("Error al obtener la suscripción del usuario:", error.message);
+    return { success: false, message: error.message };
+  }
+};
+

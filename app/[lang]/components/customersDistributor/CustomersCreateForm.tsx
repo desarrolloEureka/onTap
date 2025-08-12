@@ -45,8 +45,10 @@ import Image from "next/image";
 
 const CustomersCreateForm = ({
   handleReturnForm,
+  userDataRow,
 }: {
   handleReturnForm: () => void;
+  userDataRow: any;
 }) => {
   const {
     documentType,
@@ -78,6 +80,8 @@ const CustomersCreateForm = ({
     //Paso 2
     selectedPlan,
     setSelectedPlan,
+    selectedCombo,
+    setSelectedCombo,
     selectedMaterial,
     setSelectedMaterial,
     selectedColor,
@@ -91,6 +95,7 @@ const CustomersCreateForm = ({
     selectedCustomization,
     setSelectedCustomization,
     updatePlan,
+    updateDefaultPlan,
     updateMaterial,
     updateColor,
     updateCustomization,
@@ -110,6 +115,7 @@ const CustomersCreateForm = ({
     setSelectedProducts,
     filteredProducts,
     handleChangeQuantity,
+    selectedComboError,
     selectedPlanError,
     selectedMaterialError,
     selectedCustomizationError,
@@ -231,7 +237,15 @@ const CustomersCreateForm = ({
     setIdTypeError,
     idNumberError,
     setIdNumberError,
-  } = CustomersCreateFormHook({ handleReturnForm });
+    isChangePlan,
+    isExistingUser,
+    defaultPlans,
+    dataCards,
+    useExistingCard,
+    handleUseExistingCardToggle,
+    handleSelectCard,
+    paymentSourceError
+  } = CustomersCreateFormHook({ handleReturnForm, userDataRow });
   const dictionary = useDictionary({ lang: "es" });
 
   return (
@@ -276,6 +290,7 @@ const CustomersCreateForm = ({
                         </FormControl>
 
                         <TextField
+                          disabled={isExistingUser}
                           variant="standard"
                           label="Número Documento"
                           InputProps={{
@@ -352,6 +367,7 @@ const CustomersCreateForm = ({
 
                       <div className="tw-flex tw-justify-between tw-mb-6">
                         <TextField
+                          disabled={isExistingUser}
                           variant="standard"
                           label="Correo"
                           InputProps={{
@@ -378,6 +394,7 @@ const CustomersCreateForm = ({
                         />
 
                         <TextField
+                          disabled={isExistingUser}
                           variant="standard"
                           label="Confirmar Correo"
                           InputProps={{
@@ -444,6 +461,7 @@ const CustomersCreateForm = ({
                         </FormControl>
 
                         <TextField
+                          disabled={isExistingUser}
                           variant="standard"
                           label="Número Celular"
                           InputProps={{
@@ -469,6 +487,7 @@ const CustomersCreateForm = ({
                       </div>
 
                       <TextField
+                        disabled={isExistingUser}
                         variant="standard"
                         label="Dirección"
                         InputProps={{
@@ -600,47 +619,169 @@ const CustomersCreateForm = ({
                       <h6> Precio Venta</h6>
                     </div>
                     <form className="tw-w-full">
+
+
                       <div className="tw-flex tw-items-center tw-mb-6">
                         <div className="tw-w-[40%]">
                           <FormControl fullWidth variant="outlined">
                             <InputLabel>Plan</InputLabel>
                             <Select
                               label="Plan"
-                              value={selectedPlan?.sku}
+                              value={selectedPlan?.id || ''}
                               error={!!selectedPlanError}
+                              //isChangePlan && selectedPlan
+                              disabled={isExistingUser && !isChangePlan && selectedPlan?.id === 'VlkI6s5vYErO3rq3hg1D'}
                               onChange={(e) => {
-                                const planValue = e.target.value;
-                                const selectedPlan =
-                                  dataPlans &&
-                                  dataPlans.find(
-                                    (plan) => plan.sku === planValue
-                                  );
-                                updatePlan(selectedPlan);
+                                updateDefaultPlan(e.target.value);
                               }}
                             >
-                              {dataPlans &&
-                                dataPlans.map((cat: any) => (
-                                  <MenuItem key={cat.name} value={cat.sku}>
-                                    {cat.name}
-                                  </MenuItem>
-                                ))}
+                              {defaultPlans?.map((plan: any) => (
+                                <MenuItem key={plan.id} value={plan.id}>
+                                  {plan.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+
+                          </FormControl>
+                        </div>
+                        <div className="tw-flex tw-items-center tw-w-[60%] tw-justify-end">
+                          <span className="tw-text-right">
+                            ${formatPrice(isChangePlan ? selectedPlan?.price ?? 0 : 0)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/*   <div className="tw-flex tw-items-center tw-mb-6">
+                        <div className="tw-w-[40%]">
+                          <FormControl fullWidth variant="outlined">
+                            <InputLabel>Plan</InputLabel>
+                            <Select
+                              label="Plan"
+                              value={selectedPlan}
+                              error={!!selectedPlanError}
+                              onChange={(e) => { handleChangePlan(e.target.value) }}
+                            >
+                              <MenuItem value="standard">
+                                {dictionary.dictionary?.backOffice.StandardPlan}
+                              </MenuItem>
+                              <MenuItem value="premium">
+                                {dictionary.dictionary?.backOffice.PremiumPlan}
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+                        <div className="tw-flex tw-items-center tw-w-[60%] tw-justify-end">
+
+                        </div>
+                      </div> */}
+
+
+                      <div className="tw-flex tw-items-center tw-mb-6">
+                        <div className="tw-w-[40%]">
+                          <FormControl fullWidth variant="outlined">
+                            <InputLabel>Combo</InputLabel>
+                            <Select
+                              label="Combo"
+                              value={selectedCombo?.sku || ''}
+                              error={!!selectedComboError}
+                              onChange={(e) => {
+                                const planValue = e.target.value;
+
+                                if (!planValue) {
+                                  updatePlan(null); // Limpiar selección
+                                  return;
+                                }
+
+                                const selectedCombo =
+                                  dataPlans?.find((combo: any) => combo.sku === planValue);
+                                updatePlan(selectedCombo);
+                              }}
+                            >
+                              <MenuItem value="">
+                                <em>No aplica</em>
+                              </MenuItem>
+
+                              {dataPlans?.map((cat: any) => (
+                                <MenuItem key={cat.name} value={cat.sku}>
+                                  {cat.name}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                         </div>
                         <div className="tw-flex tw-items-center tw-w-[60%] tw-justify-end">
                           <span className="tw-text-right">
-                            ${formatPrice(selectedPlan?.full_price ?? 0)}
+                            ${formatPrice(selectedCombo?.full_price ?? 0)}
                           </span>
                         </div>
                       </div>
+
+                      <FormControl
+                        fullWidth
+                        variant="outlined"
+                        className="tw-mb-6"
+                      >
+                        <div className="tw-flex tw-justify-between tw-mb-2 tw-mt-4">
+                          <TextField
+                            variant="standard"
+                            label="Nombres"
+                            disabled={isExistingUser && !isChangePlan}
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  <PersonIcon
+                                    style={{
+                                      color: "#02AF9B",
+                                      fontSize: "1.8rem",
+                                      marginRight: "1rem",
+                                    }}
+                                  />
+                                </InputAdornment>
+                              ),
+                            }}
+                            fullWidth
+                            className="tw-mr-2"
+                            value={customName}
+                            error={!!customNameError}
+                            helperText={customNameError}
+                            onChange={(e) => setCustomName(e.target.value)}
+                          />
+
+                          <TextField
+                            variant="standard"
+                            label="Cargo"
+                            disabled={isExistingUser && !isChangePlan}
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  <WorkIcon
+                                    style={{
+                                      color: "#02AF9B",
+                                      fontSize: "1.8rem",
+                                      marginRight: "1rem",
+                                    }}
+                                  />
+                                </InputAdornment>
+                              ),
+                            }}
+                            fullWidth
+                            className="tw-ml-2"
+                            value={customRole}
+                            error={!!customRoleError}
+                            helperText={customRoleError}
+                            onChange={(e) => setCustomRole(e.target.value)}
+                          />
+                        </div>
+                      </FormControl>
 
                       <div className="tw-flex tw-items-center tw-mb-6">
                         <div className="tw-w-[40%]">
                           <FormControl fullWidth variant="outlined">
                             <InputLabel>Material</InputLabel>
                             <Select
+                              disabled={!isChangePlan}
                               label="Material"
-                              value={selectedMaterial?.sku}
+                              value={selectedMaterial?.sku || ''}
                               error={!!selectedMaterialError}
                               onChange={(e) => {
                                 const materialValue = e.target.value;
@@ -676,6 +817,7 @@ const CustomersCreateForm = ({
                           >
                             <InputLabel>Color</InputLabel>
                             <Select
+                              disabled={!isChangePlan}
                               label="Color"
                               value={selectedColor}
                               error={!!selectedColorError}
@@ -699,7 +841,7 @@ const CustomersCreateForm = ({
                         </div>
                       </div>
 
-                      <div className="tw-flex tw-items-center tw-mb-6">
+                      {/* <div className="tw-flex tw-items-center tw-mb-6">
                         <div className="tw-flex tw-items-center tw-w-[90%]">
                           <FormControlLabel
                             control={
@@ -708,7 +850,7 @@ const CustomersCreateForm = ({
                                 onChange={(e) =>
                                   updateCustomization(e.target.checked)
                                 }
-                                disabled={!selectedPlan}
+                                disabled={!selectedCombo || !isChangePlan}
                               />
                             }
                             label="¿Personalización?"
@@ -722,9 +864,9 @@ const CustomersCreateForm = ({
                             )}
                           </span>
                         </div>
-                      </div>
+                      </div> */}
 
-                      {customization && (
+                      {/*   {customization && (
                         <FormControl
                           fullWidth
                           variant="outlined"
@@ -781,8 +923,8 @@ const CustomersCreateForm = ({
                           </div>
                         </FormControl>
                       )}
-
-                      <div className="tw-flex tw-justify-end tw-mb-4 tw-mb-6">
+ */}
+                      <div className="tw-flex tw-justify-end tw-mb-6">
                         <span className="tw-text-lg tw-font-semibold">
                           Total: ${formatPrice(total)}
                         </span>
@@ -876,12 +1018,12 @@ const CustomersCreateForm = ({
                                   {" "}
                                   Precio Distribuidor
                                 </th>
-                                <th className="tw-px-4 tw-py-2 tw-border-b tw-border-t">
+                                <th className="tw-px-4 tw-py-2 tw-border-b tw-border-t tw-border-r">
                                   Acciones
                                 </th>
-                                <th className="tw-px-4 tw-py-2 tw-border-b tw-border-t tw-border-r">
+                                {/* <th className="tw-px-4 tw-py-2 tw-border-b tw-border-t tw-border-r">
                                   Personalización
-                                </th>
+                                </th> */}
                               </tr>
                             </thead>
                             <tbody>
@@ -900,9 +1042,10 @@ const CustomersCreateForm = ({
                                     <td className="tw-px-4 tw-py-2">
                                       <input
                                         type="number"
-                                        value={product.quantity || 1}
+                                        value={product.id === "8Puz5Clemyh4hMIH1H2u" ? 1 : product.quantity || 1}
                                         min="1"
                                         className="tw-border tw-border-gray-300 tw-rounded tw-px-2 tw-w-16"
+                                        disabled={product.id === "8Puz5Clemyh4hMIH1H2u"}
                                         onChange={(e) =>
                                           handleChangeQuantity(
                                             index,
@@ -919,7 +1062,7 @@ const CustomersCreateForm = ({
                                     <td className="tw-px-4 tw-py-2">
                                       {formatPrice(
                                         product.categoryPrice ||
-                                          product.full_price
+                                        product.full_price
                                       )}
                                     </td>
                                     <td className="tw-py-2 tw-flex tw-justify-start tw-items-center">
@@ -931,7 +1074,7 @@ const CustomersCreateForm = ({
                                         fontSize="medium"
                                       />
                                     </td>
-                                    <td className="tw-px-4">
+                                    {/*  <td className="tw-px-4">
                                       <div className="tw-flex tw-items-center">
                                         <Checkbox
                                           checked={product?.hasPersonalization}
@@ -948,7 +1091,7 @@ const CustomersCreateForm = ({
                                           )}
                                         </span>
                                       </div>
-                                    </td>
+                                    </td> */}
                                   </tr>
                                   {product.hasPersonalization && (
                                     <tr className="tw-border-b tw-border-l tw-border-r tw-border-t">
@@ -1058,9 +1201,9 @@ const CustomersCreateForm = ({
               ) : step === 4 ? (
                 <div className="tw-w-[95%] tw-h-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-8 tw-mb-1 tw-flex tw-flex-col tw-justify-center tw-items-center overflow-y-auto tw-overflow-x-hidden">
                   <div className="tw-w-[90%] tw-h-[98%] tw-flex-row tw-justify-center tw-justify-items-center tw-mt-4">
-                    <h3 className="tw-mb-9">Resumen de Planes y Productos</h3>
+                    <h3 className="tw-mb-9">Resumen de la Orden de Compra</h3>
 
-                    {/* Tabla combinada para Plan, Materiales, Personalización y Productos */}
+                    {/* Tabla combinada para Combo, Materiales, Personalización y Productos */}
                     <TableContainer
                       component={Paper}
                       style={{
@@ -1094,7 +1237,8 @@ const CustomersCreateForm = ({
                         </TableHead>
                         <TableBody>
                           {/* Mostrar Plan Seleccionado solo si existe */}
-                          {selectedPlan && (
+
+                          {selectedPlan && isChangePlan && (
                             <TableRow>
                               <TableCell>
                                 Plan Seleccionado: {selectedPlan.name}
@@ -1103,10 +1247,10 @@ const CustomersCreateForm = ({
                                 1
                               </TableCell>
                               <TableCell className="tw-text-right">{`$${formatPrice(
-                                selectedPlan.full_price
+                                selectedPlan.price
                               )}`}</TableCell>
                               <TableCell className="tw-text-right">{`$${formatPrice(
-                                selectedPlan.full_price
+                                selectedPlan.price
                               )}`}</TableCell>
                               <TableCell className="tw-text-right">{`$${formatPrice(
                                 selectedPlan.finalPrice
@@ -1120,12 +1264,39 @@ const CustomersCreateForm = ({
                               </TableCell>
                             </TableRow>
                           )}
+                          {/* Mostrar Combo Seleccionado solo si existe */}
+                          {selectedCombo && (
+                            <TableRow>
+                              <TableCell>
+                                Combo Seleccionado: {selectedCombo.name}
+                              </TableCell>
+                              <TableCell className="tw-text-center">
+                                1
+                              </TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedCombo.full_price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedCombo.full_price
+                              )}`}</TableCell>
+                              <TableCell className="tw-text-right">{`$${formatPrice(
+                                selectedCombo.finalPrice
+                              )}`}</TableCell>
+                              <TableCell className="tw-flex tw-justify-start tw-items-center">
+                                <DeleteIcon
+                                  onClick={() => clearSelectedPlan()}
+                                  className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
+                                  fontSize="medium"
+                                />
+                              </TableCell>
+                            </TableRow>
+                          )}
 
-                          {/* Mostrar Materiales Seleccionados solo si existe */}
+                          {/* Mostrar Material Seleccionado solo si existe */}
                           {selectedMaterial && (
                             <TableRow>
                               <TableCell>
-                                Materiales Seleccionados:{" "}
+                                Material Seleccionado:{" "}
                                 {selectedMaterial.name}
                               </TableCell>
                               <TableCell className="tw-text-center">
@@ -1179,70 +1350,70 @@ const CustomersCreateForm = ({
                           {/* Productos Agregados */}
                           {selectedProducts.length > 0
                             ? selectedProducts.map((product, index) => (
-                                <>
-                                  <TableRow key={index}>
-                                    <TableCell>{product.name}</TableCell>
-                                    <TableCell className="tw-text-center">
-                                      {product.quantity}
+                              <>
+                                <TableRow key={index}>
+                                  <TableCell>{product.name}</TableCell>
+                                  <TableCell className="tw-text-center">
+                                    {product.quantity}
+                                  </TableCell>
+                                  <TableCell className="tw-text-right">
+                                    ${formatPrice(product.full_price)}
+                                  </TableCell>
+                                  <TableCell className="tw-text-right">
+                                    $
+                                    {formatPrice(
+                                      product.full_price * product.quantity
+                                    )}
+                                  </TableCell>
+                                  <TableCell className="tw-text-right">
+                                    ${formatPrice(product.categoryPrice)}
+                                  </TableCell>
+                                  <TableCell className="tw-flex tw-justify-start tw-items-center">
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        handleRemoveProduct(index)
+                                      }
+                                      className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
+                                      fontSize="medium"
+                                    />
+                                  </TableCell>
+                                </TableRow>
+                                {product.hasPersonalization && (
+                                  <TableRow>
+                                    <TableCell className="tw-text-gray-600">
+                                      Personalización: {product.name}
                                     </TableCell>
-                                    <TableCell className="tw-text-right">
-                                      ${formatPrice(product.full_price)}
+                                    <TableCell className="tw-text-gray-600 tw-text-center">
+                                      1
                                     </TableCell>
-                                    <TableCell className="tw-text-right">
+                                    <TableCell className="tw-text-gray-600 tw-text-right">
                                       $
                                       {formatPrice(
-                                        product.full_price * product.quantity
+                                        product?.full_price_custom || 0
                                       )}
                                     </TableCell>
-                                    <TableCell className="tw-text-right">
-                                      ${formatPrice(product.categoryPrice)}
+                                    <TableCell className="tw-text-gray-600 tw-text-right">
+                                      $
+                                      {formatPrice(
+                                        product?.full_price_custom || 0
+                                      )}
+                                    </TableCell>
+                                    <TableCell className="tw-text-gray-600 tw-text-right">
+                                      $
+                                      {formatPrice(
+                                        product?.full_price_Discount || 0
+                                      )}
                                     </TableCell>
                                     <TableCell className="tw-flex tw-justify-start tw-items-center">
                                       <DeleteIcon
-                                        onClick={() =>
-                                          handleRemoveProduct(index)
-                                        }
                                         className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
                                         fontSize="medium"
                                       />
                                     </TableCell>
                                   </TableRow>
-                                  {product.hasPersonalization && (
-                                    <TableRow>
-                                      <TableCell className="tw-text-gray-600">
-                                        Personalización: {product.name}
-                                      </TableCell>
-                                      <TableCell className="tw-text-gray-600 tw-text-center">
-                                        1
-                                      </TableCell>
-                                      <TableCell className="tw-text-gray-600 tw-text-right">
-                                        $
-                                        {formatPrice(
-                                          product?.full_price_custom || 0
-                                        )}
-                                      </TableCell>
-                                      <TableCell className="tw-text-gray-600 tw-text-right">
-                                        $
-                                        {formatPrice(
-                                          product?.full_price_custom || 0
-                                        )}
-                                      </TableCell>
-                                      <TableCell className="tw-text-gray-600 tw-text-right">
-                                        $
-                                        {formatPrice(
-                                          product?.full_price_Discount || 0
-                                        )}
-                                      </TableCell>
-                                      <TableCell className="tw-flex tw-justify-start tw-items-center">
-                                        <DeleteIcon
-                                          className="tw-cursor-pointer tw-text-red-500 hover:tw-text-red-600 tw-transition tw-ml-5"
-                                          fontSize="medium"
-                                        />
-                                      </TableCell>
-                                    </TableRow>
-                                  )}
-                                </>
-                              ))
+                                )}
+                              </>
+                            ))
                             : null}
                         </TableBody>
                       </Table>
@@ -1709,9 +1880,9 @@ const CustomersCreateForm = ({
                   </IconButton>
                   <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
                     <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-1 tw-mt-9 tw-mb-9 tw-flex tw-flex-col tw-justify-center tw-items-center">
-                      <div className="tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-5 tw-mt-1 tw-mb-1">
-                        <div className="tw-w-full tw-grid tw-grid-cols-3 tw-grid-rows-3 tw-gap-1 tw-px-1 tw-mx-3 tw-my-3">
-                          <div className="tw-w-full tw-flex tw-justify-starttw-items-center tw-col-span-3">
+                      <div className={`tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center ${useExistingCard && dataCards && dataCards.length > 0 ? "tw-mx-24 " : "tw-mx-5"}  tw-mt-1 tw-mb-1`}>
+                        <div className="tw-w-full tw-grid tw-grid-cols-3 tw-grid-rows-3 tw-gap-1 tw-px-1 tw-mx-6 tw-my-3">
+                          <div className="tw-w-full tw-flex tw-justify-start tw-items-center tw-col-span-3">
                             <Image
                               src="/images/Wompi.png"
                               alt="Imagen"
@@ -1724,214 +1895,280 @@ const CustomersCreateForm = ({
                             <h3 className="tw-mr-2">Pago</h3>
                           </div>
 
-                          <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-3 tw-mt-0">
-                            <div className="tw-w-[98%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center">
-                              <TextField
-                                variant="outlined"
-                                label="Número de tarjeta"
-                                className="tw-mr-0"
-                                onChange={handleInputChange}
-                                name="number"
-                                fullWidth
-                                inputProps={{ maxLength: 16 }}
-                                disabled={loading}
-                                error={!!cardNumberError}
-                                helperText={cardNumberError}
+                          {dataCards && dataCards.length > 0 && (
+                            <div className="tw-w-full tw-flex tw-justify-start tw-items-center tw-col-span-3 tw-pb-1">
+                              <FormControlLabel
+                                control={<Checkbox checked={useExistingCard} onChange={handleUseExistingCardToggle} />}
+                                label="Usar tarjeta existente"
                               />
-                            </div>
-                          </div>
 
-                          <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
-                            <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
-                              <TextField
-                                variant="outlined"
-                                label="CVC"
-                                className=""
-                                onChange={handleInputChange}
-                                name="cvc"
-                                fullWidth
-                                inputProps={{ maxLength: 3 }}
-                                disabled={loading}
-                                error={!!cvcError}
-                                helperText={cvcError}
-                              />
                             </div>
-                          </div>
+                          )}
 
-                          <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
-                            <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
-                              <FormControl
-                                className="tw-mr-0"
-                                fullWidth
-                                disabled={loading}
-                              >
-                                <InputLabel id="month-label">
-                                  Mes de expiración{" "}
-                                </InputLabel>
-                                <Select
-                                  label="Mes de expiración"
-                                  className="tw-w-full"
-                                  onChange={handleInputChange}
-                                  name="exp_month"
-                                  error={!!expMonthError}
-                                  MenuProps={{
-                                    PaperProps: {
-                                      style: {
-                                        maxHeight: 180,
-                                      },
-                                    },
-                                  }}
-                                >
-                                  {Array.from({ length: 12 }, (_, i) => (
-                                    <MenuItem key={i + 1} value={i + 1}>
-                                      {String(i + 1).padStart(2, "0")}
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
-                            </div>
-                          </div>
-
-                          <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
-                            <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
-                              <FormControl
-                                className="tw-mr-0"
-                                fullWidth
-                                disabled={loading}
-                              >
-                                <InputLabel id="year-label">
-                                  Año de expiración{" "}
-                                </InputLabel>
-                                <Select
-                                  label="Tipo de Documento"
-                                  className="tw-w-full"
-                                  onChange={handleInputChange}
-                                  name="exp_year"
-                                  error={!!expYearError}
-                                  MenuProps={{
-                                    PaperProps: {
-                                      style: {
-                                        maxHeight: 180,
-                                      },
-                                    },
-                                  }}
-                                >
-                                  {Array.from({ length: 10 }, (_, i) => (
-                                    <MenuItem
-                                      key={new Date().getFullYear() + i}
-                                      value={new Date().getFullYear() + i}
+                          {useExistingCard && dataCards && dataCards.length > 0 ?
+                            <>
+                              <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-3 tw-mt-0">
+                                <div className="tw-w-[98%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center">
+                                  <FormControl fullWidth className='tw-mt-4'>
+                                    <InputLabel>Selecciona una tarjeta</InputLabel>
+                                    <Select
+                                      label='Selecciona una tarjeta'
+                                      name="existingCard"
+                                      onChange={handleSelectCard}
+                                      fullWidth
+                                      disabled={loading}
+                                      error={!!paymentSourceError}
                                     >
-                                      {(new Date().getFullYear() + i)
-                                        .toString()
-                                        .slice(-2)}
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
-                            </div>
-                          </div>
+                                      {dataCards && dataCards.map((card: any, index: number) => (
+                                        <MenuItem key={index} value={card}>
+                                          {`**** **** **** ${dataCards && dataCards[0].public_data?.last_four || ''}`}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </div>
+                              </div>
 
-                          <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2 tw-mt-4">
-                            <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0">
-                              <TextField
-                                variant="outlined"
-                                label="Nombre del titular"
-                                onChange={handleInputChange}
-                                name="card_holder"
-                                fullWidth
-                                disabled={loading}
-                                error={!!cardHolderError}
-                                helperText={cardHolderError}
-                              />
-                            </div>
-                          </div>
+                              <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-3 tw-mt-10">
+                                <div className="tw-w-[98%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center">
+                                  <FormControl className='tw-mr-0' fullWidth disabled={loading}>
+                                    <InputLabel id="year-label">Cuotas  </InputLabel>
+                                    <Select
+                                      label="Cuotas"
+                                      name="installments"
+                                      value={cardInfo.installments}
+                                      onChange={handleInputChange}
+                                      error={!!installmentsError}
+                                      MenuProps={{
+                                        PaperProps: {
+                                          style: {
+                                            maxHeight: 180,
+                                          },
+                                        },
+                                      }}
+                                    >
+                                      {Array.from({ length: 24 }, (_, i) => (
+                                        <MenuItem key={i + 1} value={i + 1}>
+                                          {i + 1}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </div>
+                              </div>
+                            </>
+                            :
+                            <>
+                              <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-3 tw-mt-0">
+                                <div className="tw-w-[98%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center">
+                                  <TextField
+                                    variant="outlined"
+                                    label="Número de tarjeta"
+                                    className="tw-mr-0"
+                                    onChange={handleInputChange}
+                                    name="number"
+                                    fullWidth
+                                    inputProps={{ maxLength: 16 }}
+                                    disabled={loading}
+                                    error={!!cardNumberError}
+                                    helperText={cardNumberError}
+                                  />
+                                </div>
+                              </div>
 
-                          <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
-                            <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
-                              <FormControl
-                                className="tw-mr-0"
-                                fullWidth
-                                disabled={loading}
-                              >
-                                <InputLabel id="year-label">Cuotas</InputLabel>
-                                <Select
-                                  label="Cuotas"
-                                  name="installments"
-                                  value={cardInfo.installments}
-                                  onChange={handleInputChange}
-                                  error={!!installmentsError}
-                                  MenuProps={{
-                                    PaperProps: {
-                                      style: {
-                                        maxHeight: 180,
-                                      },
-                                    },
-                                  }}
-                                >
-                                  {Array.from({ length: 24 }, (_, i) => (
-                                    <MenuItem key={i + 1} value={i + 1}>
-                                      {i + 1}
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
-                            </div>
-                          </div>
+                              <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                  <TextField
+                                    variant="outlined"
+                                    label="CVC"
+                                    className=""
+                                    onChange={handleInputChange}
+                                    name="cvc"
+                                    fullWidth
+                                    inputProps={{ maxLength: 3 }}
+                                    disabled={loading}
+                                    error={!!cvcError}
+                                    helperText={cvcError}
+                                  />
+                                </div>
+                              </div>
 
-                          <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
-                            <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
-                              <FormControl
-                                className="tw-mr-0"
-                                fullWidth
-                                disabled={loading}
-                              >
-                                <InputLabel id="year-label">
-                                  Tipo de Identificación
-                                </InputLabel>
-                                <Select
-                                  label="Tipo de Documento "
-                                  className="tw-w-full"
-                                  name="idType"
-                                  value={cardInfo.idType}
-                                  onChange={handleInputChange}
-                                  error={!!idTypeError}
-                                  MenuProps={{
-                                    PaperProps: {
-                                      style: {
-                                        maxHeight: 180,
-                                      },
-                                    },
-                                  }}
-                                >
-                                  <MenuItem value="AS">AS</MenuItem>
-                                  <MenuItem value="CC">CC</MenuItem>
-                                  <MenuItem value="CD">CD</MenuItem>
-                                  <MenuItem value="CE">CE</MenuItem>
-                                  <MenuItem value="CN">CN</MenuItem>
-                                  <MenuItem value="MS">MS</MenuItem>
-                                  <MenuItem value="NIT">NIT</MenuItem>
-                                  <MenuItem value="PA">PA</MenuItem>
-                                  <MenuItem value="PE">PE</MenuItem>
-                                  <MenuItem value="RC">RC</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </div>
-                          </div>
+                              <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                  <FormControl
+                                    className="tw-mr-0"
+                                    fullWidth
+                                    disabled={loading}
+                                  >
+                                    <InputLabel id="month-label">
+                                      Mes de expiración{" "}
+                                    </InputLabel>
+                                    <Select
+                                      label="Mes de expiración"
+                                      className="tw-w-full"
+                                      onChange={handleInputChange}
+                                      name="exp_month"
+                                      error={!!expMonthError}
+                                      MenuProps={{
+                                        PaperProps: {
+                                          style: {
+                                            maxHeight: 180,
+                                          },
+                                        },
+                                      }}
+                                    >
+                                      {Array.from({ length: 12 }, (_, i) => (
+                                        <MenuItem key={i + 1} value={i + 1}>
+                                          {String(i + 1).padStart(2, "0")}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </div>
+                              </div>
 
-                          <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2 tw-mt-4">
-                            <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0">
-                              <TextField
-                                variant="outlined"
-                                label="Número de Identificación"
-                                name="idNumber"
-                                fullWidth
-                                value={cardInfo.idNumber}
-                                onChange={handleInputChange}
-                                error={!!idNumberError}
-                                helperText={idNumberError}
-                              />
-                            </div>
-                          </div>
+                              <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                  <FormControl
+                                    className="tw-mr-0"
+                                    fullWidth
+                                    disabled={loading}
+                                  >
+                                    <InputLabel id="year-label">
+                                      Año de expiración{" "}
+                                    </InputLabel>
+                                    <Select
+                                      label="Tipo de Documento"
+                                      className="tw-w-full"
+                                      onChange={handleInputChange}
+                                      name="exp_year"
+                                      error={!!expYearError}
+                                      MenuProps={{
+                                        PaperProps: {
+                                          style: {
+                                            maxHeight: 180,
+                                          },
+                                        },
+                                      }}
+                                    >
+                                      {Array.from({ length: 10 }, (_, i) => (
+                                        <MenuItem
+                                          key={new Date().getFullYear() + i}
+                                          value={new Date().getFullYear() + i}
+                                        >
+                                          {(new Date().getFullYear() + i)
+                                            .toString()
+                                            .slice(-2)}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </div>
+                              </div>
+
+                              <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2 tw-mt-4">
+                                <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0">
+                                  <TextField
+                                    variant="outlined"
+                                    label="Nombre del titular"
+                                    onChange={handleInputChange}
+                                    name="card_holder"
+                                    fullWidth
+                                    disabled={loading}
+                                    error={!!cardHolderError}
+                                    helperText={cardHolderError}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                  <FormControl
+                                    className="tw-mr-0"
+                                    fullWidth
+                                    disabled={loading}
+                                  >
+                                    <InputLabel id="year-label">Cuotas</InputLabel>
+                                    <Select
+                                      label="Cuotas"
+                                      name="installments"
+                                      value={cardInfo.installments}
+                                      onChange={handleInputChange}
+                                      error={!!installmentsError}
+                                      MenuProps={{
+                                        PaperProps: {
+                                          style: {
+                                            maxHeight: 180,
+                                          },
+                                        },
+                                      }}
+                                    >
+                                      {Array.from({ length: 24 }, (_, i) => (
+                                        <MenuItem key={i + 1} value={i + 1}>
+                                          {i + 1}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </div>
+                              </div>
+
+                              <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-4">
+                                <div className="tw-w-[95%] tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center">
+                                  <FormControl
+                                    className="tw-mr-0"
+                                    fullWidth
+                                    disabled={loading}
+                                  >
+                                    <InputLabel id="year-label">
+                                      Tipo de Identificación
+                                    </InputLabel>
+                                    <Select
+                                      label="Tipo de Documento "
+                                      className="tw-w-full"
+                                      name="idType"
+                                      value={cardInfo.idType}
+                                      onChange={handleInputChange}
+                                      error={!!idTypeError}
+                                      MenuProps={{
+                                        PaperProps: {
+                                          style: {
+                                            maxHeight: 180,
+                                          },
+                                        },
+                                      }}
+                                    >
+                                      <MenuItem value="AS">AS</MenuItem>
+                                      <MenuItem value="CC">CC</MenuItem>
+                                      <MenuItem value="CD">CD</MenuItem>
+                                      <MenuItem value="CE">CE</MenuItem>
+                                      <MenuItem value="CN">CN</MenuItem>
+                                      <MenuItem value="MS">MS</MenuItem>
+                                      <MenuItem value="NIT">NIT</MenuItem>
+                                      <MenuItem value="PA">PA</MenuItem>
+                                      <MenuItem value="PE">PE</MenuItem>
+                                      <MenuItem value="RC">RC</MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </div>
+                              </div>
+
+                              <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2 tw-mt-4">
+                                <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-mt-0">
+                                  <TextField
+                                    variant="outlined"
+                                    label="Número de Identificación"
+                                    name="idNumber"
+                                    fullWidth
+                                    value={cardInfo.idNumber}
+                                    onChange={handleInputChange}
+                                    error={!!idNumberError}
+                                    helperText={idNumberError}
+                                  />
+                                </div>
+                              </div>
+                            </>
+                          }
 
                           <div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-col-span-2 tw-mt-4">
                             <div className="tw-w-[95%] tw-h-[100%] tw-flex tw-flex-col tw-justify-start tw-items-start tw-mt-0">

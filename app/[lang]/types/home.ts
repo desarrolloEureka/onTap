@@ -17,6 +17,7 @@ export interface Templates {
 }
 
 export interface BackgroundImages {
+  created_at: any;
   id: string;
   name: string;
   image: string;
@@ -117,6 +118,7 @@ export interface Distributors {
   category: string;
   city: string;
   country: string;
+  created: string;
   created_at: string;
   documentType: string;
   documentNumber: string;
@@ -172,6 +174,16 @@ export interface Subscription {
   updatedAt?: string;
   months_period?: number;
   text_period?: string;
+}
+
+export interface DefaultPlans {
+  uid: any;
+  updated_at: string;
+  id: string;
+  price: number;
+  name: string;
+  createdAt: string;
+  prices_matrix: any;
 }
 
 export interface PaymentData {

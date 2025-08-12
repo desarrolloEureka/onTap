@@ -58,6 +58,9 @@ const ItemForm = ({
     }
   };
 
+  //console.log("dataRef",dataRef.current)
+  //console.log("myValue",myValue)
+
   const isChecked = () => {
     const i = subindex as any;
     if (index == 'phones' || index == 'emails') {

@@ -2,26 +2,27 @@ import { useState } from 'react';
 import { TextField, Button, InputAdornment, Fab } from '@mui/material';
 import { Dictionary } from '@/types/dictionary';
 import ImagesearchRollerIcon from '@mui/icons-material/ImagesearchRoller';
-import AddIcon from '@mui/icons-material/Add';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { saveBackgroundImage } from '@/firebase/generals';
 import CustomModalAlert from '@/components/customModalAlert/CustomModalAlert';
-import { set } from 'firebase/database';
 
 type ItemFormProps = {
-  onAddItem: (item: { name: string; image: string }) => void;
   dictionary: Dictionary | undefined;
+  flag: boolean
+  setFlag: any
 };
 
-const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
+const ItemForm: React.FC<ItemFormProps> = ({ dictionary, flag, setFlag, }) => {
   const [name, setName] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleClose = () => {
     setOpen(false);
-    window.location.reload();
   };
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
@@ -30,22 +31,30 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAddItem, dictionary }) => {
     const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
+      e.target.value = "";
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (imageFile) {
-      convertToBase64(imageFile).then((image) => {
-        saveBackgroundImage(image, name).then(() => {
-          onAddItem({ name, image });
-          setName('');
-          setImageFile(null);
-        });
-      });
-      setOpen(true);
-    }
 
+    if (!imageFile || !name.trim()) return;
+
+    setIsLoading(true);
+
+    try {
+      const image = await convertToBase64(imageFile);
+      await saveBackgroundImage(image);
+      // Resetear estado después de la operación
+      setName('');
+      setImageFile(null);
+      setFlag(!flag);
+      setOpen(true);
+    } catch (error) {
+      console.error("Error guardando la imagen:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const imgStatus = imageFile ? dictionary?.backOffice.imagenSeleccionada : dictionary?.backOffice.agregarImagen;

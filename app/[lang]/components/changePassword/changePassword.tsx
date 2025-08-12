@@ -24,8 +24,6 @@ const ChangePasswordAdmin = ({
     setPasswordConfirm,
     password,
     passwordConfirm,
-    errorForm,
-    stateUpdate,
     handleBack,
   } = ChangePasswordHook();
 

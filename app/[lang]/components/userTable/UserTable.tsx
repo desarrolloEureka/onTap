@@ -6,6 +6,8 @@ import {
   InputAdornment,
   Select,
   MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import { Modal, Box, IconButton } from "@mui/material";
 import {
@@ -32,13 +34,15 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 //QR
 import { QRCodeSVG } from "qrcode.react";
 import ReactCountryFlag from "react-country-flag";
 import { countries } from "../../globals/constants";
 import SaveIcon from "@mui/icons-material/Save";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import moment from "moment";
 
 const UserTable = () => {
   const {
@@ -51,6 +55,8 @@ const UserTable = () => {
     dni,
     name,
     setName,
+    lastName,
+    setLastName,
     email,
     setEmail,
     plan,
@@ -80,7 +86,9 @@ const UserTable = () => {
     setConfirmEmail,
     errorDniForm,
     errorNameForm,
+    errorLastNameForm,
     errorPlanForm,
+    errorTypeForm,
     errorPhoneForm,
     errorPhoneCodeForm,
     errorMailForm,
@@ -89,6 +97,10 @@ const UserTable = () => {
     handleEditUser,
     handleEditData,
     openEditProfile,
+    selectedDate,
+    setSelectedDate,
+    errorDateForm,
+    setErrorDateForm
   } = UserTableLogic();
   const dictionary = useDictionary({ lang: "es" });
   const dateToday = new Date().toISOString().split("T")[0];
@@ -105,12 +117,7 @@ const UserTable = () => {
   };
 
   const getFormattedDate = (date: any) => {
-    const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(
-      date.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}/${date.getFullYear()}`;
-    return formattedDate ? formattedDate : "";
+    return moment(date).format("DD/MM/YYYY HH:mm:ss");
   };
 
   const getUrlFormatted = (url: any) => {
@@ -122,11 +129,10 @@ const UserTable = () => {
           /localhost:3000|on-taptawny.vercel.app/g,
           "backoffice.onetap.com.co"
         )
-    //Desarrollo
-    /* .replace(
-      /https?:\/\/backoffice\.onetap\.com\.co/g,
-      "https://on-tap-dev.vercel.app"
-    ); */
+    /*  .replace(
+       /https?:\/\/backoffice\.onetap\.com\.co/g,
+       "https://on-tap-dev.vercel.app"
+     ); */
     return urlFormatted ? urlFormatted : "";
   };
 
@@ -179,27 +185,20 @@ const UserTable = () => {
         </Button>
       ),
     },
-
     {
       field: "date",
       headerName: "Fecha Registro",
-      minWidth: 130,
+      minWidth: 190,
       flex: 1,
       headerAlign: "center",
       align: "center",
+      // Formatea para mostrar
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           <div>{getFormattedDate(params.value)}</div>
         </div>
       ),
-    },
-    {
-      field: "hour",
-      headerName: "Hora Registro",
-      minWidth: 130,
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
+      valueGetter: (params) => new Date(params.value).toISOString(),
     },
     {
       field: "id",
@@ -265,15 +264,42 @@ const UserTable = () => {
     {
       field: "userType",
       headerName: "Tipo Usuario",
-      minWidth: 130,
+      minWidth: 200,
       flex: 1,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
         <div className="tw-flex tw-justify-center tw-items-center">
           {params.value && (
-            <div>{params.value.gif === true ? "Obsequio" : "Comprador"}</div>
+            /*  <div>{params.value.gif === true ? "Obsequio" : "Comprador"}</div> */
+            <div>{params.value?.idDistributor ? "Registrado por distribuidor" : params.value.gif ? "Obsequio" : "Comprador"}</div>
           )}
+        </div>
+      ),
+    },
+    {
+      field: "paymentDate",
+      headerName: "Fecha Pago",
+      minWidth: 190,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value ? getFormattedDate(params.value) : 'Pendiente'}
+        </div>
+      ),
+    },
+    {
+      field: "nextPaymentDate",
+      headerName: "Fecha Vencimiento Suscripción",
+      minWidth: 230,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          {params.value ? getFormattedDate(params.value) : 'Pendiente'}
         </div>
       ),
     },
@@ -330,6 +356,32 @@ const UserTable = () => {
             </>
           )}
         </div>
+      ),
+    },
+    {
+      field: "autoPaymentAuthorized",
+      headerName: "Pago Automático",
+      minWidth: 130,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div className="tw-flex tw-justify-center tw-items-center">
+          <>
+            {params.value ? (
+              <div className="tw-flex tw-items-center tw-gap-1">
+                <CheckCircleIcon className="tw-text-green-500" />
+                <span>Sí</span>
+              </div>
+            ) : (
+              <div className="tw-flex tw-items-center tw-gap-1">
+                <CancelIcon className="tw-text-red-500" />
+                <span>No</span>
+              </div>
+            )}
+          </>
+        </div>
+
       ),
     },
     {
@@ -648,10 +700,10 @@ const UserTable = () => {
             <Close className="tw-text-white" />
           </IconButton>
           <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
-            <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
-              <div className="tw-w-full tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-20 tw-mt-2 tw-mb-2">
-                {/* DNI Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center">
+            <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-5 tw-flex tw-flex-col tw-justify-center tw-items-center">
+              <div className="tw-w-[90%] tw-h-[95%] tw-flex-row tw-justify-center tw-justify-items-center tw-mx-40 tw-mt-4 tw-mb-5">
+
+                <div className="tw-w-full tw-flex tw-justify-between  tw-justify-items-center">
                   <TextField
                     variant="standard"
                     label={dictionary.dictionary?.backOffice.dni}
@@ -670,134 +722,134 @@ const UserTable = () => {
                     }}
                     id="outlined-required"
                     value={dni}
-                    className="tw-mb-4 tw-w-[300px] tw-text-sm tw-mt-4"
+                    fullWidth
+                    className="tw-mb-5"
                     onChange={(e) => setDni(e.target.value)}
                     error={Boolean(errorDniForm)}
                     helperText={errorDniForm}
                   />
                 </div>
 
-                {/* Name Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
+                {/* Nombre y Apellido */}
+                <div className=" tw-w-full tw-flex tw-gap-4 tw-mb-5">
                   <TextField
-                    id="outlined-required"
+                    id="name"
                     value={name}
                     variant="standard"
                     label={dictionary.dictionary?.backOffice.Nombre}
-                    className="tw-mb-4 tw-w-[300px] tw-text-sm"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PersonOutlinedIcon
-                            style={{
-                              color: "#02AF9B",
-                              fontSize: "1.8rem",
-                              marginRight: "1rem",
-                            }}
-                          />
-                        </InputAdornment>
-                      ),
-                    }}
+                    fullWidth
                     onChange={(e) => setName(e.target.value)}
                     error={Boolean(errorNameForm)}
                     helperText={errorNameForm}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonOutlinedIcon style={{ color: "#02AF9B", fontSize: "1.8rem", marginRight: "1rem" }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <TextField
+                    id="lastName"
+                    value={lastName}
+                    variant="standard"
+                    label="Apellidos"
+                    fullWidth
+                    onChange={(e) => setLastName(e.target.value)}
+                    error={Boolean(errorLastNameForm)}
+                    helperText={errorLastNameForm}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonOutlinedIcon style={{ color: "#02AF9B", fontSize: "1.8rem", marginRight: "1rem" }} />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </div>
 
-                {/* Email Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
+                {/* Email */}
+                <div className="tw-w-full tw-mb-5">
                   <TextField
-                    id="outlined-required"
+                    id="email"
                     value={email}
                     variant="standard"
-                    className="tw-mb-4 tw-w-[300px] tw-text-sm"
                     label={dictionary.dictionary?.backOffice.Email}
+                    fullWidth
+                    onChange={(e) => setEmail(e.target.value)}
+                    error={Boolean(errorMailForm || errorEmailMismatch)}
+                    helperText={errorMailForm}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <AlternateEmailIcon
-                            style={{
-                              color: "#02AF9B",
-                              fontSize: "1.8rem",
-                              marginRight: "1rem",
-                            }}
-                          />
+                          <AlternateEmailIcon style={{ color: "#02AF9B", fontSize: "1.8rem", marginRight: "1rem" }} />
                         </InputAdornment>
                       ),
                     }}
-                    onChange={(e) => setEmail(e.target.value)}
-                    error={Boolean(errorMailForm)}
-                    helperText={errorMailForm}
-                    onCopy={(e) => e.preventDefault()} // Bloquea copiar
-                    onCut={(e) => e.preventDefault()} // Bloquea cortar
+                    onCopy={(e) => e.preventDefault()}
+                    onCut={(e) => e.preventDefault()}
                   />
                 </div>
 
-                {/* Confirm Email Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1">
+                {/* Confirm Email */}
+                <div className="tw-w-full  tw-mb-5">
                   <TextField
-                    id="outlined"
+                    id="confirmEmail"
                     value={confirmEmail}
                     variant="standard"
-                    className="tw-mb-4 tw-w-[300px] tw-text-sm"
                     label={dictionary.dictionary?.backOffice.ConfirmEmail}
+                    fullWidth
+                    onChange={(e) => setConfirmEmail(e.target.value)}
+                    error={Boolean(errorConfirmEmailForm || errorEmailMismatch)}
+                    helperText={errorConfirmEmailForm || errorEmailMismatch}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <AlternateEmailIcon
-                            style={{
-                              color: "#02AF9B",
-                              fontSize: "1.8rem",
-                              marginRight: "1rem",
-                            }}
-                          />
+                          <AlternateEmailIcon style={{ color: "#02AF9B", fontSize: "1.8rem", marginRight: "1rem" }} />
                         </InputAdornment>
                       ),
                     }}
-                    onChange={(e) => setConfirmEmail(e.target.value)}
-                    error={Boolean(errorConfirmEmailForm)}
-                    helperText={errorConfirmEmailForm}
-                    onCopy={(e) => e.preventDefault()} // Bloquea copiar
-                    onCut={(e) => e.preventDefault()} // Bloquea cortar
-                    onPaste={(e) => e.preventDefault()} // Bloquea pegar
+                    onCopy={(e) => e.preventDefault()}
+                    onCut={(e) => e.preventDefault()}
+                    onPaste={(e) => e.preventDefault()}
                   />
                 </div>
 
-                {/* Phone Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-1 ">
-                  <div className="tw-w-[300px] tw-flex tw-items-start tw-justify-center tw-mb-4 tw-mt-3">
-                    <div className="tw-w-[40%] tw-items-start">
-                      <Select
-                        variant="outlined"
-                        className="tw-w-[100%] tw-text-center"
-                        value={phoneCode}
-                        style={{ height: "48px" }}
-                        required
-                        id="outlined-required"
-                        defaultValue=""
-                        MenuProps={{
-                          PaperProps: {
-                            style: {
-                              maxHeight: 150,
+                <div className="tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-start">
+                  <div className="tw-w-[100%] tw-flex tw-items-start tw-justify-center tw-mb-4 tw-mt-3">
+                    <div className="tw-w-[20%] tw-items-start">
+                      <FormControl variant="outlined" className="tw-w-[100%]">
+                        <Select
+                          className="tw-text-center tw-w-full"
+                          value={phoneCode}
+                          style={{ height: "48px" }}
+                          required
+                          id="outlined-required"
+                          defaultValue=""
+                          MenuProps={{
+                            PaperProps: {
+                              style: {
+                                maxHeight: 150,
+                              },
                             },
-                          },
-                        }}
-                        onChange={(e) => setPhoneCode(e.target.value)}
-                        error={Boolean(errorPhoneCodeForm)}
-                      >
-                        {countries.map((country) => (
-                          <MenuItem key={country.id} value={country.id}>
-                            <ReactCountryFlag
-                              countryCode={country.flag}
-                              svg
-                              style={{ marginRight: "8px" }}
-                            />
-                            {country.code}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                          }}
+                          onChange={(e) => setPhoneCode(e.target.value)}
+                          error={Boolean(errorPhoneCodeForm)}
+                        >
+                          {countries.map((country) => (
+                            <MenuItem key={country.id} value={country.id}>
+                              <ReactCountryFlag
+                                countryCode={country.flag}
+                                svg
+                                style={{ marginRight: "8px" }}
+                              />
+                              {country.code}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </div>
-                    <div className="tw-h-[100%] tw-w-[60%] tw-items-start tw-ml-2">
+                    <div className="tw-h-[100%] tw-w-[80%] tw-items-start tw-ml-2">
                       <TextField
                         id="standard-number"
                         value={phone}
@@ -817,34 +869,88 @@ const UserTable = () => {
                       />
                     </div>
                   </div>
+                  <InputLabel className="tw-text-xs tw-text-gray-500 tw-mt-1 tw-mb-6">
+                    Digite el número indicativo del país
+                  </InputLabel>
                 </div>
 
-                {/* Plan Field with Error Handling */}
-                <div className="tw-w-full tw-flex tw-justify-center tw-justify-items-center tw-mt-0">
-                  <div className="tw-w-[300px] tw-flex-row tw-items-start tw-justify-start tw-mb-4 tw-mt-1">
+                <div className="tw-flex tw-w-full tw-justify-between tw-mb-1">
+                  {isEditData && (
+                    <div className="tw-w-full  tw-mr-5">
+                      <Typography
+                        color="textSecondary"
+                        display={"flow"}
+                        className="tw-text-left tw-text-sm tw-mb-1"
+                      >
+                        Fecha Pago
+                      </Typography>
+                      <TextField
+                        type="date"
+                        fullWidth
+                        className="tw-mr-2"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
+                        variant="outlined"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        error={Boolean(errorDateForm)}
+                        helperText={errorDateForm}
+                      />
+                    </div>
+                  )}
+
+                  {/* Tipo Usuario */}
+                  <div className="tw-w-full tw-mr-5">
                     <Typography
                       color="textSecondary"
-                      display={"flow"}
-                      className="tw-text-left tw-text-sm tw-mb-2"
+                      display="flow"
+                      className="tw-text-left tw-text-sm tw-mb-1"
+                    >
+                      {dictionary.dictionary?.backOffice.TypeUser}
+                    </Typography>
+
+                    <div className="tw-relative tw-w-full">
+                      <Select
+                        variant="outlined"
+                        className="tw-w-full"
+                        fullWidth
+                        required
+                        id="outlined-required"
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
+                        error={Boolean(errorTypeForm)}
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 150,
+                            },
+                          },
+                        }}
+                      >
+                        <MenuItem value='Obsequio'>{dictionary.dictionary?.backOffice.TypeGift}</MenuItem>
+                        <MenuItem value='Comprador'>{dictionary.dictionary?.backOffice.TypeBuyer}</MenuItem>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="tw-w-full">
+                    <Typography
+                      color="textSecondary"
+                      display="flow"
+                      className="tw-text-left tw-text-sm tw-mb-1"
                     >
                       {dictionary.dictionary?.backOffice.Plan}
                     </Typography>
-                    <div className="tw-relative">
-                      <PersonOutlinedIcon
-                        style={{
-                          color: "#02AF9B",
-                          fontSize: "1.8rem",
-                          marginTop: "1rem",
-                          marginLeft: "1rem",
-                          position: "absolute",
-                        }}
-                      />
+
+                    <div className="tw-relative tw-w-full">
                       <Select
-                        className="tw-w-[300px] tw-text-center tw-mb-4"
+                        variant="outlined"
+                        className="tw-w-full"
+                        fullWidth
                         required
                         id="outlined-required"
                         value={plan}
-                        variant="outlined"
                         onChange={(e) => setPlan(e.target.value)}
                         error={Boolean(errorPlanForm)}
                         MenuProps={{
@@ -865,6 +971,7 @@ const UserTable = () => {
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
             <div className="tw-w-[101%] tw-flex tw-justify-center tw-items-center tw-border-t-white tw-border-t-[0.5px] tw-border-x-0 tw-border-b-0 tw-border-solid">
@@ -925,9 +1032,10 @@ const UserTable = () => {
             justifyContent: "center",
             alignItems: "center",
             bgcolor: "#02AF9B",
-            padding: 5,
+            padding: 3,
             borderRadius: 3,
             position: "relative",
+            maxHeight: "100vh",
           }}
         >
           <IconButton
@@ -939,21 +1047,21 @@ const UserTable = () => {
 
           {urlQR && (
             <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-justify-items-center tw-pl-3 tw-pr-3">
-              <Box className="tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-10 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center">
-                <div className="tw-w-[380px] tw-flex tw-justify-center tw-items-center">
+              <Box className="tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-5 tw-mt-3 tw-flex tw-flex-col tw-justify-center tw-items-center">
+                <div className="tw-w-[320px] tw-flex tw-justify-center tw-items-center">
                   <QRCodeSVG
                     id="qrcode-svg"
                     value={urlQR}
-                    size={380}
+                    size={320}
                     className=""
                   />
                 </div>
               </Box>
-              <Box className="tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-10 tw-mt-4 tw-flex tw-flex-col tw-justify-center tw-items-center">
+              <Box className="tw-w-[100%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-p-3 tw-mt-3 tw-flex tw-flex-col tw-justify-center tw-items-center">
                 <div className="tw-w-[350px] tw-flex tw-justify-center tw-items-center">
                   <Button
                     variant="contained"
-                    className="tw-mx-auto tw-mt-4 tw-w-[200px] tw-bg-[#02AF9B] tw-text-white tw-shadow-m"
+                    className="tw-mx-auto tw-mt-1 tw-w-[200px] tw-bg-[#02AF9B] tw-text-white tw-shadow-m"
                     onClick={() => handleDownloadQR()}
                   >
                     Descargar QR

@@ -88,7 +88,6 @@ const ProfileProfessional = ({
     handleNavigate,
     uidUser,
   });
-
   const handleDataSet = (data: ProfessionalDataForm) => {
     setDataForm(data);
   };

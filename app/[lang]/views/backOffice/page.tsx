@@ -62,6 +62,8 @@ import PendingPaymentReports from "@/components/pendingPaymentReports/PendingPay
 import MadePaymentReports from "@/components/madePaymentReport/madePaymentReports";
 import DispatchedDeliveriesReports from "@/components/dispatchedDeliveriesReport/dispatchedDeliveriesReports";
 import GeneralReportAdmin from "@/components/generalReportAdmin/generalReportAdmin";
+import SubscriptionReport from "@/components/subscriptionReport/SubscriptionReport";
+import PlanesRegister from "@/components/planesRegister/PlanesRegister";
 
 const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const { dictionary } = useDictionary({ lang });
@@ -74,6 +76,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const [userDataReport, setUserDataReport] = useState<any>(null);
   // Estado para determinar si es un reporte individual
   const [isIndividualReport, setIsIndividualReport] = useState<boolean>(false);
+  const [userDataRow, setuserDataRow] = useState<any>(null);
 
   useEffect(() => {
     // Verificar si estamos en el lado del cliente
@@ -176,7 +179,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           fontSize="small"
                           sx={{ marginRight: "4px" }}
                         />
-                        {dictionary?.backOffice.PlansLabelMenu}
+                        {dictionary?.backOffice.CombosLabelMenu}
                       </NavDropdown.Item>
                       <NavDropdown.Item eventKey="12" style={{ fontSize: 15 }}>
                         <BuildIcon
@@ -192,13 +195,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                         />
                         {dictionary?.backOffice.ColorsLabelMenu}
                       </NavDropdown.Item>
-                      <NavDropdown.Item eventKey="14" style={{ fontSize: 15 }}>
+                    {/*   <NavDropdown.Item eventKey="14" style={{ fontSize: 15 }}>
                         <TuneIcon
                           fontSize="small"
                           sx={{ marginRight: "4px" }}
                         />
                         {dictionary?.backOffice.CustomizationsLabelMenu}
-                      </NavDropdown.Item>
+                      </NavDropdown.Item> */}
                     </NavDropdown>
                   )}
 
@@ -304,7 +307,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                   >
                     {!isDistributor ? (
                       <>
-                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                        <NavDropdown.Item eventKey="28" style={{ fontSize: 15 }}>
                           <SubscriptionsIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
@@ -362,13 +365,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           />
                           {dictionary?.backOffice.Deliveries}
                         </NavDropdown.Item>
-                        <NavDropdown.Item style={{ fontSize: 15 }}>
+                        {/*    <NavDropdown.Item style={{ fontSize: 15 }}>
                           <NotificationsIcon
                             fontSize="small"
                             sx={{ marginRight: "4px" }}
                           />
                           {dictionary?.backOffice.NotificationHistory}
-                        </NavDropdown.Item>
+                        </NavDropdown.Item> */}
                       </>
                     )}
                   </NavDropdown>
@@ -404,6 +407,13 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                           sx={{ marginRight: "4px" }}
                         />
                         {dictionary?.backOffice.SubscriptionValueLabelMenu}
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey={29} style={{ fontSize: 15 }}>
+                        <PaymentIcon
+                          fontSize="small"
+                          sx={{ marginRight: "4px" }}
+                        />
+                        {dictionary?.backOffice.PlansLabelMenu}
                       </NavDropdown.Item>
                     </NavDropdown>
                   )}
@@ -488,22 +498,28 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
                     )}
 
                     {/* Opción para las tarjetas de pago */}
-                    <NavDropdown.Item eventKey="23" style={{ fontSize: 15 }}>
-                      <PaymentIcon
-                        fontSize="small"
-                        sx={{ marginRight: "4px" }}
-                      />
-                      {dictionary?.backOffice?.LableCards}
-                    </NavDropdown.Item>
+                    {isDistributor && (
+                      <NavDropdown.Item eventKey="23" style={{ fontSize: 15 }}>
+                        <PaymentIcon
+                          fontSize="small"
+                          sx={{ marginRight: "4px" }}
+                        />
+                        {dictionary?.backOffice?.LableCards}
+                      </NavDropdown.Item>
+                    )}
+
 
                     {/* Opción para cerrar sesión */}
-                    <NavDropdown.Item onClick={logOut} style={{ fontSize: 15 }}>
-                      <LogoutIcon
-                        fontSize="small"
-                        sx={{ marginRight: "4px" }}
-                      />
-                      {dictionary?.logOut}
-                    </NavDropdown.Item>
+                    {isDistributor && (
+                      <NavDropdown.Item onClick={logOut} style={{ fontSize: 15 }}>
+                        <LogoutIcon
+                          fontSize="small"
+                          sx={{ marginRight: "4px" }}
+                        />
+                        {dictionary?.logOut}
+                      </NavDropdown.Item>
+                    )}
+
                   </NavDropdown>
                 </Nav>
               </Navbar.Collapse>
@@ -548,10 +564,14 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <CustomersDistributorForm
             handleCreateUser={handleCreateUser}
             handlePayUser={handlePayUser}
+            setuserDataRow={setuserDataRow}
           />
         )}
         {value === 17 && (
-          <CustomersCreateForm handleReturnForm={handleReturnForm} />
+          <CustomersCreateForm
+            handleReturnForm={handleReturnForm}
+            userDataRow={userDataRow}
+          />
         )}
         {value === 18 && <Notifications params={{ lang }} />}
         {value === 19 && <Suscriptions params={{ lang }} />}
@@ -575,6 +595,9 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
           <DispatchedDeliveriesReports handlePayUser={handlePayUser} />
         )}
         {value === 27 && <GeneralReportAdmin handlePayUser={handlePayUser} />}
+        {value === 28 && <SubscriptionReport params={{ lang }} />}
+        {value === 29 && <PlanesRegister params={{ lang }} />}
+
       </Box>
 
       {/* Footer */}

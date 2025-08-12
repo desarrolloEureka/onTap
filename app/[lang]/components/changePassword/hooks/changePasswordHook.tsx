@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { UpdatePassword } from "@/reactQuery/users"; // Tu función para actualizar contraseña
+import { UpdatePassword } from "@/reactQuery/users";
 import { LoginError } from "@/types/login";
 import { useRouter } from "next/navigation";
 import useDictionary from "@/hooks/dictionary/useDictionary";
 import Swal from "sweetalert2";
 import { signOut } from "firebase/auth";
-import { auth } from "@/firebase/auth"; // Asegúrate de que esta importación es correcta
+import { auth } from "@/firebase/auth";
 
 const ChangePasswordHook = () => {
   const [password, setPassword] = useState<string>("");
@@ -93,18 +93,18 @@ const ChangePasswordHook = () => {
         errorType: !password ? 1 : 2,
         errorMessage: !password
           ? dictionary?.dictionary?.newPassword?.mandatoryPassword ||
-            "La contraseña es obligatoria"
+          "La contraseña es obligatoria"
           : dictionary?.dictionary?.newPassword?.mandatoryRepeatPassword ||
-            "Por favor, confirme la contraseña",
+          "Por favor, confirme la contraseña",
       });
       Swal.fire({
         icon: "warning",
         title: "Error de validación",
         text: !password
           ? dictionary?.dictionary?.newPassword?.mandatoryPassword ||
-            "La contraseña es obligatoria"
+          "La contraseña es obligatoria"
           : dictionary?.dictionary?.newPassword?.mandatoryRepeatPassword ||
-            "Por favor, confirme la contraseña",
+          "Por favor, confirme la contraseña",
       });
     }
   };

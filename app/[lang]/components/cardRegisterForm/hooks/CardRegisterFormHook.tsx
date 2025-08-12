@@ -215,18 +215,20 @@ const CardRegisterFormHook = () => {
     useEffect(() => {
         if (dataCards) {
             let idCounter = 1;
-            const formattedData = dataCards.map(doc => {
-                return {
-                    id: idCounter++,
-                    uid: doc.id,
-                    optionEdit: doc,
-                    created_at: doc.created_at,
-                    number: doc?.public_data?.last_four || '',
-                };
-            });
+            const formattedData = dataCards.map(doc => ({
+                id: idCounter++,
+                uid: doc.id,
+                optionEdit: doc,
+                created_at: doc.created_at,
+                number: doc?.public_data?.last_four || '',
+                card_holder: doc?.public_data?.card_holder || 'Desconocido',
+                exp_month: doc?.public_data?.exp_month || '--',
+                exp_year: doc?.public_data?.exp_year || '--',
+            }));
             setQuery(formattedData);
         }
     }, [dataCards]);
+
 
     return {
         cardNumberError,

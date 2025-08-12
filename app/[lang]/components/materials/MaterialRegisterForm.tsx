@@ -250,7 +250,7 @@ const MaterialRegisterForm = ({
                   paginationModel: { page: 0, pageSize: 15 },
                 },
                 sorting: {
-                  sortModel: [{ field: "created_at", sort: "asc" }],
+                  sortModel: [{ field: "created_at", sort: "desc" }],
                 },
               }}
               pageSizeOptions={[10, 20, 30]}
@@ -594,7 +594,7 @@ const MaterialRegisterForm = ({
                         <Button
                           variant="text"
                           className="tw-text-black tw-mr-12"
-                          onClick={handleNextStep}
+                          onClick={() => handleNextStep(isEditData)}
                           sx={{
                             padding: "0",
                             minWidth: "auto",

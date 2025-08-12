@@ -19,11 +19,13 @@ const firebaseConfig = {
 export const wompiConfig = {
   WOMPI_PUBLIC_KEY: process.env.NEXT_PUBLIC_WOMPI_KEY,
   WOMPI_PRIVATE_KEY: process.env.NEXT_PUBLIC_WOMPI_PRIVATE_KEY,
+  WOMPI_BASE_URL: process.env.NEXT_PUBLIC_WOMPI_BASE_URL,
 };
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
 const dataBase = firebaseApp.firestore();
 const auth = firebase.auth();
 
-export { dataBase, auth, firebaseConfig };
+export { dataBase, auth, firebaseConfig, secondaryApp };

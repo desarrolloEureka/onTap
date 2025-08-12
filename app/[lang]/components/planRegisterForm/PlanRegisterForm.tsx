@@ -142,7 +142,7 @@ const PlanRegisterForm = ({
     },
     {
       field: "sku",
-      headerName: "Sku Planes",
+      headerName: "Sku Combos",
       minWidth: 130,
       flex: 1,
       headerAlign: "center",
@@ -150,7 +150,7 @@ const PlanRegisterForm = ({
     },
     {
       field: "name",
-      headerName: "Planes",
+      headerName: "Combos",
       minWidth: 230,
       flex: 2,
       headerAlign: "center",
@@ -257,7 +257,7 @@ const PlanRegisterForm = ({
             align="center"
             fontWeight="bold"
           >
-            {dictionary.dictionary?.backOffice.PlansLabel}
+            {dictionary.dictionary?.backOffice.CombosLabel}
           </Typography>
           <div
             style={{ height: 650, width: "100%" }}
@@ -272,7 +272,7 @@ const PlanRegisterForm = ({
                   paginationModel: { page: 0, pageSize: 10 },
                 },
                 sorting: {
-                  sortModel: [{ field: "created_at", sort: "asc" }],
+                  sortModel: [{ field: "created_at", sort: "desc" }],
                 },
               }}
               pageSizeOptions={[10, 20, 30]}
@@ -319,6 +319,7 @@ const PlanRegisterForm = ({
               <Close className="tw-text-white" />
             </IconButton>
             <div className="tw-w-[100%] tw-h-[80%] tw-flex tw-flex-col tw-justify-center tw-items-center">
+
               {step && step === 1 ? (
                 <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-10 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
                   <div className="tw-w-full tw-h-[95%] tw-flex tw-justify-center tw-justify-items-center tw-mx-32 tw-mt-4 tw-mb-5">
@@ -587,13 +588,6 @@ const PlanRegisterForm = ({
                       </Table>
                     </TableContainer>
                   </div>
-                  <div className="tw-w-[70%] tw-h-[10%] tw-flex tw-justify-center tw-justify-items-center">
-                    {status && (
-                      <div style={{ color: "red", fontSize: 14 }}>
-                        *{status}
-                      </div>
-                    )}
-                  </div>
                 </div>
               ) : (
                 <div className="tw-w-[90%] tw-bg-white tw-shadow-m tw-rounded-2xl tw-py-3 tw-mt-12 tw-mb-6 tw-flex tw-flex-col tw-justify-center tw-items-center">
@@ -619,7 +613,7 @@ const PlanRegisterForm = ({
                             <TextField
                               {...params}
                               variant="standard"
-                              label={dictionary.dictionary?.backOffice.PlanSku}
+                              label={dictionary.dictionary?.backOffice.ProductSku}
                               error={!!skuErrorToolBar}
                               helperText={skuErrorToolBar}
                               fullWidth
@@ -718,8 +712,8 @@ const PlanRegisterForm = ({
                       {step === 1
                         ? "Paso 1/3"
                         : step === 2
-                        ? "Paso 2/3"
-                        : "Paso 3/3"}
+                          ? "Paso 2/3"
+                          : "Paso 3/3"}
                     </Typography>
                   </div>
                 </div>
@@ -730,7 +724,7 @@ const PlanRegisterForm = ({
                         <Button
                           variant="text"
                           className="tw-text-black tw-mr-12"
-                          onClick={handleNextStepOne}
+                          onClick={() => handleNextStepOne(isEditData)}
                           sx={{
                             padding: "0",
                             minWidth: "auto",

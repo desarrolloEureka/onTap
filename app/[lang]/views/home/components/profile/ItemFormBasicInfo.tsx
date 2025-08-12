@@ -80,7 +80,7 @@ const ItemFormBasicInfo = ({
   // console.log('user ItemFormBasic', user);
   // console.log('dataForm', dataForm);
 
-  // console.log('labelArray', labelArray);
+   //console.log('labelArray', labelArray);
 
   // console.log('isModalAlertLimit', isModalAlertLimit);
 
@@ -152,7 +152,7 @@ const ItemFormBasicInfo = ({
                     : dataForm && dataForm[index]
                 : dataForm && dataForm[index]) as unknown as DataFormValues;
 
-              // console.log('myVAlueBasic social', myValue);
+              //console.log('myVAlueBasic social', myValue);
 
               return (
                 <div

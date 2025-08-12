@@ -221,7 +221,8 @@ const DistributorRegisterFormHook = () => {
     setIsSubmitting(true);
 
     try {
-      const createdAt = moment().format();
+      //const createdAt = moment().format();
+      const createdAt = new Date().getTime();
       const dataSend = {
         documentType,
         dni: documentNumber,
@@ -234,7 +235,7 @@ const DistributorRegisterFormHook = () => {
         country,
         category,
         isActive,
-        created_at: createdAt,
+        created: createdAt,
         is_admin: false,
         is_distributor: true,
         isActiveByAdmin: true,
@@ -463,8 +464,8 @@ const DistributorRegisterFormHook = () => {
       return;
     }
 
-    const filteredData = query.filter((user: { created_at: string }) => {
-      const userDate = new Date(user.created_at);
+    const filteredData = query.filter((user: { created: string }) => {
+      const userDate = new Date(user.created);
 
       // Comparar si la fecha del usuario está dentro del rango
       if (dateStart && userDate < dateStart) return false;
@@ -498,7 +499,7 @@ const DistributorRegisterFormHook = () => {
       const formattedData = data.map((doc) => {
         return {
           optionEdit: doc,
-          created_at: doc.created_at,
+          created: doc.created_at,
           documentType: doc.documentType,
           id: doc.dni,
           name: doc.fullName,

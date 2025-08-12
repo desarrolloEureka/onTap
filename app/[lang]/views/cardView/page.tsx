@@ -337,14 +337,14 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const fetchCurrentDateTime = () => {
     try {
       const now = new Date();
-  
+
       const day = String(now.getDate()).padStart(2, '0');
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const year = now.getFullYear();
-  
+
       const formattedDate = `${day}/${month}/${year}`;
       const formattedTime = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-      
+
       setCurrentDate(formattedDate);
       setCurrentTime(formattedTime);
     } catch (error) {
@@ -378,9 +378,36 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
     setIsCookies(!cookies);
   }, []);
 
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  const nextPayment = new Date(user?.subscription?.nextPaymentDate);
+  nextPayment.setHours(0, 0, 0, 0);
+  const isSubscriptionExpired = user?.subscription?.status !== 'Active' && nextPayment <= now;
+
   return user && type ? (
-    user.switch_activateCard ? (
-      <TemplateSelector user={user} type={type} lang={lang} handleAceptCookies={handleAceptCookies} isCookies={isCookies} />
+    user?.isActiveByAdmin === false ? (
+      <CustomModalAlert
+        handleModalAlert={handleModalAlert}
+        title="Acceso restringido"
+        description="Tu cuenta ha sido deshabilitada por un administrador. Si tienes dudas, contacta con el administrador."
+        isModalAlert={isModalAlert}
+      />
+    ) : isSubscriptionExpired ? (
+      <CustomModalAlert
+        handleModalAlert={handleModalAlert}
+        title="Suscripción expirada"
+        description="Tu suscripción ha expirado. Renueva tu suscripción para seguir disfrutando de nuestros servicios."
+        isModalAlert={isModalAlert}
+      />
+    ) : user?.switch_activateCard ? (
+      <TemplateSelector
+        user={user}
+        type={type}
+        lang={lang}
+        handleAceptCookies={handleAceptCookies}
+        isCookies={isCookies}
+      />
     ) : (
       <CustomModalAlert
         handleModalAlert={handleModalAlert}
@@ -392,6 +419,7 @@ const Page = ({ params: { lang } }: { params: { lang: Locale } }) => {
   ) : (
     <CustomCircularProgress isOpen />
   );
+
 };
 
 export default Page;

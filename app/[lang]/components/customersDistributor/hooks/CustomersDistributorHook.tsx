@@ -1,27 +1,25 @@
-import { getUsersWithOrdersAndInvoices } from "@/firebase/user";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { getUsersWithMultiplesInvoices } from "@/firebase/user";
 import { countries } from "@/globals/constants";
 import { checkUserExists, GetUser, SendEditData } from "@/reactQuery/users";
-import {
-  gridFilteredSortedRowIdsSelector,
-  gridVisibleColumnFieldsSelector,
-  useGridApiRef,
-} from "@mui/x-data-grid";
+import { gridFilteredSortedRowIdsSelector, gridVisibleColumnFieldsSelector, useGridApiRef } from "@mui/x-data-grid";
 import { UpdateUserDataQuery } from "@/reactQuery/generalQueries";
-
 import { registerUserAuth, registerUserFb } from "app/functions/register";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import { Country } from "@/components/countries/hooks/CountriesHook";
-import { countriesTable } from "@/types/formConstant";
 import { Department } from "@/components/departments/hooks/DepartmentsHook";
 import { colombianCitiesData } from "@/types/colombianCitiesData";
 
 const CustomersDistributorHook = ({
   handlePayUser,
+  setuserDataRow,
+  handleCreateUser
 }: {
   handlePayUser: any;
+  setuserDataRow: any;
+  handleCreateUser: any;
 }) => {
   interface UserData {
     dni: string;
@@ -41,7 +39,7 @@ const CustomersDistributorHook = ({
   const [dataUser, setDataUser] = useState<UserData | null>(null);
   const [status, setStatus] = useState<string>("");
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  
+
 
   //Datos distribuidor paso 1
   const [documentType, setDocumentType] = useState<string>("");
@@ -143,9 +141,13 @@ const CustomersDistributorHook = ({
   };
 
   const mostrarDetalleCompra = (rowData: any) => {
-    //console.log("detalle de la compra", rowData);
     setDetalleCompra(rowData); // Establece los datos de la fila seleccionada
     setIsModalOpen2(true); // Abre el modal
+  };
+
+  const handleNewBuy = (rowData: any) => {
+    setuserDataRow(rowData);
+    handleCreateUser();
   };
 
   const handleOpenModal = () => {
@@ -258,6 +260,8 @@ const CustomersDistributorHook = ({
           url,
           userType,
           optionPay,
+          detalleCompra,
+          NuevaCompra,
           __check__,
           ...filteredUser
         } = user;
@@ -594,8 +598,6 @@ const CustomersDistributorHook = ({
   const handleOpenModalAndLoadData = async (dataUsuario: any) => {
     setIsModalOpen3(true);
     try {
-      //console.log("Cargando datos del usuario:", dataUsuario);
-
       // Configurar estados con los datos del usuario
       setRowId(dataUsuario.uid || null); // Cambiar a uid
       setDocumentType(dataUsuario.documentType || "");
@@ -611,8 +613,6 @@ const CustomersDistributorHook = ({
       setState(dataUsuario.state || "");
       setCountry(dataUsuario.country || "");
       setIsActive(dataUsuario.isActive ?? true);
-
-      //console.log("rowId asignado:", dataUsuario.uid);
 
       // Cargar departamentos y ciudades
       const departmentsData = await colombianCitiesData;
@@ -641,8 +641,6 @@ const CustomersDistributorHook = ({
   // Función para guardar los cambios y actualizar el perfil
   const handleUpdatePerfil = async () => {
     try {
-      //console.log("Intentando actualizar perfil. rowId actual (uid):", rowId);
-
       if (!rowId) {
         throw new Error(
           "El identificador del usuario (uid) es inválido o no está asignado."
@@ -676,8 +674,6 @@ const CustomersDistributorHook = ({
         isActive,
       };
 
-      //console.log("Datos a actualizar:", updatedData);
-
       const result = await UpdateUserDataQuery(updatedData, rowId);
 
       if (result.success) {
@@ -687,13 +683,9 @@ const CustomersDistributorHook = ({
           title: `Cliente actualizado con éxito`,
           showConfirmButton: false,
           timer: 2000,
-          // customClass: {
-          //   container: z-index: 10;
-          // }
         });
 
         // Restablecer el formulario
-        //setIsModalOpen(false);
         handleReset();
       } else {
         setStatus(result.message);
@@ -722,8 +714,8 @@ const CustomersDistributorHook = ({
     return country ? country.code : "";
   };
 
-  const formatearFecha = (fechaISO: string): string => {
-    return moment(fechaISO).format("DD/MM/YYYY HH:mm:ss");
+  const formatearFecha = (date: string): string => {
+    return moment(date).format("DD/MM/YYYY HH:mm:ss");
   };
 
   const handleGetSelectedRows = () => {
@@ -753,32 +745,40 @@ const CustomersDistributorHook = ({
   };
 
   useEffect(() => {
+    setuserDataRow(null);
     const getquery = async () => {
-      const usersDataSanpShotAux = await getUsersWithOrdersAndInvoices();
+      const usersDataSanpShotAux = await getUsersWithMultiplesInvoices();
       const usersData = usersDataSanpShotAux.map((doc: any) => {
+
         return {
-          id: doc.dni || 1,
-          created_at: doc?.created_at || "",
+          id: doc?.userOrder?.uid || 1,
+          idUser: doc.dni || 1,
+          created_at: doc?.created || "",
           name: doc.firstName + " " + doc.lastName || "",
           indicative: doc.indicative || "",
           phone: doc.phone || "",
           email: doc.email || "",
-          plan: doc?.selectedPlan?.name,
+          plan: doc?.userOrder?.selectedPlan?.name || doc?.plan || "",
+          combo: doc?.userOrder?.selectedCombo?.name || ' - ',
           userType: doc,
           optionEdit: doc,
           optionPay: doc,
-          statusPay:
-            doc.userInvoice.status === "PAID"
-              ? "Pagado"
-              : "Pendiente por pagar",
+          statusPay: doc?.userOrder?.status === "DELIVERED" ? "Gestionado" : doc?.userInvoice?.status === "PAID" ? "Pagado" : "Pendiente por pagar",
           userInvoice: doc.userInvoice,
           userOrder: doc.userOrder,
           edit: {
             switch: doc.isActiveByAdmin === true ? true : false || "",
             uid: doc.uid,
           },
-          idDistributor: doc.idDistributor,
-          secuencialId: doc.userOrder.secuencialId || "",
+          idDistributor: doc?.idDistributor || "",
+          secuencialId: doc?.userOrder?.secuencialId || "",
+          autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
+          paymentDate: doc.gif === true
+            ? doc?.created || ''
+            : doc?.userSubscription?.updatedAt || doc?.userSubscription?.created_at || doc?.created || '',
+          paymentDateInvoice: doc?.userOrder?.paymentDate || '',
+          cardName: doc?.cardName || '',
+          cardRole: doc?.cardRole || '',
         };
         //}).filter((user) => (!user.is_admin && !user.is_distributor))
       })
@@ -788,6 +788,7 @@ const CustomersDistributorHook = ({
     };
     getquery();
   }, [data?.uid, flag]);
+
 
   return {
     data: filteredQuery,
@@ -892,6 +893,7 @@ const CustomersDistributorHook = ({
 
     setIsModalOpen3,
     isModalOpen3,
+    handleNewBuy
   };
 };
 

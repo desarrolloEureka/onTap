@@ -196,8 +196,8 @@ const ProfileProfessionalHook = ({
     }
   };
 
-  
-  
+
+
 
   const fillFields = (
     index: IndexDataForm,
@@ -211,8 +211,8 @@ const ProfileProfessionalHook = ({
     dataFormClone && index == "education" && subindexEducation
       ? (dataFormClone[index]![key][subindexEducation] = text)
       : index == "professional_career"
-      ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
-      : index == "urls" &&
+        ? subindexCareer && (dataFormClone[index]![key][subindexCareer] = text)
+        : index == "urls" &&
         subindexUrl &&
         (dataFormClone[index]![key][subindexUrl] = text);
 
@@ -248,6 +248,7 @@ const ProfileProfessionalHook = ({
     setIsChangeData(true);
     const dataFormClone = { ...dataForm };
     const index = name as keyof typeof dataFormClone;
+
     if (
       index != "phones" &&
       index != "emails" &&
@@ -257,6 +258,11 @@ const ProfileProfessionalHook = ({
     ) {
       dataFormClone[index]!.text = text;
       currentDataRef.current.text = text;
+
+      if (currentDataRef.current.text.length === 0) {
+        dataFormClone[index]!.checked = false;
+      }
+
       setDataForm(dataFormClone);
       setIsDataLoad(true);
     } else {
@@ -272,6 +278,9 @@ const ProfileProfessionalHook = ({
             dataAux[key].text = text;
             currentDataRef.current.length > 0 &&
               (currentDataRef.current[key].text = text);
+            if (currentDataRef.current[key].text.length === 0) {
+              dataAux[key].checked = false
+            }
             dataAux && setDataForm(dataFormClone);
           }
         }
@@ -282,6 +291,9 @@ const ProfileProfessionalHook = ({
           dataAux[key].text = text;
           currentDataRef.current.length > 0 &&
             (currentDataRef.current[key].text = text);
+          if (currentDataRef.current[key].text.length === 0) {
+            dataAux[key].checked = false
+          }
           dataAux && setDataForm(dataFormClone);
         }
         setIsDataLoad(true);
@@ -293,6 +305,9 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
+        if (currentDataRef.current[key][subindex].length === 0) {
+          currentDataRef.current[key].checked = false
+        }
         fillFields(index, key, text, subindex);
       } else if (
         index == "professional_career" &&
@@ -303,6 +318,9 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
+        if (currentDataRef.current[key][subindex].length === 0) {
+          currentDataRef.current[key].checked = false
+        }
         fillFields(index, key, text, undefined, subindex);
       } else if (
         index == "urls" &&
@@ -310,6 +328,9 @@ const ProfileProfessionalHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
+        if (subindex != "name" && currentDataRef.current[key][subindex].length === 0) {
+          currentDataRef.current[key].checked = false
+        }
         fillFields(index, key, text, undefined, undefined, subindex);
       }
     }
@@ -499,25 +520,11 @@ const ProfileProfessionalHook = ({
         }
       }
       if (index === "education") {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.education = [
-              {
-                label: dictionary.profileView.labelEducation,
-                title: "",
-                institution: "",
-                year: "",
-                checked: false,
-                principal: false,
-                social: false,
-                professional: true,
-                icon: "",
-                order: 11,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.unshift({
-              label: dataFormClone[index]![0].label,
+        // if ((count != null || count != undefined) && count < 3) {
+        if (count === 0) {
+          dataFormClone.education = [
+            {
+              label: dictionary.profileView.labelEducation,
               title: "",
               institution: "",
               year: "",
@@ -527,33 +534,32 @@ const ProfileProfessionalHook = ({
               professional: true,
               icon: "",
               order: 11,
-            });
-          }
+            },
+          ];
         } else {
-          setIsModalAlertLimit(true);
+          dataFormClone[index]?.unshift({
+            label: dataFormClone[index]![0].label,
+            title: "",
+            institution: "",
+            year: "",
+            checked: false,
+            principal: false,
+            social: false,
+            professional: true,
+            icon: "",
+            order: 11,
+          });
         }
+        /* } else {
+          setIsModalAlertLimit(true);
+        } */
       }
       if (index === "professional_career") {
-        if ((count != null || count != undefined) && count < 3) {
-          if (count === 0) {
-            dataFormClone.professional_career = [
-              {
-                label: dictionary.profileView.labelProfessionalCareer,
-                company: "",
-                position: "",
-                data_init: "",
-                data_end: "",
-                checked: false,
-                principal: false,
-                social: false,
-                professional: true,
-                icon: "",
-                order: 12,
-              },
-            ];
-          } else {
-            dataFormClone[index]?.unshift({
-              label: dataFormClone[index]![0].label,
+        //if ((count != null || count != undefined) && count < 3) {
+        if (count === 0) {
+          dataFormClone.professional_career = [
+            {
+              label: dictionary.profileView.labelProfessionalCareer,
               company: "",
               position: "",
               data_init: "",
@@ -564,11 +570,26 @@ const ProfileProfessionalHook = ({
               professional: true,
               icon: "",
               order: 12,
-            });
-          }
+            },
+          ];
         } else {
-          setIsModalAlertLimit(true);
+          dataFormClone[index]?.unshift({
+            label: dataFormClone[index]![0].label,
+            company: "",
+            position: "",
+            data_init: "",
+            data_end: "",
+            checked: false,
+            principal: false,
+            social: false,
+            professional: true,
+            icon: "",
+            order: 12,
+          });
         }
+        /* } else {
+          setIsModalAlertLimit(true);
+        } */
       }
       if (index === "urls") {
         //if ((count != null || count != undefined) && count < 3) {
@@ -647,7 +668,7 @@ const ProfileProfessionalHook = ({
 
         if (isChecked === true && dataAux[key]) {
           const isEmptyText = dataAux[key].text?.length === 0 && index !== 'urls';
-          const isEmptyUrls = index === 'urls' && (dataUrl[key]?.name?.length === 0 || dataUrl[key]?.url?.length === 0 || dataUrl[key]?.icon?.length === 0);
+          const isEmptyUrls = index === 'urls' && (/* dataUrl[key]?.name?.length === 0 || */ dataUrl[key]?.url?.length === 0 || dataUrl[key]?.icon?.length === 0);
           const isEmptyEduca = index === 'education' && (dataEduca[key]?.title?.length === 0 || dataEduca[key]?.institution?.length === 0 || dataEduca[key]?.year?.length === 0);
           const isEmptyCareer = index === 'professional_career' && (dataCareer[key]?.company?.length === 0 || dataCareer[key]?.position?.length === 0 || dataCareer[key]?.data_init?.length === 0 || dataCareer[key]?.data_end?.length === 0);
           const isEmptyPhone = index === 'phones' && (dataAux[key]?.indicative?.length === 0 || dataAux[key]?.indicative === undefined || dataAux[key]?.text?.length === 0);
@@ -674,24 +695,6 @@ const ProfileProfessionalHook = ({
     }, 5000);
   };
 
-  const validateOccupationSwitch = (data: typeof dataForm) => {
-    const dataFormClone = { ...data };
-  
-    if (
-      !dataFormClone.occupation ||
-      !dataFormClone.occupation.text ||
-      dataFormClone.occupation.text.trim() === ""
-    ) {
-      dataFormClone.occupation = {
-        ...dataFormClone.occupation,
-        checked: false, // Apagar el switch
-        order: dataFormClone.occupation?.order ?? 0, // Asignar valor predeterminado
-      };
-    }
-  
-    return dataFormClone;
-  };
-
   const checkedItems = (
     data: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[],
     value: string,
@@ -703,7 +706,7 @@ const ProfileProfessionalHook = ({
         if (label === "urls") {
           let urlData = el as UrlDataFormValues;
           if (
-            urlData.name !== "" &&
+            //urlData.name !== "" &&
             urlData.icon !== "" &&
             urlData.url !== ""
           ) {
@@ -856,24 +859,13 @@ const ProfileProfessionalHook = ({
   };
 
   useEffect(() => {
-    // Validar y actualizar los datos solo si es necesario
-    const updatedDataForm = validateOccupationSwitch(dataForm);
-    
-    // Verifica si el formulario cambió antes de actualizar el estado
-    if (JSON.stringify(updatedDataForm) !== JSON.stringify(dataForm)) {
-      setDataForm(updatedDataForm); // Solo actualiza si hay cambios
-    }
-  
-    // Lógica de ordenamiento (si la validación de ocupación se realizó correctamente)
-    const data = Object.entries(updatedDataForm as DataFormSorted).toSorted((a, b) => {
+    const data = Object.entries(dataForm as DataFormSorted).toSorted((a, b) => {
       const aa = a[1].length ? a[1][0].order : a[1].order;
       const bb = b[1].length ? b[1][0].order : b[1].order;
       return aa - bb;
     });
     setObjectDataSort(data);
-  
   }, [dataForm, isProUser]);
-  
 
   useEffect(() => {
     //this flag rerender the main component to show the data on fields
@@ -941,15 +933,9 @@ const ProfileProfessionalHook = ({
     } else {
       myDataForm = profile.professional;
     }
-  
-    if (myDataForm) {
-      // Validar la ocupación antes de actualizar el formulario
-      const updatedDataForm = validateOccupationSwitch(myDataForm);
-      setDataForm(updatedDataForm);
-    }
-  
+    myDataForm && setDataForm(myDataForm);
   }, [data, isProUser]);
-  
+
 
   useEffect(() => {
     if (allChecked && dataForm) {
@@ -958,7 +944,7 @@ const ProfileProfessionalHook = ({
       setAllChecked(false);
     }
   }, [allChecked, dataForm, handleDataSet]);
-  
+
 
   return {
     handleSwitch,

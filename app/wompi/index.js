@@ -51,7 +51,7 @@ export const getCardToken = async (cardInfo) => {
     };
 
     const response = await axios.post(
-      `https://sandbox.wompi.co/v1/tokens/cards`,
+      `${wompiConfig?.WOMPI_BASE_URL}/tokens/cards`,
       cardData,
       {
         headers: {
@@ -75,7 +75,7 @@ export const getCardToken = async (cardInfo) => {
 const getAcceptanceTokens = async () => {
   try {
     const response = await axios.get(
-      `https://sandbox.wompi.co/v1/merchants/${wompiConfig?.WOMPI_PUBLIC_KEY}`
+      `${wompiConfig?.WOMPI_BASE_URL}/merchants/${wompiConfig?.WOMPI_PUBLIC_KEY}`
     );
     const acceptance_token =
       response.data.data.presigned_acceptance.acceptance_token;
@@ -107,7 +107,7 @@ export const createPaymentSource = async (token, customerEmail) => {
 
     // Hacer la solicitud POST a la API de Wompi
     const response = await axios.post(
-      "https://sandbox.wompi.co/v1/payment_sources",
+      `${wompiConfig?.WOMPI_BASE_URL}/payment_sources`,
       paymentSourceData,
       {
         headers: {

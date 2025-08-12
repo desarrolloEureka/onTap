@@ -18,6 +18,8 @@ import {
   checkIfUserExists,
   updateProfileFirebase,
   getCurrentProfileData,
+  getSubscriptionByUserId,
+  getUserByIdFireStoreFullData,
 } from "@/firebase/user";
 import {
   DataForm,
@@ -61,6 +63,12 @@ const GetLoginQuery = ({ user, password, sendLogin }: GetLoginQueryProps) => {
         if (docSnap.exists()) {
           const user = docSnap.data() as UserData;
           const getUser = userDataToSend(user, resultUser);
+
+          const subscriptionDoc = await getSubscriptionByUserId(resultUser.user.uid);
+          if (subscriptionDoc) {
+            getUser.subscription = subscriptionDoc;
+          }
+
           // Guarda si el usuario es distribuidor en localStorage
           if (getUser.is_distributor) {
             await localStorage.setItem("isDistributor", "true");
@@ -145,8 +153,8 @@ const SendSwitchEditAdmin = async (userId: string, switchState: boolean) => {
   }
 };
 
-const SendEditData = async (userId: any, userData: any) => {
-  const res = await updateDataUser(userId, userData);
+const SendEditData = async (userId: any, userData: any, selectedDate?: any) => {
+  const res = await updateDataUser(userId, userData, selectedDate);
   return res;
 };
 
@@ -171,8 +179,8 @@ export const UpdateProfile = async (profileData: {
   documentType: string;
   dni: string;
   email: string;
-}) => {
-  const res = await updateProfileFirebase(profileData); // Llamamos a la función que actualiza el perfil
+}, uid: any) => {
+  const res = await updateProfileFirebase(profileData, uid); // Llamamos a la función que actualiza el perfil
   return res; // Retornamos la respuesta tal cual
 };
 
@@ -243,25 +251,6 @@ const SendViewUser = async (userId: string, numViewsNew: number) => {
   await updateViewsUser(userId, { views: numViewsNew });
 };
 
-const GetUserById = (userUid: string, refetch?: boolean) => {
-  return useQuery({
-    queryKey: ["user", userUid], // Clave de consulta única para cada usuario
-    queryFn: async () => {
-      const updatedUser = await getUserByIdFireStore(userUid);
-      if (updatedUser.exists()) {
-        const userData = (await updatedUser.data()) as UserData;
-        const getUser = await reBuildUserData(userData);
-        await localStorage.setItem("@user", JSON.stringify(getUser));
-        return getUser;
-      } else {
-        return null;
-      }
-    },
-    enabled: !!userUid,
-    refetchOnWindowFocus: refetch ?? false,
-  });
-};
-
 const GetUserByIdEdit = (userUid: string, refetch?: boolean) => {
   return useQuery({
     queryKey: ["user", userUid],
@@ -279,14 +268,35 @@ const GetUserByIdEdit = (userUid: string, refetch?: boolean) => {
   });
 };
 
+const GetUserById = (userUid: string, refetch?: boolean) => {
+  return useQuery({
+    queryKey: ["user", userUid],
+    queryFn: async () => {
+      const updatedUser: any = await getUserByIdFireStoreFullData(userUid);
+
+      if (updatedUser) {
+        const userData = updatedUser as UserData;
+        const getUser = await reBuildUserData(userData);
+        await localStorage.setItem("@user", JSON.stringify(getUser));
+        return getUser;
+      } else {
+        return null;
+      }
+    },
+    enabled: !!userUid,
+    refetchOnWindowFocus: refetch ?? false,
+  });
+};
+
+
 const GetUserByIdCard = (userUid: string, refetch?: boolean) => {
   return useQuery({
-    queryKey: ["user", userUid], // Clave de consulta única para cada usuario
+    queryKey: ["user", userUid],
     queryFn: async () => {
-      const updatedUser = await getUserByIdFireStore(userUid);
-      if (updatedUser.exists()) {
-        const userData = (await updatedUser.data()) as UserData;
-        return userData;
+      const updatedUser: any = await getUserByIdFireStoreFullData(userUid);
+
+      if (updatedUser) {
+        return updatedUser; // Retornamos el objeto { user, subscription }
       } else {
         return null;
       }
@@ -314,9 +324,15 @@ const GetUser = (refetch?: boolean) =>
       if (userLogged) {
         const user = (await JSON.parse(userLogged)) as UserData;
         const updatedUser = await getUserByIdFireStore(user.uid);
+
         if (updatedUser.exists()) {
           const userData = (await updatedUser.data()) as UserData;
           const getUser = await reBuildUserData(userData);
+          const subscriptionDoc = await getSubscriptionByUserId(user.uid);
+          if (subscriptionDoc) {
+            getUser.subscription = subscriptionDoc;
+          }
+
           await localStorage.setItem("@user", JSON.stringify(getUser));
           return getUser;
         } else {

@@ -4,8 +4,10 @@ import { countriesTable } from "@/types/formConstant";
 import { Department } from "@/components/departments/hooks/DepartmentsHook";
 import { colombianCitiesData } from "@/types/colombianCitiesData";
 import {
+  GetAllCards,
   GetAllColors,
   GetAllCustomizations,
+  GetAllDefaultPlans,
   GetAllMaterials,
   GetAllPlanesIndividual,
   GetAllProducts,
@@ -21,9 +23,13 @@ import {
   getDocumentReference,
   saveInvoiceQuerie,
   saveOrderQuerie,
+  saveSubscriptionQuerie,
+  UpdateUserDataQuery,
 } from "@/reactQuery/generalQueries";
 import { wompiConfig } from "@/firebase/firebaseConfig";
 import { getLastOrder } from "@/firebase/generals";
+import { getUserById, getUserByIdFireStoreFullData } from "@/firebase/user";
+import { updateSubscriptionFieldByUserId } from "@/firebase/Documents";
 
 type City = string;
 
@@ -35,8 +41,10 @@ interface ErrorMessages {
 
 const CustomersCreateFormHook = ({
   handleReturnForm,
+  userDataRow,
 }: {
   handleReturnForm: () => void;
+  userDataRow: any;
 }) => {
   const { data, refetch } = GetUser();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -46,12 +54,17 @@ const CustomersCreateFormHook = ({
   const [step, setStep] = useState(1);
   const [flag, setFlag] = useState(false);
   const { data: dataPlans } = GetAllPlanesIndividual(flag);
+  const { data: defaultPlans } = GetAllDefaultPlans(flag);
   const { data: dataMaterials } = GetAllMaterials(flag);
   const { data: dataCustomizations } = GetAllCustomizations(flag);
   const { data: dataColors } = GetAllColors(flag);
   const { data: dataProducts } = GetAllProducts(flag);
+  const { data: dataCards } = GetAllCards(flag, data?.uid);
   const [filteredColors, setFilteredColors] = useState<Colors[]>([]);
   const [isEditData, setIsEditData] = useState<boolean>(false);
+  const [isExistingUser, setIsExistingUser] = useState<boolean>(false);
+  const [useExistingCard, setUseExistingCard] = useState(false);
+  const [paymentSource, setPaymentSource] = useState(null);
 
   //Datos distribuidor paso 1
   const [documentType, setDocumentType] = useState<string>("");
@@ -71,6 +84,7 @@ const CustomersCreateFormHook = ({
 
   //Datos Paso 2
   const [selectedPlan, setSelectedPlan] = useState<string | any>("");
+  const [selectedCombo, setSelectedCombo] = useState<string | any>("");
   const [selectedMaterial, setSelectedMaterial] = useState<string | any>("");
   const [selectedCustomization, setSelectedCustomization] = useState<any>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -128,9 +142,8 @@ const CustomersCreateFormHook = ({
   const [isActiveError, setIsActiveError] = useState<string | null>(null);
 
   // Errores Paso 2
-  const [selectedPlanError, setSelectedPlanError] = useState<string | null>(
-    null
-  );
+  const [selectedPlanError, setSelectedPlanError] = useState<string | null>(null);
+  const [selectedComboError, setSelectedComboError] = useState<string | null>(null);
   const [selectedMaterialError, setSelectedMaterialError] = useState<
     string | null
   >(null);
@@ -182,6 +195,9 @@ const CustomersCreateFormHook = ({
     idNumber: "",
   });
   const [loading, setLoading] = useState(false);
+  const [paymentSourceError, setPaymentSourceError] = useState<string | null>(
+    null
+  );
 
   //Errores Modal Pagos
   // Estados para errores de validación
@@ -196,6 +212,8 @@ const CustomersCreateFormHook = ({
   );
   const [idTypeError, setIdTypeError] = useState<string | null>(null);
   const [idNumberError, setIdNumberError] = useState<string | null>(null);
+  const [isChangePlan, setIsChangePlan] = useState(false);
+  const [dataUserExist, setDataUserExist] = useState<any>(null);
 
   const handleInputChange = (e: { target: { name: any; value: any } }) => {
     setCardInfo({ ...cardInfo, [e.target.name]: e.target.value });
@@ -214,10 +232,91 @@ const CustomersCreateFormHook = ({
       if (!validateFormStepThird()) return;
       setStep(4);
     } else if (actualStep === 4) {
+      if (total === 0) {
+        return;
+      }
       setStep(5);
     } else if (actualStep === 5) {
       setStep(6);
     }
+  };
+
+  const fillUserData = async (userData: any) => {
+    setDocumentType(userData.documentType || "");
+    setDocumentNumber(userData.dni || "");
+    setFirstName(userData.firstName || "");
+    setLastName(userData.lastName || "");
+    setEmail(userData.email || "");
+    setConfirmEmail(userData.email || "");
+    setPhoneCode(userData.phoneCode || "CO+57");
+    setPhoneNumber(userData.phone || "");
+    setAddress(userData.address || "");
+    setCity(userData.city || "");
+    setState(userData.state || "");
+    setCountry(userData.country || "");
+    const departmentsData = await colombianCitiesData;
+    setDepartments(departmentsData);
+
+    const filteredCitiesData = colombianCitiesData.find(
+      (departamento) => departamento.departamento === userData.state
+    );
+    const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
+    setCities(cities);
+
+    setIsActive(userData.isActive !== undefined ? userData.isActive : true);
+    setRowId(userData.id || null);
+    const planObject = defaultPlans && defaultPlans.find((plan) => plan.name === userData.plan);
+    setSelectedPlan(planObject || null);
+
+    setDocumentTypeError(null);
+    setDocumentNumberError(null);
+    setFirstNameError(null);
+    setLastNameError(null);
+    setEmailError(null);
+    setConfirmEmailError(null);
+    setPhoneNumberError(null);
+    setErrorPhoneCodeForm(null);
+    setAddressError(null);
+    setCityError(null);
+    setStateError(null);
+    setCountryError(null);
+    setIsActiveError(null);
+  };
+
+
+  const fillDeliveryData = async (userData: any) => {
+    setDeliveryFirstName(userData.firstName || "");
+    setDeliveryLastName(userData.lastName || "");
+    setDeliveryIdType(userData.documentType || "");
+    setDeliveryIdNumber(userData.dni || "");
+    setDeliveryPhoneNumber(userData.phone || "");
+    setDeliveryEmail(userData.email || "");
+    setCountryDelivery(userData.country || "");
+    setStateDelivery(userData.state || "");
+    setCityDelivery(userData.city || "");
+    setAddressDelivery(userData.address || "");
+
+    const departmentsData = await colombianCitiesData;
+    setDepartmentsDelivery(departmentsData);
+
+    const filteredCitiesData = colombianCitiesData.find(
+      (departamento) => departamento.departamento === userData.state
+    );
+    const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
+    setCitiesDelivery(cities);
+
+    setDeliveryFirstNameError("");
+    setDeliveryLastNameError("");
+    setDeliveryIdTypeError("");
+    setDeliveryIdNumberError("");
+    setDeliveryPhoneNumberError("");
+    setDeliveryEmailError("");
+    setAddressDeliveryError("");
+    setShippingCountryError(null);
+    setShippingCityError(null);
+    setShippingStateError(null);
+    setPostalCodeError(null);
+
   };
 
   const sendNextStepData = async () => {
@@ -346,16 +445,35 @@ const CustomersCreateFormHook = ({
       email.trim(),
       phoneNumber.trim()
     );
-    if (exists) {
-      field === "dni"
-        ? setDocumentNumberError(
-          "El No. Identificación ya se encuentra registrado."
-        )
-        : field === "email"
-          ? setEmailError("El correo ya se encuentra registrado.")
-          : setPhoneNumberError("El teléfono ya se encuentra registrado.");
 
-      valid = false;
+    if (exists) {
+      if (field === "dni" && !isExistingUser) {
+        Swal.fire({
+          title: 'Usuario ya registrado',
+          text: '¿Desea agregar o hacer una nueva compra para este usuario?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí',
+          cancelButtonText: 'No',
+          reverseButtons: true,
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const userData: any = await getUserById(documentNumber.trim());
+            setDataUserExist(userData)
+            await fillUserData(userData);
+            await fillDeliveryData(userData);
+            setIsExistingUser(true);
+            setStep(2);
+
+          }
+        });
+      } else if (field === "email" && !isExistingUser) {
+        setEmailError("El correo ya se encuentra registrado.");
+        valid = false;
+      } else if (field === "phoneNumber" && !isExistingUser) {
+        setPhoneNumberError("El teléfono ya se encuentra registrado.");
+        valid = false;
+      }
     }
 
     return valid;
@@ -365,6 +483,7 @@ const CustomersCreateFormHook = ({
     let valid = true;
 
     setSelectedPlanError(null);
+    setSelectedComboError(null);
     setSelectedMaterialError(null);
     setSelectedCustomizationError(null);
     setSelectedColorError(null);
@@ -374,6 +493,21 @@ const CustomersCreateFormHook = ({
     // Validar plan seleccionado
     if (!selectedPlan) {
       setSelectedPlanError("Debes seleccionar un plan.");
+      valid = false;
+    }
+
+    /* if (!selectedCombo && !isExistingUser) {
+      setSelectedComboError("Debes seleccionar un combo.");
+      valid = false;
+    } */
+
+    if (!customName.trim() && !isExistingUser) {
+      setCustomNameError("El nombre es obligatorio.");
+      valid = false;
+    }
+
+    if (!customRole.trim() && !isExistingUser) {
+      setCustomRoleError("El cargo es obligatorio.");
       valid = false;
     }
 
@@ -522,13 +656,17 @@ const CustomersCreateFormHook = ({
     }
 
     // Validar código postal
-    if (!postalCode) {
+    if (postalCode && !/^\d{5}$/.test(postalCode)) {
+      setPostalCodeError("El código postal debe tener 5 dígitos.");
+      valid = false;
+    }
+    /* if (!postalCode) {
       setPostalCodeError("El código postal es obligatorio.");
       valid = false;
     } else if (!/^\d{5}$/.test(postalCode)) {
       setPostalCodeError("El código postal debe tener 5 dígitos.");
       valid = false;
-    }
+    } */
 
     // Validar dirección de envío
     if (!addressDelivery) {
@@ -633,7 +771,7 @@ const CustomersCreateFormHook = ({
     setIsActive(true);
 
     // Resetear estados de datos paso 2
-    setSelectedPlan("");
+    setSelectedCombo("");
     setSelectedMaterial("");
     setSelectedCustomization("");
     setSelectedColor("");
@@ -673,6 +811,7 @@ const CustomersCreateFormHook = ({
 
     // Resetear errores paso 2
     setSelectedPlanError(null);
+    setSelectedComboError(null);
     setSelectedMaterialError(null);
     setSelectedCustomizationError(null);
     setSelectedColorError(null);
@@ -715,6 +854,9 @@ const CustomersCreateFormHook = ({
       idNumber: "",
     });
 
+    setRowId(null);
+    setIsExistingUser(false);
+
     // Resetear el paso actual
     setStep(1);
   };
@@ -728,13 +870,14 @@ const CustomersCreateFormHook = ({
         setLoading(true);
       }
 
+      const documentRefUser: any = getDocumentReference("subscriptions");
       const createdAt = moment().format();
       const trimmedDocumentNumber = documentNumber.trim();
       const trimmedEmail = email.trim().toLowerCase();
       const trimmedPhone = phoneNumber.trim();
 
       const dataSend = {
-        created_at: createdAt,
+        created: createdAt,
         documentType,
         dni: trimmedDocumentNumber,
         firstName,
@@ -747,11 +890,10 @@ const CustomersCreateFormHook = ({
         state,
         country,
         isActive,
-        selectedPlan,
-        selectedMaterial,
-        selectedCustomization,
-        selectedColor,
         idDistributor: data?.uid,
+        //cardName: customName || '',
+        //cardRole: customRole || '',
+        plan: selectedPlan?.name || "",
       };
 
       // Verificar si el usuario ya existe
@@ -761,60 +903,134 @@ const CustomersCreateFormHook = ({
         trimmedPhone
       );
 
-      if (exists) {
+      if (exists && !isExistingUser) {
         setIsSubmitting(false);
         return;
       }
 
-      // Registrar usuario en la base de datos
-      const result = await registerUserAuth({
-        user: trimmedEmail,
-        password: trimmedDocumentNumber,
-      });
+      if (isExistingUser) {
+        const updatedUserData: any = { ...dataSend };
 
-      const combinedData = {
-        ...result,
-        ...dataSend,
-      };
+        delete updatedUserData.created;
 
-      await registerUserFb({ data: combinedData });
+        if (dataUserExist && dataUserExist?.plan != selectedPlan) {
+          await updateSubscriptionFieldByUserId(rowId, selectedPlan)
+        }
 
-      // Crear y guardar la orden
-      const orderData = await registerOrderData(result?.uid, isPay);
-      await saveOrderQuerie(orderData);
+        rowId && await UpdateUserDataQuery(updatedUserData, rowId);
 
-      // Crear y guardar la factura
-      const invoiceData = prepareInvoiceData(
-        orderData?.uid,
-        orderData?.secuencialId,
-        result?.uid,
-        isPay
-      );
-      await saveInvoiceQuerie(invoiceData);
 
-      setIsModalOpen(false);
-      setLoading(false);
+        // Crear y guardar la orden
+        const orderData = await registerOrderData(rowId, isPay, false);
+        await saveOrderQuerie(orderData);
 
-      if (isPay === true) {
-        await Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `Transacción realizada con éxito`,
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        // Crear y guardar la factura
+        const invoiceData = {
+          ...prepareInvoiceData(
+            orderData?.uid,
+            orderData?.secuencialId,
+            rowId,
+            isPay
+          ),
+          paymentDate: createdAt,
+        };
+
+        await saveInvoiceQuerie(invoiceData);
+
+        setIsModalOpen(false);
+        setLoading(false);
+
+        if (isPay === true) {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Transacción realizada con éxito`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        } else {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Usuario actualizado con éxito y orden generada`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+
+        handleReset();
+        handleReturnForm();
+
       } else {
-        await Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `Usuario registrado con éxito`,
-          showConfirmButton: false,
-          timer: 2000,
+        // Registrar usuario en la base de datos
+        const result = await registerUserAuth({
+          user: trimmedEmail,
+          password: trimmedDocumentNumber,
         });
+
+        const combinedData = {
+          ...result,
+          ...dataSend,
+          subscriptionId: documentRefUser.id,
+        };
+
+        const dataUser = await registerUserFb({ data: combinedData });
+        const nextYearDate = moment().add(1, 'year').format();
+
+        const dataSendSubscriptions = {
+          userUid: dataUser?.uid,
+          created_at: createdAt,
+          status: 'Active',
+          nextPaymentDate: nextYearDate,
+          uid: documentRefUser.id,
+        };
+
+        // Crear y guardar la suscripción
+        await saveSubscriptionQuerie(dataSendSubscriptions);
+
+        // Crear y guardar la orden
+        const orderData = await registerOrderData(result?.uid, isPay, true);
+        await saveOrderQuerie(orderData);
+
+        // Crear y guardar la factura
+        const invoiceData = {
+          ...prepareInvoiceData(
+            orderData?.uid,
+            orderData?.secuencialId,
+            result?.uid,
+            isPay
+          ),
+          paymentDate: createdAt,
+          cardName: customName || '',
+          cardRole: customRole || '',
+        };
+
+        await saveInvoiceQuerie(invoiceData);
+        setIsModalOpen(false);
+        setLoading(false);
+
+        if (isPay === true) {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Transacción realizada con éxito`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        } else {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Usuario registrado con éxito`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+
+        handleReset();
+        handleReturnForm();
       }
 
-      handleReset();
-      handleReturnForm();
     } catch (error) {
       //console.log("Error al registrar al cliente");
     } finally {
@@ -824,17 +1040,17 @@ const CustomersCreateFormHook = ({
   };
 
   // Función para preparar los datos de la orden
-  const registerOrderData = async (userUid: any, isPay: boolean) => {
+  const registerOrderData = async (userUid: any, isPay: boolean, isMain: boolean) => {
     const documentRefUser: any = getDocumentReference("orders");
     const lastOrder: any = await getLastOrder();
 
-    let newSecuencialId = 'Numero De Orden 1';
+    let newSecuencialId = 'No. OC 1';
     if (lastOrder && lastOrder.secuencialId) {
-      const match = lastOrder.secuencialId.match(/^Numero De Orden (\d+)$/);
+      const match = lastOrder.secuencialId.match(/^No. OC (\d+)$/);
       if (match) {
         const lastNumber = parseInt(match[1], 10);
         const nextNumber = lastNumber + 1;
-        newSecuencialId = `Numero De Orden ${nextNumber}`;
+        newSecuencialId = `No. OC ${nextNumber}`;
       }
     }
 
@@ -844,8 +1060,11 @@ const CustomersCreateFormHook = ({
       uid: documentRefUser.id,
       userId: documentNumber.trim(),
       totalAmount,
+      totalSavings,
+      saving: (totalAmount - totalSavings) || 0,
       status: isPay === true ? "APPROVED" : "PENDING",
       createdAt: moment().format(),
+      paymentDate: isPay === true ? moment().format() : "",
       selectedProducts,
       // Datos de envío
       deliveryFirstName,
@@ -860,7 +1079,16 @@ const CustomersCreateFormHook = ({
       countryDelivery,
       postalCode,
       userUid: userUid,
-      secuencialId: newSecuencialId
+      secuencialId: newSecuencialId,
+      cardName: customName || '',
+      cardRole: customRole || '',
+      isMainOrder: isMain,
+      selectedCombo: selectedCombo,
+      //selectedPlan: selectedPlan,
+      selectedPlan: selectedPlan && isChangePlan ? selectedPlan : "",
+      selectedMaterial,
+      selectedCustomization,
+      selectedColor,
     };
   };
 
@@ -872,7 +1100,7 @@ const CustomersCreateFormHook = ({
       uid: documentRefUser.id,
       orderId,
       secuencialId,
-      userId: documentNumber.trim(),
+      userDataRow: documentNumber.trim(),
       totalAmount: total,
       status: isPay === true ? "PAID" : "PENDING",
       TicketNumber: "Wompi",
@@ -917,7 +1145,7 @@ const CustomersCreateFormHook = ({
     if (!isAccepted) {
       try {
         const response = await axios.get(
-          `https://sandbox.wompi.co/v1/merchants/${wompiConfig?.WOMPI_PUBLIC_KEY}`
+          `${wompiConfig?.WOMPI_BASE_URL}/merchants/${wompiConfig?.WOMPI_PUBLIC_KEY}`
         );
         const { acceptance_token, accept_personal_auth } =
           response.data.data.presigned_acceptance;
@@ -937,7 +1165,7 @@ const CustomersCreateFormHook = ({
   // Función para tokenizar la tarjeta
   const tokenizeCard = async (cardDetails: any) => {
     const tokenResponse = await axios.post(
-      "https://sandbox.wompi.co/v1/tokens/cards",
+      `${wompiConfig?.WOMPI_BASE_URL}/tokens/cards`,
       cardDetails,
       {
         headers: {
@@ -950,53 +1178,78 @@ const CustomersCreateFormHook = ({
 
   // Función para crear la transacción
   const createTransaction = async (transactionBody: any) => {
+    const authToken = paymentSource
+      ? `Bearer ${wompiConfig.WOMPI_PRIVATE_KEY}`
+      : `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`;
+
     const transactionResponse = await axios.post(
-      "https://sandbox.wompi.co/v1/transactions",
+      `${wompiConfig?.WOMPI_BASE_URL}/transactions`,
       transactionBody,
       {
-        headers: {
-          Authorization: `Bearer ${wompiConfig?.WOMPI_PUBLIC_KEY}`,
-        },
+        headers: { Authorization: authToken },
       }
     );
     return transactionResponse.data;
+  };
+
+  const handleSelectCard = (event: any) => {
+    const selectedCard = event.target.value;
+    setPaymentSource(selectedCard?.paymentSourceId);
   };
 
   // Función principal para manejar el pago
   const handlePayment = async () => {
     if (!validateFormStepTwo()) return;
     if (!validateFormStepThird()) return;
-    if (!validateFormStepFour()) return;
-    if (!validateFormPayment()) return;
+    if (!paymentSource && !validateFormPayment()) return;
+
 
     setLoading(true);
 
     try {
-      const formattedData = {
-        number: cardInfo.number,
-        cvc: cardInfo.cvc,
-        exp_month: String(cardInfo.exp_month).padStart(2, "0"),
-        exp_year: String(cardInfo.exp_year).slice(-2),
-        card_holder: cardInfo.card_holder,
-      };
-
-      const token = await tokenizeCard(formattedData);
+      const amount = totalSavings * 100;
       const reference = generatePaymentReference(documentNumber);
-      const amout = totalSavings * 100;
-      const transactionBody = {
-        amount_in_cents: amout,
+
+      const commonTransactionBody = {
+        amount_in_cents: amount,
         reference: reference,
         currency: "COP",
         customer_email: email ?? "cliente@example.com",
-        acceptance_token: acceptanceToken,
         payment_method: {
           type: "CARD",
           installments: cardInfo.installments,
-          token: token,
         },
       };
 
-      // Crear la transacción
+      let transactionBody;
+
+      if (paymentSource) {
+        //Usar una tarjeta existente
+        transactionBody = {
+          ...commonTransactionBody,
+          payment_source_id: paymentSource,
+        };
+      } else {
+        // Usar nueva tarjeta
+        const formattedData = {
+          number: cardInfo.number,
+          cvc: cardInfo.cvc,
+          exp_month: String(cardInfo.exp_month).padStart(2, "0"),
+          exp_year: String(cardInfo.exp_year).slice(-2),
+          card_holder: cardInfo.card_holder,
+        };
+
+        const token = await tokenizeCard(formattedData);
+
+        transactionBody = {
+          ...commonTransactionBody,
+          acceptance_token: acceptanceToken,
+          payment_method: {
+            ...commonTransactionBody.payment_method,
+            token: token,
+          },
+        };
+      }
       const transactionResponse = await createTransaction(transactionBody);
       checkPaymentStatus(transactionResponse.data.id);
     } catch (error) {
@@ -1023,7 +1276,7 @@ const CustomersCreateFormHook = ({
 
         try {
           const response = await fetch(
-            `https://sandbox.wompi.co/v1/transactions/${transactionId}`,
+            `${wompiConfig?.WOMPI_BASE_URL}/transactions/${transactionId}`,
             {
               method: "GET",
               headers: {
@@ -1041,9 +1294,9 @@ const CustomersCreateFormHook = ({
           const status = result.data.status;
 
           if (status === "APPROVED") {
-            setIsModalOpen(false);
             clearInterval(intervalId);
-            setLoading(false);
+            //setIsModalOpen(false);
+            //setLoading(false);
             await dataRegisterHandle(true);
             resolve();
           } else if (attempts >= maxAttempts) {
@@ -1144,6 +1397,11 @@ const CustomersCreateFormHook = ({
 
   // Función para actualizar el total según el plan
   const updatePlan = (value: any) => {
+
+    if (!value) {
+      setSelectedCombo(null);
+      return;
+    }
     const dataPlan = dataPlans?.find((plan) => plan.sku === value.sku);
     const category = data?.category;
     let newTotal = 0;
@@ -1158,9 +1416,68 @@ const CustomersCreateFormHook = ({
       const discountAmount = fullPrice * (parseFloat(discountPercentage) / 100);
       newTotal += fullPrice - discountAmount;
       const updatedPlan = { ...value, finalPrice: newTotal };
-      setSelectedPlan(updatedPlan);
+      setSelectedCombo(updatedPlan);
     } else {
       console.error("Invalid category or prices_matrix for material");
+    }
+  };
+
+  /*   const updateDefaultPlan = (value: string) => {
+      const selectedPlanObject = defaultPlans && defaultPlans.find(plan => plan.id === value);
+      if (!selectedPlanObject) return;
+  
+      if (dataUserExist) {
+        if (dataUserExist.plan !== selectedPlanObject.name) {
+          setIsChangePlan(true);
+        } else {
+          setIsChangePlan(false);
+          setSelectedMaterial('')
+          setSelectedColor('')
+          setCustomName('')
+          setCustomRole('')
+        }
+      } else {
+        setIsChangePlan(true);
+      }
+  
+      setSelectedPlan(selectedPlanObject);
+    }; */
+
+  const updateDefaultPlan = (value: string) => {
+    const selectedPlanObject = defaultPlans?.find(plan => plan.id === value);
+    if (!selectedPlanObject) return;
+
+    if (dataUserExist) {
+      if (dataUserExist.plan !== selectedPlanObject.name) {
+        setIsChangePlan(true);
+      } else {
+        setIsChangePlan(false);
+        setSelectedMaterial('');
+        setSelectedColor('');
+        setCustomName('');
+        setCustomRole('');
+      }
+    } else {
+      setIsChangePlan(true);
+    }
+
+    // Aplicar lógica de descuento por categoría
+    const category = data?.category;
+    let newTotal = 0;
+
+    if (
+      category &&
+      selectedPlanObject?.prices_matrix &&
+      category in selectedPlanObject.prices_matrix
+    ) {
+      const discountPercentage = selectedPlanObject.prices_matrix[category];
+      const fullPrice = selectedPlanObject?.price ?? 0;
+      const discountAmount = fullPrice * (parseFloat(discountPercentage) / 100);
+      newTotal = fullPrice - discountAmount;
+      const updatedPlan = { ...selectedPlanObject, finalPrice: newTotal };
+      setSelectedPlan(updatedPlan);
+    } else {
+      console.error("Invalid category or prices_matrix for default plan");
     }
   };
 
@@ -1204,7 +1521,7 @@ const CustomersCreateFormHook = ({
   const updateCustomization = (value: any) => {
     if (value) {
       const dataPlan = dataCustomizations?.find(
-        (plan) => plan.selectedArticle === selectedPlan.uid
+        (plan) => plan.selectedArticle === selectedCombo.uid
       );
 
       const category = data?.category;
@@ -1218,10 +1535,10 @@ const CustomersCreateFormHook = ({
       ) {
         const discountPercentage = dataPlan.prices_matrix[category];
         const fullPrice = dataPlan?.full_price ?? 0;
-        const discountAmount =
-          fullPrice * (parseFloat(discountPercentage) / 100);
+        const discountAmount = fullPrice * (parseFloat(discountPercentage) / 100);
         newTotal += fullPrice - discountAmount;
         const updatedCustomization = { ...dataPlan, finalPrice: newTotal };
+
         setCustomization(!customization);
         setSelectedCustomization(updatedCustomization);
       } else {
@@ -1274,6 +1591,12 @@ const CustomersCreateFormHook = ({
       console.error(
         "Categoría inválida o falta la matriz de precios en el plan"
       );
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Este producto no tiene un precio o descuento asignado.',
+        confirmButtonText: 'Entendido',
+      });
     }
   };
 
@@ -1324,7 +1647,7 @@ const CustomersCreateFormHook = ({
   };
 
   const clearSelectedPlan = () => {
-    setSelectedPlan("");
+    setSelectedCombo("");
     clearSelectedCustomization();
   };
 
@@ -1370,6 +1693,30 @@ const CustomersCreateFormHook = ({
     });
   };
 
+  const handleUseExistingCardToggle = () => {
+    setUseExistingCard(!useExistingCard);
+    setCardInfo({
+      number: "",
+      cvc: "",
+      exp_month: "",
+      exp_year: "",
+      card_holder: "",
+      installments: "",
+      idType: "",
+      idNumber: "",
+    });
+    setPaymentSource(null);
+    setCardNumberError(null);
+    setCvcError(null);
+    setExpMonthError(null);
+    setExpYearError(null);
+    setCardHolderError(null);
+    setTermsError(null);
+    setInstallmentsError(null);
+    setIdTypeError(null);
+    setIdNumberError(null);
+  };
+
   const formatPrice = (value: any) => {
     if (value == null || isNaN(value)) return "";
     const number = Number(value);
@@ -1378,6 +1725,23 @@ const CustomersCreateFormHook = ({
       minimumFractionDigits: 0,
     }).format(number);
   };
+
+  const getDataUserExist = async (id: any) => {
+    setIsExistingUser(true);
+    setStep(1);
+    const userData: any = await getUserById(id.trim());
+    setDataUserExist(userData)
+    await fillUserData(userData);
+    await fillDeliveryData(userData);
+  }
+
+  useEffect(() => {
+    if (userDataRow) {
+      getDataUserExist(userDataRow?.idUser);
+      setCustomName(userDataRow?.userOrder?.cardName || '')
+      setCustomRole(userDataRow?.userOrder?.cardRole || '')
+    }
+  }, [userDataRow, defaultPlans]);
 
   useEffect(() => {
     if (dataProducts) {
@@ -1419,8 +1783,37 @@ const CustomersCreateFormHook = ({
     let newDiscountTotal = 0;
 
     // Calcular el precio del plan seleccionado
-    if (selectedPlan) {
-      const dataPlan = dataPlans?.find((plan) => plan.sku === selectedPlan.sku);
+    /*     if (isChangePlan && selectedPlan) {
+          const dataPlan = defaultPlans?.find((plan) => plan.id === selectedPlan.id);
+          const fullPrice = Number(dataPlan?.price) || 0;
+          newDiscountTotal += fullPrice;
+          newTotal += fullPrice;
+        } */
+
+    // Calcular el default-plan del combo seleccionado
+    if (isChangePlan && selectedPlan) {
+      const dataPlan = defaultPlans?.find((plan) => plan.uid === selectedPlan.uid);
+      const category = data?.category;
+
+      if (
+        category &&
+        dataPlan?.prices_matrix &&
+        category in dataPlan.prices_matrix
+      ) {
+        const fullPrice = Number(dataPlan?.price) || 0;
+        const discountPercentage = dataPlan.prices_matrix[category];
+        const discountAmount =
+          fullPrice * (parseFloat(discountPercentage) / 100);
+        newDiscountTotal += fullPrice - discountAmount;
+        newTotal += fullPrice;
+      } else {
+        console.error("Invalid category or prices_matrix for plan");
+      }
+    }
+
+    // Calcular el precio del combo seleccionado
+    if (selectedCombo) {
+      const dataPlan = dataPlans?.find((plan) => plan.sku === selectedCombo.sku);
       const category = data?.category;
 
       if (
@@ -1531,16 +1924,7 @@ const CustomersCreateFormHook = ({
 
     setTotal(newTotal);
     setTotalSavings(newDiscountTotal);
-  }, [
-    selectedPlan,
-    selectedMaterial,
-    selectedCustomization,
-    selectedProducts,
-    dataPlans,
-    data?.category,
-    dataMaterials,
-    dataCustomizations,
-  ]);
+  }, [selectedCombo, selectedPlan, selectedMaterial, selectedCustomization, selectedProducts, dataPlans, data?.category, dataMaterials, dataCustomizations, defaultPlans, isChangePlan]);
 
   return {
     documentType,
@@ -1574,6 +1958,8 @@ const CustomersCreateFormHook = ({
     //Paso 2
     selectedPlan,
     setSelectedPlan,
+    selectedCombo,
+    setSelectedCombo,
     selectedMaterial,
     setSelectedMaterial,
     selectedColor,
@@ -1608,6 +1994,8 @@ const CustomersCreateFormHook = ({
     setSelectedProducts,
     filteredProducts,
     selectedPlanError,
+    setSelectedPlanError,
+    selectedComboError,
     selectedMaterialError,
     selectedCustomizationError,
     selectedColorError,
@@ -1741,6 +2129,15 @@ const CustomersCreateFormHook = ({
     setIdTypeError,
     idNumberError,
     setIdNumberError,
+    isChangePlan,
+    isExistingUser,
+    defaultPlans,
+    updateDefaultPlan,
+    dataCards,
+    useExistingCard,
+    handleUseExistingCardToggle,
+    handleSelectCard,
+    paymentSourceError
   };
 };
 

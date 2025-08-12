@@ -20,6 +20,7 @@ import {
   getAllSubscriptions,
   getAllCards,
   getLastOrder,
+  getAllDefaultPlans,
 } from "@/firebase/generals";
 import { useQuery } from "@tanstack/react-query";
 
@@ -70,9 +71,9 @@ const GetAllTemplates = () =>
     refetchOnWindowFocus: false,
   });
 
-const GetAllBackgroundImages = () => {
+const GetAllBackgroundImages = (flag?: boolean) => {
   return useQuery({
-    queryKey: ["background_images"],
+    queryKey: ["background_images", flag],
     queryFn: async () => await getAllBackgroundImages(),
     refetchOnWindowFocus: false,
   });
@@ -90,6 +91,14 @@ const GetAllCategories = (flag?: boolean) => {
   return useQuery({
     queryKey: ["categories", flag],
     queryFn: async () => await getAllCategories(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+const GetAllDefaultPlans = (flag?: boolean) => {
+  return useQuery({
+    queryKey: ["defaultPlans", flag],
+    queryFn: async () => await getAllDefaultPlans(),
     refetchOnWindowFocus: false,
   });
 };
@@ -176,7 +185,7 @@ const GetAllDistributors = (flag?: boolean) => {
 
 const GetAllCards = (flag?: boolean, idUser?: any) => {
   return useQuery({
-    queryKey: ["colors", flag],
+    queryKey: ["cards", flag],
     queryFn: async () => await getAllCards(idUser),
     refetchOnWindowFocus: false,
   });
@@ -237,5 +246,6 @@ export {
   GetAllNotifications,
   GetAllSubscriptions,
   GetAllCards,
-  GetLastOrder
+  GetLastOrder,
+  GetAllDefaultPlans
 };

@@ -26,6 +26,7 @@ export interface Dictionary {
     ConfirmEmail: string;
     ValidEmail: string;
     EmailMismatch: string;
+    Combo: string;
     Plan: string;
     TypeUser: string;
     StandardPlan: string;
@@ -58,6 +59,7 @@ export interface Dictionary {
     labelFailEdit: string;
     Loading: string;
     CategoryName: string;
+    DefaultPlanName: string;
     ProductsLabel: string;
     //Producto
     ProductSku: string;
@@ -66,8 +68,9 @@ export interface Dictionary {
     ProductState: string;
     nextButton: string;
     backButton: string;
-    //Plan
+    //Combo
     PlansLabel: string;
+    CombosLabel: string;
     PlanSku: string;
     PlanName: string;
     PlanPrice: string;
@@ -77,6 +80,7 @@ export interface Dictionary {
     CategoryLabel: string;
     ProductsLabelMenu: string;
     PlansLabelMenu: string;
+    CombosLabelMenu: string;
     MaterialsLabelMenu: string;
     ColorsLabelMenu: string;
     CustomizationsLabelMenu: string;
@@ -157,6 +161,7 @@ export interface Dictionary {
     labelDispatchedDeliveriesReports: string;
     labelGeneralReportAdmin: string;
     labelReportAdmin: string;
+    labelReportSubscriptions: string;
   };
   cardView: {
     labelErrorUser: string;
@@ -223,6 +228,7 @@ export interface Dictionary {
     mailMandatory: string;
     passwordMandatory: string;
     userNotFound: string;
+    alertMessage: string;
   };
   profileView: {
     labelDeleteProfiledata: string;

@@ -1,140 +1,91 @@
 import { useState, useEffect } from "react";
-import {
-  UpdateProfile as updateProfileData,
-  fetchProfileData as fetchCurrentProfile,
-} from "@/reactQuery/users"; // Renombramos las importaciones para evitar conflictos
-import { useRouter } from "next/navigation";
-import { getAuth } from "firebase/auth"; // Importamos getAuth de Firebase
-import { colombianCitiesData } from "@/types/colombianCitiesData"; // Importamos los datos de ciudades de Colombia
-import Swal from "sweetalert2"; // Asegúrate de tener la librería Swal instalada
+import { UpdateProfile as updateProfileData, GetUser } from "@/reactQuery/users";
+import { colombianCitiesData } from "@/types/colombianCitiesData";
+import Swal from "sweetalert2";
+
+type CityData = { departamento: string; ciudades: string[] };
+
+const getCitiesByDepartment = (department: string): string[] => {
+  return colombianCitiesData.find(d => d.departamento === department)?.ciudades || [];
+};
+
+const getDepartmentByCity = (city: string): string | null => {
+  const found = colombianCitiesData.find(d => d.ciudades.includes(city));
+  return found ? found.departamento : null;
+};
 
 const EditProfileHook = () => {
+  const { data, refetch } = GetUser();
   const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [city, setCity] = useState<string>("");
-  const [state, setState] = useState("");
   const [documentType, setDocumentType] = useState("");
   const [dni, setDni] = useState("");
   const [email, setEmail] = useState("");
-  const [errorForm, setErrorForm] = useState<{ errorMessage: string } | null>(
-    null
-  );
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [departments, setDepartments] = useState<CityData[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
+  const [errorForm, setErrorForm] = useState<{ errorMessage: string } | null>(null);
   const [stateUpdate, setStateUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Para departamentos y ciudades
-  const [departments, setDepartments] = useState<any[]>([]); // Ajusta el tipo según lo que necesites
-  const [cities, setCities] = useState<any[]>([]);
-
-  // Para departamentos y ciudades de entrega
-  const [departmentsDelivery, setDepartmentsDelivery] = useState<any[]>([]);
-  const [citiesDelivery, setCitiesDelivery] = useState<any[]>([]);
-
-  const router = useRouter();
-
   useEffect(() => {
-    const fetchProfile = async () => {
-      setLoading(true);
-
-      const auth = getAuth();
-      const user = auth.currentUser;
-
-      if (user) {
-        try {
-          const result = await fetchCurrentProfile(user.uid);
-
-          if (result && result.success && result.data) {
-            const currentProfileData = result.data;
-            //console.log("Current Profile Data: ", currentProfileData); // Verificar los datos
-
-            setFullName(currentProfileData.fullName || "");
-            setAddress(currentProfileData.address || "");
-            setPhoneNumber(currentProfileData.phoneNumber || "");
-            setCity(currentProfileData.city || "");
-            setState(currentProfileData.state || ""); // Verifica aquí si el departamento se está estableciendo correctamente
-            setDocumentType(currentProfileData.documentType || "");
-            setDni(currentProfileData.dni || "");
-            setEmail(currentProfileData.email || "");
-
-            // Filtra las ciudades basadas en el departamento
-            if (currentProfileData.state) {
-              const filteredCitiesData = colombianCitiesData.find(
-                (departamento) =>
-                  departamento.departamento === currentProfileData.state
-              );
-              const cities = filteredCitiesData
-                ? filteredCitiesData.ciudades
-                : [];
-              setCities(cities);
-            }
-          } else {
-            setErrorForm({
-              errorMessage:
-                result?.message || "Error al obtener datos del perfil.",
-            });
-          }
-        } catch (error) {
-          setErrorForm({
-            errorMessage:
-              "Error al obtener datos del perfil. Intenta nuevamente.",
-          });
-        }
-      } else {
-        setErrorForm({
-          errorMessage: "No hay usuario autenticado. Por favor inicia sesión.",
-        });
-      }
-
-      setLoading(false);
-    };
-
-    fetchProfile();
-  }, []); // Solo se ejecuta cuando el componente se monta
-
-  useEffect(() => {
-    const departmentsData = colombianCitiesData; // Datos de departamentos y ciudades de Colombia
-    setDepartments(departmentsData); // Inicializamos los departamentos
+    setDepartments(colombianCitiesData);
   }, []);
 
   useEffect(() => {
+    if (!data) {
+      setLoading(false);
+      return;
+    }
+
+    const {
+      fullName = "",
+      address = "",
+      phoneNumber = "",
+      city = "",
+      state = "",
+      documentType = "",
+      dni = "",
+      email = ""
+    } = data;
+
+    setFullName(fullName);
+    setAddress(address);
+    setPhoneNumber(phoneNumber);
+    setCity(city);
+    setState(state);
+    setDocumentType(documentType);
+    setDni(dni);
+    setEmail(email);
+
+    if (state) {
+      setCities(getCitiesByDepartment(state));
+    }
+
+    setLoading(false);
+  }, [data]);
+
+  // Si cambia la ciudad, detectar y setear el departamento correspondiente
+  useEffect(() => {
     if (city) {
-      const filteredCitiesData = colombianCitiesData.find((departamento) =>
-        departamento.ciudades.includes(city)
-      );
-
-      if (filteredCitiesData) {
-        setState(filteredCitiesData.departamento); // Establecer el departamento basado en la ciudad
-      }
+      const department = getDepartmentByCity(city);
+      if (department) setState(department);
     }
-  }, [city]); // Solo se ejecuta cuando la ciudad cambia
+  }, [city]);
 
-  const handleChangeDepartament = async (e: any) => {
-    try {
-      const value = e.target.value;
-      setState(value);
-
-      const filteredCitiesData = colombianCitiesData.find(
-        (departamento) => departamento.departamento === value
-      );
-
-      const cities = filteredCitiesData ? filteredCitiesData.ciudades : [];
-      setCities(cities);
-    } catch (error) {
-      console.error("Error al cambiar el departamento:", error);
-    }
+  const handleChangeDepartament = (e: any) => {
+    const value = e.target.value;
+    setState(value);
+    setCities(getCitiesByDepartment(value));
   };
 
-  const handleChangeCity = async (e: any) => {
-    const value = e.target.value;
-    setCity(value);
+  const handleChangeCity = (e: any) => {
+    setCity(e.target.value);
   };
 
   const handleEditProfile = async () => {
-    // Validación de los datos antes de guardar
-    //if (!validateProfileData()) return;
-
-    // Prepara los datos del perfil que quieres guardar
     const profileData = {
       fullName,
       address,
@@ -146,40 +97,28 @@ const EditProfileHook = () => {
       email,
     };
 
+
     try {
-      // Intenta guardar los cambios (usando tu función `updateProfileData`)
-      const result = await updateProfileData(profileData);
+      const result = await updateProfileData(profileData, data?.uid);
 
       if (result.success) {
-        // Si la actualización fue exitosa, actualiza el estado y muestra un modal de éxito
         setStateUpdate(true);
-
         Swal.fire({
           position: "center",
           icon: "success",
           title: "Perfil actualizado con éxito",
           showConfirmButton: false,
-          timer: 2000, // Mostrar durante 2 segundos
+          timer: 2000,
         });
-
-        // Resetea los datos del formulario (si es necesario)
       } else {
-        // Si la respuesta de la API tiene un error, muestra el mensaje correspondiente
-        setErrorForm({
-          errorMessage: result.message || "No se pudo actualizar el perfil.",
-        });
+        setErrorForm({ errorMessage: result.message || "No se pudo actualizar el perfil." });
       }
     } catch (error) {
-      // Manejo de errores, en caso de que algo falle en el proceso
       console.error("Error al actualizar el perfil:", error);
       setErrorForm({
         errorMessage: "Error al actualizar el perfil. Intenta nuevamente.",
       });
     }
-  };
-
-  const handleBack = () => {
-    window.location.reload();
   };
 
   return {
@@ -202,7 +141,6 @@ const EditProfileHook = () => {
     setEmail,
     errorForm,
     stateUpdate,
-    handleBack,
     loading,
     departments,
     cities,

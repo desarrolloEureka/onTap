@@ -4,6 +4,7 @@ import moment from "moment";
 import { GetAllColors, GetAllMaterials } from '@/reactQuery/home';
 import Swal from "sweetalert2";
 import { Products } from '@/types/home';
+import { validateSKU } from '@/firebase/Documents';
 
 const materialsData: { [key: string]: boolean } = {};
 
@@ -158,8 +159,19 @@ const ColorRegisterFormHook = () => {
   };
 
 
-  const handleNextStepOne = async () => {
+  const handleNextStepOne = async (isEdit: boolean) => {
     if (!validateForm()) return;
+
+    if (!isEdit) {
+      const isSkuAvailable = await validateSKU(sku, "colors");
+
+      if (!isSkuAvailable) {
+        setSkuError("El SKU del Color ya está registrado");
+        return;
+      }
+    }
+
+    setSkuError("");
     setStep(2);
   }
 

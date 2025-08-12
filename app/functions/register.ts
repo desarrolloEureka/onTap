@@ -14,6 +14,8 @@ export const registerUserAuth = async ({
     uid: result.user.uid,
     emailVerified: result.user.emailVerified,
     name: "",
+    firstName: "",
+    lastName: "",
     plan: "",
     phone: "",
     indicative: "",
@@ -26,8 +28,10 @@ export const registerUserAuth = async ({
     gif: false,
     email: "",
     dni: "",
-    isActiveByAdmin: false,
+    date_paid: "",
+    isActiveByAdmin: true,
     created: 0,
+    subscriptionId: "",
     templateData: [
       {
         type: "",
@@ -60,4 +64,3 @@ export const registerUserFb = async ({ data }: { data: any }) => {
   //console.log('result::::', result);
   return result;
 };
-

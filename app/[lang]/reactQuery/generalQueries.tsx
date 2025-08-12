@@ -25,6 +25,9 @@ import {
   saveCards,
   updateUserData,
   sendNotificationsToUsers,
+  saveSubscriptions,
+  updateSubscriptions,
+  updateDefaultPlan,
 } from "@/firebase/Documents";
 
 //Categorias
@@ -35,6 +38,11 @@ export const saveCategoryQuerie = async (dataSave: any) => {
 
 export const UpdateCategoryQuerie = async (dataSave: any, idCategory: any) => {
   const res = await updateCategory(dataSave, idCategory);
+  return res;
+};
+
+export const UpdateDefaultPlanQuerie = async (dataSave: any, idPlan: any) => {
+  const res = await updateDefaultPlan(dataSave, idPlan);
   return res;
 };
 
@@ -49,7 +57,7 @@ export const UpdateProductQuerie = async (dataSave: any, idProduct: any) => {
   return res;
 };
 
-//Planes
+//Combos
 export const savePlansQuerie = async (dataSave: any) => {
   const res = await savePlans(dataSave);
   return res;
@@ -110,8 +118,8 @@ export const UpdateOrdersInvoicesQuerie = async (
 };
 
 // Query para actualizar el estado de la orden
-export const UpdateOrdersQuerie = async (idOrden: any, delivery: boolean) => {
-  const res = await UpdateOrders(idOrden, delivery);
+export const UpdateOrdersQuerie = async (userId: any, idOrden: any, delivery: boolean) => {
+  const res = await UpdateOrders(userId, idOrden, delivery);
   return res;
 };
 
@@ -175,6 +183,14 @@ export const updateSubscriptionQuery = async (
   return res;
 };
 
+export const updateSubscriptionsQuery = async (
+  dataSend: any,
+  idSubscription: any
+) => {
+  const res = await updateSubscriptions(idSubscription, dataSend);
+  return res;
+};
+
 //Tarjetas
 export const saveCardsQuerie = async (dataSave: any) => {
   const res = await saveCards(dataSave);
@@ -183,5 +199,11 @@ export const saveCardsQuerie = async (dataSave: any) => {
 
 export const UpdateCardsQuerie = async (dataSave: any, idCard: any) => {
   const res = await updateCards(dataSave, idCard);
+  return res;
+};
+
+//Productos
+export const saveSubscriptionQuerie = async (dataSave: any) => {
+  const res = await saveSubscriptions(dataSave);
   return res;
 };

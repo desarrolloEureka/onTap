@@ -168,7 +168,7 @@ const ProfileHook = ({
         if (isChecked === true && dataAux[key]) {
           const isEmptyText = dataAux[key].text?.length === 0 && index !== 'urls' && index !== 'phones';
           const isEmptyPhone = index === 'phones' && (dataAux[key]?.indicative?.length === 0 || dataAux[key]?.indicative === undefined || dataAux[key]?.text?.length === 0);
-          const isEmptyUrls = index === 'urls' && (dataUrl?.[key]?.name?.length === 0 || dataUrl?.[key]?.url?.length === 0 || dataUrl?.[key]?.icon?.length === 0);
+          const isEmptyUrls = index === 'urls' && (/* dataUrl?.[key]?.name?.length === 0 || */ dataUrl?.[key]?.url?.length === 0 || dataUrl?.[key]?.icon?.length === 0);
 
           if (isEmptyText || isEmptyUrls || isEmptyPhone) {
             setIsEmptyData(true);
@@ -243,6 +243,10 @@ const ProfileHook = ({
       dataFormClone[index]!.text = text;
       currentDataRef.current.text = text;
 
+      if (currentDataRef.current.text.length === 0) {
+        dataFormClone[index]!.checked = false;
+      }
+
       setDataForm(dataFormClone);
       setIsDataLoad(true);
     } else {
@@ -258,6 +262,9 @@ const ProfileHook = ({
             dataAux[key].text = text;
             currentDataRef.current.length > 0 &&
               (currentDataRef.current[key].text = text);
+            if (currentDataRef.current[key].text.length === 0) {
+              dataAux[key].checked = false
+            }
             dataAux && setDataForm(dataFormClone);
           }
         }
@@ -268,6 +275,9 @@ const ProfileHook = ({
           dataAux[key].text = text;
           currentDataRef.current.length > 0 &&
             (currentDataRef.current[key].text = text);
+          if (currentDataRef.current[key].text.length === 0) {
+            dataAux[key].checked = false
+          }
           dataAux && setDataForm(dataFormClone);
         }
         setIsDataLoad(true);
@@ -277,6 +287,9 @@ const ProfileHook = ({
         key != undefined
       ) {
         currentDataRef.current[key][subindex] = text;
+        if (subindex != "name" && currentDataRef.current[key][subindex].length === 0) {
+          currentDataRef.current[key].checked = false
+        }
         fillFields(index, key, text, subindex);
       }
     }
@@ -456,24 +469,6 @@ const ProfileHook = ({
     }
   };
 
-  const validateOccupationSwitch = (data: typeof dataForm) => {
-    const dataFormClone = { ...data };
-  
-    if (
-      !dataFormClone.occupation ||
-      !dataFormClone.occupation.text ||
-      dataFormClone.occupation.text.trim() === ""
-    ) {
-      dataFormClone.occupation = {
-        ...dataFormClone.occupation,
-        checked: false, // Apagar el switch
-        order: dataFormClone.occupation?.order ?? 0, // Asignar valor predeterminado
-      };
-    }
-  
-    return dataFormClone;
-  };
-
   const checkedItems = (
     data: DataFormValues[] | EducationDataFormValues[] | CareerDataFormValues[],
     value: string,
@@ -484,7 +479,7 @@ const ProfileHook = ({
       if (checked === true) {
         if (label === 'urls') {
           let urlData = el as UrlDataFormValues;
-          if (urlData.name !== "" && urlData.icon !== "" && urlData.url !== "") {
+          if (/* urlData.name !== "" && */ urlData.icon !== "" && urlData.url !== "") {
             el.checked = checked;
             el.label = label ?? el.label;
           } else {
@@ -606,22 +601,12 @@ const ProfileHook = ({
   };
 
   useEffect(() => {
-    // Validar y actualizar los datos solo si es necesario
-    const updatedDataForm = validateOccupationSwitch(dataForm);
-    
-    // Verifica si el formulario cambió antes de actualizar el estado
-    if (JSON.stringify(updatedDataForm) !== JSON.stringify(dataForm)) {
-      setDataForm(updatedDataForm); // Solo actualiza si hay cambios
-    }
-  
-    // Lógica de ordenamiento (si la validación de ocupación se realizó correctamente)
-    const data = Object.entries(updatedDataForm as DataFormSorted).toSorted((a, b) => {
+    const data = Object.entries(dataForm as DataFormSorted).toSorted((a, b) => {
       const aa = a[1].length ? a[1][0].order : a[1].order;
       const bb = b[1].length ? b[1][0].order : b[1].order;
       return aa - bb;
     });
     setObjectDataSort(data);
-  
   }, [dataForm, isProUser]);
 
   useEffect(() => {
