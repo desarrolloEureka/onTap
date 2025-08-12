@@ -34,15 +34,15 @@ const Header = ({
         url &&
         url
           //Produccion
-          /*.replace(
+          .replace(
             /localhost:3000|on-taptawny.vercel.app/g,
             "backoffice.onetap.com.co"
-          )*/
-          //Desarrollo
-          .replace(
-            /https?:\/\/backoffice\.onetap\.com\.co/g,
-            "https://on-tap-dev.vercel.app"
-          );
+          )
+      //Desarrollo
+      /* .replace(
+        /https?:\/\/backoffice\.onetap\.com\.co/g,
+        "https://on-tap-dev.vercel.app"
+      ); */
       setUrlGlobal(urlFormatted);
     }
   }, [data]);

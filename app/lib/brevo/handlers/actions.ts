@@ -23,7 +23,7 @@ export const handleSendWelcomeEmail = async (data: any) => {
         //Cambiar la URL de login a producción
         /* loginUrl: "https://one-tap-corp-dev.vercel.app/components/signIn/",
                  LINK DE LOGUEO DE BIENVENIDA DESARROLLO VERCEL*/
-        loginUrl: "https://on-tap-dev.vercel.app/es/views/login",
+        loginUrl: "backoffice.onetap.com.co/es/views/login",
         contactEmail: "info@onetap.com.co",
       }),
     });

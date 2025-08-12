@@ -1145,7 +1145,7 @@ const CustomersCreateFormHook = ({
     if (!isAccepted) {
       try {
         const response = await axios.get(
-          `https://sandbox.wompi.co/v1/merchants/${wompiConfig?.WOMPI_PUBLIC_KEY}`
+          `${wompiConfig?.WOMPI_BASE_URL}/merchants/${wompiConfig?.WOMPI_PUBLIC_KEY}`
         );
         const { acceptance_token, accept_personal_auth } =
           response.data.data.presigned_acceptance;
@@ -1165,7 +1165,7 @@ const CustomersCreateFormHook = ({
   // Función para tokenizar la tarjeta
   const tokenizeCard = async (cardDetails: any) => {
     const tokenResponse = await axios.post(
-      "https://sandbox.wompi.co/v1/tokens/cards",
+      `${wompiConfig?.WOMPI_BASE_URL}/tokens/cards`,
       cardDetails,
       {
         headers: {
@@ -1183,7 +1183,7 @@ const CustomersCreateFormHook = ({
       : `Bearer ${wompiConfig.WOMPI_PUBLIC_KEY}`;
 
     const transactionResponse = await axios.post(
-      "https://sandbox.wompi.co/v1/transactions",
+      `${wompiConfig?.WOMPI_BASE_URL}/transactions`,
       transactionBody,
       {
         headers: { Authorization: authToken },
@@ -1276,7 +1276,7 @@ const CustomersCreateFormHook = ({
 
         try {
           const response = await fetch(
-            `https://sandbox.wompi.co/v1/transactions/${transactionId}`,
+            `${wompiConfig?.WOMPI_BASE_URL}/transactions/${transactionId}`,
             {
               method: "GET",
               headers: {

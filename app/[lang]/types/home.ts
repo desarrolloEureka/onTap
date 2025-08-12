@@ -183,7 +183,7 @@ export interface DefaultPlans {
   price: number;
   name: string;
   createdAt: string;
-    prices_matrix: any;
+  prices_matrix: any;
 }
 
 export interface PaymentData {
