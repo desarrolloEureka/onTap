@@ -127,7 +127,7 @@ export const getPrincipalProfileOrderedByObject = (
 
   finalArray.push(...arraySorted);
 
-  // console.log('finalArray', finalArray);
+  //console.log('finalArray', finalArray);
 
   return { finalArray };
 };
