@@ -1,5 +1,5 @@
 import { LoginFirebaseProps } from "@/types/login";
-import { dataBase, secondaryApp } from "app/[lang]/firebase/firebaseConfig";
+import { dataBase, getSecondaryApp } from "app/[lang]/firebase/firebaseConfig";
 import {
   confirmPasswordReset,
   createUserWithEmailAndPassword,
@@ -10,14 +10,14 @@ import {
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export const auth = getAuth();
-export const secondaryAuth = getAuth(secondaryApp);
 
 export const registerFirebase = async (user: string, password: string) => {
+  const secondaryApp = getSecondaryApp();
+  const secondaryAuth = getAuth(secondaryApp);
   const registerF = await createUserWithEmailAndPassword(secondaryAuth, user, password);
-  await secondaryApp.delete();
+  await secondaryAuth.signOut();
   return registerF;
 };
-
 
 const userRefByUser = (ref: any) =>
   query(collection(dataBase, "users"), where("user_name", "==", ref.user));

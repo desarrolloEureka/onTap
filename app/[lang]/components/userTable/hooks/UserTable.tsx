@@ -484,7 +484,11 @@ const UserTableLogic = () => {
       );
       if (exists) {
         setIsSubmitting(false);
-        //setError(`El usuario con ${field} ya existe.`);
+        Swal.fire({
+          icon: "error",
+          title: "Usuario ya existe",
+          text: `El usuario con ${field} ya está registrado.`,
+        });
         return;
       }
 
@@ -559,7 +563,9 @@ const UserTableLogic = () => {
       setIsModalOpen(false);
       handleReset();
     } catch (err) {
+      console.log("Error:", err);
       setStatus("Error al registrar al usuario");
+      Swal.close();
     } finally {
       setFlag(!flag);
       setIsSubmitting(false);

@@ -24,8 +24,15 @@ export const wompiConfig = {
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
 const dataBase = firebaseApp.firestore();
 const auth = firebase.auth();
 
-export { dataBase, auth, firebaseConfig, secondaryApp };
+const getSecondaryApp = () => {
+  try {
+    return firebase.app("Secondary");
+  } catch (e) {
+    return firebase.initializeApp(firebaseConfig, "Secondary");
+  }
+};
+
+export { dataBase, auth, firebaseConfig, getSecondaryApp  };
