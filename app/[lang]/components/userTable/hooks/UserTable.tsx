@@ -288,7 +288,7 @@ const UserTableLogic = () => {
     const filteredData = query.filter((user: { date: string }) => {
       const userDate = new Date(user.date);
 
-      // normalizar fecha de usuario
+      // normalizar fecha de usuario 
       userDate.setHours(0, 0, 0, 0);
 
       if (dateStart && dateEnd) {
