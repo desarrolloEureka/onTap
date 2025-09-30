@@ -193,7 +193,7 @@ const UserTableLogic = () => {
       }
 
       // Crear una copia de los datos excluyendo las columnas no deseadas
-      const filteredData = filteredQuery.map((user) => {
+      const filteredData = filteredQuery.map((user: any) => {
         const {
           edit,
           editDelete,
@@ -201,21 +201,47 @@ const UserTableLogic = () => {
           lastName,
           url,
           urlQR,
+          socialEdit,
+          professionalEdit,
+          plan,
+          userType,
           ...filteredUser
         } = user;
 
-        // Acceder a una propiedad específica del objeto url, por ejemplo, url.link
-        const urlLink = url ? url.preview : ""; // Manejo de caso en que url podría ser undefined
+        const urlLink = url ? url.preview : "";
+
+        const formattedUserType = userType?.idDistributor
+          ? "Registrado por distribuidor"
+          : userType?.gif
+            ? "Obsequio"
+            : "Comprador";
 
         // Devolver los datos con la propiedad específica incluida
         return {
           ...filteredUser,
-          url: urlLink, // Reemplazar el objeto url con su propiedad específica
+          url: urlLink,
+          plan: plan?.plan ?? "",
+          userType: formattedUserType,
         };
       });
 
+      const headers = [
+        "date",
+        "id",
+        "name",
+        "indicative",
+        "phone",
+        "email",
+        "plan",
+        "userType",
+        "paymentDate",
+        "nextPaymentDate",
+        "autoPaymentAuthorized",
+        "url",
+      ];
+
       // Crear una hoja de cálculo a partir de los datos filtrados
-      const worksheet = XLSX.utils.json_to_sheet(filteredData);
+      const worksheet = XLSX.utils.json_to_sheet(filteredData, { header: headers });
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Usuarios");
 
@@ -259,33 +285,22 @@ const UserTableLogic = () => {
       return;
     }
 
-    const filteredData = query.filter(
-      (user: { date: string | number | Date }) => {
-        let userDate: Date;
+    const filteredData = query.filter((user: { date: string }) => {
+      const userDate = new Date(user.date);
 
-        if (typeof user.date === "string") {
-          const userDateParts = user.date.split("/");
-          userDate = new Date(
-            `${userDateParts[2]}-${userDateParts[1]}-${userDateParts[0]}`
-          );
-        } else if (typeof user.date === "number") {
-          userDate = new Date(user.date);
-        } else {
-          userDate = user.date;
-        }
+      // normalizar fecha de usuario
+      userDate.setHours(0, 0, 0, 0);
 
-        userDate.setDate(userDate.getDate() + 1);
-
-        if (dateStart && dateEnd) {
-          return userDate >= dateStart && userDate <= dateEnd;
-        } else if (dateStart) {
-          return userDate >= dateStart;
-        } else if (dateEnd) {
-          return userDate <= dateEnd;
-        }
-        return true;
+      if (dateStart && dateEnd) {
+        return userDate >= dateStart && userDate <= dateEnd;
+      } else if (dateStart) {
+        return userDate >= dateStart;
+      } else if (dateEnd) {
+        return userDate <= dateEnd;
       }
-    );
+      return true;
+    });
+
     setFilteredQuery(filteredData);
   };
 
