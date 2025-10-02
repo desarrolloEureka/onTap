@@ -78,7 +78,7 @@ const UserTableLogic = () => {
   const handleEditUser = (dataUser: any) => {
     setDataUser(dataUser);
     setRowId(dataUser.uid);
-    setDni(dataUser?.dni || "");
+    setDni(dataUser?.dni != null ? String(dataUser.dni) : "");
     setName(dataUser?.firstName || "");
     setLastName(dataUser?.lastName || "");
     setEmail(dataUser?.email || "");
@@ -88,10 +88,8 @@ const UserTableLogic = () => {
     setPlan(dataUser?.plan || "");
     setSubscription(dataUser?.userSubscription?.uid || "");
 
-    const dateSource =
-      dataUser?.gif === true
-        ? dataUser?.created
-        : dataUser?.userSubscription?.updatedAt || dataUser?.created || ''
+    //const dateSource = dataUser?.gif === true ? dataUser?.created : dataUser?.userSubscription?.updatedAt || dataUser?.created || ''
+    const dateSource = dataUser?.userSubscription?.created_at || dataUser?.created || ''
 
     if (dateSource) {
       const date = new Date(dateSource);
@@ -611,11 +609,12 @@ const UserTableLogic = () => {
       const result = await SendEditData(rowId, dataSend, selectedDateFormatted);
 
       const updatedAt = moment().format();
-      const nextYearDate = type === "Obsequio" ? moment().add(3, 'months').format() : moment().add(1, 'year').format();
+      const nextYearDate = type === "Obsequio" ? moment(selectedDateFormatted).add(3, 'months').toISOString() : moment(selectedDateFormatted).add(1, 'year').toISOString();
+      const statusUser = moment().isAfter(nextYearDate) ? "Inactive" : "Active";
 
       const dataSendSus = {
         updatedAt,
-        status: 'Active',
+        status: statusUser,
         nextPaymentDate: nextYearDate,
       };
 
@@ -682,7 +681,8 @@ const UserTableLogic = () => {
           userType: doc,
           //userType: doc.gif ? doc.gif === true ? "Obsequio" : "Comprador" : "Comprador",
           optionEdit: doc,
-          paymentDate: doc.gif === true ? doc?.created || '' : doc?.userSubscription?.updatedAt || doc?.created || '',
+          //paymentDate: doc.gif === true ? doc?.created || '' : doc?.userSubscription?.updatedAt || doc?.created || '',
+          paymentDate: doc?.userSubscription?.created_at || doc?.created || '',
           nextPaymentDate: doc.userSubscription?.nextPaymentDate || '',
           autoPaymentAuthorized: doc?.autoPaymentAuthorized || false,
           userInvoice: doc?.userInvoice || '',
