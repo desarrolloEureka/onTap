@@ -49,14 +49,27 @@ const TrafficReport = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const apiRef = useGridApiRef();
   const apiRefDetail = useGridApiRef();
 
+
+  query.forEach((reg: any) => {
+    if (reg.email === "m.cuevas@pancake.vn") {
+      console.log(reg);
+    }
+  });
+
   const getFormattedDate = (date: any) => {
-    const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(
-      date.getMonth() + 1
+    if (!date) return "";
+    const dateObj = date instanceof Date ? date : new Date(date);
+    if (isNaN(dateObj.getTime())) return "";
+
+    const formattedDate = `${dateObj.getDate().toString().padStart(2, "0")}/${(
+      dateObj.getMonth() + 1
     )
       .toString()
-      .padStart(2, "0")}/${date.getFullYear()}`;
-    return formattedDate ? formattedDate : "";
+      .padStart(2, "0")}/${dateObj.getFullYear()}`;
+
+    return formattedDate;
   };
+
 
   const columns: GridColDef[] = [
     {

@@ -46,36 +46,58 @@ const ReportTableLogic = () => {
         const dataMetrics = dataDetail?.DataMetrics ?? [];
         setDataDetailUser(dataMetrics);
 
-        // Formatear viewsDate en cada elemento de dataMetrics
         const formattedDataMetrics = dataMetrics.map((metric: any) => {
-            const [day, month, year] = metric.viewsDate.split('/');
+            console.log('metric.viewsDate ', metric.viewsDate);
 
-            let hours, minutes, seconds;
+            let day, month, year;
+
+            // Detectar formato
+            const parts = metric.viewsDate.split('/');
+            if (parts.length === 3) {
+                const [part1, part2, part3] = parts.map(Number);
+                if (part1 > 12) {
+                    // Formato dd/mm/yyyy
+                    [day, month, year] = [part1, part2, part3];
+                } else if (part2 > 12) {
+                    // Formato mm/dd/yyyy
+                    [month, day, year] = [part1, part2, part3];
+                } else {
+                    // Ambiguo, asumimos dd/mm/yyyy por defecto
+                    [day, month, year] = [part1, part2, part3];
+                }
+            }
+
+            let hours = 0,
+                minutes = 0,
+                seconds = 0;
+
             const timeParts = metric.viewsTime.split(' ');
 
-            // Extraer hora, minutos y segundos
-            if (timeParts.length === 2) { // "hh:mm:ss a.m." o "hh:mm:ss p.m."
+            if (timeParts.length === 2) {
                 const [hms, period] = timeParts;
-                [hours, minutes, seconds] = hms.split(':');
-                if (period.toLowerCase() === 'p.m.' && hours !== '12') {
-                    hours = String(Number(hours) + 12);
-                } else if (period.toLowerCase() === 'a.m.' && hours === '12') {
-                    hours = '0'; // 12 a.m. es medianoche
+                [hours, minutes, seconds] = hms.split(':').map(Number);
+                if (period.toLowerCase().includes('p.m.') && hours !== 12) {
+                    hours += 12;
+                } else if (period.toLowerCase().includes('a.m.') && hours === 12) {
+                    hours = 0;
                 }
-            } else { // Formato "hh:mm:ss"
-                [hours, minutes, seconds] = metric.viewsTime.split(':');
+            } else {
+                [hours, minutes, seconds] = metric.viewsTime.split(':').map(Number);
             }
 
             const formattedDate = new Date(year, month - 1, day, hours, minutes, seconds);
 
+            console.log('formattedDate ', formattedDate);
+
             return {
                 ...metric,
-                viewsDate: formattedDate // Reemplazamos el string por un objeto Date con hora
+                viewsDate: formattedDate,
             };
         });
 
         setFilteredDetail(formattedDataMetrics);
     };
+
 
     const handleDateChange = () => {
         const dateStart = startDate ? new Date(startDate) : null;
